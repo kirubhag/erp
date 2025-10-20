@@ -81,9 +81,9 @@ angular.module('erpApp').constant('APP_CONFIG', {
         SIZE_OPTIONS: [5, 10, 20, 50]
     },
     GRADE_LEVELS: [
-        'KINDERGARTEN', 'FIRST', 'SECOND', 'THIRD', 'FOURTH', 
-        'FIFTH', 'SIXTH', 'SEVENTH', 'EIGHTH', 'NINTH', 
-        'TENTH', 'ELEVENTH', 'TWELFTH'
+        'KINDERGARTEN', 'GRADE_1', 'GRADE_2', 'GRADE_3', 'GRADE_4', 
+        'GRADE_5', 'GRADE_6', 'GRADE_7', 'GRADE_8', 'GRADE_9', 
+        'GRADE_10', 'GRADE_11', 'GRADE_12'
     ],
     ATTENDANCE_STATUSES: ['PRESENT', 'ABSENT', 'LATE', 'EXCUSED'],
     USER_ROLES: ['ADMIN', 'TEACHER', 'STUDENT', 'PARENT', 'STAFF']
@@ -101,18 +101,18 @@ angular.module('erpApp').filter('gradeLevel', function() {
     return function(input) {
         const gradeMap = {
             'KINDERGARTEN': 'Kindergarten',
-            'FIRST': '1st Grade',
-            'SECOND': '2nd Grade',
-            'THIRD': '3rd Grade',
-            'FOURTH': '4th Grade',
-            'FIFTH': '5th Grade',
-            'SIXTH': '6th Grade',
-            'SEVENTH': '7th Grade',
-            'EIGHTH': '8th Grade',
-            'NINTH': '9th Grade',
-            'TENTH': '10th Grade',
-            'ELEVENTH': '11th Grade',
-            'TWELFTH': '12th Grade'
+            'GRADE_1': '1st Grade',
+            'GRADE_2': '2nd Grade',
+            'GRADE_3': '3rd Grade',
+            'GRADE_4': '4th Grade',
+            'GRADE_5': '5th Grade',
+            'GRADE_6': '6th Grade',
+            'GRADE_7': '7th Grade',
+            'GRADE_8': '8th Grade',
+            'GRADE_9': '9th Grade',
+            'GRADE_10': '10th Grade',
+            'GRADE_11': '11th Grade',
+            'GRADE_12': '12th Grade'
         };
         return gradeMap[input] || input;
     };
@@ -222,21 +222,46 @@ angular.module('erpApp').directive('dateInput', function() {
         restrict: 'A',
         require: 'ngModel',
         link: function(scope, element, attrs, ngModel) {
+            // Override the default date validator to prevent ngModel:datefmt errors
+            ngModel.$validators.date = function(modelValue, viewValue) {
+                return true; // Always pass validation for HTML5 date inputs
+            };
+            
             // Convert from model (Date or ISO string) to view (YYYY-MM-DD string)
-            ngModel.$formatters.push(function(modelValue) {
+            ngModel.$formatters.unshift(function(modelValue) {
                 if (!modelValue) return '';
-                if (typeof modelValue === 'string') {
-                    return modelValue.split('T')[0]; // Handle ISO strings
+                try {
+                    if (typeof modelValue === 'string') {
+                        // Validate and normalize date string
+                        const dateStr = modelValue.includes('T') ? modelValue.split('T')[0] : modelValue;
+                        if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+                            return dateStr;
+                        }
+                        return '';
+                    }
+                    if (modelValue instanceof Date && !isNaN(modelValue.getTime())) {
+                        const year = modelValue.getFullYear();
+                        const month = String(modelValue.getMonth() + 1).padStart(2, '0');
+                        const day = String(modelValue.getDate()).padStart(2, '0');
+                        return `${year}-${month}-${day}`;
+                    }
+                } catch (e) {
+                    console.warn('Date formatting error:', e);
                 }
-                if (modelValue instanceof Date) {
-                    return modelValue.toISOString().split('T')[0];
-                }
-                return modelValue;
+                return '';
             });
 
             // Convert from view (YYYY-MM-DD string) to model
-            ngModel.$parsers.push(function(viewValue) {
-                return viewValue; // Keep as string for HTML5 date inputs
+            ngModel.$parsers.unshift(function(viewValue) {
+                if (!viewValue) return null;
+                
+                // Validate date format
+                if (!/^\d{4}-\d{2}-\d{2}$/.test(viewValue)) {
+                    return null;
+                }
+                
+                // Return as YYYY-MM-DD string for consistency with backend LocalDate
+                return viewValue;
             });
         }
     };

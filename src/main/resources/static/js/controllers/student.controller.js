@@ -60,7 +60,11 @@ angular.module('erpApp').controller('StudentController', [
             }
             
             loadPromise.then(function(response) {
-                $scope.students = response.data.content || [];
+                const studentData = response.data.content || [];
+                // Transform backend data to frontend format
+                $scope.students = studentData.map(function(student) {
+                    return StudentService.transformToFrontendFormat(student);
+                });
                 $scope.pagination.currentPage = response.data.number || 0;
                 $scope.pagination.totalElements = response.data.totalElements || 0;
                 $scope.pagination.totalPages = response.data.totalPages || 0;
@@ -166,9 +170,11 @@ angular.module('erpApp').controller('StudentController', [
         
         $scope.saveStudent = function() {
             if (!$scope.isValidStudentForm()) {
+                console.log('Form validation failed');
                 return;
             }
             
+            console.log('Saving student data:', $scope.studentForm);
             $scope.loading = true;
             
             let savePromise;
@@ -179,11 +185,13 @@ angular.module('erpApp').controller('StudentController', [
             }
             
             savePromise.then(function(response) {
+                console.log('Save successful:', response);
                 const message = $scope.editingStudent ? 'Student updated successfully' : 'Student created successfully';
                 $rootScope.$broadcast('app:success', message);
                 $scope.closeStudentModal();
                 $scope.loadStudents($scope.pagination.currentPage);
             }).catch(function(error) {
+                console.error('Save failed:', error);
                 $rootScope.$broadcast('app:error', error);
             }).finally(function() {
                 $scope.loading = false;

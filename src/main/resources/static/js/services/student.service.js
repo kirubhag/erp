@@ -36,7 +36,10 @@ angular.module('erpApp').service('StudentService', [
                 return $q.reject({ message: validationError });
             }
             
-            return ApiService.post(baseUrl, studentData);
+            // Transform frontend data to backend format
+            const backendData = self.transformToBackendFormat(studentData);
+            
+            return ApiService.post(baseUrl, backendData);
         };
         
         // Update student
@@ -53,7 +56,10 @@ angular.module('erpApp').service('StudentService', [
                 return $q.reject({ message: validationError });
             }
             
-            return ApiService.put(baseUrl + '/' + id, studentData);
+            // Transform frontend data to backend format
+            const backendData = self.transformToBackendFormat(studentData);
+            
+            return ApiService.put(baseUrl + '/' + id, backendData);
         };
         
         // Delete student
@@ -222,18 +228,18 @@ angular.module('erpApp').service('StudentService', [
         self.getGradeLevelDisplayName = function(gradeLevel) {
             const gradeMap = {
                 'KINDERGARTEN': 'Kindergarten',
-                'FIRST': '1st Grade',
-                'SECOND': '2nd Grade',
-                'THIRD': '3rd Grade',
-                'FOURTH': '4th Grade',
-                'FIFTH': '5th Grade',
-                'SIXTH': '6th Grade',
-                'SEVENTH': '7th Grade',
-                'EIGHTH': '8th Grade',
-                'NINTH': '9th Grade',
-                'TENTH': '10th Grade',
-                'ELEVENTH': '11th Grade',
-                'TWELFTH': '12th Grade'
+                'GRADE_1': '1st Grade',
+                'GRADE_2': '2nd Grade',
+                'GRADE_3': '3rd Grade',
+                'GRADE_4': '4th Grade',
+                'GRADE_5': '5th Grade',
+                'GRADE_6': '6th Grade',
+                'GRADE_7': '7th Grade',
+                'GRADE_8': '8th Grade',
+                'GRADE_9': '9th Grade',
+                'GRADE_10': '10th Grade',
+                'GRADE_11': '11th Grade',
+                'GRADE_12': '12th Grade'
             };
             return gradeMap[gradeLevel] || gradeLevel;
         };
@@ -311,6 +317,71 @@ angular.module('erpApp').service('StudentService', [
                 },
                 emergencyContacts: []
             };
+        };
+        
+        // Transform frontend student data to backend format
+        self.transformToBackendFormat = function(studentData) {
+            console.log('Transforming frontend data to backend:', studentData);
+            
+            const backendData = {
+                firstName: studentData.firstName,
+                middleName: studentData.middleName,
+                lastName: studentData.lastName,
+                email: studentData.email,
+                phone: studentData.phoneNumber, // Map phoneNumber to phone
+                dateOfBirth: studentData.dateOfBirth,
+                gradeLevel: studentData.gradeLevel,
+                enrollmentDate: studentData.enrollmentDate,
+                enrollmentStatus: studentData.status, // Map status to enrollmentStatus
+                gender: studentData.gender
+            };
+            
+            // Map address object to flat fields if address exists
+            if (studentData.address) {
+                backendData.addressLine1 = studentData.address.street || '';
+                backendData.city = studentData.address.city || '';
+                backendData.state = studentData.address.state || '';
+                backendData.postalCode = studentData.address.zipCode || '';
+                backendData.country = studentData.address.country || '';
+            }
+            
+            // Generate studentId if not provided
+            if (!backendData.studentId && backendData.firstName && backendData.lastName) {
+                const timestamp = Date.now().toString().slice(-6);
+                backendData.studentId = (backendData.firstName.charAt(0) + backendData.lastName.charAt(0) + timestamp).toUpperCase();
+            }
+            
+            console.log('Transformed backend data:', backendData);
+            return backendData;
+        };
+        
+        // Transform backend student data to frontend format
+        self.transformToFrontendFormat = function(backendData) {
+            const frontendData = {
+                id: backendData.id,
+                firstName: backendData.firstName,
+                middleName: backendData.middleName,
+                lastName: backendData.lastName,
+                email: backendData.email,
+                phoneNumber: backendData.phone, // Map phone to phoneNumber
+                dateOfBirth: backendData.dateOfBirth,
+                gradeLevel: backendData.gradeLevel,
+                enrollmentDate: backendData.enrollmentDate,
+                status: backendData.enrollmentStatus, // Map enrollmentStatus to status
+                gender: backendData.gender,
+                studentId: backendData.studentId
+            };
+            
+            // Map flat address fields to address object
+            frontendData.address = {
+                street: backendData.addressLine1 || '',
+                city: backendData.city || '',
+                state: backendData.state || '',
+                zipCode: backendData.postalCode || '',
+                country: backendData.country || ''
+            };
+            
+            return frontendData;
         };
         
         return self;
