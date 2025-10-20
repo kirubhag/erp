@@ -107,7 +107,7 @@
             <div class="toast" ng-repeat="toast in toasts" ng-class="'toast-' + toast.type" 
                  data-bs-autohide="true" data-bs-delay="3000">
                 <div class="toast-header">
-                    <i class="fas" ng-class="getToastIcon(toast.type)" class="me-2"></i>
+                    <i class="fas me-2" ng-class="getToastIcon(toast.type)"></i>
                     <strong class="me-auto">{{toast.title}}</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
                 </div>
