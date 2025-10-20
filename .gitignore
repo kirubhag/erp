@@ -58,3 +58,4 @@ Thumbs.db
 application-local.properties
 /logs/
 /uploads/
+/data/

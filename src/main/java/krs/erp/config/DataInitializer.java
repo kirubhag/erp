@@ -28,31 +28,82 @@ public class DataInitializer implements CommandLineRunner {
     
     @Override
     public void run(String... args) throws Exception {
-        logger.info("Starting XML data initialization...");
+        logger.info("Starting data initialization check...");
         
         try {
-            // Import sample data from XML
+            // Check if data already exists in the database
+            long existingUserCount = userRepository.count();
+            long existingStudentCount = studentRepository.count();
+            
+            if (existingUserCount > 0 && existingStudentCount > 0) {
+                logger.info("✓ Sample data already exists in database:");
+                logger.info("  - Users: {}", existingUserCount);
+                logger.info("  - Students: {}", existingStudentCount);
+                logger.info("✓ Skipping data import - using existing data");
+                return;
+            }
+            
+            logger.info("No existing data found - importing sample data...");
+            
+            // Import base system data (permissions, roles, users, staff)
+            logger.info("Loading base system data...");
             dataImportService.importDataFromXml("data/sample-data.xml");
-            logger.info("✓ XML data imported successfully");
             
-            // Verify the data was loaded
-            long userCount = userRepository.count();
-            long studentCount = studentRepository.count();
+            // Import all grade-level student data
+            logger.info("Loading K-12 student data...");
+            String[] gradeFiles = {
+                "data/kindergarten.xml",
+                "data/grade_1.xml",
+                "data/grade_2.xml", 
+                "data/grade_3.xml",
+                "data/grade_4.xml",
+                "data/grade_5.xml",
+                "data/grade_6.xml",
+                "data/grade_7.xml",
+                "data/grade_8.xml",
+                "data/grade_9.xml",
+                "data/grade_10.xml",
+                "data/grade_11.xml",
+                "data/grade_12.xml"
+            };
             
-            logger.info("Sample data summary:");
-            logger.info("- Users: {}", userCount);
-            logger.info("- Students: {}", studentCount);
+            int loadedFiles = 0;
+            int totalStudentsLoaded = 0;
             
-            if (userCount > 0 && studentCount > 0) {
-                logger.info("✓ Sample data is available for testing");
-                logger.info("✓ You can now use the application with pre-loaded data");
+            for (String gradeFile : gradeFiles) {
+                try {
+                    long studentsBeforeImport = studentRepository.count();
+                    dataImportService.importStudentDataFromXml(gradeFile);
+                    long studentsAfterImport = studentRepository.count();
+                    int studentsInFile = (int)(studentsAfterImport - studentsBeforeImport);
+                    
+                    logger.info("✓ Loaded {} students from {}", studentsInFile, gradeFile);
+                    loadedFiles++;
+                    totalStudentsLoaded += studentsInFile;
+                } catch (Exception e) {
+                    logger.warn("⚠ Failed to load {}: {}", gradeFile, e.getMessage());
+                }
+            }
+            
+            // Final verification
+            long finalUserCount = userRepository.count();
+            long finalStudentCount = studentRepository.count();
+            
+            logger.info("✓ Data import completed successfully:");
+            logger.info("  - Grade files loaded: {}/{}", loadedFiles, gradeFiles.length);
+            logger.info("  - Total users: {}", finalUserCount);
+            logger.info("  - Total students: {} (including {} from grade files)", finalStudentCount, totalStudentsLoaded);
+            
+            if (finalUserCount > 0 && finalStudentCount > 0) {
+                logger.info("✓ ERP system ready with comprehensive sample data");
                 logger.info("✓ Default admin credentials: username='admin', password='password123'");
+                logger.info("✓ Sample data includes {} students across K-12 grades", totalStudentsLoaded);
             } else {
-                logger.warn("⚠ No sample data was loaded - please check XML file");
+                logger.warn("⚠ Data import may have failed - please check logs");
             }
             
         } catch (Exception e) {
-            logger.error("Error importing XML data", e);
+            logger.error("Error during data initialization", e);
             logger.warn("Application will start with empty database");
         }
         

@@ -119,6 +119,33 @@ public class DataImportService {
         }
     }
     
+    @Transactional
+    public void importStudentDataFromXml(String xmlFilePath) {
+        try {
+            logger.debug("Starting student data import from XML file: {}", xmlFilePath);
+            
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+            
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+            
+            // Import only students from this file
+            importStudents(document);
+            
+            logger.debug("Student data import completed successfully for: {}", xmlFilePath);
+            
+        } catch (Exception e) {
+            logger.error("Error importing student data from XML file: {}", xmlFilePath, e);
+            throw new RuntimeException("Failed to import student data from XML: " + xmlFilePath, e);
+        }
+    }
+    
     private void clearCaches() {
         permissions.clear();
         roles.clear();
@@ -388,6 +415,13 @@ public class DataImportService {
             }
             
             setBaseEntityFields(student, element);
+            
+            // Check if student with same email already exists
+            if (student.getEmail() != null && studentRepository.findByEmail(student.getEmail()).isPresent()) {
+                logger.warn("⚠ Skipping student {} {} - email {} already exists", 
+                    student.getFirstName(), student.getLastName(), student.getEmail());
+                continue;
+            }
             
             student = studentRepository.save(student);
             students.put(Long.valueOf(element.getAttribute("id")), student);
