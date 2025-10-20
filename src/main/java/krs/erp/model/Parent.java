@@ -3,6 +3,8 @@ package krs.erp.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -87,12 +89,17 @@ public class Parent extends BaseEntity {
     @Column(name = "receive_notifications", nullable = false)
     private Boolean receiveNotifications = true;
     
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;
+    
     // Relationships
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
     
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<ParentStudentRelation> studentRelations = new HashSet<>();
     
     // Enums
@@ -261,6 +268,14 @@ public class Parent extends BaseEntity {
     
     public void setReceiveNotifications(Boolean receiveNotifications) {
         this.receiveNotifications = receiveNotifications;
+    }
+    
+    public Boolean getIsActive() {
+        return isActive;
+    }
+    
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
     
     public User getUser() {
