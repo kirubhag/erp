@@ -335,6 +335,57 @@
         </div>
     </div>
 
+    <!-- View Student Modal -->
+    <div class="modal fade show" ng-show="showViewModal" style="display: block;" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Student Details</h5>
+                    <button type="button" class="btn-close" ng-click="closeViewModal()"></button>
+                </div>
+                <div class="modal-body" ng-if="currentStudent">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Personal Information</h6>
+                            <p><strong>Name:</strong> {{currentStudent.firstName}} {{currentStudent.middleName}} {{currentStudent.lastName}}</p>
+                            <p><strong>Student ID:</strong> {{currentStudent.studentId}}</p>
+                            <p><strong>Email:</strong> {{currentStudent.email}}</p>
+                            <p><strong>Phone:</strong> {{currentStudent.phone}}</p>
+                            <p><strong>Date of Birth:</strong> {{formatDate(currentStudent.dateOfBirth)}}</p>
+                            <p><strong>Gender:</strong> {{currentStudent.gender}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Academic Information</h6>
+                            <p><strong>Grade Level:</strong> {{currentStudent.gradeLevel | gradeLevel}}</p>
+                            <p><strong>Enrollment Date:</strong> {{formatDate(currentStudent.enrollmentDate)}}</p>
+                            <p><strong>Status:</strong> 
+                                <span class="badge" ng-class="currentStudent.enrollmentStatus === 'ACTIVE' ? 'bg-success' : 'bg-warning'">
+                                    {{currentStudent.enrollmentStatus}}
+                                </span>
+                            </p>
+                            <p><strong>Emergency Contact:</strong> {{currentStudent.emergencyContactName}}</p>
+                            <p><strong>Emergency Phone:</strong> {{currentStudent.emergencyContactPhone}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3" ng-if="currentStudent.addressLine1">
+                        <div class="col-12">
+                            <h6>Address</h6>
+                            <p>{{currentStudent.addressLine1}}<br>
+                               <span ng-if="currentStudent.addressLine2">{{currentStudent.addressLine2}}<br></span>
+                               {{currentStudent.city}}, {{currentStudent.state}} {{currentStudent.postalCode}}<br>
+                               {{currentStudent.country}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" ng-click="closeViewModal()">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="editStudent(currentStudent); closeViewModal()">Edit Student</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Delete Confirmation Modal -->
     <div class="modal fade show" ng-show="showDeleteModal" style="display: block;" tabindex="-1">
         <div class="modal-dialog">
@@ -412,4 +463,4 @@
 </div>
 
 <!-- Modal Backdrop -->
-<div class="modal-backdrop fade show" ng-show="showStudentModal || showDeleteModal || showBulkActionModal"></div>
+<div class="modal-backdrop fade show" ng-show="showStudentModal || showViewModal || showDeleteModal || showBulkActionModal"></div>

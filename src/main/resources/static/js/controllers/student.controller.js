@@ -25,6 +25,7 @@ angular.module('erpApp').controller('StudentController', [
             // Form data
             $scope.studentForm = StudentService.createEmptyStudent();
             $scope.showStudentModal = false;
+            $scope.showViewModal = false;
             $scope.showDeleteModal = false;
             $scope.showBulkActionModal = false;
             
@@ -156,6 +157,7 @@ angular.module('erpApp').controller('StudentController', [
         };
         
         $scope.editStudent = function(student) {
+            console.log('editStudent called with:', student);
             $scope.studentForm = angular.copy(student);
             $scope.editingStudent = true;
             $scope.currentStudent = student;
@@ -163,9 +165,9 @@ angular.module('erpApp').controller('StudentController', [
         };
         
         $scope.viewStudent = function(student) {
+            console.log('viewStudent called with:', student);
             $scope.currentStudent = student;
-            // This would typically open a detailed view modal or navigate to a detail page
-            $rootScope.$broadcast('app:info', 'Viewing details for ' + StudentService.formatStudentName(student));
+            $scope.showViewModal = true;
         };
         
         $scope.saveStudent = function() {
@@ -199,6 +201,7 @@ angular.module('erpApp').controller('StudentController', [
         };
         
         $scope.deleteStudent = function(student) {
+            console.log('deleteStudent called with:', student);
             $scope.currentStudent = student;
             $scope.showDeleteModal = true;
         };
@@ -223,6 +226,11 @@ angular.module('erpApp').controller('StudentController', [
             $scope.showStudentModal = false;
             $scope.studentForm = StudentService.createEmptyStudent();
             $scope.editingStudent = false;
+            $scope.currentStudent = null;
+        };
+        
+        $scope.closeViewModal = function() {
+            $scope.showViewModal = false;
             $scope.currentStudent = null;
         };
         

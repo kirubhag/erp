@@ -8,6 +8,10 @@ angular.module('erpApp').service('AttendanceService', [
         
         // Get all attendance records with pagination
         self.getAllAttendance = function(page, size, sort) {
+            if (page === undefined && size === undefined && sort === undefined) {
+                // Simple get request for all records
+                return ApiService.get(baseUrl);
+            }
             return ApiService.getPage(baseUrl, page, size, sort);
         };
         

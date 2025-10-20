@@ -3,6 +3,8 @@ package krs.erp.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -45,14 +47,17 @@ public class Attendance extends BaseEntity {
     // Relationships - either student or staff
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
+    @JsonIgnore
     private Student student;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "staff_id")
+    @JsonIgnore
     private Staff staff;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recorded_by")
+    @JsonIgnore
     private User recordedBy;
     
     // Enums
@@ -159,6 +164,7 @@ public class Attendance extends BaseEntity {
         return attendanceType.toString();
     }
     
+    @JsonIgnore
     public String getAttendeeName() {
         if (student != null) {
             return student.getFullName();
@@ -168,6 +174,7 @@ public class Attendance extends BaseEntity {
         return "Unknown";
     }
     
+    @JsonIgnore
     public String getAttendeeId() {
         if (student != null) {
             return student.getStudentId();

@@ -11,6 +11,9 @@ angular.module('erpApp').service('ParentService', [
             return ApiService.getPage(baseUrl, page, size, sort);
         };
         
+        // Alias for compatibility
+        self.getAll = self.getAllParents;
+        
         // Search parents
         self.searchParents = function(searchTerm, page, size, sort) {
             return ApiService.search(baseUrl + '/search', searchTerm, page, size, sort);
@@ -250,11 +253,11 @@ angular.module('erpApp').service('ParentService', [
                 return 'Please enter a valid email address';
             }
             
-            if (!parentData.phoneNumber || parentData.phoneNumber.trim() === '') {
+            if (!parentData.phone || parentData.phone.trim() === '') {
                 return 'Phone number is required';
             }
             
-            if (!self.isValidPhoneNumber(parentData.phoneNumber)) {
+            if (!self.isValidPhoneNumber(parentData.phone)) {
                 return 'Please enter a valid phone number';
             }
             
@@ -316,26 +319,24 @@ angular.module('erpApp').service('ParentService', [
             return {
                 firstName: '',
                 lastName: '',
+                middleName: '',
                 email: '',
-                phoneNumber: '',
-                alternatePhoneNumber: '',
-                address: {
-                    street: '',
-                    city: '',
-                    state: '',
-                    zipCode: '',
-                    country: 'USA'
-                },
+                phone: '',
+                alternatePhone: '',
+                gender: '',
                 occupation: '',
-                employer: '',
-                portalAccessEnabled: true,
-                communicationPreferences: {
-                    emailNotifications: true,
-                    smsNotifications: false,
-                    attendanceAlerts: true,
-                    gradeAlerts: true,
-                    eventNotifications: true
-                }
+                workplace: '',
+                workPhone: '',
+                addressLine1: '',
+                addressLine2: '',
+                city: '',
+                state: '',
+                postalCode: '',
+                country: 'USA',
+                emergencyContact: false,
+                authorizedPickup: true,
+                receiveNotifications: true,
+                isActive: true
             };
         };
         
