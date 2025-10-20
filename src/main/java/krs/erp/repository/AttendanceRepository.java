@@ -61,6 +61,10 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
            "AND a.attendanceType = 'STUDENT' AND a.status = 'ABSENT'")
     Long countAbsentStudentsByDate(@Param("date") LocalDate date);
     
+    @Query("SELECT COUNT(a) FROM Attendance a WHERE a.attendanceDate = :date " +
+           "AND a.attendanceType = 'STUDENT' AND a.status = 'LATE'")
+    Long countLateStudentsByDate(@Param("date") LocalDate date);
+    
     @Query("SELECT a FROM Attendance a WHERE a.student.gradeLevel = :gradeLevel " +
            "AND a.attendanceDate = :date ORDER BY a.student.firstName, a.student.lastName")
     List<Attendance> findAttendanceByGradeLevelAndDate(@Param("gradeLevel") krs.erp.model.Student.GradeLevel gradeLevel,

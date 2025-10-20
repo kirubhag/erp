@@ -185,6 +185,13 @@ public class StudentController {
         return ResponseEntity.ok(statistics);
     }
     
+    // Get student count
+    @GetMapping("/count")
+    public ResponseEntity<Long> getStudentCount() {
+        Long count = studentRepository.countActiveStudents();
+        return ResponseEntity.ok(count);
+    }
+    
     // Get students by parent ID
     @GetMapping("/parent/{parentId}")
     public ResponseEntity<List<Student>> getStudentsByParentId(@PathVariable Long parentId) {

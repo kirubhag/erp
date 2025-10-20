@@ -136,7 +136,28 @@ public class AttendanceController {
         List<Attendance> attendance = attendanceRepository.findByAttendanceDateBetween(startDate, endDate);
         return ResponseEntity.ok(attendance);
     }
-    
+
+    // Get attendance statistics for a specific date
+    @GetMapping("/statistics/date/{date}")
+    public ResponseEntity<Map<String, Object>> getAttendanceStatisticsByDate(
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        
+        Long presentStudents = attendanceRepository.countPresentStudentsByDate(date);
+        Long absentStudents = attendanceRepository.countAbsentStudentsByDate(date);
+        Long lateStudents = attendanceRepository.countLateStudentsByDate(date);
+        Long totalStudents = presentStudents + absentStudents + lateStudents;
+        
+        Map<String, Object> statistics = new HashMap<>();
+        statistics.put("date", date);
+        statistics.put("presentStudents", presentStudents);
+        statistics.put("absentStudents", absentStudents);
+        statistics.put("lateStudents", lateStudents);
+        statistics.put("totalStudents", totalStudents);
+        statistics.put("attendanceRate", totalStudents > 0 ? (presentStudents.doubleValue() / totalStudents.doubleValue()) * 100 : 0);
+        
+        return ResponseEntity.ok(statistics);
+    }
+
     // Get student attendance statistics
     @GetMapping("/student/{studentId}/statistics")
     public ResponseEntity<Map<String, Object>> getStudentAttendanceStatistics(

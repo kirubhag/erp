@@ -1,5 +1,5 @@
 // Attendance Service - Handles attendance-related API operations
-angular.module('studentApp').service('AttendanceService', [
+angular.module('erpApp').service('AttendanceService', [
     'ApiService', '$q',
     function(ApiService, $q) {
         

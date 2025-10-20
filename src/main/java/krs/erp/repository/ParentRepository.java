@@ -47,5 +47,13 @@ public interface ParentRepository extends JpaRepository<Parent, Long> {
     @Query("SELECT COUNT(sr) FROM ParentStudentRelation sr WHERE sr.parent.id = :parentId")
     Long countStudentsByParentId(@Param("parentId") Long parentId);
     
+    @Query("SELECT p FROM Parent p WHERE p.isActive = true")
+    List<Parent> findByIsActiveTrue();
+    
+    @Query("SELECT COUNT(p) FROM Parent p WHERE p.isActive = true")
+    Long countByIsActiveTrue();
+    
+    List<Parent> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName);
+    
     boolean existsByEmail(String email);
 }

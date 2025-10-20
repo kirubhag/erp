@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance Management</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-calendar-check me-2"></i>Attendance Management
+                        </h5>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" ng-click="markAttendance()">
+                                <i class="fas fa-check me-1"></i>Mark Attendance
+                            </button>
+                            <button class="btn btn-outline-primary" ng-click="exportAttendance()">
+                                <i class="fas fa-download me-1"></i>Export
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Date and Class Filter -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <label class="form-label">Date</label>
+                                <input type="date" class="form-control" ng-model="selectedDate" 
+                                       ng-change="loadAttendance()" date-input>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Grade Level</label>
+                                <select class="form-select" ng-model="selectedGrade" ng-change="filterByGrade()">
+                                    <option value="">All Grades</option>
+                                    <option value="KINDERGARTEN">Kindergarten</option>
+                                    <option value="GRADE_1">Grade 1</option>
+                                    <option value="GRADE_2">Grade 2</option>
+                                    <option value="GRADE_3">Grade 3</option>
+                                    <option value="GRADE_4">Grade 4</option>
+                                    <option value="GRADE_5">Grade 5</option>
+                                    <option value="GRADE_6">Grade 6</option>
+                                    <option value="GRADE_7">Grade 7</option>
+                                    <option value="GRADE_8">Grade 8</option>
+                                    <option value="GRADE_9">Grade 9</option>
+                                    <option value="GRADE_10">Grade 10</option>
+                                    <option value="GRADE_11">Grade 11</option>
+                                    <option value="GRADE_12">Grade 12</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Status Filter</label>
+                                <select class="form-select" ng-model="statusFilter" ng-change="filterByStatus()">
+                                    <option value="">All Status</option>
+                                    <option value="PRESENT">Present</option>
+                                    <option value="ABSENT">Absent</option>
+                                    <option value="LATE">Late</option>
+                                    <option value="EXCUSED">Excused</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button class="btn btn-outline-secondary w-100" ng-click="refreshData()">
+                                    <i class="fas fa-sync-alt me-1"></i>Refresh
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Attendance Statistics -->
+                        <div class="row mb-4" ng-show="attendanceStats">
+                            <div class="col-md-3">
+                                <div class="card text-center bg-success text-white">
+                                    <div class="card-body">
+                                        <h3 class="card-title">{{attendanceStats.presentStudents || 0}}</h3>
+                                        <p class="card-text">Present</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-center bg-danger text-white">
+                                    <div class="card-body">
+                                        <h3 class="card-title">{{attendanceStats.absentStudents || 0}}</h3>
+                                        <p class="card-text">Absent</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-center bg-warning text-white">
+                                    <div class="card-body">
+                                        <h3 class="card-title">{{attendanceStats.lateStudents || 0}}</h3>
+                                        <p class="card-text">Late</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-center bg-info text-white">
+                                    <div class="card-body">
+                                        <h3 class="card-title">{{attendanceStats.attendanceRate || 0}}%</h3>
+                                        <p class="card-text">Attendance Rate</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Attendance Table -->
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>Grade</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Status</th>
+                                        <th>Remarks</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="attendance in attendanceRecords" ng-show="attendanceRecords.length > 0">
+                                        <td>
+                                            <strong>{{attendance.student.firstName}} {{attendance.student.lastName}}</strong>
+                                            <br><small class="text-muted">{{attendance.student.studentId}}</small>
+                                        </td>
+                                        <td>{{attendance.student.gradeLevel | gradeFormat}}</td>
+                                        <td>
+                                            <span ng-if="attendance.checkInTime">{{attendance.checkInTime | date:'HH:mm'}}</span>
+                                            <span ng-if="!attendance.checkInTime" class="text-muted">-</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="attendance.checkOutTime">{{attendance.checkOutTime | date:'HH:mm'}}</span>
+                                            <span ng-if="!attendance.checkOutTime" class="text-muted">-</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge" ng-class="{
+                                                'bg-success': attendance.status === 'PRESENT',
+                                                'bg-danger': attendance.status === 'ABSENT',
+                                                'bg-warning': attendance.status === 'LATE',
+                                                'bg-info': attendance.status === 'EXCUSED',
+                                                'bg-secondary': attendance.status === 'EARLY_DEPARTURE'
+                                            }">
+                                                {{attendance.status}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="attendance.remarks">{{attendance.remarks}}</span>
+                                            <span ng-if="!attendance.remarks" class="text-muted">-</span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                <button class="btn btn-outline-warning" ng-click="editAttendance(attendance)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-outline-info" ng-click="viewHistory(attendance.student)">
+                                                    <i class="fas fa-history"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="attendanceRecords.length === 0 && !loading">
+                                        <td colspan="7" class="text-center text-muted py-4">
+                                            <i class="fas fa-calendar-times fa-3x mb-3 d-block"></i>
+                                            No attendance records found for selected date
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="loading">
+                                        <td colspan="7" class="text-center py-4">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

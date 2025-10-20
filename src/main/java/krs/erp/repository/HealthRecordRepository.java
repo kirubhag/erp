@@ -59,4 +59,8 @@ public interface HealthRecordRepository extends JpaRepository<HealthRecord, Long
     @Query("SELECT h FROM HealthRecord h WHERE h.recordDate BETWEEN :startDate AND :endDate")
     List<HealthRecord> findByRecordDateBetween(@Param("startDate") LocalDate startDate,
                                               @Param("endDate") LocalDate endDate);
+    
+    List<HealthRecord> findByRequiresAttentionTrueAndActiveTrue();
+    
+    List<HealthRecord> findByExpiryDateBeforeAndActiveTrue(LocalDate date);
 }

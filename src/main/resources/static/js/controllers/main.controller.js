@@ -1,5 +1,5 @@
-// Main Controller - Handles global application state and navigation
-angular.module('studentApp').controller('MainController', [
+// Main Controller - Dashboard and navigation
+angular.module('erpApp').controller('MainController', [
     '$scope', '$rootScope', '$location', 'ApiService',
     function($scope, $rootScope, $location, ApiService) {
         
@@ -13,6 +13,10 @@ angular.module('studentApp').controller('MainController', [
                 role: 'ADMIN',
                 email: 'admin@school.edu'
             };
+            
+            // Set current date/time for dashboard
+            $scope.currentDate = new Date();
+            $scope.currentDateTime = new Date();
             
             $scope.loadDashboardData();
         };
@@ -239,6 +243,10 @@ angular.module('studentApp').controller('MainController', [
         
         // Refresh dashboard data
         $scope.refreshDashboard = function() {
+            // Update current date/time
+            $scope.currentDate = new Date();
+            $scope.currentDateTime = new Date();
+            
             $scope.loadDashboardData();
             $scope.showToast('info', 'Refreshed', 'Dashboard data has been refreshed.');
         };

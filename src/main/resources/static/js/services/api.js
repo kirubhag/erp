@@ -1,5 +1,5 @@
 // API Service - Base service for HTTP requests
-angular.module('studentApp').service('ApiService', [
+angular.module('erpApp').service('ApiService', [
     '$http', '$q', 'APP_CONFIG',
     function($http, $q, APP_CONFIG) {
         

@@ -1,5 +1,5 @@
 // Main AngularJS Application Configuration
-angular.module('studentApp', ['ngRoute'])
+angular.module('erpApp', ['ngRoute'])
 .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', {
@@ -34,12 +34,27 @@ angular.module('studentApp', ['ngRoute'])
     // Global utility functions
     $rootScope.formatDate = function(date) {
         if (!date) return '';
-        return new Date(date).toLocaleDateString();
+        try {
+            if (typeof date === 'string') {
+                // Handle ISO date strings like "2025-10-20"
+                return new Date(date + 'T00:00:00').toLocaleDateString();
+            }
+            return new Date(date).toLocaleDateString();
+        } catch (e) {
+            return '';
+        }
     };
     
     $rootScope.formatDateTime = function(date) {
         if (!date) return '';
-        return new Date(date).toLocaleString();
+        try {
+            if (typeof date === 'string') {
+                return new Date(date).toLocaleString();
+            }
+            return new Date(date).toLocaleString();
+        } catch (e) {
+            return '';
+        }
     };
     
     $rootScope.getStatusBadge = function(status) {
@@ -57,7 +72,7 @@ angular.module('studentApp', ['ngRoute'])
 }]);
 
 // Global constants
-angular.module('studentApp').constant('APP_CONFIG', {
+angular.module('erpApp').constant('APP_CONFIG', {
     API_BASE_URL: '/api',
     DATE_FORMAT: 'yyyy-MM-dd',
     DATETIME_FORMAT: 'yyyy-MM-dd HH:mm:ss',
@@ -75,14 +90,14 @@ angular.module('studentApp').constant('APP_CONFIG', {
 });
 
 // Global filters
-angular.module('studentApp').filter('capitalize', function() {
+angular.module('erpApp').filter('capitalize', function() {
     return function(input) {
         if (!input) return '';
         return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
     };
 });
 
-angular.module('studentApp').filter('gradeLevel', function() {
+angular.module('erpApp').filter('gradeLevel', function() {
     return function(input) {
         const gradeMap = {
             'KINDERGARTEN': 'Kindergarten',
@@ -103,7 +118,7 @@ angular.module('studentApp').filter('gradeLevel', function() {
     };
 });
 
-angular.module('studentApp').filter('phoneNumber', function() {
+angular.module('erpApp').filter('phoneNumber', function() {
     return function(input) {
         if (!input) return '';
         const cleaned = input.replace(/\D/g, '');
@@ -115,7 +130,7 @@ angular.module('studentApp').filter('phoneNumber', function() {
     };
 });
 
-angular.module('studentApp').filter('range', function() {
+angular.module('erpApp').filter('range', function() {
     return function(input, start, end) {
         start = parseInt(start);
         end = parseInt(end);
@@ -126,8 +141,39 @@ angular.module('studentApp').filter('range', function() {
     };
 });
 
+// Custom date filter that handles string dates properly
+angular.module('erpApp').filter('safeDate', function() {
+    return function(input, format) {
+        if (!input) return '';
+        try {
+            var date;
+            if (typeof input === 'string') {
+                // Handle ISO date strings
+                date = new Date(input);
+            } else {
+                date = new Date(input);
+            }
+            
+            if (isNaN(date.getTime())) {
+                return input; // Return original if not a valid date
+            }
+            
+            // Apply requested format
+            if (format === 'short') {
+                return date.toLocaleDateString();
+            } else if (format === 'medium') {
+                return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+            } else {
+                return date.toLocaleDateString();
+            }
+        } catch (e) {
+            return input;
+        }
+    };
+});
+
 // Global directives
-angular.module('studentApp').directive('loadingSpinner', function() {
+angular.module('erpApp').directive('loadingSpinner', function() {
     return {
         restrict: 'E',
         template: `
@@ -145,7 +191,7 @@ angular.module('studentApp').directive('loadingSpinner', function() {
     };
 });
 
-angular.module('studentApp').directive('confirmClick', function() {
+angular.module('erpApp').directive('confirmClick', function() {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
@@ -159,7 +205,7 @@ angular.module('studentApp').directive('confirmClick', function() {
     };
 });
 
-angular.module('studentApp').directive('autoFocus', ['$timeout', function($timeout) {
+angular.module('erpApp').directive('autoFocus', ['$timeout', function($timeout) {
     return {
         restrict: 'A',
         link: function(scope, element) {
@@ -170,8 +216,34 @@ angular.module('studentApp').directive('autoFocus', ['$timeout', function($timeo
     };
 }]);
 
+// Date input directive to handle date formatting
+angular.module('erpApp').directive('dateInput', function() {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, element, attrs, ngModel) {
+            // Convert from model (Date or ISO string) to view (YYYY-MM-DD string)
+            ngModel.$formatters.push(function(modelValue) {
+                if (!modelValue) return '';
+                if (typeof modelValue === 'string') {
+                    return modelValue.split('T')[0]; // Handle ISO strings
+                }
+                if (modelValue instanceof Date) {
+                    return modelValue.toISOString().split('T')[0];
+                }
+                return modelValue;
+            });
+
+            // Convert from view (YYYY-MM-DD string) to model
+            ngModel.$parsers.push(function(viewValue) {
+                return viewValue; // Keep as string for HTML5 date inputs
+            });
+        }
+    };
+});
+
 // Error handling interceptor
-angular.module('studentApp').factory('httpErrorInterceptor', ['$q', '$rootScope', function($q, $rootScope) {
+angular.module('erpApp').factory('httpErrorInterceptor', ['$q', '$rootScope', function($q, $rootScope) {
     return {
         responseError: function(rejection) {
             if (rejection.status === 401) {
@@ -186,6 +258,6 @@ angular.module('studentApp').factory('httpErrorInterceptor', ['$q', '$rootScope'
     };
 }]);
 
-angular.module('studentApp').config(['$httpProvider', function($httpProvider) {
+angular.module('erpApp').config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('httpErrorInterceptor');
 }]);

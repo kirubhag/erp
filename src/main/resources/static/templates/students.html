@@ -1,0 +1,415 @@
+<!-- Students Template -->
+<div class="students-container fade-in" ng-controller="StudentController">
+    
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-2 text-gradient">Student Management</h1>
+                    <p class="text-muted mb-0">Manage student profiles, enrollment, and demographics</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-secondary" ng-click="exportStudents('csv')" 
+                            ng-disabled="loading">
+                        <i class="fas fa-download me-1"></i>Export CSV
+                    </button>
+                    <button class="btn btn-outline-secondary" ng-click="exportStudents('pdf')" 
+                            ng-disabled="loading">
+                        <i class="fas fa-file-pdf me-1"></i>Export PDF
+                    </button>
+                    <button class="btn btn-primary" ng-click="showAddStudentForm()">
+                        <i class="fas fa-plus me-1"></i>Add Student
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Search & Filters</h5>
+                </div>
+                <div class="card-body">
+                    <form ng-submit="searchStudents()">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="search-box">
+                                    <input type="text" class="form-control" placeholder="Search students..." 
+                                           ng-model="searchTerm" ng-change="searchStudents()">
+                                    <i class="fas fa-search search-icon"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <select class="form-select" ng-model="selectedGrade" ng-change="filterByGrade()">
+                                    <option value="">All Grade Levels</option>
+                                    <option ng-repeat="grade in gradeLevels" value="{{grade}}">
+                                        {{getGradeDisplayName(grade)}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <select class="form-select" ng-model="selectedStatus" ng-change="filterByStatus()">
+                                    <option value="">All Statuses</option>
+                                    <option ng-repeat="status in statusOptions" value="{{status}}">
+                                        {{getStatusDisplayName(status)}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <button type="button" class="btn btn-outline-secondary w-100" ng-click="clearSearch()">
+                                    <i class="fas fa-times me-1"></i>Clear
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Actions Bar -->
+    <div class="row mb-3" ng-show="hasSelectedStudents()">
+        <div class="col-12">
+            <div class="alert alert-info d-flex justify-content-between align-items-center">
+                <span>
+                    <i class="fas fa-info-circle me-2"></i>
+                    {{selectedStudents.length}} student(s) selected
+                </span>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-primary" ng-click="showBulkActions()">
+                        <i class="fas fa-cogs me-1"></i>Bulk Actions
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary" ng-click="selectedStudents = []">
+                        <i class="fas fa-times me-1"></i>Clear Selection
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Students Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-graduate me-2"></i>Students 
+                        <span class="badge bg-primary ms-2">{{pagination.totalElements}}</span>
+                    </h5>
+                    <div class="d-flex align-items-center gap-2">
+                        <label class="form-label mb-0 me-2">Page Size:</label>
+                        <select class="form-select form-select-sm" style="width: auto;" 
+                                ng-model="pagination.size" ng-change="changePageSize()">
+                            <option ng-repeat="size in pageSizeOptions" value="{{size}}">{{size}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th width="50">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" 
+                                                   ng-click="selectAllStudents()"
+                                                   ng-checked="selectedStudents.length === students.length && students.length > 0">
+                                        </div>
+                                    </th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Grade</th>
+                                    <th>Age</th>
+                                    <th>Status</th>
+                                    <th>Enrollment Date</th>
+                                    <th width="150">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="student in students track by student.id">
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" 
+                                                   ng-checked="isStudentSelected(student)"
+                                                   ng-click="toggleStudentSelection(student)">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="profile-img me-3 bg-primary text-white d-flex align-items-center justify-content-center">
+                                                {{student.firstName.charAt(0)}}{{student.lastName.charAt(0)}}
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">{{formatStudentName(student)}}</div>
+                                                <small class="text-muted">ID: {{student.id}}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{student.email}}</td>
+                                    <td>{{getGradeDisplayName(student.gradeLevel)}}</td>
+                                    <td>{{calculateAge(student.dateOfBirth)}} years</td>
+                                    <td>
+                                        <span class="badge" ng-class="getStatusBadgeClass(student.status)">
+                                            {{getStatusDisplayName(student.status)}}
+                                        </span>
+                                    </td>
+                                    <td>{{formatDate(student.enrollmentDate)}}</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-sm btn-outline-info" 
+                                                    ng-click="viewStudent(student)" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-primary" 
+                                                    ng-click="editStudent(student)" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" 
+                                                    ng-click="deleteStudent(student)" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- No data row -->
+                                <tr ng-show="students.length === 0 && !loading">
+                                    <td colspan="8" class="text-center py-5 text-muted">
+                                        <i class="fas fa-user-graduate fa-2x mb-2"></i>
+                                        <div>No students found</div>
+                                        <button class="btn btn-primary btn-sm mt-2" ng-click="showAddStudentForm()">
+                                            Add First Student
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="card-footer" ng-show="pagination.totalPages > 1">
+                    <nav aria-label="Students pagination">
+                        <ul class="pagination justify-content-center mb-0">
+                            <li class="page-item" ng-class="{disabled: pagination.currentPage === 0}">
+                                <a class="page-link" href="#" ng-click="goToPage(0)" aria-label="First">
+                                    <i class="fas fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item" ng-class="{disabled: pagination.currentPage === 0}">
+                                <a class="page-link" href="#" ng-click="goToPage(pagination.currentPage - 1)" aria-label="Previous">
+                                    <i class="fas fa-angle-left"></i>
+                                </a>
+                            </li>
+                            
+                            <li class="page-item" 
+                                ng-repeat="page in [] | range:(pagination.currentPage > 2 ? pagination.currentPage - 2 : 0):(pagination.currentPage < pagination.totalPages - 3 ? pagination.currentPage + 3 : pagination.totalPages)"
+                                ng-class="{active: page === pagination.currentPage}">
+                                <a class="page-link" href="#" ng-click="goToPage(page)">{{page + 1}}</a>
+                            </li>
+                            
+                            <li class="page-item" ng-class="{disabled: pagination.currentPage === pagination.totalPages - 1}">
+                                <a class="page-link" href="#" ng-click="goToPage(pagination.currentPage + 1)" aria-label="Next">
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li class="page-item" ng-class="{disabled: pagination.currentPage === pagination.totalPages - 1}">
+                                <a class="page-link" href="#" ng-click="goToPage(pagination.totalPages - 1)" aria-label="Last">
+                                    <i class="fas fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Form Modal -->
+    <div class="modal fade show" ng-show="showStudentModal" style="display: block;" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-user-graduate me-2"></i>
+                        {{editingStudent ? 'Edit Student' : 'Add New Student'}}
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="closeStudentModal()"></button>
+                </div>
+                <form ng-submit="saveStudent()">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">First Name *</label>
+                                <input type="text" class="form-control" ng-model="studentForm.firstName" 
+                                       required auto-focus>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Middle Name</label>
+                                <input type="text" class="form-control" ng-model="studentForm.middleName">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Last Name *</label>
+                                <input type="text" class="form-control" ng-model="studentForm.lastName" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email *</label>
+                                <input type="email" class="form-control" ng-model="studentForm.email" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" ng-model="studentForm.phoneNumber">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Date of Birth *</label>
+                                <input type="date" class="form-control" ng-model="studentForm.dateOfBirth" required date-input>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Grade Level *</label>
+                                <select class="form-select" ng-model="studentForm.gradeLevel" required>
+                                    <option value="">Select Grade Level</option>
+                                    <option ng-repeat="grade in gradeLevels" value="{{grade}}">
+                                        {{getGradeDisplayName(grade)}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" ng-model="studentForm.status">
+                                    <option ng-repeat="status in statusOptions" value="{{status}}">
+                                        {{getStatusDisplayName(status)}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Enrollment Date</label>
+                                <input type="date" class="form-control" ng-model="studentForm.enrollmentDate" date-input>
+                            </div>
+                        </div>
+                        
+                        <!-- Address Section -->
+                        <h6 class="border-bottom pb-2 mb-3">Address Information</h6>
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Street Address</label>
+                                <input type="text" class="form-control" ng-model="studentForm.address.street">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">City</label>
+                                <input type="text" class="form-control" ng-model="studentForm.address.city">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">State</label>
+                                <input type="text" class="form-control" ng-model="studentForm.address.state">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Zip Code</label>
+                                <input type="text" class="form-control" ng-model="studentForm.address.zipCode">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" ng-click="closeStudentModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" ng-disabled="!isValidStudentForm() || loading">
+                            <i class="fas fa-save me-1"></i>
+                            {{editingStudent ? 'Update' : 'Save'}} Student
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade show" ng-show="showDeleteModal" style="display: block;" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Confirm Delete
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="closeDeleteModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the following student?</p>
+                    <div class="alert alert-warning" ng-if="currentStudent">
+                        <strong>{{formatStudentName(currentStudent)}}</strong><br>
+                        <small>ID: {{currentStudent.id}} | Email: {{currentStudent.email}}</small>
+                    </div>
+                    <p class="text-danger">
+                        <i class="fas fa-exclamation-triangle me-1"></i>
+                        This action cannot be undone.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" ng-click="closeDeleteModal()">Cancel</button>
+                    <button type="button" class="btn btn-danger" ng-click="confirmDelete()" ng-disabled="loading">
+                        <i class="fas fa-trash me-1"></i>Delete Student
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Actions Modal -->
+    <div class="modal fade show" ng-show="showBulkActionModal" style="display: block;" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-cogs me-2"></i>Bulk Actions
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="closeBulkActionModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{selectedStudents.length}} student(s) selected. Choose an action:</p>
+                    
+                    <div class="d-grid gap-2">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle w-100" type="button" 
+                                    data-bs-toggle="dropdown">
+                                <i class="fas fa-edit me-1"></i>Update Status
+                            </button>
+                            <ul class="dropdown-menu w-100">
+                                <li ng-repeat="status in statusOptions">
+                                    <a class="dropdown-item" href="#" ng-click="bulkUpdateStatus(status)">
+                                        <span class="badge me-2" ng-class="getStatusBadgeClass(status)">●</span>
+                                        {{getStatusDisplayName(status)}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <button class="btn btn-outline-danger" ng-click="bulkDeleteStudents()">
+                            <i class="fas fa-trash me-1"></i>Delete Selected Students
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" ng-click="closeBulkActionModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <loading-spinner loading="loading" message="Processing students..."></loading-spinner>
+</div>
+
+<!-- Modal Backdrop -->
+<div class="modal-backdrop fade show" ng-show="showStudentModal || showDeleteModal || showBulkActionModal"></div>

@@ -1,5 +1,5 @@
 // Student Service - Handles student-related API operations
-angular.module('studentApp').service('StudentService', [
+angular.module('erpApp').service('StudentService', [
     'ApiService', '$q',
     function(ApiService, $q) {
         

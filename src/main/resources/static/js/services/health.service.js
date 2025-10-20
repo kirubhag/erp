@@ -1,5 +1,5 @@
-// Health Service - Handles health record-related API operations
-angular.module('studentApp').service('HealthService', [
+// Health Service - Handles health-related API operations
+angular.module('erpApp').service('HealthService', [
     'ApiService', '$q',
     function(ApiService, $q) {
         

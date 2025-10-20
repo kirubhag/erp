@@ -1,5 +1,5 @@
 // Student Controller - Handles student management UI logic
-angular.module('studentApp').controller('StudentController', [
+angular.module('erpApp').controller('StudentController', [
     '$scope', '$rootScope', 'StudentService', 'APP_CONFIG',
     function($scope, $rootScope, StudentService, APP_CONFIG) {
         

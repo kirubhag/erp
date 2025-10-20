@@ -1,5 +1,5 @@
 // Parent Service - Handles parent-related API operations
-angular.module('studentApp').service('ParentService', [
+angular.module('erpApp').service('ParentService', [
     'ApiService', '$q',
     function(ApiService, $q) {
         

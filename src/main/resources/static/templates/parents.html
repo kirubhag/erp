@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parents Management</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-users me-2"></i>Parents Management
+                        </h5>
+                        <button class="btn btn-primary" ng-click="openAddParentModal()">
+                            <i class="fas fa-plus me-1"></i>Add New Parent
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <!-- Search and Filter Controls -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <input type="text" class="form-control" placeholder="Search parents..." 
+                                           ng-model="searchQuery" ng-change="searchParents()">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-select" ng-model="filterStatus" ng-change="filterParents()">
+                                    <option value="">All Parents</option>
+                                    <option value="true">Active</option>
+                                    <option value="false">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Parents Table -->
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Children</th>
+                                        <th>Emergency Contact</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="parent in parents" ng-show="parents.length > 0">
+                                        <td>
+                                            <strong>{{parent.firstName}} {{parent.lastName}}</strong>
+                                            <br><small class="text-muted">{{parent.occupation}}</small>
+                                        </td>
+                                        <td>{{parent.email}}</td>
+                                        <td>
+                                            {{parent.phone}}
+                                            <span ng-if="parent.alternatePhone">
+                                                <br><small class="text-muted">Alt: {{parent.alternatePhone}}</small>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-info">{{parent.studentCount || 0}} children</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge" ng-class="parent.emergencyContact ? 'bg-success' : 'bg-secondary'">
+                                                {{parent.emergencyContact ? 'Yes' : 'No'}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge" ng-class="parent.isActive ? 'bg-success' : 'bg-danger'">
+                                                {{parent.isActive ? 'Active' : 'Inactive'}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                <button class="btn btn-outline-primary" ng-click="viewParent(parent)">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button class="btn btn-outline-warning" ng-click="editParent(parent)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-outline-danger" ng-click="deleteParent(parent)" 
+                                                        ng-if="parent.isActive">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="parents.length === 0 && !loading">
+                                        <td colspan="7" class="text-center text-muted py-4">
+                                            <i class="fas fa-users fa-3x mb-3 d-block"></i>
+                                            No parents found
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="loading">
+                                        <td colspan="7" class="text-center py-4">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <nav ng-show="totalPages > 1">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" ng-class="{disabled: currentPage === 0}">
+                                    <a class="page-link" ng-click="goToPage(0)">First</a>
+                                </li>
+                                <li class="page-item" ng-class="{disabled: currentPage === 0}">
+                                    <a class="page-link" ng-click="goToPage(currentPage - 1)">Previous</a>
+                                </li>
+                                <li class="page-item active">
+                                    <span class="page-link">{{currentPage + 1}} of {{totalPages}}</span>
+                                </li>
+                                <li class="page-item" ng-class="{disabled: currentPage === totalPages - 1}">
+                                    <a class="page-link" ng-click="goToPage(currentPage + 1)">Next</a>
+                                </li>
+                                <li class="page-item" ng-class="{disabled: currentPage === totalPages - 1}">
+                                    <a class="page-link" ng-click="goToPage(totalPages - 1)">Last</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
