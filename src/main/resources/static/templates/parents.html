@@ -46,7 +46,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="parent in parents" ng-show="parents.length > 0">
+                                    <tr ng-repeat="parent in filteredParents" ng-show="filteredParents.length > 0">
                                         <td>
                                             <strong>{{parent.firstName}} {{parent.lastName}}</strong>
                                             <br><small class="text-muted">{{parent.occupation}}</small>
@@ -86,7 +86,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr ng-show="parents.length === 0 && !loading">
+                                    <tr ng-show="filteredParents.length === 0 && !loading">
                                         <td colspan="7" class="text-center text-muted py-4">
                                             <i class="fas fa-users fa-3x mb-3 d-block"></i>
                                             No parents found

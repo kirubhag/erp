@@ -7,20 +7,24 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import krs.erp.enums.EntityType;
 
 /**
- * Entity representing a custom view configuration for Student entities.
- * A custom view defines which fields should be displayed when viewing students.
+ * Generic Entity representing a custom view configuration for any entity type.
+ * A custom view defines which fields should be displayed when viewing entities.
  */
 @Entity
-@Table(name = "student_custom_views")
-public class StudentCustomView extends BaseEntity {
+@Table(name = "custom_views")
+public class CustomView extends BaseEntity {
     
     @NotBlank(message = "View name is required")
     @Size(min = 2, max = 100, message = "View name must be between 2 and 100 characters")
@@ -29,6 +33,11 @@ public class StudentCustomView extends BaseEntity {
     
     @Column(name = "description", length = 500)
     private String description;
+    
+    @NotNull(message = "Entity type is required")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "entity_type", nullable = false, length = 50)
+    private EntityType entityType; // e.g., STUDENT, PARENT, ATTENDANCE, HEALTH, etc.
     
     @NotEmpty(message = "At least one field must be selected")
     @ElementCollection(fetch = FetchType.EAGER)
@@ -49,11 +58,12 @@ public class StudentCustomView extends BaseEntity {
     private Boolean isPublic = false;
     
     // Constructors
-    public StudentCustomView() {}
+    public CustomView() {}
     
-    public StudentCustomView(String viewName, String description, List<String> selectedFields) {
+    public CustomView(String viewName, String description, EntityType entityType, List<String> selectedFields) {
         this.viewName = viewName;
         this.description = description;
+        this.entityType = entityType;
         this.selectedFields = selectedFields != null ? new ArrayList<>(selectedFields) : new ArrayList<>();
     }
     
@@ -72,6 +82,14 @@ public class StudentCustomView extends BaseEntity {
     
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public EntityType getEntityType() {
+        return entityType;
+    }
+    
+    public void setEntityType(EntityType entityType) {
+        this.entityType = entityType;
     }
     
     public List<String> getSelectedFields() {
@@ -127,10 +145,11 @@ public class StudentCustomView extends BaseEntity {
     
     @Override
     public String toString() {
-        return "StudentCustomView{" +
+        return "CustomView{" +
                 "id=" + getId() +
                 ", viewName='" + viewName + '\'' +
                 ", description='" + description + '\'' +
+                ", entityType='" + entityType + '\'' +
                 ", fieldCount=" + selectedFields.size() +
                 ", isDefault=" + isDefault +
                 ", isPublic=" + isPublic +

@@ -89,7 +89,7 @@
             <div ng-show="activeTab === 'attendance'" ng-include="'/templates/attendance.html'"></div>
             
             <!-- Parents Tab -->
-            <div ng-show="activeTab === 'parents'" ng-include="'/templates/parents.html'"></div>
+            <div ng-show="activeTab === 'parents'" ng-controller="ParentController" ng-include="'/templates/parents.html'"></div>
             
             <!-- Health Records Tab -->
             <div ng-show="activeTab === 'health'" ng-include="'/templates/health.html'"></div>
@@ -127,7 +127,7 @@
     <script src="/js/app.js?v=3"></script>
     <script src="/js/services/api.js?v=3"></script>
     <script src="/js/services/student.service.js?v=3"></script>
-    <!-- StudentCustomViewService now inline in student.controller.js -->
+    <!-- Custom view service now integrated in controller files -->
     <script src="/js/services/attendance.service.js?v=3"></script>
     <script src="/js/services/parent.service.js?v=2"></script>
     <script src="/js/services/health.service.js?v=2"></script>

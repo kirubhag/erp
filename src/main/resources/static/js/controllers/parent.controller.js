@@ -1,46 +1,45 @@
 angular.module('erpApp').controller('ParentController', ['$scope', 'ParentService', '$filter', function($scope, ParentService, $filter) {
     
-    // Initialize scope variables
-    $scope.parents = [];
-    $scope.loading = false;
-    $scope.searchQuery = '';
-    $scope.filterStatus = '';
-    $scope.currentPage = 0;
-    $scope.pageSize = 10;
-    $scope.totalPages = 0;
-    $scope.totalElements = 0;
-    $scope.selectedParent = null;
-    $scope.showViewModal = false;
-    $scope.showEditModal = false;
-    $scope.showAddModal = false;
-    
-    // Load parents data
+    // Initialize controller
+    $scope.init = function() {
+        $scope.parents = [];
+        $scope.filteredParents = [];
+        $scope.searchQuery = '';
+        $scope.filterStatus = '';
+        $scope.loading = false;
+        $scope.currentPage = 0;
+        $scope.pageSize = 10;
+        $scope.totalElements = 0;
+        $scope.totalPages = 0;
+        
+        // Modal states
+        $scope.showViewModal = false;
+        $scope.showEditModal = false;
+        $scope.showAddModal = false;
+        $scope.selectedParent = null;
+        
+        // Load initial data
+        $scope.loadParents();
+    };        // Load parents with pagination
     $scope.loadParents = function() {
         $scope.loading = true;
         
-        // Use simple GET request to /api/parents
-        ParentService.getAllParents($scope.currentPage, $scope.pageSize).then(function(response) {
-            // Handle both paginated and simple array responses
-            if (response.data && response.data.content) {
-                $scope.parents = response.data.content;
-                $scope.totalPages = response.data.totalPages || 1;
-                $scope.totalElements = response.data.totalElements;
-            } else if (Array.isArray(response.data)) {
-                $scope.parents = response.data;
-                $scope.totalPages = 1;
-                $scope.totalElements = response.data.length;
-            } else {
+        ParentService.getAllParents($scope.currentPage, $scope.pageSize)
+            .then(function(response) {
+                $scope.parents = response.content || [];
+                $scope.totalElements = response.totalElements || 0;
+                $scope.totalPages = response.totalPages || 0;
+                
+                // Apply any current filters
+                $scope.applyFilters();
+                
+                $scope.loading = false;
+            })
+            .catch(function(error) {
+                console.error('Error loading parents:', error);
                 $scope.parents = [];
-            }
-            
-            $scope.loading = false;
-            console.log('Loaded', $scope.parents.length, 'parents');
-            
-        }).catch(function(error) {
-            console.error('Error loading parents:', error);
-            $scope.parents = [];
-            $scope.loading = false;
-        });
+                $scope.loading = false;
+            });
     };
     
     // Search parents
@@ -68,6 +67,29 @@ angular.module('erpApp').controller('ParentController', ['$scope', 'ParentServic
             });
         } else {
             $scope.loadParents();
+        }
+    };
+    
+    // Apply filters to current parents list
+    $scope.applyFilters = function() {
+        $scope.filteredParents = $scope.parents;
+        
+        // Apply search filter
+        if ($scope.searchQuery && $scope.searchQuery.length > 0) {
+            $scope.filteredParents = $scope.filteredParents.filter(function(parent) {
+                var searchTerm = $scope.searchQuery.toLowerCase();
+                return (parent.firstName && parent.firstName.toLowerCase().indexOf(searchTerm) !== -1) ||
+                       (parent.lastName && parent.lastName.toLowerCase().indexOf(searchTerm) !== -1) ||
+                       (parent.email && parent.email.toLowerCase().indexOf(searchTerm) !== -1) ||
+                       (parent.phone && parent.phone.toLowerCase().indexOf(searchTerm) !== -1);
+            });
+        }
+        
+        // Apply status filter
+        if ($scope.filterStatus && $scope.filterStatus !== '') {
+            $scope.filteredParents = $scope.filteredParents.filter(function(parent) {
+                return parent.isActive.toString() === $scope.filterStatus;
+            });
         }
     };
     

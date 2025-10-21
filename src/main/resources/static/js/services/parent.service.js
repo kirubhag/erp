@@ -8,7 +8,11 @@ angular.module('erpApp').service('ParentService', [
         
         // Get all parents with pagination
         self.getAllParents = function(page, size, sort) {
-            return ApiService.getPage(baseUrl, page, size, sort);
+            page = page || 0;
+            size = size || 10;
+            sort = sort || 'lastName,asc';
+            
+            return ApiService.getPage('/parents', page, size, sort);
         };
         
         // Alias for compatibility

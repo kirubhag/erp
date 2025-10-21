@@ -33,7 +33,6 @@ angular.module('erpApp').controller('MainController', [
             
             $scope.loadDashboardData();
             
-            console.log('MainController initialized with activeTab:', $scope.activeTab, 'for path:', currentPath);
         };
         
         // Listen for route changes to keep activeTab in sync
@@ -41,7 +40,6 @@ angular.module('erpApp').controller('MainController', [
             if (!next) return;
             
             var nextPath = next.$$route ? next.$$route.originalPath : '';
-            console.log('Route changing to:', nextPath);
             
             if (nextPath === '/students') {
                 $scope.activeTab = 'students';
@@ -54,15 +52,11 @@ angular.module('erpApp').controller('MainController', [
             } else {
                 $scope.activeTab = 'dashboard';
             }
-            console.log('Active tab set to:', $scope.activeTab);
         });
         
         // Also listen for successful route changes
         $scope.$on('$routeChangeSuccess', function(event, current, previous) {
-            if (!current) return;
-            
-            var currentPath = current.$$route ? current.$$route.originalPath : '';
-            console.log('Route successfully changed to:', currentPath, 'Active tab:', $scope.activeTab);
+            // Route change handling if needed
         });
         
         // Navigation functions

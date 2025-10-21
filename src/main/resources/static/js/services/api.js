@@ -140,20 +140,25 @@ angular.module('erpApp').service('ApiService', [
             );
         };
         
-        // Paginated GET request
-        self.getPage = function(url, page, size, sort, params) {
-            const pageParams = {
+        // Get paginated data
+        self.getPage = function(url, page, size, sort) {
+            var params = {
                 page: page || 0,
-                size: size || APP_CONFIG.PAGINATION.DEFAULT_SIZE,
-                sort: sort || 'id,asc'
+                size: size || 10
             };
             
-            // Merge with additional parameters
-            if (params) {
-                Object.assign(pageParams, params);
+            if (sort) {
+                params.sort = sort;
             }
             
-            return self.get(url, pageParams);
+            return $http.get(config.baseURL + url, { params: params })
+                .then(function(response) {
+                    return response.data;
+                })
+                .catch(function(error) {
+                    console.error('API getPage error:', error);
+                    throw error;
+                });
         };
         
         // Search request with pagination
