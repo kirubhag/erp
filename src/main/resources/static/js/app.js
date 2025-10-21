@@ -1,26 +1,29 @@
 // Main AngularJS Application Configuration
 angular.module('erpApp', ['ngRoute'])
 .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+    // Enable HTML5 mode for cleaner URLs (optional)
+    $locationProvider.html5Mode(false);
+    
     $routeProvider
         .when('/', {
-            template: '<div ng-include="\'templates/dashboard.html\'"></div>',
+            template: '<div></div>', // Empty template since content is managed by tabs
             controller: 'MainController'
         })
         .when('/students', {
-            template: '<div ng-include="\'templates/students.html\'"></div>',
-            controller: 'StudentController'
+            template: '<div></div>', // Empty template since content is managed by tabs
+            controller: 'MainController'
         })
         .when('/attendance', {
-            template: '<div ng-include="\'templates/attendance.html\'"></div>',
-            controller: 'AttendanceController'
+            template: '<div></div>', // Empty template since content is managed by tabs
+            controller: 'MainController'
         })
         .when('/parents', {
-            template: '<div ng-include="\'templates/parents.html\'"></div>',
-            controller: 'ParentController'
+            template: '<div></div>', // Empty template since content is managed by tabs
+            controller: 'MainController'
         })
         .when('/health', {
-            template: '<div ng-include="\'templates/health.html\'"></div>',
-            controller: 'HealthController'
+            template: '<div></div>', // Empty template since content is managed by tabs
+            controller: 'MainController'
         })
         .otherwise({
             redirectTo: '/'

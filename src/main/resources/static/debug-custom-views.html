@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Custom Views</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        pre { background-color: #f8f9fa; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Custom Views Debug Page</h1>
+    
+    <div id="test-results"></div>
+    
+    <h2>Manual Tests</h2>
+    <button onclick="testCustomViewsList()">Test Custom Views List API</button>
+    <button onclick="testAvailableFields()">Test Available Fields API</button>
+    <button onclick="testCreateCustomView()">Test Create Custom View</button>
+    <button onclick="testDefaultView()">Test Default View API</button>
+    <button onclick="testSetDefault()">Test Set View 3 as Default</button>
+    
+    <script>
+        const resultsDiv = document.getElementById('test-results');
+        
+        function addResult(title, success, data) {
+            const div = document.createElement('div');
+            div.className = 'test-result ' + (success ? 'success' : 'error');
+            div.innerHTML = `
+                <h3>${title}</h3>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+            resultsDiv.appendChild(div);
+        }
+        
+        async function testCustomViewsList() {
+            try {
+                const response = await fetch('/api/student-custom-views/list', {
+                    headers: {
+                        'X-User': 'admin'
+                    }
+                });
+                const data = await response.json();
+                addResult('Custom Views List API', response.ok, {
+                    status: response.status,
+                    data: data,
+                    count: data.length
+                });
+            } catch (error) {
+                addResult('Custom Views List API', false, {
+                    error: error.message
+                });
+            }
+        }
+        
+        async function testAvailableFields() {
+            try {
+                const response = await fetch('/api/student-custom-views/available-fields');
+                const data = await response.json();
+                addResult('Available Fields API', response.ok, {
+                    status: response.status,
+                    data: data.slice(0, 5), // Show first 5 fields
+                    totalCount: data.length
+                });
+            } catch (error) {
+                addResult('Available Fields API', false, {
+                    error: error.message
+                });
+            }
+        }
+        
+        async function testCreateCustomView() {
+            try {
+                const newView = {
+                    viewName: 'Debug Test View',
+                    description: 'A test view created from debug page',
+                    selectedFields: ['firstName', 'lastName', 'email'],
+                    isPublic: true,
+                    isDefault: false
+                };
+                
+                const response = await fetch('/api/student-custom-views', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-User': 'admin'
+                    },
+                    body: JSON.stringify(newView)
+                });
+                const data = await response.json();
+                addResult('Create Custom View API', response.ok, {
+                    status: response.status,
+                    data: data
+                });
+            } catch (error) {
+                addResult('Create Custom View API', false, {
+                    error: error.message
+                });
+            }
+        }
+        
+        async function testDefaultView() {
+            try {
+                const response = await fetch('/api/student-custom-views/default', {
+                    headers: {
+                        'X-User': 'admin'
+                    }
+                });
+                const data = await response.text();
+                let parsedData;
+                try {
+                    parsedData = JSON.parse(data);
+                } catch (e) {
+                    parsedData = data || 'Empty response';
+                }
+                addResult('Default View API', response.ok, {
+                    status: response.status,
+                    data: parsedData
+                });
+            } catch (error) {
+                addResult('Default View API', false, {
+                    error: error.message
+                });
+            }
+        }
+        
+        async function testSetDefault() {
+            try {
+                const response = await fetch('/api/student-custom-views/3/set-default', {
+                    method: 'PUT',
+                    headers: {
+                        'X-User': 'admin'
+                    }
+                });
+                const data = await response.json();
+                addResult('Set Default View API (ID=3)', response.ok, {
+                    status: response.status,
+                    data: data
+                });
+            } catch (error) {
+                addResult('Set Default View API', false, {
+                    error: error.message
+                });
+            }
+        }
+        
+        // Auto-run tests on page load
+        window.onload = function() {
+            testCustomViewsList();
+            testDefaultView();
+        };
+    </script>
+</body>
+</html>

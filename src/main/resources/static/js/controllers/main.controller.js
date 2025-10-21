@@ -5,7 +5,20 @@ angular.module('erpApp').controller('MainController', [
         
         // Initialize controller
         $scope.init = function() {
-            $scope.activeTab = 'dashboard';
+            // Determine active tab based on current route
+            var currentPath = $location.path();
+            if (currentPath === '/students') {
+                $scope.activeTab = 'students';
+            } else if (currentPath === '/attendance') {
+                $scope.activeTab = 'attendance';
+            } else if (currentPath === '/parents') {
+                $scope.activeTab = 'parents';
+            } else if (currentPath === '/health') {
+                $scope.activeTab = 'health';
+            } else {
+                $scope.activeTab = 'dashboard';
+            }
+            
             $scope.loading = false;
             $scope.toasts = [];
             $scope.currentUser = {
@@ -19,7 +32,38 @@ angular.module('erpApp').controller('MainController', [
             $scope.currentDateTime = new Date();
             
             $scope.loadDashboardData();
+            
+            console.log('MainController initialized with activeTab:', $scope.activeTab, 'for path:', currentPath);
         };
+        
+        // Listen for route changes to keep activeTab in sync
+        $scope.$on('$routeChangeStart', function(event, next, current) {
+            if (!next) return;
+            
+            var nextPath = next.$$route ? next.$$route.originalPath : '';
+            console.log('Route changing to:', nextPath);
+            
+            if (nextPath === '/students') {
+                $scope.activeTab = 'students';
+            } else if (nextPath === '/attendance') {
+                $scope.activeTab = 'attendance';
+            } else if (nextPath === '/parents') {
+                $scope.activeTab = 'parents';
+            } else if (nextPath === '/health') {
+                $scope.activeTab = 'health';
+            } else {
+                $scope.activeTab = 'dashboard';
+            }
+            console.log('Active tab set to:', $scope.activeTab);
+        });
+        
+        // Also listen for successful route changes
+        $scope.$on('$routeChangeSuccess', function(event, current, previous) {
+            if (!current) return;
+            
+            var currentPath = current.$$route ? current.$$route.originalPath : '';
+            console.log('Route successfully changed to:', currentPath, 'Active tab:', $scope.activeTab);
+        });
         
         // Navigation functions
         $scope.setActiveTab = function(tab) {
