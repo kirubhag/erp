@@ -102,14 +102,16 @@ public class CustomViewService {
         existingView.setViewName(updatedView.getViewName());
         existingView.setDescription(updatedView.getDescription());
         existingView.setSelectedFields(updatedView.getSelectedFields());
-        existingView.setIsDefault(updatedView.getIsDefault());
         existingView.setIsPublic(updatedView.getIsPublic());
         existingView.setUpdatedBy(userId.toString());
         existingView.setUpdatedAt(LocalDateTime.now());
         
         // Ensure only one default view per entity type
         if (updatedView.getIsDefault()) {
-            clearDefaultView(existingView.getEntityType());
+            clearDefaultViewExcept(existingView.getEntityType(), viewId);
+            existingView.setIsDefault(true);
+        } else {
+            existingView.setIsDefault(false);
         }
         
         return customViewRepository.save(existingView);
@@ -158,6 +160,18 @@ public class CustomViewService {
             CustomView defaultView = existingDefault.get();
             defaultView.setIsDefault(false);
             customViewRepository.save(defaultView);
+        }
+    }
+    
+    private void clearDefaultViewExcept(EntityType entityType, Long excludeViewId) {
+        Optional<CustomView> existingDefault = customViewRepository.findByEntityTypeAndIsDefaultTrue(entityType);
+        if (existingDefault.isPresent()) {
+            CustomView defaultView = existingDefault.get();
+            // Only clear if it's not the view we're currently updating
+            if (!defaultView.getId().equals(excludeViewId)) {
+                defaultView.setIsDefault(false);
+                customViewRepository.save(defaultView);
+            }
         }
     }
     

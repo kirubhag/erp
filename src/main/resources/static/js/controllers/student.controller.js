@@ -16,11 +16,11 @@ angular.module('erpApp').factory('StudentCustomViewService', ['$http', function(
         },
         
         getAvailableFields: function() {
-            return $http.get(baseUrl + '/available-fields/' + entityType);
+            return $http.get('/api/fields/' + entityType);
         },
         
         getAccessibleViewsList: function() {
-            return $http.get(baseUrl + '/entity/' + entityType, {
+            return $http.get(baseUrl + '?entityType=' + entityType + '&userId=1', {
                 headers: {
                     'X-User': 'admin'
                 }
@@ -29,7 +29,7 @@ angular.module('erpApp').factory('StudentCustomViewService', ['$http', function(
         
         createCustomView: function(viewData) {
             viewData.entityType = entityType;
-            return $http.post(baseUrl, viewData, {
+            return $http.post(baseUrl + '?userId=1', viewData, {
                 headers: {
                     'X-User': 'admin'
                 }
@@ -38,7 +38,7 @@ angular.module('erpApp').factory('StudentCustomViewService', ['$http', function(
         
         updateCustomView: function(viewId, viewData) {
             viewData.entityType = entityType;
-            return $http.put(baseUrl + '/' + viewId, viewData, {
+            return $http.put(baseUrl + '/' + viewId + '?userId=1', viewData, {
                 headers: {
                     'X-User': 'admin'
                 }
@@ -46,15 +46,20 @@ angular.module('erpApp').factory('StudentCustomViewService', ['$http', function(
         },
         
         deleteCustomView: function(viewId) {
-            return $http.delete(baseUrl + '/' + viewId, {
+            return $http.delete(baseUrl + '/' + viewId + '?userId=1', {
                 headers: {
                     'X-User': 'admin'
                 }
             });
         },
         
-        setAsDefaultView: function(viewId) {
-            return $http.put(baseUrl + '/' + viewId + '/set-default', {}, {
+        setAsDefaultView: function(view) {
+            // Create a copy of the view and set it as default
+            var updatedView = angular.copy(view);
+            updatedView.isDefault = true;
+            updatedView.entityType = entityType;
+            
+            return $http.put(baseUrl + '/' + view.id + '?userId=1', updatedView, {
                 headers: {
                     'X-User': 'admin'
                 }
@@ -62,7 +67,7 @@ angular.module('erpApp').factory('StudentCustomViewService', ['$http', function(
         },
         
         getDefaultView: function() {
-            return $http.get(baseUrl + '/entity/' + entityType + '/default', {
+            return $http.get(baseUrl + '/default?entityType=' + entityType, {
                 headers: {
                     'X-User': 'admin'
                 }
@@ -73,10 +78,11 @@ angular.module('erpApp').factory('StudentCustomViewService', ['$http', function(
             var grouped = {};
             if (fields && fields.length) {
                 fields.forEach(function(field) {
-                    if (!grouped[field.category]) {
-                        grouped[field.category] = [];
+                    var category = field.fieldCategory || field.category || 'Other';
+                    if (!grouped[category]) {
+                        grouped[category] = [];
                     }
-                    grouped[field.category].push(field);
+                    grouped[category].push(field);
                 });
             }
             return grouped;
@@ -113,6 +119,7 @@ angular.module('erpApp').controller('StudentController', ['$scope', '$http', 'St
         $scope.loadStudents();
         $scope.loadCustomViews();
         $scope.loadAvailableFields();
+        $scope.loadDefaultView();
     };
     
     // Load default view - removed custom view system
@@ -144,17 +151,45 @@ angular.module('erpApp').controller('StudentController', ['$scope', '$http', 'St
             });
     };
     
-    // Load custom views - removed custom view system
+    // Load custom views
     $scope.loadCustomViews = function() {
-        // Custom view system has been removed
-        $scope.customViews = [];
+        StudentCustomViewService.getAccessibleViewsList()
+            .then(function(response) {
+                $scope.customViews = response.data;
+                console.log('Custom views loaded:', $scope.customViews);
+            })
+            .catch(function(error) {
+                console.error('Failed to load custom views:', error);
+                $scope.customViews = [];
+            });
     };
     
-    // Load available fields - removed custom view system
+    // Load default view
+    $scope.loadDefaultView = function() {
+        StudentCustomViewService.getDefaultView()
+            .then(function(response) {
+                $scope.currentCustomView = response.data;
+                console.log('Default view loaded:', $scope.currentCustomView);
+            })
+            .catch(function(error) {
+                console.log('No default view found, using system default');
+                $scope.currentCustomView = null;
+            });
+    };
+    
+    // Load available fields
     $scope.loadAvailableFields = function() {
-        // Custom view system has been removed
-        $scope.availableFields = [];
-        $scope.fieldCategories = {};
+        StudentCustomViewService.getAvailableFields()
+            .then(function(response) {
+                $scope.availableFields = response.data;
+                $scope.fieldCategories = $scope.groupFieldsByCategory(response.data);
+                console.log('Fields loaded:', $scope.availableFields);
+            })
+            .catch(function(error) {
+                console.error('Failed to load fields:', error);
+                $scope.availableFields = [];
+                $scope.fieldCategories = {};
+            });
     };
     
     // Utility functions
@@ -180,6 +215,21 @@ angular.module('erpApp').controller('StudentController', ['$scope', '$http', 'St
             age--;
         }
         return age;
+    };
+
+    // Group fields by category
+    $scope.groupFieldsByCategory = function(fields) {
+        var grouped = {};
+        if (fields && fields.length) {
+            fields.forEach(function(field) {
+                var category = field.fieldCategory || field.category || 'Other';
+                if (!grouped[category]) {
+                    grouped[category] = [];
+                }
+                grouped[category].push(field);
+            });
+        }
+        return grouped;
     };
     
     $scope.getGradeDisplayName = function(gradeLevel) {
@@ -270,13 +320,8 @@ angular.module('erpApp').controller('StudentController', ['$scope', '$http', 'St
     };
     
     $scope.resetToDefaultView = function() {
-        // If there's a current custom view that's set as default, we need to unset it
-        if ($scope.currentCustomView && $scope.currentCustomView.isDefault) {
-            // In a full implementation, you might want to call an API to unset the default
-            // For now, we'll just clear the local state
-        }
-        
-        $scope.currentCustomView = null;
+        // Load the default view (if any exists)
+        $scope.loadDefaultView();
     };
     
     // Modal management
@@ -408,7 +453,7 @@ angular.module('erpApp').controller('StudentController', ['$scope', '$http', 'St
     $scope.setAsDefaultView = function(view) {
         $scope.loading = true;
         
-        StudentCustomViewService.setAsDefaultView(view.id)
+        StudentCustomViewService.setAsDefaultView(view)
             .then(function(response) {
                 
                 // Update local state
