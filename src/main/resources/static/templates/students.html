@@ -16,19 +16,19 @@
                             {{currentCustomView ? currentCustomView.viewName : 'Default View'}}
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" ng-click="resetToDefaultView()">
+                            <li><a class="dropdown-item" href="javascript:void(0);" ng-click="resetToDefaultView()">
                                 <i class="fas fa-list me-2"></i>Default View
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li ng-repeat="view in customViews">
-                                <a class="dropdown-item" href="#" ng-click="applyCustomView(view)">
+                                <a class="dropdown-item" href="javascript:void(0);" ng-click="applyCustomView(view)">
                                     <i class="fas fa-{{view.isDefault ? 'star' : 'eye'}} me-2"></i>
                                     {{view.viewName}}
                                     <small class="text-muted">({{view.fieldCount}} fields)</small>
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" ng-click="showCustomViewManager()">
+                            <li><a class="dropdown-item" href="javascript:void(0);" ng-click="showCustomViewManager()">
                                 <i class="fas fa-cogs me-2"></i>Manage Views
                             </a></li>
                         </ul>
@@ -229,12 +229,12 @@
                     <nav aria-label="Students pagination">
                         <ul class="pagination justify-content-center mb-0">
                             <li class="page-item" ng-class="{disabled: pagination.currentPage === 0}">
-                                <a class="page-link" href="#" ng-click="goToPage(0)" aria-label="First">
+                                <a class="page-link" href="javascript:void(0);" ng-click="goToPage(0)" aria-label="First">
                                     <i class="fas fa-angle-double-left"></i>
                                 </a>
                             </li>
                             <li class="page-item" ng-class="{disabled: pagination.currentPage === 0}">
-                                <a class="page-link" href="#" ng-click="goToPage(pagination.currentPage - 1)" aria-label="Previous">
+                                <a class="page-link" href="javascript:void(0);" ng-click="goToPage(pagination.currentPage - 1)" aria-label="Previous">
                                     <i class="fas fa-angle-left"></i>
                                 </a>
                             </li>
@@ -242,16 +242,16 @@
                             <li class="page-item" 
                                 ng-repeat="page in [] | range:(pagination.currentPage > 2 ? pagination.currentPage - 2 : 0):(pagination.currentPage < pagination.totalPages - 3 ? pagination.currentPage + 3 : pagination.totalPages)"
                                 ng-class="{active: page === pagination.currentPage}">
-                                <a class="page-link" href="#" ng-click="goToPage(page)">{{page + 1}}</a>
+                                <a class="page-link" href="javascript:void(0);" ng-click="goToPage(page)">{{page + 1}}</a>
                             </li>
                             
                             <li class="page-item" ng-class="{disabled: pagination.currentPage === pagination.totalPages - 1}">
-                                <a class="page-link" href="#" ng-click="goToPage(pagination.currentPage + 1)" aria-label="Next">
+                                <a class="page-link" href="javascript:void(0);" ng-click="goToPage(pagination.currentPage + 1)" aria-label="Next">
                                     <i class="fas fa-angle-right"></i>
                                 </a>
                             </li>
                             <li class="page-item" ng-class="{disabled: pagination.currentPage === pagination.totalPages - 1}">
-                                <a class="page-link" href="#" ng-click="goToPage(pagination.totalPages - 1)" aria-label="Last">
+                                <a class="page-link" href="javascript:void(0);" ng-click="goToPage(pagination.totalPages - 1)" aria-label="Last">
                                     <i class="fas fa-angle-double-right"></i>
                                 </a>
                             </li>
@@ -471,7 +471,7 @@
                             </button>
                             <ul class="dropdown-menu w-100">
                                 <li ng-repeat="status in statusOptions">
-                                    <a class="dropdown-item" href="#" ng-click="bulkUpdateStatus(status)">
+                                    <a class="dropdown-item" href="javascript:void(0);" ng-click="bulkUpdateStatus(status)">
                                         <span class="badge me-2" ng-class="getStatusBadgeClass(status)">●</span>
                                         {{getStatusDisplayName(status)}}
                                     </a>
