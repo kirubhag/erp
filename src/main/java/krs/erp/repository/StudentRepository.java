@@ -51,4 +51,18 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     
     @Query("SELECT s FROM Student s JOIN s.parentRelations pr WHERE pr.parent.id = :parentId")
     List<Student> findStudentsByParentId(@Param("parentId") Long parentId);
+    
+    // Additional methods for pagination and combined filtering
+    Page<Student> findByGradeLevel(Student.GradeLevel gradeLevel, Pageable pageable);
+    
+    @Query("SELECT s FROM Student s WHERE s.enrollmentStatus = :status AND s.gradeLevel = :gradeLevel")
+    Page<Student> findByEnrollmentStatusAndGradeLevel(
+        @Param("status") Student.EnrollmentStatus status, 
+        @Param("gradeLevel") Student.GradeLevel gradeLevel, 
+        Pageable pageable
+    );
+    
+    @Query("SELECT s FROM Student s WHERE LOWER(s.firstName) LIKE LOWER(CONCAT('%', :name, '%')) " +
+           "OR LOWER(s.lastName) LIKE LOWER(CONCAT('%', :name, '%'))")
+    Page<Student> findByNameContaining(@Param("name") String name, Pageable pageable);
 }

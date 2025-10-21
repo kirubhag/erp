@@ -198,4 +198,49 @@ public class StudentController {
         List<Student> students = studentRepository.findStudentsByParentId(parentId);
         return ResponseEntity.ok(students);
     }
+    
+    // Get students with custom view filtering
+    @GetMapping("/custom-view")
+    public ResponseEntity<Page<Student>> getStudentsWithCustomView(
+            @RequestParam(required = false) Long viewId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String gradeLevel,
+            @RequestParam(required = false) String searchTerm) {
+        
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Student> students;
+        
+        // Apply filters based on parameters
+        if (status != null && gradeLevel != null) {
+            try {
+                Student.EnrollmentStatus enrollmentStatus = Student.EnrollmentStatus.valueOf(status.toUpperCase());
+                Student.GradeLevel grade = Student.GradeLevel.valueOf(gradeLevel.toUpperCase());
+                students = studentRepository.findByEnrollmentStatusAndGradeLevel(enrollmentStatus, grade, pageable);
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest().build();
+            }
+        } else if (status != null) {
+            try {
+                Student.EnrollmentStatus enrollmentStatus = Student.EnrollmentStatus.valueOf(status.toUpperCase());
+                students = studentRepository.findByEnrollmentStatus(enrollmentStatus, pageable);
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest().build();
+            }
+        } else if (gradeLevel != null) {
+            try {
+                Student.GradeLevel grade = Student.GradeLevel.valueOf(gradeLevel.toUpperCase());
+                students = studentRepository.findByGradeLevel(grade, pageable);
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest().build();
+            }
+        } else if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            students = studentRepository.findByNameContaining(searchTerm.trim(), pageable);
+        } else {
+            students = studentRepository.findAll(pageable);
+        }
+        
+        return ResponseEntity.ok(students);
+    }
 }

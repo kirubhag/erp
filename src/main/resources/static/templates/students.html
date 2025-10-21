@@ -10,6 +10,29 @@
                     <p class="text-muted mb-0">Manage student profiles, enrollment, and demographics</p>
                 </div>
                 <div class="d-flex gap-2">
+                    <div class="btn-group">
+                        <button class="btn btn-outline-info dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-eye me-1"></i>
+                            {{currentCustomView ? currentCustomView.viewName : 'Default View'}}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" ng-click="resetToDefaultView()">
+                                <i class="fas fa-list me-2"></i>Default View
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li ng-repeat="view in customViews">
+                                <a class="dropdown-item" href="#" ng-click="applyCustomView(view)">
+                                    <i class="fas fa-{{view.isDefault ? 'star' : 'eye'}} me-2"></i>
+                                    {{view.viewName}}
+                                    <small class="text-muted">({{view.fieldCount}} fields)</small>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" ng-click="showCustomViewManager()">
+                                <i class="fas fa-cogs me-2"></i>Manage Views
+                            </a></li>
+                        </ul>
+                    </div>
                     <button class="btn btn-outline-secondary" ng-click="exportStudents('csv')" 
                             ng-disabled="loading">
                         <i class="fas fa-download me-1"></i>Export CSV
@@ -120,12 +143,17 @@
                                                    ng-checked="selectedStudents.length === students.length && students.length > 0">
                                         </div>
                                     </th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Grade</th>
-                                    <th>Age</th>
-                                    <th>Status</th>
-                                    <th>Enrollment Date</th>
+                                    <th ng-show="isFieldVisible('firstName') || isFieldVisible('lastName')">Name</th>
+                                    <th ng-show="isFieldVisible('studentId')">Student ID</th>
+                                    <th ng-show="isFieldVisible('email')">Email</th>
+                                    <th ng-show="isFieldVisible('phone')">Phone</th>
+                                    <th ng-show="isFieldVisible('gradeLevel')">Grade</th>
+                                    <th ng-show="isFieldVisible('age') || isFieldVisible('dateOfBirth')">Age</th>
+                                    <th ng-show="isFieldVisible('gender')">Gender</th>
+                                    <th ng-show="isFieldVisible('enrollmentStatus')">Status</th>
+                                    <th ng-show="isFieldVisible('enrollmentDate')">Enrollment Date</th>
+                                    <th ng-show="isFieldVisible('city')">City</th>
+                                    <th ng-show="isFieldVisible('emergencyContactName')">Emergency Contact</th>
                                     <th width="150">Actions</th>
                                 </tr>
                             </thead>
@@ -138,26 +166,31 @@
                                                    ng-click="toggleStudentSelection(student)">
                                         </div>
                                     </td>
-                                    <td>
+                                    <td ng-show="isFieldVisible('firstName') || isFieldVisible('lastName')">
                                         <div class="d-flex align-items-center">
                                             <div class="profile-img me-3 bg-primary text-white d-flex align-items-center justify-content-center">
                                                 {{student.firstName.charAt(0)}}{{student.lastName.charAt(0)}}
                                             </div>
                                             <div>
                                                 <div class="fw-bold">{{formatStudentName(student)}}</div>
-                                                <small class="text-muted">ID: {{student.id}}</small>
+                                                <small class="text-muted" ng-show="isFieldVisible('studentId')">ID: {{student.studentId}}</small>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{student.email}}</td>
-                                    <td>{{getGradeDisplayName(student.gradeLevel)}}</td>
-                                    <td>{{calculateAge(student.dateOfBirth)}} years</td>
-                                    <td>
-                                        <span class="badge" ng-class="getStatusBadgeClass(student.status)">
-                                            {{getStatusDisplayName(student.status)}}
+                                    <td ng-show="isFieldVisible('studentId')">{{student.studentId}}</td>
+                                    <td ng-show="isFieldVisible('email')">{{student.email}}</td>
+                                    <td ng-show="isFieldVisible('phone')">{{student.phone}}</td>
+                                    <td ng-show="isFieldVisible('gradeLevel')">{{getGradeDisplayName(student.gradeLevel)}}</td>
+                                    <td ng-show="isFieldVisible('age') || isFieldVisible('dateOfBirth')">{{calculateAge(student.dateOfBirth)}} years</td>
+                                    <td ng-show="isFieldVisible('gender')">{{student.gender}}</td>
+                                    <td ng-show="isFieldVisible('enrollmentStatus')">
+                                        <span class="badge" ng-class="getStatusBadgeClass(student.enrollmentStatus)">
+                                            {{getStatusDisplayName(student.enrollmentStatus)}}
                                         </span>
                                     </td>
-                                    <td>{{formatDate(student.enrollmentDate)}}</td>
+                                    <td ng-show="isFieldVisible('enrollmentDate')">{{formatDate(student.enrollmentDate)}}</td>
+                                    <td ng-show="isFieldVisible('city')">{{student.city}}</td>
+                                    <td ng-show="isFieldVisible('emergencyContactName')">{{student.emergencyContactName}}</td>
                                     <td>
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-sm btn-outline-info" 
@@ -458,9 +491,194 @@
         </div>
     </div>
 
+    <!-- Custom View Manager Modal -->
+    <div class="modal fade show" ng-show="showCustomViewManagerModal" style="display: block;" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-eye me-2"></i>Custom View Manager
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="closeCustomViewManager()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <button class="btn btn-primary" ng-click="showCreateCustomView()">
+                                <i class="fas fa-plus me-1"></i>Create New View
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>View Name</th>
+                                            <th>Description</th>
+                                            <th>Fields</th>
+                                            <th>Type</th>
+                                            <th>Created By</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="view in customViews">
+                                            <td>
+                                                <strong>{{view.viewName}}</strong>
+                                                <i class="fas fa-star text-warning ms-2" ng-show="view.isDefault" title="Default View"></i>
+                                            </td>
+                                            <td>{{view.description || 'No description'}}</td>
+                                            <td>
+                                                <span class="badge bg-info">{{view.fieldCount}} fields</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge" ng-class="view.isPublic ? 'bg-success' : 'bg-secondary'">
+                                                    {{view.isPublic ? 'Public' : 'Private'}}
+                                                </span>
+                                            </td>
+                                            <td>{{view.createdByUser}}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-primary" ng-click="applyCustomView(view); closeCustomViewManager()" title="Apply View">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-secondary" ng-click="showEditCustomView(view)" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-info" ng-click="duplicateCustomView(view)" title="Duplicate">
+                                                        <i class="fas fa-copy"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-warning" ng-click="setAsDefaultView(view)" 
+                                                            ng-show="!view.isDefault" title="Set as Default">
+                                                        <i class="fas fa-star"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger" ng-click="deleteCustomView(view)" 
+                                                            title="Delete">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr ng-show="customViews.length === 0">
+                                            <td colspan="6" class="text-center text-muted py-4">
+                                                <i class="fas fa-eye fa-2x mb-2"></i>
+                                                <div>No custom views found</div>
+                                                <button class="btn btn-primary btn-sm mt-2" ng-click="showCreateCustomView()">
+                                                    Create First View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" ng-click="closeCustomViewManager()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom View Create/Edit Modal -->
+    <div class="modal fade show" ng-show="showCustomViewModal" style="display: block;" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-eye me-2"></i>
+                        {{editingCustomView ? 'Edit Custom View' : 'Create Custom View'}}
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="closeCustomViewModal()"></button>
+                </div>
+                <form ng-submit="saveCustomView()">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label class="form-label">View Name *</label>
+                                <input type="text" class="form-control" ng-model="customViewForm.viewName" 
+                                       required placeholder="Enter view name">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="form-check mt-4">
+                                    <input class="form-check-input" type="checkbox" ng-model="customViewForm.isPublic">
+                                    <label class="form-check-label">Public View</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" rows="2" ng-model="customViewForm.description" 
+                                         placeholder="Enter description (optional)"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="customViewForm.isDefault">
+                                    <label class="form-check-label">Set as Default View</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="form-label">Select Fields to Display *</label>
+                                <div class="border rounded p-3" style="max-height: 400px; overflow-y: auto;">
+                                    <div ng-repeat="(category, fields) in fieldCategories" class="mb-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <h6 class="mb-0 text-primary">{{category}}</h6>
+                                            <div>
+                                                <button type="button" class="btn btn-sm btn-outline-primary" 
+                                                        ng-click="selectAllFields(category)">Select All</button>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" 
+                                                        ng-click="deselectAllFields(category)">Clear</button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6" ng-repeat="field in fields">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" 
+                                                           ng-checked="isFieldSelected(field.fieldName)"
+                                                           ng-click="toggleFieldSelection(field.fieldName)"
+                                                           id="field_{{field.fieldName}}">
+                                                    <label class="form-check-label" for="field_{{field.fieldName}}">
+                                                        {{field.displayName}}
+                                                        <small class="text-muted d-block">{{field.description}}</small>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-muted mt-2">
+                                    Selected: {{customViewForm.selectedFields.length}} field(s)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" ng-click="closeCustomViewModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" ng-disabled="!isValidCustomViewForm() || loading">
+                            <i class="fas fa-save me-1"></i>
+                            {{editingCustomView ? 'Update' : 'Create'}} View
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Loading Spinner -->
     <loading-spinner loading="loading" message="Processing students..."></loading-spinner>
 </div>
 
 <!-- Modal Backdrop -->
-<div class="modal-backdrop fade show" ng-show="showStudentModal || showViewModal || showDeleteModal || showBulkActionModal"></div>
+<div class="modal-backdrop fade show" ng-show="showStudentModal || showViewModal || showDeleteModal || showBulkActionModal || showCustomViewModal || showCustomViewManagerModal"></div>
