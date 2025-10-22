@@ -11,7 +11,7 @@ angular.module('erpApp', ['ngRoute'])
         })
         .when('/students', {
             templateUrl: '/templates/student/students.html',
-            controller: 'MainController',
+            controller: 'StudentController',
             resolve: {
                 loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
                     return ScriptLoaderService.loadModule('students');
@@ -20,7 +20,7 @@ angular.module('erpApp', ['ngRoute'])
         })
         .when('/attendance', {
             templateUrl: '/templates/attendance/attendance.html',
-            controller: 'MainController',
+            controller: 'AttendanceController',
             resolve: {
                 loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
                     return ScriptLoaderService.loadModule('attendance');
@@ -38,7 +38,7 @@ angular.module('erpApp', ['ngRoute'])
         })
         .when('/health', {
             templateUrl: '/templates/health/health.html',
-            controller: 'MainController',
+            controller: 'HealthController',
             resolve: {
                 loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
                     return ScriptLoaderService.loadModule('health');
