@@ -141,35 +141,35 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
     this.getModuleScripts = function(moduleName) {
         var moduleMap = {
             'settings': [
-                '/js/modules/settings.module.js?v=1',
-                '/js/settings/settings.service.js?v=1',
-                '/js/settings/organization.service.js?v=1',
-                '/js/email/email.service.js?v=1',
-                '/js/settings/settings.controller.js?v=1',
-                '/js/settings/organization.controller.js?v=1',
-                '/js/email/email-template.controller.js?v=1',
-                '/js/email/email-log.controller.js?v=1',
-                '/js/email/entity-email.controller.js?v=1'
+                '/js/modules/settings.module.js?v=2',
+                '/js/settings/settings.service.js?v=2',
+                '/js/settings/organization.service.js?v=2',
+                '/js/email/email.service.js?v=2',
+                '/js/settings/settings.controller.js?v=2',
+                '/js/settings/organization.controller.js?v=2',
+                '/js/email/email-template.controller.js?v=2',
+                '/js/email/email-log.controller.js?v=2',
+                '/js/email/entity-email.controller.js?v=2'
             ],
             'students': [
-                '/js/modules/students.module.js?v=1',
-                '/js/student/student.service.js?v=3',
-                '/js/student/student.controller.js?v=4'
+                '/js/modules/students.module.js?v=2',
+                '/js/student/student.service.js?v=4',
+                '/js/student/student.controller.js?v=5'
             ],
             'parents': [
-                '/js/modules/parents.module.js?v=1',
-                '/js/parent/parent.service.js?v=2',
-                '/js/parent/parent.controller.js?v=2'
+                '/js/modules/parents.module.js?v=2',
+                '/js/parent/parent.service.js?v=3',
+                '/js/parent/parent.controller.js?v=3'
             ],
             'attendance': [
-                '/js/modules/attendance.module.js?v=1',
-                '/js/attendance/attendance.service.js?v=3',
-                '/js/attendance/attendance.controller.js?v=3'
+                '/js/modules/attendance.module.js?v=2',
+                '/js/attendance/attendance.service.js?v=4',
+                '/js/attendance/attendance.controller.js?v=4'
             ],
             'health': [
-                '/js/modules/health.module.js?v=1',
-                '/js/health/health.service.js?v=2',
-                '/js/health/health.controller.js?v=2'
+                '/js/modules/health.module.js?v=2',
+                '/js/health/health.service.js?v=3',
+                '/js/health/health.controller.js?v=3'
             ]
         };
 
