@@ -140,7 +140,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" 
                                                    ng-click="selectAllStudents()"
-                                                   ng-checked="selectedStudents.length === students.length && students.length > 0">
+                                                   ng-checked="students && students.length > 0 && selectedStudents.length === students.length"
                                         </div>
                                     </th>
                                     <th ng-show="isFieldVisible('firstName') || isFieldVisible('lastName')">Name</th>

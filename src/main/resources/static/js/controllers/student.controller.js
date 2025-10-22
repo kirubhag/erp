@@ -298,11 +298,31 @@ angular.module('erpApp').controller('StudentController', ['$scope', '$http', 'St
     };
     
     $scope.selectAllStudents = function() {
-        if ($scope.selectedStudents.length === $scope.students.length) {
+        console.log('selectAllStudents called');
+        console.log('Current students length:', $scope.students ? $scope.students.length : 0);
+        console.log('Current selectedStudents length:', $scope.selectedStudents ? $scope.selectedStudents.length : 0);
+        
+        if (!$scope.students || $scope.students.length === 0) {
+            console.log('No students available');
+            return;
+        }
+        
+        // Check if all students are already selected
+        var allSelected = $scope.students.every(function(student) {
+            return $scope.isStudentSelected(student);
+        });
+        
+        if (allSelected) {
+            // If all are selected, deselect all
+            console.log('Deselecting all students');
             $scope.selectedStudents = [];
         } else {
+            // Select all students
+            console.log('Selecting all students');
             $scope.selectedStudents = angular.copy($scope.students);
         }
+        
+        console.log('Updated selectedStudents length:', $scope.selectedStudents.length);
     };
     
     $scope.hasSelectedStudents = function() {

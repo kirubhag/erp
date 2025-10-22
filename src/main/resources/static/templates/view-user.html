@@ -1,0 +1,121 @@
+<div class="card">
+  <div class="card-header bg-success text-white">
+    <i class="fas fa-eye me-2"></i>View User Settings
+    <div class="float-end">
+      <button type="button" class="btn btn-sm btn-light" ng-click="setActiveSettingsTab('user')">
+        <i class="fas fa-edit me-1"></i>Edit
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div ng-if="!settings || Object.keys(settings).length === 0">
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i>
+        No user settings available. <a href="javascript:void(0);" ng-click="setActiveSettingsTab('user')">Click here to configure your preferences.</a>
+      </div>
+    </div>
+    
+    <div ng-if="settings && Object.keys(settings).length > 0">
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h6 class="text-muted mb-2">Language</h6>
+          <p class="mb-0">
+            <i class="fas fa-language me-1"></i>
+            <span ng-repeat="lang in availableLanguages" ng-if="lang.value === settings.language">
+              {{lang.label}}
+            </span>
+            <span ng-if="!settings.language" class="text-muted">Not set</span>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="text-muted mb-2">Theme</h6>
+          <p class="mb-0">
+            <i class="fas fa-palette me-1"></i>
+            <span ng-repeat="theme in availableThemes" ng-if="theme.value === settings.theme">
+              {{theme.label}}
+            </span>
+            <span ng-if="!settings.theme" class="text-muted">Not set</span>
+          </p>
+        </div>
+      </div>
+      
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h6 class="text-muted mb-2">Timezone</h6>
+          <p class="mb-0">
+            <i class="fas fa-clock me-1"></i>
+            <span ng-repeat="tz in availableTimezones" ng-if="tz.value === settings.timezone">
+              {{tz.label}}
+            </span>
+            <span ng-if="!settings.timezone" class="text-muted">Not set</span>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="text-muted mb-2">Date Format</h6>
+          <p class="mb-0">
+            <i class="fas fa-calendar me-1"></i>
+            {{settings.dateFormat || 'Not set'}}
+          </p>
+        </div>
+      </div>
+      
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h6 class="text-muted mb-2">Currency</h6>
+          <p class="mb-0">
+            <i class="fas fa-dollar-sign me-1"></i>
+            <span ng-repeat="curr in availableCurrencies" ng-if="curr.value === settings.currency">
+              {{curr.label}}
+            </span>
+            <span ng-if="!settings.currency" class="text-muted">Not set</span>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="text-muted mb-2">Items per Page</h6>
+          <p class="mb-0">
+            <i class="fas fa-list me-1"></i>
+            {{settings.itemsPerPage || 'Default'}}
+          </p>
+        </div>
+      </div>
+      
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <h6 class="text-muted mb-2">Notifications</h6>
+          <div class="d-flex gap-3">
+            <div ng-if="settings.notifications">
+              <span class="badge" ng-class="settings.notifications.email ? 'bg-success' : 'bg-secondary'">
+                <i class="fas fa-envelope me-1"></i>Email: {{settings.notifications.email ? 'Enabled' : 'Disabled'}}
+              </span>
+              <span class="badge" ng-class="settings.notifications.sms ? 'bg-success' : 'bg-secondary'">
+                <i class="fas fa-sms me-1"></i>SMS: {{settings.notifications.sms ? 'Enabled' : 'Disabled'}}
+              </span>
+            </div>
+            <span ng-if="!settings.notifications" class="text-muted">Not configured</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row mb-4" ng-if="settings.showAnimations !== undefined || settings.compactMode !== undefined">
+        <div class="col-md-12">
+          <h6 class="text-muted mb-2">UI Preferences</h6>
+          <div class="d-flex gap-3">
+            <span class="badge" ng-class="settings.showAnimations ? 'bg-primary' : 'bg-secondary'" ng-if="settings.showAnimations !== undefined">
+              <i class="fas fa-magic me-1"></i>Animations: {{settings.showAnimations ? 'On' : 'Off'}}
+            </span>
+            <span class="badge" ng-class="settings.compactMode ? 'bg-primary' : 'bg-secondary'" ng-if="settings.compactMode !== undefined">
+              <i class="fas fa-compress me-1"></i>Compact Mode: {{settings.compactMode ? 'On' : 'Off'}}
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row mb-4" ng-if="settings.customSetting">
+        <div class="col-md-12">
+          <h6 class="text-muted mb-2">Custom Setting</h6>
+          <p class="mb-0">{{settings.customSetting}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="erpApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Management - ERP System</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        .organization-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        .organization-card {
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .organization-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        .organization-type {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            color: #495057;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .btn-organization {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+        }
+        .btn-organization:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+            color: white;
+        }
+        .loading-spinner {
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        .organization-stats {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .pagination-custom {
+            margin-top: 2rem;
+        }
+        .search-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .organization-grid {
+            display: grid;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            .organization-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 1200px) {
+            .organization-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body ng-controller="OrganizationController">
+    
+    <!-- Header -->
+    <div class="organization-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="mb-2">
+                        <i class="fas fa-building me-3"></i>
+                        Organization Management
+                    </h1>
+                    <p class="mb-0 opacity-75">Manage organizational information and settings</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <button class="btn btn-light btn-lg" ng-click="createOrganization()">
+                        <i class="fas fa-plus me-2"></i>
+                        Add Organization
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <!-- Success/Error Messages -->
+        <div ng-show="showSuccessMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            {{successMessage}}
+            <button type="button" class="btn-close" ng-click="clearMessages()"></button>
+        </div>
+        
+        <div ng-show="showErrorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {{errorMessage}}
+            <button type="button" class="btn-close" ng-click="clearMessages()"></button>
+        </div>
+
+        <!-- Organization Form Modal -->
+        <div class="modal fade" id="organizationModal" tabindex="-1" ng-class="{'show d-block': isEditing}" style="background-color: rgba(0,0,0,0.5);" ng-show="isEditing">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-building me-2"></i>
+                            {{currentOrganization.id ? 'Edit Organization' : 'Create New Organization'}}
+                        </h5>
+                        <button type="button" class="btn-close" ng-click="cancelEdit()"></button>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <form name="organizationForm" novalidate>
+                            
+                            <!-- Basic Information Section -->
+                            <div class="form-section">
+                                <h6 class="section-title">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Basic Information
+                                </h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Organization Name *</label>
+                                            <input type="text" class="form-control" 
+                                                   ng-model="currentOrganization.name"
+                                                   ng-class="{'is-invalid': formErrors.name}"
+                                                   placeholder="Enter organization name"
+                                                   ng-change="generateCodeFromName()">
+                                            <div class="invalid-feedback" ng-show="formErrors.name">
+                                                {{formErrors.name}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Organization Code *</label>
+                                            <input type="text" class="form-control" 
+                                                   ng-model="currentOrganization.code"
+                                                   ng-class="{'is-invalid': formErrors.code}"
+                                                   placeholder="Enter unique code">
+                                            <div class="invalid-feedback" ng-show="formErrors.code">
+                                                {{formErrors.code}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Organization Type *</label>
+                                            <select class="form-select" 
+                                                    ng-model="currentOrganization.type"
+                                                    ng-class="{'is-invalid': formErrors.type}">
+                                                <option value="">Select Type</option>
+                                                <option ng-repeat="type in organizationTypes" value="{{type}}">{{type}}</option>
+                                            </select>
+                                            <div class="invalid-feedback" ng-show="formErrors.type">
+                                                {{formErrors.type}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Established Year</label>
+                                            <input type="number" class="form-control" 
+                                                   ng-model="currentOrganization.establishedYear"
+                                                   ng-class="{'is-invalid': formErrors.establishedYear}"
+                                                   placeholder="e.g., 2020">
+                                            <div class="invalid-feedback" ng-show="formErrors.establishedYear">
+                                                {{formErrors.establishedYear}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                            <textarea class="form-control" rows="3" 
+                                                      ng-model="currentOrganization.description"
+                                                      placeholder="Enter organization description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contact Information Section -->
+                            <div class="form-section">
+                                <h6 class="section-title">
+                                    <i class="fas fa-phone me-2"></i>
+                                    Contact Information
+                                </h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" 
+                                                   ng-model="currentOrganization.email"
+                                                   ng-class="{'is-invalid': formErrors.email}"
+                                                   placeholder="contact@organization.com">
+                                            <div class="invalid-feedback" ng-show="formErrors.email">
+                                                {{formErrors.email}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Phone</label>
+                                            <input type="tel" class="form-control" 
+                                                   ng-model="currentOrganization.phone"
+                                                   placeholder="+1 (555) 123-4567">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Fax</label>
+                                            <input type="tel" class="form-control" 
+                                                   ng-model="currentOrganization.fax"
+                                                   placeholder="+1 (555) 123-4568">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Website</label>
+                                            <input type="url" class="form-control" 
+                                                   ng-model="currentOrganization.website"
+                                                   ng-class="{'is-invalid': formErrors.website}"
+                                                   placeholder="https://www.organization.com">
+                                            <div class="invalid-feedback" ng-show="formErrors.website">
+                                                {{formErrors.website}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Address Information Section -->
+                            <div class="form-section">
+                                <h6 class="section-title">
+                                    <i class="fas fa-map-marker-alt me-2"></i>
+                                    Address Information
+                                </h6>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Street Address</label>
+                                            <input type="text" class="form-control" 
+                                                   ng-model="currentOrganization.streetAddress"
+                                                   placeholder="123 Main Street">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">City</label>
+                                            <input type="text" class="form-control" 
+                                                   ng-model="currentOrganization.city"
+                                                   placeholder="New York">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">State/Province</label>
+                                            <input type="text" class="form-control" 
+                                                   ng-model="currentOrganization.state"
+                                                   placeholder="NY">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Postal Code</label>
+                                            <input type="text" class="form-control" 
+                                                   ng-model="currentOrganization.postalCode"
+                                                   placeholder="10001">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Country</label>
+                                            <input type="text" class="form-control" 
+                                                   ng-model="currentOrganization.country"
+                                                   placeholder="United States">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Registration & Settings Section -->
+                            <div class="form-section">
+                                <h6 class="section-title">
+                                    <i class="fas fa-cog me-2"></i>
+                                    Registration & Settings
+                                </h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Registration Number</label>
+                                            <input type="text" class="form-control" 
+                                                   ng-model="currentOrganization.registrationNumber"
+                                                   placeholder="REG123456789">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Tax ID</label>
+                                            <input type="text" class="form-control" 
+                                                   ng-model="currentOrganization.taxId"
+                                                   placeholder="12-3456789">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Accreditation</label>
+                                            <input type="text" class="form-control" 
+                                                   ng-model="currentOrganization.accreditation"
+                                                   placeholder="NAAC A+">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Academic Year Format</label>
+                                            <input type="text" class="form-control" 
+                                                   ng-model="currentOrganization.academicYearFormat"
+                                                   placeholder="YYYY-YYYY">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Default Language</label>
+                                            <select class="form-select" ng-model="currentOrganization.defaultLanguage">
+                                                <option value="en">English</option>
+                                                <option value="es">Spanish</option>
+                                                <option value="fr">French</option>
+                                                <option value="de">German</option>
+                                                <option value="hi">Hindi</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Default Currency</label>
+                                            <select class="form-select" ng-model="currentOrganization.defaultCurrency">
+                                                <option value="USD">USD</option>
+                                                <option value="EUR">EUR</option>
+                                                <option value="GBP">GBP</option>
+                                                <option value="INR">INR</option>
+                                                <option value="CAD">CAD</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Timezone</label>
+                                            <select class="form-select" ng-model="currentOrganization.timezone">
+                                                <option value="UTC">UTC</option>
+                                                <option value="America/New_York">Eastern Time</option>
+                                                <option value="America/Chicago">Central Time</option>
+                                                <option value="America/Denver">Mountain Time</option>
+                                                <option value="America/Los_Angeles">Pacific Time</option>
+                                                <option value="Europe/London">London</option>
+                                                <option value="Asia/Kolkata">India Standard Time</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Logo URL</label>
+                                            <input type="url" class="form-control" 
+                                                   ng-model="currentOrganization.logoUrl"
+                                                   placeholder="https://www.organization.com/logo.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" ng-click="cancelEdit()" ng-disabled="isLoading">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </button>
+                        <button type="button" class="btn btn-organization" ng-click="saveOrganization()" ng-disabled="isLoading">
+                            <i class="fas fa-spinner fa-spin loading-spinner" ng-show="isLoading"></i>
+                            <i class="fas fa-save me-2" ng-hide="isLoading"></i>
+                            {{currentOrganization.id ? 'Update Organization' : 'Create Organization'}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section" ng-hide="isEditing">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" class="form-control" 
+                               ng-model="searchTerm" 
+                               ng-keyup="$event.keyCode == 13 && searchOrganizations()"
+                               placeholder="Search by name, code, type, or location...">
+                        <button class="btn btn-outline-secondary" ng-click="searchOrganizations()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-outline-secondary" ng-click="clearSearch()" ng-show="searchTerm">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="organization-stats">
+                        <small class="text-muted">
+                            <i class="fas fa-building me-2"></i>
+                            Total Organizations: {{totalElements}}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div ng-show="isLoading && !isEditing" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Loading organizations...</p>
+        </div>
+
+        <!-- Organizations Grid -->
+        <div class="organization-grid" ng-hide="isLoading || isEditing">
+            <div class="organization-card card" ng-repeat="org in organizations">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h5 class="card-title mb-1">{{org.name}}</h5>
+                            <span class="organization-type">{{org.type}}</span>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                    type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" ng-click="editOrganization(org)">
+                                    <i class="fas fa-edit me-2"></i>Edit
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="#" ng-click="deleteOrganization(org)">
+                                    <i class="fas fa-trash me-2"></i>Delete
+                                </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <small class="text-muted">Code:</small><br>
+                            <strong>{{org.code}}</strong>
+                        </div>
+                        <div class="col-6" ng-show="org.establishedYear">
+                            <small class="text-muted">Established:</small><br>
+                            <strong>{{org.establishedYear}}</strong>
+                        </div>
+                        <div class="col-6" ng-show="org.email">
+                            <small class="text-muted">Email:</small><br>
+                            <a href="mailto:{{org.email}}" class="text-decoration-none">{{org.email}}</a>
+                        </div>
+                        <div class="col-6" ng-show="org.phone">
+                            <small class="text-muted">Phone:</small><br>
+                            <a href="tel:{{org.phone}}" class="text-decoration-none">{{org.phone}}</a>
+                        </div>
+                    </div>
+                    
+                    <div ng-show="org.streetAddress || org.city || org.state || org.country" class="mb-3">
+                        <small class="text-muted">Address:</small><br>
+                        <span ng-show="org.streetAddress">{{org.streetAddress}}</span>
+                        <span ng-show="org.streetAddress && (org.city || org.state)">, </span>
+                        <span ng-show="org.city">{{org.city}}</span>
+                        <span ng-show="org.city && org.state">, </span>
+                        <span ng-show="org.state">{{org.state}} </span>
+                        <span ng-show="org.postalCode">{{org.postalCode}}</span>
+                        <span ng-show="org.country"><br>{{org.country}}</span>
+                    </div>
+                    
+                    <div ng-show="org.description" class="text-muted">
+                        <small>{{org.description | limitTo:100}}{{org.description.length > 100 ? '...' : ''}}</small>
+                    </div>
+                    
+                    <div ng-show="org.website" class="mt-2">
+                        <a href="{{org.website}}" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-external-link-alt me-1"></i>Visit Website
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Results -->
+        <div ng-show="!isLoading && organizations.length === 0 && !isEditing" class="text-center py-5">
+            <div class="mb-4">
+                <i class="fas fa-building fa-3x text-muted"></i>
+            </div>
+            <h4 class="text-muted">No Organizations Found</h4>
+            <p class="text-muted mb-4">
+                <span ng-show="searchTerm">No organizations match your search criteria.</span>
+                <span ng-hide="searchTerm">Get started by adding your first organization.</span>
+            </p>
+            <button class="btn btn-organization btn-lg" ng-click="createOrganization()">
+                <i class="fas fa-plus me-2"></i>Add First Organization
+            </button>
+        </div>
+
+        <!-- Pagination -->
+        <nav class="pagination-custom" ng-show="totalPages > 1 && !isEditing">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" ng-class="{'disabled': currentPage === 0}">
+                    <a class="page-link" href="#" ng-click="previousPage()">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+                <li class="page-item" ng-repeat="page in getPageNumbers()" 
+                    ng-class="{'active': page === currentPage}">
+                    <a class="page-link" href="#" ng-click="goToPage(page)">{{page + 1}}</a>
+                </li>
+                <li class="page-item" ng-class="{'disabled': currentPage === totalPages - 1}">
+                    <a class="page-link" href="#" ng-click="nextPage()">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+            <div class="text-center mt-2">
+                <small class="text-muted">
+                    Showing {{currentPage * pageSize + 1}} to 
+                    {{Math.min((currentPage + 1) * pageSize, totalElements)}} 
+                    of {{totalElements}} organizations
+                </small>
+            </div>
+        </nav>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    
+    <!-- ERP App Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/services/organization.service.js"></script>
+    <script src="js/controllers/organization.controller.js"></script>
+
+</body>
+</html>

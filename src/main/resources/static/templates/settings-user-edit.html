@@ -1,0 +1,88 @@
+<div class="container-fluid mt-3">
+  <!-- Breadcrumb Navigation -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#!/">Home</a></li>
+      <li class="breadcrumb-item"><a href="#!/settings">Settings</a></li>
+      <li class="breadcrumb-item"><a href="#!/settings/user">User</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Edit</li>
+    </ol>
+  </nav>
+
+  <div class="card">
+    <div class="card-header bg-warning text-dark">
+      <i class="fas fa-edit me-2"></i>Edit User Settings
+      <div class="float-end">
+        <a href="#!/settings/user" class="btn btn-sm btn-light">
+          <i class="fas fa-eye me-1"></i>View
+        </a>
+      </div>
+    </div>
+    <div class="card-body">
+      <form name="userSettingsForm" ng-submit="saveSettings()" novalidate>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="language" class="form-label">Language</label>
+            <select class="form-select" id="language" ng-model="settings.language" ng-options="lang.value as lang.label for lang in availableLanguages" required></select>
+          </div>
+          <div class="col-md-6">
+            <label for="theme" class="form-label">Theme</label>
+            <select class="form-select" id="theme" ng-model="settings.theme" ng-options="theme.value as theme.label for theme in availableThemes" required></select>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="timezone" class="form-label">Timezone</label>
+            <select class="form-select" id="timezone" ng-model="settings.timezone" ng-options="tz.value as tz.label for tz in availableTimezones" required></select>
+          </div>
+          <div class="col-md-6">
+            <label for="dateFormat" class="form-label">Date Format</label>
+            <input type="text" class="form-control" id="dateFormat" ng-model="settings.dateFormat" placeholder="e.g. YYYY-MM-DD" required>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="currency" class="form-label">Currency</label>
+            <select class="form-select" id="currency" ng-model="settings.currency" ng-options="curr.value as curr.label for curr in availableCurrencies" required></select>
+          </div>
+          <div class="col-md-6">
+            <label for="customSetting" class="form-label">Custom Setting</label>
+            <input type="text" class="form-control" id="customSetting" ng-model="settings.customSetting" placeholder="Any custom value">
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label class="form-label">Notifications</label>
+            <div class="d-flex gap-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="emailNotif" ng-model="settings.notifications.email">
+                <label class="form-check-label" for="emailNotif">
+                  <i class="fas fa-envelope me-1"></i>Email Notifications
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="smsNotif" ng-model="settings.notifications.sms">
+                <label class="form-check-label" for="smsNotif">
+                  <i class="fas fa-sms me-1"></i>SMS Notifications
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-12 text-end">
+            <button type="submit" class="btn btn-success me-2">
+              <i class="fas fa-save me-1"></i>Save User Settings
+            </button>
+            <button type="button" class="btn btn-secondary me-2" ng-click="resetSettings()">
+              <i class="fas fa-undo me-1"></i>Reset
+            </button>
+            <a href="#!/settings/user" class="btn btn-outline-secondary">
+              <i class="fas fa-times me-1"></i>Cancel
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

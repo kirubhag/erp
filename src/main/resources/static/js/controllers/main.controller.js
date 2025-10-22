@@ -15,6 +15,8 @@ angular.module('erpApp').controller('MainController', [
                 $scope.activeTab = 'parents';
             } else if (currentPath === '/health') {
                 $scope.activeTab = 'health';
+            } else if (currentPath === '/settings') {
+                $scope.activeTab = 'settings';
             } else {
                 $scope.activeTab = 'dashboard';
             }
@@ -49,6 +51,8 @@ angular.module('erpApp').controller('MainController', [
                 $scope.activeTab = 'parents';
             } else if (nextPath === '/health') {
                 $scope.activeTab = 'health';
+            } else if (nextPath === '/settings') {
+                $scope.activeTab = 'settings';
             } else {
                 $scope.activeTab = 'dashboard';
             }

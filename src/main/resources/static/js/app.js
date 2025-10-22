@@ -6,24 +6,44 @@ angular.module('erpApp', ['ngRoute'])
     
     $routeProvider
         .when('/', {
-            template: '<div></div>', // Empty template since content is managed by tabs
+            templateUrl: '/templates/dashboard.html',
             controller: 'MainController'
         })
         .when('/students', {
-            template: '<div></div>', // Empty template since content is managed by tabs
+            templateUrl: '/templates/students.html',
             controller: 'MainController'
         })
         .when('/attendance', {
-            template: '<div></div>', // Empty template since content is managed by tabs
+            templateUrl: '/templates/attendance.html',
             controller: 'MainController'
         })
         .when('/parents', {
-            template: '<div></div>', // Empty template since content is managed by tabs
-            controller: 'MainController'
+            templateUrl: '/templates/parents.html',
+            controller: 'ParentController'
         })
         .when('/health', {
-            template: '<div></div>', // Empty template since content is managed by tabs
+            templateUrl: '/templates/health.html',
             controller: 'MainController'
+        })
+        .when('/settings', {
+            templateUrl: '/templates/settings-dashboard.html',
+            controller: 'SettingsController'
+        })
+        .when('/settings/organisation', {
+            templateUrl: '/templates/settings-organization-view.html',
+            controller: 'SettingsController'
+        })
+        .when('/settings/organisation/edit', {
+            templateUrl: '/templates/settings-organization-edit.html',
+            controller: 'SettingsController'
+        })
+        .when('/settings/user', {
+            templateUrl: '/templates/settings-user-view.html',
+            controller: 'SettingsController'
+        })
+        .when('/settings/user/edit', {
+            templateUrl: '/templates/settings-user-edit.html',
+            controller: 'SettingsController'
         })
         .otherwise({
             redirectTo: '/'
