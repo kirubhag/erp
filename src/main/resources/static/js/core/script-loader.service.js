@@ -50,11 +50,15 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
         // Load multiple scripts in sequence (not parallel)
     this.loadScripts = function(scripts) {
         var self = this;
+        var deferred = $q.defer();
+        
+        console.log('📋 Loading scripts sequentially:', scripts);
         
         // Try to get performance monitor (may not be available during bootstrap)
+        var performanceMonitor = null;
         try {
             var $injector = angular.injector(['erpApp']);
-            var performanceMonitor = $injector.get('PerformanceMonitorService');
+            performanceMonitor = $injector.get('PerformanceMonitorService');
             if (performanceMonitor && scripts.length > 0) {
                 performanceMonitor.startTimer('scripts-loading-' + scripts.length);
             }
@@ -62,10 +66,11 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
             // Performance monitor not available yet
         }
         
-        // Load scripts sequentially to ensure proper order
+        // Load scripts one by one sequentially
         function loadNextScript(index) {
             if (index >= scripts.length) {
-                // All scripts loaded
+                // All scripts loaded successfully
+                console.log('🎉 All scripts loaded successfully');
                 try {
                     if (performanceMonitor && scripts.length > 0) {
                         performanceMonitor.endTimer('scripts-loading-' + scripts.length);
@@ -73,18 +78,28 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
                 } catch(e) {
                     // Performance monitor not available
                 }
-                return $q.resolve();
+                deferred.resolve();
+                return;
             }
             
-            return self.loadScript(scripts[index]).then(function() {
-                // Wait a bit between each script to ensure proper execution
-                return $timeout(function() {
-                    return loadNextScript(index + 1);
-                }, 50);
+            var scriptUrl = scripts[index];
+            console.log('⏳ Loading script ' + (index + 1) + '/' + scripts.length + ':', scriptUrl);
+            
+            self.loadScript(scriptUrl).then(function() {
+                console.log('✅ Script ' + (index + 1) + '/' + scripts.length + ' loaded:', scriptUrl);
+                // Wait before loading next script to ensure proper execution order
+                $timeout(function() {
+                    loadNextScript(index + 1);
+                }, 100); // Increased to 100ms for better reliability
+            }).catch(function(error) {
+                console.error('❌ Failed to load script:', scriptUrl, error);
+                deferred.reject(error);
             });
         }
         
-        return loadNextScript(0);
+        // Start loading from first script
+        loadNextScript(0);
+        return deferred.promise;
     };
 
     // Load scripts for a specific module/entity
@@ -127,7 +142,7 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
                     
                     console.log('✅ Module loading completed:', moduleName);
                     return results;
-                }, 500); // Increased delay to 500ms for better reliability
+                }, 1000); // Increased delay to 1000ms for better reliability with sequential loading
             });
         }
         return $q.resolve();
