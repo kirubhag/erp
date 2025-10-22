@@ -47,9 +47,8 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
         return deferred.promise;
     };
 
-        // Load multiple scripts in sequence
+        // Load multiple scripts in sequence (not parallel)
     this.loadScripts = function(scripts) {
-        var promises = [];
         var self = this;
         
         // Try to get performance monitor (may not be available during bootstrap)
@@ -63,21 +62,29 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
             // Performance monitor not available yet
         }
         
-        scripts.forEach(function(script) {
-            promises.push(self.loadScript(script));
-        });
-        
-        return $q.all(promises).then(function(results) {
-            // Record completion time
-            try {
-                if (performanceMonitor && scripts.length > 0) {
-                    performanceMonitor.endTimer('scripts-loading-' + scripts.length);
+        // Load scripts sequentially to ensure proper order
+        function loadNextScript(index) {
+            if (index >= scripts.length) {
+                // All scripts loaded
+                try {
+                    if (performanceMonitor && scripts.length > 0) {
+                        performanceMonitor.endTimer('scripts-loading-' + scripts.length);
+                    }
+                } catch(e) {
+                    // Performance monitor not available
                 }
-            } catch(e) {
-                // Performance monitor not available
+                return $q.resolve();
             }
-            return results;
-        });
+            
+            return self.loadScript(scripts[index]).then(function() {
+                // Wait a bit between each script to ensure proper execution
+                return $timeout(function() {
+                    return loadNextScript(index + 1);
+                }, 50);
+            });
+        }
+        
+        return loadNextScript(0);
     };
 
     // Load scripts for a specific module/entity
@@ -89,28 +96,38 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
         if (moduleScripts.length > 0) {
             return this.loadScripts(moduleScripts).then(function(results) {
                 console.log('📦 Scripts loaded, waiting for registration...');
-                // Add a longer delay to ensure scripts are fully executed and registered
+                
+                // Wait for controllers to be properly registered
                 return $timeout(function() {
-                    console.log('✅ Module loaded and registered:', moduleName);
+                    // Verify controller registration based on module
+                    var expectedController = '';
+                    switch(moduleName) {
+                        case 'students': expectedController = 'StudentController'; break;
+                        case 'settings': expectedController = 'SettingsController'; break;
+                        case 'parents': expectedController = 'ParentController'; break;
+                        case 'attendance': expectedController = 'AttendanceController'; break;
+                        case 'health': expectedController = 'HealthController'; break;
+                    }
                     
-                    // Verify controller is registered for debugging
-                    if (moduleName === 'students') {
+                    if (expectedController) {
                         try {
                             var $injector = angular.element(document.body).injector();
                             if ($injector && $injector.has('$controller')) {
                                 var $controller = $injector.get('$controller');
-                                console.log('🔍 Checking if StudentController is registered...');
-                                // This will throw an error if controller is not found
-                                $controller('StudentController', {$scope: {}});
-                                console.log('✅ StudentController is registered!');
+                                console.log('🔍 Verifying controller registration:', expectedController);
+                                
+                                // Try to get the controller constructor - this will fail if not registered
+                                var controllerConstructor = $injector.get(expectedController + 'Controller');
+                                console.log('✅ Controller verified:', expectedController);
                             }
                         } catch (e) {
-                            console.error('❌ StudentController registration check failed:', e);
+                            console.warn('⚠️ Controller verification failed (this might be normal):', expectedController, e.message);
                         }
                     }
                     
+                    console.log('✅ Module loading completed:', moduleName);
                     return results;
-                }, 300); // Increased delay from 100ms to 300ms
+                }, 500); // Increased delay to 500ms for better reliability
             });
         }
         return $q.resolve();
