@@ -5,13 +5,17 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
 
     // Load a single script file
     this.loadScript = function(src) {
+        console.log('📥 Loading script:', src);
+        
         // Return existing promise if already loading
         if (loadingPromises[src]) {
+            console.log('⏳ Script already loading:', src);
             return loadingPromises[src];
         }
 
         // Return resolved promise if already loaded
         if (loadedScripts[src]) {
+            console.log('✅ Script already loaded:', src);
             return $q.resolve();
         }
 
@@ -23,14 +27,16 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
         script.src = src;
 
         script.onload = function() {
+            console.log('✅ Script loaded successfully:', src);
             loadedScripts[src] = true;
             delete loadingPromises[src];
             $timeout(function() {
                 deferred.resolve();
-            });
+            }, 50); // Small delay to allow script execution
         };
 
         script.onerror = function() {
+            console.error('❌ Script failed to load:', src);
             delete loadingPromises[src];
             $timeout(function() {
                 deferred.reject('Failed to load script: ' + src);
@@ -76,14 +82,35 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
 
     // Load scripts for a specific module/entity
     this.loadModule = function(moduleName) {
+        console.log('🔄 Loading module:', moduleName);
         var moduleScripts = this.getModuleScripts(moduleName);
+        console.log('📋 Scripts to load:', moduleScripts);
+        
         if (moduleScripts.length > 0) {
             return this.loadScripts(moduleScripts).then(function(results) {
-                // Add a small delay to ensure scripts are fully executed and registered
+                console.log('📦 Scripts loaded, waiting for registration...');
+                // Add a longer delay to ensure scripts are fully executed and registered
                 return $timeout(function() {
-                    console.log('✅ Module loaded:', moduleName);
+                    console.log('✅ Module loaded and registered:', moduleName);
+                    
+                    // Verify controller is registered for debugging
+                    if (moduleName === 'students') {
+                        try {
+                            var $injector = angular.element(document.body).injector();
+                            if ($injector && $injector.has('$controller')) {
+                                var $controller = $injector.get('$controller');
+                                console.log('🔍 Checking if StudentController is registered...');
+                                // This will throw an error if controller is not found
+                                $controller('StudentController', {$scope: {}});
+                                console.log('✅ StudentController is registered!');
+                            }
+                        } catch (e) {
+                            console.error('❌ StudentController registration check failed:', e);
+                        }
+                    }
+                    
                     return results;
-                }, 100);
+                }, 300); // Increased delay from 100ms to 300ms
             });
         }
         return $q.resolve();
