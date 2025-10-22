@@ -88,9 +88,12 @@
         <div ng-view></div>
 
         <!-- Loading Spinner -->
-        <div class="loading-overlay" ng-show="loading">
+        <div class="loading-overlay" ng-show="loading || moduleLoading">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="mt-2 text-primary" ng-show="moduleLoading">
+                <small>Loading page resources...</small>
             </div>
         </div>
 
@@ -115,22 +118,13 @@
     <script src="/vendor/angularjs/angular.min.js"></script>
     <script src="/vendor/angularjs/angular-route.min.js"></script>
     
-    <!-- Application JS Files -->
+    <!-- Core Application JS Files -->
     <script src="/js/app.js?v=3"></script>
-    <script src="/js/services/api.js?v=3"></script>
-    <script src="/js/services/student.service.js?v=3"></script>
-    <!-- Custom view service now integrated in controller files -->
-    <script src="/js/services/attendance.service.js?v=3"></script>
-    <script src="/js/services/parent.service.js?v=2"></script>
-    <script src="/js/services/health.service.js?v=2"></script>
-    <script src="/js/services/organization.service.js?v=1"></script>
-    <script src="/js/services/settings.service.js?v=1"></script>
-    <script src="/js/controllers/main.controller.js?v=3"></script>
-    <script src="/js/controllers/student.controller.js?v=3"></script>
-    <script src="/js/controllers/attendance.controller.js?v=3"></script>
-    <script src="/js/controllers/parent.controller.js?v=2"></script>
-    <script src="/js/controllers/health.controller.js?v=2"></script>
-    <script src="/js/controllers/organization.controller.js?v=1"></script>
-    <script src="/js/controllers/settings.controller.js?v=1"></script>
+    <script src="/js/core/script-loader.service.js?v=1"></script>
+    <script src="/js/core/performance-monitor.service.js?v=1"></script>
+    <script src="/js/core/api.js?v=3"></script>
+    <script src="/js/core/main.controller.js?v=3"></script>
+    
+    <!-- Entity-specific JS files are now loaded lazily when needed -->
 </body>
 </html>

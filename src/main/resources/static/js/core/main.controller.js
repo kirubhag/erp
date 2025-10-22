@@ -1,10 +1,13 @@
 // Main Controller - Dashboard and navigation
 angular.module('erpApp').controller('MainController', [
-    '$scope', '$rootScope', '$location', 'ApiService',
-    function($scope, $rootScope, $location, ApiService) {
+    '$scope', '$rootScope', '$location', 'ApiService', 'PerformanceMonitorService',
+    function($scope, $rootScope, $location, ApiService, PerformanceMonitorService) {
         
         // Initialize controller
         $scope.init = function() {
+            // Initialize performance monitoring
+            PerformanceMonitorService.init();
+            
             // Determine active tab based on current route
             var currentPath = $location.path();
             if (currentPath === '/students') {
@@ -22,6 +25,7 @@ angular.module('erpApp').controller('MainController', [
             }
             
             $scope.loading = false;
+            $scope.moduleLoading = false;
             $scope.toasts = [];
             $scope.currentUser = {
                 name: 'Administrator',
@@ -293,6 +297,35 @@ angular.module('erpApp').controller('MainController', [
             $scope.showToast('info', 'Refreshed', 'Dashboard data has been refreshed.');
         };
         
+        // Module extension mechanism - allows loaded modules to extend MainController
+        $scope.extendController = function(extensionName, extensionFunctions) {
+            console.log('🔌 Extending MainController with:', extensionName);
+            angular.extend($scope, extensionFunctions);
+        };
+
+        // Settings functionality - will be available after settings module loads
+        $scope.settingsReady = false;
+        
+        // Listen for settings module loaded event
+        $scope.$on('settingsModuleLoaded', function() {
+            $scope.settingsReady = true;
+            console.log('✅ Settings module functionality loaded');
+        });
+
+        // Listen for route change events to show loading indicators
+        $rootScope.$on('$routeChangeStart', function(event, next, current) {
+            $scope.moduleLoading = true;
+        });
+        
+        $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
+            $scope.moduleLoading = false;
+        });
+        
+        $rootScope.$on('$routeChangeError', function(event, current, previous, rejection) {
+            $scope.moduleLoading = false;
+            $scope.showToast('error', 'Loading Error', 'Failed to load page resources');
+        });
+
         // Initialize controller when page loads
         $scope.init();
     }

@@ -1,0 +1,388 @@
+<!-- Email Logs Management Page -->
+<div class="email-logs-container" ng-controller="EmailLogController">
+    
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-2 text-gradient">Email Logs</h1>
+                    <p class="text-muted mb-0">View and manage all sent emails across entities</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" ng-click="refreshLogs()">
+                        <i class="fas fa-sync-alt me-2"></i>Refresh
+                    </button>
+                    <button class="btn btn-success" ng-click="exportLogs()">
+                        <i class="fas fa-download me-2"></i>Export
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-paper-plane fa-2x text-primary mb-2"></i>
+                    <h4 class="mb-1">{{emailStats.sent || 0}}</h4>
+                    <p class="text-muted mb-0 small">Sent</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                    <h4 class="mb-1">{{emailStats.delivered || 0}}</h4>
+                    <p class="text-muted mb-0 small">Delivered</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-exclamation-triangle fa-2x text-warning mb-2"></i>
+                    <h4 class="mb-1">{{emailStats.pending || 0}}</h4>
+                    <p class="text-muted mb-0 small">Pending</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-times-circle fa-2x text-danger mb-2"></i>
+                    <h4 class="mb-1">{{emailStats.failed || 0}}</h4>
+                    <p class="text-muted mb-0 small">Failed</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-redo fa-2x text-info mb-2"></i>
+                    <h4 class="mb-1">{{emailStats.retrying || 0}}</h4>
+                    <p class="text-muted mb-0 small">Retrying</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-envelope fa-2x text-secondary mb-2"></i>
+                    <h4 class="mb-1">{{emailStats.total || 0}}</h4>
+                    <p class="text-muted mb-0 small">Total</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Search & Filters</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="form-label">Search Emails</label>
+                            <input type="text" class="form-control" ng-model="logFilters.searchTerm" 
+                                   ng-change="searchLogs()" placeholder="Search recipient, subject...">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" ng-model="logFilters.status" ng-change="filterLogsByStatus()">
+                                <option value="">All Status</option>
+                                <option ng-repeat="status in emailStatuses" value="{{status.value}}">{{status.displayName}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Entity Type</label>
+                            <select class="form-select" ng-model="logFilters.entityType" ng-change="filterLogsByEntityType()">
+                                <option value="">All Entities</option>
+                                <option ng-repeat="type in entityTypes" value="{{type.value}}">{{type.displayName}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Date From</label>
+                            <input type="date" class="form-control" ng-model="logFilters.dateFrom" ng-change="filterLogsByDate()">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Date To</label>
+                            <input type="date" class="form-control" ng-model="logFilters.dateTo" ng-change="filterLogsByDate()">
+                        </div>
+                        <div class="col-md-1">
+                            <label class="form-label">&nbsp;</label>
+                            <button type="button" class="btn btn-outline-secondary d-block" ng-click="clearFilters()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Logs Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list me-2"></i>Email Logs
+                        <span class="badge bg-primary ms-2">{{logPagination.totalElements}}</span>
+                    </h5>
+                    <div class="d-flex gap-2">
+                        <select class="form-select form-select-sm" ng-model="logPagination.size" 
+                                ng-change="changeLogPageSize()" style="width: auto;">
+                            <option ng-repeat="size in pageSizeOptions" value="{{size}}">{{size}} per page</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Sent Time</th>
+                                    <th>Recipient</th>
+                                    <th>Subject</th>
+                                    <th>Entity</th>
+                                    <th>Template</th>
+                                    <th>Status</th>
+                                    <th>Retry Count</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="log in emailLogs">
+                                    <td>
+                                        <div class="fw-bold">{{formatDateTime(log.sentAt)}}</div>
+                                        <small class="text-muted" ng-if="log.deliveredAt">
+                                            Delivered: {{formatDateTime(log.deliveredAt)}}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <div class="fw-bold">{{log.recipientEmail}}</div>
+                                        <small class="text-muted" ng-if="log.recipientName">{{log.recipientName}}</small>
+                                    </td>
+                                    <td class="text-truncate" style="max-width: 250px;" title="{{log.subject}}">
+                                        {{log.subject}}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info">{{getEntityTypeDisplayName(log.entityType)}}</span>
+                                        <div class="small text-muted" ng-if="log.entityId">ID: {{log.entityId}}</div>
+                                    </td>
+                                    <td>
+                                        <span ng-if="log.emailTemplate" class="badge bg-secondary">{{log.emailTemplate.templateName}}</span>
+                                        <span ng-if="!log.emailTemplate" class="text-muted">Direct Email</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge" ng-class="getStatusBadgeClass(log.status)">
+                                            {{getStatusDisplayName(log.status)}}
+                                        </span>
+                                        <div class="small text-muted" ng-if="log.errorMessage">
+                                            Error: {{log.errorMessage | limitTo:50}}{{log.errorMessage.length > 50 ? '...' : ''}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-warning" ng-if="log.retryCount > 0">{{log.retryCount}}</span>
+                                        <span class="text-muted" ng-if="log.retryCount === 0">-</span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <button type="button" class="btn btn-outline-info" 
+                                                    ng-click="viewEmailDetails(log)" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-success" 
+                                                    ng-if="log.status === 'FAILED'" ng-click="retryEmail(log)" title="Retry">
+                                                <i class="fas fa-redo"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-warning" 
+                                                    ng-if="log.entityId" ng-click="viewEntity(log)" title="View Entity">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-if="emailLogs.length === 0">
+                                    <td colspan="8" class="text-center py-4 text-muted">
+                                        <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
+                                        No email logs found
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="card-footer" ng-show="logPagination.totalPages > 1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            Showing {{logPagination.currentPage * logPagination.size + 1}} to 
+                            {{Math.min((logPagination.currentPage + 1) * logPagination.size, logPagination.totalElements)}} 
+                            of {{logPagination.totalElements}} emails
+                        </div>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item" ng-class="{disabled: logPagination.currentPage === 0}">
+                                    <button class="page-link" ng-click="goToLogPage(logPagination.currentPage - 1)" 
+                                            ng-disabled="logPagination.currentPage === 0">Previous</button>
+                                </li>
+                                <li class="page-item" ng-repeat="page in [] | range:logPagination.totalPages" 
+                                    ng-class="{active: page === logPagination.currentPage}">
+                                    <button class="page-link" ng-click="goToLogPage(page)">{{page + 1}}</button>
+                                </li>
+                                <li class="page-item" ng-class="{disabled: logPagination.currentPage === logPagination.totalPages - 1}">
+                                    <button class="page-link" ng-click="goToLogPage(logPagination.currentPage + 1)" 
+                                            ng-disabled="logPagination.currentPage === logPagination.totalPages - 1">Next</button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Details Modal -->
+    <div class="modal fade show" ng-show="showDetailsModal" style="display: block;" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-envelope me-2"></i>Email Details
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="closeDetailsModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3" ng-if="selectedLog">
+                        <div class="col-md-6">
+                            <strong>Recipient:</strong>
+                            <div>{{selectedLog.recipientEmail}}</div>
+                            <div class="text-muted" ng-if="selectedLog.recipientName">{{selectedLog.recipientName}}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Status:</strong>
+                            <span class="badge ms-2" ng-class="getStatusBadgeClass(selectedLog.status)">
+                                {{getStatusDisplayName(selectedLog.status)}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row mb-3" ng-if="selectedLog">
+                        <div class="col-md-6">
+                            <strong>Sent At:</strong>
+                            <div>{{formatDateTime(selectedLog.sentAt)}}</div>
+                        </div>
+                        <div class="col-md-6" ng-if="selectedLog.deliveredAt">
+                            <strong>Delivered At:</strong>
+                            <div>{{formatDateTime(selectedLog.deliveredAt)}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3" ng-if="selectedLog">
+                        <div class="col-md-6">
+                            <strong>Entity Type:</strong>
+                            <span class="badge bg-info ms-2">{{getEntityTypeDisplayName(selectedLog.entityType)}}</span>
+                        </div>
+                        <div class="col-md-6" ng-if="selectedLog.entityId">
+                            <strong>Entity ID:</strong>
+                            <div>{{selectedLog.entityId}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3" ng-if="selectedLog && selectedLog.emailTemplate">
+                        <div class="col-12">
+                            <strong>Template:</strong>
+                            <span class="badge bg-secondary ms-2">{{selectedLog.emailTemplate.templateName}}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3" ng-if="selectedLog">
+                        <div class="col-12">
+                            <strong>Subject:</strong>
+                            <div class="mt-1 p-2 bg-light rounded">{{selectedLog.subject}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3" ng-if="selectedLog">
+                        <div class="col-12">
+                            <strong>Email Body:</strong>
+                            <div class="mt-1 p-3 bg-light rounded" style="max-height: 300px; overflow-y: auto;">
+                                <pre style="white-space: pre-wrap;">{{selectedLog.body}}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3" ng-if="selectedLog && selectedLog.errorMessage">
+                        <div class="col-12">
+                            <strong class="text-danger">Error Message:</strong>
+                            <div class="mt-1 p-2 bg-danger-subtle text-danger rounded">{{selectedLog.errorMessage}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3" ng-if="selectedLog && selectedLog.metadata">
+                        <div class="col-12">
+                            <strong>Metadata:</strong>
+                            <div class="mt-1 p-2 bg-light rounded">
+                                <pre>{{selectedLog.metadata | json}}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" ng-click="closeDetailsModal()">Close</button>
+                    <button type="button" class="btn btn-success" ng-if="selectedLog.status === 'FAILED'" 
+                            ng-click="retryEmail(selectedLog)">
+                        <i class="fas fa-redo me-1"></i>Retry Email
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-overlay" ng-show="loading">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Backdrop -->
+<div class="modal-backdrop fade show" ng-show="showDetailsModal"></div>
+
+<style>
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.text-gradient {
+    background: linear-gradient(45deg, #007bff, #6610f2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.badge {
+    font-size: 0.75em;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.btn-group-sm .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+</style>

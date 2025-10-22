@@ -10,40 +10,112 @@ angular.module('erpApp', ['ngRoute'])
             controller: 'MainController'
         })
         .when('/students', {
-            templateUrl: '/templates/students.html',
-            controller: 'MainController'
+            templateUrl: '/templates/student/students.html',
+            controller: 'MainController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('students');
+                }]
+            }
         })
         .when('/attendance', {
-            templateUrl: '/templates/attendance.html',
-            controller: 'MainController'
+            templateUrl: '/templates/attendance/attendance.html',
+            controller: 'MainController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('attendance');
+                }]
+            }
         })
         .when('/parents', {
-            templateUrl: '/templates/parents.html',
-            controller: 'ParentController'
+            templateUrl: '/templates/parent/parents.html',
+            controller: 'ParentController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('parents');
+                }]
+            }
         })
         .when('/health', {
-            templateUrl: '/templates/health.html',
-            controller: 'MainController'
+            templateUrl: '/templates/health/health.html',
+            controller: 'MainController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('health');
+                }]
+            }
         })
         .when('/settings', {
-            templateUrl: '/templates/settings-dashboard.html',
-            controller: 'SettingsController'
+            templateUrl: '/templates/settings/settings-dashboard.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
         })
         .when('/settings/organisation', {
-            templateUrl: '/templates/settings-organization-view.html',
-            controller: 'SettingsController'
+            templateUrl: '/templates/organization/settings-organization-view.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
         })
         .when('/settings/organisation/edit', {
-            templateUrl: '/templates/settings-organization-edit.html',
-            controller: 'SettingsController'
+            templateUrl: '/templates/organization/settings-organization-edit.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
         })
         .when('/settings/user', {
-            templateUrl: '/templates/settings-user-view.html',
-            controller: 'SettingsController'
+            templateUrl: '/templates/user/settings-user-view.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
         })
         .when('/settings/user/edit', {
-            templateUrl: '/templates/settings-user-edit.html',
-            controller: 'SettingsController'
+            templateUrl: '/templates/user/settings-user-edit.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/email-templates', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/email-templates/create', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/email-logs', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
         })
         .otherwise({
             redirectTo: '/'

@@ -1,0 +1,330 @@
+<!-- Email Templates Management Page -->
+<div class="email-templates-container" ng-controller="EmailTemplateController">
+    
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-2 text-gradient">Email Template Management</h1>
+                    <p class="text-muted mb-0">Create and manage email templates for different entities</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success" ng-click="showCreateTemplateForm()">
+                        <i class="fas fa-plus me-2"></i>Create Template
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-envelope fa-2x text-primary mb-2"></i>
+                    <h4 class="mb-1">{{emailStatistics.totalEmails || 0}}</h4>
+                    <p class="text-muted mb-0">Total Emails</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-paper-plane fa-2x text-success mb-2"></i>
+                    <h4 class="mb-1">{{emailStatistics.sentEmails || 0}}</h4>
+                    <p class="text-muted mb-0">Sent Emails</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-check-circle fa-2x text-info mb-2"></i>
+                    <h4 class="mb-1">{{emailStatistics.deliveredEmails || 0}}</h4>
+                    <p class="text-muted mb-0">Delivered</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-exclamation-triangle fa-2x text-danger mb-2"></i>
+                    <h4 class="mb-1">{{emailStatistics.failedEmails || 0}}</h4>
+                    <p class="text-muted mb-0">Failed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Search & Filters</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Search Templates</label>
+                            <input type="text" class="form-control" ng-model="templateFilters.searchTerm" 
+                                   ng-change="searchTemplates()" placeholder="Search by name or description...">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Entity Type</label>
+                            <select class="form-select" ng-model="templateFilters.entityType" 
+                                    ng-change="filterTemplatesByEntityType()">
+                                <option value="">All Entity Types</option>
+                                <option ng-repeat="type in entityTypes" value="{{type.value}}">{{type.displayName}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Page Size</label>
+                            <select class="form-select" ng-model="templatePagination.size" 
+                                    ng-change="changeTemplatePageSize()">
+                                <option ng-repeat="size in pageSizeOptions" value="{{size}}">{{size}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">&nbsp;</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" ng-model="templateFilters.showActiveOnly" 
+                                       ng-change="loadTemplates()" id="showActiveOnly">
+                                <label class="form-check-label" for="showActiveOnly">
+                                    Active Only
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list me-2"></i>Email Templates
+                        <span class="badge bg-primary ms-2">{{templatePagination.totalElements}}</span>
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Template Name</th>
+                                    <th>Entity Type</th>
+                                    <th>Subject</th>
+                                    <th>Usage Count</th>
+                                    <th>Status</th>
+                                    <th>Created By</th>
+                                    <th>Last Used</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="template in templates">
+                                    <td>
+                                        <strong>{{template.templateName}}</strong>
+                                        <div class="text-muted small" ng-if="template.description">{{template.description}}</div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info">{{getEntityTypeDisplayName(template.entityType)}}</span>
+                                    </td>
+                                    <td class="text-truncate" style="max-width: 200px;">{{template.subject}}</td>
+                                    <td>
+                                        <span class="badge bg-secondary">{{template.usageCount || 0}}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge" ng-class="template.isActive ? 'bg-success' : 'bg-danger'">
+                                            {{template.isActive ? 'Active' : 'Inactive'}}
+                                        </span>
+                                    </td>
+                                    <td>{{template.createdBy || 'System'}}</td>
+                                    <td>{{formatDateTime(template.lastUsed) || 'Never'}}</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <button type="button" class="btn btn-outline-info" 
+                                                    ng-click="previewTemplate(template)" title="Preview">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-primary" 
+                                                    ng-click="editTemplate(template)" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-success" 
+                                                    ng-click="sendEmailUsingTemplate(template)" title="Send Email">
+                                                <i class="fas fa-paper-plane"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger" 
+                                                    ng-click="deleteTemplate(template)" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-if="templates.length === 0">
+                                    <td colspan="8" class="text-center py-4 text-muted">
+                                        <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
+                                        No email templates found
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="card-footer" ng-show="templatePagination.totalPages > 1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            Showing {{templatePagination.currentPage * templatePagination.size + 1}} to 
+                            {{Math.min((templatePagination.currentPage + 1) * templatePagination.size, templatePagination.totalElements)}} 
+                            of {{templatePagination.totalElements}} templates
+                        </div>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item" ng-class="{disabled: templatePagination.currentPage === 0}">
+                                    <button class="page-link" ng-click="goToTemplatePage(templatePagination.currentPage - 1)" 
+                                            ng-disabled="templatePagination.currentPage === 0">Previous</button>
+                                </li>
+                                <li class="page-item" ng-repeat="page in [] | range:templatePagination.totalPages" 
+                                    ng-class="{active: page === templatePagination.currentPage}">
+                                    <button class="page-link" ng-click="goToTemplatePage(page)">{{page + 1}}</button>
+                                </li>
+                                <li class="page-item" ng-class="{disabled: templatePagination.currentPage === templatePagination.totalPages - 1}">
+                                    <button class="page-link" ng-click="goToTemplatePage(templatePagination.currentPage + 1)" 
+                                            ng-disabled="templatePagination.currentPage === templatePagination.totalPages - 1">Next</button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create/Edit Template Modal -->
+    <div class="modal fade show" ng-show="showTemplateModal" style="display: block;" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas" ng-class="isEditing ? 'fa-edit' : 'fa-plus'"></i>
+                        {{isEditing ? 'Edit' : 'Create'}} Email Template
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="closeTemplateModal()"></button>
+                </div>
+                <form ng-submit="saveTemplate()" novalidate>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label">Template Name *</label>
+                                <input type="text" class="form-control" ng-model="currentTemplate.templateName" 
+                                       placeholder="Enter template name" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Entity Type *</label>
+                                <select class="form-select" ng-model="currentTemplate.entityType" required>
+                                    <option ng-repeat="type in entityTypes" value="{{type.value}}">{{type.displayName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" ng-model="currentTemplate.description" 
+                                          placeholder="Enter template description" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">Subject *</label>
+                                <input type="text" class="form-control" ng-model="currentTemplate.subject" 
+                                       placeholder="Enter email subject with variables like {{STUDENT_NAME}}" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">Email Body *</label>
+                                <textarea class="form-control" ng-model="currentTemplate.body" 
+                                          placeholder="Enter email body with variables like {{STUDENT_NAME}}, {{EMAIL}}, etc." 
+                                          rows="8" required></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Created By</label>
+                                <input type="text" class="form-control" ng-model="currentTemplate.createdBy" 
+                                       placeholder="Enter creator name">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check mt-4">
+                                    <input class="form-check-input" type="checkbox" ng-model="currentTemplate.isActive" 
+                                           id="isActiveTemplate">
+                                    <label class="form-check-label" for="isActiveTemplate">
+                                        Active Template
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-info" ng-if="currentTemplate.entityType">
+                            <strong>Available Variables for {{getEntityTypeDisplayName(currentTemplate.entityType)}}:</strong>
+                            <small class="d-block mt-1">
+                                Use variables like {{STUDENT_NAME}}, {{EMAIL}}, {{PHONE}}, {{GRADE_LEVEL}}, {{CURRENT_DATE}}, etc. 
+                                Variables are enclosed in double curly braces.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" ng-click="closeTemplateModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" ng-disabled="loading">
+                            <i class="fas fa-save me-1"></i>
+                            {{isEditing ? 'Update' : 'Create'}} Template
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade show" ng-show="showDeleteModal" style="display: block;" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-trash text-danger"></i> Delete Template
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="closeDeleteModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the template <strong>"{{templateToDelete.templateName}}"</strong>?</p>
+                    <p class="text-danger">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" ng-click="closeDeleteModal()">Cancel</button>
+                    <button type="button" class="btn btn-danger" ng-click="confirmDelete()">
+                        <i class="fas fa-trash me-1"></i>Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-overlay" ng-show="loading">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Backdrop -->
+<div class="modal-backdrop fade show" ng-show="showTemplateModal || showDeleteModal || showPreviewModal || showSendEmailModal"></div>

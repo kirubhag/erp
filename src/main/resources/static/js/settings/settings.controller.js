@@ -1,13 +1,41 @@
 // Settings Controller - System and user settings management
 angular.module('erpApp').controller('SettingsController', [
-    '$scope', '$rootScope', 'ApiService', 'SettingsService', 'OrganizationService',
-    function($scope, $rootScope, ApiService, SettingsService, OrganizationService) {
+    '$scope', '$rootScope', '$location', 'ApiService', 'SettingsService', 'OrganizationService',
+    function($scope, $rootScope, $location, ApiService, SettingsService, OrganizationService) {
+        
+        // Detect current route and set active tab
+        $scope.detectAndSetActiveTab = function() {
+            var path = $location.path();
+            if (path.includes('/settings/email-templates/create')) {
+                $scope.activeSettingsTab = 'email-templates/create';
+            } else if (path.includes('/settings/email-templates')) {
+                $scope.activeSettingsTab = 'email-templates';
+            } else if (path.includes('/settings/email-logs')) {
+                $scope.activeSettingsTab = 'email-logs';
+            } else if (path.includes('/settings/organisation/edit')) {
+                $scope.activeSettingsTab = 'organisation';
+            } else if (path.includes('/settings/organisation')) {
+                $scope.activeSettingsTab = 'view-organisation';
+            } else if (path.includes('/settings/user/edit')) {
+                $scope.activeSettingsTab = 'user';
+            } else if (path.includes('/settings/user')) {
+                $scope.activeSettingsTab = 'view-user';
+            } else {
+                $scope.activeSettingsTab = '';
+            }
+            
+            // Auto-expand appropriate submenu
+            $scope.setActiveSettingsTab($scope.activeSettingsTab);
+        };
         
         // Initialize controller
         $scope.init = function() {
             $scope.loading = false;
             $scope.activeSettingsTab = ''; // Default to welcome message
             $scope.settings = SettingsService.getDefaultSettings();
+            
+            // Detect current route and set appropriate tab
+            $scope.detectAndSetActiveTab();
             
             // Initialize dropdown options
             $scope.availableLanguages = SettingsService.getAvailableLanguages();
@@ -183,10 +211,14 @@ angular.module('erpApp').controller('SettingsController', [
                     if (orgSubmenu && !orgSubmenu.classList.contains('show')) {
                         var bsCollapse = new bootstrap.Collapse(orgSubmenu, {show: true});
                     }
-                    // Hide user submenu
+                    // Hide user and email submenus
                     var userSubmenu = document.getElementById('userSubmenu');
                     if (userSubmenu && userSubmenu.classList.contains('show')) {
                         var bsCollapse = new bootstrap.Collapse(userSubmenu, {hide: true});
+                    }
+                    var emailSubmenu = document.getElementById('emailSubmenu');
+                    if (emailSubmenu && emailSubmenu.classList.contains('show')) {
+                        var bsCollapse = new bootstrap.Collapse(emailSubmenu, {hide: true});
                     }
                 } else if (tab.includes('user') || tab === 'view-user') {
                     // Show user submenu
@@ -194,10 +226,29 @@ angular.module('erpApp').controller('SettingsController', [
                     if (userSubmenu && !userSubmenu.classList.contains('show')) {
                         var bsCollapse = new bootstrap.Collapse(userSubmenu, {show: true});
                     }
-                    // Hide organisation submenu
+                    // Hide organisation and email submenus
                     var orgSubmenu = document.getElementById('organisationSubmenu');
                     if (orgSubmenu && orgSubmenu.classList.contains('show')) {
                         var bsCollapse = new bootstrap.Collapse(orgSubmenu, {hide: true});
+                    }
+                    var emailSubmenu = document.getElementById('emailSubmenu');
+                    if (emailSubmenu && emailSubmenu.classList.contains('show')) {
+                        var bsCollapse = new bootstrap.Collapse(emailSubmenu, {hide: true});
+                    }
+                } else if (tab.includes('email')) {
+                    // Show email submenu
+                    var emailSubmenu = document.getElementById('emailSubmenu');
+                    if (emailSubmenu && !emailSubmenu.classList.contains('show')) {
+                        var bsCollapse = new bootstrap.Collapse(emailSubmenu, {show: true});
+                    }
+                    // Hide organisation and user submenus
+                    var orgSubmenu = document.getElementById('organisationSubmenu');
+                    if (orgSubmenu && orgSubmenu.classList.contains('show')) {
+                        var bsCollapse = new bootstrap.Collapse(orgSubmenu, {hide: true});
+                    }
+                    var userSubmenu = document.getElementById('userSubmenu');
+                    if (userSubmenu && userSubmenu.classList.contains('show')) {
+                        var bsCollapse = new bootstrap.Collapse(userSubmenu, {hide: true});
                     }
                 }
             });
@@ -513,6 +564,11 @@ angular.module('erpApp').controller('SettingsController', [
         $scope.showToast = function(type, title, message) {
             $rootScope.$broadcast('app:' + type, message);
         };
+        
+        // Listen for route changes to update active tab
+        $scope.$on('$routeChangeSuccess', function() {
+            $scope.detectAndSetActiveTab();
+        });
         
         // Initialize controller when page loads
         $scope.init();
