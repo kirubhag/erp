@@ -125,19 +125,8 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
                     }
                     
                     if (expectedController) {
-                        try {
-                            var $injector = angular.element(document.body).injector();
-                            if ($injector && $injector.has('$controller')) {
-                                var $controller = $injector.get('$controller');
-                                console.log('🔍 Verifying controller registration:', expectedController);
-                                
-                                // Try to instantiate the controller - this will fail if not registered
-                                $controller(expectedController, {});
-                                console.log('✅ Controller verified and accessible:', expectedController);
-                            }
-                        } catch (e) {
-                            console.warn('⚠️ Controller verification failed (this might be normal):', expectedController, e.message);
-                        }
+                        console.log('🔍 Controller expected to be available:', expectedController);
+                        console.log('✅ Assuming controller is properly registered (verification disabled to avoid issues)');
                     }
                     
                     console.log('✅ Module loading completed:', moduleName);
@@ -165,7 +154,7 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
             'students': [
                 '/js/modules/students.module.js?v=1',
                 '/js/student/student.service.js?v=3',
-                '/js/student/student.controller.js?v=3'
+                '/js/student/student.controller.js?v=4'
             ],
             'parents': [
                 '/js/modules/parents.module.js?v=1',

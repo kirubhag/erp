@@ -1,5 +1,7 @@
 // Generic Custom View Service for Student Entity
+console.log('📍 Registering StudentCustomViewService...');
 angular.module('erpApp').factory('StudentCustomViewService', ['$http', function($http) {
+    console.log('🎯 StudentCustomViewService instantiated successfully');
     var baseUrl = '/api/custom-views';
     var entityType = 'STUDENT';
     
@@ -91,7 +93,9 @@ angular.module('erpApp').factory('StudentCustomViewService', ['$http', function(
 }]);
 
 // Student Controller - Handles student management UI logic
+console.log('📍 Registering StudentController...');
 angular.module('erpApp').controller('StudentController', ['$scope', '$http', 'StudentCustomViewService', function($scope, $http, StudentCustomViewService) {
+    console.log('🎯 StudentController instantiated successfully');
     // Basic properties
     $scope.students = [];
     $scope.currentStudent = {};
