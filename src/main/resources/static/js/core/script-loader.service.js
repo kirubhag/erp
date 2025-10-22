@@ -131,9 +131,9 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
                                 var $controller = $injector.get('$controller');
                                 console.log('🔍 Verifying controller registration:', expectedController);
                                 
-                                // Try to get the controller constructor - this will fail if not registered
-                                var controllerConstructor = $injector.get(expectedController + 'Controller');
-                                console.log('✅ Controller verified:', expectedController);
+                                // Try to instantiate the controller - this will fail if not registered
+                                $controller(expectedController, {});
+                                console.log('✅ Controller verified and accessible:', expectedController);
                             }
                         } catch (e) {
                             console.warn('⚠️ Controller verification failed (this might be normal):', expectedController, e.message);
