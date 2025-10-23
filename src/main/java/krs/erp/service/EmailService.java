@@ -202,14 +202,14 @@ public class EmailService {
      * Get email logs for specific entity
      */
     public List<EmailLog> getEmailLogsForEntity(EmailTemplate.EntityType entityType, Long entityId) {
-        return emailLogRepository.findByEntityTypeAndEntityIdOrderByCreatedAtDesc(entityType, entityId);
+        return emailLogRepository.findByEntityTypeAndEntityIdOrderByCreatedTimeDesc(entityType, entityId);
     }
     
     /**
      * Get email logs for specific recipient
      */
     public List<EmailLog> getEmailLogsForRecipient(String recipientEmail) {
-        return emailLogRepository.findByRecipientEmailOrderByCreatedAtDesc(recipientEmail);
+        return emailLogRepository.findByRecipientEmailOrderByCreatedTimeDesc(recipientEmail);
     }
     
     /**

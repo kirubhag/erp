@@ -55,7 +55,7 @@ public interface EmailTemplateRepository extends JpaRepository<EmailTemplate, Lo
     Long countActiveTemplatesByEntityType(@Param("entityType") EmailTemplate.EntityType entityType);
     
     // Find templates that haven't been used recently
-    @Query("SELECT t FROM EmailTemplate t WHERE t.lastUsed IS NULL OR t.lastUsed < :cutoffDate ORDER BY t.createdAt DESC")
+    @Query("SELECT t FROM EmailTemplate t WHERE t.lastUsed IS NULL OR t.lastUsed < :cutoffDate ORDER BY t.createdTime DESC")
     List<EmailTemplate> findUnusedTemplates(@Param("cutoffDate") java.time.LocalDateTime cutoffDate);
     
     // Check if template name exists (for validation)

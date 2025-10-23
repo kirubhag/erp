@@ -68,7 +68,7 @@ public interface CustomViewRepository extends JpaRepository<CustomView, Long> {
      * Find recently created views for an entity type
      */
     @Query("SELECT cv FROM CustomView cv WHERE cv.entityType = :entityType " +
-           "ORDER BY cv.createdAt DESC")
+           "ORDER BY cv.createdTime DESC")
     List<CustomView> findRecentViews(@Param("entityType") EntityType entityType, 
                                     org.springframework.data.domain.Pageable pageable);
     

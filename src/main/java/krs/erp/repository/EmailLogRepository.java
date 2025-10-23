@@ -17,46 +17,46 @@ import krs.erp.model.EmailTemplate;
 public interface EmailLogRepository extends JpaRepository<EmailLog, Long> {
     
     // Find by entity type and entity ID
-    List<EmailLog> findByEntityTypeAndEntityIdOrderByCreatedAtDesc(EmailTemplate.EntityType entityType, Long entityId);
+    List<EmailLog> findByEntityTypeAndEntityIdOrderByCreatedTimeDesc(EmailTemplate.EntityType entityType, Long entityId);
     
     // Find by entity type and entity ID with pagination
-    Page<EmailLog> findByEntityTypeAndEntityIdOrderByCreatedAtDesc(EmailTemplate.EntityType entityType, Long entityId, Pageable pageable);
+    Page<EmailLog> findByEntityTypeAndEntityIdOrderByCreatedTimeDesc(EmailTemplate.EntityType entityType, Long entityId, Pageable pageable);
     
     // Find by recipient email
-    List<EmailLog> findByRecipientEmailOrderByCreatedAtDesc(String recipientEmail);
+    List<EmailLog> findByRecipientEmailOrderByCreatedTimeDesc(String recipientEmail);
     
     // Find by recipient email with pagination
-    Page<EmailLog> findByRecipientEmailOrderByCreatedAtDesc(String recipientEmail, Pageable pageable);
+    Page<EmailLog> findByRecipientEmailOrderByCreatedTimeDesc(String recipientEmail, Pageable pageable);
     
     // Find by status
-    List<EmailLog> findByStatusOrderByCreatedAtDesc(EmailLog.EmailStatus status);
+    List<EmailLog> findByStatusOrderByCreatedTimeDesc(EmailLog.EmailStatus status);
     
     // Find by status with pagination
-    Page<EmailLog> findByStatusOrderByCreatedAtDesc(EmailLog.EmailStatus status, Pageable pageable);
+    Page<EmailLog> findByStatusOrderByCreatedTimeDesc(EmailLog.EmailStatus status, Pageable pageable);
     
     // Find by entity type
-    List<EmailLog> findByEntityTypeOrderByCreatedAtDesc(EmailTemplate.EntityType entityType);
+    List<EmailLog> findByEntityTypeOrderByCreatedTimeDesc(EmailTemplate.EntityType entityType);
     
     // Find by entity type with pagination
-    Page<EmailLog> findByEntityTypeOrderByCreatedAtDesc(EmailTemplate.EntityType entityType, Pageable pageable);
+    Page<EmailLog> findByEntityTypeOrderByCreatedTimeDesc(EmailTemplate.EntityType entityType, Pageable pageable);
     
     // Find failed emails for retry
-    @Query("SELECT e FROM EmailLog e WHERE e.status = 'FAILED' AND e.retryCount < 3 ORDER BY e.createdAt ASC")
+    @Query("SELECT e FROM EmailLog e WHERE e.status = 'FAILED' AND e.retryCount < 3 ORDER BY e.createdTime ASC")
     List<EmailLog> findFailedEmailsForRetry();
     
     // Find pending emails
-    @Query("SELECT e FROM EmailLog e WHERE e.status = 'PENDING' ORDER BY e.priority ASC, e.createdAt ASC")
+    @Query("SELECT e FROM EmailLog e WHERE e.status = 'PENDING' ORDER BY e.priority ASC, e.createdTime ASC")
     List<EmailLog> findPendingEmails();
     
     // Find emails by template
-    List<EmailLog> findByEmailTemplateOrderByCreatedAtDesc(EmailTemplate emailTemplate);
+    List<EmailLog> findByEmailTemplateOrderByCreatedTimeDesc(EmailTemplate emailTemplate);
     
     // Find emails sent between dates
     @Query("SELECT e FROM EmailLog e WHERE e.sentAt BETWEEN :startDate AND :endDate ORDER BY e.sentAt DESC")
     List<EmailLog> findEmailsSentBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
     
     // Find emails sent today
-    @Query("SELECT e FROM EmailLog e WHERE DATE(e.sentAt) = CURRENT_DATE ORDER BY e.sentAt DESC")
+    @Query("SELECT e FROM EmailLog e WHERE e.sentAt IS NOT NULL AND FUNCTION('DATE', e.sentAt) = CURRENT_DATE ORDER BY e.sentAt DESC")
     List<EmailLog> findEmailsSentToday();
     
     // Count emails by status
@@ -72,10 +72,10 @@ public interface EmailLogRepository extends JpaRepository<EmailLog, Long> {
     Long countDeliveredEmailsForEntity(@Param("entityType") EmailTemplate.EntityType entityType, @Param("entityId") Long entityId);
     
     // Find emails by sent by
-    List<EmailLog> findBySentByOrderByCreatedAtDesc(String sentBy);
+    List<EmailLog> findBySentByOrderByCreatedTimeDesc(String sentBy);
     
     // Find recent emails (last 24 hours)
-    @Query("SELECT e FROM EmailLog e WHERE e.createdAt >= :since ORDER BY e.createdAt DESC")
+    @Query("SELECT e FROM EmailLog e WHERE e.createdTime >= :since ORDER BY e.createdTime DESC")
     List<EmailLog> findRecentEmails(@Param("since") LocalDateTime since);
     
     // Get email statistics
@@ -86,21 +86,21 @@ public interface EmailLogRepository extends JpaRepository<EmailLog, Long> {
            "SUM(CASE WHEN e.status = 'OPENED' THEN 1 ELSE 0 END), " +
            "SUM(CASE WHEN e.status = 'FAILED' THEN 1 ELSE 0 END), " +
            "SUM(CASE WHEN e.status = 'BOUNCED' THEN 1 ELSE 0 END)" +
-           ") FROM EmailLog e WHERE e.createdAt >= :since")
+           ") FROM EmailLog e WHERE e.createdTime >= :since")
     Object getEmailStatistics(@Param("since") LocalDateTime since);
     
     // Find emails by priority
-    List<EmailLog> findByPriorityOrderByCreatedAtDesc(Integer priority);
+    List<EmailLog> findByPriorityOrderByCreatedTimeDesc(Integer priority);
     
     // Delete old logs (cleanup)
-    @Query("DELETE FROM EmailLog e WHERE e.createdAt < :cutoffDate AND e.status NOT IN ('PENDING', 'FAILED')")
+    @Query("DELETE FROM EmailLog e WHERE e.createdTime < :cutoffDate AND e.status NOT IN ('PENDING', 'FAILED')")
     void deleteOldLogs(@Param("cutoffDate") LocalDateTime cutoffDate);
     
     // Find emails with errors
-    @Query("SELECT e FROM EmailLog e WHERE e.errorMessage IS NOT NULL ORDER BY e.createdAt DESC")
+    @Query("SELECT e FROM EmailLog e WHERE e.errorMessage IS NOT NULL ORDER BY e.createdTime DESC")
     List<EmailLog> findEmailsWithErrors();
     
     // Search emails by subject or recipient
-    @Query("SELECT e FROM EmailLog e WHERE LOWER(e.subject) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(e.recipientEmail) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(e.recipientName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) ORDER BY e.createdAt DESC")
+    @Query("SELECT e FROM EmailLog e WHERE LOWER(e.subject) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(e.recipientEmail) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(e.recipientName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) ORDER BY e.createdTime DESC")
     List<EmailLog> searchEmails(@Param("searchTerm") String searchTerm);
 }

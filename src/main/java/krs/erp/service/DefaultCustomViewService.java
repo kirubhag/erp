@@ -95,7 +95,7 @@ public class DefaultCustomViewService {
         // User default fields
         defaultFields.put(EntityType.USER, Arrays.asList(
             "id", "username", "email", "firstName", "lastName", 
-            "role", "isActive", "lastLogin", "createdAt"
+            "role", "isActive", "lastLogin", "createdTime"
         ));
         
         // Course default fields

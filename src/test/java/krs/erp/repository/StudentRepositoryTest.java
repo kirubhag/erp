@@ -3,6 +3,7 @@ package krs.erp.repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -201,12 +202,15 @@ class StudentRepositoryTest {
         assertEquals("New York", newYorkStudents.get(0).getCity());
     }
 
+    private static final AtomicLong studentCounter = new AtomicLong(1);
+    
     private Student createTestStudent() {
+        long id = studentCounter.getAndIncrement();
         Student student = new Student();
         student.setFirstName("John");
         student.setLastName("Doe");
-        student.setStudentId("STU_TEST_" + System.currentTimeMillis());
-        student.setEmail("test." + System.currentTimeMillis() + "@example.com");
+        student.setStudentId("STU" + String.format("%06d", id)); // Max 9 chars: STU000001
+        student.setEmail("test" + id + "@testdomain.com");
         student.setDateOfBirth(LocalDate.of(2010, 1, 1));
         student.setEnrollmentDate(LocalDate.now());
         student.setGradeLevel(Student.GradeLevel.GRADE_5);

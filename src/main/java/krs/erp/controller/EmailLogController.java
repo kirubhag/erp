@@ -51,14 +51,14 @@ public class EmailLogController {
         if (status != null) {
             try {
                 EmailLog.EmailStatus emailStatus = EmailLog.EmailStatus.valueOf(status.toUpperCase());
-                emailLogs = emailLogRepository.findByStatusOrderByCreatedAtDesc(emailStatus, pageable);
+                emailLogs = emailLogRepository.findByStatusOrderByCreatedTimeDesc(emailStatus, pageable);
             } catch (IllegalArgumentException e) {
                 return ResponseEntity.badRequest().build();
             }
         } else if (entityType != null) {
             try {
                 EmailTemplate.EntityType type = EmailTemplate.EntityType.valueOf(entityType.toUpperCase());
-                emailLogs = emailLogRepository.findByEntityTypeOrderByCreatedAtDesc(type, pageable);
+                emailLogs = emailLogRepository.findByEntityTypeOrderByCreatedTimeDesc(type, pageable);
             } catch (IllegalArgumentException e) {
                 return ResponseEntity.badRequest().build();
             }
@@ -82,7 +82,7 @@ public class EmailLogController {
     public ResponseEntity<List<EmailLog>> getEmailLogsForEntity(@PathVariable String entityType, @PathVariable Long entityId) {
         try {
             EmailTemplate.EntityType type = EmailTemplate.EntityType.valueOf(entityType.toUpperCase());
-            List<EmailLog> emailLogs = emailLogRepository.findByEntityTypeAndEntityIdOrderByCreatedAtDesc(type, entityId);
+            List<EmailLog> emailLogs = emailLogRepository.findByEntityTypeAndEntityIdOrderByCreatedTimeDesc(type, entityId);
             return ResponseEntity.ok(emailLogs);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
@@ -99,7 +99,7 @@ public class EmailLogController {
         try {
             EmailTemplate.EntityType type = EmailTemplate.EntityType.valueOf(entityType.toUpperCase());
             Pageable pageable = PageRequest.of(page, size);
-            Page<EmailLog> emailLogs = emailLogRepository.findByEntityTypeAndEntityIdOrderByCreatedAtDesc(type, entityId, pageable);
+            Page<EmailLog> emailLogs = emailLogRepository.findByEntityTypeAndEntityIdOrderByCreatedTimeDesc(type, entityId, pageable);
             return ResponseEntity.ok(emailLogs);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
@@ -109,7 +109,7 @@ public class EmailLogController {
     // Get email logs for specific recipient
     @GetMapping("/recipient/{email}")
     public ResponseEntity<List<EmailLog>> getEmailLogsForRecipient(@PathVariable String email) {
-        List<EmailLog> emailLogs = emailLogRepository.findByRecipientEmailOrderByCreatedAtDesc(email);
+        List<EmailLog> emailLogs = emailLogRepository.findByRecipientEmailOrderByCreatedTimeDesc(email);
         return ResponseEntity.ok(emailLogs);
     }
     
@@ -120,14 +120,14 @@ public class EmailLogController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<EmailLog> emailLogs = emailLogRepository.findByRecipientEmailOrderByCreatedAtDesc(email, pageable);
+        Page<EmailLog> emailLogs = emailLogRepository.findByRecipientEmailOrderByCreatedTimeDesc(email, pageable);
         return ResponseEntity.ok(emailLogs);
     }
     
     // Get failed emails
     @GetMapping("/failed")
     public ResponseEntity<List<EmailLog>> getFailedEmails() {
-        List<EmailLog> failedEmails = emailLogRepository.findByStatusOrderByCreatedAtDesc(EmailLog.EmailStatus.FAILED);
+        List<EmailLog> failedEmails = emailLogRepository.findByStatusOrderByCreatedTimeDesc(EmailLog.EmailStatus.FAILED);
         return ResponseEntity.ok(failedEmails);
     }
     
