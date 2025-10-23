@@ -1,0 +1,480 @@
+<div class="container-fluid mt-3">
+  <!-- Breadcrumb Navigation -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#!/">Home</a></li>
+      <li class="breadcrumb-item"><a href="#!/settings">Setup</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Organization Details</li>
+    </ol>
+  </nav>
+
+  <!-- Tab Navigation -->
+  <ul class="nav nav-tabs" id="organizationTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="company-details-tab" data-bs-toggle="tab" data-bs-target="#company-details" 
+              type="button" role="tab" aria-controls="company-details" aria-selected="true">
+        <i class="fas fa-building me-2"></i>Company Details
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="fiscal-year-tab" data-bs-toggle="tab" data-bs-target="#fiscal-year" 
+              type="button" role="tab" aria-controls="fiscal-year" aria-selected="false">
+        <i class="fas fa-calendar-alt me-2"></i>Fiscal Year
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="business-hours-tab" data-bs-toggle="tab" data-bs-target="#business-hours" 
+              type="button" role="tab" aria-controls="business-hours" aria-selected="false">
+        <i class="fas fa-clock me-2"></i>Business Hours
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="holidays-tab" data-bs-toggle="tab" data-bs-target="#holidays" 
+              type="button" role="tab" aria-controls="holidays" aria-selected="false">
+        <i class="fas fa-calendar-times me-2"></i>Holidays
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="currencies-tab" data-bs-toggle="tab" data-bs-target="#currencies" 
+              type="button" role="tab" aria-controls="currencies" aria-selected="false">
+        <i class="fas fa-dollar-sign me-2"></i>Currencies
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content mt-3" id="organizationTabsContent">
+    
+    <!-- Company Details Tab -->
+    <div class="tab-pane fade show active" id="company-details" role="tabpanel" aria-labelledby="company-details-tab">
+      <div class="card">
+        <div class="card-body">
+          <!-- Organization Header -->
+          <div class="row mb-4">
+            <div class="col-md-2">
+              <div class="organization-logo-container">
+                <div class="organization-logo">
+                  <img ng-if="organizationData.branding && organizationData.branding.logoUrl" 
+                       ng-src="{{organizationData.branding.logoUrl}}" 
+                       alt="Organization Logo" 
+                       class="img-fluid">
+                  <div ng-if="!organizationData.branding || !organizationData.branding.logoUrl" 
+                       class="logo-placeholder">
+                    <i class="fas fa-building fa-3x text-muted"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="organization-info">
+                <h2 class="organization-name mb-2">
+                  {{organizationData.name || 'Zylker'}} 
+                  <i class="fas fa-pencil-alt text-muted ms-2" style="font-size: 0.6em; cursor: pointer;" 
+                     title="Edit organization name"></i>
+                </h2>
+                <div class="organization-details">
+                  <p class="mb-1">
+                    <i class="fas fa-envelope me-2"></i>
+                    {{organizationData.contactInfo?.email || 'kirubhakaran.g+cllc@zohotest.com'}}
+                  </p>
+                  <p class="mb-1">
+                    <i class="fas fa-phone me-2"></i>
+                    {{organizationData.contactInfo?.phone || '09876543210'}}
+                  </p>
+                  <p class="mb-1">
+                    <i class="fas fa-fax me-2"></i>
+                    {{organizationData.contactInfo?.fax || '09876543210'}}
+                  </p>
+                  <p class="mb-1">
+                    <i class="fas fa-globe me-2"></i>
+                    <a href="{{organizationData.contactInfo?.website || 'https://www.zylker.com'}}" 
+                       target="_blank" class="text-decoration-none">
+                      {{organizationData.contactInfo?.website || 'https://www.zylker.com'}}
+                    </a>
+                  </p>
+                  <p class="mb-0">
+                    <i class="fas fa-map-marker-alt me-2"></i>
+                    {{getFullAddress()}}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 text-end">
+              <button class="btn btn-outline-secondary btn-sm mb-2" ng-click="editOrganization()">
+                <i class="fas fa-edit me-1"></i>Change
+              </button>
+              <br>
+              <button class="btn btn-outline-danger btn-sm" ng-click="deleteOrganization()">
+                <i class="fas fa-trash me-1"></i>Delete
+              </button>
+            </div>
+          </div>
+
+          <!-- Access URL Section -->
+          <div class="card mb-4">
+            <div class="card-header bg-light">
+              <h5 class="mb-0">
+                <i class="fas fa-link me-2"></i>Access URL
+                <i class="fas fa-pencil-alt text-muted ms-2" style="font-size: 0.7em; cursor: pointer;" 
+                   title="Edit access URL"></i>
+              </h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-2">
+                  <strong>URL</strong>
+                </div>
+                <div class="col-md-10">
+                  <span class="text-primary">{{organizationData.accessUrl || 'https://recruitqa1.localzoho.com/recruit/org875438l6/'}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Locale Information Section -->
+          <div class="card mb-4">
+            <div class="card-header bg-light">
+              <h5 class="mb-0">
+                <i class="fas fa-globe me-2"></i>Locale Information
+                <i class="fas fa-pencil-alt text-muted ms-2" style="font-size: 0.7em; cursor: pointer;" 
+                   title="Edit locale information"></i>
+              </h5>
+            </div>
+            <div class="card-body">
+              <div class="row mb-3">
+                <div class="col-md-3">
+                  <strong>Currency Locale</strong>
+                </div>
+                <div class="col-md-9">
+                  {{organizationData.localeInfo?.currencyLocale || 'United States'}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <strong>Time Zone</strong>
+                </div>
+                <div class="col-md-9">
+                  {{organizationData.localeInfo?.timeZone || '(GMT 5:30) India Standard Time(Asia/Kolkata)'}}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Save Button -->
+          <div class="text-end">
+            <button type="button" class="btn btn-secondary me-2" ng-click="goBack()">
+              <i class="fas fa-arrow-left me-1"></i>Back to Settings
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="saveCompanyDetails()">
+              <i class="fas fa-save me-1"></i>Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fiscal Year Tab -->
+    <div class="tab-pane fade" id="fiscal-year" role="tabpanel" aria-labelledby="fiscal-year-tab">
+      <div class="card">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            <i class="fas fa-calendar-alt me-2"></i>Fiscal Year Settings
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Configure your organization's fiscal year period for financial reporting.
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="fiscalYearStart" class="form-label">Fiscal Year Start</label>
+              <input type="date" class="form-control" id="fiscalYearStart" 
+                     ng-model="organizationData.fiscalYear.startDate">
+            </div>
+            <div class="col-md-6">
+              <label for="fiscalYearEnd" class="form-label">Fiscal Year End</label>
+              <input type="date" class="form-control" id="fiscalYearEnd" 
+                     ng-model="organizationData.fiscalYear.endDate">
+            </div>
+          </div>
+          
+          <!-- Save Button for Fiscal Year -->
+          <div class="text-end mt-3">
+            <button type="button" class="btn btn-primary" ng-click="saveFiscalYear()">
+              <i class="fas fa-save me-1"></i>Save Fiscal Year Settings
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Business Hours Tab -->
+    <div class="tab-pane fade" id="business-hours" role="tabpanel" aria-labelledby="business-hours-tab">
+      <div class="card">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            <i class="fas fa-clock me-2"></i>Business Hours Configuration
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Set your organization's working hours for each day of the week.
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Working Day</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="day in businessHours">
+                  <td><strong>{{day.name}}</strong></td>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" ng-model="day.isWorkingDay" 
+                             id="working-{{day.code}}">
+                      <label class="form-check-label" for="working-{{day.code}}">
+                        Working Day
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" ng-model="day.startTime" 
+                           ng-disabled="!day.isWorkingDay">
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" ng-model="day.endTime" 
+                           ng-disabled="!day.isWorkingDay">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Save Button for Business Hours -->
+          <div class="text-end mt-3">
+            <button type="button" class="btn btn-primary" ng-click="saveBusinessHours()">
+              <i class="fas fa-save me-1"></i>Save Business Hours
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Holidays Tab -->
+    <div class="tab-pane fade" id="holidays" role="tabpanel" aria-labelledby="holidays-tab">
+      <div class="card">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">
+            <i class="fas fa-calendar-times me-2"></i>Holiday Calendar
+          </h5>
+          <button class="btn btn-primary btn-sm" ng-click="addHoliday()">
+            <i class="fas fa-plus me-1"></i>Add Holiday
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Manage your organization's holiday calendar for the year.
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Holiday Name</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="holiday in holidays">
+                  <td>{{holiday.date | date:'MMM dd, yyyy'}}</td>
+                  <td>{{holiday.name}}</td>
+                  <td>{{holiday.description}}</td>
+                  <td>
+                    <button class="btn btn-outline-primary btn-sm me-2" ng-click="editHoliday(holiday)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm" ng-click="deleteHoliday(holiday)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr ng-if="holidays.length === 0">
+                  <td colspan="4" class="text-center text-muted">
+                    <i class="fas fa-calendar-times fa-2x mb-2"></i>
+                    <br>No holidays configured yet. Click "Add Holiday" to get started.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Save Button for Holidays -->
+          <div class="text-end mt-3">
+            <button type="button" class="btn btn-primary" ng-click="saveHolidays()">
+              <i class="fas fa-save me-1"></i>Save Holiday Calendar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Currencies Tab -->
+    <div class="tab-pane fade" id="currencies" role="tabpanel" aria-labelledby="currencies-tab">
+      <div class="card">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">
+            <i class="fas fa-dollar-sign me-2"></i>Currency Configuration
+          </h5>
+          <button class="btn btn-primary btn-sm" ng-click="addCurrency()">
+            <i class="fas fa-plus me-1"></i>Add Currency
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Configure supported currencies for your organization.
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Currency Code</th>
+                  <th>Currency Name</th>
+                  <th>Symbol</th>
+                  <th>Exchange Rate</th>
+                  <th>Default</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="currency in currencies">
+                  <td><strong>{{currency.code}}</strong></td>
+                  <td>{{currency.name}}</td>
+                  <td>{{currency.symbol}}</td>
+                  <td>{{currency.exchangeRate | currency}}</td>
+                  <td>
+                    <span ng-if="currency.isDefault" class="badge bg-success">
+                      <i class="fas fa-check me-1"></i>Default
+                    </span>
+                  </td>
+                  <td>
+                    <button class="btn btn-outline-primary btn-sm me-2" ng-click="editCurrency(currency)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm" ng-click="deleteCurrency(currency)" 
+                            ng-disabled="currency.isDefault">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr ng-if="currencies.length === 0">
+                  <td colspan="6" class="text-center text-muted">
+                    <i class="fas fa-dollar-sign fa-2x mb-2"></i>
+                    <br>No currencies configured yet. Click "Add Currency" to get started.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Save Button for Currencies -->
+          <div class="text-end mt-3">
+            <button type="button" class="btn btn-primary" ng-click="saveCurrencies()">
+              <i class="fas fa-save me-1"></i>Save Currency Configuration
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.organization-logo-container {
+  text-align: center;
+}
+
+.organization-logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  margin: 0 auto;
+}
+
+.organization-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 6px;
+}
+
+.logo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.organization-name {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.organization-details p {
+  color: #6c757d;
+  margin-bottom: 8px;
+}
+
+.organization-details i {
+  color: #6c757d;
+  width: 16px;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid #e9ecef;
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  color: #6c757d;
+  font-weight: 500;
+  padding: 12px 20px;
+}
+
+.nav-tabs .nav-link:hover {
+  color: #0d6efd;
+  border: none;
+}
+
+.nav-tabs .nav-link.active {
+  color: #0d6efd;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #0d6efd;
+}
+
+.card-header {
+  background: #f8f9fa !important;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.card-header h5 {
+  color: #495057;
+  font-weight: 600;
+}
+</style>

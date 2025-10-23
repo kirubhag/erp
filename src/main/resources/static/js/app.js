@@ -107,12 +107,12 @@ angular.module('erpApp', ['ngRoute'])
                 }]
             }
         })
-        .when('/settings/company-details', {
-            templateUrl: '/templates/settings/settings.html',
-            controller: 'SettingsController',
+        .when('/settings/organization-details', {
+            templateUrl: '/templates/organization/organization-details.html',
+            controller: 'OrganizationDetailsController',
             resolve: {
                 loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
-                    return ScriptLoaderService.loadModule('settings');
+                    return ScriptLoaderService.loadModule('organization');
                 }]
             }
         })

@@ -200,6 +200,11 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
                 '/js/modules/health.module.js?v=2',
                 '/js/health/health.service.js?v=3',
                 '/js/health/health.controller.js?v=3'
+            ],
+            'organization': [
+                '/js/modules/organization.module.js?v=1',
+                '/js/organization/organization.service.js?v=1',
+                '/js/organization/organization-details.controller.js?v=1'
             ]
         };
 
