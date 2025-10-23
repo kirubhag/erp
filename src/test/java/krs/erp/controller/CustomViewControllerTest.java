@@ -66,9 +66,9 @@ class CustomViewControllerTest {
         customView.setIsDefault(false);
         customView.setIsPublic(true);
         customView.setCreatedBy("1");
-        customView.setCreatedAt(LocalDateTime.now());
-        customView.setUpdatedBy("1");
-        customView.setUpdatedAt(LocalDateTime.now());
+        customView.setCreatedTime(LocalDateTime.now());
+        customView.setModifiedBy("1");
+        customView.setModifiedTime(LocalDateTime.now());
 
         customViewDTO = new CustomViewDTO();
         customViewDTO.setId(1L);
@@ -79,7 +79,7 @@ class CustomViewControllerTest {
         customViewDTO.setIsDefault(false);
         customViewDTO.setIsPublic(true);
         customViewDTO.setCreatedBy("1");
-        customViewDTO.setCreatedAt(LocalDateTime.now());
+        customViewDTO.setCreatedTime(LocalDateTime.now());
     }
 
     @Test

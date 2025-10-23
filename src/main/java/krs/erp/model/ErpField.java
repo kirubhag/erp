@@ -57,8 +57,8 @@ public class ErpField extends BaseEntity {
         this.fieldLabel = fieldLabel;
         this.fieldType = fieldType;
         setIsActive(true);
-        setCreatedAt(LocalDateTime.now());
-        setUpdatedAt(LocalDateTime.now());
+        setCreatedTime(LocalDateTime.now());
+        setModifiedTime(LocalDateTime.now());
     }
     
     // Getters and Setters

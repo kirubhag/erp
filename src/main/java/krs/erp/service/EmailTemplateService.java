@@ -42,8 +42,8 @@ public class EmailTemplateService {
             throw new RuntimeException("Template with name '" + template.getTemplateName() + "' already exists");
         }
         
-        template.setCreatedAt(LocalDateTime.now());
-        template.setUpdatedAt(LocalDateTime.now());
+        template.setCreatedTime(LocalDateTime.now());
+        template.setModifiedTime(LocalDateTime.now());
         template.setUsageCount(0);
         
         // Set available variables based on entity type
@@ -75,7 +75,7 @@ public class EmailTemplateService {
             template.setEntityType(templateDetails.getEntityType());
             template.setDescription(templateDetails.getDescription());
             template.setIsActive(templateDetails.getIsActive());
-            template.setUpdatedAt(LocalDateTime.now());
+            template.setModifiedTime(LocalDateTime.now());
             
             // Update available variables based on entity type
             template.setAvailableVariables(getAvailableVariablesForEntityType(template.getEntityType()));

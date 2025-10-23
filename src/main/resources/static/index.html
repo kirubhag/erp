@@ -119,11 +119,22 @@
     <script src="/vendor/angularjs/angular-route.min.js"></script>
     
     <!-- Core Application JS Files -->
-            <script src="/js/app.js?v=4"></script>
-            <script src="/js/core/script-loader.service.js?v=2"></script>
+    <script src="/js/app.js?v=7"></script>
+    <script src="/js/core/script-loader.service.js?v=8"></script>
     <script src="/js/core/performance-monitor.service.js?v=1"></script>
     <script src="/js/core/api.js?v=3"></script>
     <script src="/js/core/main.controller.js?v=3"></script>
+    <script src="/js/core/lazy-controllers.js?v=3"></script>
+    
+    <!-- Student Module - Load Immediately -->
+    <script src="/js/modules/students.module.js?v=2"></script>
+    <script src="/js/student/student.service.js?v=4"></script>
+    <script src="/js/student/student.controller.simple.js?v=2"></script>
+    
+    <!-- Parent Module - Load Immediately -->
+    <script src="/js/modules/parents.module.js?v=2"></script>
+    <script src="/js/parent/parent.service.js?v=3"></script>
+    <script src="/js/parent/parent.controller.js?v=3"></script>
     
     <!-- Entity-specific JS files are now loaded lazily when needed -->
 </body>

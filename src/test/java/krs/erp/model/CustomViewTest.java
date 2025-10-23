@@ -173,9 +173,9 @@ class CustomViewTest {
     @Test
     void testInheritedBaseEntityFields() {
         // Test that CustomView inherits from BaseEntity
-        // createdAt and updatedAt are null for new entities (set by @CreationTimestamp/@UpdateTimestamp)
-        assertNull(customView.getCreatedAt());
-        assertNull(customView.getUpdatedAt());
+        // createdTime and modifiedTime are null for new entities (set by @CreationTimestamp/@UpdateTimestamp)
+        assertNull(customView.getCreatedTime());
+        assertNull(customView.getModifiedTime());
         // ID should be null for new entities
         assertNull(customView.getId());
         // isActive should default to true from BaseEntity

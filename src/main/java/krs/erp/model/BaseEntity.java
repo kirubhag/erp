@@ -18,19 +18,23 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-    
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    
     @Column(name = "created_by")
     private String createdBy;
     
-    @Column(name = "updated_by")
-    private String updatedBy;
+    // Additional audit fields as per requirements
+    @Column(name = "modified_by")
+    private String modifiedBy;
+    
+    @CreationTimestamp
+    @Column(name = "created_time", nullable = false, updatable = false)
+    private LocalDateTime createdTime;
+    
+    @UpdateTimestamp
+    @Column(name = "modified_time")
+    private LocalDateTime modifiedTime;
+    
+    @Column(name = "owner_id")
+    private Long ownerId;
     
     @Column(name = "is_active")
     private Boolean isActive = true;
@@ -47,22 +51,6 @@ public abstract class BaseEntity {
         this.id = id;
     }
     
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-    
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-    
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-    
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-    
     public String getCreatedBy() {
         return createdBy;
     }
@@ -71,12 +59,36 @@ public abstract class BaseEntity {
         this.createdBy = createdBy;
     }
     
-    public String getUpdatedBy() {
-        return updatedBy;
+    public String getModifiedBy() {
+        return modifiedBy;
     }
     
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+    
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+    
+    public void setCreatedTime(LocalDateTime createdTime) {
+        this.createdTime = createdTime;
+    }
+    
+    public LocalDateTime getModifiedTime() {
+        return modifiedTime;
+    }
+    
+    public void setModifiedTime(LocalDateTime modifiedTime) {
+        this.modifiedTime = modifiedTime;
+    }
+    
+    public Long getOwnerId() {
+        return ownerId;
+    }
+    
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
     
     public Boolean getIsActive() {

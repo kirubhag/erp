@@ -108,8 +108,8 @@ public class ErpFieldXmlLoaderService {
         if (!fieldsToSave.isEmpty()) {
             LocalDateTime now = LocalDateTime.now();
             fieldsToSave.forEach(field -> {
-                field.setCreatedAt(now);
-                field.setUpdatedAt(now);
+                field.setCreatedTime(now);
+                field.setModifiedTime(now);
                 field.setIsActive(true);
             });
             

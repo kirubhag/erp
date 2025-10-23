@@ -44,9 +44,22 @@
                     <button class="btn btn-primary" ng-click="showAddStudentForm()">
                         <i class="fas fa-plus me-1"></i>Add Student
                     </button>
+                    <!-- DEBUG BUTTON -->
+                    <button class="btn btn-danger" ng-click="loadStudents()" style="margin-left: 10px;">
+                        <i class="fas fa-bug me-1"></i>DEBUG: Load Students
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- DEBUG INFO -->
+    <div class="alert alert-info">
+        <strong>DEBUG INFO:</strong> 
+        Loading: {{loading}} | 
+        Students Count: {{students.length || 0}} | 
+        Is Placeholder: {{isPlaceholder}} |
+        First Student: {{students[0].firstName || 'None'}}
     </div>
 
     <!-- Filters and Search -->

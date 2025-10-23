@@ -19,19 +19,19 @@ public class CustomViewDTO {
     private String createdBy;
     
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdTime;
     
-    private String updatedBy;
+    private String modifiedBy;
     
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
+    private LocalDateTime modifiedTime;
     
     // Constructors
     public CustomViewDTO() {}
     
     public CustomViewDTO(Long id, String viewName, String description, EntityType entityType, 
                         List<String> selectedFields, Boolean isDefault, Boolean isPublic,
-                        String createdBy, LocalDateTime createdAt, String updatedBy, LocalDateTime updatedAt) {
+                        String createdBy, LocalDateTime createdTime, String modifiedBy, LocalDateTime modifiedTime) {
         this.id = id;
         this.viewName = viewName;
         this.description = description;
@@ -40,9 +40,9 @@ public class CustomViewDTO {
         this.isDefault = isDefault;
         this.isPublic = isPublic;
         this.createdBy = createdBy;
-        this.createdAt = createdAt;
-        this.updatedBy = updatedBy;
-        this.updatedAt = updatedAt;
+        this.createdTime = createdTime;
+        this.modifiedBy = modifiedBy;
+        this.modifiedTime = modifiedTime;
     }
     
     // Getters and Setters
@@ -110,28 +110,28 @@ public class CustomViewDTO {
         this.createdBy = createdBy;
     }
     
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
     }
     
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedTime(LocalDateTime createdTime) {
+        this.createdTime = createdTime;
     }
     
-    public String getUpdatedBy() {
-        return updatedBy;
+    public String getModifiedBy() {
+        return modifiedBy;
     }
     
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
     }
     
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public LocalDateTime getModifiedTime() {
+        return modifiedTime;
     }
     
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setModifiedTime(LocalDateTime modifiedTime) {
+        this.modifiedTime = modifiedTime;
     }
     
     @Override
@@ -145,9 +145,9 @@ public class CustomViewDTO {
                 ", isDefault=" + isDefault +
                 ", isPublic=" + isPublic +
                 ", createdBy='" + createdBy + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedBy='" + updatedBy + '\'' +
-                ", updatedAt=" + updatedAt +
+                ", createdTime=" + createdTime +
+                ", modifiedBy='" + modifiedBy + '\'' +
+                ", modifiedTime=" + modifiedTime +
                 '}';
     }
 }

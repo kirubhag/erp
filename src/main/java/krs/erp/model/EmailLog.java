@@ -121,7 +121,7 @@ public class EmailLog extends BaseEntity {
         this.subject = subject;
         this.body = body;
         this.status = EmailStatus.PENDING;
-        this.setCreatedAt(LocalDateTime.now());
+        this.setCreatedTime(LocalDateTime.now());
     }
     
     // Getters and Setters
@@ -207,7 +207,7 @@ public class EmailLog extends BaseEntity {
                 break;
         }
         
-        this.setUpdatedAt(now);
+        this.setModifiedTime(now);
     }
     
     public LocalDateTime getSentAt() {

@@ -252,9 +252,9 @@ public class CustomViewController {
                 customView.getIsDefault(),
                 customView.getIsPublic(),
                 customView.getCreatedBy(),
-                customView.getCreatedAt(),
-                customView.getUpdatedBy(),
-                customView.getUpdatedAt()
+                customView.getCreatedTime(),
+                customView.getModifiedBy(),
+                customView.getModifiedTime()
         );
     }
     

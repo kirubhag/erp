@@ -599,17 +599,24 @@ public class DataImportService {
     
     private void setBaseEntityFields(Object entity, Element element) {
         try {
+            // Map old field names to new ones for backward compatibility
             String createdAt = getAttributeOrNull(element, "created_at");
             String updatedAt = getAttributeOrNull(element, "updated_at");
+            String createdTime = getAttributeOrNull(element, "created_time");
+            String modifiedTime = getAttributeOrNull(element, "modified_time");
             
-            if (createdAt != null) {
-                entity.getClass().getMethod("setCreatedAt", LocalDateTime.class)
-                      .invoke(entity, parseLocalDateTime(createdAt));
+            // Use created_time if available, otherwise fall back to created_at
+            String timeToSet = createdTime != null ? createdTime : createdAt;
+            if (timeToSet != null) {
+                entity.getClass().getMethod("setCreatedTime", LocalDateTime.class)
+                      .invoke(entity, parseLocalDateTime(timeToSet));
             }
             
-            if (updatedAt != null) {
-                entity.getClass().getMethod("setUpdatedAt", LocalDateTime.class)
-                      .invoke(entity, parseLocalDateTime(updatedAt));
+            // Use modified_time if available, otherwise fall back to updated_at
+            String modTimeToSet = modifiedTime != null ? modifiedTime : updatedAt;
+            if (modTimeToSet != null) {
+                entity.getClass().getMethod("setModifiedTime", LocalDateTime.class)
+                      .invoke(entity, parseLocalDateTime(modTimeToSet));
             }
         } catch (Exception e) {
             // Ignore if fields don't exist or can't be set

@@ -219,8 +219,8 @@ public class OrganizationDataSeeder implements CommandLineRunner {
         org.setLogoUrl(logoUrl);
         
         // Set audit fields
-        org.setCreatedAt(LocalDateTime.now());
-        org.setUpdatedAt(LocalDateTime.now());
+        org.setCreatedTime(LocalDateTime.now());
+        org.setModifiedTime(LocalDateTime.now());
         org.setIsActive(true);
         
         return org;

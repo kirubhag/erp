@@ -73,9 +73,9 @@ public class ErpFieldService {
      */
     public ErpField saveField(ErpField field) {
         if (field.getId() == null) {
-            field.setCreatedAt(LocalDateTime.now());
+            field.setCreatedTime(LocalDateTime.now());
         }
-        field.setUpdatedAt(LocalDateTime.now());
+        field.setModifiedTime(LocalDateTime.now());
         return erpFieldRepository.save(field);
     }
 
@@ -86,9 +86,9 @@ public class ErpFieldService {
         LocalDateTime now = LocalDateTime.now();
         fields.forEach(field -> {
             if (field.getId() == null) {
-                field.setCreatedAt(now);
+                field.setCreatedTime(now);
             }
-            field.setUpdatedAt(now);
+            field.setModifiedTime(now);
         });
         return erpFieldRepository.saveAll(fields);
     }
@@ -114,7 +114,7 @@ public class ErpFieldService {
         ErpField field = erpFieldRepository.findById(fieldId)
                 .orElseThrow(() -> new RuntimeException("Field not found"));
         field.setIsActive(false);
-        field.setUpdatedAt(LocalDateTime.now());
+        field.setModifiedTime(LocalDateTime.now());
         erpFieldRepository.save(field);
     }
 

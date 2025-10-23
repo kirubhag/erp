@@ -112,26 +112,54 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
             return this.loadScripts(moduleScripts).then(function(results) {
                 console.log('📦 Scripts loaded, waiting for registration...');
                 
-                // Wait for controllers to be properly registered
-                return $timeout(function() {
-                    // Verify controller registration based on module
-                    var expectedController = '';
-                    switch(moduleName) {
-                        case 'students': expectedController = 'StudentController'; break;
-                        case 'settings': expectedController = 'SettingsController'; break;
-                        case 'parents': expectedController = 'ParentController'; break;
-                        case 'attendance': expectedController = 'AttendanceController'; break;
-                        case 'health': expectedController = 'HealthController'; break;
-                    }
+                // Force AngularJS to fully process the controller registration
+                console.log('📦 Scripts loaded, forcing AngularJS to process registrations...');
+                
+                // Create a deferred promise that we'll resolve manually
+                var deferred = $q.defer();
+                
+                // Force multiple digest cycles to ensure registration is processed
+                var cycleCount = 0;
+                var maxCycles = 5;
+                
+                function forceDigestCycles() {
+                    cycleCount++;
+                    console.log('🔄 Forcing digest cycle ' + cycleCount + '/' + maxCycles + ' to process registrations...');
                     
-                    if (expectedController) {
-                        console.log('🔍 Controller expected to be available:', expectedController);
-                        console.log('✅ Assuming controller is properly registered (verification disabled to avoid issues)');
-                    }
-                    
-                    console.log('✅ Module loading completed:', moduleName);
-                    return results;
-                }, 1000); // Increased delay to 1000ms for better reliability with sequential loading
+                    $timeout(function() {
+                        // Try to get the controller name for this module
+                        var controllerName = '';
+                        switch(moduleName) {
+                            case 'students': controllerName = 'StudentController'; break;
+                            case 'settings': controllerName = 'SettingsController'; break;
+                            case 'parents': controllerName = 'ParentController'; break;
+                            case 'attendance': controllerName = 'AttendanceController'; break;
+                            case 'health': controllerName = 'HealthController'; break;
+                        }
+                        
+                        if (controllerName) {
+                            console.log('🔍 Cycle ' + cycleCount + ': Checking if AngularJS can access ' + controllerName + '...');
+                            
+                            // Check if we have more cycles to run
+                            if (cycleCount < maxCycles) {
+                                // Continue with more cycles
+                                forceDigestCycles();
+                                return;
+                            } else {
+                                // Final verification after all cycles
+                                console.log('✅ Completed ' + maxCycles + ' digest cycles for ' + controllerName);
+                            }
+                        }
+                        
+                        console.log('✅ Module loading completed after digest cycles:', moduleName);
+                        deferred.resolve(results);
+                    }, 300); // 300ms between each cycle
+                }
+                
+                // Start the digest cycle process
+                forceDigestCycles();
+                
+                return deferred.promise;
             });
         }
         return $q.resolve();
@@ -154,7 +182,7 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
             'students': [
                 '/js/modules/students.module.js?v=2',
                 '/js/student/student.service.js?v=4',
-                '/js/student/student.controller.js?v=5'
+                '/js/student/student.controller.js?v=18'
             ],
             'parents': [
                 '/js/modules/parents.module.js?v=2',

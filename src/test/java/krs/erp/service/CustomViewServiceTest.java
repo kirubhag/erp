@@ -55,7 +55,7 @@ class CustomViewServiceTest {
         customView.setIsDefault(false);
         customView.setIsPublic(true);
         customView.setCreatedBy("1");
-        customView.setCreatedAt(LocalDateTime.now());
+        customView.setCreatedTime(LocalDateTime.now());
     }
 
     @Test
@@ -165,9 +165,9 @@ class CustomViewServiceTest {
 
         assertNotNull(result);
         assertEquals(userId.toString(), newView.getCreatedBy());
-        assertEquals(userId.toString(), newView.getUpdatedBy());
-        assertNotNull(newView.getCreatedAt());
-        assertNotNull(newView.getUpdatedAt());
+        assertEquals(userId.toString(), newView.getModifiedBy());
+        assertNotNull(newView.getCreatedTime());
+        assertNotNull(newView.getModifiedTime());
         verify(customViewRepository).save(newView);
     }
 
@@ -211,8 +211,8 @@ class CustomViewServiceTest {
         assertNotNull(result);
         assertEquals("Updated View", customView.getViewName());
         assertEquals("Updated Description", customView.getDescription());
-        assertEquals(userId.toString(), customView.getUpdatedBy());
-        assertNotNull(customView.getUpdatedAt());
+        assertEquals(userId.toString(), customView.getModifiedBy());
+        assertNotNull(customView.getModifiedTime());
         verify(customViewRepository).findById(1L);
         verify(customViewRepository).save(customView);
     }

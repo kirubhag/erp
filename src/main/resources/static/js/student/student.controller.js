@@ -1,6 +1,12 @@
 // Generic Custom View Service for Student Entity
 console.log('📍 Registering StudentCustomViewService...');
-angular.module('erpApp').factory('StudentCustomViewService', ['$http', function($http) {
+
+// Register service with explicit module verification
+try {
+    var appModule = angular.module('erpApp');
+    console.log('✅ Found erpApp module for service registration');
+    
+    appModule.factory('StudentCustomViewService', ['$http', function($http) {
     console.log('🎯 StudentCustomViewService instantiated successfully');
     var baseUrl = '/api/custom-views';
     var entityType = 'STUDENT';
@@ -92,10 +98,42 @@ angular.module('erpApp').factory('StudentCustomViewService', ['$http', function(
     };
 }]);
 
-// Student Controller - Handles student management UI logic
+    console.log('✅ StudentCustomViewService registered successfully');
+} catch (serviceError) {
+    console.error('❌ Error registering StudentCustomViewService:', serviceError);
+}
+
+// Student Controller - Handles student management UI logic  
 console.log('📍 Registering StudentController...');
-angular.module('erpApp').controller('StudentController', ['$scope', '$http', 'StudentCustomViewService', function($scope, $http, StudentCustomViewService) {
-    console.log('🎯 StudentController instantiated successfully');
+
+// Register controller with explicit module verification
+try {
+    // Ensure we have the correct module reference
+    var appModule;
+    try {
+        appModule = angular.module('erpApp');
+        console.log('✅ Found erpApp module for controller registration');
+    } catch (moduleError) {
+        console.error('❌ Could not find erpApp module:', moduleError);
+        throw new Error('erpApp module not available');
+    }
+    
+    // Override the placeholder controller with the real implementation
+    console.log('🔄 Overriding placeholder StudentController with real implementation...');
+    console.log('🚀 Registering StudentController...');
+
+// Get the app module
+var appModule = angular.module('erpApp');
+    
+    // Force replacement of existing controller instances
+    appModule.controller('StudentController', ['$scope', '$http', 'StudentCustomViewService', function($scope, $http, StudentCustomViewService) {
+        console.log('🔄 REAL StudentController is now active!');
+        console.log('🔄 Replacing placeholder controller...');
+        
+        // Clear placeholder flag
+        $scope.isPlaceholder = false;
+        
+        console.log('🎯 StudentController instantiated successfully');
     // Basic properties
     $scope.students = [];
     $scope.currentStudent = {};
@@ -120,27 +158,29 @@ angular.module('erpApp').controller('StudentController', ['$scope', '$http', 'St
     
     // Initialize controller
     $scope.init = function() {
+        console.log('🎯 StudentController init() called - starting initialization');
+        console.log('📊 About to call loadStudents');
         $scope.loadStudents();
+        console.log('📋 About to call loadCustomViews');
         $scope.loadCustomViews();
+        console.log('🏷️ About to call loadAvailableFields');
         $scope.loadAvailableFields();
+        console.log('⚙️ About to call loadDefaultView');
         $scope.loadDefaultView();
+        console.log('✅ StudentController init() completed all calls');
     };
     
     // Load default view - removed custom view system
     
     // Load students
     $scope.loadStudents = function(page) {
+        console.log('📊 loadStudents called with page:', page);
         $scope.loading = true;
         page = page || 0;
         
-        var params = {
-            page: page,
-            size: $scope.pagination.size,
-            sort: 'id,asc'
-        };
-        
-        $http.get('/api/students', { params: params })
+        $http.get('/api/students?page=' + page + '&size=10&sort=id,asc')
             .then(function(response) {
+                console.log('🎉 Students loaded successfully:', response.data);
                 $scope.students = response.data.content || response.data;
                 if (response.data.totalElements !== undefined) {
                     $scope.pagination.totalElements = response.data.totalElements;
@@ -148,10 +188,20 @@ angular.module('erpApp').controller('StudentController', ['$scope', '$http', 'St
                     $scope.pagination.currentPage = response.data.number;
                 }
                 $scope.loading = false;
+                console.log('✅ Students array final count:', $scope.students.length);
+                
+                // Force digest to update view
+                if (!$scope.$$phase) {
+                    $scope.$apply();
+                }
             })
             .catch(function(error) {
-                console.error('Error loading students:', error);
+                console.error('❌ Error loading students:', error);
                 $scope.loading = false;
+                // Force digest to update view
+                if (!$scope.$$phase) {
+                    $scope.$apply();
+                }
             });
     };
     
@@ -459,8 +509,8 @@ angular.module('erpApp').controller('StudentController', ['$scope', '$http', 'St
         duplicatedView.viewName = newViewName;
         duplicatedView.isDefault = false;
         delete duplicatedView.id;
-        delete duplicatedView.createdAt;
-        delete duplicatedView.updatedAt;
+        delete duplicatedView.createdTime;
+        delete duplicatedView.modifiedTime;
         
         $scope.loading = true;
         StudentCustomViewService.createCustomView(duplicatedView)
@@ -561,9 +611,11 @@ angular.module('erpApp').controller('StudentController', ['$scope', '$http', 'St
         var testData = StudentCustomViewService.createDefaultViewData();
     };
     
-    // Initialize controller when loaded
-    $scope.init();
-    
-    // Test the service immediately
-    $scope.testService();
-}]);
+        // Initialize controller when loaded
+        console.log('🔴 ABOUT TO CALL $scope.init()');
+        $scope.init();
+        console.log('🔴 FINISHED CALLING $scope.init()');
+        
+    }]);
+
+console.log('✅ StudentController registered successfully');
