@@ -7,9 +7,7 @@
      * Loaded lazily when accessing health pages
      */
     
-    console.log('Loading health module...');
-
-    // Module-specific constants for health
+    // Module-specific constants for health module
     angular.module('erpApp').constant('HEALTH_CONSTANTS', {
         RECORD_TYPES: {
             VACCINATION: 'vaccination',
@@ -57,6 +55,4 @@
             'Urinary'
         ]
     });
-
-    console.log('Health module loaded successfully');
 })();

@@ -153,13 +153,12 @@ angular.module('erpApp', ['ngRoute'])
             }
         })
         .when('/settings/modules', {
-            templateUrl: '/templates/settings/settings.html',
-            controller: 'SettingsController',
-            resolve: {
-                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
-                    return ScriptLoaderService.loadModule('settings');
-                }]
-            }
+            templateUrl: '/templates/modules/modules.html',
+            controller: 'ModulesController'
+        })
+        .when('/settings/modules/:entityType/fields', {
+            templateUrl: '/templates/settings/entity-field-layout.html',
+            controller: 'EntityFieldLayoutController'
         })
         .when('/settings/vendor-portal', {
             templateUrl: '/templates/settings/settings.html',
@@ -390,7 +389,6 @@ angular.module('erpApp').filter('date', function() {
             return date.toLocaleDateString();
             
         } catch (e) {
-            console.warn('Date filter error:', e);
             return input;
         }
     };
@@ -520,7 +518,7 @@ angular.module('erpApp').directive('dateInput', function() {
                         return `${year}-${month}-${day}`;
                     }
                 } catch (e) {
-                    console.warn('Date formatting error:', e);
+                    // Silently handle date formatting errors
                 }
                 
                 return '';
@@ -579,7 +577,6 @@ angular.module('erpApp').config(['$provide', function($provide) {
             if (exception && exception.message && 
                 (exception.message.includes('ngModel:datefmt') || 
                  exception.message.includes('datefmt'))) {
-                console.warn('AngularJS date format error suppressed - using custom date handling');
                 return; // Completely suppress this error
             }
             

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import krs.erp.enums.EntityType;
+import krs.erp.enums.UIFieldType;
 import krs.erp.model.ErpField;
 import krs.erp.service.ErpFieldService;
 
@@ -193,5 +194,72 @@ public class ErpFieldController {
         }
     }
 
+    /**
+     * Get all available UI field types
+     */
+    @GetMapping("/ui-types")
+    public ResponseEntity<UIFieldType[]> getUIFieldTypes() {
+        try {
+            return ResponseEntity.ok(UIFieldType.values());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Get UI field type by ID
+     */
+    @GetMapping("/ui-types/{typeId}")
+    public ResponseEntity<UIFieldType> getUIFieldType(@PathVariable int typeId) {
+        try {
+            UIFieldType uiFieldType = UIFieldType.getById(typeId);
+            if (uiFieldType != null) {
+                return ResponseEntity.ok(uiFieldType);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Get all fields for entity type including UI type information
+     */
+    @GetMapping("/{entityType}/all")
+    public ResponseEntity<List<ErpField>> getAllFieldsWithUIType(@PathVariable EntityType entityType) {
+        try {
+            List<ErpField> fields = erpFieldService.getAllFieldsWithUIType(entityType);
+            return ResponseEntity.ok(fields);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Get fields by UI field type
+     */
+    @GetMapping("/{entityType}/ui-type/{uiType}")
+    public ResponseEntity<List<ErpField>> getFieldsByUIType(@PathVariable EntityType entityType, @PathVariable int uiType) {
+        try {
+            List<ErpField> fields = erpFieldService.getFieldsByUIType(entityType, uiType);
+            return ResponseEntity.ok(fields);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Validate field configuration for UI type
+     */
+    @PostMapping("/validate")
+    public ResponseEntity<Map<String, Object>> validateField(@RequestBody ErpField field) {
+        try {
+            Map<String, Object> validation = erpFieldService.validateFieldConfiguration(field);
+            return ResponseEntity.ok(validation);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 }

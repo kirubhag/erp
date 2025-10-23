@@ -1,0 +1,230 @@
+<!-- Lightning-style Entity Field Management Layout -->
+<div class="lightning-field-manager">
+    <!-- Header Section -->
+    <div class="lightning-header">
+        <div class="header-content">
+            <div class="breadcrumb-nav">
+                <a href="#/settings" class="breadcrumb-link">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="#/settings" class="breadcrumb-link">Modules</a>
+                <i class="fas fa-chevron-right"></i>
+                <span class="current-breadcrumb">{{currentEntity.displayName}} Fields</span>
+            </div>
+            <div class="entity-header">
+                <div class="entity-info">
+                    <div class="entity-icon">
+                        <i class="fas fa-{{currentEntity.icon}}"></i>
+                    </div>
+                    <div class="entity-details">
+                        <h1 class="entity-title">{{currentEntity.displayName}}</h1>
+                        <p class="entity-subtitle">Object Manager</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline-secondary" ng-click="refreshFields()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn btn-primary" ng-click="addNewField()">
+                        <i class="fas fa-plus"></i> New Field
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightning Tabs Navigation -->
+    <div class="lightning-tabs">
+        <div class="tab-container">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="fields">
+                    <i class="fas fa-list"></i> Fields & Relationships
+                </button>
+                <button class="tab-item" data-tab="layouts">
+                    <i class="fas fa-th-large"></i> Page Layouts
+                </button>
+                <button class="tab-item" data-tab="validation">
+                    <i class="fas fa-shield-alt"></i> Validation Rules
+                </button>
+                <button class="tab-item" data-tab="triggers">
+                    <i class="fas fa-bolt"></i> Triggers
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="lightning-content">
+        <!-- Fields Tab Content -->
+        <div class="tab-content active" id="fields-tab">
+            <div class="content-header">
+                <div class="section-title">
+                    <h2>Fields & Relationships</h2>
+                    <p>Customize how data is collected and stored in {{currentEntity.displayName}} records.</p>
+                </div>
+                <div class="field-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" 
+                               ng-model="fieldSearchTerm" 
+                               placeholder="Search fields..."
+                               class="search-input">
+                    </div>
+                    <select class="filter-dropdown" ng-model="selectedCategory">
+                        <option value="">All Categories</option>
+                        <option ng-repeat="category in fieldCategories" value="{{category}}">{{category}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Field List Section -->
+            <div class="fields-container">
+                <!-- Custom Fields Section -->
+                <div class="field-section" ng-if="customFields.length > 0">
+                    <div class="section-header">
+                        <h3>
+                            <i class="fas fa-plus-circle"></i>
+                            Custom Fields & Relationships
+                            <span class="field-count">({{customFields.length}})</span>
+                        </h3>
+                        <button class="btn btn-sm btn-outline-primary" ng-click="addNewField()">
+                            <i class="fas fa-plus"></i> New
+                        </button>
+                    </div>
+                    <div class="field-grid">
+                        <div class="field-card" 
+                             ng-repeat="field in customFields | filter:fieldSearchTerm | filter:{fieldCategory: selectedCategory}"
+                             ng-click="editField(field)"
+                             ng-class="{'modified': field.isModified}">
+                            <div class="field-card-header">
+                                <div class="field-type-icon">
+                                    <i class="fas fa-{{getFieldIcon(field.uiType)}}"></i>
+                                </div>
+                                <div class="field-info">
+                                    <h4 class="field-label">{{field.fieldLabel}}</h4>
+                                    <p class="field-name">{{field.fieldName}}</p>
+                                </div>
+                                <div class="field-actions-menu">
+                                    <button class="action-btn" ng-click="editField(field); $event.stopPropagation()">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete-btn" ng-click="deleteField(field, $event)" ng-if="!field.isSystem">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="field-card-body">
+                                <div class="field-meta">
+                                    <span class="field-type">{{getUITypeName(field.uiType)}}</span>
+                                    <span class="field-required" ng-if="field.isRequired">
+                                        <i class="fas fa-asterisk"></i> Required
+                                    </span>
+                                    <span class="field-unique" ng-if="field.isUnique">
+                                        <i class="fas fa-key"></i> Unique
+                                    </span>
+                                </div>
+                                <p class="field-description" ng-if="field.fieldDescription">{{field.fieldDescription}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Standard Fields Section -->
+                <div class="field-section">
+                    <div class="section-header">
+                        <h3>
+                            <i class="fas fa-database"></i>
+                            Standard Fields
+                            <span class="field-count">({{coreFields.length}})</span>
+                        </h3>
+                    </div>
+                    <div class="field-grid">
+                        <div class="field-card standard-field" 
+                             ng-repeat="field in coreFields | filter:fieldSearchTerm | filter:{fieldCategory: selectedCategory}"
+                             ng-click="editField(field)"
+                             ng-class="{'system-field': field.isSystem, 'modified': field.isModified}">
+                            <div class="field-card-header">
+                                <div class="field-type-icon">
+                                    <i class="fas fa-{{getFieldIcon(field.uiType)}}"></i>
+                                </div>
+                                <div class="field-info">
+                                    <h4 class="field-label">{{field.fieldLabel}}</h4>
+                                    <p class="field-name">{{field.fieldName}}</p>
+                                </div>
+                                <div class="field-actions-menu">
+                                    <button class="action-btn" ng-click="editField(field); $event.stopPropagation()">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <span class="system-badge" ng-if="field.isSystem">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field-card-body">
+                                <div class="field-meta">
+                                    <span class="field-type">{{getUITypeName(field.uiType)}}</span>
+                                    <span class="field-required" ng-if="field.isRequired">
+                                        <i class="fas fa-asterisk"></i> Required
+                                    </span>
+                                    <span class="field-unique" ng-if="field.isUnique">
+                                        <i class="fas fa-key"></i> Unique
+                                    </span>
+                                </div>
+                                <p class="field-description" ng-if="field.fieldDescription">{{field.fieldDescription}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other tab contents (placeholder) -->
+        <div class="tab-content" id="layouts-tab">
+            <div class="coming-soon">
+                <i class="fas fa-th-large fa-3x"></i>
+                <h3>Page Layouts</h3>
+                <p>Configure how fields appear on record pages.</p>
+                <small>Coming soon...</small>
+            </div>
+        </div>
+
+        <div class="tab-content" id="validation-tab">
+            <div class="coming-soon">
+                <i class="fas fa-shield-alt fa-3x"></i>
+                <h3>Validation Rules</h3>
+                <p>Create rules to ensure data quality.</p>
+                <small>Coming soon...</small>
+            </div>
+        </div>
+
+        <div class="tab-content" id="triggers-tab">
+            <div class="coming-soon">
+                <i class="fas fa-bolt fa-3x"></i>
+                <h3>Triggers</h3>
+                <p>Automate business processes with custom logic.</p>
+                <small>Coming soon...</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Field Edit Modal -->
+<div class="modal fade" id="fieldEditModal" tabindex="-1" role="dialog" ng-if="selectedField">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-edit"></i>
+                    {{selectedField.id ? 'Edit Field' : 'New Field'}}
+                </h4>
+                <button type="button" class="close" ng-click="closeFieldModal()">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ng-include src="'templates/settings/field-edit-form.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>

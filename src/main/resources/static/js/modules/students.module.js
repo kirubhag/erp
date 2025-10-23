@@ -7,8 +7,6 @@
      * Loaded lazily when accessing student pages
      */
     
-    console.log('Loading students module...');
-
     // Module initialization can go here if needed
     // This file serves as an entry point for the student module
     // and can contain shared configuration or initialization code
@@ -37,6 +35,4 @@
             { value: '12', label: 'Grade 12' }
         ]
     });
-
-    console.log('Students module loaded successfully');
 })();

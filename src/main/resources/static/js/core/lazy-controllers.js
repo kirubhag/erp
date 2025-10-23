@@ -22,6 +22,20 @@ angular.module('erpApp')
     console.log('📍 Placeholder SettingsController - waiting for real controller to load...');
     $scope.loading = true;
     $scope.loadingMessage = 'Loading settings module...';
+}])
+
+// Placeholder EmailTemplateController - will be replaced by lazy-loaded one
+.controller('EmailTemplateController', ['$scope', function($scope) {
+    console.log('📍 Placeholder EmailTemplateController - waiting for real controller to load...');
+    $scope.loading = true;
+    $scope.loadingMessage = 'Loading email template module...';
+}])
+
+// Placeholder EmailLogController - will be replaced by lazy-loaded one
+.controller('EmailLogController', ['$scope', function($scope) {
+    console.log('📍 Placeholder EmailLogController - waiting for real controller to load...');
+    $scope.loading = true;
+    $scope.loadingMessage = 'Loading email log module...';
 }]);
 
 console.log('✅ Lazy loading controller placeholders registered');

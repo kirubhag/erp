@@ -35,10 +35,8 @@ angular.module('erpApp').controller('ParentController', ['$scope', 'ParentServic
                 
                 $scope.loading = false;
             })
-            .catch(function(error) {
-                console.error('Error loading parents:', error);
-                $scope.parents = [];
-                $scope.loading = false;
+                        .catch(function(error) {
+                $scope.showError('Failed to load parents');
             });
     };
     
@@ -50,7 +48,6 @@ angular.module('erpApp').controller('ParentController', ['$scope', 'ParentServic
                 $scope.parents = response.data.content || response.data;
                 $scope.loading = false;
             }).catch(function(error) {
-                console.error('Error searching parents:', error);
                 $scope.parents = [];
                 $scope.loading = false;
             });
@@ -95,15 +92,12 @@ angular.module('erpApp').controller('ParentController', ['$scope', 'ParentServic
     
     // View parent details
     $scope.viewParent = function(parent) {
-        console.log('viewParent called with:', parent);
         $scope.loading = true;
         ParentService.getParentById(parent.id).then(function(response) {
-            console.log('Parent details loaded:', response.data);
             $scope.selectedParent = response.data;
             $scope.showViewModal = true;
             $scope.loading = false;
         }).catch(function(error) {
-            console.error('Error loading parent details:', error);
             alert('Error loading parent details: ' + (error.data?.message || 'Unknown error'));
             $scope.loading = false;
         });
@@ -111,15 +105,12 @@ angular.module('erpApp').controller('ParentController', ['$scope', 'ParentServic
     
     // Edit parent
     $scope.editParent = function(parent) {
-        console.log('editParent called with:', parent);
         $scope.loading = true;
         ParentService.getParentById(parent.id).then(function(response) {
-            console.log('Parent data for edit loaded:', response.data);
             $scope.selectedParent = angular.copy(response.data);
             $scope.showEditModal = true;
             $scope.loading = false;
         }).catch(function(error) {
-            console.error('Error loading parent for edit:', error);
             alert('Error loading parent data: ' + (error.data?.message || 'Unknown error'));
             $scope.loading = false;
         });
@@ -129,10 +120,8 @@ angular.module('erpApp').controller('ParentController', ['$scope', 'ParentServic
     $scope.saveParent = function() {
         if (!$scope.selectedParent || !$scope.selectedParent.id) return;
         
-        console.log('saveParent called with:', $scope.selectedParent);
         $scope.loading = true;
         ParentService.updateParent($scope.selectedParent.id, $scope.selectedParent).then(function(response) {
-            console.log('Parent updated successfully:', response.data);
             // Update the parent in the list
             const index = $scope.parents.findIndex(p => p.id === $scope.selectedParent.id);
             if (index !== -1) {
@@ -143,7 +132,6 @@ angular.module('erpApp').controller('ParentController', ['$scope', 'ParentServic
             $scope.loading = false;
             alert('Parent updated successfully!');
         }).catch(function(error) {
-            console.error('Error updating parent:', error);
             alert('Error updating parent: ' + (error.data?.message || 'Unknown error'));
             $scope.loading = false;
         });
@@ -151,16 +139,13 @@ angular.module('erpApp').controller('ParentController', ['$scope', 'ParentServic
     
     // Delete parent (soft delete)
     $scope.deleteParent = function(parent) {
-        console.log('deleteParent called with:', parent);
         if (confirm('Are you sure you want to deactivate this parent?')) {
             $scope.loading = true;
             ParentService.deleteParent(parent.id).then(function(response) {
-                console.log('Parent deleted successfully:', response);
                 parent.isActive = false;
                 alert('Parent deactivated successfully!');
                 $scope.loading = false;
             }).catch(function(error) {
-                console.error('Error deactivating parent:', error);
                 alert('Error deactivating parent: ' + (error.data?.message || 'Unknown error'));
                 $scope.loading = false;
             });
@@ -185,7 +170,6 @@ angular.module('erpApp').controller('ParentController', ['$scope', 'ParentServic
             $scope.loading = false;
             alert('Parent created successfully!');
         }).catch(function(error) {
-            console.error('Error creating parent:', error);
             alert('Error creating parent: ' + (error.data?.message || 'Unknown error'));
             $scope.loading = false;
         });

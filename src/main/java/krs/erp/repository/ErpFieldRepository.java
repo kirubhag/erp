@@ -67,4 +67,10 @@ public interface ErpFieldRepository extends JpaRepository<ErpField, Long> {
      */
     @Query("SELECT COUNT(ef) FROM ErpField ef WHERE ef.entityType = :entityType AND ef.isActive = 1")
     Long countByEntityTypeAndIsActiveTrue(@Param("entityType") EntityType entityType);
+    
+    /**
+     * Find fields by entity type and UI type
+     */
+    @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.uiType = :uiType AND ef.isActive = 1 ORDER BY ef.displayOrder ASC")
+    List<ErpField> findByEntityTypeAndUiTypeAndIsActiveTrue(@Param("entityType") EntityType entityType, @Param("uiType") int uiType);
 }

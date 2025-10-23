@@ -1,6 +1,8 @@
 package krs.erp.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import krs.erp.enums.EntityType;
+import krs.erp.enums.UIFieldType;
 import krs.erp.model.ErpField;
 import krs.erp.repository.ErpFieldRepository;
 
@@ -125,5 +128,101 @@ public class ErpFieldService {
         return erpFieldRepository.countByEntityTypeAndIsActiveTrue(entityType);
     }
 
+    /**
+     * Get all fields for entity type including UI type information
+     */
+    public List<ErpField> getAllFieldsWithUIType(EntityType entityType) {
+        return erpFieldRepository.findByEntityTypeAndIsActiveTrue(entityType);
+    }
+
+    /**
+     * Get fields by UI field type
+     */
+    public List<ErpField> getFieldsByUIType(EntityType entityType, int uiType) {
+        return erpFieldRepository.findByEntityTypeAndUiTypeAndIsActiveTrue(entityType, uiType);
+    }
+
+    /**
+     * Validate field configuration for UI type
+     */
+    public Map<String, Object> validateFieldConfiguration(ErpField field) {
+        Map<String, Object> result = new HashMap<>();
+        List<String> errors = new ArrayList<>();
+        List<String> warnings = new ArrayList<>();
+
+        // Get UI field type
+        UIFieldType uiFieldType = field.getUIFieldType();
+        if (uiFieldType == null) {
+            errors.add("UI Field Type is required");
+            result.put("valid", false);
+            result.put("errors", errors);
+            return result;
+        }
+
+        // Validate field name
+        if (field.getFieldName() == null || field.getFieldName().trim().isEmpty()) {
+            errors.add("Field name is required");
+        } else if (!field.getFieldName().matches("^[a-zA-Z][a-zA-Z0-9_]*$")) {
+            errors.add("Field name must start with a letter and contain only letters, numbers, and underscores");
+        }
+
+        // Validate field label
+        if (field.getFieldLabel() == null || field.getFieldLabel().trim().isEmpty()) {
+            errors.add("Field label is required");
+        }
+
+        // Validate max length for text fields
+        if (uiFieldType.getMaxLength() != null && field.getMaxLength() != null) {
+            if (field.getMaxLength() > uiFieldType.getMaxLength()) {
+                errors.add("Maximum length cannot exceed " + uiFieldType.getMaxLength() + " for " + uiFieldType.getDisplayName());
+            }
+        }
+
+        // Validate picklist options
+        if (uiFieldType.hasOptions()) {
+            if (field.getPicklistOptions() == null || field.getPicklistOptions().trim().isEmpty()) {
+                errors.add(uiFieldType.getDisplayName() + " requires at least one option");
+            }
+        }
+
+        // Validate decimal places
+        if (uiFieldType.isNumeric() && field.getDecimalPlaces() != null) {
+            if (field.getDecimalPlaces() < 0 || field.getDecimalPlaces() > 10) {
+                errors.add("Decimal places must be between 0 and 10");
+            }
+        }
+
+        // Validate validation pattern
+        if (field.getValidationPattern() != null && !field.getValidationPattern().trim().isEmpty()) {
+            try {
+                java.util.regex.Pattern.compile(field.getValidationPattern());
+            } catch (Exception e) {
+                errors.add("Invalid validation pattern: " + e.getMessage());
+            }
+        }
+
+        // Check for duplicate field names
+        if (field.getId() == null || field.getId() == 0) {
+            if (fieldExists(field.getEntityType(), field.getFieldName())) {
+                errors.add("A field with this name already exists for this entity");
+            }
+        }
+
+        // Add warnings for potential issues
+        if (field.getIsRequired() && field.getUIFieldType() == UIFieldType.CHECKBOX) {
+            warnings.add("Required checkbox fields may cause confusion for users");
+        }
+
+        if (field.getIsUnique() && uiFieldType.hasOptions()) {
+            warnings.add("Unique constraint on picklist fields may limit reusability");
+        }
+
+        result.put("valid", errors.isEmpty());
+        result.put("errors", errors);
+        result.put("warnings", warnings);
+        result.put("uiFieldType", uiFieldType);
+
+        return result;
+    }
 
 }

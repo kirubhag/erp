@@ -7,12 +7,12 @@
 
     EntityDataService.$inject = ['$http', '$q'];
 
-    function EntityDataService($http, $q) {
-        console.log('🔌 EntityDataService initialized');
+    function EntityDataService($http) {
 
         var service = {
             loadData: loadData,
             loadCustomViews: loadCustomViews,
+            loadFieldsGrouped: loadFieldsGrouped,
             createItem: createItem,
             updateItem: updateItem,
             deleteItem: deleteItem,
@@ -27,7 +27,6 @@
          * Load data for a specific entity type
          */
         function loadData(entityType, params) {
-            console.log('📊 Loading data for entity type:', entityType, 'with params:', params);
             
             var endpoint = getEndpointForEntity(entityType);
             if (!endpoint) {
@@ -59,104 +58,95 @@
                 });
             }
 
-            return $http.get(endpoint, {
-                params: queryParams,
-                timeout: 30000 // 30 second timeout
-            }).then(function(response) {
-                console.log('✅ Data loaded successfully for', entityType, ':', response.data);
-                return response;
-            }).catch(function(error) {
-                console.error('❌ Error loading data for', entityType, ':', error);
-                throw error;
-            });
+            return $http.get(endpoint, { params: queryParams })
+                .then(function(response) {
+                    return response;
+                })
+                .catch(function(error) {
+                    throw error;
+                });
         }
 
         /**
          * Load custom views for an entity type
          */
         function loadCustomViews(entityType) {
-            console.log('👁️ Loading custom views for entity type:', entityType);
+            var requestParams = {
+                entityType: entityType,
+                userId: 1 // Default user ID - this should be passed from the session or config
+            };
             
-            return $http.get('/api/custom-views', {
-                params: {
-                    entityType: entityType,
-                    userId: getCurrentUserId()
-                }
-            }).then(function(response) {
-                console.log('✅ Custom views loaded for', entityType, ':', response.data);
-                return response;
-            }).catch(function(error) {
-                console.warn('⚠️ Could not load custom views for', entityType, ':', error);
-                // Return empty array instead of failing
-                return { data: [] };
-            });
+            return $http.get('/api/custom-views', { params: requestParams })
+                .then(function(response) {
+                    return response;
+                })
+                .catch(function(error) {
+                    // Return empty array instead of throwing error
+                    return { data: [] };
+                });
         }
 
         /**
          * Create a new item for the specified entity type
          */
         function createItem(entityType, itemData) {
-            console.log('➕ Creating new item for entity type:', entityType, itemData);
             
             var endpoint = getEndpointForEntity(entityType);
             if (!endpoint) {
                 return $q.reject('Unknown entity type: ' + entityType);
             }
 
-            return $http.post(endpoint, itemData).then(function(response) {
-                console.log('✅ Item created successfully for', entityType, ':', response.data);
-                return response;
-            }).catch(function(error) {
-                console.error('❌ Error creating item for', entityType, ':', error);
-                throw error;
-            });
+            return $http.post(endpoint, itemData)
+                .then(function(response) {
+                    return response;
+                })
+                .catch(function(error) {
+                    throw error;
+                });
         }
 
         /**
          * Update an existing item
          */
         function updateItem(entityType, itemId, itemData) {
-            console.log('📝 Updating item for entity type:', entityType, 'ID:', itemId, itemData);
             
             var endpoint = getEndpointForEntity(entityType);
             if (!endpoint) {
                 return $q.reject('Unknown entity type: ' + entityType);
             }
 
-            return $http.put(endpoint + '/' + itemId, itemData).then(function(response) {
-                console.log('✅ Item updated successfully for', entityType, ':', response.data);
-                return response;
-            }).catch(function(error) {
-                console.error('❌ Error updating item for', entityType, ':', error);
-                throw error;
-            });
+            return $http.put(endpoint + '/' + itemId, itemData)
+                .then(function(response) {
+                    return response;
+                })
+                .catch(function(error) {
+                    throw error;
+                });
         }
 
         /**
          * Delete an item
          */
         function deleteItem(entityType, itemId) {
-            console.log('🗑️ Deleting item for entity type:', entityType, 'ID:', itemId);
             
             var endpoint = getEndpointForEntity(entityType);
             if (!endpoint) {
                 return $q.reject('Unknown entity type: ' + entityType);
             }
 
-            return $http.delete(endpoint + '/' + itemId).then(function(response) {
-                console.log('✅ Item deleted successfully for', entityType);
-                return response;
-            }).catch(function(error) {
-                console.error('❌ Error deleting item for', entityType, ':', error);
-                throw error;
-            });
+            return $http.delete(endpoint + '/' + itemId)
+                .then(function(response) {
+                    return response;
+                })
+                .catch(function(error) {
+                    throw error;
+                });
         }
 
         /**
          * Export data in specified format
          */
-        function exportData(entityType, format, data, filename) {
-            console.log('📤 Exporting data for entity type:', entityType, 'Format:', format);
+                function exportData(entityType, format, data) {
             
             var endpoint = getEndpointForEntity(entityType) + '/export';
             
@@ -167,8 +157,6 @@
             }, {
                 responseType: 'blob'
             }).then(function(response) {
-                console.log('✅ Data exported successfully for', entityType);
-                
                 // Create download link
                 var blob = new Blob([response.data], { 
                     type: response.headers('Content-Type') 
@@ -186,7 +174,6 @@
                 
                 return response;
             }).catch(function(error) {
-                console.error('❌ Error exporting data for', entityType, ':', error);
                 throw error;
             });
         }
@@ -194,8 +181,7 @@
         /**
          * Import data from file
          */
-        function importData(entityType, file, options) {
-            console.log('📥 Importing data for entity type:', entityType, 'File:', file.name);
+        function importData(entityType, file) {
             
             var endpoint = getEndpointForEntity(entityType) + '/import';
             
@@ -212,10 +198,8 @@
                 transformRequest: angular.identity,
                 headers: { 'Content-Type': undefined }
             }).then(function(response) {
-                console.log('✅ Data imported successfully for', entityType, ':', response.data);
                 return response;
             }).catch(function(error) {
-                console.error('❌ Error importing data for', entityType, ':', error);
                 throw error;
             });
         }
@@ -224,13 +208,9 @@
          * Get field definitions for an entity type
          */
         function getFieldDefinitions(entityType) {
-            console.log('📋 Loading field definitions for entity type:', entityType);
-            
             return $http.get('/api/fields/' + entityType).then(function(response) {
-                console.log('✅ Field definitions loaded for', entityType, ':', response.data);
                 return response;
             }).catch(function(error) {
-                console.warn('⚠️ Could not load field definitions for', entityType, ':', error);
                 return { data: [] };
             });
         }
@@ -255,11 +235,29 @@
             var endpoint = endpoints[entityType.toUpperCase()];
             
             if (!endpoint) {
-                console.error('❌ No endpoint defined for entity type:', entityType);
                 return null;
             }
             
             return endpoint;
+        }
+
+        /**
+         * Load entity fields grouped by category
+         */
+        function loadFieldsGrouped(entityType) {
+            if (!entityType) {
+                return $q.reject('Entity type is required');
+            }
+
+            var requestParams = {
+                method: 'GET',
+                url: '/api/fields/' + entityType + '/grouped',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            return $http(requestParams);
         }
 
         /**

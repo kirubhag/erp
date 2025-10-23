@@ -73,6 +73,9 @@ angular.module('erpApp').controller('MainController', [
             $location.path('/' + (tab === 'dashboard' ? '' : tab));
         };
         
+        // Expose setActiveTab to $rootScope for other controllers
+        $rootScope.setActiveTab = $scope.setActiveTab;
+        
         // Dashboard data
         $scope.dashboardStats = {
             totalStudents: 0,

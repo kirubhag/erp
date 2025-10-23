@@ -127,6 +127,76 @@
     color: #333;
     font-size: 14px;
   }
+  
+  /* Modules Styles */
+  .modules-container {
+    padding: 20px;
+  }
+  .modules-header {
+    margin-bottom: 30px;
+  }
+  .modules-header h4 {
+    color: #333;
+    margin-bottom: 8px;
+  }
+  .entity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .entity-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .entity-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+    transform: translateY(-1px);
+  }
+  .entity-icon {
+    width: 48px;
+    height: 48px;
+    background: #f8fafc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #3b82f6;
+  }
+  .entity-info {
+    flex: 1;
+  }
+  .entity-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 4px 0;
+  }
+  .entity-description {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0 0 8px 0;
+  }
+  .entity-stats {
+    display: flex;
+    gap: 15px;
+  }
+  .field-count, .record-count {
+    font-size: 12px;
+    color: #9ca3af;
+  }
+  .entity-actions {
+    color: #9ca3af;
+    font-size: 16px;
+  }
 </style>
 
 <div class="settings-container" ng-show="!activeSettingsTab || activeSettingsTab === ''">
@@ -156,7 +226,7 @@
 
     <!-- Customization Card -->
     <div class="settings-category">
-      <h3 class="category-title">Customization</h3>
+      <div class="category-title">Customization</div>
       <a href="#!/settings/modules" class="category-item">Modules</a>
       <a href="#!/settings/email-templates" class="category-item">Templates</a>
     </div>
@@ -216,7 +286,7 @@
 </div>
 
 <!-- Default Welcome Message for other views -->
-<div ng-show="activeSettingsTab && activeSettingsTab !== '' && activeSettingsTab !== 'company-details'">
+<div ng-show="activeSettingsTab && activeSettingsTab !== '' && activeSettingsTab !== 'company-details' && activeSettingsTab !== 'modules' && activeSettingsTab !== 'view-organisation' && activeSettingsTab !== 'organisation' && activeSettingsTab !== 'view-user' && activeSettingsTab !== 'email-templates' && activeSettingsTab !== 'email-templates/create' && activeSettingsTab !== 'email-logs' && activeSettingsTab !== 'user'"
   <div class="card">
     <div class="card-body text-center py-5">
       <i class="fas fa-cog fa-4x text-muted mb-3"></i>
@@ -311,4 +381,33 @@
       </div>
     </div>
   </form>
+</div>
+
+<!-- Modules Tab - Entity Management -->
+<div ng-show="activeSettingsTab === 'modules'">
+  <div class="modules-container">
+    <div class="modules-header">
+      <h4><i class="fas fa-cubes me-2"></i>Entity Modules</h4>
+      <p class="text-muted">Manage and customize your entity fields and configurations</p>
+    </div>
+    
+    <div class="entity-grid">
+      <div class="entity-card" ng-repeat="entity in availableEntities" ng-click="openEntityFieldCustomization(entity)">
+        <div class="entity-icon">
+          <i class="fas fa-{{entity.icon}}"></i>
+        </div>
+        <div class="entity-info">
+          <h5 class="entity-name">{{entity.displayName}}</h5>
+          <p class="entity-description">{{entity.description}}</p>
+          <div class="entity-stats">
+            <span class="field-count">{{entity.fieldCount}} fields</span>
+            <span class="record-count">{{entity.recordCount}} records</span>
+          </div>
+        </div>
+        <div class="entity-actions">
+          <i class="fas fa-chevron-right"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

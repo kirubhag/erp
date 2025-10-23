@@ -7,8 +7,6 @@
      * Loaded lazily when accessing parent pages
      */
     
-    console.log('Loading parents module...');
-
     // Module-specific constants for parents
     angular.module('erpApp').constant('PARENT_CONSTANTS', {
         RELATIONSHIP: {
@@ -38,6 +36,4 @@
             WHATSAPP: 'whatsapp'
         }
     });
-
-    console.log('Parents module loaded successfully');
 })();

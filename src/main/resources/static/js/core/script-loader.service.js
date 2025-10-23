@@ -170,10 +170,12 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
         var moduleMap = {
             'settings': [
                 '/js/modules/settings.module.js?v=2',
+                '/js/constants/ui-field-types.js?v=1',
                 '/js/settings/settings.service.js?v=2',
                 '/js/settings/organization.service.js?v=2',
                 '/js/email/email.service.js?v=2',
-                '/js/settings/settings.controller.js?v=2',
+                '/js/settings/settings.controller.js?v=3',
+                '/js/settings/entity-field-customization.controller.js?v=1',
                 '/js/settings/organization.controller.js?v=2',
                 '/js/email/email-template.controller.js?v=2',
                 '/js/email/email-log.controller.js?v=2',

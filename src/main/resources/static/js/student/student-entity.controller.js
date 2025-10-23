@@ -86,6 +86,28 @@
                 $scope.exportStudents(format, data);
             };
 
+            // Set up bulk actions
+            if (!$scope.config.bulkActions) {
+                $scope.config.bulkActions = [
+                    {
+                        name: 'updateStatus',
+                        label: 'Update Status',
+                        icon: 'edit',
+                        handler: function(selectedStudents) {
+                            $scope.showBulkUpdateStatus(selectedStudents);
+                        }
+                    },
+                    {
+                        name: 'delete',
+                        label: 'Delete Selected',
+                        icon: 'trash',
+                        handler: function(selectedStudents) {
+                            $scope.showBulkDeleteConfirmation(selectedStudents);
+                        }
+                    }
+                ];
+            }
+
             // Update configuration with student-specific row actions
             if ($scope.config && $scope.config.rowActions) {
                 $scope.config.rowActions.forEach(function(action) {
@@ -318,6 +340,26 @@
                     value: student.email || ''
                 }
             ];
+        };
+
+        /**
+         * Show bulk update status modal
+         */
+        $scope.showBulkUpdateStatus = function(selectedStudents) {
+            console.log('📝 Bulk updating status for', selectedStudents.length, 'students');
+            NotificationService.info('Bulk update status functionality coming soon');
+        };
+
+        /**
+         * Show bulk delete confirmation
+         */
+        $scope.showBulkDeleteConfirmation = function(selectedStudents) {
+            console.log('🗑️ Bulk delete confirmation for', selectedStudents.length, 'students');
+            if (confirm('Are you sure you want to delete ' + selectedStudents.length + ' selected students?')) {
+                // Perform bulk delete
+                NotificationService.success('Bulk delete functionality coming soon');
+                $scope.clearSelection();
+            }
         };
 
         // Cleanup

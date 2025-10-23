@@ -8,7 +8,6 @@
     NotificationService.$inject = ['$timeout'];
 
     function NotificationService($timeout) {
-        console.log('🔔 NotificationService initialized');
 
         var notifications = [];
         var nextId = 1;
@@ -102,7 +101,6 @@
                 }, delay);
             }
 
-            console.log('🔔 Notification added:', notification);
             return notification;
         }
     }

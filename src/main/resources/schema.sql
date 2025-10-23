@@ -1,0 +1,312 @@
+-- Drop and create tables without problematic custom field tables
+
+-- Organizations table
+CREATE TABLE IF NOT EXISTS organizations (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    code VARCHAR(100) UNIQUE NOT NULL,
+    address TEXT,
+    phone_number VARCHAR(20),
+    email VARCHAR(255),
+    website VARCHAR(255),
+    logo_url VARCHAR(500),
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(100),
+    last_modified_by VARCHAR(100),
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+-- Users table
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20),
+    avatar_url VARCHAR(500),
+    is_active BOOLEAN DEFAULT TRUE,
+    last_login_date TIMESTAMP NULL,
+    password_reset_token VARCHAR(255),
+    password_reset_token_expiry TIMESTAMP NULL,
+    email_verification_token VARCHAR(255),
+    is_email_verified BOOLEAN DEFAULT FALSE,
+    organization_id BIGINT,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(100),
+    last_modified_by VARCHAR(100),
+    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+);
+
+-- Roles table
+CREATE TABLE IF NOT EXISTS roles (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    description TEXT,
+    organization_id BIGINT,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(100),
+    last_modified_by VARCHAR(100),
+    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+);
+
+-- Permissions table
+CREATE TABLE IF NOT EXISTS permissions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    description TEXT,
+    resource VARCHAR(100) NOT NULL,
+    action VARCHAR(50) NOT NULL,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(100),
+    last_modified_by VARCHAR(100)
+);
+
+-- User roles junction table
+CREATE TABLE IF NOT EXISTS user_roles (
+    user_id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+);
+
+-- Role permissions junction table
+CREATE TABLE IF NOT EXISTS role_permissions (
+    role_id BIGINT NOT NULL,
+    permission_id BIGINT NOT NULL,
+    PRIMARY KEY (role_id, permission_id),
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
+    FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE
+);
+
+-- Students table
+CREATE TABLE IF NOT EXISTS students (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    student_id VARCHAR(50) UNIQUE NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    date_of_birth DATE,
+    gender VARCHAR(10),
+    email VARCHAR(255),
+    phone_number VARCHAR(20),
+    address TEXT,
+    enrollment_date DATE NOT NULL,
+    graduation_date DATE,
+    status VARCHAR(20) DEFAULT 'ACTIVE',
+    grade_level VARCHAR(20),
+    class_section VARCHAR(50),
+    guardian_name VARCHAR(200),
+    guardian_phone VARCHAR(20),
+    guardian_email VARCHAR(255),
+    guardian_relation VARCHAR(50),
+    emergency_contact_name VARCHAR(200),
+    emergency_contact_phone VARCHAR(20),
+    blood_group VARCHAR(10),
+    allergies TEXT,
+    medical_conditions TEXT,
+    transportation_mode VARCHAR(50),
+    organization_id BIGINT,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(100),
+    last_modified_by VARCHAR(100),
+    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+);
+
+-- Staff table
+CREATE TABLE IF NOT EXISTS staff (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    employee_id VARCHAR(50) UNIQUE NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone_number VARCHAR(20),
+    hire_date DATE NOT NULL,
+    job_title VARCHAR(100) NOT NULL,
+    department VARCHAR(100),
+    salary DECIMAL(15,2),
+    status VARCHAR(20) DEFAULT 'ACTIVE',
+    date_of_birth DATE,
+    gender VARCHAR(10),
+    address TEXT,
+    emergency_contact_name VARCHAR(200),
+    emergency_contact_phone VARCHAR(20),
+    qualification TEXT,
+    experience_years INT DEFAULT 0,
+    organization_id BIGINT,
+    user_id BIGINT UNIQUE,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(100),
+    last_modified_by VARCHAR(100),
+    FOREIGN KEY (organization_id) REFERENCES organizations(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Parents table
+CREATE TABLE IF NOT EXISTS parents (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(255),
+    phone_number VARCHAR(20),
+    address TEXT,
+    occupation VARCHAR(100),
+    relationship_to_student VARCHAR(50),
+    is_primary_contact BOOLEAN DEFAULT FALSE,
+    is_emergency_contact BOOLEAN DEFAULT FALSE,
+    organization_id BIGINT,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(100),
+    last_modified_by VARCHAR(100),
+    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+);
+
+-- Student parent relationships
+CREATE TABLE IF NOT EXISTS student_parent_relationships (
+    student_id BIGINT NOT NULL,
+    parent_id BIGINT NOT NULL,
+    PRIMARY KEY (student_id, parent_id),
+    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
+    FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE
+);
+
+-- Attendance table (without custom fields to avoid row size issues)
+CREATE TABLE IF NOT EXISTS attendance (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    student_id BIGINT NOT NULL,
+    attendance_date DATE NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'PRESENT',
+    check_in_time TIME,
+    check_out_time TIME,
+    notes TEXT,
+    marked_by VARCHAR(100),
+    organization_id BIGINT,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(100),
+    last_modified_by VARCHAR(100),
+    UNIQUE KEY unique_student_date (student_id, attendance_date),
+    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
+    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+);
+
+-- Health records table
+CREATE TABLE IF NOT EXISTS health_records (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    student_id BIGINT NOT NULL,
+    record_date DATE NOT NULL,
+    record_type VARCHAR(50) NOT NULL,
+    description TEXT,
+    treatment TEXT,
+    medication TEXT,
+    height_cm DECIMAL(5,2),
+    weight_kg DECIMAL(5,2),
+    temperature_celsius DECIMAL(4,2),
+    blood_pressure VARCHAR(20),
+    notes TEXT,
+    recorded_by VARCHAR(100),
+    organization_id BIGINT,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(100),
+    last_modified_by VARCHAR(100),
+    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
+    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+);
+
+-- ERP Fields table for field management system
+CREATE TABLE IF NOT EXISTS erp_fields (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    entity_type VARCHAR(50) NOT NULL,
+    field_name VARCHAR(100) NOT NULL,
+    field_label VARCHAR(255) NOT NULL,
+    field_type VARCHAR(50) NOT NULL,
+    ui_field_type INT DEFAULT 100,
+    is_required BOOLEAN DEFAULT FALSE,
+    is_searchable BOOLEAN DEFAULT TRUE,
+    is_sortable BOOLEAN DEFAULT FALSE,
+    display_order INT DEFAULT 0,
+    field_group VARCHAR(100),
+    placeholder_text VARCHAR(255),
+    help_text VARCHAR(500),
+    validation_pattern VARCHAR(500),
+    default_value TEXT,
+    options_json TEXT,
+    is_active BOOLEAN DEFAULT TRUE,
+    organization_id BIGINT,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(100),
+    last_modified_by VARCHAR(100),
+    UNIQUE KEY unique_entity_field (entity_type, field_name, organization_id),
+    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+);
+
+-- Custom Views table
+CREATE TABLE IF NOT EXISTS custom_views (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    entity_type VARCHAR(100) NOT NULL,
+    view_type VARCHAR(50) DEFAULT 'LIST',
+    columns_config JSON,
+    filters_config JSON,
+    sort_config JSON,
+    is_public BOOLEAN DEFAULT FALSE,
+    is_default BOOLEAN DEFAULT FALSE,
+    organization_id BIGINT,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(100),
+    last_modified_by VARCHAR(100),
+    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+);
+
+-- Email Templates table
+CREATE TABLE IF NOT EXISTS email_templates (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    subject VARCHAR(500) NOT NULL,
+    body TEXT NOT NULL,
+    template_type VARCHAR(100) NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    organization_id BIGINT,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(100),
+    last_modified_by VARCHAR(100),
+    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+);
+
+-- Insert basic permissions
+INSERT IGNORE INTO permissions (name, description, resource, action) VALUES
+('VIEW_STUDENTS', 'View students list and details', 'STUDENT', 'VIEW'),
+('CREATE_STUDENTS', 'Create new students', 'STUDENT', 'CREATE'),
+('EDIT_STUDENTS', 'Edit student information', 'STUDENT', 'EDIT'),
+('DELETE_STUDENTS', 'Delete students', 'STUDENT', 'DELETE'),
+('VIEW_ATTENDANCE', 'View attendance records', 'ATTENDANCE', 'VIEW'),
+('MANAGE_ATTENDANCE', 'Mark and manage attendance', 'ATTENDANCE', 'MANAGE'),
+('VIEW_STAFF', 'View staff list and details', 'STAFF', 'VIEW'),
+('MANAGE_STAFF', 'Manage staff information', 'STAFF', 'MANAGE'),
+('VIEW_REPORTS', 'View system reports', 'REPORTS', 'VIEW'),
+('MANAGE_SYSTEM', 'System administration', 'SYSTEM', 'MANAGE');

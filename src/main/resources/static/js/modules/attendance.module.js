@@ -7,8 +7,6 @@
      * Loaded lazily when accessing attendance pages
      */
     
-    console.log('Loading attendance module...');
-
     // Module-specific constants for attendance
     angular.module('erpApp').constant('ATTENDANCE_CONSTANTS', {
         STATUS: {
@@ -40,6 +38,4 @@
             MONTHLY_ABSENCE_PERCENTAGE: 20
         }
     });
-
-    console.log('Attendance module loaded successfully');
 })();

@@ -119,7 +119,6 @@ angular.module('erpApp').controller('EmailLogController', ['$scope', 'EmailServi
                 $scope.loading = false;
             })
             .catch(function(error) {
-                console.error('Error loading email logs:', error);
                 $scope.error = 'Failed to load email logs';
                 $scope.loading = false;
             });
@@ -132,7 +131,7 @@ angular.module('erpApp').controller('EmailLogController', ['$scope', 'EmailServi
                 $scope.emailStats = response.data || {};
             })
             .catch(function(error) {
-                console.error('Error loading email statistics:', error);
+                // Handle error silently
             });
     };
 
@@ -209,7 +208,6 @@ angular.module('erpApp').controller('EmailLogController', ['$scope', 'EmailServi
                 $scope.closeDetailsModal();
             })
             .catch(function(error) {
-                console.error('Error retrying email:', error);
                 $scope.error = 'Failed to retry email: ' + (error.data?.message || 'Unknown error');
                 $scope.loading = false;
             });
@@ -285,7 +283,6 @@ angular.module('erpApp').controller('EmailLogController', ['$scope', 'EmailServi
                 $scope.showSuccess('Email logs exported successfully');
             })
             .catch(function(error) {
-                console.error('Error exporting email logs:', error);
                 $scope.error = 'Failed to export email logs';
                 $scope.loading = false;
             });
@@ -323,7 +320,6 @@ angular.module('erpApp').controller('EmailLogController', ['$scope', 'EmailServi
             $scope.loading = false;
         })
         .catch(function(error) {
-            console.error('Error loading entity email history:', error);
             $scope.error = 'Failed to load email history';
             $scope.loading = false;
         });

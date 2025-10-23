@@ -1,0 +1,152 @@
+<div class="modern-modules-container">
+  <!-- Sidebar Navigation -->
+  <div class="modules-sidebar">
+    <div class="sidebar-header">
+      <h3>Setup</h3>
+    </div>
+    
+    <div class="sidebar-content">
+      <!-- General Section -->
+      <div class="sidebar-section">
+        <div class="section-header" ng-click="toggleSection('general')" ng-class="{active: expandedSections.general}">
+          <i class="fas fa-chevron-right section-toggle"></i>
+          <span>General</span>
+        </div>
+      </div>
+      
+      <!-- Users and Control Section -->
+      <div class="sidebar-section">
+        <div class="section-header" ng-click="toggleSection('users')" ng-class="{active: expandedSections.users}">
+          <i class="fas fa-chevron-right section-toggle"></i>
+          <span>Users and Control</span>
+        </div>
+      </div>
+      
+      <!-- Customization Section -->
+      <div class="sidebar-section">
+        <div class="section-header" ng-click="toggleSection('customization')" ng-class="{active: expandedSections.customization}">
+          <i class="fas fa-chevron-down section-toggle"></i>
+          <span>Customization</span>
+        </div>
+        <div class="section-content" ng-show="expandedSections.customization">
+          <a href="#!/settings/modules" class="sidebar-link active">Modules</a>
+          <a href="#" class="sidebar-link">Templates</a>
+          <a href="#" class="sidebar-link">
+            Try Applications Module 
+            <i class="fas fa-star text-warning ms-1"></i>
+          </a>
+          <a href="#" class="sidebar-link">Copy Customization</a>
+          <a href="#" class="sidebar-link">Customize Home page</a>
+          <a href="#" class="sidebar-link">Translations</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="modules-main-content">
+    <!-- Header with Tabs -->
+    <div class="content-header">
+      <div class="tab-container">
+        <div class="tab active">Modules</div>
+      </div>
+    </div>
+
+    <!-- Modules Content -->
+    <div class="modules-content">
+      <div class="content-top-bar">
+        <div class="content-title">
+          <h2>List of Modules</h2>
+        </div>
+        <div class="content-actions">
+          <button class="btn-help">
+            <i class="fas fa-question-circle"></i>
+            Help
+          </button>
+          <button class="btn btn-outline-primary" ng-click="organizeModules()">
+            <i class="fas fa-sort me-1"></i>Organize Modules
+          </button>
+          <button class="btn btn-primary" ng-click="createNewModule()" ng-if="hasPermission('module:create')">
+            <i class="fas fa-plus me-1"></i>Create New Module
+          </button>
+          <span class="custom-module-note">+ Custom Module</span>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-container">
+        <div class="search-box">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" class="search-input" placeholder="Search" 
+                 ng-model="searchTerm" ng-change="filterModules()">
+        </div>
+      </div>
+
+      <!-- Modules Table -->
+      <div class="modules-table-container" ng-if="!loading">
+        <table class="modules-table">
+          <thead>
+            <tr>
+              <th>Displayed in Tabs As</th>
+              <th>Module Name</th>
+              <th>Shared To</th>
+              <th>Last Modified</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="module in filteredModules track by module.id" 
+                class="module-row"
+                ng-class="{'active-module': module.isActive, 'inactive-module': !module.isActive}">
+              <td>
+                <a href="#!/settings/modules/{{module.name}}/fields" 
+                   class="module-link" ng-class="{'text-primary': module.isActive, 'text-muted': !module.isActive}">
+                  <i class="{{module.icon}} me-2"></i>{{module.displayName}}
+                </a>
+              </td>
+              <td>{{module.displayName}}</td>
+              <td>
+                <span ng-if="module.sharedTo === 'All Profiles'">All Profiles</span>
+                <a href="#" ng-if="module.sharedTo !== 'All Profiles' && module.sharedTo !== 'No Access'" 
+                   class="text-primary">{{module.sharedTo}}</a>
+                <span ng-if="module.sharedTo === 'No Access'" class="text-muted">{{module.sharedTo}}</span>
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="user-avatar me-2" ng-if="module.isActive">
+                    <img src="/images/default-avatar.png" alt="User" class="avatar-img">
+                  </div>
+                  <span>{{module.lastModified | date:'MM/dd/yyyy'}}</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Loading State -->
+      <div ng-if="loading" class="loading-container">
+        <div class="spinner-border text-primary mb-3" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-muted">Loading modules...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div ng-if="!loading && filteredModules.length === 0" class="empty-state">
+        <div class="mb-4">
+          <i class="fas fa-th-large fa-5x text-muted"></i>
+        </div>
+        <h4 class="text-muted mb-3">No modules found</h4>
+        <p class="text-muted mb-4" ng-if="searchTerm">
+          Try adjusting your search criteria to find more modules.
+        </p>
+        <p class="text-muted mb-4" ng-if="!searchTerm">
+          No modules are currently available in the system.
+        </p>
+        <button class="btn btn-primary" ng-click="clearFilters()" ng-if="searchTerm">
+          <i class="fas fa-times me-1"></i>Clear Search
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

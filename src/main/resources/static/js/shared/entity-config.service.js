@@ -8,7 +8,6 @@
     EntityConfigService.$inject = [];
 
     function EntityConfigService() {
-        console.log('🔧 EntityConfigService initialized');
 
         var entityConfigs = {};
 
@@ -613,8 +612,6 @@
                     }
                 ]
             };
-
-            console.log('✅ Entity configurations initialized:', Object.keys(entityConfigs));
         }
 
         /**
@@ -622,14 +619,12 @@
          */
         function getConfig(entityType) {
             if (!entityType) {
-                console.warn('⚠️ No entity type provided to getConfig');
                 return null;
             }
             
             var config = entityConfigs[entityType.toUpperCase()];
             
             if (!config) {
-                console.warn('⚠️ No configuration found for entity type:', entityType);
                 return null;
             }
             
@@ -642,12 +637,10 @@
          */
         function registerConfig(entityType, config) {
             if (!entityType || !config) {
-                console.error('❌ Invalid parameters for registerConfig');
                 return false;
             }
             
             entityConfigs[entityType.toUpperCase()] = config;
-            console.log('✅ Registered config for entity type:', entityType);
             return true;
         }
 
@@ -656,19 +649,16 @@
          */
         function updateConfig(entityType, updates) {
             if (!entityType || !updates) {
-                console.error('❌ Invalid parameters for updateConfig');
                 return false;
             }
             
             var existingConfig = entityConfigs[entityType.toUpperCase()];
             if (!existingConfig) {
-                console.error('❌ No existing config found for entity type:', entityType);
                 return false;
             }
             
             // Merge updates with existing config
-            entityConfigs[entityType.toUpperCase()] = angular.merge(existingConfig, updates);
-            console.log('✅ Updated config for entity type:', entityType);
+            angular.extend(existingConfig, updates);
             return true;
         }
     }

@@ -10,14 +10,13 @@
         '$location', 
         '$timeout', 
         '$q',
+        '$document',
         'EntityConfigService',
         'EntityDataService',
         'NotificationService'
     ];
 
-    function EntityListController($scope, $location, $timeout, $q, EntityConfigService, EntityDataService, NotificationService) {
-        console.log('🎯 EntityListController initialized');
-
+    function EntityListController($scope, $location, $timeout, $q, $document, EntityConfigService, EntityDataService, NotificationService) {
         // Initialize scope variables
         initializeScope();
         
@@ -45,6 +44,14 @@
             $scope.searchQuery = '';
             $scope.appliedFilters = {};
             
+            // Field-based filtering
+            $scope.groupedFields = {};
+            $scope.fieldGroupExpanded = {};
+            $scope.fieldFilters = {};
+            $scope.fieldFilterValues = {};
+            $scope.fieldSearchQuery = '';
+            $scope.fieldFilter = {};
+            
             // Pagination
             $scope.pagination = {
                 currentPage: 0,
@@ -71,16 +78,11 @@
             var path = $location.path();
             var entityType = extractEntityTypeFromPath(path);
             
-            console.log('🔍 Loading config for entity type:', entityType);
-            
             $scope.config = EntityConfigService.getConfig(entityType);
             
             if (!$scope.config) {
-                console.error('❌ No configuration found for entity type:', entityType);
                 return;
             }
-            
-            console.log('✅ Entity config loaded:', $scope.config);
         }
 
         /**
@@ -127,8 +129,44 @@
                 loadCustomViews();
             }
             
+            // Load entity fields for filtering
+            loadEntityFields();
+            
             // Set up default visible columns
             setupDefaultColumns();
+            
+            // Set up document click handler to close dropdowns
+            setupDocumentClickHandler();
+        }
+        
+        /**
+         * Set up document click handler to close dropdowns
+         */
+        function setupDocumentClickHandler() {
+            $document.on('click', function(event) {
+                var target = event.target;
+                
+                // Close bulk actions menu if clicking outside
+                if ($scope.showBulkActionsMenu && 
+                    !angular.element(target).closest('.bulk-actions-dropdown').length) {
+                    $scope.$apply(function() {
+                        $scope.showBulkActionsMenu = false;
+                    });
+                }
+                
+                // Close view dropdown if clicking outside
+                if ($scope.showViewDropdown && 
+                    !angular.element(target).closest('.view-selector').length) {
+                    $scope.$apply(function() {
+                        $scope.showViewDropdown = false;
+                    });
+                }
+            });
+            
+            // Clean up event listener on destroy
+            $scope.$on('$destroy', function() {
+                $document.off('click');
+            });
         }
 
         /**
@@ -150,7 +188,11 @@
             
             EntityDataService.loadData($scope.config.entityType, params)
                 .then(function(response) {
-                    console.log('✅ Data loaded successfully:', response.data);
+                    // Clear caches when new data is loaded
+                    clearFieldValueCache();
+                    clearGridFieldsCache();
+                    avatarStyleCache = {};
+                    moreActionsCache = {};
                     
                     $scope.filteredData = response.data.content || response.data.data || response.data || [];
                     
@@ -165,11 +207,8 @@
                         $scope.pagination.totalPages = 1;
                         $scope.pagination.currentPage = 0;
                     }
-                    
-                    console.log('📊 Pagination updated:', $scope.pagination);
                 })
                 .catch(function(error) {
-                    console.error('❌ Error loading data:', error);
                     NotificationService.error('Failed to load ' + $scope.config.entityName + 's');
                     $scope.filteredData = [];
                 })
@@ -185,10 +224,8 @@
             EntityDataService.loadCustomViews($scope.config.entityType)
                 .then(function(response) {
                     $scope.customViews = response.data || [];
-                    console.log('📋 Custom views loaded:', $scope.customViews);
                 })
                 .catch(function(error) {
-                    console.warn('⚠️ Could not load custom views:', error);
                     $scope.customViews = [];
                 });
         }
@@ -230,7 +267,6 @@
             $scope.showViewDropdown = false;
             
             if (view) {
-                console.log('🎯 Applying custom view:', view);
                 // Apply view-specific columns and filters
                 if (view.columns) {
                     $scope.visibleColumns = view.columns;
@@ -247,13 +283,21 @@
             }
         };
 
+        // Debounced search function
+        var searchTimeout;
+        
         /**
          * Perform search
          */
         $scope.performSearch = function() {
-            console.log('🔍 Performing search:', $scope.searchQuery);
-            $scope.pagination.currentPage = 0; // Reset to first page
-            loadEntityData();
+            if (searchTimeout) {
+                $timeout.cancel(searchTimeout);
+            }
+            
+            searchTimeout = $timeout(function() {
+                $scope.pagination.currentPage = 0; // Reset to first page
+                loadEntityData();
+            }, 300); // 300ms debounce
         };
 
         /**
@@ -261,7 +305,6 @@
          */
         $scope.setViewMode = function(mode) {
             $scope.viewMode = mode;
-            console.log('👁️ View mode changed to:', mode);
         };
 
         /**
@@ -297,6 +340,28 @@
             return $scope.selectedItems.some(function(selected) {
                 return selected.id === item.id;
             });
+        };
+
+        /**
+         * Toggle bulk actions dropdown menu
+         */
+        $scope.showBulkActionsMenu = false;
+        $scope.toggleBulkActionsMenu = function() {
+            $scope.showBulkActionsMenu = !$scope.showBulkActionsMenu;
+        };
+
+        /**
+         * Execute bulk action and close menu
+         */
+        $scope.executeBulkAction = function(action) {
+            $scope.showBulkActionsMenu = false;
+            
+            if (action.handler && typeof action.handler === 'function') {
+                action.handler($scope.selectedItems);
+            } else {
+                // Default bulk action handling
+                NotificationService.info('Bulk action: ' + action.label);
+            }
         };
 
         /**
@@ -350,22 +415,45 @@
                 $scope.sortDirection = 'asc';
             }
             
-            console.log('🔄 Sorting by:', field, $scope.sortDirection);
             loadEntityData();
         };
 
+        // Cache for field values to prevent excessive function calls
+        var fieldValueCache = {};
+        var gridFieldsCache = {};
+        
         /**
          * Get field value from item using dot notation
          */
         $scope.getFieldValue = function(item, fieldPath) {
             if (!item || !fieldPath) return '';
             
-            var value = fieldPath.split('.').reduce(function(obj, key) {
-                return obj && obj[key];
-            }, item);
+            var cacheKey = item.id + '.' + fieldPath;
             
-            return value || '';
+            if (fieldValueCache[cacheKey] === undefined) {
+                var value = fieldPath.split('.').reduce(function(obj, key) {
+                    return obj && obj[key];
+                }, item);
+                
+                fieldValueCache[cacheKey] = value || '';
+            }
+            
+            return fieldValueCache[cacheKey];
         };
+        
+        /**
+         * Clear field value cache when data changes
+         */
+        function clearFieldValueCache() {
+            fieldValueCache = {};
+        }
+
+        /**
+         * Clear grid fields cache when data changes
+         */
+        function clearGridFieldsCache() {
+            gridFieldsCache = {};
+        }
 
         /**
          * Get avatar initials for an item
@@ -398,6 +486,26 @@
             return {
                 'background-color': colors[colorIndex]
             };
+        };
+
+        // Cache for avatar styles to prevent infinite digest
+        var avatarStyleCache = {};
+        
+        /**
+         * Get cached avatar style to prevent digest cycles
+         */
+        $scope.getCachedAvatarStyle = function(item) {
+            if (!item || !item.id) return {};
+            
+            if (!avatarStyleCache[item.id]) {
+                var colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
+                var colorIndex = item.id % colors.length;
+                avatarStyleCache[item.id] = {
+                    'background-color': colors[colorIndex]
+                };
+            }
+            
+            return avatarStyleCache[item.id];
         };
 
         /**
@@ -446,8 +554,6 @@
                 $event.stopPropagation();
             }
             
-            console.log('🎬 Executing action:', action.name, 'on item:', item);
-            
             if (action.handler) {
                 action.handler(item, $scope);
             } else {
@@ -463,7 +569,7 @@
                         $scope.deleteItem(item);
                         break;
                     default:
-                        console.warn('⚠️ No handler for action:', action.name);
+                        break;
                 }
             }
         };
@@ -477,12 +583,8 @@
                 return;
             }
             
-            console.log('🎬 Executing bulk action:', action.name, 'on items:', $scope.selectedItems);
-            
             if (action.handler) {
                 action.handler($scope.selectedItems, $scope);
-            } else {
-                console.warn('⚠️ No handler for bulk action:', action.name);
             }
         };
 
@@ -537,7 +639,6 @@
          * Open create dialog
          */
         $scope.openCreateDialog = function() {
-            console.log('➕ Opening create dialog for:', $scope.config.entityName);
             // This will be handled by entity-specific controllers or services
             if ($scope.config.handlers && $scope.config.handlers.create) {
                 $scope.config.handlers.create();
@@ -548,7 +649,6 @@
          * Export data in specified format
          */
         $scope.exportData = function(format) {
-            console.log('📤 Exporting data in format:', format);
             $scope.showExportDropdown = false;
             
             if ($scope.config.handlers && $scope.config.handlers.export) {
@@ -578,23 +678,371 @@
          * Get grid fields for display
          */
         $scope.getGridFields = function(item) {
-            if (!$scope.config.gridConfig || !$scope.config.gridConfig.fields) {
+            if (!$scope.config.gridConfig || !$scope.config.gridConfig.fields || !item) {
                 return [];
             }
             
-            return $scope.config.gridConfig.fields.map(function(field) {
-                return {
-                    label: field.label,
-                    value: $scope.getFieldValue(item, field.field)
-                };
+            var cacheKey = item.id;
+            
+            if (gridFieldsCache[cacheKey] === undefined) {
+                gridFieldsCache[cacheKey] = $scope.config.gridConfig.fields.map(function(field) {
+                    return {
+                        label: field.label,
+                        value: $scope.getFieldValue(item, field.field)
+                    };
+                });
+            }
+            
+            return gridFieldsCache[cacheKey];
+        };
+
+        /**
+         * Check if an action is visible for an item
+         */
+        $scope.isActionVisible = function(action, item) {
+            if (!action.condition) return true;
+            
+            if (typeof action.condition === 'function') {
+                return action.condition(item);
+            }
+            
+            return true;
+        };
+
+        // Cache for more actions to prevent repeated calculations
+        var moreActionsCache = {};
+        
+        /**
+         * Get more actions for an item (actions beyond the first few)
+         */
+        $scope.getMoreActions = function(item) {
+            if (!$scope.config.rowActions || !item) return [];
+            
+            var cacheKey = item.id + '_moreActions';
+            
+            if (!moreActionsCache[cacheKey]) {
+                moreActionsCache[cacheKey] = $scope.config.rowActions.slice(2).filter(function(action) {
+                    return $scope.isActionVisible(action, item);
+                });
+            }
+            
+            return moreActionsCache[cacheKey];
+        };
+
+        /**
+         * Toggle more actions dropdown
+         */
+        $scope.toggleMoreActions = function(item) {
+            // Close other dropdowns first
+            $scope.filteredData.forEach(function(dataItem) {
+                if (dataItem.id !== item.id) {
+                    dataItem.showMoreActions = false;
+                }
             });
+            
+            item.showMoreActions = !item.showMoreActions;
+        };
+
+        /**
+         * Handle item click in grid view
+         */
+        $scope.handleItemClick = function(item, $event) {
+            if ($event && ($event.target.type === 'checkbox' || 
+                          $event.target.closest('.grid-action-btn'))) {
+                return;
+            }
+            
+            $scope.toggleSelection(item);
+        };
+
+        /**
+         * Toggle filter group expansion
+         */
+        $scope.toggleFilterGroup = function(filterGroup) {
+            // This will be handled by the filter configuration
+        };
+
+        /**
+         * Apply filter changes
+         */
+        $scope.applyFilter = function() {
+            // Build filters from selected options
+            var newFilters = {};
+            
+            if ($scope.config.filters) {
+                $scope.config.filters.forEach(function(filterGroup) {
+                    if (filterGroup.options) {
+                        var selectedOptions = filterGroup.options
+                            .filter(function(option) { return option.selected; })
+                            .map(function(option) { return option.value; });
+                        
+                        if (selectedOptions.length > 0) {
+                            newFilters[filterGroup.field] = selectedOptions;
+                        }
+                    }
+                });
+            }
+            
+            $scope.appliedFilters = newFilters;
+            $scope.pagination.currentPage = 0; // Reset to first page
+            loadEntityData();
+        };
+
+        /**
+         * Show import dialog
+         */
+        $scope.showImportDialog = function() {
+            if ($scope.config.handlers && $scope.config.handlers.import) {
+                $scope.config.handlers.import();
+            }
+        };
+
+        /**
+         * Toggle source boosters dropdown
+         */
+        $scope.toggleSourceBooters = function() {
+            // Implementation for source boosters
+        };
+
+        /**
+         * Open view manager dialog
+         */
+        $scope.openViewManager = function() {
+            $scope.showViewDropdown = false;
+            if ($scope.config.handlers && $scope.config.handlers.viewManager) {
+                $scope.config.handlers.viewManager();
+            }
+        };
+
+        // Field-based filtering functionality
+
+        /**
+         * Load entity fields for field-based filtering
+         */
+        function loadEntityFields() {
+            if (!$scope.config || !$scope.config.entityType) return;
+            
+            // Skip loading for settings entities
+            if (isSettingsEntity($scope.config.entityType)) {
+                return;
+            }
+            
+            $scope.loading = true;
+            
+            EntityDataService.loadFieldsGrouped($scope.config.entityType)
+                .then(function(response) {
+                    $scope.groupedFields = response.data || {};
+                    
+                    // Create flat list of all fields for the new UI
+                    $scope.allFields = [];
+                    Object.keys($scope.groupedFields).forEach(function(category) {
+                        var fields = $scope.groupedFields[category] || [];
+                        $scope.allFields = $scope.allFields.concat(fields);
+                    });
+                    
+                    // Initialize field group expanded state (kept for backward compatibility)
+                    Object.keys($scope.groupedFields).forEach(function(category) {
+                        $scope.fieldGroupExpanded[category] = category === 'PERSONAL' || category === 'General';
+                    });
+                })
+                .catch(function(error) {
+                    $scope.groupedFields = {};
+                    $scope.allFields = [];
+                })
+                .finally(function() {
+                    $scope.loading = false;
+                });
+        }
+
+        /**
+         * Check if entity is a settings entity that should not have field-based filtering
+         */
+        function isSettingsEntity(entityType) {
+            var settingsEntities = ['USER', 'ROLE', 'PERMISSION', 'ORGANIZATION', 'EMAIL_TEMPLATE'];
+            return settingsEntities.indexOf(entityType) >= 0;
+        }
+
+        /**
+         * Toggle field group expansion
+         */
+        $scope.toggleFieldGroup = function(category) {
+            $scope.fieldGroupExpanded[category] = !$scope.fieldGroupExpanded[category];
+        };
+
+        /**
+         * Filter fields based on search query
+         */
+        $scope.filterFields = function() {
+            var query = $scope.fieldSearchQuery.toLowerCase();
+            
+            $scope.fieldFilter = function(field) {
+                if (!query) return true;
+                
+                return field.fieldName.toLowerCase().indexOf(query) >= 0 ||
+                       field.fieldLabel.toLowerCase().indexOf(query) >= 0 ||
+                       (field.fieldDescription && field.fieldDescription.toLowerCase().indexOf(query) >= 0);
+            };
+        };
+
+        /**
+         * Apply field filter when field is selected/deselected
+         */
+        $scope.applyFieldFilter = function(field) {
+            if (!$scope.fieldFilters[field.fieldName]) {
+                // Field deselected, remove its filter values
+                delete $scope.fieldFilterValues[field.fieldName];
+                delete $scope.fieldFilterValues[field.fieldName + '_min'];
+                delete $scope.fieldFilterValues[field.fieldName + '_max'];
+                delete $scope.fieldFilterValues[field.fieldName + '_from'];
+                delete $scope.fieldFilterValues[field.fieldName + '_to'];
+                
+                // Remove enum options
+                Object.keys($scope.fieldFilterValues).forEach(function(key) {
+                    if (key.startsWith(field.fieldName + '_')) {
+                        delete $scope.fieldFilterValues[key];
+                    }
+                });
+            }
+            
+            applyAllFieldFilters();
+        };
+
+        /**
+         * Apply field value filter when field value changes
+         */
+        $scope.applyFieldValueFilter = function(field) {
+            var searchTimeout;
+            
+            if (searchTimeout) {
+                $timeout.cancel(searchTimeout);
+            }
+            
+            searchTimeout = $timeout(function() {
+                applyAllFieldFilters();
+            }, 300); // 300ms debounce
+        };
+
+        /**
+         * Apply all field filters
+         */
+        function applyAllFieldFilters() {
+            var filters = {};
+            
+            // Build filters from selected fields and their values
+            Object.keys($scope.fieldFilters).forEach(function(fieldName) {
+                if ($scope.fieldFilters[fieldName]) {
+                    var fieldValue = $scope.fieldFilterValues[fieldName];
+                    
+                    if (fieldValue !== undefined && fieldValue !== null && fieldValue !== '') {
+                        filters[fieldName] = fieldValue;
+                    }
+                    
+                    // Handle range filters
+                    var minValue = $scope.fieldFilterValues[fieldName + '_min'];
+                    var maxValue = $scope.fieldFilterValues[fieldName + '_max'];
+                    
+                    if (minValue !== undefined && minValue !== null && minValue !== '') {
+                        filters[fieldName + '_min'] = minValue;
+                    }
+                    if (maxValue !== undefined && maxValue !== null && maxValue !== '') {
+                        filters[fieldName + '_max'] = maxValue;
+                    }
+                    
+                    // Handle date range filters
+                    var fromValue = $scope.fieldFilterValues[fieldName + '_from'];
+                    var toValue = $scope.fieldFilterValues[fieldName + '_to'];
+                    
+                    if (fromValue) {
+                        filters[fieldName + '_from'] = fromValue;
+                    }
+                    if (toValue) {
+                        filters[fieldName + '_to'] = toValue;
+                    }
+                    
+                    // Handle enum filters
+                    var enumValues = [];
+                    Object.keys($scope.fieldFilterValues).forEach(function(key) {
+                        if (key.startsWith(fieldName + '_') && $scope.fieldFilterValues[key]) {
+                            var enumValue = key.replace(fieldName + '_', '');
+                            if (enumValue !== 'min' && enumValue !== 'max' && enumValue !== 'from' && enumValue !== 'to') {
+                                enumValues.push(enumValue);
+                            }
+                        }
+                    });
+                    
+                    if (enumValues.length > 0) {
+                        filters[fieldName] = enumValues;
+                    }
+                }
+            });
+            
+            $scope.appliedFilters = filters;
+            $scope.pagination.currentPage = 0; // Reset to first page
+            loadEntityData();
+        }
+
+        /**
+         * Get field options for enum/select fields
+         */
+        $scope.getFieldOptions = function(field) {
+            // This would typically come from the field metadata
+            // For now, return common options based on field name
+            var fieldName = field.fieldName.toLowerCase();
+            
+            if (fieldName.includes('status') || fieldName.includes('enrollmentstatus')) {
+                return [
+                    { value: 'ACTIVE', label: 'Active' },
+                    { value: 'INACTIVE', label: 'Inactive' },
+                    { value: 'PENDING', label: 'Pending' },
+                    { value: 'GRADUATED', label: 'Graduated' }
+                ];
+            }
+            
+            if (fieldName.includes('gender')) {
+                return [
+                    { value: 'MALE', label: 'Male' },
+                    { value: 'FEMALE', label: 'Female' },
+                    { value: 'OTHER', label: 'Other' }
+                ];
+            }
+            
+            if (fieldName.includes('grade') || fieldName.includes('gradelevel')) {
+                return [
+                    { value: 'KINDERGARTEN', label: 'Kindergarten' },
+                    { value: 'FIRST_GRADE', label: '1st Grade' },
+                    { value: 'SECOND_GRADE', label: '2nd Grade' },
+                    { value: 'THIRD_GRADE', label: '3rd Grade' },
+                    { value: 'FOURTH_GRADE', label: '4th Grade' },
+                    { value: 'FIFTH_GRADE', label: '5th Grade' }
+                ];
+            }
+            
+            return [];
+        };
+
+        /**
+         * Check if there are active filters
+         */
+        $scope.hasActiveFilters = function() {
+            return Object.keys($scope.appliedFilters).length > 0;
+        };
+
+        /**
+         * Clear all field filters
+         */
+        $scope.clearAllFilters = function() {
+            $scope.fieldFilters = {};
+            $scope.fieldFilterValues = {};
+            $scope.appliedFilters = {};
+            $scope.fieldSearchQuery = '';
+            $scope.fieldFilter = {};
+            $scope.pagination.currentPage = 0;
+            loadEntityData();
         };
 
         // Cleanup
         $scope.$on('$destroy', function() {
-            console.log('🧹 EntityListController destroyed');
+            // Cleanup logic here
         });
-
-        console.log('✅ EntityListController setup complete');
     }
 })();

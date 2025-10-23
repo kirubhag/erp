@@ -46,7 +46,6 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
                 $scope.loading = false;
             })
             .catch(function(error) {
-                console.error('Error loading recycle bin records:', error);
                 $scope.showError('Failed to load recycle bin records');
                 $scope.loading = false;
             });
@@ -61,7 +60,7 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
                 $scope.statistics = response.data;
             })
             .catch(function(error) {
-                console.error('Error loading statistics:', error);
+                // Handle error silently
             });
     };
     
@@ -74,7 +73,7 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
                 $scope.entityTypes = response.data;
             })
             .catch(function(error) {
-                console.error('Error loading entity types:', error);
+                // Handle error silently
             });
     };
     
@@ -104,7 +103,6 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
                 $scope.loading = false;
             })
             .catch(function(error) {
-                console.error('Error searching recycle bin:', error);
                 $scope.showError('Failed to search recycle bin');
                 $scope.loading = false;
             });
@@ -137,7 +135,6 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
                 $scope.loadStatistics();
             })
             .catch(function(error) {
-                console.error('Error restoring record:', error);
                 $scope.showError('Failed to restore record');
             });
     };
@@ -161,7 +158,6 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
                 $scope.loadStatistics();
             })
             .catch(function(error) {
-                console.error('Error restoring all records:', error);
                 $scope.showError('Failed to restore all records');
             });
     };
@@ -181,7 +177,6 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
                 $scope.loadStatistics();
             })
             .catch(function(error) {
-                console.error('Error permanently deleting record:', error);
                 $scope.showError('Failed to delete record');
             });
     };
@@ -201,7 +196,6 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
                 $scope.loadStatistics();
             })
             .catch(function(error) {
-                console.error('Error cleaning up old records:', error);
                 $scope.showError('Failed to cleanup old records');
             });
     };
@@ -221,7 +215,6 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
                 $scope.loadStatistics();
             })
             .catch(function(error) {
-                console.error('Error emptying recycle bin:', error);
                 $scope.showError('Failed to empty recycle bin');
             });
     };

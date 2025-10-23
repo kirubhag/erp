@@ -32,6 +32,10 @@ angular.module('erpApp').controller('SettingsController', [
                 $scope.activeSettingsTab = 'notification';
             } else if (path.includes('/settings/modules')) {
                 $scope.activeSettingsTab = 'modules';
+                // Ensure modules are initialized when visiting this tab
+                if (!$scope.availableEntities || $scope.availableEntities.length === 0) {
+                    $scope.initializeModules();
+                }
             } else if (path.includes('/settings/vendor-portal')) {
                 $scope.activeSettingsTab = 'vendor-portal';
             } else if (path.includes('/settings/data-migration')) {
@@ -83,6 +87,9 @@ angular.module('erpApp').controller('SettingsController', [
             ];
             
             $scope.loadOrganizationData();
+            
+            // Initialize modules data
+            $scope.initializeModules();
             
             // Initialize settings structure
             $scope.initializeSettings();
@@ -599,6 +606,129 @@ angular.module('erpApp').controller('SettingsController', [
         // Utility functions
         $scope.showToast = function(type, title, message) {
             $rootScope.$broadcast('app:' + type, message);
+        };
+        
+        // Initialize modules data
+        $scope.initializeModules = function() {
+            $scope.availableEntities = [
+                {
+                    name: 'STUDENT',
+                    displayName: 'Students',
+                    description: 'Manage student information and records',
+                    icon: 'user-graduate',
+                    fieldCount: 0,
+                    recordCount: 0
+                },
+                {
+                    name: 'PARENT',
+                    displayName: 'Parents',
+                    description: 'Parent and guardian information',
+                    icon: 'users',
+                    fieldCount: 0,
+                    recordCount: 0
+                },
+                {
+                    name: 'STAFF',
+                    displayName: 'Staff',
+                    description: 'Staff and faculty management',
+                    icon: 'chalkboard-teacher',
+                    fieldCount: 0,
+                    recordCount: 0
+                },
+                {
+                    name: 'ATTENDANCE',
+                    displayName: 'Attendance',
+                    description: 'Attendance tracking and reports',
+                    icon: 'calendar-check',
+                    fieldCount: 0,
+                    recordCount: 0
+                },
+                {
+                    name: 'GRADE',
+                    displayName: 'Grades',
+                    description: 'Student grades and assessments',
+                    icon: 'graduation-cap',
+                    fieldCount: 0,
+                    recordCount: 0
+                },
+                {
+                    name: 'ASSIGNMENT',
+                    displayName: 'Assignments',
+                    description: 'Assignment and homework management',
+                    icon: 'tasks',
+                    fieldCount: 0,
+                    recordCount: 0
+                },
+                {
+                    name: 'EXAM',
+                    displayName: 'Exams',
+                    description: 'Exam scheduling and management',
+                    icon: 'clipboard-list',
+                    fieldCount: 0,
+                    recordCount: 0
+                },
+                {
+                    name: 'HEALTH',
+                    displayName: 'Health Records',
+                    description: 'Student health and medical records',
+                    icon: 'heartbeat',
+                    fieldCount: 0,
+                    recordCount: 0
+                }
+            ];
+            
+            // Load field counts for each entity
+            $scope.loadEntityStats();
+        };
+        
+        // Load field counts and record counts for entities
+        $scope.loadEntityStats = function() {
+            $scope.availableEntities.forEach(function(entity) {
+                // Load field count
+                ApiService.get('/api/fields/' + entity.name + '/grouped').then(function(response) {
+                    if (response.data) {
+                        var totalFields = 0;
+                        Object.keys(response.data).forEach(function(category) {
+                            totalFields += (response.data[category] || []).length;
+                        });
+                        entity.fieldCount = totalFields;
+                    }
+                }).catch(function(error) {
+                    console.log('Could not load field count for ' + entity.name);
+                    entity.fieldCount = 0;
+                });
+                
+                // Load record count (simplified, you might want to add specific endpoints)
+                var endpoint = getEntityEndpoint(entity.name);
+                if (endpoint) {
+                    ApiService.get(endpoint + '/count').then(function(response) {
+                        entity.recordCount = response.data || 0;
+                    }).catch(function(error) {
+                        console.log('Could not load record count for ' + entity.name);
+                        entity.recordCount = 0;
+                    });
+                }
+            });
+        };
+        
+        // Get API endpoint for entity
+        function getEntityEndpoint(entityName) {
+            var endpoints = {
+                'STUDENT': '/api/students',
+                'PARENT': '/api/parents',
+                'STAFF': '/api/staff',
+                'ATTENDANCE': '/api/attendance',
+                'GRADE': '/api/grades',
+                'ASSIGNMENT': '/api/assignments',
+                'EXAM': '/api/exams',
+                'HEALTH': '/api/health'
+            };
+            return endpoints[entityName];
+        }
+        
+        // Open entity field customization
+        $scope.openEntityFieldCustomization = function(entity) {
+            $location.path('/settings/modules/' + entity.name + '/fields');
         };
         
         // Listen for route changes to update active tab

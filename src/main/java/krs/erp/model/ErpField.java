@@ -8,6 +8,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import krs.erp.enums.EntityType;
+import krs.erp.enums.UIFieldType;
 
 @Entity
 @Table(name = "erp_fields")
@@ -26,6 +27,9 @@ public class ErpField extends BaseEntity {
     @Column(name = "field_type", nullable = false, length = 50)
     @Enumerated(EnumType.STRING)
     private FieldType fieldType;
+    
+    @Column(name = "ui_type")
+    private Integer uiType; // New UI Field Type (100-119 range)
     
     @Column(name = "field_category", length = 100)
     private String fieldCategory; // PERSONAL, CONTACT, ACADEMIC, etc.
@@ -47,6 +51,30 @@ public class ErpField extends BaseEntity {
     
     @Column(name = "default_width")
     private Integer defaultWidth = 150;
+    
+    @Column(name = "max_length")
+    private Integer maxLength;
+    
+    @Column(name = "validation_pattern", length = 500)
+    private String validationPattern;
+    
+    @Column(name = "picklist_options", columnDefinition = "TEXT")
+    private String picklistOptions; // JSON string for picklist options
+    
+    @Column(name = "decimal_places")
+    private Integer decimalPlaces;
+    
+    @Column(name = "is_unique")
+    private Boolean isUnique = false;
+    
+    @Column(name = "show_in_list")
+    private Boolean showInList = true;
+    
+    @Column(name = "show_in_form")
+    private Boolean showInForm = true;
+    
+    @Column(name = "column_width", length = 50)
+    private String columnWidth = "medium";
     
     // Constructors
     public ErpField() {}
@@ -154,6 +182,96 @@ public class ErpField extends BaseEntity {
     
     public ErpField setDefaultWidth(Integer defaultWidth) {
         this.defaultWidth = defaultWidth;
+        return this;
+    }
+    
+    public Integer getUiType() {
+        return uiType;
+    }
+    
+    public ErpField setUiType(Integer uiType) {
+        this.uiType = uiType;
+        return this;
+    }
+    
+    public UIFieldType getUIFieldType() {
+        return uiType != null ? UIFieldType.getById(uiType) : null;
+    }
+    
+    public ErpField setUIFieldType(UIFieldType uiFieldType) {
+        this.uiType = uiFieldType != null ? uiFieldType.getTypeId() : null;
+        return this;
+    }
+    
+    public Integer getMaxLength() {
+        return maxLength;
+    }
+    
+    public ErpField setMaxLength(Integer maxLength) {
+        this.maxLength = maxLength;
+        return this;
+    }
+    
+    public String getValidationPattern() {
+        return validationPattern;
+    }
+    
+    public ErpField setValidationPattern(String validationPattern) {
+        this.validationPattern = validationPattern;
+        return this;
+    }
+    
+    public String getPicklistOptions() {
+        return picklistOptions;
+    }
+    
+    public ErpField setPicklistOptions(String picklistOptions) {
+        this.picklistOptions = picklistOptions;
+        return this;
+    }
+    
+    public Integer getDecimalPlaces() {
+        return decimalPlaces;
+    }
+    
+    public ErpField setDecimalPlaces(Integer decimalPlaces) {
+        this.decimalPlaces = decimalPlaces;
+        return this;
+    }
+    
+    public Boolean getIsUnique() {
+        return isUnique;
+    }
+    
+    public ErpField setIsUnique(Boolean isUnique) {
+        this.isUnique = isUnique;
+        return this;
+    }
+    
+    public Boolean getShowInList() {
+        return showInList;
+    }
+    
+    public ErpField setShowInList(Boolean showInList) {
+        this.showInList = showInList;
+        return this;
+    }
+    
+    public Boolean getShowInForm() {
+        return showInForm;
+    }
+    
+    public ErpField setShowInForm(Boolean showInForm) {
+        this.showInForm = showInForm;
+        return this;
+    }
+    
+    public String getColumnWidth() {
+        return columnWidth;
+    }
+    
+    public ErpField setColumnWidth(String columnWidth) {
+        this.columnWidth = columnWidth;
         return this;
     }
     

@@ -10,18 +10,16 @@
             </div>
             
             <div class="header-actions">
-                <!-- View Selector -->
+                <!-- Custom View Selector with Dropdown Icon -->
                 <div class="view-selector" ng-if="config.features.customViews">
                     <button class="view-button" type="button" ng-click="toggleViewDropdown()">
-                        <i class="icon-view"></i>
-                        <span class="view-name">{{currentView.name || 'All ' + config.entityName + 's'}}</span>
-                        <i class="icon-chevron-down"></i>
+                        <i class="fas fa-caret-down"></i>
+                        <span class="view-name">{{currentView.name || ('All ' + config.entityName + 's')}}</span>
                     </button>
-                    
                     <div class="view-dropdown" ng-show="showViewDropdown">
                         <div class="view-option" ng-click="selectView(null)">
                             <i class="icon-list"></i>
-                            <span>All {{config.entityName}}s</span>
+                            <span>All {{::config.entityName}}s</span>
                         </div>
                         <div class="view-divider"></div>
                         <div class="view-option" ng-repeat="view in customViews" ng-click="selectView(view)">
@@ -36,40 +34,10 @@
                     </div>
                 </div>
                 
-                <!-- Import/Export Actions -->
-                <div class="action-group" ng-if="config.features.import || config.features.export">
-                    <button class="action-button" ng-if="config.features.import" ng-click="showImportDialog()">
-                        <i class="icon-upload"></i>
-                        <span>Import</span>
-                    </button>
-                    
-                    <div class="export-dropdown" ng-if="config.features.export">
-                        <button class="action-button" ng-click="toggleExportDropdown()">
-                            <i class="icon-download"></i>
-                            <span>Export</span>
-                            <i class="icon-chevron-down"></i>
-                        </button>
-                        <div class="dropdown-menu" ng-show="showExportDropdown">
-                            <div class="dropdown-item" ng-click="exportData('csv')">Export CSV</div>
-                            <div class="dropdown-item" ng-click="exportData('xlsx')">Export Excel</div>
-                            <div class="dropdown-item" ng-click="exportData('pdf')">Export PDF</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Source Boosters (like in the screenshot) -->
-                <div class="source-boosters" ng-if="config.features.sourceBooters">
-                    <button class="action-button" ng-click="toggleSourceBooters()">
-                        <i class="icon-boost"></i>
-                        <span>Source Boosters</span>
-                        <i class="icon-chevron-down"></i>
-                    </button>
-                </div>
-                
                 <!-- Primary Action Button -->
                 <button class="primary-button" ng-click="openCreateDialog()">
-                    <i class="icon-plus"></i>
-                    <span>{{config.createButtonText || 'Add ' + config.entityName}}</span>
+                    <i class="fas fa-plus"></i>
+                    <span>{{config.createButtonText || ('Add ' + config.entityName)}}</span>
                 </button>
             </div>
         </div>
@@ -78,63 +46,130 @@
     <!-- Filters Section -->
     <div class="filters-section">
         <div class="filters-content">
-            <!-- Left Side Filters Panel -->
+            <!-- Left Side Field Filters Panel -->
             <div class="filters-panel">
                 <div class="filter-header">
-                    <h3>FILTER {{config.entityName.toUpperCase()}}S BY</h3>
+                    <h3>FILTER {{::config.entityName.toUpperCase()}}S BY</h3>
+                    <div class="search-fields">
+                        <i class="icon-search"></i>
+                        <input type="text" 
+                               placeholder="Search fields..." 
+                               ng-model="fieldSearchQuery"
+                               ng-change="filterFields()">
+                    </div>
                 </div>
                 
-                <div class="filter-groups">
-                    <div class="filter-group" ng-repeat="filterGroup in config.filters">
-                        <div class="filter-group-header">
-                            <input type="checkbox" 
-                                   ng-model="filterGroup.expanded"
-                                   ng-change="toggleFilterGroup(filterGroup)">
-                            <label>{{filterGroup.name}}</label>
-                        </div>
-                        
-                        <div class="filter-options" ng-show="filterGroup.expanded">
-                            <div class="filter-option" ng-repeat="option in filterGroup.options">
+                <div class="field-filters">
+                    <!-- Dynamic field-based filters - flat list without grouping -->
+                    <div class="field-list">
+                        <div class="field-item" ng-repeat="field in allFields | filter:fieldFilter">
+                            <div class="field-checkbox">
                                 <input type="checkbox" 
-                                       ng-model="option.selected"
-                                       ng-change="applyFilter()">
-                                <label>{{option.label}}</label>
-                                <span class="option-count" ng-if="option.count">({{option.count}})</span>
+                                       ng-model="fieldFilters[field.fieldName]"
+                                       ng-change="applyFieldFilter(field)"
+                                       id="field_{{field.fieldName}}">
+                                <label for="field_{{field.fieldName}}">{{field.fieldLabel}}</label>
+                            </div>
+                                
+                                <!-- Field-specific filter UI based on field type -->
+                                <div class="field-filter-control" ng-if="fieldFilters[field.fieldName]">
+                                    
+                                    <!-- Text fields -->
+                                    <div ng-if="field.fieldType === 'TEXT' || field.fieldType === 'STRING'">
+                                        <input type="text" 
+                                               ng-model="fieldFilterValues[field.fieldName]"
+                                               ng-change="applyFieldValueFilter(field)"
+                                               placeholder="Enter {{field.fieldLabel.toLowerCase()}}..."
+                                               class="field-filter-input">
+                                    </div>
+                                    
+                                    <!-- Number fields -->
+                                    <div ng-if="field.fieldType === 'NUMBER' || field.fieldType === 'INTEGER' || field.fieldType === 'DECIMAL'">
+                                        <div class="number-filter">
+                                            <input type="number" 
+                                                   ng-model="fieldFilterValues[field.fieldName + '_min']"
+                                                   ng-change="applyFieldValueFilter(field)"
+                                                   placeholder="Min"
+                                                   class="field-filter-input number-min">
+                                            <input type="number" 
+                                                   ng-model="fieldFilterValues[field.fieldName + '_max']"
+                                                   ng-change="applyFieldValueFilter(field)"
+                                                   placeholder="Max"
+                                                   class="field-filter-input number-max">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Date fields -->
+                                    <div ng-if="field.fieldType === 'DATE' || field.fieldType === 'DATETIME'">
+                                        <div class="date-filter">
+                                            <input type="date" 
+                                                   ng-model="fieldFilterValues[field.fieldName + '_from']"
+                                                   ng-change="applyFieldValueFilter(field)"
+                                                   class="field-filter-input date-from">
+                                            <input type="date" 
+                                                   ng-model="fieldFilterValues[field.fieldName + '_to']"
+                                                   ng-change="applyFieldValueFilter(field)"
+                                                   class="field-filter-input date-to">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Boolean fields -->
+                                    <div ng-if="field.fieldType === 'BOOLEAN'">
+                                        <select ng-model="fieldFilterValues[field.fieldName]"
+                                                ng-change="applyFieldValueFilter(field)"
+                                                class="field-filter-select">
+                                            <option value="">All</option>
+                                            <option value="true">Yes</option>
+                                            <option value="false">No</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Enum/Select fields -->
+                                    <div ng-if="field.fieldType === 'ENUM' || field.fieldType === 'SELECT'">
+                                        <div class="enum-filter">
+                                            <div class="enum-option" ng-repeat="option in getFieldOptions(field)">
+                                                <input type="checkbox" 
+                                                       ng-model="fieldFilterValues[field.fieldName + '_' + option.value]"
+                                                       ng-change="applyFieldValueFilter(field)"
+                                                       id="{{field.fieldName}}_{{option.value}}">
+                                                <label for="{{field.fieldName}}_{{option.value}}">{{option.label}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    
+                    <!-- Clear all filters button -->
+                    <div class="filter-actions" ng-show="hasActiveFilters()">
+                        <button class="clear-filters-btn" ng-click="clearAllFilters()">
+                            <i class="icon-close"></i>
+                            Clear All Filters
+                        </button>
                     </div>
                 </div>
             </div>
             
             <!-- Main Content Area -->
             <div class="main-content">
-                <!-- Search and View Controls -->
-                <div class="search-controls">
-                    <div class="search-box">
-                        <i class="icon-search"></i>
-                        <input type="text" 
-                               placeholder="Search {{config.entityName}}s..." 
-                               ng-model="searchQuery"
-                               ng-change="performSearch()">
+                <!-- Results Summary -->
+                <div class="results-summary">
+                    <div class="results-info">
+                        <span class="total-count">{{pagination.totalElements}}</span>
+                        <span class="results-text">{{config.entityName}}s found</span>
                     </div>
                     
-                    <div class="view-controls">
-                        <div class="view-mode-toggle">
-                            <button class="view-mode-btn" 
-                                    ng-class="{active: viewMode === 'table'}"
-                                    ng-click="setViewMode('table')">
-                                <i class="icon-table"></i>
-                            </button>
-                            <button class="view-mode-btn" 
-                                    ng-class="{active: viewMode === 'grid'}"
-                                    ng-click="setViewMode('grid')">
-                                <i class="icon-grid"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="results-info">
-                            <span class="total-count">{{pagination.totalElements}}</span>
-                        </div>
+                    <div class="view-mode-toggle">
+                        <button class="view-mode-btn" 
+                                ng-class="{active: viewMode === 'table'}"
+                                ng-click="setViewMode('table')">
+                            <i class="icon-table"></i>
+                        </button>
+                        <button class="view-mode-btn" 
+                                ng-class="{active: viewMode === 'grid'}"
+                                ng-click="setViewMode('grid')">
+                            <i class="icon-grid"></i>
+                        </button>
                     </div>
                 </div>
                 
@@ -145,17 +180,23 @@
                         <span class="selected-text">selected</span>
                     </div>
                     
-                    <div class="bulk-actions">
-                        <button class="bulk-action-btn" 
-                                ng-repeat="action in config.bulkActions"
-                                ng-click="executeBulkAction(action)">
-                            <i class="icon-{{action.icon}}"></i>
-                            <span>{{action.label}}</span>
+                    <div class="bulk-actions-dropdown">
+                        <button class="bulk-actions-trigger" ng-click="toggleBulkActionsMenu()">
+                            <i class="fas fa-ellipsis-h"></i>
                         </button>
+                        
+                        <div class="bulk-actions-menu" ng-show="showBulkActionsMenu">
+                            <button class="bulk-action-item" 
+                                    ng-repeat="action in config.bulkActions"
+                                    ng-click="executeBulkAction(action)">
+                                <i class="fas fa-{{action.icon}}"></i>
+                                <span>{{action.label}}</span>
+                            </button>
+                        </div>
                     </div>
                     
                     <button class="clear-selection-btn" ng-click="clearSelection()">
-                        <i class="icon-close"></i>
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
                 
@@ -198,7 +239,7 @@
                                     <!-- Primary column (usually name) -->
                                     <div ng-if="column.primary" class="primary-cell">
                                         <div class="entity-avatar" ng-if="column.showAvatar">
-                                            <div class="avatar-circle" ng-style="getAvatarStyle(item)">
+                                            <div class="avatar-circle" ng-style="getCachedAvatarStyle(item)">
                                                 {{getAvatarInitials(item)}}
                                             </div>
                                         </div>
@@ -279,11 +320,11 @@
                         <div class="empty-icon">
                             <i class="icon-{{config.emptyIcon || 'folder'}}"></i>
                         </div>
-                        <div class="empty-title">No {{config.entityName}}s found</div>
-                        <div class="empty-subtitle">{{config.emptyMessage}}</div>
-                        <button class="primary-button" ng-click="openCreateDialog()" ng-if="config.allowCreate">
+                        <div class="empty-title">No {{::config.entityName}}s found</div>
+                        <div class="empty-subtitle">{{::config.emptyMessage}}</div>
+                        <button class="primary-button" ng-click="openCreateDialog()" ng-if="::config.allowCreate">
                             <i class="icon-plus"></i>
-                            <span>Create {{config.entityName}}</span>
+                            <span>Create {{::config.entityName}}</span>
                         </button>
                     </div>
                 </div>
@@ -303,7 +344,7 @@
                                        class="grid-checkbox">
                                        
                                 <div class="grid-avatar">
-                                    <div class="avatar-circle" ng-style="getAvatarStyle(item)">
+                                    <div class="avatar-circle" ng-style="getCachedAvatarStyle(item)">
                                         {{getAvatarInitials(item)}}
                                     </div>
                                 </div>
@@ -342,31 +383,19 @@
                     </div>
                 </div>
                 
-                <!-- Pagination -->
+                <!-- Pagination and Results Info -->
                 <div class="pagination-section" ng-show="pagination.totalPages > 1">
-                    <div class="pagination-info">
-                        <span>{{getPaginationInfo()}}</span>
-                        
-                        <select class="page-size-selector" 
-                                ng-model="pagination.size"
-                                ng-change="changePageSize()">
-                            <option ng-repeat="size in pageSizeOptions" value="{{size}}">
-                                {{size}} Records Per Page
-                            </option>
-                        </select>
-                    </div>
-                    
                     <div class="pagination-controls">
                         <button class="page-btn" 
                                 ng-disabled="pagination.currentPage === 0"
                                 ng-click="goToPage(0)">
-                            <i class="icon-first"></i>
+                            <i class="fas fa-angle-double-left"></i>
                         </button>
                         
                         <button class="page-btn" 
                                 ng-disabled="pagination.currentPage === 0"
                                 ng-click="goToPage(pagination.currentPage - 1)">
-                            <i class="icon-prev"></i>
+                            <i class="fas fa-angle-left"></i>
                         </button>
                         
                         <div class="page-numbers">
@@ -381,14 +410,26 @@
                         <button class="page-btn" 
                                 ng-disabled="pagination.currentPage === pagination.totalPages - 1"
                                 ng-click="goToPage(pagination.currentPage + 1)">
-                            <i class="icon-next"></i>
+                            <i class="fas fa-angle-right"></i>
                         </button>
                         
                         <button class="page-btn" 
                                 ng-disabled="pagination.currentPage === pagination.totalPages - 1"
                                 ng-click="goToPage(pagination.totalPages - 1)">
-                            <i class="icon-last"></i>
+                            <i class="fas fa-angle-double-right"></i>
                         </button>
+                    </div>
+                    
+                    <div class="pagination-info">
+                        <span>{{getPaginationInfo()}}</span>
+                        
+                        <select class="page-size-selector" 
+                                ng-model="pagination.size"
+                                ng-change="changePageSize()">
+                            <option ng-repeat="size in pageSizeOptions" value="{{size}}">
+                                {{size}} Records Per Page
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -399,7 +440,7 @@
     <div class="loading-overlay" ng-show="loading">
         <div class="loading-spinner">
             <div class="spinner"></div>
-            <div class="loading-text">Loading {{config.entityName}}s...</div>
+                                    <div class="loading-text">Loading {{::config.entityName}}s...</div>
         </div>
     </div>
 </div>
