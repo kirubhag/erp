@@ -12,7 +12,6 @@ templates/
 │   └── attendance.html
 ├── email/                       # Email system templates
 │   ├── email-logs.html         # Email logs view
-│   ├── email-tab.html          # Email tab component
 │   ├── email-template-form.html # Create/edit email templates
 │   └── email-templates.html    # List email templates
 ├── health/                      # Health records templates
@@ -20,19 +19,16 @@ templates/
 ├── organization/                # Organization management templates
 │   ├── organization.html        # Organization form
 │   ├── settings-organization-edit.html
-│   ├── settings-organization-view.html
-│   └── view-organization.html
+│   └── settings-organization-view.html
 ├── parent/                      # Parent management templates
 │   └── parents.html
 ├── settings/                    # Settings and configuration templates
-│   ├── settings-dashboard.html  # Main settings dashboard
-│   └── settings.html           # Settings management
+│   └── settings.html           # Modern settings page with card-based layout
 ├── student/                     # Student management templates
 │   └── students.html
 └── user/                        # User management templates
     ├── settings-user-edit.html
-    ├── settings-user-view.html
-    └── view-user.html
+    └── settings-user-view.html
 ```
 
 ## Template Usage
