@@ -35,16 +35,16 @@ class PermissionTest {
     @Test
     void testPermissionDefaultValues() {
         // Test default active status
-        assertTrue(permission.getIsActive());
+        assertEquals(1, permission.getIsActive());
     }
 
     @Test
     void testPermissionStatus() {
-        permission.setIsActive(false);
-        assertFalse(permission.getIsActive());
+        permission.setIsActive(0);
+        assertEquals(0, permission.getIsActive());
 
-        permission.setIsActive(true);
-        assertTrue(permission.getIsActive());
+        permission.setIsActive(1);
+        assertEquals(1, permission.getIsActive());
     }
 
     @Test

@@ -78,12 +78,12 @@ class UserTest {
         user.setCreatedBy("admin");
         user.setModifiedBy("user1");
         user.setOwnerId(100L);
-        user.setIsActive(true);
+        user.setIsActive(1);
 
         assertEquals("admin", user.getCreatedBy());
         assertEquals("user1", user.getModifiedBy());
         assertEquals(100L, user.getOwnerId());
-        assertTrue(user.getIsActive());
+        assertEquals(1, user.getIsActive());
     }
 
     @Test

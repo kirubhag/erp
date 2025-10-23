@@ -93,12 +93,12 @@ class AttendanceTest {
         attendance.setCreatedBy("system");
         attendance.setModifiedBy("admin");
         attendance.setOwnerId(300L);
-        attendance.setIsActive(true);
+        attendance.setIsActive(1);
 
         assertEquals("system", attendance.getCreatedBy());
         assertEquals("admin", attendance.getModifiedBy());
         assertEquals(300L, attendance.getOwnerId());
-        assertTrue(attendance.getIsActive());
+        assertEquals(1, attendance.getIsActive());
     }
 
     @Test

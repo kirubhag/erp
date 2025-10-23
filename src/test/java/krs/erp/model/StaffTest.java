@@ -104,12 +104,12 @@ class StaffTest {
         staff.setCreatedBy("hr");
         staff.setModifiedBy("manager");
         staff.setOwnerId(200L);
-        staff.setIsActive(true);
+        staff.setIsActive(1);
 
         assertEquals("hr", staff.getCreatedBy());
         assertEquals("manager", staff.getModifiedBy());
         assertEquals(200L, staff.getOwnerId());
-        assertTrue(staff.getIsActive());
+        assertEquals(1, staff.getIsActive());
     }
 
     @Test

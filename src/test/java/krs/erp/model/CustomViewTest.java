@@ -178,8 +178,8 @@ class CustomViewTest {
         assertNull(customView.getModifiedTime());
         // ID should be null for new entities
         assertNull(customView.getId());
-        // isActive should default to true from BaseEntity
-        assertTrue(customView.getIsActive());
+        // isActive should default to 1 (active) from BaseEntity
+        assertEquals(1, customView.getIsActive());
     }
 
     @Test

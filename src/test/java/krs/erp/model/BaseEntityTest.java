@@ -37,7 +37,7 @@ class BaseEntityTest {
     @Test
     void testBaseEntityCreation() {
         assertNotNull(testEntity);
-        assertTrue(testEntity.getIsActive()); // Default should be true
+        assertEquals(1, testEntity.getIsActive()); // Default should be 1 (active)
     }
 
     @Test
@@ -55,8 +55,8 @@ class BaseEntityTest {
         assertEquals(123L, testEntity.getOwnerId());
 
         // Test is_active field
-        testEntity.setIsActive(false);
-        assertFalse(testEntity.getIsActive());
+        testEntity.setIsActive(0);
+        assertEquals(0, testEntity.getIsActive());
     }
 
     @Test
@@ -78,7 +78,7 @@ class BaseEntityTest {
         TestEntity entity = new TestEntity();
         
         // Test default is_active value
-        assertTrue(entity.getIsActive());
+        assertEquals(1, entity.getIsActive());
         
         // Test that timestamps can be null initially
         assertNull(entity.getCreatedTime());
@@ -103,7 +103,7 @@ class BaseEntityTest {
         testEntity.setModifiedBy("system");
         testEntity.setModifiedTime(LocalDateTime.now());
         testEntity.setOwnerId(1L);
-        testEntity.setIsActive(true);
+        testEntity.setIsActive(1);
 
         // Verify all audit fields are set
         assertNotNull(testEntity.getCreatedBy());
@@ -111,7 +111,7 @@ class BaseEntityTest {
         assertNotNull(testEntity.getModifiedBy());
         assertNotNull(testEntity.getModifiedTime());
         assertNotNull(testEntity.getOwnerId());
-        assertTrue(testEntity.getIsActive());
+        assertEquals(1, testEntity.getIsActive());
     }
 
     @Test
@@ -132,14 +132,14 @@ class BaseEntityTest {
     @Test
     void testSoftDelete() {
         // Entity should be active by default
-        assertTrue(testEntity.getIsActive());
+        assertEquals(1, testEntity.getIsActive());
         
         // Simulate soft delete
-        testEntity.setIsActive(false);
+        testEntity.setIsActive(0);
         testEntity.setModifiedBy("admin");
         testEntity.setModifiedTime(LocalDateTime.now());
         
-        assertFalse(testEntity.getIsActive());
+        assertEquals(0, testEntity.getIsActive());
         assertEquals("admin", testEntity.getModifiedBy());
         assertNotNull(testEntity.getModifiedTime());
     }

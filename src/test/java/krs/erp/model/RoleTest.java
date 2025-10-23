@@ -34,16 +34,16 @@ class RoleTest {
     @Test
     void testRoleDefaultValues() {
         // Test default enabled status
-        assertTrue(role.getIsActive());
+        assertEquals(1, role.getIsActive());
     }
 
     @Test
     void testRoleStatus() {
-        role.setIsActive(false);
-        assertFalse(role.getIsActive());
+        role.setIsActive(0);
+        assertEquals(0, role.getIsActive());
 
-        role.setIsActive(true);
-        assertTrue(role.getIsActive());
+        role.setIsActive(1);
+        assertEquals(1, role.getIsActive());
     }
 
     @Test

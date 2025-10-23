@@ -24,21 +24,21 @@ class EmailTemplateTest {
         emailTemplate.setTemplateName("Welcome Template");
         emailTemplate.setSubject("Welcome to Our School");
         emailTemplate.setBody("Dear {{name}}, welcome to our school!");
-        emailTemplate.setEntityType(EmailTemplate.EntityType.STUDENT);
+        emailTemplate.setEntityType(krs.erp.enums.EntityType.STUDENT);
 
         assertEquals("Welcome Template", emailTemplate.getTemplateName());
         assertEquals("Welcome to Our School", emailTemplate.getSubject());
         assertEquals("Dear {{name}}, welcome to our school!", emailTemplate.getBody());
-        assertEquals(EmailTemplate.EntityType.STUDENT, emailTemplate.getEntityType());
+        assertEquals(krs.erp.enums.EntityType.STUDENT, emailTemplate.getEntityType());
     }
 
     @Test
     void testEmailTemplateStatus() {
         // Test default active status
-        assertTrue(emailTemplate.getIsActive());
+        assertEquals(1, emailTemplate.getIsActive());
 
-        emailTemplate.setIsActive(false);
-        assertFalse(emailTemplate.getIsActive());
+        emailTemplate.setIsActive(0);
+        assertEquals(0, emailTemplate.getIsActive());
     }
 
     @Test

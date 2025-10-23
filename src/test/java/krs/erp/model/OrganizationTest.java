@@ -59,16 +59,16 @@ class OrganizationTest {
     @Test
     void testOrganizationDefaultValues() {
         // Test default active status
-        assertTrue(organization.getIsActive());
+        assertEquals(1, organization.getIsActive());
     }
 
     @Test
     void testOrganizationStatus() {
-        organization.setIsActive(false);
-        assertFalse(organization.getIsActive());
+        organization.setIsActive(0);
+        assertEquals(0, organization.getIsActive());
 
-        organization.setIsActive(true);
-        assertTrue(organization.getIsActive());
+        organization.setIsActive(1);
+        assertEquals(1, organization.getIsActive());
     }
 
     @Test
