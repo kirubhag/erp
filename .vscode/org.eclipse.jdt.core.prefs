@@ -1,0 +1,64 @@
+eclipse.preferences.version=1
+
+# Suppress warnings for unused local variables and parameters
+org.eclipse.jdt.core.compiler.problem.unusedLocal=ignore
+org.eclipse.jdt.core.compiler.problem.unusedParameter=ignore
+org.eclipse.jdt.core.compiler.problem.unusedPrivateMember=ignore
+
+# Suppress warnings for unused imports
+org.eclipse.jdt.core.compiler.problem.unusedImport=warning
+
+# Suppress switch statement warnings
+org.eclipse.jdt.core.compiler.problem.missingDefaultCase=ignore
+org.eclipse.jdt.core.compiler.problem.incompleteEnumSwitch=ignore
+org.eclipse.jdt.core.compiler.problem.switchStatementsWithoutDefault=ignore
+
+# Suppress generic exception warnings
+org.eclipse.jdt.core.compiler.problem.genericCatchAll=ignore
+
+# Suppress field can be final warnings
+org.eclipse.jdt.core.compiler.problem.fieldCanBeFinal=ignore
+org.eclipse.jdt.core.compiler.problem.localVariableCanBeFinal=ignore
+org.eclipse.jdt.core.compiler.problem.parameterCanBeFinal=ignore
+
+# Suppress warnings about methods that can be static
+org.eclipse.jdt.core.compiler.problem.methodCanBeStatic=ignore
+org.eclipse.jdt.core.compiler.problem.methodCanBePotentiallyStatic=ignore
+
+# Suppress warnings about unused fields (important for JPA entities)
+org.eclipse.jdt.core.compiler.problem.unusedDeclaredThrownException=ignore
+org.eclipse.jdt.core.compiler.problem.unusedObjectAllocation=ignore
+
+# Suppress resource leak warnings
+org.eclipse.jdt.core.compiler.problem.potentialResourceLeak=ignore
+org.eclipse.jdt.core.compiler.problem.unclosedCloseable=ignore
+
+# Suppress code style warnings
+org.eclipse.jdt.core.compiler.problem.comparingIdentical=warning
+org.eclipse.jdt.core.compiler.problem.syntheticAccessEmulation=ignore
+org.eclipse.jdt.core.compiler.problem.indirectStaticAccess=ignore
+
+# Suppress Java preview feature warnings
+org.eclipse.jdt.core.compiler.problem.enablePreviewFeatures=disabled
+org.eclipse.jdt.core.compiler.problem.reportPreviewFeatures=ignore
+
+# Suppress null analysis warnings (already handled by separate setting)
+org.eclipse.jdt.core.compiler.problem.nullReference=warning
+org.eclipse.jdt.core.compiler.problem.potentialNullReference=ignore
+org.eclipse.jdt.core.compiler.problem.redundantNullCheck=ignore
+
+# Suppress unnecessary type check warnings
+org.eclipse.jdt.core.compiler.problem.unnecessaryTypeCheck=ignore
+org.eclipse.jdt.core.compiler.problem.unnecessaryElse=ignore
+
+# Suppress boxing/unboxing warnings
+org.eclipse.jdt.core.compiler.problem.autoboxing=ignore
+
+# Suppress string concatenation warnings
+org.eclipse.jdt.core.compiler.problem.stringConcatenation=ignore
+
+# Keep important warnings enabled
+org.eclipse.jdt.core.compiler.problem.deadCode=warning
+org.eclipse.jdt.core.compiler.problem.deprecation=warning
+org.eclipse.jdt.core.compiler.problem.uncheckedTypeOperation=warning
+org.eclipse.jdt.core.compiler.problem.rawTypeReference=warning

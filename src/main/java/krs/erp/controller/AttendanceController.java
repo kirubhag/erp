@@ -92,8 +92,6 @@ public class AttendanceController {
     public ResponseEntity<Void> deleteAttendance(@PathVariable Long id) {
         Optional<Attendance> attendanceOpt = attendanceRepository.findById(id);
         if (attendanceOpt.isPresent()) {
-            Attendance attendance = attendanceOpt.get();
-            
             // Soft delete using recycle bin service
             recycleBinService.softDeleteEntity(id, EntityType.ATTENDANCE, "current-user", "User deleted attendance record");
             

@@ -114,8 +114,6 @@ public class HealthController {
     public ResponseEntity<?> deleteHealthRecord(@PathVariable Long id) {
         Optional<HealthRecord> recordOpt = healthRecordRepository.findById(id);
         if (recordOpt.isPresent()) {
-            HealthRecord record = recordOpt.get();
-            
             // Soft delete using recycle bin service
             recycleBinService.softDeleteEntity(id, EntityType.HEALTH, "current-user", "User deleted health record");
             

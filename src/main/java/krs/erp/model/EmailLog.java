@@ -206,6 +206,10 @@ public class EmailLog extends BaseEntity {
             case SPAM:
                 this.failedAt = now;
                 break;
+            case PENDING:
+            case UNSUBSCRIBED:
+                // No timestamp update needed for these statuses
+                break;
         }
         
         this.setModifiedTime(now);

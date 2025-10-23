@@ -19,7 +19,7 @@ public class SettingsController {
     
     // In-memory settings storage (for demo purposes)
     // In a real application, this would be stored in a database
-    private Map<String, Object> userSettings = new HashMap<>();
+    private final Map<String, Object> userSettings = new HashMap<>();
     
     public SettingsController() {
         // Initialize with default settings

@@ -38,7 +38,7 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
     /**
      * Search organizations by name or code
      */
-    @Query("SELECT o FROM Organization o WHERE o.isActive = true AND " +
+    @Query("SELECT o FROM Organization o WHERE o.isActive = 1 AND " +
            "(LOWER(o.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(o.code) LIKE LOWER(CONCAT('%', :searchTerm, '%')))")
     Page<Organization> searchByNameOrCode(@Param("searchTerm") String searchTerm, Pageable pageable);
@@ -66,6 +66,6 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
     /**
      * Get organization types
      */
-    @Query("SELECT DISTINCT o.type FROM Organization o WHERE o.isActive = true ORDER BY o.type")
+    @Query("SELECT DISTINCT o.type FROM Organization o WHERE o.isActive = 1 ORDER BY o.type")
     List<String> findDistinctTypes();
 }

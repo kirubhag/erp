@@ -55,9 +55,10 @@ class EntityTypeTest {
 
     @Test
     void testInvalidEntityType() {
-        assertThrows(IllegalArgumentException.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             EntityType.valueOf("INVALID_TYPE");
         });
+        assertNotNull(exception);
     }
 
     @Test

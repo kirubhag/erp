@@ -29,11 +29,11 @@ public interface EmailTemplateRepository extends JpaRepository<EmailTemplate, Lo
     Page<EmailTemplate> findByEntityType(EntityType entityType, Pageable pageable);
     
     // Find active templates
-    @Query("SELECT t FROM EmailTemplate t WHERE t.isActive = true ORDER BY t.templateName ASC")
+    @Query("SELECT t FROM EmailTemplate t WHERE t.isActive = 1 ORDER BY t.templateName ASC")
     List<EmailTemplate> findAllActiveTemplates();
     
     // Find active templates by entity type
-    @Query("SELECT t FROM EmailTemplate t WHERE t.entityType = :entityType AND t.isActive = true ORDER BY t.templateName ASC")
+    @Query("SELECT t FROM EmailTemplate t WHERE t.entityType = :entityType AND t.isActive = 1 ORDER BY t.templateName ASC")
     List<EmailTemplate> findActiveTemplatesByEntityType(@Param("entityType") EntityType entityType);
     
     // Find templates by created by
@@ -52,7 +52,7 @@ public interface EmailTemplateRepository extends JpaRepository<EmailTemplate, Lo
     List<EmailTemplate> findMostUsedTemplates();
     
     // Count templates by entity type
-    @Query("SELECT COUNT(t) FROM EmailTemplate t WHERE t.entityType = :entityType AND t.isActive = true")
+    @Query("SELECT COUNT(t) FROM EmailTemplate t WHERE t.entityType = :entityType AND t.isActive = 1")
     Long countActiveTemplatesByEntityType(@Param("entityType") EntityType entityType);
     
     // Find templates that haven't been used recently

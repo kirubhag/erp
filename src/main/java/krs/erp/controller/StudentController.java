@@ -124,9 +124,6 @@ public class StudentController {
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         Optional<Student> studentOpt = studentRepository.findById(id);
         if (studentOpt.isPresent()) {
-            Student student = studentOpt.get();
-            String studentName = student.getFirstName() + " " + student.getLastName();
-            
             // Soft delete using recycle bin service
             recycleBinService.softDeleteEntity(id, EntityType.STUDENT, "current-user", "User deleted student");
             

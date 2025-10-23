@@ -1,4 +1,37 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    
+    // Suppress false positive warnings and style suggestions
+    "java.errors.incompleteClasspath.severity": "ignore",
+    
+    // Ignore unused warnings for JUnit setUp methods and JPA entity fields
+    "java.checkstyle.modules": ["UnusedVariable"],
+    
+    // Configure Java compiler warnings to ignore
+    "java.configuration.runtimes": [],
+    "java.eclipse.downloadSources": false,
+    
+    // Suppress specific problem matchers
+    "java.diagnostics.enabled": true,
+    
+    // Custom settings for Java Language Server - point to Eclipse JDT prefs
+    "java.settings.url": ".vscode/org.eclipse.jdt.core.prefs",
+    
+    // Eclipse JDT settings - suppress specific warnings
+    "java.jdt.ls.java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms100m",
+    
+    // Suppress Eclipse warnings
+    "java.eclipse.projects": [],
+    
+    // Configure problem severity levels
+    "java.problems.enabled": true,
+    
+    // Files to exclude from problems view
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    }
 }

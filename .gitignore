@@ -41,7 +41,10 @@ build/
 *.iml
 *.ipr
 *.iws
-.vscode/
+# VS Code - ignore most but allow configuration files
+.vscode/*
+!.vscode/settings.json
+!.vscode/org.eclipse.jdt.core.prefs
 *.swp
 *.swo
 

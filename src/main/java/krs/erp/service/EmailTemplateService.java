@@ -221,19 +221,27 @@ public class EmailTemplateService {
                 }
                 break;
             case PARENT:
-                // Add parent-specific variables when Parent entity is available
-                break;
             case ATTENDANCE:
-                // Add attendance-specific variables when Attendance entity is available
-                break;
             case HEALTH:
-                // Add health-specific variables when Health entity is available
-                break;
             case GENERAL:
-                // General templates don't need specific entity variables
-                break;
             case NOTIFICATION:
-                // Notification templates use custom variables
+            case STAFF:
+            case ORGANIZATION:
+            case EMAIL_TEMPLATE:
+            case EMAIL_LOG:
+            case PERMISSION:
+            case ROLE:
+            case CUSTOM_VIEW:
+            case ERP_FIELD:
+            case PARENT_STUDENT_RELATION:
+            case RECYCLE_BIN:
+            case TEACHER:
+            case COURSE:
+            case GRADE:
+            case ASSIGNMENT:
+            case EXAM:
+            case USER:
+                // These entity types don't have specific variable handling yet
                 break;
         }
         
@@ -318,6 +326,24 @@ public class EmailTemplateService {
                 variables.append("{{TITLE}} - Notification title\n");
                 variables.append("{{MESSAGE}} - Notification message\n");
                 variables.append("{{SEVERITY}} - Notification severity\n");
+                break;
+            case STAFF:
+            case ORGANIZATION:
+            case EMAIL_TEMPLATE:
+            case EMAIL_LOG:
+            case PERMISSION:
+            case ROLE:
+            case CUSTOM_VIEW:
+            case ERP_FIELD:
+            case PARENT_STUDENT_RELATION:
+            case RECYCLE_BIN:
+            case TEACHER:
+            case COURSE:
+            case GRADE:
+            case ASSIGNMENT:
+            case EXAM:
+            case USER:
+                // These entity types don't have specific variable documentation yet
                 break;
         }
         

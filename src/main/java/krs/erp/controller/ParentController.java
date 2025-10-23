@@ -103,9 +103,6 @@ public class ParentController {
     public ResponseEntity<?> deleteParent(@PathVariable Long id) {
         Optional<Parent> parentOpt = parentRepository.findById(id);
         if (parentOpt.isPresent()) {
-            Parent parent = parentOpt.get();
-            String parentName = parent.getFirstName() + " " + parent.getLastName();
-            
             // Soft delete using recycle bin service
             recycleBinService.softDeleteEntity(id, EntityType.PARENT, "current-user", "User deleted parent");
             
