@@ -1,192 +1,314 @@
-<div class="card mt-3">
-  <div class="card-header bg-secondary text-white">
-    <i class="fas fa-cog me-2"></i> Settings
+<!-- Modern Settings Page -->
+<style>
+  .settings-container {
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    padding: 30px;
+  }
+  .settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .settings-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+  }
+  .settings-search {
+    width: 300px;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  .settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 24px;
+    margin-bottom: 30px;
+  }
+  .settings-category {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  .settings-category:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .category-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  .category-item {
+    display: block;
+    color: #666;
+    text-decoration: none;
+    padding: 10px 0;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: color 0.2s ease;
+  }
+  .category-item:last-child {
+    border-bottom: none;
+  }
+  .category-item:hover {
+    color: #1890ff;
+  }
+  .category-item.featured::after {
+    content: '✨';
+    margin-left: 8px;
+  }
+  .detail-view {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .detail-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  .company-logo {
+    width: 80px;
+    height: 80px;
+    background: #f5f7fa;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    font-size: 36px;
+    color: #999;
+  }
+  .company-info h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  .company-info p {
+    color: #666;
+    margin: 4px 0;
+    font-size: 14px;
+  }
+  .info-section {
+    margin-bottom: 30px;
+  }
+  .info-section h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  .info-row {
+    display: flex;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .info-row:last-child {
+    border-bottom: none;
+  }
+  .info-label {
+    width: 200px;
+    color: #666;
+    font-size: 14px;
+  }
+  .info-value {
+    flex: 1;
+    color: #333;
+    font-size: 14px;
+  }
+</style>
+
+<div class="settings-container" ng-show="!activeSettingsTab || activeSettingsTab === ''">
+  <!-- Settings Header -->
+  <div class="settings-header">
+    <h1 class="settings-title">Setup</h1>
+    <input type="text" class="settings-search" placeholder="Search" ng-model="searchQuery">
   </div>
-  <div class="card-body">
-    <!-- Settings Navigation Menu -->
-    <div class="row mb-3">
-      <div class="col-md-3">
-        <div class="list-group" id="settingsMenu" style="border: 1px solid #dee2e6; border-radius: 0.375rem;">
-          <!-- Organisation Menu -->
-          <div class="list-group-item p-0">
-            <button class="btn btn-link text-start w-100 text-decoration-none fw-bold py-3 px-3" 
-                    data-bs-toggle="collapse" data-bs-target="#organisationSubmenu" 
-                    ng-class="{'text-primary': activeSettingsTab.startsWith('organisation') || activeSettingsTab === 'view-organisation'}"
-                    type="button" style="border: none; background: transparent;">
-              <i class="fas fa-building me-2"></i>Organisation
-              <i class="fas fa-chevron-down float-end mt-1"></i>
-            </button>
-            <div class="collapse" id="organisationSubmenu" 
-                 ng-class="{show: activeSettingsTab.startsWith('organisation') || activeSettingsTab === 'view-organisation'}">
-              <div class="list-group list-group-flush">
-                <a href="#!/settings/organisation" class="list-group-item list-group-item-action ps-4 py-2 text-decoration-none">
-                  <i class="fas fa-eye me-2 text-info"></i>View Organisation
-                </a>
-                <a href="#!/settings/organisation/edit" class="list-group-item list-group-item-action ps-4 py-2 text-decoration-none">
-                  <i class="fas fa-edit me-2 text-warning"></i>Edit Organisation
-                </a>
-              </div>
-            </div>
-          </div>
-          
-          <!-- User Menu -->
-          <div class="list-group-item p-0">
-            <button class="btn btn-link text-start w-100 text-decoration-none fw-bold py-3 px-3" 
-                    data-bs-toggle="collapse" data-bs-target="#userSubmenu" 
-                    ng-class="{'text-primary': activeSettingsTab.startsWith('user') || activeSettingsTab === 'view-user'}"
-                    type="button" style="border: none; background: transparent;">
-              <i class="fas fa-user me-2"></i>User
-              <i class="fas fa-chevron-down float-end mt-1"></i>
-            </button>
-            <div class="collapse" id="userSubmenu" 
-                 ng-class="{show: activeSettingsTab.startsWith('user') || activeSettingsTab === 'view-user'}">
-              <div class="list-group list-group-flush">
-                <a href="#!/settings/user" class="list-group-item list-group-item-action ps-4 py-2 text-decoration-none">
-                  <i class="fas fa-eye me-2 text-info"></i>View User
-                </a>
-                <a href="#!/settings/user/edit" class="list-group-item list-group-item-action ps-4 py-2 text-decoration-none">
-                  <i class="fas fa-edit me-2 text-warning"></i>Edit User
-                </a>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Email Templates Menu -->
-          <div class="list-group-item p-0">
-            <button class="btn btn-link text-start w-100 text-decoration-none fw-bold py-3 px-3" 
-                    data-bs-toggle="collapse" data-bs-target="#emailSubmenu" 
-                    ng-class="{'text-primary': activeSettingsTab.startsWith('email') || activeSettingsTab === 'email-templates'}"
-                    type="button" style="border: none; background: transparent;">
-              <i class="fas fa-envelope me-2"></i>Email Templates
-              <i class="fas fa-chevron-down float-end mt-1"></i>
-            </button>
-            <div class="collapse" id="emailSubmenu" 
-                 ng-class="{show: activeSettingsTab.startsWith('email') || activeSettingsTab === 'email-templates'}">
-              <div class="list-group list-group-flush">
-                <a href="#!/settings/email-templates" class="list-group-item list-group-item-action ps-4 py-2 text-decoration-none">
-                  <i class="fas fa-list me-2 text-info"></i>Manage Templates
-                </a>
-                <a href="#!/settings/email-templates/create" class="list-group-item list-group-item-action ps-4 py-2 text-decoration-none">
-                  <i class="fas fa-plus me-2 text-success"></i>Create Template
-                </a>
-                <a href="#!/settings/email-logs" class="list-group-item list-group-item-action ps-4 py-2 text-decoration-none">
-                  <i class="fas fa-history me-2 text-warning"></i>Email Logs
-                </a>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Recycle Bin Menu -->
-          <div class="list-group-item p-0">
-            <a href="#!/recycle-bin" class="btn btn-link text-start w-100 text-decoration-none fw-bold py-3 px-3"
-               ng-class="{'text-primary': activeSettingsTab === 'recycle-bin'}"
-               style="border: none; background: transparent;">
-              <i class="fas fa-trash-restore me-2"></i>Recycle Bin
-            </a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-md-9">
 
-        <!-- Default Welcome Message -->
-        <div ng-show="!activeSettingsTab || activeSettingsTab === ''">
-          <div class="card">
-            <div class="card-body text-center py-5">
-              <i class="fas fa-cog fa-4x text-muted mb-3"></i>
-              <h4 class="text-muted">Welcome to Settings</h4>
-              <p class="text-muted">Please select an option from the menu to view or edit organization and user settings.</p>
-            </div>
-          </div>
-        </div>
+  <!-- Settings Grid -->
+  <div class="settings-grid">
+    <!-- General Card -->
+    <div class="settings-category">
+      <h3 class="category-title">General</h3>
+      <a href="#!/settings/personal" class="category-item">Personal Settings</a>
+      <a href="#!/settings/company-details" class="category-item">Company Details</a>
+      <a href="#!/settings/calendar" class="category-item featured">Calendar Settings</a>
+      <a href="#!/settings/email-settings" class="category-item">Email Settings</a>
+      <a href="#!/settings/notification" class="category-item">Notification Settings</a>
+    </div>
 
-        <!-- View Organisation Tab -->
-        <div ng-show="activeSettingsTab === 'view-organisation'">
-          <div ng-include="'/templates/organization/view-organization.html'"></div>
-        </div>
+    <!-- Users and Control Card -->
+    <div class="settings-category">
+      <h3 class="category-title">Users and Control</h3>
+      <a href="#!/settings/user" class="category-item">Territory Management</a>
+    </div>
 
-        <!-- Manage Organisation Settings Tab -->
-        <div ng-show="activeSettingsTab === 'organisation'">
-          <h5 class="mb-3"><i class="fas fa-building me-2"></i>Organisation Settings</h5>
-          <div ng-include="'/templates/organization/organization.html'"></div>
-        </div>
+    <!-- Customization Card -->
+    <div class="settings-category">
+      <h3 class="category-title">Customization</h3>
+      <a href="#!/settings/modules" class="category-item">Modules</a>
+      <a href="#!/settings/email-templates" class="category-item">Templates</a>
+    </div>
 
-        <!-- View User Tab -->
-        <div ng-show="activeSettingsTab === 'view-user'">
-          <div ng-include="'/templates/user/view-user.html'"></div>
-        </div>
+    <!-- Portal Setup Card -->
+    <div class="settings-category">
+      <h3 class="category-title">Portal Setup</h3>
+      <a href="#!/settings/vendor-portal" class="category-item">Vendor Portal</a>
+    </div>
 
-        <!-- Email Templates Management Tab -->
-        <div ng-show="activeSettingsTab === 'email-templates'">
-          <div ng-include="'/templates/email/email-templates.html'"></div>
-        </div>
+    <!-- Data Administration Card -->
+    <div class="settings-category">
+      <h3 class="category-title">Data Administration</h3>
+      <a href="#!/settings/data-migration" class="category-item">Data Migration</a>
+      <a href="#!/settings/export" class="category-item">Export</a>
+      <a href="#!/settings/audit-log" class="category-item">Audit Log</a>
+      <a href="#!/settings/activity-log" class="category-item">Activity Log</a>
+    </div>
 
-        <!-- Create Email Template Tab -->
-        <div ng-show="activeSettingsTab === 'email-templates/create'">
-          <div ng-include="'/templates/email/email-template-form.html'"></div>
-        </div>
-
-        <!-- Email Logs Tab -->
-        <div ng-show="activeSettingsTab === 'email-logs'">
-          <div ng-include="'/templates/email/email-logs.html'"></div>
-        </div>
-
-        <!-- Manage User Settings Tab -->
-        <div ng-show="activeSettingsTab === 'user'">
-          <h5 class="mb-3"><i class="fas fa-user me-2"></i>User Preferences</h5>
-          <form name="userSettingsForm" ng-submit="saveSettings()" novalidate>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="language" class="form-label">Language</label>
-          <select class="form-select" id="language" ng-model="settings.language" ng-options="lang.value as lang.label for lang in availableLanguages" required></select>
-        </div>
-        <div class="col-md-6">
-          <label for="theme" class="form-label">Theme</label>
-          <select class="form-select" id="theme" ng-model="settings.theme" ng-options="theme.value as theme.label for theme in availableThemes" required></select>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="timezone" class="form-label">Timezone</label>
-          <select class="form-select" id="timezone" ng-model="settings.timezone" ng-options="tz.value as tz.label for tz in availableTimezones" required></select>
-        </div>
-        <div class="col-md-6">
-          <label for="dateFormat" class="form-label">Date Format</label>
-          <input type="text" class="form-control" id="dateFormat" ng-model="settings.dateFormat" placeholder="e.g. YYYY-MM-DD" required>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="currency" class="form-label">Currency</label>
-          <select class="form-select" id="currency" ng-model="settings.currency" ng-options="curr.value as curr.label for curr in availableCurrencies" required></select>
-        </div>
-        <div class="col-md-6">
-          <label for="notifications" class="form-label">Notifications</label>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="emailNotif" ng-model="settings.notifications.email">
-            <label class="form-check-label" for="emailNotif">Email</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="smsNotif" ng-model="settings.notifications.sms">
-            <label class="form-check-label" for="smsNotif">SMS</label>
-          </div>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-12">
-          <label for="customSetting" class="form-label">Custom Setting</label>
-          <input type="text" class="form-control" id="customSetting" ng-model="settings.customSetting" placeholder="Any custom value">
-        </div>
-      </div>
-          <div class="row mb-3">
-            <div class="col-md-12 text-end">
-              <button type="submit" class="btn btn-success me-2">Save User Settings</button>
-              <button type="button" class="btn btn-secondary" ng-click="resetSettings()">Reset</button>
-            </div>
-          </div>
-        </form>
-      </div>
-      </div>
+    <!-- Developer Space Card -->
+    <div class="settings-category">
+      <h3 class="category-title">Developer Space</h3>
+      <a href="#!/settings/apis" class="category-item">APIs</a>
     </div>
   </div>
+</div>
+
+<!-- Company Details View -->
+<div class="settings-container detail-view" ng-show="activeSettingsTab === 'company-details'">
+  <div class="detail-header">
+    <div class="company-logo">
+      <i class="fas fa-building"></i>
+    </div>
+    <div class="company-info">
+      <h2>{{organization.name || 'MK University'}}</h2>
+      <p><i class="fas fa-envelope me-2"></i>{{organization.email || 'balaji.ramar+zrqadata_19@mkuniversity.com'}}</p>
+      <p><i class="fas fa-link me-2"></i>{{organization.website || 'https://www.zoho.com/'}}</p>
+      <p><i class="fas fa-map-marker-alt me-2"></i>{{organization.address || ',,,,'}}</p>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h4>Locale Information</h4>
+    <div class="info-row">
+      <div class="info-label">Currency</div>
+      <div class="info-value">{{organization.currency || 'Indian Rupee - INR'}}</div>
+    </div>
+    <div class="info-row">
+      <div class="info-label">Country</div>
+      <div class="info-value">{{organization.country || 'India'}}</div>
+    </div>
+    <div class="info-row">
+      <div class="info-label">Time Zone</div>
+      <div class="info-value">{{organization.timezone || '(GMT 5:30) India Standard Time(IST)'}}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Default Welcome Message for other views -->
+<div ng-show="activeSettingsTab && activeSettingsTab !== '' && activeSettingsTab !== 'company-details'">
+  <div class="card">
+    <div class="card-body text-center py-5">
+      <i class="fas fa-cog fa-4x text-muted mb-3"></i>
+      <h4 class="text-muted">Settings: {{activeSettingsTab}}</h4>
+      <p class="text-muted">This section is under development.</p>
+    </div>
+  </div>
+</div>
+
+<!-- View Organisation Tab -->
+<div ng-show="activeSettingsTab === 'view-organisation'">
+  <div ng-include="'/templates/organization/view-organization.html'"></div>
+</div>
+
+<!-- Manage Organisation Settings Tab -->
+<div ng-show="activeSettingsTab === 'organisation'">
+  <h5 class="mb-3"><i class="fas fa-building me-2"></i>Organisation Settings</h5>
+  <div ng-include="'/templates/organization/organization.html'"></div>
+</div>
+
+<!-- View User Tab -->
+<div ng-show="activeSettingsTab === 'view-user'">
+  <div ng-include="'/templates/user/view-user.html'"></div>
+</div>
+
+<!-- Email Templates Management Tab -->
+<div ng-show="activeSettingsTab === 'email-templates'">
+  <div ng-include="'/templates/email/email-templates.html'"></div>
+</div>
+
+<!-- Create Email Template Tab -->
+<div ng-show="activeSettingsTab === 'email-templates/create'">
+  <div ng-include="'/templates/email/email-template-form.html'"></div>
+</div>
+
+<!-- Email Logs Tab -->
+<div ng-show="activeSettingsTab === 'email-logs'">
+  <div ng-include="'/templates/email/email-logs.html'"></div>
+</div>
+
+<!-- Manage User Settings Tab -->
+<div ng-show="activeSettingsTab === 'user'">
+  <h5 class="mb-3"><i class="fas fa-user me-2"></i>User Preferences</h5>
+  <form name="userSettingsForm" ng-submit="saveSettings()" novalidate>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="language" class="form-label">Language</label>
+        <select class="form-select" id="language" ng-model="settings.language" ng-options="lang.value as lang.label for lang in availableLanguages" required></select>
+      </div>
+      <div class="col-md-6">
+        <label for="theme" class="form-label">Theme</label>
+        <select class="form-select" id="theme" ng-model="settings.theme" ng-options="theme.value as theme.label for theme in availableThemes" required></select>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="timezone" class="form-label">Timezone</label>
+        <select class="form-select" id="timezone" ng-model="settings.timezone" ng-options="tz.value as tz.label for tz in availableTimezones" required></select>
+      </div>
+      <div class="col-md-6">
+        <label for="dateFormat" class="form-label">Date Format</label>
+        <input type="text" class="form-control" id="dateFormat" ng-model="settings.dateFormat" placeholder="e.g. YYYY-MM-DD" required>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="currency" class="form-label">Currency</label>
+        <select class="form-select" id="currency" ng-model="settings.currency" ng-options="curr.value as curr.label for curr in availableCurrencies" required></select>
+      </div>
+      <div class="col-md-6">
+        <label for="notifications" class="form-label">Notifications</label>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="emailNotif" ng-model="settings.notifications.email">
+          <label class="form-check-label" for="emailNotif">Email</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="smsNotif" ng-model="settings.notifications.sms">
+          <label class="form-check-label" for="smsNotif">SMS</label>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label for="customSetting" class="form-label">Custom Setting</label>
+        <input type="text" class="form-control" id="customSetting" ng-model="settings.customSetting" placeholder="Any custom value">
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12 text-end">
+        <button type="submit" class="btn btn-success me-2">Save User Settings</button>
+        <button type="button" class="btn btn-secondary" ng-click="resetSettings()">Reset</button>
+      </div>
+    </div>
+  </form>
 </div>

@@ -12,6 +12,8 @@ angular.module('erpApp').controller('SettingsController', [
                 $scope.activeSettingsTab = 'email-templates';
             } else if (path.includes('/settings/email-logs')) {
                 $scope.activeSettingsTab = 'email-logs';
+            } else if (path.includes('/settings/company-details')) {
+                $scope.activeSettingsTab = 'company-details';
             } else if (path.includes('/settings/organisation/edit')) {
                 $scope.activeSettingsTab = 'organisation';
             } else if (path.includes('/settings/organisation')) {
@@ -20,6 +22,28 @@ angular.module('erpApp').controller('SettingsController', [
                 $scope.activeSettingsTab = 'user';
             } else if (path.includes('/settings/user')) {
                 $scope.activeSettingsTab = 'view-user';
+            } else if (path.includes('/settings/personal')) {
+                $scope.activeSettingsTab = 'personal';
+            } else if (path.includes('/settings/calendar')) {
+                $scope.activeSettingsTab = 'calendar';
+            } else if (path.includes('/settings/email-settings')) {
+                $scope.activeSettingsTab = 'email-settings';
+            } else if (path.includes('/settings/notification')) {
+                $scope.activeSettingsTab = 'notification';
+            } else if (path.includes('/settings/modules')) {
+                $scope.activeSettingsTab = 'modules';
+            } else if (path.includes('/settings/vendor-portal')) {
+                $scope.activeSettingsTab = 'vendor-portal';
+            } else if (path.includes('/settings/data-migration')) {
+                $scope.activeSettingsTab = 'data-migration';
+            } else if (path.includes('/settings/export')) {
+                $scope.activeSettingsTab = 'export';
+            } else if (path.includes('/settings/audit-log')) {
+                $scope.activeSettingsTab = 'audit-log';
+            } else if (path.includes('/settings/activity-log')) {
+                $scope.activeSettingsTab = 'activity-log';
+            } else if (path.includes('/settings/apis')) {
+                $scope.activeSettingsTab = 'apis';
             } else {
                 $scope.activeSettingsTab = '';
             }
@@ -100,6 +124,18 @@ angular.module('erpApp').controller('SettingsController', [
                         },
                         establishedYear: org.establishedYear || new Date().getFullYear()
                     };
+                    
+                    // Also expose as $scope.organization for company-details view
+                    $scope.organization = {
+                        name: org.name || 'MK University',
+                        email: org.email || '',
+                        website: org.website || 'https://www.zoho.com/',
+                        address: [org.streetAddress, org.city, org.state, org.postalCode, org.country].filter(Boolean).join(', ') || ',,,,',
+                        currency: 'Indian Rupee - INR',
+                        country: org.country || 'India',
+                        timezone: '(GMT 5:30) India Standard Time(IST)'
+                    };
+                    
                     console.log('Organization data loaded in settings:', $scope.organizationData);
                 } else {
                     // No organization found, use default structure

@@ -36,7 +36,7 @@ angular.module('erpApp', ['ngRoute'])
             }
         })
         .when('/settings', {
-            templateUrl: '/templates/settings/settings-dashboard.html',
+            templateUrl: '/templates/settings/settings.html',
             controller: 'SettingsController',
             resolve: {
                 loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
@@ -99,6 +99,114 @@ angular.module('erpApp', ['ngRoute'])
             }
         })
         .when('/settings/email-logs', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/company-details', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/personal', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/calendar', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/email-settings', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/notification', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/modules', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/vendor-portal', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/data-migration', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/export', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/audit-log', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/activity-log', {
+            templateUrl: '/templates/settings/settings.html',
+            controller: 'SettingsController',
+            resolve: {
+                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
+                    return ScriptLoaderService.loadModule('settings');
+                }]
+            }
+        })
+        .when('/settings/apis', {
             templateUrl: '/templates/settings/settings.html',
             controller: 'SettingsController',
             resolve: {
