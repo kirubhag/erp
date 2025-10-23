@@ -1,0 +1,405 @@
+<!-- Modern Reusable Entity List Template -->
+<div class="entity-list-container" ng-controller="EntityListController">
+    
+    <!-- Header Section -->
+    <div class="entity-header">
+        <div class="header-content">
+            <div class="header-info">
+                <h1 class="entity-title">{{config.title}}</h1>
+                <p class="entity-subtitle">{{config.subtitle}}</p>
+            </div>
+            
+            <div class="header-actions">
+                <!-- View Selector -->
+                <div class="view-selector" ng-if="config.features.customViews">
+                    <button class="view-button" type="button" ng-click="toggleViewDropdown()">
+                        <i class="icon-view"></i>
+                        <span class="view-name">{{currentView.name || 'All ' + config.entityName + 's'}}</span>
+                        <i class="icon-chevron-down"></i>
+                    </button>
+                    
+                    <div class="view-dropdown" ng-show="showViewDropdown">
+                        <div class="view-option" ng-click="selectView(null)">
+                            <i class="icon-list"></i>
+                            <span>All {{config.entityName}}s</span>
+                        </div>
+                        <div class="view-divider"></div>
+                        <div class="view-option" ng-repeat="view in customViews" ng-click="selectView(view)">
+                            <i class="icon-{{view.icon || 'view'}}"></i>
+                            <span>{{view.name}}</span>
+                        </div>
+                        <div class="view-divider" ng-if="customViews.length > 0"></div>
+                        <div class="view-option" ng-click="openViewManager()">
+                            <i class="icon-settings"></i>
+                            <span>+ Create View</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Import/Export Actions -->
+                <div class="action-group" ng-if="config.features.import || config.features.export">
+                    <button class="action-button" ng-if="config.features.import" ng-click="showImportDialog()">
+                        <i class="icon-upload"></i>
+                        <span>Import</span>
+                    </button>
+                    
+                    <div class="export-dropdown" ng-if="config.features.export">
+                        <button class="action-button" ng-click="toggleExportDropdown()">
+                            <i class="icon-download"></i>
+                            <span>Export</span>
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" ng-show="showExportDropdown">
+                            <div class="dropdown-item" ng-click="exportData('csv')">Export CSV</div>
+                            <div class="dropdown-item" ng-click="exportData('xlsx')">Export Excel</div>
+                            <div class="dropdown-item" ng-click="exportData('pdf')">Export PDF</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Source Boosters (like in the screenshot) -->
+                <div class="source-boosters" ng-if="config.features.sourceBooters">
+                    <button class="action-button" ng-click="toggleSourceBooters()">
+                        <i class="icon-boost"></i>
+                        <span>Source Boosters</span>
+                        <i class="icon-chevron-down"></i>
+                    </button>
+                </div>
+                
+                <!-- Primary Action Button -->
+                <button class="primary-button" ng-click="openCreateDialog()">
+                    <i class="icon-plus"></i>
+                    <span>{{config.createButtonText || 'Add ' + config.entityName}}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Filters Section -->
+    <div class="filters-section">
+        <div class="filters-content">
+            <!-- Left Side Filters Panel -->
+            <div class="filters-panel">
+                <div class="filter-header">
+                    <h3>FILTER {{config.entityName.toUpperCase()}}S BY</h3>
+                </div>
+                
+                <div class="filter-groups">
+                    <div class="filter-group" ng-repeat="filterGroup in config.filters">
+                        <div class="filter-group-header">
+                            <input type="checkbox" 
+                                   ng-model="filterGroup.expanded"
+                                   ng-change="toggleFilterGroup(filterGroup)">
+                            <label>{{filterGroup.name}}</label>
+                        </div>
+                        
+                        <div class="filter-options" ng-show="filterGroup.expanded">
+                            <div class="filter-option" ng-repeat="option in filterGroup.options">
+                                <input type="checkbox" 
+                                       ng-model="option.selected"
+                                       ng-change="applyFilter()">
+                                <label>{{option.label}}</label>
+                                <span class="option-count" ng-if="option.count">({{option.count}})</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <!-- Search and View Controls -->
+                <div class="search-controls">
+                    <div class="search-box">
+                        <i class="icon-search"></i>
+                        <input type="text" 
+                               placeholder="Search {{config.entityName}}s..." 
+                               ng-model="searchQuery"
+                               ng-change="performSearch()">
+                    </div>
+                    
+                    <div class="view-controls">
+                        <div class="view-mode-toggle">
+                            <button class="view-mode-btn" 
+                                    ng-class="{active: viewMode === 'table'}"
+                                    ng-click="setViewMode('table')">
+                                <i class="icon-table"></i>
+                            </button>
+                            <button class="view-mode-btn" 
+                                    ng-class="{active: viewMode === 'grid'}"
+                                    ng-click="setViewMode('grid')">
+                                <i class="icon-grid"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="results-info">
+                            <span class="total-count">{{pagination.totalElements}}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Bar (appears when items are selected) -->
+                <div class="selection-bar" ng-show="hasSelectedItems()">
+                    <div class="selection-info">
+                        <span class="selected-count">{{selectedItems.length}}</span>
+                        <span class="selected-text">selected</span>
+                    </div>
+                    
+                    <div class="bulk-actions">
+                        <button class="bulk-action-btn" 
+                                ng-repeat="action in config.bulkActions"
+                                ng-click="executeBulkAction(action)">
+                            <i class="icon-{{action.icon}}"></i>
+                            <span>{{action.label}}</span>
+                        </button>
+                    </div>
+                    
+                    <button class="clear-selection-btn" ng-click="clearSelection()">
+                        <i class="icon-close"></i>
+                    </button>
+                </div>
+                
+                <!-- Data Table -->
+                <div class="data-table" ng-show="viewMode === 'table'">
+                    <table class="entity-table">
+                        <thead>
+                            <tr>
+                                <th class="select-column">
+                                    <input type="checkbox" 
+                                           ng-click="toggleSelectAll()"
+                                           ng-checked="isAllSelected()">
+                                </th>
+                                <th ng-repeat="column in visibleColumns" 
+                                    ng-class="{'sortable': column.sortable}"
+                                    ng-click="sortBy(column.field)">
+                                    <span class="column-header">
+                                        {{column.label}}
+                                        <i class="sort-icon" 
+                                           ng-if="column.sortable && sortField === column.field"
+                                           ng-class="{'icon-sort-asc': sortDirection === 'asc', 'icon-sort-desc': sortDirection === 'desc'}"></i>
+                                    </span>
+                                </th>
+                                <th class="actions-column">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in filteredData" 
+                                ng-class="{'selected': isSelected(item)}"
+                                ng-click="handleRowClick(item, $event)">
+                                
+                                <td class="select-cell">
+                                    <input type="checkbox" 
+                                           ng-checked="isSelected(item)"
+                                           ng-click="toggleSelection(item, $event)">
+                                </td>
+                                
+                                <!-- Dynamic columns based on entity type -->
+                                <td ng-repeat="column in visibleColumns" class="data-cell">
+                                    <!-- Primary column (usually name) -->
+                                    <div ng-if="column.primary" class="primary-cell">
+                                        <div class="entity-avatar" ng-if="column.showAvatar">
+                                            <div class="avatar-circle" ng-style="getAvatarStyle(item)">
+                                                {{getAvatarInitials(item)}}
+                                            </div>
+                                        </div>
+                                        <div class="entity-info">
+                                            <div class="entity-name">{{getFieldValue(item, column.field)}}</div>
+                                            <div class="entity-secondary" ng-if="column.secondary">
+                                                {{getFieldValue(item, column.secondary)}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Status badges -->
+                                    <div ng-if="column.type === 'status'" class="status-cell">
+                                        <span class="status-badge" ng-class="getStatusClass(item, column.field)">
+                                            {{getFieldValue(item, column.field)}}
+                                        </span>
+                                    </div>
+                                    
+                                    <!-- Date fields -->
+                                    <div ng-if="column.type === 'date'" class="date-cell">
+                                        {{formatDate(getFieldValue(item, column.field))}}
+                                    </div>
+                                    
+                                    <!-- Email fields with link -->
+                                    <div ng-if="column.type === 'email'" class="email-cell">
+                                        <a href="mailto:{{getFieldValue(item, column.field)}}" 
+                                           ng-if="getFieldValue(item, column.field)">
+                                            {{getFieldValue(item, column.field)}}
+                                        </a>
+                                    </div>
+                                    
+                                    <!-- Phone fields with link -->
+                                    <div ng-if="column.type === 'phone'" class="phone-cell">
+                                        <a href="tel:{{getFieldValue(item, column.field)}}"
+                                           ng-if="getFieldValue(item, column.field)">
+                                            {{getFieldValue(item, column.field)}}
+                                        </a>
+                                    </div>
+                                    
+                                    <!-- Default text display -->
+                                    <div ng-if="!column.type || column.type === 'text'" class="text-cell">
+                                        {{getFieldValue(item, column.field)}}
+                                    </div>
+                                </td>
+                                
+                                <td class="actions-cell">
+                                    <div class="action-buttons">
+                                        <button class="action-btn" 
+                                                ng-repeat="action in config.rowActions"
+                                                ng-if="isActionVisible(action, item)"
+                                                ng-click="executeAction(action, item, $event)"
+                                                title="{{action.label}}">
+                                            <i class="icon-{{action.icon}}"></i>
+                                        </button>
+                                        
+                                        <!-- More actions dropdown -->
+                                        <div class="more-actions" ng-if="getMoreActions(item).length > 0">
+                                            <button class="more-btn" ng-click="toggleMoreActions(item)">
+                                                <i class="icon-more"></i>
+                                            </button>
+                                            <div class="more-dropdown" ng-show="item.showMoreActions">
+                                                <div class="dropdown-item" 
+                                                     ng-repeat="action in getMoreActions(item)"
+                                                     ng-click="executeAction(action, item)">
+                                                    <i class="icon-{{action.icon}}"></i>
+                                                    <span>{{action.label}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <!-- Empty state -->
+                    <div class="empty-state" ng-show="filteredData.length === 0 && !loading">
+                        <div class="empty-icon">
+                            <i class="icon-{{config.emptyIcon || 'folder'}}"></i>
+                        </div>
+                        <div class="empty-title">No {{config.entityName}}s found</div>
+                        <div class="empty-subtitle">{{config.emptyMessage}}</div>
+                        <button class="primary-button" ng-click="openCreateDialog()" ng-if="config.allowCreate">
+                            <i class="icon-plus"></i>
+                            <span>Create {{config.entityName}}</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Grid View -->
+                <div class="data-grid" ng-show="viewMode === 'grid'">
+                    <div class="grid-container">
+                        <div class="grid-item" 
+                             ng-repeat="item in filteredData"
+                             ng-class="{'selected': isSelected(item)}"
+                             ng-click="handleItemClick(item)">
+                            
+                            <div class="grid-item-header">
+                                <input type="checkbox" 
+                                       ng-checked="isSelected(item)"
+                                       ng-click="toggleSelection(item, $event)"
+                                       class="grid-checkbox">
+                                       
+                                <div class="grid-avatar">
+                                    <div class="avatar-circle" ng-style="getAvatarStyle(item)">
+                                        {{getAvatarInitials(item)}}
+                                    </div>
+                                </div>
+                                
+                                <div class="grid-actions">
+                                    <button class="grid-action-btn" 
+                                            ng-repeat="action in config.rowActions.slice(0, 2)"
+                                            ng-click="executeAction(action, item, $event)"
+                                            title="{{action.label}}">
+                                        <i class="icon-{{action.icon}}"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="grid-item-body">
+                                <div class="grid-primary">{{getGridPrimaryValue(item)}}</div>
+                                <div class="grid-secondary">{{getGridSecondaryValue(item)}}</div>
+                                
+                                <div class="grid-fields">
+                                    <div class="grid-field" ng-repeat="field in getGridFields(item)">
+                                        <span class="field-label">{{field.label}}:</span>
+                                        <span class="field-value">{{field.value}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid-item-footer">
+                                <div class="grid-status" ng-if="item.status">
+                                    <span class="status-badge" ng-class="getStatusClass(item, 'status')">
+                                        {{item.status}}
+                                    </span>
+                                </div>
+                                <div class="grid-date">{{formatDate(item.modifiedTime)}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination-section" ng-show="pagination.totalPages > 1">
+                    <div class="pagination-info">
+                        <span>{{getPaginationInfo()}}</span>
+                        
+                        <select class="page-size-selector" 
+                                ng-model="pagination.size"
+                                ng-change="changePageSize()">
+                            <option ng-repeat="size in pageSizeOptions" value="{{size}}">
+                                {{size}} Records Per Page
+                            </option>
+                        </select>
+                    </div>
+                    
+                    <div class="pagination-controls">
+                        <button class="page-btn" 
+                                ng-disabled="pagination.currentPage === 0"
+                                ng-click="goToPage(0)">
+                            <i class="icon-first"></i>
+                        </button>
+                        
+                        <button class="page-btn" 
+                                ng-disabled="pagination.currentPage === 0"
+                                ng-click="goToPage(pagination.currentPage - 1)">
+                            <i class="icon-prev"></i>
+                        </button>
+                        
+                        <div class="page-numbers">
+                            <button class="page-number" 
+                                    ng-repeat="page in getVisiblePages()"
+                                    ng-class="{active: page === pagination.currentPage}"
+                                    ng-click="goToPage(page)">
+                                {{page + 1}}
+                            </button>
+                        </div>
+                        
+                        <button class="page-btn" 
+                                ng-disabled="pagination.currentPage === pagination.totalPages - 1"
+                                ng-click="goToPage(pagination.currentPage + 1)">
+                            <i class="icon-next"></i>
+                        </button>
+                        
+                        <button class="page-btn" 
+                                ng-disabled="pagination.currentPage === pagination.totalPages - 1"
+                                ng-click="goToPage(pagination.totalPages - 1)">
+                            <i class="icon-last"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading overlay -->
+    <div class="loading-overlay" ng-show="loading">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <div class="loading-text">Loading {{config.entityName}}s...</div>
+        </div>
+    </div>
+</div>

@@ -11,6 +11,7 @@
     
     <!-- Custom CSS -->
     <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/entity-list.css" rel="stylesheet">
 </head>
 <body>
     <div id="app" ng-controller="MainController">
@@ -126,10 +127,17 @@
     <script src="/js/core/main.controller.js?v=3"></script>
     <script src="/js/core/lazy-controllers.js?v=3"></script>
     
+    <!-- Shared Entity List Components -->
+    <script src="/js/shared/notification.service.js?v=1"></script>
+    <script src="/js/shared/entity-config.service.js?v=1"></script>
+    <script src="/js/shared/entity-data.service.js?v=1"></script>
+    <script src="/js/shared/entity-list.controller.js?v=1"></script>
+    
     <!-- Student Module - Load Immediately -->
     <script src="/js/modules/students.module.js?v=2"></script>
     <script src="/js/student/student.service.js?v=4"></script>
     <script src="/js/student/student.controller.simple.js?v=2"></script>
+    <script src="/js/student/student-entity.controller.js?v=1"></script>
     
     <!-- Parent Module - Load Immediately -->
     <script src="/js/modules/parents.module.js?v=2"></script>

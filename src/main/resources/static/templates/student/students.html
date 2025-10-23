@@ -1,142 +1,78 @@
-<!-- Students Template -->
-<div class="students-container fade-in" ng-controller="StudentController">
-    
-    <!-- Page Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h1 class="h3 mb-2 text-gradient">Student Management</h1>
-                    <p class="text-muted mb-0">Manage student profiles, enrollment, and demographics</p>
-                </div>
-                <div class="d-flex gap-2">
-                    <div class="btn-group">
-                        <button class="btn btn-outline-info dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-eye me-1"></i>
-                            {{currentCustomView ? currentCustomView.viewName : 'Default View'}}
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:void(0);" ng-click="resetToDefaultView()">
-                                <i class="fas fa-list me-2"></i>Default View
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li ng-repeat="view in customViews">
-                                <a class="dropdown-item" href="javascript:void(0);" ng-click="applyCustomView(view)">
-                                    <i class="fas fa-{{view.isDefault ? 'star' : 'eye'}} me-2"></i>
-                                    {{view.viewName}}
-                                    <small class="text-muted">({{view.fieldCount}} fields)</small>
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);" ng-click="showCustomViewManager()">
-                                <i class="fas fa-cogs me-2"></i>Manage Views
-                            </a></li>
-                        </ul>
-                    </div>
-                    <button class="btn btn-outline-secondary" ng-click="exportStudents('csv')" 
-                            ng-disabled="loading">
-                        <i class="fas fa-download me-1"></i>Export CSV
-                    </button>
-                    <button class="btn btn-outline-secondary" ng-click="exportStudents('pdf')" 
-                            ng-disabled="loading">
-                        <i class="fas fa-file-pdf me-1"></i>Export PDF
-                    </button>
-                    <button class="btn btn-primary" ng-click="showAddStudentForm()">
-                        <i class="fas fa-plus me-1"></i>Add Student
-                    </button>
-                    <!-- DEBUG BUTTON -->
-                    <button class="btn btn-danger" ng-click="loadStudents()" style="margin-left: 10px;">
-                        <i class="fas fa-bug me-1"></i>DEBUG: Load Students
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- Modern Student List Template --><!-- Modern Student List Template -->
 
-    <!-- DEBUG INFO -->
-    <div class="alert alert-info">
-        <strong>DEBUG INFO:</strong> 
-        Loading: {{loading}} | 
-        Students Count: {{students.length || 0}} | 
-        Is Placeholder: {{isPlaceholder}} |
-        First Student: {{students[0].firstName || 'None'}}
-    </div>
+<div ng-include="'/templates/shared/entity-list.html'" ng-controller="StudentEntityController"></div><div ng-include="'/templates/shared/entity-list.html'" ng-controller="StudentEntityController"></div>
 
-    <!-- Filters and Search -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Search & Filters</h5>
-                </div>
-                <div class="card-body">
-                    <form ng-submit="searchStudents()">
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <div class="search-box">
-                                    <input type="text" class="form-control" placeholder="Search students..." 
-                                           ng-model="searchTerm" ng-change="searchStudents()">
-                                    <i class="fas fa-search search-icon"></i>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <select class="form-select" ng-model="selectedGrade" ng-change="filterByGrade()">
-                                    <option value="">All Grade Levels</option>
-                                    <option ng-repeat="grade in gradeLevels" value="{{grade}}">
-                                        {{getGradeDisplayName(grade)}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <select class="form-select" ng-model="selectedStatus" ng-change="filterByStatus()">
-                                    <option value="">All Statuses</option>
-                                    <option ng-repeat="status in statusOptions" value="{{status}}">
-                                        {{getStatusDisplayName(status)}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-md-2 mb-3">
-                                <button type="button" class="btn btn-outline-secondary w-100" ng-click="clearSearch()">
-                                    <i class="fas fa-times me-1"></i>Clear
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Bulk Actions Bar -->
-    <div class="row mb-3" ng-show="hasSelectedStudents()">
-        <div class="col-12">
-            <div class="alert alert-info d-flex justify-content-between align-items-center">
-                <span>
-                    <i class="fas fa-info-circle me-2"></i>
-                    {{selectedStudents.length}} student(s) selected
-                </span>
-                <div class="d-flex gap-2">
-                    <button class="btn btn-sm btn-outline-primary" ng-click="showBulkActions()">
-                        <i class="fas fa-cogs me-1"></i>Bulk Actions
-                    </button>
-                    <button class="btn btn-sm btn-outline-secondary" ng-click="selectedStudents = []">
-                        <i class="fas fa-times me-1"></i>Clear Selection
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+
+<!-- Student-specific CSS overrides --><!-- Add any student-specific CSS -->
+
+<style><style>
+
+    /* Student-specific styling */    /* Student-specific overrides */
+
+    .student-avatar {    .student-avatar {
+
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+    }    }
+
+        
+
+    .student-status.active {    .student-status.active {
+
+        background-color: #d1fae5;        background-color: #d1fae5;
+
+        color: #065f46;        color: #065f46;
+
+    }    }
+
+        
+
+    .student-status.inactive {    .student-status.inactive {
+
+        background-color: #fee2e2;        background-color: #fee2e2;
+
+        color: #991b1b;        color: #991b1b;
+
+    }    }
+
+        
+
+    .student-grade {    .student-grade {
+
+        font-weight: 600;        font-weight: 600;
+
+        color: #3730a3;        color: #3730a3;
+
+    }    }
+
+</style>
+
+    .entity-list-container .student-row:hover {
+
+        background-color: #f0f4ff;
+
+    }
 
     <!-- Students Table -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">
-                        <i class="fas fa-user-graduate me-2"></i>Students 
-                        <span class="badge bg-primary ms-2">{{pagination.totalElements}}</span>
-                    </h5>
-                    <div class="d-flex align-items-center gap-2">
+
+    .student-id-badge {    <div class="row">
+
+        background: #e0e7ff;        <div class="col-12">
+
+        color: #3730a3;            <div class="card">
+
+        padding: 2px 8px;                <div class="card-header d-flex justify-content-between align-items-center">
+
+        border-radius: 12px;                    <h5 class="mb-0">
+
+        font-size: 11px;                        <i class="fas fa-user-graduate me-2"></i>Students 
+
+        font-weight: 500;                        <span class="badge bg-primary ms-2">{{pagination.totalElements}}</span>
+
+    }                    </h5>
+
+</style>                    <div class="d-flex align-items-center gap-2">
                         <label class="form-label mb-0 me-2">Page Size:</label>
                         <select class="form-select form-select-sm" style="width: auto;" 
                                 ng-model="pagination.size" ng-change="changePageSize()">
