@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import krs.erp.enums.EntityType;
 import krs.erp.model.EmailTemplate;
 
 @Repository
@@ -22,10 +23,10 @@ public interface EmailTemplateRepository extends JpaRepository<EmailTemplate, Lo
     Optional<EmailTemplate> findByTemplateNameIgnoreCase(String templateName);
     
     // Find by entity type
-    List<EmailTemplate> findByEntityType(EmailTemplate.EntityType entityType);
+    List<EmailTemplate> findByEntityType(EntityType entityType);
     
     // Find by entity type with pagination
-    Page<EmailTemplate> findByEntityType(EmailTemplate.EntityType entityType, Pageable pageable);
+    Page<EmailTemplate> findByEntityType(EntityType entityType, Pageable pageable);
     
     // Find active templates
     @Query("SELECT t FROM EmailTemplate t WHERE t.isActive = true ORDER BY t.templateName ASC")
@@ -33,7 +34,7 @@ public interface EmailTemplateRepository extends JpaRepository<EmailTemplate, Lo
     
     // Find active templates by entity type
     @Query("SELECT t FROM EmailTemplate t WHERE t.entityType = :entityType AND t.isActive = true ORDER BY t.templateName ASC")
-    List<EmailTemplate> findActiveTemplatesByEntityType(@Param("entityType") EmailTemplate.EntityType entityType);
+    List<EmailTemplate> findActiveTemplatesByEntityType(@Param("entityType") EntityType entityType);
     
     // Find templates by created by
     List<EmailTemplate> findByCreatedByIgnoreCase(String createdBy);
@@ -52,7 +53,7 @@ public interface EmailTemplateRepository extends JpaRepository<EmailTemplate, Lo
     
     // Count templates by entity type
     @Query("SELECT COUNT(t) FROM EmailTemplate t WHERE t.entityType = :entityType AND t.isActive = true")
-    Long countActiveTemplatesByEntityType(@Param("entityType") EmailTemplate.EntityType entityType);
+    Long countActiveTemplatesByEntityType(@Param("entityType") EntityType entityType);
     
     // Find templates that haven't been used recently
     @Query("SELECT t FROM EmailTemplate t WHERE t.lastUsed IS NULL OR t.lastUsed < :cutoffDate ORDER BY t.createdTime DESC")

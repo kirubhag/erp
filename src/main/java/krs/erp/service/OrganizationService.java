@@ -33,7 +33,7 @@ public class OrganizationService {
     @Transactional(readOnly = true)
     public Optional<Organization> getOrganizationById(Long id) {
         return organizationRepository.findById(id)
-                .filter(org -> org.getIsActive());
+                .filter(org -> org.getIsActive() == 1);
     }
     
     /**
@@ -128,7 +128,7 @@ public class OrganizationService {
         }
         
         Organization organization = organizationOpt.get();
-        organization.setIsActive(false);
+        organization.setIsActive(0);
         organizationRepository.save(organization);
     }
     

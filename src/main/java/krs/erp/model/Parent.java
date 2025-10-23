@@ -89,9 +89,6 @@ public class Parent extends BaseEntity {
     @Column(name = "receive_notifications", nullable = false)
     private Boolean receiveNotifications = true;
     
-    @Column(name = "is_active", nullable = false)
-    private Boolean isActive = true;
-    
     // Relationships
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -268,14 +265,6 @@ public class Parent extends BaseEntity {
     
     public void setReceiveNotifications(Boolean receiveNotifications) {
         this.receiveNotifications = receiveNotifications;
-    }
-    
-    public Boolean getIsActive() {
-        return isActive;
-    }
-    
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
     }
     
     public User getUser() {

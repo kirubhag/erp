@@ -360,7 +360,7 @@ public class DataImportService {
             
             // Set isActive field
             String isActive = getAttributeOrNull(element, "is_active");
-            parent.setIsActive(isActive != null ? parseBooleanValue(isActive) : true);
+            parent.setIsActive(isActive != null ? (parseBooleanValue(isActive) ? 1 : 0) : 1);
             
             // User relationship
             String userId = getAttributeOrNull(element, "user_id");

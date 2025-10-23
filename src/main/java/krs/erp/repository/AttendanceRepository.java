@@ -74,4 +74,12 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
            "AND a.attendanceDate BETWEEN :startDate AND :endDate")
     List<Attendance> findLateOrEarlyDepartures(@Param("startDate") LocalDate startDate,
                                               @Param("endDate") LocalDate endDate);
+    
+    // Methods to support soft delete functionality
+    List<Attendance> findByStudentIdAndIsActive(Long studentId, Integer isActive);
+    
+    List<Attendance> findByIsActive(Integer isActive);
+    
+    @Query("SELECT a FROM Attendance a WHERE a.isActive = 1")
+    List<Attendance> findAllActive();
 }

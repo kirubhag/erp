@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import krs.erp.enums.EntityType;
 import krs.erp.model.EmailLog;
-import krs.erp.model.EmailTemplate;
 import krs.erp.repository.EmailLogRepository;
 import krs.erp.service.EmailService;
 
@@ -57,7 +57,7 @@ public class EmailLogController {
             }
         } else if (entityType != null) {
             try {
-                EmailTemplate.EntityType type = EmailTemplate.EntityType.valueOf(entityType.toUpperCase());
+                EntityType type = EntityType.valueOf(entityType.toUpperCase());
                 emailLogs = emailLogRepository.findByEntityTypeOrderByCreatedTimeDesc(type, pageable);
             } catch (IllegalArgumentException e) {
                 return ResponseEntity.badRequest().build();
@@ -81,7 +81,7 @@ public class EmailLogController {
     @GetMapping("/entity/{entityType}/{entityId}")
     public ResponseEntity<List<EmailLog>> getEmailLogsForEntity(@PathVariable String entityType, @PathVariable Long entityId) {
         try {
-            EmailTemplate.EntityType type = EmailTemplate.EntityType.valueOf(entityType.toUpperCase());
+            EntityType type = EntityType.valueOf(entityType.toUpperCase());
             List<EmailLog> emailLogs = emailLogRepository.findByEntityTypeAndEntityIdOrderByCreatedTimeDesc(type, entityId);
             return ResponseEntity.ok(emailLogs);
         } catch (IllegalArgumentException e) {
@@ -97,7 +97,7 @@ public class EmailLogController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         try {
-            EmailTemplate.EntityType type = EmailTemplate.EntityType.valueOf(entityType.toUpperCase());
+            EntityType type = EntityType.valueOf(entityType.toUpperCase());
             Pageable pageable = PageRequest.of(page, size);
             Page<EmailLog> emailLogs = emailLogRepository.findByEntityTypeAndEntityIdOrderByCreatedTimeDesc(type, entityId, pageable);
             return ResponseEntity.ok(emailLogs);
@@ -194,7 +194,7 @@ public class EmailLogController {
     @PostMapping("/send-direct")
     public ResponseEntity<Map<String, Object>> sendDirectEmail(@RequestBody Map<String, Object> request) {
         try {
-            EmailTemplate.EntityType entityType = EmailTemplate.EntityType.valueOf(request.get("entityType").toString().toUpperCase());
+            EntityType entityType = EntityType.valueOf(request.get("entityType").toString().toUpperCase());
             Long entityId = Long.valueOf(request.get("entityId").toString());
             String recipientEmail = request.get("recipientEmail").toString();
             String recipientName = request.get("recipientName") != null ? request.get("recipientName").toString() : "";
@@ -234,7 +234,7 @@ public class EmailLogController {
     @GetMapping("/count/{entityType}/{entityId}")
     public ResponseEntity<Map<String, Object>> getEmailCountForEntity(@PathVariable String entityType, @PathVariable Long entityId) {
         try {
-            EmailTemplate.EntityType type = EmailTemplate.EntityType.valueOf(entityType.toUpperCase());
+            EntityType type = EntityType.valueOf(entityType.toUpperCase());
             
             Long totalCount = emailLogRepository.countByEntityTypeAndEntityId(type, entityId);
             Long deliveredCount = emailLogRepository.countDeliveredEmailsForEntity(type, entityId);

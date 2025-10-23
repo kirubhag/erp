@@ -65,4 +65,14 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query("SELECT s FROM Student s WHERE LOWER(s.firstName) LIKE LOWER(CONCAT('%', :name, '%')) " +
            "OR LOWER(s.lastName) LIKE LOWER(CONCAT('%', :name, '%'))")
     Page<Student> findByNameContaining(@Param("name") String name, Pageable pageable);
+    
+    // Methods to support soft delete functionality
+    List<Student> findByIsActive(Integer isActive);
+    
+    @Query("SELECT s FROM Student s WHERE s.isActive = 1")
+    List<Student> findAllActive();
+    
+    Page<Student> findByIsActive(Integer isActive, Pageable pageable);
+    
+    Long countByIsActive(Integer isActive);
 }

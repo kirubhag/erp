@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import krs.erp.enums.EntityType;
 import krs.erp.model.Student;
 import krs.erp.repository.StudentRepository;
+import krs.erp.service.RecycleBinService;
 
 @RestController
 @RequestMapping("/api/students")
@@ -33,6 +35,9 @@ public class StudentController {
     
     @Autowired
     private StudentRepository studentRepository;
+    
+    @Autowired
+    private RecycleBinService recycleBinService;
     
     // Get all students with pagination
     @GetMapping
@@ -114,20 +119,26 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
     
-    // Delete student
+    // Delete student (soft delete with recycle bin)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
-        if (studentRepository.existsById(id)) {
-            studentRepository.deleteById(id);
+        Optional<Student> studentOpt = studentRepository.findById(id);
+        if (studentOpt.isPresent()) {
+            Student student = studentOpt.get();
+            String studentName = student.getFirstName() + " " + student.getLastName();
+            
+            // Soft delete using recycle bin service
+            recycleBinService.softDeleteEntity(id, EntityType.STUDENT, "current-user", "User deleted student");
+            
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
     
-    // Get active students
+    // Get active students (isActive = 1)
     @GetMapping("/active")
     public ResponseEntity<List<Student>> getActiveStudents() {
-        List<Student> activeStudents = studentRepository.findActiveStudents();
+        List<Student> activeStudents = studentRepository.findByIsActive(1);
         return ResponseEntity.ok(activeStudents);
     }
     

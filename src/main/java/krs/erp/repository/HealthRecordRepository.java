@@ -63,4 +63,12 @@ public interface HealthRecordRepository extends JpaRepository<HealthRecord, Long
     List<HealthRecord> findByRequiresAttentionTrueAndActiveTrue();
     
     List<HealthRecord> findByExpiryDateBeforeAndActiveTrue(LocalDate date);
+    
+    // Methods to support soft delete functionality
+    List<HealthRecord> findByStudentIdAndIsActive(Long studentId, Integer isActive);
+    
+    List<HealthRecord> findByIsActive(Integer isActive);
+    
+    @Query("SELECT h FROM HealthRecord h WHERE h.isActive = 1")
+    List<HealthRecord> findAllActive();
 }

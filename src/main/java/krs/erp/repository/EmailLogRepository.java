@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import krs.erp.enums.EntityType;
 import krs.erp.model.EmailLog;
 import krs.erp.model.EmailTemplate;
 
@@ -17,10 +18,10 @@ import krs.erp.model.EmailTemplate;
 public interface EmailLogRepository extends JpaRepository<EmailLog, Long> {
     
     // Find by entity type and entity ID
-    List<EmailLog> findByEntityTypeAndEntityIdOrderByCreatedTimeDesc(EmailTemplate.EntityType entityType, Long entityId);
+    List<EmailLog> findByEntityTypeAndEntityIdOrderByCreatedTimeDesc(EntityType entityType, Long entityId);
     
     // Find by entity type and entity ID with pagination
-    Page<EmailLog> findByEntityTypeAndEntityIdOrderByCreatedTimeDesc(EmailTemplate.EntityType entityType, Long entityId, Pageable pageable);
+    Page<EmailLog> findByEntityTypeAndEntityIdOrderByCreatedTimeDesc(EntityType entityType, Long entityId, Pageable pageable);
     
     // Find by recipient email
     List<EmailLog> findByRecipientEmailOrderByCreatedTimeDesc(String recipientEmail);
@@ -35,10 +36,10 @@ public interface EmailLogRepository extends JpaRepository<EmailLog, Long> {
     Page<EmailLog> findByStatusOrderByCreatedTimeDesc(EmailLog.EmailStatus status, Pageable pageable);
     
     // Find by entity type
-    List<EmailLog> findByEntityTypeOrderByCreatedTimeDesc(EmailTemplate.EntityType entityType);
+    List<EmailLog> findByEntityTypeOrderByCreatedTimeDesc(EntityType entityType);
     
     // Find by entity type with pagination
-    Page<EmailLog> findByEntityTypeOrderByCreatedTimeDesc(EmailTemplate.EntityType entityType, Pageable pageable);
+    Page<EmailLog> findByEntityTypeOrderByCreatedTimeDesc(EntityType entityType, Pageable pageable);
     
     // Find failed emails for retry
     @Query("SELECT e FROM EmailLog e WHERE e.status = 'FAILED' AND e.retryCount < 3 ORDER BY e.createdTime ASC")
@@ -65,11 +66,11 @@ public interface EmailLogRepository extends JpaRepository<EmailLog, Long> {
     
     // Count emails for entity
     @Query("SELECT COUNT(e) FROM EmailLog e WHERE e.entityType = :entityType AND e.entityId = :entityId")
-    Long countByEntityTypeAndEntityId(@Param("entityType") EmailTemplate.EntityType entityType, @Param("entityId") Long entityId);
+    Long countByEntityTypeAndEntityId(@Param("entityType") EntityType entityType, @Param("entityId") Long entityId);
     
     // Count delivered emails for entity
     @Query("SELECT COUNT(e) FROM EmailLog e WHERE e.entityType = :entityType AND e.entityId = :entityId AND e.status IN ('DELIVERED', 'OPENED')")
-    Long countDeliveredEmailsForEntity(@Param("entityType") EmailTemplate.EntityType entityType, @Param("entityId") Long entityId);
+    Long countDeliveredEmailsForEntity(@Param("entityType") EntityType entityType, @Param("entityId") Long entityId);
     
     // Find emails by sent by
     List<EmailLog> findBySentByOrderByCreatedTimeDesc(String sentBy);

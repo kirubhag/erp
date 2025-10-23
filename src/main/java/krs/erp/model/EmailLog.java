@@ -14,6 +14,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import krs.erp.enums.EntityType;
 
 @Entity
 @Table(name = "email_logs")
@@ -26,7 +27,7 @@ public class EmailLog extends BaseEntity {
     @NotNull(message = "Entity type is required")
     @Enumerated(EnumType.STRING)
     @Column(name = "entity_type", nullable = false)
-    private EmailTemplate.EntityType entityType;
+    private EntityType entityType;
     
     @NotNull(message = "Entity ID is required")
     @Column(name = "entity_id", nullable = false)
@@ -113,7 +114,7 @@ public class EmailLog extends BaseEntity {
     // Constructors
     public EmailLog() {}
     
-    public EmailLog(EmailTemplate.EntityType entityType, Long entityId, String recipientEmail, 
+    public EmailLog(EntityType entityType, Long entityId, String recipientEmail, 
                    String subject, String body) {
         this.entityType = entityType;
         this.entityId = entityId;
@@ -133,11 +134,11 @@ public class EmailLog extends BaseEntity {
         this.emailTemplate = emailTemplate;
     }
     
-    public EmailTemplate.EntityType getEntityType() {
+    public EntityType getEntityType() {
         return entityType;
     }
     
-    public void setEntityType(EmailTemplate.EntityType entityType) {
+    public void setEntityType(EntityType entityType) {
         this.entityType = entityType;
     }
     

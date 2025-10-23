@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import krs.erp.enums.EntityType;
 import krs.erp.model.EmailTemplate;
 import krs.erp.model.Student;
 import krs.erp.repository.EmailTemplateRepository;
@@ -106,7 +107,7 @@ public class EmailTemplateService {
     /**
      * Get active templates by entity type
      */
-    public List<EmailTemplate> getActiveTemplatesByEntityType(EmailTemplate.EntityType entityType) {
+    public List<EmailTemplate> getActiveTemplatesByEntityType(EntityType entityType) {
         return emailTemplateRepository.findActiveTemplatesByEntityType(entityType);
     }
     
@@ -189,7 +190,7 @@ public class EmailTemplateService {
     /**
      * Get entity variables based on entity type and ID
      */
-    private Map<String, String> getEntityVariables(EmailTemplate.EntityType entityType, Long entityId) {
+    private Map<String, String> getEntityVariables(EntityType entityType, Long entityId) {
         Map<String, String> variables = new HashMap<>();
         
         switch (entityType) {
@@ -268,7 +269,7 @@ public class EmailTemplateService {
     /**
      * Get available variables for entity type
      */
-    private String getAvailableVariablesForEntityType(EmailTemplate.EntityType entityType) {
+    private String getAvailableVariablesForEntityType(EntityType entityType) {
         StringBuilder variables = new StringBuilder();
         
         switch (entityType) {

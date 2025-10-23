@@ -110,7 +110,7 @@ public class ErpFieldXmlLoaderService {
             fieldsToSave.forEach(field -> {
                 field.setCreatedTime(now);
                 field.setModifiedTime(now);
-                field.setIsActive(true);
+                field.setIsActive(1);
             });
             
             erpFieldRepository.saveAll(fieldsToSave);

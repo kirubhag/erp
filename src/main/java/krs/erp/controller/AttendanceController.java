@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import krs.erp.enums.EntityType;
 import krs.erp.model.Attendance;
 import krs.erp.model.Student;
 import krs.erp.repository.AttendanceRepository;
+import krs.erp.service.RecycleBinService;
 
 @RestController
 @RequestMapping("/api/attendance")
@@ -34,10 +36,13 @@ public class AttendanceController {
     @Autowired
     private AttendanceRepository attendanceRepository;
     
-    // Get all attendance records
+    @Autowired
+    private RecycleBinService recycleBinService;
+    
+    // Get all attendance records (only active, isActive = 1)
     @GetMapping
     public ResponseEntity<List<Attendance>> getAllAttendance() {
-        List<Attendance> attendanceList = attendanceRepository.findAll();
+        List<Attendance> attendanceList = attendanceRepository.findByIsActive(1);
         return ResponseEntity.ok(attendanceList);
     }
     
@@ -82,11 +87,16 @@ public class AttendanceController {
         return ResponseEntity.notFound().build();
     }
     
-    // Delete attendance record
+    // Delete attendance record (soft delete with recycle bin)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAttendance(@PathVariable Long id) {
-        if (attendanceRepository.existsById(id)) {
-            attendanceRepository.deleteById(id);
+        Optional<Attendance> attendanceOpt = attendanceRepository.findById(id);
+        if (attendanceOpt.isPresent()) {
+            Attendance attendance = attendanceOpt.get();
+            
+            // Soft delete using recycle bin service
+            recycleBinService.softDeleteEntity(id, EntityType.ATTENDANCE, "current-user", "User deleted attendance record");
+            
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

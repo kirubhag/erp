@@ -56,4 +56,12 @@ public interface ParentRepository extends JpaRepository<Parent, Long> {
     List<Parent> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName);
     
     boolean existsByEmail(String email);
+    
+    // Methods to support soft delete functionality  
+    List<Parent> findByIsActive(Integer isActive);
+    
+    @Query("SELECT p FROM Parent p WHERE p.isActive = 1")
+    List<Parent> findAllActive();
+    
+    Long countByIsActive(Integer isActive);
 }

@@ -36,8 +36,14 @@ public abstract class BaseEntity {
     @Column(name = "owner_id")
     private Long ownerId;
     
+    /**
+     * Active status:
+     * 1 = Active/Normal
+     * 0 = Inactive/Disabled
+     * -1 = Soft Deleted/In Recycle Bin
+     */
     @Column(name = "is_active")
-    private Boolean isActive = true;
+    private Integer isActive = 1;
     
     // Constructors
     public BaseEntity() {}
@@ -91,11 +97,36 @@ public abstract class BaseEntity {
         this.ownerId = ownerId;
     }
     
-    public Boolean getIsActive() {
+    public Integer getIsActive() {
         return isActive;
     }
     
-    public void setIsActive(Boolean isActive) {
+    public void setIsActive(Integer isActive) {
         this.isActive = isActive;
+    }
+    
+    // Convenience methods for active status
+    public boolean isActive() {
+        return isActive != null && isActive == 1;
+    }
+    
+    public boolean isDeleted() {
+        return isActive != null && isActive == -1;
+    }
+    
+    public boolean isInactive() {
+        return isActive != null && isActive == 0;
+    }
+    
+    public void markAsActive() {
+        this.isActive = 1;
+    }
+    
+    public void markAsInactive() {
+        this.isActive = 0;
+    }
+    
+    public void markAsDeleted() {
+        this.isActive = -1;
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import krs.erp.enums.EntityType;
 import krs.erp.model.EmailLog;
 import krs.erp.model.EmailTemplate;
 import krs.erp.repository.EmailLogRepository;
@@ -60,7 +61,7 @@ public class EmailService {
      * Send email using template with custom variables
      */
     public boolean sendEmailUsingTemplate(Long templateId, Map<String, String> customVariables, 
-                                        EmailTemplate.EntityType entityType, Long entityId,
+                                        EntityType entityType, Long entityId,
                                         String recipientEmail, String recipientName, String sentBy) {
         try {
             EmailTemplateService.ProcessedTemplate processedTemplate = emailTemplateService.processTemplate(templateId, customVariables);
@@ -85,7 +86,7 @@ public class EmailService {
     /**
      * Send direct email without template
      */
-    public boolean sendDirectEmail(EmailTemplate.EntityType entityType, Long entityId,
+    public boolean sendDirectEmail(EntityType entityType, Long entityId,
                                  String recipientEmail, String recipientName,
                                  String subject, String body, String sentBy) {
         return sendEmail(entityType, entityId, recipientEmail, recipientName, subject, body, sentBy, null);
@@ -94,7 +95,7 @@ public class EmailService {
     /**
      * Core email sending method with logging
      */
-    private boolean sendEmail(EmailTemplate.EntityType entityType, Long entityId,
+    private boolean sendEmail(EntityType entityType, Long entityId,
                             String recipientEmail, String recipientName,
                             String subject, String body, String sentBy, EmailTemplate template) {
         // Create email log entry
@@ -181,7 +182,7 @@ public class EmailService {
             mailSender.send(message);
             
             // Log test email
-            EmailLog emailLog = new EmailLog(EmailTemplate.EntityType.GENERAL, 0L, recipientEmail, 
+            EmailLog emailLog = new EmailLog(EntityType.GENERAL, 0L, recipientEmail, 
                                            message.getSubject(), message.getText());
             emailLog.setRecipientName("Test Recipient");
             emailLog.setSentBy("System");
@@ -201,7 +202,7 @@ public class EmailService {
     /**
      * Get email logs for specific entity
      */
-    public List<EmailLog> getEmailLogsForEntity(EmailTemplate.EntityType entityType, Long entityId) {
+    public List<EmailLog> getEmailLogsForEntity(EntityType entityType, Long entityId) {
         return emailLogRepository.findByEntityTypeAndEntityIdOrderByCreatedTimeDesc(entityType, entityId);
     }
     

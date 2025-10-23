@@ -108,12 +108,12 @@ public class ErpFieldService {
     }
 
     /**
-     * Delete field (soft delete by setting isActive to false)
+     * Delete field (soft delete by setting isActive to 0)
      */
     public void deleteField(Long fieldId) {
         ErpField field = erpFieldRepository.findById(fieldId)
                 .orElseThrow(() -> new RuntimeException("Field not found"));
-        field.setIsActive(false);
+        field.setIsActive(0);
         field.setModifiedTime(LocalDateTime.now());
         erpFieldRepository.save(field);
     }

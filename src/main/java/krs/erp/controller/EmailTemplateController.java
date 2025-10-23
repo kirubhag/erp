@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import krs.erp.enums.EntityType;
 import krs.erp.model.EmailTemplate;
 import krs.erp.service.EmailService;
 import krs.erp.service.EmailTemplateService;
@@ -96,7 +97,7 @@ public class EmailTemplateController {
     @GetMapping("/entity-type/{entityType}")
     public ResponseEntity<List<EmailTemplate>> getActiveTemplatesByEntityType(@PathVariable String entityType) {
         try {
-            EmailTemplate.EntityType type = EmailTemplate.EntityType.valueOf(entityType.toUpperCase());
+            EntityType type = EntityType.valueOf(entityType.toUpperCase());
             List<EmailTemplate> templates = emailTemplateService.getActiveTemplatesByEntityType(type);
             return ResponseEntity.ok(templates);
         } catch (IllegalArgumentException e) {
@@ -192,7 +193,7 @@ public class EmailTemplateController {
             @SuppressWarnings("unchecked")
             Map<String, String> customVariables = (Map<String, String>) request.get("customVariables");
             
-            EmailTemplate.EntityType entityType = EmailTemplate.EntityType.valueOf(request.get("entityType").toString().toUpperCase());
+            EntityType entityType = EntityType.valueOf(request.get("entityType").toString().toUpperCase());
             Long entityId = request.get("entityId") != null ? Long.valueOf(request.get("entityId").toString()) : 0L;
             String recipientEmail = request.get("recipientEmail").toString();
             String recipientName = request.get("recipientName") != null ? request.get("recipientName").toString() : "";
@@ -223,12 +224,11 @@ public class EmailTemplateController {
     // Get entity types
     @GetMapping("/entity-types")
     public ResponseEntity<List<Map<String, String>>> getEntityTypes() {
-        List<Map<String, String>> entityTypes = java.util.Arrays.stream(EmailTemplate.EntityType.values())
+        List<Map<String, String>> entityTypes = java.util.Arrays.stream(EntityType.values())
             .map(type -> {
                 Map<String, String> typeInfo = new HashMap<>();
                 typeInfo.put("value", type.name());
                 typeInfo.put("displayName", type.getDisplayName());
-                typeInfo.put("description", type.getDescription());
                 return typeInfo;
             })
             .toList();

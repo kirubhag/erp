@@ -1,0 +1,262 @@
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-trash-restore me-2"></i>Recycle Bin
+                    </h4>
+                    <div>
+                        <button class="btn btn-success me-2" ng-click="restoreAll()" 
+                                ng-disabled="recycleBinRecords.length === 0">
+                            <i class="fas fa-trash-restore me-1"></i>Restore All
+                        </button>
+                        <button class="btn btn-warning me-2" ng-click="cleanupOldRecords()" 
+                                ng-disabled="recycleBinRecords.length === 0">
+                            <i class="fas fa-broom me-1"></i>Cleanup Old (30+ days)
+                        </button>
+                        <button class="btn btn-danger" ng-click="emptyRecycleBin()" 
+                                ng-disabled="recycleBinRecords.length === 0">
+                            <i class="fas fa-trash-alt me-1"></i>Empty Recycle Bin
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <!-- Statistics -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card bg-info text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Records</h5>
+                                    <h2>{{statistics.totalRecords || 0}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Records by Type</h5>
+                                    <div class="row">
+                                        <div class="col-md-3" ng-repeat="(type, count) in statistics.recordsByType">
+                                            <div class="alert alert-secondary mb-2">
+                                                <strong>{{type}}:</strong> {{count}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                <input type="text" class="form-control" 
+                                       placeholder="Search by entity name..." 
+                                       ng-model="searchQuery"
+                                       ng-change="searchRecycleBin()">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" ng-model="selectedEntityType" 
+                                    ng-change="filterByEntityType()">
+                                <option value="">All Entity Types</option>
+                                <option ng-repeat="type in entityTypes" value="{{type.value}}">
+                                    {{type.displayName}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-select" ng-model="pageSize" ng-change="loadRecycleBinRecords()">
+                                <option value="10">10 per page</option>
+                                <option value="20">20 per page</option>
+                                <option value="50">50 per page</option>
+                                <option value="100">100 per page</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 text-end">
+                            <button class="btn btn-primary" ng-click="loadRecycleBinRecords()">
+                                <i class="fas fa-sync me-1"></i>Refresh
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Loading indicator -->
+                    <div ng-if="loading" class="text-center my-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Empty state -->
+                    <div ng-if="!loading && recycleBinRecords.length === 0" class="text-center my-5">
+                        <i class="fas fa-trash fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">Recycle Bin is Empty</h5>
+                        <p class="text-muted">No deleted records found</p>
+                    </div>
+                    
+                    <!-- Records table -->
+                    <div ng-if="!loading && recycleBinRecords.length > 0">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Entity Name</th>
+                                        <th>Entity Type</th>
+                                        <th>Deleted By</th>
+                                        <th>Deleted Time</th>
+                                        <th>Related Records</th>
+                                        <th>Deletion Reason</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="record in recycleBinRecords">
+                                        <td>
+                                            <strong>{{record.entityName}}</strong>
+                                            <br>
+                                            <small class="text-muted">ID: {{record.entityId}}</small>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-secondary">{{record.entityType.displayName || record.entityType}}</span>
+                                        </td>
+                                        <td>{{record.deletedBy}}</td>
+                                        <td>
+                                            <span title="{{record.deletedTime | date:'medium'}}">
+                                                {{record.deletedTime | date:'short'}}
+                                            </span>
+                                            <br>
+                                            <small class="text-muted">{{getTimeAgo(record.deletedTime)}}</small>
+                                        </td>
+                                        <td>
+                                            <span ng-if="record.relatedEntityCount > 0" 
+                                                  class="badge bg-info">
+                                                {{record.relatedEntityCount}} related
+                                            </span>
+                                            <span ng-if="!record.relatedEntityCount || record.relatedEntityCount === 0"
+                                                  class="text-muted">None</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="record.deletionReason">{{record.deletionReason}}</span>
+                                            <span ng-if="!record.deletionReason" class="text-muted">-</span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button class="btn btn-sm btn-success" 
+                                                        ng-click="restoreSingle(record)"
+                                                        title="Restore">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" 
+                                                        ng-click="permanentlyDelete(record)"
+                                                        title="Delete Permanently">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-info" 
+                                                        ng-click="viewDetails(record)"
+                                                        title="View Details">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                Showing {{(currentPage * pageSize) + 1}} to {{Math.min((currentPage + 1) * pageSize, totalRecords)}} of {{totalRecords}} records
+                            </div>
+                            <nav>
+                                <ul class="pagination mb-0">
+                                    <li class="page-item" ng-class="{disabled: currentPage === 0}">
+                                        <a class="page-link" href="#" ng-click="goToPage(0)">First</a>
+                                    </li>
+                                    <li class="page-item" ng-class="{disabled: currentPage === 0}">
+                                        <a class="page-link" href="#" ng-click="goToPage(currentPage - 1)">Previous</a>
+                                    </li>
+                                    <li class="page-item" ng-repeat="page in getPageNumbers()" 
+                                        ng-class="{active: page === currentPage}">
+                                        <a class="page-link" href="#" ng-click="goToPage(page)">{{page + 1}}</a>
+                                    </li>
+                                    <li class="page-item" ng-class="{disabled: currentPage >= totalPages - 1}">
+                                        <a class="page-link" href="#" ng-click="goToPage(currentPage + 1)">Next</a>
+                                    </li>
+                                    <li class="page-item" ng-class="{disabled: currentPage >= totalPages - 1}">
+                                        <a class="page-link" href="#" ng-click="goToPage(totalPages - 1)">Last</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Record Details Modal -->
+<div class="modal fade" id="recordDetailsModal" tabindex="-1" aria-labelledby="recordDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="recordDetailsModalLabel">Record Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div ng-if="selectedRecord">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Entity Name:</strong> {{selectedRecord.entityName}}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Entity ID:</strong> {{selectedRecord.entityId}}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Entity Type:</strong> {{selectedRecord.entityType.displayName || selectedRecord.entityType}}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Deleted By:</strong> {{selectedRecord.deletedBy}}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Deleted Time:</strong> {{selectedRecord.deletedTime | date:'medium'}}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Related Entities:</strong> {{selectedRecord.relatedEntityCount || 0}}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <strong>Deletion Reason:</strong>
+                            <p class="mt-2">{{selectedRecord.deletionReason || 'No reason provided'}}</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3" ng-if="selectedRecord.entityData">
+                        <div class="col-12">
+                            <strong>Entity Data:</strong>
+                            <pre class="mt-2 p-3 bg-light border rounded">{{selectedRecord.entityData | json}}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="restoreSingleFromModal()">
+                    <i class="fas fa-undo me-1"></i>Restore
+                </button>
+                <button type="button" class="btn btn-danger" ng-click="permanentlyDeleteFromModal()">
+                    <i class="fas fa-trash me-1"></i>Delete Permanently
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

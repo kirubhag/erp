@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import krs.erp.enums.EntityType;
 import krs.erp.model.Parent;
 import krs.erp.repository.ParentRepository;
+import krs.erp.service.RecycleBinService;
 
 @RestController
 @RequestMapping("/api/parents")
@@ -31,6 +33,9 @@ public class ParentController {
     
     @Autowired
     private ParentRepository parentRepository;
+    
+    @Autowired
+    private RecycleBinService recycleBinService;
     
     // Get all parents with pagination
     @GetMapping
@@ -93,22 +98,26 @@ public class ParentController {
                 .orElse(ResponseEntity.notFound().build());
     }
     
-    // Delete parent (soft delete)
+    // Delete parent (soft delete with recycle bin)
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteParent(@PathVariable Long id) {
-        return parentRepository.findById(id)
-                .map(parent -> {
-                    parent.setIsActive(false);
-                    parentRepository.save(parent);
-                    return ResponseEntity.ok().build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+        Optional<Parent> parentOpt = parentRepository.findById(id);
+        if (parentOpt.isPresent()) {
+            Parent parent = parentOpt.get();
+            String parentName = parent.getFirstName() + " " + parent.getLastName();
+            
+            // Soft delete using recycle bin service
+            recycleBinService.softDeleteEntity(id, EntityType.PARENT, "current-user", "User deleted parent");
+            
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
     
-    // Get active parents
+    // Get active parents (isActive = 1)
     @GetMapping("/active")
     public ResponseEntity<List<Parent>> getActiveParents() {
-        List<Parent> parents = parentRepository.findByIsActiveTrue();
+        List<Parent> parents = parentRepository.findByIsActive(1);
         return ResponseEntity.ok(parents);
     }
     

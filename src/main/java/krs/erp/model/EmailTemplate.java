@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import krs.erp.enums.EntityType;
 
 @Entity
 @Table(name = "email_templates")
@@ -37,12 +38,6 @@ public class EmailTemplate extends BaseEntity {
     @Column(name = "description", length = 500)
     private String description;
     
-    @Column(name = "is_active", nullable = false)
-    private Boolean isActive = true;
-    
-    @Column(name = "created_by", length = 100)
-    private String createdBy;
-    
     @Column(name = "last_used")
     private LocalDateTime lastUsed;
     
@@ -52,27 +47,6 @@ public class EmailTemplate extends BaseEntity {
     // Available template variables for replacement
     @Column(name = "available_variables", columnDefinition = "TEXT")
     private String availableVariables;
-    
-    // Enums
-    public enum EntityType {
-        STUDENT("Student", "Student related templates"),
-        PARENT("Parent", "Parent related templates"),
-        ATTENDANCE("Attendance", "Attendance related templates"),
-        HEALTH("Health", "Health record related templates"),
-        GENERAL("General", "General purpose templates"),
-        NOTIFICATION("Notification", "System notification templates");
-        
-        private final String displayName;
-        private final String description;
-        
-        EntityType(String displayName, String description) {
-            this.displayName = displayName;
-            this.description = description;
-        }
-        
-        public String getDisplayName() { return displayName; }
-        public String getDescription() { return description; }
-    }
     
     // Constructors
     public EmailTemplate() {}
@@ -125,21 +99,7 @@ public class EmailTemplate extends BaseEntity {
         this.description = description;
     }
     
-    public Boolean getIsActive() {
-        return isActive;
-    }
-    
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-    
-    public String getCreatedBy() {
-        return createdBy;
-    }
-    
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+
     
     public LocalDateTime getLastUsed() {
         return lastUsed;

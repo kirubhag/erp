@@ -40,4 +40,18 @@ public interface ParentStudentRelationRepository extends JpaRepository<ParentStu
     
     @Query("SELECT COUNT(psr) FROM ParentStudentRelation psr WHERE psr.student.id = :studentId")
     Long countParentsByStudentId(@Param("studentId") Long studentId);
+    
+    // Methods to support soft delete functionality
+    List<ParentStudentRelation> findByStudentIdAndIsActive(Long studentId, Integer isActive);
+    
+    List<ParentStudentRelation> findByParentIdAndIsActive(Long parentId, Integer isActive);
+    
+    Long countByParentIdAndIsActive(Long parentId, Integer isActive);
+    
+    Long countByStudentIdAndIsActive(Long studentId, Integer isActive);
+    
+    List<ParentStudentRelation> findByIsActive(Integer isActive);
+    
+    @Query("SELECT psr FROM ParentStudentRelation psr WHERE psr.isActive = 1")
+    List<ParentStudentRelation> findAllActive();
 }

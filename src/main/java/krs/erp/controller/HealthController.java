@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import krs.erp.enums.EntityType;
 import krs.erp.model.HealthRecord;
 import krs.erp.repository.HealthRecordRepository;
+import krs.erp.service.RecycleBinService;
 
 @RestController
 @RequestMapping("/api/health")
@@ -33,6 +35,9 @@ public class HealthController {
     
     @Autowired
     private HealthRecordRepository healthRecordRepository;
+    
+    @Autowired
+    private RecycleBinService recycleBinService;
     
     // Get all health records with pagination
     @GetMapping
@@ -104,29 +109,32 @@ public class HealthController {
                 .orElse(ResponseEntity.notFound().build());
     }
     
-    // Delete health record (soft delete)
+    // Delete health record (soft delete with recycle bin)
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteHealthRecord(@PathVariable Long id) {
-        return healthRecordRepository.findById(id)
-                .map(record -> {
-                    record.setActive(false);
-                    healthRecordRepository.save(record);
-                    return ResponseEntity.ok().build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+        Optional<HealthRecord> recordOpt = healthRecordRepository.findById(id);
+        if (recordOpt.isPresent()) {
+            HealthRecord record = recordOpt.get();
+            
+            // Soft delete using recycle bin service
+            recycleBinService.softDeleteEntity(id, EntityType.HEALTH, "current-user", "User deleted health record");
+            
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
     
-    // Get health records by student ID
+    // Get health records by student ID (only active, isActive = 1)
     @GetMapping("/student/{studentId}")
     public ResponseEntity<List<HealthRecord>> getHealthRecordsByStudentId(@PathVariable Long studentId) {
-        List<HealthRecord> records = healthRecordRepository.findByStudentId(studentId);
+        List<HealthRecord> records = healthRecordRepository.findByStudentIdAndIsActive(studentId, 1);
         return ResponseEntity.ok(records);
     }
     
-    // Get active health records by student ID
+    // Get active health records by student ID (isActive = 1)
     @GetMapping("/student/{studentId}/active")
     public ResponseEntity<List<HealthRecord>> getActiveHealthRecordsByStudentId(@PathVariable Long studentId) {
-        List<HealthRecord> records = healthRecordRepository.findByStudentIdAndActiveTrue(studentId);
+        List<HealthRecord> records = healthRecordRepository.findByStudentIdAndIsActive(studentId, 1);
         return ResponseEntity.ok(records);
     }
     
