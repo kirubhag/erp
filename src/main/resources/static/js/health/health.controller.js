@@ -130,12 +130,12 @@ angular.module('erpApp').controller('HealthController', ['$scope', 'HealthServic
     
     // View record details
     $scope.viewRecord = function(record) {
-        console.log('View health record:', record);
+
     };
     
     // Edit record
     $scope.editRecord = function(record) {
-        console.log('Edit health record:', record);
+
     };
     
     // Delete record (soft delete)
@@ -143,7 +143,7 @@ angular.module('erpApp').controller('HealthController', ['$scope', 'HealthServic
         if (confirm('Are you sure you want to deactivate this health record?')) {
             HealthService.delete(record.id).then(function(response) {
                 record.active = false;
-                console.log('Health record deactivated successfully');
+
                 $scope.loadStatistics();
             }).catch(function(error) {
                 console.error('Error deactivating health record:', error);
@@ -153,7 +153,7 @@ angular.module('erpApp').controller('HealthController', ['$scope', 'HealthServic
     
     // Add new record
     $scope.openAddRecordModal = function() {
-        console.log('Add health record functionality to be implemented');
+
     };
     
     // Pagination

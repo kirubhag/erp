@@ -1,8 +1,5 @@
 // Simple StudentController for testing
-console.log('Loading simple StudentController...');
-
-angular.module('erpApp').controller('StudentController', ['$scope', '$http', function($scope, $http) {
-    console.log('✅ Simple StudentController loaded successfully');
+angular.module('erpApp').controller('SimpleStudentController', ['$scope', '$http', function($scope, $http) {
     
     // Initialize basic properties
     $scope.students = [];
@@ -18,14 +15,12 @@ angular.module('erpApp').controller('StudentController', ['$scope', '$http', fun
     };
     
     // Load students function
-    $scope.loadStudents = function(page) {
-        console.log('📊 Loading students...');
+        // Load students from API
+    $scope.loadStudents = function() {
         $scope.loading = true;
-        page = page || 0;
         
-        $http.get('/api/students?page=' + page + '&size=10&sort=id,asc')
+        $http.get('/api/students')
             .then(function(response) {
-                console.log('🎉 Students loaded:', response.data);
                 $scope.students = response.data.content || response.data;
                 if (response.data.totalElements !== undefined) {
                     $scope.pagination.totalElements = response.data.totalElements;
@@ -95,23 +90,17 @@ angular.module('erpApp').controller('StudentController', ['$scope', '$http', fun
     
     // Action button functions (placeholder)
     $scope.editStudent = function(student) {
-        console.log('Edit student:', student);
         // TODO: Implement edit functionality
     };
     
     $scope.deleteStudent = function(student) {
-        console.log('Delete student:', student);
         // TODO: Implement delete functionality
     };
     
     $scope.sendEmail = function(student) {
-        console.log('Send email to student:', student);
         // TODO: Implement email functionality
     };
     
     // Initialize
-    console.log('🚀 Initializing StudentController...');
     $scope.loadStudents();
 }]);
-
-console.log('✅ Simple StudentController registered');

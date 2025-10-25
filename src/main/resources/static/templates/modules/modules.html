@@ -12,6 +12,13 @@
           <i class="fas fa-chevron-right section-toggle"></i>
           <span>General</span>
         </div>
+        <div class="section-content" ng-show="expandedSections.general">
+          <a href="#!/settings/personal" class="sidebar-link">Personal Settings</a>
+          <a href="#!/settings/organization-details" class="sidebar-link">Organization Details</a>
+          <a href="#!/settings/calendar" class="sidebar-link">Calendar Settings</a>
+          <a href="#!/settings/email-settings" class="sidebar-link">Email Settings</a>
+          <a href="#!/settings/notification" class="sidebar-link">Notification Settings</a>
+        </div>
       </div>
       
       <!-- Users and Control Section -->
@@ -19,6 +26,9 @@
         <div class="section-header" ng-click="toggleSection('users')" ng-class="{active: expandedSections.users}">
           <i class="fas fa-chevron-right section-toggle"></i>
           <span>Users and Control</span>
+        </div>
+        <div class="section-content" ng-show="expandedSections.users">
+          <a href="#!/settings/user" class="sidebar-link">Territory Management</a>
         </div>
       </div>
       
@@ -30,14 +40,43 @@
         </div>
         <div class="section-content" ng-show="expandedSections.customization">
           <a href="#!/settings/modules" class="sidebar-link active">Modules</a>
-          <a href="#" class="sidebar-link">Templates</a>
-          <a href="#" class="sidebar-link">
-            Try Applications Module 
-            <i class="fas fa-star text-warning ms-1"></i>
-          </a>
-          <a href="#" class="sidebar-link">Copy Customization</a>
-          <a href="#" class="sidebar-link">Customize Home page</a>
-          <a href="#" class="sidebar-link">Translations</a>
+          <a href="#!/settings/email-templates" class="sidebar-link">Templates</a>
+        </div>
+      </div>
+      
+      <!-- Portal Setup Section -->
+      <div class="sidebar-section">
+        <div class="section-header" ng-click="toggleSection('portal')" ng-class="{active: expandedSections.portal}">
+          <i class="fas fa-chevron-right section-toggle"></i>
+          <span>Portal Setup</span>
+        </div>
+        <div class="section-content" ng-show="expandedSections.portal">
+          <a href="#!/settings/vendor-portal" class="sidebar-link">Vendor Portal</a>
+        </div>
+      </div>
+      
+      <!-- Data Administration Section -->
+      <div class="sidebar-section">
+        <div class="section-header" ng-click="toggleSection('dataAdmin')" ng-class="{active: expandedSections.dataAdmin}">
+          <i class="fas fa-chevron-right section-toggle"></i>
+          <span>Data Administration</span>
+        </div>
+        <div class="section-content" ng-show="expandedSections.dataAdmin">
+          <a href="#!/settings/data-migration" class="sidebar-link">Data Migration</a>
+          <a href="#!/settings/export" class="sidebar-link">Export</a>
+          <a href="#!/settings/audit-log" class="sidebar-link">Audit Log</a>
+          <a href="#!/settings/activity-log" class="sidebar-link">Activity Log</a>
+        </div>
+      </div>
+      
+      <!-- Developer Space Section -->
+      <div class="sidebar-section">
+        <div class="section-header" ng-click="toggleSection('developer')" ng-class="{active: expandedSections.developer}">
+          <i class="fas fa-chevron-right section-toggle"></i>
+          <span>Developer Space</span>
+        </div>
+        <div class="section-content" ng-show="expandedSections.developer">
+          <a href="#!/settings/apis" class="sidebar-link">APIs</a>
         </div>
       </div>
     </div>

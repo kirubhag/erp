@@ -321,7 +321,7 @@ angular.module('erpApp').service('StudentService', [
         
         // Transform frontend student data to backend format
         self.transformToBackendFormat = function(studentData) {
-            console.log('Transforming frontend data to backend:', studentData);
+
             
             const backendData = {
                 firstName: studentData.firstName,
@@ -351,7 +351,7 @@ angular.module('erpApp').service('StudentService', [
                 backendData.studentId = (backendData.firstName.charAt(0) + backendData.lastName.charAt(0) + timestamp).toUpperCase();
             }
             
-            console.log('Transformed backend data:', backendData);
+
             return backendData;
         };
         

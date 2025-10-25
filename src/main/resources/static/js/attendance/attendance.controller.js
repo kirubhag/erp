@@ -14,18 +14,17 @@ angular.module('erpApp').controller('AttendanceController', ['$scope', 'Attendan
     
     // Load attendance data
     $scope.loadAttendance = function() {
-        console.log('Loading attendance data...');
+
         $scope.loading = true;
         
         // Use the simple getAllAttendance to get all records
         AttendanceService.getAllAttendance().then(function(response) {
-            console.log('Attendance API response:', response);
+            
             $scope.attendanceRecords = response.data;
             $scope.loading = false;
             $scope.calculateStats();
-            console.log('Loaded attendance records:', $scope.attendanceRecords.length);
+            
         }).catch(function(error) {
-            console.error('Error loading attendance records:', error);
             $scope.attendanceRecords = [];
             $scope.loading = false;
             alert('Error loading attendance records: ' + (error.data?.message || error.message || 'Unknown error'));

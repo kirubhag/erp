@@ -15,7 +15,7 @@
     ];
 
     function StudentEntityController($scope, $controller, $location, $timeout, EntityDataService, NotificationService) {
-        console.log('🎓 StudentEntityController initialized');
+
 
         // Extend the generic EntityListController
         angular.extend(this, $controller('EntityListController', {$scope: $scope}));
@@ -61,7 +61,7 @@
                 'WITHDRAWN'
             ];
 
-            console.log('✅ Student-specific initialization complete');
+
         }
 
         /**
@@ -76,13 +76,13 @@
 
             // Create action handler
             $scope.config.handlers.create = function() {
-                console.log('➕ Opening student creation dialog');
+
                 $scope.showAddStudentForm();
             };
 
             // Export action handler
             $scope.config.handlers.export = function(format, data) {
-                console.log('📤 Exporting student data in format:', format);
+
                 $scope.exportStudents(format, data);
             };
 
@@ -134,7 +134,7 @@
          * Show add student form
          */
         $scope.showAddStudentForm = function() {
-            console.log('📝 Showing add student form');
+
             // TODO: Implement student form modal or navigate to form page
             NotificationService.info('Add Student form will open here');
         };
@@ -143,7 +143,7 @@
          * View student details
          */
         $scope.viewStudent = function(student) {
-            console.log('👁️ Viewing student:', student);
+
             // TODO: Implement student detail view
             NotificationService.info('Student details view for: ' + $scope.formatStudentName(student));
         };
@@ -152,7 +152,7 @@
          * Edit student
          */
         $scope.editStudent = function(student) {
-            console.log('✏️ Editing student:', student);
+
             // TODO: Implement student edit form
             NotificationService.info('Edit form for: ' + $scope.formatStudentName(student));
         };
@@ -161,7 +161,7 @@
          * Delete student
          */
         $scope.deleteStudent = function(student) {
-            console.log('🗑️ Deleting student:', student);
+
             
             if (confirm('Are you sure you want to delete ' + $scope.formatStudentName(student) + '?')) {
                 EntityDataService.deleteItem('STUDENT', student.id)
@@ -179,7 +179,7 @@
          * Export students data
          */
         $scope.exportStudents = function(format, data) {
-            console.log('📊 Exporting students in format:', format);
+
             
             var exportData = data || $scope.filteredData;
             var filename = 'students_export_' + new Date().toISOString().split('T')[0] + '.' + format;
@@ -346,7 +346,7 @@
          * Show bulk update status modal
          */
         $scope.showBulkUpdateStatus = function(selectedStudents) {
-            console.log('📝 Bulk updating status for', selectedStudents.length, 'students');
+
             NotificationService.info('Bulk update status functionality coming soon');
         };
 
@@ -354,7 +354,7 @@
          * Show bulk delete confirmation
          */
         $scope.showBulkDeleteConfirmation = function(selectedStudents) {
-            console.log('🗑️ Bulk delete confirmation for', selectedStudents.length, 'students');
+
             if (confirm('Are you sure you want to delete ' + selectedStudents.length + ' selected students?')) {
                 // Perform bulk delete
                 NotificationService.success('Bulk delete functionality coming soon');
@@ -364,9 +364,9 @@
 
         // Cleanup
         $scope.$on('$destroy', function() {
-            console.log('🧹 StudentEntityController destroyed');
+
         });
 
-        console.log('✅ StudentEntityController setup complete');
+
     }
 })();

@@ -95,9 +95,6 @@
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <div class="mt-2 text-primary" ng-show="moduleLoading">
-                <small>Loading page resources...</small>
-            </div>
         </div>
 
         <!-- Toast Notifications -->
@@ -148,6 +145,10 @@
     <script src="/js/modules/parents.module.js?v=2"></script>
     <script src="/js/parent/parent.service.js?v=3"></script>
     <script src="/js/parent/parent.controller.js?v=3"></script>
+    
+    <!-- Organization Module - Load Immediately -->
+    <script src="/js/modules/organization.module.js?v=1"></script>
+    <script src="/js/organization/organization-details.controller.js?v=1"></script>
     
     <!-- Modules Module -->
     <script src="/js/modules/modules.controller.js?v=1"></script>

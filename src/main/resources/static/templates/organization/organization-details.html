@@ -1,12 +1,104 @@
-<div class="container-fluid mt-3">
-  <!-- Breadcrumb Navigation -->
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#!/">Home</a></li>
-      <li class="breadcrumb-item"><a href="#!/settings">Setup</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Organization Details</li>
-    </ol>
-  </nav>
+<div class="modern-modules-container">
+  <!-- Sidebar Navigation -->
+  <div class="modules-sidebar">
+    <div class="sidebar-header">
+      <h3>Setup</h3>
+    </div>
+    
+    <div class="sidebar-content">
+      <!-- General Section -->
+      <div class="sidebar-section">
+        <div class="section-header" ng-click="toggleSection('general')" ng-class="{active: expandedSections.general}">
+          <i class="fas fa-chevron-down section-toggle"></i>
+          <span>General</span>
+        </div>
+        <div class="section-content" ng-show="expandedSections.general">
+          <a href="#!/settings/personal" class="sidebar-link">Personal Settings</a>
+          <a href="#!/settings/organization-details" class="sidebar-link active">Organization Details</a>
+          <a href="#!/settings/calendar" class="sidebar-link">Calendar Settings</a>
+          <a href="#!/settings/email-settings" class="sidebar-link">Email Settings</a>
+          <a href="#!/settings/notification" class="sidebar-link">Notification Settings</a>
+        </div>
+      </div>
+      
+      <!-- Users and Control Section -->
+      <div class="sidebar-section">
+        <div class="section-header" ng-click="toggleSection('users')" ng-class="{active: expandedSections.users}">
+          <i class="fas fa-chevron-right section-toggle"></i>
+          <span>Users and Control</span>
+        </div>
+        <div class="section-content" ng-show="expandedSections.users">
+          <a href="#!/settings/user" class="sidebar-link">Territory Management</a>
+        </div>
+      </div>
+      
+      <!-- Customization Section -->
+      <div class="sidebar-section">
+        <div class="section-header" ng-click="toggleSection('customization')" ng-class="{active: expandedSections.customization}">
+          <i class="fas fa-chevron-right section-toggle"></i>
+          <span>Customization</span>
+        </div>
+        <div class="section-content" ng-show="expandedSections.customization">
+          <a href="#!/settings/modules" class="sidebar-link">Modules</a>
+          <a href="#!/settings/email-templates" class="sidebar-link">Templates</a>
+        </div>
+      </div>
+      
+      <!-- Portal Setup Section -->
+      <div class="sidebar-section">
+        <div class="section-header" ng-click="toggleSection('portal')" ng-class="{active: expandedSections.portal}">
+          <i class="fas fa-chevron-right section-toggle"></i>
+          <span>Portal Setup</span>
+        </div>
+        <div class="section-content" ng-show="expandedSections.portal">
+          <a href="#!/settings/vendor-portal" class="sidebar-link">Vendor Portal</a>
+        </div>
+      </div>
+      
+      <!-- Data Administration Section -->
+      <div class="sidebar-section">
+        <div class="section-header" ng-click="toggleSection('dataAdmin')" ng-class="{active: expandedSections.dataAdmin}">
+          <i class="fas fa-chevron-right section-toggle"></i>
+          <span>Data Administration</span>
+        </div>
+        <div class="section-content" ng-show="expandedSections.dataAdmin">
+          <a href="#!/settings/data-migration" class="sidebar-link">Data Migration</a>
+          <a href="#!/settings/export" class="sidebar-link">Export</a>
+          <a href="#!/settings/audit-log" class="sidebar-link">Audit Log</a>
+          <a href="#!/settings/activity-log" class="sidebar-link">Activity Log</a>
+        </div>
+      </div>
+      
+      <!-- Developer Space Section -->
+      <div class="sidebar-section">
+        <div class="section-header" ng-click="toggleSection('developer')" ng-class="{active: expandedSections.developer}">
+          <i class="fas fa-chevron-right section-toggle"></i>
+          <span>Developer Space</span>
+        </div>
+        <div class="section-content" ng-show="expandedSections.developer">
+          <a href="#!/settings/apis" class="sidebar-link">APIs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="modules-main-content">
+    <!-- Loading Indicator -->
+    <div ng-if="loading" class="d-flex justify-content-center align-items-center" style="min-height: 400px;">
+      <div class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3 text-muted">Loading {{organizationData.name || 'Zylker'}} organization details...</p>
+      </div>
+    </div>
+
+    <!-- Main Content (shown when not loading) -->
+    <div ng-if="!loading">
+      <!-- Header -->
+      <div class="content-header">
+      </div>
 
   <!-- Tab Navigation -->
   <ul class="nav nav-tabs" id="organizationTabs" role="tablist">
@@ -70,26 +162,26 @@
                 <h2 class="organization-name mb-2">
                   {{organizationData.name || 'Zylker'}} 
                   <i class="fas fa-pencil-alt text-muted ms-2" style="font-size: 0.6em; cursor: pointer;" 
-                     title="Edit organization name"></i>
+                     title="Edit organization name" ng-click="editOrganizationName()"></i>
                 </h2>
                 <div class="organization-details">
                   <p class="mb-1">
                     <i class="fas fa-envelope me-2"></i>
-                    {{organizationData.contactInfo?.email || 'kirubhakaran.g+cllc@zohotest.com'}}
+                    {{(organizationData.contactInfo && organizationData.contactInfo.email) || 'kirubhakaran.g+cllc@zohotest.com'}}
                   </p>
                   <p class="mb-1">
                     <i class="fas fa-phone me-2"></i>
-                    {{organizationData.contactInfo?.phone || '09876543210'}}
+                    {{(organizationData.contactInfo && organizationData.contactInfo.phone) || '09876543210'}}
                   </p>
                   <p class="mb-1">
                     <i class="fas fa-fax me-2"></i>
-                    {{organizationData.contactInfo?.fax || '09876543210'}}
+                    {{(organizationData.contactInfo && organizationData.contactInfo.fax) || '09876543210'}}
                   </p>
                   <p class="mb-1">
                     <i class="fas fa-globe me-2"></i>
-                    <a href="{{organizationData.contactInfo?.website || 'https://www.zylker.com'}}" 
+                    <a href="{{(organizationData.contactInfo && organizationData.contactInfo.website) || 'https://www.zylker.com'}}" 
                        target="_blank" class="text-decoration-none">
-                      {{organizationData.contactInfo?.website || 'https://www.zylker.com'}}
+                      {{(organizationData.contactInfo && organizationData.contactInfo.website) || 'https://www.zylker.com'}}
                     </a>
                   </p>
                   <p class="mb-0">
@@ -100,13 +192,7 @@
               </div>
             </div>
             <div class="col-md-2 text-end">
-              <button class="btn btn-outline-secondary btn-sm mb-2" ng-click="editOrganization()">
-                <i class="fas fa-edit me-1"></i>Change
-              </button>
-              <br>
-              <button class="btn btn-outline-danger btn-sm" ng-click="deleteOrganization()">
-                <i class="fas fa-trash me-1"></i>Delete
-              </button>
+              <!-- Buttons removed as requested -->
             </div>
           </div>
 
@@ -116,7 +202,7 @@
               <h5 class="mb-0">
                 <i class="fas fa-link me-2"></i>Access URL
                 <i class="fas fa-pencil-alt text-muted ms-2" style="font-size: 0.7em; cursor: pointer;" 
-                   title="Edit access URL"></i>
+                   title="Edit access URL" ng-click="editAccessUrl()"></i>
               </h5>
             </div>
             <div class="card-body">
@@ -137,7 +223,7 @@
               <h5 class="mb-0">
                 <i class="fas fa-globe me-2"></i>Locale Information
                 <i class="fas fa-pencil-alt text-muted ms-2" style="font-size: 0.7em; cursor: pointer;" 
-                   title="Edit locale information"></i>
+                   title="Edit locale information" ng-click="editLocaleInfo()"></i>
               </h5>
             </div>
             <div class="card-body">
@@ -146,7 +232,7 @@
                   <strong>Currency Locale</strong>
                 </div>
                 <div class="col-md-9">
-                  {{organizationData.localeInfo?.currencyLocale || 'United States'}}
+                  {{(organizationData.localeInfo && organizationData.localeInfo.currencyLocale) || 'United States'}}
                 </div>
               </div>
               <div class="row">
@@ -154,7 +240,7 @@
                   <strong>Time Zone</strong>
                 </div>
                 <div class="col-md-9">
-                  {{organizationData.localeInfo?.timeZone || '(GMT 5:30) India Standard Time(Asia/Kolkata)'}}
+                  {{(organizationData.localeInfo && organizationData.localeInfo.timeZone) || '(GMT 5:30) India Standard Time(Asia/Kolkata)'}}
                 </div>
               </div>
             </div>
@@ -396,8 +482,9 @@
       </div>
     </div>
 
-  </div>
-</div>
+    </div> <!-- End of Main Content (not loading) -->
+  </div> <!-- End of modules-main-content -->
+</div> <!-- End of modern-modules-container -->
 
 <style>
 .organization-logo-container {

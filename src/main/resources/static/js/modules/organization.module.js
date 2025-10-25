@@ -1,9 +1,8 @@
 // Organization Module
-angular.module('erpApp.organization', [])
-
-.config(function() {
-    console.log('🏢 Organization module loaded');
-});
-
-// Include the organization module in the main app
-angular.module('erpApp').requires.push('erpApp.organization');
+// This module handles organization management functionality
+(function() {
+    'use strict';
+    
+    // The organization module is part of the main erpApp
+    // All organization controllers and services register with erpApp directly
+})();

@@ -14,7 +14,15 @@ angular.module('erpApp').controller('ModulesController', [
             $scope.expandedSections = {
                 general: false,
                 users: false,
-                customization: true  // Customization section is expanded by default
+                customization: true,  // Customization section is expanded by default
+                portal: false,
+                dataAdmin: false,
+                developer: false
+            };
+            
+            // Toggle sidebar sections
+            $scope.toggleSection = function(section) {
+                $scope.expandedSections[section] = !$scope.expandedSections[section];
             };
             
             // Module categories

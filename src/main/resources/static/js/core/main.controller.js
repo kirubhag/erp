@@ -302,7 +302,7 @@ angular.module('erpApp').controller('MainController', [
         
         // Module extension mechanism - allows loaded modules to extend MainController
         $scope.extendController = function(extensionName, extensionFunctions) {
-            console.log('🔌 Extending MainController with:', extensionName);
+
             angular.extend($scope, extensionFunctions);
         };
 
@@ -312,7 +312,7 @@ angular.module('erpApp').controller('MainController', [
         // Listen for settings module loaded event
         $scope.$on('settingsModuleLoaded', function() {
             $scope.settingsReady = true;
-            console.log('✅ Settings module functionality loaded');
+
         });
 
         // Listen for route change events to show loading indicators

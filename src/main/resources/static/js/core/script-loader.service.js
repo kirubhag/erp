@@ -5,17 +5,17 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
 
     // Load a single script file
     this.loadScript = function(src) {
-        console.log('📥 Loading script:', src);
+
         
         // Return existing promise if already loading
         if (loadingPromises[src]) {
-            console.log('⏳ Script already loading:', src);
+
             return loadingPromises[src];
         }
 
         // Return resolved promise if already loaded
         if (loadedScripts[src]) {
-            console.log('✅ Script already loaded:', src);
+
             return $q.resolve();
         }
 
@@ -27,7 +27,7 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
         script.src = src;
 
         script.onload = function() {
-            console.log('✅ Script loaded successfully:', src);
+
             loadedScripts[src] = true;
             delete loadingPromises[src];
             $timeout(function() {
@@ -52,7 +52,7 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
         var self = this;
         var deferred = $q.defer();
         
-        console.log('📋 Loading scripts sequentially:', scripts);
+
         
         // Try to get performance monitor (may not be available during bootstrap)
         var performanceMonitor = null;
@@ -70,7 +70,7 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
         function loadNextScript(index) {
             if (index >= scripts.length) {
                 // All scripts loaded successfully
-                console.log('🎉 All scripts loaded successfully');
+
                 try {
                     if (performanceMonitor && scripts.length > 0) {
                         performanceMonitor.endTimer('scripts-loading-' + scripts.length);
@@ -83,10 +83,10 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
             }
             
             var scriptUrl = scripts[index];
-            console.log('⏳ Loading script ' + (index + 1) + '/' + scripts.length + ':', scriptUrl);
+
             
             self.loadScript(scriptUrl).then(function() {
-                console.log('✅ Script ' + (index + 1) + '/' + scripts.length + ' loaded:', scriptUrl);
+
                 // Wait before loading next script to ensure proper execution order
                 $timeout(function() {
                     loadNextScript(index + 1);
@@ -104,16 +104,16 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
 
     // Load scripts for a specific module/entity
     this.loadModule = function(moduleName) {
-        console.log('🔄 Loading module:', moduleName);
+
         var moduleScripts = this.getModuleScripts(moduleName);
-        console.log('📋 Scripts to load:', moduleScripts);
+
         
         if (moduleScripts.length > 0) {
             return this.loadScripts(moduleScripts).then(function(results) {
-                console.log('📦 Scripts loaded, waiting for registration...');
+
                 
                 // Force AngularJS to fully process the controller registration
-                console.log('📦 Scripts loaded, forcing AngularJS to process registrations...');
+
                 
                 // Create a deferred promise that we'll resolve manually
                 var deferred = $q.defer();
@@ -124,7 +124,7 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
                 
                 function forceDigestCycles() {
                     cycleCount++;
-                    console.log('🔄 Forcing digest cycle ' + cycleCount + '/' + maxCycles + ' to process registrations...');
+
                     
                     $timeout(function() {
                         // Try to get the controller name for this module
@@ -138,7 +138,7 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
                         }
                         
                         if (controllerName) {
-                            console.log('🔍 Cycle ' + cycleCount + ': Checking if AngularJS can access ' + controllerName + '...');
+
                             
                             // Check if we have more cycles to run
                             if (cycleCount < maxCycles) {
@@ -147,11 +147,11 @@ angular.module('erpApp').service('ScriptLoaderService', ['$q', '$timeout', funct
                                 return;
                             } else {
                                 // Final verification after all cycles
-                                console.log('✅ Completed ' + maxCycles + ' digest cycles for ' + controllerName);
+
                             }
                         }
                         
-                        console.log('✅ Module loading completed after digest cycles:', moduleName);
+
                         deferred.resolve(results);
                     }, 300); // 300ms between each cycle
                 }

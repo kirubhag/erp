@@ -1,13 +1,13 @@
 // Generic Custom View Service for Student Entity
-console.log('📍 Registering StudentCustomViewService...');
+
 
 // Register service with explicit module verification
 try {
     var appModule = angular.module('erpApp');
-    console.log('✅ Found erpApp module for service registration');
+
     
     appModule.factory('StudentCustomViewService', ['$http', function($http) {
-    console.log('🎯 StudentCustomViewService instantiated successfully');
+
     var baseUrl = '/api/custom-views';
     var entityType = 'STUDENT';
     
@@ -98,13 +98,13 @@ try {
     };
 }]);
 
-    console.log('✅ StudentCustomViewService registered successfully');
+
 } catch (serviceError) {
     console.error('❌ Error registering StudentCustomViewService:', serviceError);
 }
 
 // Student Controller - Handles student management UI logic  
-console.log('📍 Registering StudentController...');
+
 
 // Register controller with explicit module verification
 try {
@@ -112,28 +112,27 @@ try {
     var appModule;
     try {
         appModule = angular.module('erpApp');
-        console.log('✅ Found erpApp module for controller registration');
+
     } catch (moduleError) {
         console.error('❌ Could not find erpApp module:', moduleError);
         throw new Error('erpApp module not available');
     }
     
     // Override the placeholder controller with the real implementation
-    console.log('🔄 Overriding placeholder StudentController with real implementation...');
-    console.log('🚀 Registering StudentController...');
+
 
 // Get the app module
 var appModule = angular.module('erpApp');
     
     // Force replacement of existing controller instances
     appModule.controller('StudentController', ['$scope', '$http', 'StudentCustomViewService', function($scope, $http, StudentCustomViewService) {
-        console.log('🔄 REAL StudentController is now active!');
-        console.log('🔄 Replacing placeholder controller...');
+
+
         
         // Clear placeholder flag
         $scope.isPlaceholder = false;
         
-        console.log('🎯 StudentController instantiated successfully');
+
     // Basic properties
     $scope.students = [];
     $scope.currentStudent = {};
@@ -158,29 +157,29 @@ var appModule = angular.module('erpApp');
     
     // Initialize controller
     $scope.init = function() {
-        console.log('🎯 StudentController init() called - starting initialization');
-        console.log('📊 About to call loadStudents');
+
+
         $scope.loadStudents();
-        console.log('📋 About to call loadCustomViews');
+
         $scope.loadCustomViews();
-        console.log('🏷️ About to call loadAvailableFields');
+
         $scope.loadAvailableFields();
-        console.log('⚙️ About to call loadDefaultView');
+
         $scope.loadDefaultView();
-        console.log('✅ StudentController init() completed all calls');
+
     };
     
     // Load default view - removed custom view system
     
     // Load students
     $scope.loadStudents = function(page) {
-        console.log('📊 loadStudents called with page:', page);
+
         $scope.loading = true;
         page = page || 0;
         
         $http.get('/api/students?page=' + page + '&size=10&sort=id,asc')
             .then(function(response) {
-                console.log('🎉 Students loaded successfully:', response.data);
+
                 $scope.students = response.data.content || response.data;
                 if (response.data.totalElements !== undefined) {
                     $scope.pagination.totalElements = response.data.totalElements;
@@ -188,7 +187,7 @@ var appModule = angular.module('erpApp');
                     $scope.pagination.currentPage = response.data.number;
                 }
                 $scope.loading = false;
-                console.log('✅ Students array final count:', $scope.students.length);
+
                 
                 // Force digest to update view
                 if (!$scope.$$phase) {
@@ -210,7 +209,7 @@ var appModule = angular.module('erpApp');
         StudentCustomViewService.getAccessibleViewsList()
             .then(function(response) {
                 $scope.customViews = response.data;
-                console.log('Custom views loaded:', $scope.customViews);
+
             })
             .catch(function(error) {
                 console.error('Failed to load custom views:', error);
@@ -223,10 +222,10 @@ var appModule = angular.module('erpApp');
         StudentCustomViewService.getDefaultView()
             .then(function(response) {
                 $scope.currentCustomView = response.data;
-                console.log('Default view loaded:', $scope.currentCustomView);
+
             })
             .catch(function(error) {
-                console.log('No default view found, using system default');
+
                 $scope.currentCustomView = null;
             });
     };
@@ -237,7 +236,7 @@ var appModule = angular.module('erpApp');
             .then(function(response) {
                 $scope.availableFields = response.data;
                 $scope.fieldCategories = $scope.groupFieldsByCategory(response.data);
-                console.log('Fields loaded:', $scope.availableFields);
+
             })
             .catch(function(error) {
                 console.error('Failed to load fields:', error);
@@ -352,12 +351,10 @@ var appModule = angular.module('erpApp');
     };
     
     $scope.selectAllStudents = function() {
-        console.log('selectAllStudents called');
-        console.log('Current students length:', $scope.students ? $scope.students.length : 0);
-        console.log('Current selectedStudents length:', $scope.selectedStudents ? $scope.selectedStudents.length : 0);
+
         
         if (!$scope.students || $scope.students.length === 0) {
-            console.log('No students available');
+
             return;
         }
         
@@ -368,15 +365,15 @@ var appModule = angular.module('erpApp');
         
         if (allSelected) {
             // If all are selected, deselect all
-            console.log('Deselecting all students');
+
             $scope.selectedStudents = [];
         } else {
             // Select all students
-            console.log('Selecting all students');
+
             $scope.selectedStudents = angular.copy($scope.students);
         }
         
-        console.log('Updated selectedStudents length:', $scope.selectedStudents.length);
+
     };
     
     $scope.hasSelectedStudents = function() {
@@ -612,10 +609,6 @@ var appModule = angular.module('erpApp');
     };
     
         // Initialize controller when loaded
-        console.log('🔴 ABOUT TO CALL $scope.init()');
         $scope.init();
-        console.log('🔴 FINISHED CALLING $scope.init()');
         
     }]);
-
-console.log('✅ StudentController registered successfully');

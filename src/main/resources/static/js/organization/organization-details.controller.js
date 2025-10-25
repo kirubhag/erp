@@ -7,6 +7,21 @@ angular.module('erpApp').controller('OrganizationDetailsController', ['$scope', 
     $scope.holidays = [];
     $scope.currencies = [];
     
+    // Sidebar state management
+    $scope.expandedSections = {
+        general: true,
+        users: false,
+        customization: false,
+        portal: false,
+        dataAdmin: false,
+        developer: false
+    };
+    
+    // Toggle sidebar sections
+    $scope.toggleSection = function(section) {
+        $scope.expandedSections[section] = !$scope.expandedSections[section];
+    };
+    
     // Initialize with default organization data
     $scope.organizationData = {
         name: 'Zylker',
@@ -118,34 +133,50 @@ angular.module('erpApp').controller('OrganizationDetailsController', ['$scope', 
     $scope.loadOrganizationData = function() {
         $scope.loading = true;
         
-        $http.get('/api/organization/details')
+        // Try to get the first organization, fallback to default data
+        $http.get('/api/organizations?page=0&size=1')
             .then(function(response) {
-                if (response.data && response.data.success) {
-                    $scope.organizationData = response.data.data;
+                if (response.data && response.data.content && response.data.content.length > 0) {
+                    $scope.organizationData = response.data.content[0];
                 }
+                // If no organization found, use the default data initialized above
             })
             .catch(function(error) {
-                console.log('Using default organization data');
-                // Use default data initialized above
+                // Use default data initialized above on error
+                console.info('Using default organization data since API returned:', error.status);
             })
             .finally(function() {
-                $scope.loading = false;
+                // Add a small delay to show the loading message with company name
+                setTimeout(function() {
+                    $scope.loading = false;
+                    $scope.$apply();
+                }, 800);
             });
     };
     
-    // Edit organization
-    $scope.editOrganization = function() {
-        // Show edit modal or navigate to edit page
-        console.log('Edit organization clicked');
-        // You can implement a modal here or navigate to an edit page
+    // Edit organization name
+    $scope.editOrganizationName = function() {
+        const currentName = $scope.organizationData.name || 'Zylker';
+        const newName = prompt('Enter organization name:', currentName);
+        if (newName !== null && newName.trim() !== '') {
+            $scope.organizationData.name = newName.trim();
+            $scope.$apply(); // Force digest cycle since prompt is outside Angular
+        }
     };
     
-    // Delete organization
-    $scope.deleteOrganization = function() {
-        if (confirm('Are you sure you want to delete this organization? This action cannot be undone.')) {
-            console.log('Delete organization clicked');
-            // Implement delete functionality
+    // Edit access URL
+    $scope.editAccessUrl = function() {
+        const currentUrl = $scope.organizationData.accessUrl || 'https://recruitqa1.localzoho.com/recruit/org875438l6/';
+        const newUrl = prompt('Enter access URL:', currentUrl);
+        if (newUrl !== null && newUrl.trim() !== '') {
+            $scope.organizationData.accessUrl = newUrl.trim();
+            $scope.$apply(); // Force digest cycle since prompt is outside Angular
         }
+    };
+    
+    // Edit locale information
+    $scope.editLocaleInfo = function() {
+        alert('Locale information editing will be implemented with a proper form in a future update.');
     };
     
     // Holiday management functions
@@ -243,31 +274,31 @@ angular.module('erpApp').controller('OrganizationDetailsController', ['$scope', 
     
     // Save functions for each tab
     $scope.saveCompanyDetails = function() {
-        console.log('Saving company details:', $scope.organizationData);
+
         // Implement save functionality
         alert('Company details saved successfully!');
     };
     
     $scope.saveFiscalYear = function() {
-        console.log('Saving fiscal year:', $scope.organizationData.fiscalYear);
+
         // Implement save functionality
         alert('Fiscal year settings saved successfully!');
     };
     
     $scope.saveBusinessHours = function() {
-        console.log('Saving business hours:', $scope.businessHours);
+
         // Implement save functionality
         alert('Business hours saved successfully!');
     };
     
     $scope.saveHolidays = function() {
-        console.log('Saving holidays:', $scope.holidays);
+
         // Implement save functionality
         alert('Holiday calendar saved successfully!');
     };
     
     $scope.saveCurrencies = function() {
-        console.log('Saving currencies:', $scope.currencies);
+
         // Implement save functionality
         alert('Currency configuration saved successfully!');
     };
@@ -279,7 +310,7 @@ angular.module('erpApp').controller('OrganizationDetailsController', ['$scope', 
     
     // Initialize the controller
     $scope.init = function() {
-        console.log('OrganizationDetailsController initialized');
+
         $scope.loadOrganizationData();
     };
     
