@@ -85,21 +85,21 @@
                     </div>
                     
                     <!-- Loading indicator -->
-                    <div ng-if="loading" class="text-center my-5">
+                    <div ng-if="recycleBinLoading" class="text-center my-5">
                         <div class="spinner-border text-primary" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
                     
                     <!-- Empty state -->
-                    <div ng-if="!loading && recycleBinRecords.length === 0" class="text-center my-5">
+                    <div ng-if="!recycleBinLoading && recycleBinRecords.length === 0" class="text-center my-5">
                         <i class="fas fa-trash fa-3x text-muted mb-3"></i>
                         <h5 class="text-muted">Recycle Bin is Empty</h5>
                         <p class="text-muted">No deleted records found</p>
                     </div>
                     
                     <!-- Records table -->
-                    <div ng-if="!loading && recycleBinRecords.length > 0">
+                    <div ng-if="!recycleBinLoading && recycleBinRecords.length > 0">
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>

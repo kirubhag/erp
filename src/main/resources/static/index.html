@@ -61,6 +61,12 @@
                                 <i class="fas fa-heartbeat me-1"></i>Health Records
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#!/settings/recycle-bin" 
+                               ng-class="{active: activeTab === 'recycle-bin'}">
+                                <i class="fas fa-trash-restore me-1"></i>Recycle Bin
+                            </a>
+                        </li>
                     </ul>
                     
                     <ul class="navbar-nav">
@@ -128,7 +134,7 @@
     <script src="/vendor/angularjs/angular-route.min.js"></script>
     
     <!-- Core Application JS Files -->
-    <script src="/js/app.js?v=8&t=20251026201100"></script>
+    <script src="/js/app.js?v=9&t=20251026233840"></script>
     <script src="/js/core/script-loader.service.js?v=8"></script>
     <script src="/js/core/performance-monitor.service.js?v=1"></script>
     <script src="/js/core/api.js?v=3"></script>
@@ -165,7 +171,7 @@
     <script src="/js/settings/entity-field-layout.controller.js?v=1"></script>
     
     <!-- Recycle Bin Module -->
-    <script src="/js/recycle-bin.controller.js?v=1"></script>
+    <script src="/js/recycle-bin.controller.js?v=5"></script>
     
     <!-- Entity-specific JS files are now loaded lazily when needed -->
 </body>

@@ -244,9 +244,12 @@ angular.module('erpApp', ['ngRoute'])
                 }]
             }
         })
-        .when('/recycle-bin', {
-            templateUrl: '/views/recycle-bin.html',
+        .when('/settings/recycle-bin', {
+            templateUrl: '/templates/settings/recycle-bin-settings.html',
             controller: 'RecycleBinController'
+        })
+        .when('/recycle-bin', {
+            redirectTo: '/settings/recycle-bin'
         })
         .otherwise({
             redirectTo: '/'

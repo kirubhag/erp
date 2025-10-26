@@ -1,0 +1,194 @@
+<!-- Settings Layout with Sidebar for Recycle Bin -->
+<style>
+  .settings-layout {
+    display: flex;
+    min-height: calc(100vh - 70px);
+    background-color: #f5f7fa;
+  }
+  .settings-sidebar {
+    width: 230px;
+    background-color: #fff;
+    border-right: 1px solid #e5e7eb;
+    padding: 20px 0;
+  }
+  .settings-sidebar-header {
+    padding: 0 20px 15px;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 10px;
+  }
+  .settings-sidebar-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+  .settings-sidebar-section {
+    margin-bottom: 5px;
+  }
+  .settings-sidebar-section-title {
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .settings-sidebar-section-title:hover {
+    background-color: #f9fafb;
+  }
+  .settings-sidebar-section-title i {
+    font-size: 10px;
+    transition: transform 0.2s;
+  }
+  .settings-sidebar-section-title.collapsed i {
+    transform: rotate(-90deg);
+  }
+  .settings-sidebar-items {
+    max-height: 500px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .settings-sidebar-items.collapsed {
+    max-height: 0;
+  }
+  .settings-sidebar-item {
+    display: block;
+    padding: 8px 20px 8px 35px;
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .settings-sidebar-item:hover {
+    background-color: #f9fafb;
+    color: #1f2937;
+  }
+  .settings-sidebar-item.active {
+    background-color: #eff6ff;
+    color: #2563eb;
+    border-left: 3px solid #2563eb;
+    padding-left: 32px;
+  }
+  .settings-content {
+    flex: 1;
+    padding: 20px 30px;
+    overflow-y: auto;
+  }
+  .back-to-setup {
+    display: inline-flex;
+    align-items: center;
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .back-to-setup:hover {
+    color: #1f2937;
+  }
+  .back-to-setup i {
+    margin-right: 5px;
+  }
+</style>
+
+<div class="settings-layout">
+  <!-- Left Sidebar -->
+  <div class="settings-sidebar">
+    <div class="settings-sidebar-header">
+      <a href="#!/settings" class="back-to-setup">
+        <i class="fas fa-arrow-left"></i> Setup
+      </a>
+    </div>
+    
+    <!-- General Section -->
+    <div class="settings-sidebar-section">
+      <div class="settings-sidebar-section-title" ng-click="toggleSection('general')">
+        <span>General</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="settings-sidebar-items">
+        <a href="#!/settings/personal" class="settings-sidebar-item">Personal Settings</a>
+        <a href="#!/settings/organization-details" class="settings-sidebar-item">Organisation Details</a>
+        <a href="#!/settings/calendar" class="settings-sidebar-item">Calendar Settings</a>
+        <a href="#!/settings/email-settings" class="settings-sidebar-item">Email Settings</a>
+        <a href="#!/settings/notification" class="settings-sidebar-item">Notification Settings</a>
+      </div>
+    </div>
+    
+    <!-- Users and Control Section -->
+    <div class="settings-sidebar-section">
+      <div class="settings-sidebar-section-title" ng-click="toggleSection('users')">
+        <span>Users and Control</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="settings-sidebar-items">
+        <a href="#!/settings/user" class="settings-sidebar-item">Territory Management</a>
+      </div>
+    </div>
+    
+    <!-- Customization Section -->
+    <div class="settings-sidebar-section">
+      <div class="settings-sidebar-section-title" ng-click="toggleSection('customization')">
+        <span>Customization</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="settings-sidebar-items">
+        <a href="#!/settings/modules" class="settings-sidebar-item">Modules</a>
+        <a href="#!/settings/email-templates" class="settings-sidebar-item">Templates</a>
+      </div>
+    </div>
+    
+    <!-- Portal Setup Section -->
+    <div class="settings-sidebar-section">
+      <div class="settings-sidebar-section-title" ng-click="toggleSection('portal')">
+        <span>Portal Setup</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="settings-sidebar-items">
+        <a href="#!/settings/vendor-portal" class="settings-sidebar-item">Vendor Portal</a>
+      </div>
+    </div>
+    
+    <!-- Data Administration Section -->
+    <div class="settings-sidebar-section">
+      <div class="settings-sidebar-section-title" ng-click="toggleSection('data')">
+        <span>Data Administration</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="settings-sidebar-items">
+        <a href="#!/settings/recycle-bin" class="settings-sidebar-item active">Recycle Bin</a>
+        <a href="#!/settings/data-migration" class="settings-sidebar-item">Data Migration</a>
+        <a href="#!/settings/export" class="settings-sidebar-item">Export</a>
+        <a href="#!/settings/audit-log" class="settings-sidebar-item">Audit Log</a>
+        <a href="#!/settings/activity-log" class="settings-sidebar-item">Activity Log</a>
+      </div>
+    </div>
+    
+    <!-- Developer Space Section -->
+    <div class="settings-sidebar-section">
+      <div class="settings-sidebar-section-title" ng-click="toggleSection('developer')">
+        <span>Developer Space</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="settings-sidebar-items">
+        <a href="#!/settings/apis" class="settings-sidebar-item">APIs</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Content Area -->
+  <div class="settings-content">
+    <!-- Include the actual recycle bin content -->
+    <div ng-include="'/views/recycle-bin.html'"></div>
+  </div>
+</div>
+
+<script>
+// Initialize sidebar sections as expanded by default
+if (typeof angular !== 'undefined') {
+  angular.element(document).ready(function() {
+    // All sections expanded by default
+  });
+}
+</script>

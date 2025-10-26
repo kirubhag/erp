@@ -442,16 +442,31 @@ public class RecycleBinServiceImpl implements RecycleBinService {
     
     @Override
     public int restoreAllEntities(String restoredBy) {
+        logger.info("🔄 Starting restore all entities operation by user: {}", restoredBy);
         List<RecycleBin> allRecords = recycleBinRepository.findAllByOrderByDeletedTimeDesc();
+        logger.info("📋 Found {} records in recycle bin to restore", allRecords.size());
         int restoredCount = 0;
+        int failedCount = 0;
         
         for (RecycleBin record : allRecords) {
-            if (restoreEntityByIdAndType(record.getEntityId(), record.getEntityType(), restoredBy)) {
-                restoredCount++;
+            logger.info("🔄 Attempting to restore: {} (ID: {}, Type: {})", 
+                       record.getEntityName(), record.getEntityId(), record.getEntityType());
+            try {
+                if (restoreEntityByIdAndType(record.getEntityId(), record.getEntityType(), restoredBy)) {
+                    restoredCount++;
+                    logger.info("✅ Successfully restored: {}", record.getEntityName());
+                } else {
+                    failedCount++;
+                    logger.warn("❌ Failed to restore: {} (ID: {})", record.getEntityName(), record.getEntityId());
+                }
+            } catch (Exception e) {
+                failedCount++;
+                logger.error("❌ Exception while restoring: {} (ID: {})", record.getEntityName(), record.getEntityId(), e);
             }
         }
         
-        logger.info("Restored {} entities in total", restoredCount);
+        logger.info("✨ Restore all completed - Restored: {}, Failed: {}, Total: {}", 
+                   restoredCount, failedCount, allRecords.size());
         return restoredCount;
     }
     
@@ -546,21 +561,28 @@ public class RecycleBinServiceImpl implements RecycleBinService {
     @Override
     @Transactional
     public int permanentlyDeleteOldRecords(LocalDateTime cutoffDate) {
+        logger.info("🧹 Starting cleanup of old records before {}", cutoffDate);
         List<RecycleBin> oldRecords = recycleBinRepository.findOldRecords(cutoffDate);
         int deletedCount = oldRecords.size();
+        logger.info("📊 Found {} old records to delete", deletedCount);
+        
         recycleBinRepository.deleteByDeletedTimeBefore(cutoffDate);
         
-        logger.info("Permanently deleted {} old recycle bin records before {}", deletedCount, cutoffDate);
+        logger.info("✨ Cleanup completed - Permanently deleted {} old recycle bin records", deletedCount);
         return deletedCount;
     }
     
     @Override
     @Transactional
     public int emptyRecycleBin() {
+        logger.info("🗑️ Starting to empty recycle bin...");
         long count = recycleBinRepository.count();
+        logger.info("📊 Found {} records to delete", count);
+        
         recycleBinRepository.deleteAll();
         
-        logger.info("Emptied recycle bin, deleted {} records", count);
+        long remainingCount = recycleBinRepository.count();
+        logger.info("✨ Emptied recycle bin - Deleted: {}, Remaining: {}", count, remainingCount);
         return (int) count;
     }
     

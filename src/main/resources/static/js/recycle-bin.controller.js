@@ -8,7 +8,7 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
         totalRecords: 0,
         recordsByType: {}
     };
-    $scope.loading = false;
+    $scope.recycleBinLoading = false;  // Changed from 'loading' to avoid conflict with global loading
     $scope.searchQuery = '';
     $scope.selectedEntityType = '';
     $scope.currentPage = 0;
@@ -18,11 +18,16 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
     $scope.selectedRecord = null;
     $scope.Math = Math;
     
+    // Sidebar section toggle
+    $scope.toggleSection = function(section) {
+        // Toggle logic if needed
+    };
+    
     /**
      * Load recycle bin records with pagination
      */
     $scope.loadRecycleBinRecords = function() {
-        $scope.loading = true;
+        $scope.recycleBinLoading = true;
         
         let url = API_BASE + '?page=' + $scope.currentPage + '&size=' + $scope.pageSize;
         
@@ -43,11 +48,11 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
                     $scope.totalRecords = response.data.length;
                     $scope.totalPages = 1;
                 }
-                $scope.loading = false;
+                $scope.recycleBinLoading = false;
             })
             .catch(function(error) {
                 $scope.showError('Failed to load recycle bin records');
-                $scope.loading = false;
+                $scope.recycleBinLoading = false;
             });
     };
     
@@ -86,7 +91,7 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
             return;
         }
         
-        $scope.loading = true;
+        $scope.recycleBinLoading = true;
         
         $http.get(API_BASE + '/search?searchTerm=' + encodeURIComponent($scope.searchQuery) + 
                   '&page=' + $scope.currentPage + '&size=' + $scope.pageSize)
@@ -100,11 +105,11 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
                     $scope.totalRecords = response.data.length;
                     $scope.totalPages = 1;
                 }
-                $scope.loading = false;
+                $scope.recycleBinLoading = false;
             })
             .catch(function(error) {
                 $scope.showError('Failed to search recycle bin');
-                $scope.loading = false;
+                $scope.recycleBinLoading = false;
             });
     };
     
@@ -147,18 +152,33 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
             return;
         }
         
+        console.log('Restore All - Starting...');
+        $scope.recycleBinLoading = true;
+        
         const requestBody = {
             restoredBy: 'current-user' // TODO: Replace with actual logged-in user
         };
         
+        console.log('Restore All - Sending request with body:', requestBody);
+        
         $http.post(API_BASE + '/restore/all', requestBody)
             .then(function(response) {
+                console.log('Restore All - Success response:', response.data);
+                $scope.recycleBinLoading = false;
                 $scope.showSuccess('All records restored successfully. Count: ' + response.data.restoredCount);
                 $scope.loadRecycleBinRecords();
                 $scope.loadStatistics();
             })
             .catch(function(error) {
-                $scope.showError('Failed to restore all records');
+                console.error('Restore All - Error:', error);
+                $scope.recycleBinLoading = false;
+                let errorMessage = 'Failed to restore all records';
+                if (error.data && error.data.error) {
+                    errorMessage += ': ' + error.data.error;
+                } else if (error.statusText) {
+                    errorMessage += ': ' + error.statusText;
+                }
+                $scope.showError(errorMessage);
             });
     };
     
@@ -189,14 +209,27 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
             return;
         }
         
+        console.log('Cleanup Old Records - Starting...');
+        $scope.recycleBinLoading = true;
+        
         $http.delete(API_BASE + '/cleanup?days=30')
             .then(function(response) {
+                console.log('Cleanup Old Records - Success response:', response.data);
+                $scope.recycleBinLoading = false;
                 $scope.showSuccess('Cleaned up ' + response.data.deletedCount + ' old records');
                 $scope.loadRecycleBinRecords();
                 $scope.loadStatistics();
             })
             .catch(function(error) {
-                $scope.showError('Failed to cleanup old records');
+                console.error('Cleanup Old Records - Error:', error);
+                $scope.recycleBinLoading = false;
+                let errorMessage = 'Failed to cleanup old records';
+                if (error.data && error.data.error) {
+                    errorMessage += ': ' + error.data.error;
+                } else if (error.statusText) {
+                    errorMessage += ': ' + error.statusText;
+                }
+                $scope.showError(errorMessage);
             });
     };
     
@@ -208,14 +241,27 @@ angular.module('erpApp').controller('RecycleBinController', ['$scope', '$http', 
             return;
         }
         
+        console.log('Empty Recycle Bin - Starting...');
+        $scope.recycleBinLoading = true;
+        
         $http.delete(API_BASE + '/empty')
             .then(function(response) {
+                console.log('Empty Recycle Bin - Success response:', response.data);
+                $scope.recycleBinLoading = false;
                 $scope.showSuccess('Recycle bin emptied successfully. Deleted ' + response.data.deletedCount + ' records');
                 $scope.loadRecycleBinRecords();
                 $scope.loadStatistics();
             })
             .catch(function(error) {
-                $scope.showError('Failed to empty recycle bin');
+                console.error('Empty Recycle Bin - Error:', error);
+                $scope.recycleBinLoading = false;
+                let errorMessage = 'Failed to empty recycle bin';
+                if (error.data && error.data.error) {
+                    errorMessage += ': ' + error.data.error;
+                } else if (error.statusText) {
+                    errorMessage += ': ' + error.statusText;
+                }
+                $scope.showError(errorMessage);
             });
     };
     
