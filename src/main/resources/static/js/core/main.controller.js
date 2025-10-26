@@ -10,15 +10,15 @@ angular.module('erpApp').controller('MainController', [
             
             // Determine active tab based on current route
             var currentPath = $location.path();
-            if (currentPath === '/students') {
+            if (currentPath.indexOf('/students') === 0) {
                 $scope.activeTab = 'students';
-            } else if (currentPath === '/attendance') {
+            } else if (currentPath.indexOf('/attendance') === 0) {
                 $scope.activeTab = 'attendance';
-            } else if (currentPath === '/parents') {
+            } else if (currentPath.indexOf('/parents') === 0) {
                 $scope.activeTab = 'parents';
-            } else if (currentPath === '/health') {
+            } else if (currentPath.indexOf('/health') === 0) {
                 $scope.activeTab = 'health';
-            } else if (currentPath === '/settings') {
+            } else if (currentPath.indexOf('/settings') === 0) {
                 $scope.activeTab = 'settings';
             } else {
                 $scope.activeTab = 'dashboard';
@@ -47,15 +47,15 @@ angular.module('erpApp').controller('MainController', [
             
             var nextPath = next.$$route ? next.$$route.originalPath : '';
             
-            if (nextPath === '/students') {
+            if (nextPath.indexOf('/students') === 0) {
                 $scope.activeTab = 'students';
-            } else if (nextPath === '/attendance') {
+            } else if (nextPath.indexOf('/attendance') === 0) {
                 $scope.activeTab = 'attendance';
-            } else if (nextPath === '/parents') {
+            } else if (nextPath.indexOf('/parents') === 0) {
                 $scope.activeTab = 'parents';
-            } else if (nextPath === '/health') {
+            } else if (nextPath.indexOf('/health') === 0) {
                 $scope.activeTab = 'health';
-            } else if (nextPath === '/settings') {
+            } else if (nextPath.indexOf('/settings') === 0) {
                 $scope.activeTab = 'settings';
             } else {
                 $scope.activeTab = 'dashboard';

@@ -1,5 +1,5 @@
 <!-- Student Detail Page -->
-<div class="student-detail-container" ng-controller="StudentDetailController">
+<div class="student-detail-container">
     <!-- Header with Navigation -->
     <div class="detail-header">
         <div class="header-navigation">
@@ -258,6 +258,40 @@
             <p class="loading-text">Loading student details...</p>
         </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" ng-class="{'show d-block': showDeleteModal}" tabindex="-1" ng-show="showDeleteModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle text-danger me-2"></i>
+                        Confirm Delete
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="cancelDelete()"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0">
+                        Are you sure you want to delete 
+                        <strong>{{studentToDelete.firstName}} {{studentToDelete.lastName}}</strong>?
+                    </p>
+                    <p class="text-muted small mb-0 mt-2">
+                        <i class="fas fa-info-circle me-1"></i>
+                        This action cannot be undone.
+                    </p>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" ng-click="cancelDelete()">
+                        <i class="fas fa-times me-1"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="confirmDelete()">
+                        <i class="fas fa-trash me-1"></i>Delete Student
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade" ng-class="{'show': showDeleteModal}" ng-show="showDeleteModal"></div>
 </div>
 
 <!-- Styles -->

@@ -53,7 +53,8 @@ public class StudentController {
             Student.EnrollmentStatus enrollmentStatus = Student.EnrollmentStatus.valueOf(status.toUpperCase());
             students = studentRepository.findByEnrollmentStatus(enrollmentStatus, pageable);
         } else {
-            students = studentRepository.findAll(pageable);
+            // Only return active (non-deleted) students
+            students = studentRepository.findByIsActive(1, pageable);
         }
         
         return ResponseEntity.ok(students);

@@ -8,12 +8,13 @@
     StudentEditController.$inject = [
         '$scope', 
         '$routeParams',
-        '$location', 
+        '$location',
+        '$timeout',
         'EntityDataService',
         'NotificationService'
     ];
 
-    function StudentEditController($scope, $routeParams, $location, EntityDataService, NotificationService) {
+    function StudentEditController($scope, $routeParams, $location, $timeout, EntityDataService, NotificationService) {
         
         // Initialize controller
         init();
@@ -62,30 +63,53 @@
                 return;
             }
 
-            EntityDataService.getEntity('STUDENT', studentId)
+            EntityDataService.getItem('STUDENT', studentId)
                 .then(function(response) {
-                    $scope.student = angular.copy(response);
-                    $scope.originalStudent = angular.copy(response);
-                    
-                    // Ensure nested objects exist for form binding
-                    if (!$scope.student.address) {
-                        $scope.student.address = {};
-                    }
-                    if (!$scope.student.emergencyContact) {
-                        $scope.student.emergencyContact = {};
-                    }
-                    
-                    // Convert dates to proper format for input fields
-                    if ($scope.student.dateOfBirth) {
-                        $scope.student.dateOfBirth = new Date($scope.student.dateOfBirth)
-                            .toISOString().split('T')[0];
-                    }
-                    if ($scope.student.enrollmentDate) {
-                        $scope.student.enrollmentDate = new Date($scope.student.enrollmentDate)
-                            .toISOString().split('T')[0];
-                    }
-                    
-                    $scope.loading = false;
+                    // Use $timeout to ensure proper digest cycle for date inputs
+                    $timeout(function() {
+                        $scope.student = angular.copy(response);
+                        $scope.originalStudent = angular.copy(response);
+                        
+                        // Transform flat backend structure to nested frontend structure
+                        $scope.student.address = {
+                            street: $scope.student.addressLine1 || '',
+                            city: $scope.student.city || '',
+                            state: $scope.student.state || '',
+                            zipCode: $scope.student.postalCode || ''
+                        };
+                        
+                        $scope.student.emergencyContact = {
+                            name: $scope.student.emergencyContactName || '',
+                            phoneNumber: $scope.student.emergencyContactPhone || '',
+                            relationship: $scope.student.emergencyContactRelation || ''
+                        };
+                        
+                        // Convert dates to proper format for HTML5 date input fields (YYYY-MM-DD)
+                        if ($scope.student.dateOfBirth) {
+                            // Check if it's already in correct format (YYYY-MM-DD)
+                            if (typeof $scope.student.dateOfBirth === 'string' && /^\d{4}-\d{2}-\d{2}$/.test($scope.student.dateOfBirth)) {
+                                // Already in correct format, no conversion needed
+                            } else {
+                                $scope.student.dateOfBirth = new Date($scope.student.dateOfBirth)
+                                    .toISOString().split('T')[0];
+                            }
+                        }
+                        if ($scope.student.enrollmentDate) {
+                            // Check if it's already in correct format (YYYY-MM-DD)
+                            if (typeof $scope.student.enrollmentDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test($scope.student.enrollmentDate)) {
+                                // Already in correct format, no conversion needed
+                            } else {
+                                $scope.student.enrollmentDate = new Date($scope.student.enrollmentDate)
+                                    .toISOString().split('T')[0];
+                            }
+                        }
+                        
+                        console.log('Student data loaded for editing:', $scope.student);
+                        console.log('Date of Birth:', $scope.student.dateOfBirth);
+                        console.log('Enrollment Date:', $scope.student.enrollmentDate);
+                        
+                        $scope.loading = false;
+                    });
                 })
                 .catch(function(error) {
                     console.error('Error loading student:', error);
@@ -121,6 +145,23 @@
             // Prepare data for API
             var studentData = angular.copy($scope.student);
             
+            // Flatten nested address object to match backend structure
+            if (studentData.address) {
+                studentData.addressLine1 = studentData.address.street;
+                studentData.city = studentData.address.city;
+                studentData.state = studentData.address.state;
+                studentData.postalCode = studentData.address.zipCode;
+                delete studentData.address;
+            }
+            
+            // Flatten nested emergency contact object to match backend structure
+            if (studentData.emergencyContact) {
+                studentData.emergencyContactName = studentData.emergencyContact.name;
+                studentData.emergencyContactPhone = studentData.emergencyContact.phoneNumber;
+                studentData.emergencyContactRelation = studentData.emergencyContact.relationship;
+                delete studentData.emergencyContact;
+            }
+            
             // Convert date strings to proper format if needed
             if (studentData.dateOfBirth) {
                 studentData.dateOfBirth = new Date(studentData.dateOfBirth).toISOString().split('T')[0];
@@ -133,9 +174,9 @@
             if ($scope.isNewStudent) {
                 // Remove ID for new student creation
                 delete studentData.id;
-                apiCall = EntityDataService.createEntity('STUDENT', studentData);
+                apiCall = EntityDataService.createItem('STUDENT', studentData);
             } else {
-                apiCall = EntityDataService.updateEntity('STUDENT', studentData.id, studentData);
+                apiCall = EntityDataService.updateItem('STUDENT', studentData.id, studentData);
             }
 
             apiCall
@@ -154,7 +195,14 @@
                 })
                 .catch(function(error) {
                     console.error('Error updating student:', error);
-                    NotificationService.error('Failed to update student: ' + (error.message || 'Unknown error'));
+                    console.error('Error response data:', error.data);
+                    var errorMessage = 'Failed to save student';
+                    if (error.data && error.data.message) {
+                        errorMessage += ': ' + error.data.message;
+                    } else if (error.data && typeof error.data === 'string') {
+                        errorMessage += ': ' + error.data;
+                    }
+                    NotificationService.error(errorMessage);
                 })
                 .finally(function() {
                     $scope.saving = false;
@@ -286,8 +334,18 @@
         }
 
         // Cleanup on scope destroy
+        var beforeUnloadHandler = function(e) {
+            if ($scope.hasChanges) {
+                var confirmationMessage = 'You have unsaved changes. Are you sure you want to leave?';
+                e.returnValue = confirmationMessage;
+                return confirmationMessage;
+            }
+        };
+        
+        window.addEventListener('beforeunload', beforeUnloadHandler);
+        
         $scope.$on('$destroy', function() {
-            window.removeEventListener('beforeunload', arguments.callee);
+            window.removeEventListener('beforeunload', beforeUnloadHandler);
         });
     }
 })();

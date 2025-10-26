@@ -12,8 +12,8 @@ angular.module('erpApp', ['ngRoute'])
         
         // Student Routes
         .when('/students', {
-            templateUrl: '/templates/student/student-list.html',
-            controller: 'StudentEntityController'
+            templateUrl: '/templates/student/student-list.html'
+            // Controller is defined in the template to avoid scope issues with modal
         })
         .when('/students/new', {
             templateUrl: '/templates/student/student-edit.html',

@@ -42,7 +42,7 @@
                 return;
             }
 
-            EntityDataService.getEntity('STUDENT', studentId)
+            EntityDataService.getItem('STUDENT', studentId)
                 .then(function(response) {
                     $scope.student = response;
                     
@@ -135,20 +135,30 @@
         };
 
         $scope.deleteStudent = function() {
-            var confirmMessage = 'Are you sure you want to delete ' + 
-                               ($scope.student.firstName + ' ' + $scope.student.lastName) + '?';
+            $scope.studentToDelete = $scope.student;
+            $scope.showDeleteModal = true;
+        };
+
+        $scope.confirmDelete = function() {
+            console.log('Delete confirmed for student:', $scope.studentToDelete);
+            $scope.showDeleteModal = false;
             
-            if (confirm(confirmMessage)) {
-                EntityDataService.deleteEntity('STUDENT', $scope.student.id)
-                    .then(function() {
-                        NotificationService.success('Student deleted successfully');
-                        $location.path('/students');
-                    })
-                    .catch(function(error) {
-                        console.error('Error deleting student:', error);
-                        NotificationService.error('Failed to delete student');
-                    });
-            }
+            EntityDataService.deleteItem('STUDENT', $scope.studentToDelete.id)
+                .then(function() {
+                    console.log('Student deleted successfully');
+                    NotificationService.success('Student deleted successfully');
+                    $location.path('/students');
+                })
+                .catch(function(error) {
+                    console.error('Error deleting student:', error);
+                    console.error('Error response:', error.data);
+                    NotificationService.error('Failed to delete student');
+                });
+        };
+
+        $scope.cancelDelete = function() {
+            $scope.showDeleteModal = false;
+            $scope.studentToDelete = null;
         };
 
         /**

@@ -93,13 +93,11 @@
 
             notifications.unshift(notification);
 
-            // Auto-remove after delay (except errors)
-            if (type !== 'error') {
-                var delay = type === 'success' ? 3000 : 5000;
-                $timeout(function() {
-                    removeNotification(notification.id);
-                }, delay);
-            }
+            // Auto-remove after 5 seconds (except errors which stay longer)
+            var delay = type === 'error' ? 8000 : 5000;
+            $timeout(function() {
+                removeNotification(notification.id);
+            }, delay);
 
             return notification;
         }

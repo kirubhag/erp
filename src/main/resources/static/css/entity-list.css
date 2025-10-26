@@ -1176,6 +1176,41 @@
     padding: 16px 24px;
     background: white;
     border-bottom: 1px solid #e1e5e9;
+    position: relative;
+}
+
+/* Loading Bar - Positioned at top of results summary */
+.loading-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #e1e5e9;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.loading-bar-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #2563eb, #1d4ed8);
+    background-size: 200% 100%;
+    animation: loading-bar-animation 1.5s ease-in-out infinite;
+}
+
+@keyframes loading-bar-animation {
+    0% {
+        width: 0%;
+        margin-left: 0%;
+    }
+    50% {
+        width: 75%;
+        margin-left: 0%;
+    }
+    100% {
+        width: 0%;
+        margin-left: 100%;
+    }
 }
 
 .results-info {
@@ -1193,6 +1228,32 @@
 .results-info .results-text {
     font-size: 14px;
     color: #6b7280;
+}
+
+/* Refresh Button */
+.refresh-btn {
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 6px 10px;
+    margin-left: 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.refresh-btn:hover {
+    background-color: #f3f4f6;
+    color: #3b82f6;
+}
+
+.refresh-btn:active {
+    transform: scale(0.95);
+}
+
+.refresh-btn i.fa-spin {
+    color: #3b82f6;
 }
 
 /* Pagination Section Updates */

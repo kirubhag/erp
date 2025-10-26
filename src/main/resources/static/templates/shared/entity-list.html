@@ -153,11 +153,19 @@
             
             <!-- Main Content Area -->
             <div class="main-content">
+                <!-- Loading Bar -->
+                <div class="loading-bar" ng-show="loading">
+                    <div class="loading-bar-progress"></div>
+                </div>
+                
                 <!-- Results Summary -->
                 <div class="results-summary">
                     <div class="results-info">
                         <span class="total-count">{{pagination.totalElements}}</span>
                         <span class="results-text">{{config.entityName}}s found</span>
+                        <button class="refresh-btn" ng-click="loadEntityData()" title="Refresh list">
+                            <i class="fas fa-sync-alt" ng-class="{'fa-spin': loading}"></i>
+                        </button>
                     </div>
                     
                     <div class="view-mode-toggle">
@@ -224,7 +232,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in filteredData" 
+                            <tr ng-repeat="item in filteredData track by item.id" 
                                 ng-class="{'selected': isSelected(item)}"
                                 ng-click="handleRowClick(item, $event)">
                                 
@@ -245,13 +253,13 @@
                                             
                                             <!-- More actions dropdown -->
                                             <div class="more-actions" ng-if="getMoreActions(item).length > 0">
-                                                <button class="more-btn" ng-click="toggleMoreActions(item)">
+                                                <button class="more-btn" ng-click="toggleMoreActions(item); $event.stopPropagation()">
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </button>
                                                 <div class="more-dropdown" ng-show="item.showMoreActions">
                                                     <div class="dropdown-item" 
                                                          ng-repeat="action in getMoreActions(item)"
-                                                         ng-click="executeAction(action, item)">
+                                                         ng-click="executeAction(action, item, $event)">
                                                         <i class="icon-{{action.icon}}"></i>
                                                         <span>{{action.label}}</span>
                                                     </div>
@@ -333,7 +341,7 @@
                 <div class="data-grid" ng-show="viewMode === 'grid'">
                     <div class="grid-container">
                         <div class="grid-item" 
-                             ng-repeat="item in filteredData"
+                             ng-repeat="item in filteredData track by item.id"
                              ng-class="{'selected': isSelected(item)}"
                              ng-click="handleItemClick(item)">
                             

@@ -78,10 +78,47 @@
             var path = $location.path();
             var entityType = extractEntityTypeFromPath(path);
             
+            // Store existing configurations if already set (e.g., by child controller)
+            var existingHandlers = $scope.config && $scope.config.handlers ? $scope.config.handlers : null;
+            var existingEditUrl = $scope.config && $scope.config.editUrl ? $scope.config.editUrl : null;
+            var existingOnEdit = $scope.config && $scope.config.onEdit ? $scope.config.onEdit : null;
+            var existingOnView = $scope.config && $scope.config.onView ? $scope.config.onView : null;
+            var existingOnRowClick = $scope.config && $scope.config.onRowClick ? $scope.config.onRowClick : null;
+            var existingOnDelete = $scope.config && $scope.config.onDelete ? $scope.config.onDelete : null;
+            var existingRowActions = $scope.config && $scope.config.rowActions ? $scope.config.rowActions : null;
+            var existingBulkActions = $scope.config && $scope.config.bulkActions ? $scope.config.bulkActions : null;
+            
             $scope.config = EntityConfigService.getConfig(entityType);
             
             if (!$scope.config) {
                 return;
+            }
+            
+            // Restore configurations if they were already set
+            if (existingHandlers) {
+                console.log('loadEntityConfig: Preserving existing handlers:', existingHandlers);
+                $scope.config.handlers = existingHandlers;
+            }
+            if (existingEditUrl) {
+                $scope.config.editUrl = existingEditUrl;
+            }
+            if (existingOnEdit) {
+                $scope.config.onEdit = existingOnEdit;
+            }
+            if (existingOnView) {
+                $scope.config.onView = existingOnView;
+            }
+            if (existingOnRowClick) {
+                $scope.config.onRowClick = existingOnRowClick;
+            }
+            if (existingOnDelete) {
+                $scope.config.onDelete = existingOnDelete;
+            }
+            if (existingRowActions) {
+                $scope.config.rowActions = existingRowActions;
+            }
+            if (existingBulkActions) {
+                $scope.config.bulkActions = existingBulkActions;
             }
         }
 
@@ -173,9 +210,14 @@
          * Load entity data from server
          */
         function loadEntityData() {
-            if (!$scope.config) return;
+            console.log('loadEntityData called - config:', $scope.config);
+            if (!$scope.config) {
+                console.warn('loadEntityData: No config available');
+                return;
+            }
             
             $scope.loading = true;
+            console.log('loadEntityData: Setting loading=true');
             
             var params = {
                 page: $scope.pagination.currentPage,
@@ -186,21 +228,33 @@
                 filters: $scope.appliedFilters
             };
             
+            console.log('loadEntityData: Calling API with params:', params);
+            
             EntityDataService.loadData($scope.config.entityType, params)
                 .then(function(response) {
+                    console.log('loadEntityData: API response received:', response);
+                    
                     // Clear caches when new data is loaded
                     clearFieldValueCache();
                     clearGridFieldsCache();
                     avatarStyleCache = {};
                     moreActionsCache = {};
                     
-                    $scope.filteredData = response.data.content || response.data.data || response.data || [];
+                    // Get new data
+                    var newData = response.data.content || response.data.data || response.data || [];
+                    console.log('loadEntityData: New data count:', newData.length);
+                    
+                    // Replace the array completely (reassign reference)
+                    $scope.filteredData = newData;
+                    
+                    console.log('loadEntityData: Updated filteredData, count:', $scope.filteredData.length);
                     
                     // Update pagination info
                     if (response.data.pageable !== undefined) {
                         $scope.pagination.totalElements = response.data.totalElements || 0;
                         $scope.pagination.totalPages = response.data.totalPages || 0;
                         $scope.pagination.currentPage = response.data.number || 0;
+                        console.log('loadEntityData: Updated pagination - totalElements:', $scope.pagination.totalElements);
                     } else {
                         // Handle non-paginated response
                         $scope.pagination.totalElements = $scope.filteredData.length;
@@ -209,11 +263,23 @@
                     }
                 })
                 .catch(function(error) {
+                    console.error('loadEntityData: API error:', error);
                     NotificationService.error('Failed to load ' + $scope.config.entityName + 's');
                     $scope.filteredData = [];
                 })
                 .finally(function() {
                     $scope.loading = false;
+                    console.log('loadEntityData: Setting loading=false');
+                    
+                    // Force digest cycle to update UI
+                    if (!$scope.$$phase && !$scope.$root.$$phase) {
+                        try {
+                            $scope.$apply();
+                            console.log('loadEntityData: $apply() executed');
+                        } catch (e) {
+                            console.warn('loadEntityData: $apply() error (may be safe to ignore):', e);
+                        }
+                    }
                 });
         }
 
@@ -394,17 +460,25 @@
          * Handle row click
          */
         $scope.handleRowClick = function(item, $event) {
+            console.log('handleRowClick called for item:', item.id);
+            console.log('Event target:', $event.target);
+            
             // Don't handle if clicking on checkbox or action button
             if ($event.target.type === 'checkbox' || 
                 $event.target.closest('.action-btn') || 
                 $event.target.closest('.more-btn')) {
+                console.log('Ignoring click on checkbox or action button');
                 return;
             }
             
+            console.log('Row click handler exists:', !!($scope.config && $scope.config.onRowClick));
+            
             // If row click handler is configured, use it to navigate to detail page
             if ($scope.config && $scope.config.onRowClick && typeof $scope.config.onRowClick === 'function') {
+                console.log('Calling onRowClick handler');
                 $scope.config.onRowClick(item);
             } else {
+                console.log('No row click handler, falling back to selection toggle');
                 // Fallback to selection toggle
                 $scope.toggleSelection(item);
             }
@@ -646,28 +720,20 @@
          */
         $scope.openCreateDialog = function() {
             console.log('openCreateDialog called, config:', $scope.config);
+            console.log('Config exists:', !!$scope.config);
+            console.log('Handlers exists:', !!($scope.config && $scope.config.handlers));
+            console.log('Create handler exists:', !!($scope.config && $scope.config.handlers && $scope.config.handlers.create));
             
-            if (!$scope.config) {
-                console.error('No config found in openCreateDialog');
-                return;
-            }
-            
-            if (!$scope.config.handlers) {
-                console.error('No handlers found in config:', $scope.config);
-                return;
-            }
-            
-            if (!$scope.config.handlers.create) {
-                console.error('No create handler found in config.handlers:', $scope.config.handlers);
-                return;
-            }
-            
-            console.log('Calling create handler...');
-            try {
+            // This will be handled by entity-specific controllers or services
+            if ($scope.config && $scope.config.handlers && $scope.config.handlers.create) {
+                console.log('Calling create handler');
                 $scope.config.handlers.create();
-                console.log('Create handler completed successfully');
-            } catch (error) {
-                console.error('Error calling create handler:', error);
+            } else {
+                console.error('Create handler not configured!', {
+                    config: $scope.config,
+                    handlers: $scope.config ? $scope.config.handlers : null,
+                    create: $scope.config && $scope.config.handlers ? $scope.config.handlers.create : null
+                });
             }
         };
 
@@ -1087,10 +1153,8 @@
          */
         $scope.deleteItem = function(item) {
             if ($scope.config && $scope.config.onDelete && typeof $scope.config.onDelete === 'function') {
-                // Show confirmation dialog
-                if (confirm('Are you sure you want to delete this ' + ($scope.config.entityName || 'item') + '?')) {
-                    $scope.config.onDelete(item);
-                }
+                // Call the delete handler directly (child controllers should handle modal display)
+                $scope.config.onDelete(item);
             } else {
                 console.warn('Delete functionality not configured. Please set config.onDelete');
             }
@@ -1109,6 +1173,13 @@
             } else {
                 console.warn('View functionality not configured. Please set config.viewUrl or config.onView');
             }
+        };
+
+        /**
+         * Reload entity data (public wrapper for private loadEntityData function)
+         */
+        $scope.loadEntityData = function() {
+            loadEntityData();
         };
 
         // Cleanup

@@ -13,6 +13,7 @@
             loadData: loadData,
             loadCustomViews: loadCustomViews,
             loadFieldsGrouped: loadFieldsGrouped,
+            getItem: getItem,
             createItem: createItem,
             updateItem: updateItem,
             deleteItem: deleteItem,
@@ -87,6 +88,25 @@
         }
 
         /**
+         * Get a single item by ID
+         */
+        function getItem(entityType, itemId) {
+            
+            var endpoint = getEndpointForEntity(entityType);
+            if (!endpoint) {
+                return $q.reject('Unknown entity type: ' + entityType);
+            }
+
+            return $http.get(endpoint + '/' + itemId)
+                .then(function(response) {
+                    return response.data;
+                })
+                .catch(function(error) {
+                    throw error;
+                });
+        }
+
+        /**
          * Create a new item for the specified entity type
          */
         function createItem(entityType, itemData) {
@@ -98,7 +118,7 @@
 
             return $http.post(endpoint, itemData)
                 .then(function(response) {
-                    return response;
+                    return response.data;
                 })
                 .catch(function(error) {
                     throw error;
@@ -117,7 +137,7 @@
 
             return $http.put(endpoint + '/' + itemId, itemData)
                 .then(function(response) {
-                    return response;
+                    return response.data;
                 })
                 .catch(function(error) {
                     throw error;

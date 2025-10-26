@@ -16,53 +16,33 @@
 
     function StudentEntityController($scope, $controller, $location, $timeout, EntityDataService, NotificationService) {
 
-        // Extend the generic EntityListController
+        // Extend the generic EntityListController FIRST
         angular.extend(this, $controller('EntityListController', {$scope: $scope}));
-
-        // Ensure config object exists first
-        if (!$scope.config) {
-            console.log('DEBUG: Creating config object');
-            $scope.config = {};
-        }
         
-        // Initialize handlers object immediately
-        console.log('DEBUG: Initializing handlers object');
-        $scope.config.handlers = {};
-        
-        // Initialize student-specific configuration immediately
-        console.log('DEBUG: About to call initializeStudentSpecifics immediately');
+        // Then override/enhance the configuration with student-specific setup
         initializeStudentSpecifics();
-        
-        // Also set a fallback timeout to ensure it runs
-        $timeout(function() {
-            console.log('DEBUG: Calling initializeStudentSpecifics from timeout fallback');
-            initializeStudentSpecifics();
-        }, 100);        /**
+
+        // Log configuration status for debugging
+        console.log('StudentEntityController initialized with config:', $scope.config);
+
+        /**
          * Initialize student-specific functionality
          */
         function initializeStudentSpecifics() {
-            console.log('DEBUG: initializeStudentSpecifics called');
+            console.log('initializeStudentSpecifics called, existing config:', $scope.config);
             
-            // Ensure config exists - create if needed
+            // Ensure config exists - preserve existing or create new
             if (!$scope.config) {
-                console.log('DEBUG: Creating $scope.config object');
                 $scope.config = {};
             }
             
-            // Ensure handlers exists - create if needed
-            if (!$scope.config.handlers) {
-                console.log('DEBUG: Creating $scope.config.handlers object');
-                $scope.config.handlers = {};
-            }
-            
-            // Set entity type
+            // Set entity type (preserve other config properties)
             $scope.config.entityType = 'STUDENT';
 
             // Set up student-specific handlers
             setupStudentHandlers();
             
-            console.log('DEBUG: After setupStudentHandlers, config:', $scope.config);
-            console.log('DEBUG: After setupStudentHandlers, handlers:', $scope.config.handlers);
+            console.log('initializeStudentSpecifics completed, final config:', $scope.config);
 
             // Initialize student-specific data
             $scope.gradeLevels = [
@@ -94,28 +74,34 @@
         }
 
         /**
-         * Set up student-specific event handlers
+         * Set up student-specific action handlers
          */
         function setupStudentHandlers() {
-            console.log('Setting up student handlers...');
+            console.log('setupStudentHandlers() called');
+            console.log('Current $scope.config before setup:', $scope.config);
             
-            // Ensure config object exists with all required properties
+            // Ensure config exists
             if (!$scope.config) {
+                console.log('Creating new config object');
                 $scope.config = {};
             }
             
             // Ensure handlers object exists
             if (!$scope.config.handlers) {
+                console.log('Creating new handlers object');
                 $scope.config.handlers = {};
             }
 
-            console.log('Config before setting handlers:', $scope.config);
+            console.log('Setting up student handlers...', $scope.config.handlers);
 
             // Create action handler
             $scope.config.handlers.create = function() {
-                console.log('Create handler called');
+                console.log('Create handler called - starting navigation process');
+                console.log('Config handlers:', $scope.config.handlers);
                 try {
+                    console.log('About to call showAddStudentForm()');
                     $scope.showAddStudentForm();
+                    console.log('showAddStudentForm() call completed');
                 } catch (error) {
                     console.error('Error in create handler:', error);
                 }
@@ -138,6 +124,18 @@
             $scope.config.onRowClick = function(student) {
                 console.log('onRowClick handler called for student:', student.id);
                 $scope.viewStudent(student);
+            };
+            
+            // Add onView handler for the generic controller
+            $scope.config.onView = function(student) {
+                console.log('onView handler called for student:', student.id);
+                $scope.viewStudent(student);
+            };
+            
+            // Add onDelete handler for the generic controller
+            $scope.config.onDelete = function(student) {
+                console.log('onDelete handler called for student:', student.id);
+                $scope.deleteStudent(student);
             };
 
             console.log('Student handlers configured:', $scope.config);
@@ -173,7 +171,7 @@
                         label: 'View Details',
                         visible: true,
                         handler: function(student) {
-                            console.log('View action handler called for student:', student.id);
+                            console.log('View row action handler called for student:', student.id);
                             $scope.viewStudent(student);
                         }
                     },
@@ -183,7 +181,7 @@
                         label: 'Edit Student',
                         visible: true,
                         handler: function(student) {
-                            console.log('Edit action handler called for student:', student.id);
+                            console.log('Edit row action handler called for student:', student.id);
                             $scope.editStudent(student);
                         }
                     },
@@ -193,7 +191,7 @@
                         label: 'Delete Student',
                         visible: true,
                         handler: function(student) {
-                            console.log('Delete action handler called for student:', student.id);
+                            console.log('Delete row action handler called for student:', student.id);
                             $scope.deleteStudent(student);
                         }
                     }
@@ -203,21 +201,25 @@
                 $scope.config.rowActions.forEach(function(action) {
                     if (action.name === 'view') {
                         action.handler = function(student) {
-                            console.log('View action handler called for student:', student.id);
+                            console.log('View row action handler called for student:', student.id);
                             $scope.viewStudent(student);
                         };
                     } else if (action.name === 'edit') {
                         action.handler = function(student) {
-                            console.log('Edit action handler called for student:', student.id);
+                            console.log('Edit row action handler called for student:', student.id);
                             $scope.editStudent(student);
                         };
                     } else if (action.name === 'delete') {
                         action.handler = function(student) {
+                            console.log('Delete row action handler called for student:', student.id);
                             $scope.deleteStudent(student);
                         };
                     }
                 });
             }
+            
+            console.log('setupStudentHandlers() completed successfully');
+            console.log('Final handlers object:', $scope.config.handlers);
         }
 
         // Student-specific methods
@@ -227,62 +229,118 @@
          */
         $scope.showAddStudentForm = function() {
             console.log('showAddStudentForm called - navigating to /students/new');
-            console.log('Current location:', $location.path());
-            $location.path('/students/new');
-            console.log('Location after path change:', $location.path());
+            console.log('Current location before navigation:', $location.path());
             
-            // Force apply to ensure route change is processed
-            if (!$scope.$root.$$phase) {
-                $scope.$apply();
-            }
+            // Use $timeout to ensure navigation happens outside current digest cycle
+            $timeout(function() {
+                console.log('Setting location path to /students/new');
+                $location.path('/students/new');
+                console.log('Location path set, new location:', $location.path());
+            });
         };
 
         /**
          * View student details
          */
         $scope.viewStudent = function(student) {
-            console.log('viewStudent called for student ID:', student.id);
-            var path = '/students/' + student.id;
-            console.log('Navigating to:', path);
-            $location.path(path);
+            console.log('viewStudent called for student:', student.id, 'navigating to /students/' + student.id);
+            console.log('Current location before navigation:', $location.path());
             
-            // Force apply to ensure route change is processed
-            if (!$scope.$root.$$phase) {
-                $scope.$apply();
-            }
+            // Use $timeout to ensure navigation happens outside current digest cycle
+            $timeout(function() {
+                var path = '/students/' + student.id;
+                console.log('Setting location path to:', path);
+                $location.path(path);
+                console.log('Location path set, new location:', $location.path());
+            });
         };
 
         /**
          * Edit student
          */
         $scope.editStudent = function(student) {
-            console.log('editStudent called for student ID:', student.id);
-            var path = '/students/' + student.id + '/edit';
-            console.log('Navigating to:', path);
-            $location.path(path);
+            console.log('editStudent called for student:', student.id, 'navigating to /students/' + student.id + '/edit');
+            console.log('Current location before navigation:', $location.path());
             
-            // Force apply to ensure route change is processed
-            if (!$scope.$root.$$phase) {
-                $scope.$apply();
-            }
+            // Use $timeout to ensure navigation happens outside current digest cycle
+            $timeout(function() {
+                var path = '/students/' + student.id + '/edit';
+                console.log('Setting location path to:', path);
+                $location.path(path);
+                console.log('Location path set, new location:', $location.path());
+            });
         };
 
         /**
          * Delete student
          */
         $scope.deleteStudent = function(student) {
+            console.log('deleteStudent called with student:', student);
+            $scope.studentToDelete = student;
+            $scope.showDeleteModal = true;
+            console.log('Modal state set - showDeleteModal:', $scope.showDeleteModal);
+            console.log('Student to delete:', $scope.studentToDelete);
+        };
 
-            
-            if (confirm('Are you sure you want to delete ' + $scope.formatStudentName(student) + '?')) {
-                EntityDataService.deleteItem('STUDENT', student.id)
-                    .then(function() {
-                        NotificationService.success('Student deleted successfully');
-                        $scope.loadEntityData(); // Reload data
-                    })
-                    .catch(function(error) {
-                        NotificationService.error('Failed to delete student: ' + error.message);
-                    });
+        $scope.confirmDelete = function() {
+            if (!$scope.studentToDelete) {
+                console.error('No student to delete');
+                return;
             }
+            
+            console.log('=== DELETE OPERATION START ===');
+            console.log('Student to delete:', $scope.studentToDelete);
+            console.log('Student ID:', $scope.studentToDelete.id);
+            
+            var studentId = $scope.studentToDelete.id;
+            var studentName = $scope.studentToDelete.firstName + ' ' + $scope.studentToDelete.lastName;
+            
+            // Close modal first
+            $scope.showDeleteModal = false;
+            $scope.studentToDelete = null;
+            
+            EntityDataService.deleteItem('STUDENT', studentId)
+                .then(function(response) {
+                    console.log('DELETE API SUCCESS');
+                    console.log('Response:', response);
+                    console.log('Response status:', response.status);
+                    
+                    // Show success notification
+                    NotificationService.success('Student ' + studentName + ' deleted successfully');
+                    
+                    // Use $timeout to ensure reload happens in next digest cycle
+                    return $timeout(function() {
+                        console.log('Reloading data after timeout...');
+                        if ($scope.loadEntityData && typeof $scope.loadEntityData === 'function') {
+                            console.log('Calling loadEntityData...');
+                            $scope.loadEntityData();
+                        } else {
+                            console.error('loadEntityData not found!');
+                        }
+                    }, 200);
+                })
+                .catch(function(error) {
+                    console.error('DELETE API ERROR');
+                    console.error('Error:', error);
+                    console.error('Error status:', error.status);
+                    console.error('Error data:', error.data);
+                    
+                    var errorMsg = 'Failed to delete student';
+                    if (error.data && error.data.message) {
+                        errorMsg = error.data.message;
+                    } else if (error.statusText) {
+                        errorMsg = 'Failed to delete student: ' + error.statusText;
+                    }
+                    NotificationService.error(errorMsg);
+                })
+                .finally(function() {
+                    console.log('=== DELETE OPERATION END ===');
+                });
+        };
+
+        $scope.cancelDelete = function() {
+            $scope.showDeleteModal = false;
+            $scope.studentToDelete = null;
         };
 
         /**

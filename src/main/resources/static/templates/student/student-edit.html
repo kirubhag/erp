@@ -1,5 +1,5 @@
 <!-- Student Edit Page -->
-<div class="student-edit-container" ng-controller="StudentEditController">
+<div class="student-edit-container">
     <!-- Header -->
     <div class="edit-header">
         <div class="header-navigation">
@@ -108,9 +108,11 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Enrollment Status</label>
                                 <select class="form-select" ng-model="student.enrollmentStatus">
-                                    <option value="ENROLLED">Enrolled</option>
-                                    <option value="PENDING">Pending</option>
-                                    <option value="WITHDRAWN">Withdrawn</option>
+                                    <option value="ACTIVE">Active</option>
+                                    <option value="INACTIVE">Inactive</option>
+                                    <option value="SUSPENDED">Suspended</option>
+                                    <option value="EXPELLED">Expelled</option>
+                                    <option value="TRANSFERRED">Transferred</option>
                                     <option value="GRADUATED">Graduated</option>
                                 </select>
                             </div>
