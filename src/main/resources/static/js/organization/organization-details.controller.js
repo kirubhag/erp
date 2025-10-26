@@ -1,4 +1,4 @@
-angular.module('erpApp').controller('OrganizationDetailsController', ['$scope', '$http', '$location', '$routeParams', function($scope, $http, $location, $routeParams) {
+angular.module('erpApp').controller('OrganizationDetailsController', ['$scope', '$http', '$location', '$routeParams', '$rootScope', function($scope, $http, $location, $routeParams, $rootScope) {
     
     // Initialize scope variables
     $scope.loading = true;
@@ -6,6 +6,28 @@ angular.module('erpApp').controller('OrganizationDetailsController', ['$scope', 
     $scope.businessHours = [];
     $scope.holidays = [];
     $scope.currencies = [];
+    // Check if we're on the edit route to automatically enable edit mode
+    $scope.editMode = $location.path() === '/organization-details/edit';
+    $scope.originalData = {}; // Store original data for cancel functionality
+    
+    // Listen for route changes to manage edit mode
+    $rootScope.$on('$routeChangeStart', function(event, next) {
+        // Only reset edit mode if we're not going to the edit route
+        if (next && next.originalPath !== '/organization-details/edit') {
+            $scope.editMode = false;
+            $scope.originalData = {};
+        }
+    });
+    
+    // Listen for route change success to properly set edit mode
+    $rootScope.$on('$routeChangeSuccess', function() {
+        // Set edit mode based on current path
+        $scope.editMode = $location.path() === '/organization-details/edit';
+        if ($scope.editMode && Object.keys($scope.originalData).length === 0) {
+            // Store original data when entering edit mode
+            $scope.originalData = angular.copy($scope.organizationData);
+        }
+    });
     
     // Sidebar state management
     $scope.expandedSections = {
@@ -131,6 +153,12 @@ angular.module('erpApp').controller('OrganizationDetailsController', ['$scope', 
     
     // Load organization data
     $scope.loadOrganizationData = function() {
+        // Don't reset edit mode if we're on the edit route
+        if ($location.path() !== '/organization-details/edit') {
+            $scope.editMode = false;
+            $scope.originalData = {};
+        }
+        
         $scope.loading = true;
         
         // Try to get the first organization, fallback to default data
@@ -154,29 +182,39 @@ angular.module('erpApp').controller('OrganizationDetailsController', ['$scope', 
             });
     };
     
-    // Edit organization name
+    // Enable edit mode
+    $scope.enableEditMode = function() {
+        $scope.editMode = true;
+        // Store original data for cancel functionality
+        $scope.originalData = angular.copy($scope.organizationData);
+    };
+    
+    // Cancel edit mode
+    $scope.cancelEdit = function() {
+        // If we're on the edit route, navigate back to the regular organization details page
+        if ($location.path() === '/organization-details/edit') {
+            $location.path('/settings/organization-details');
+            return;
+        }
+        
+        $scope.editMode = false;
+        // Restore original data
+        $scope.organizationData = angular.copy($scope.originalData);
+    };
+    
+    // Edit organization (legacy function for individual field editing)
     $scope.editOrganizationName = function() {
-        const currentName = $scope.organizationData.name || 'Zylker';
-        const newName = prompt('Enter organization name:', currentName);
-        if (newName !== null && newName.trim() !== '') {
-            $scope.organizationData.name = newName.trim();
-            $scope.$apply(); // Force digest cycle since prompt is outside Angular
-        }
+        $scope.enableEditMode();
     };
     
-    // Edit access URL
+    // Edit access URL (legacy function for individual field editing)
     $scope.editAccessUrl = function() {
-        const currentUrl = $scope.organizationData.accessUrl || 'https://recruitqa1.localzoho.com/recruit/org875438l6/';
-        const newUrl = prompt('Enter access URL:', currentUrl);
-        if (newUrl !== null && newUrl.trim() !== '') {
-            $scope.organizationData.accessUrl = newUrl.trim();
-            $scope.$apply(); // Force digest cycle since prompt is outside Angular
-        }
+        $scope.enableEditMode();
     };
     
-    // Edit locale information
+    // Edit locale information (legacy function for individual field editing)  
     $scope.editLocaleInfo = function() {
-        alert('Locale information editing will be implemented with a proper form in a future update.');
+        $scope.enableEditMode();
     };
     
     // Holiday management functions
@@ -274,9 +312,87 @@ angular.module('erpApp').controller('OrganizationDetailsController', ['$scope', 
     
     // Save functions for each tab
     $scope.saveCompanyDetails = function() {
+        // Try to get organization id from route or fallback to loaded data
+        var orgId = $scope.organizationData && $scope.organizationData.id;
+        if (!orgId) {
+            // Try to get from $routeParams if available
+            if ($routeParams.id) {
+                orgId = $routeParams.id;
+                $scope.organizationData.id = orgId;
+            }
+        }
+        if (!orgId) {
+            alert('Error: No organization data to save');
+            return;
+        }
 
-        // Implement save functionality
-        alert('Company details saved successfully!');
+        // Show saving state
+        $scope.isSaving = true;
+
+        // Prepare the data for the API (mapping from frontend structure to backend structure)
+        var organizationData = {
+            name: $scope.organizationData.name,
+            type: $scope.organizationData.type || 'School',
+            code: $scope.organizationData.code,
+            description: $scope.organizationData.description,
+            // Contact information - handle nested structure
+            email: $scope.organizationData.contactInfo ? $scope.organizationData.contactInfo.email : $scope.organizationData.email,
+            phone: $scope.organizationData.contactInfo ? $scope.organizationData.contactInfo.phone : $scope.organizationData.phone,
+            fax: $scope.organizationData.contactInfo ? $scope.organizationData.contactInfo.fax : $scope.organizationData.fax,
+            website: $scope.organizationData.contactInfo ? $scope.organizationData.contactInfo.website : $scope.organizationData.website,
+            // Address information - handle nested structure
+            streetAddress: $scope.organizationData.address ? $scope.organizationData.address.street : $scope.organizationData.streetAddress,
+            city: $scope.organizationData.address ? $scope.organizationData.address.city : $scope.organizationData.city,
+            state: $scope.organizationData.address ? $scope.organizationData.address.state : $scope.organizationData.state,
+            postalCode: $scope.organizationData.address ? $scope.organizationData.address.zipCode : $scope.organizationData.postalCode,
+            country: $scope.organizationData.address ? $scope.organizationData.address.country : $scope.organizationData.country,
+            // Other fields
+            registrationNumber: $scope.organizationData.registrationNumber,
+            taxId: $scope.organizationData.taxId,
+            establishedYear: $scope.organizationData.establishedYear,
+            accreditation: $scope.organizationData.accreditation,
+            academicYearFormat: $scope.organizationData.academicYearFormat,
+            defaultLanguage: $scope.organizationData.localeInfo ? $scope.organizationData.localeInfo.language : $scope.organizationData.defaultLanguage,
+            defaultCurrency: $scope.organizationData.localeInfo ? $scope.organizationData.localeInfo.currency : $scope.organizationData.defaultCurrency,
+            timezone: $scope.organizationData.localeInfo ? $scope.organizationData.localeInfo.timezone : $scope.organizationData.timezone,
+            logoUrl: $scope.organizationData.logoUrl
+        };
+
+        // Make API call to save organization details
+        $http.put('/api/organizations/' + $scope.organizationData.id, organizationData)
+            .then(function(response) {
+                // Success - update the organizationData with the response
+                $scope.organizationData = response.data;
+                
+                // Update original data to reflect saved changes
+                $scope.originalData = angular.copy($scope.organizationData);
+                
+                alert('Company details saved successfully!');
+                
+                // If we're on the edit route, navigate back to the regular organization details page
+                if ($location.path() === '/organization-details/edit') {
+                    $location.path('/settings/organization-details');
+                } else {
+                    // Exit edit mode after saving (for inline editing)
+                    $scope.editMode = false;
+                }
+            })
+            .catch(function(error) {
+                // Error handling
+                console.error('Error saving organization details:', error);
+                var errorMessage = 'Error saving organization details';
+                
+                if (error.data && error.data.message) {
+                    errorMessage += ': ' + error.data.message;
+                } else if (error.status) {
+                    errorMessage += ' (Status: ' + error.status + ')';
+                }
+                
+                alert(errorMessage);
+            })
+            .finally(function() {
+                $scope.isSaving = false;
+            });
     };
     
     $scope.saveFiscalYear = function() {
@@ -303,14 +419,16 @@ angular.module('erpApp').controller('OrganizationDetailsController', ['$scope', 
         alert('Currency configuration saved successfully!');
     };
     
-    // Navigation functions
-    $scope.goBack = function() {
-        $location.path('/settings');
-    };
-    
     // Initialize the controller
     $scope.init = function() {
-
+        // Check if we're on the edit route to set edit mode
+        if ($location.path() === '/organization-details/edit') {
+            $scope.editMode = true;
+        } else {
+            $scope.editMode = false;
+        }
+        $scope.originalData = {};
+        
         $scope.loadOrganizationData();
     };
     

@@ -394,14 +394,20 @@
          * Handle row click
          */
         $scope.handleRowClick = function(item, $event) {
-            // Don't select if clicking on checkbox or action button
+            // Don't handle if clicking on checkbox or action button
             if ($event.target.type === 'checkbox' || 
                 $event.target.closest('.action-btn') || 
                 $event.target.closest('.more-btn')) {
                 return;
             }
             
-            $scope.toggleSelection(item);
+            // If row click handler is configured, use it to navigate to detail page
+            if ($scope.config && $scope.config.onRowClick && typeof $scope.config.onRowClick === 'function') {
+                $scope.config.onRowClick(item);
+            } else {
+                // Fallback to selection toggle
+                $scope.toggleSelection(item);
+            }
         };
 
         /**
@@ -639,9 +645,29 @@
          * Open create dialog
          */
         $scope.openCreateDialog = function() {
-            // This will be handled by entity-specific controllers or services
-            if ($scope.config.handlers && $scope.config.handlers.create) {
+            console.log('openCreateDialog called, config:', $scope.config);
+            
+            if (!$scope.config) {
+                console.error('No config found in openCreateDialog');
+                return;
+            }
+            
+            if (!$scope.config.handlers) {
+                console.error('No handlers found in config:', $scope.config);
+                return;
+            }
+            
+            if (!$scope.config.handlers.create) {
+                console.error('No create handler found in config.handlers:', $scope.config.handlers);
+                return;
+            }
+            
+            console.log('Calling create handler...');
+            try {
                 $scope.config.handlers.create();
+                console.log('Create handler completed successfully');
+            } catch (error) {
+                console.error('Error calling create handler:', error);
             }
         };
 
@@ -1038,6 +1064,51 @@
             $scope.fieldFilter = {};
             $scope.pagination.currentPage = 0;
             loadEntityData();
+        };
+
+        /**
+         * Edit an item - placeholder function that can be overridden by specific controllers
+         */
+        $scope.editItem = function(item) {
+            if ($scope.config && $scope.config.editUrl) {
+                // Use configured edit URL - handle both :id and {id} templates
+                var editPath = $scope.config.editUrl.replace(':id', item.id).replace('{id}', item.id);
+                $location.path(editPath);
+            } else if ($scope.config && $scope.config.onEdit && typeof $scope.config.onEdit === 'function') {
+                // Use configured edit callback
+                $scope.config.onEdit(item);
+            } else {
+                console.warn('Edit functionality not configured. Please set config.editUrl or config.onEdit');
+            }
+        };
+
+        /**
+         * Delete an item - placeholder function that can be overridden by specific controllers
+         */
+        $scope.deleteItem = function(item) {
+            if ($scope.config && $scope.config.onDelete && typeof $scope.config.onDelete === 'function') {
+                // Show confirmation dialog
+                if (confirm('Are you sure you want to delete this ' + ($scope.config.entityName || 'item') + '?')) {
+                    $scope.config.onDelete(item);
+                }
+            } else {
+                console.warn('Delete functionality not configured. Please set config.onDelete');
+            }
+        };
+
+        /**
+         * View an item - placeholder function that can be overridden by specific controllers
+         */
+        $scope.viewItem = function(item) {
+            if ($scope.config && $scope.config.viewUrl) {
+                // Use configured view URL
+                $location.path($scope.config.viewUrl.replace(':id', item.id));
+            } else if ($scope.config && $scope.config.onView && typeof $scope.config.onView === 'function') {
+                // Use configured view callback
+                $scope.config.onView(item);
+            } else {
+                console.warn('View functionality not configured. Please set config.viewUrl or config.onView');
+            }
         };
 
         // Cleanup

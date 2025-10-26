@@ -90,10 +90,13 @@
         <!-- Main Content Area -->
         <div ng-view></div>
 
-        <!-- Loading Spinner -->
+        <!-- Loading Screen -->
         <div class="loading-overlay" ng-show="loading || moduleLoading">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
+            <div class="loading-content">
+                <h1 class="loading-title">MK UNIVERSITY</h1>
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
             </div>
         </div>
 
@@ -133,13 +136,16 @@
     <script src="/js/shared/notification.service.js?v=1"></script>
     <script src="/js/shared/entity-config.service.js?v=1"></script>
     <script src="/js/shared/entity-data.service.js?v=1"></script>
-    <script src="/js/shared/entity-list.controller.js?v=1"></script>
+    <script src="/js/shared/entity-list.controller.js?v=3"></script>
     
     <!-- Student Module - Load Immediately -->
     <script src="/js/modules/students.module.js?v=2"></script>
     <script src="/js/student/student.service.js?v=4"></script>
     <script src="/js/student/student.controller.simple.js?v=2"></script>
-    <script src="/js/student/student-entity.controller.js?v=1"></script>
+    <script src="/js/student/student.controller.js?v=5"></script>
+    <script src="/js/student/student-entity.controller.js?v=3"></script>
+    <script src="/js/student/student-detail.controller.js?v=1"></script>
+    <script src="/js/student/student-edit.controller.js?v=1"></script>
     
     <!-- Parent Module - Load Immediately -->
     <script src="/js/modules/parents.module.js?v=2"></script>

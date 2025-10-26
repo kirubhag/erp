@@ -272,6 +272,8 @@
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+.search-box .fas.fa-search,
+.search-box .search-icon,
 .search-box .icon-search {
     position: absolute;
     left: 12px;
@@ -1203,7 +1205,17 @@
     border-top: 1px solid #e1e5e9;
 }
 
-/* Icon Classes (assuming FontAwesome or similar) */
+/* Icon Classes (FontAwesome) */
+[class^="icon-"], [class*=" icon-"] {
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome";
+    font-weight: 900;
+    font-style: normal;
+    display: inline-block;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 .icon-view::before { content: "\f06e"; }
 .icon-chevron-down::before { content: "\f078"; }
 .icon-list::before { content: "\f03a"; }
@@ -1226,3 +1238,145 @@
 .icon-next::before { content: "\f105"; }
 .icon-last::before { content: "\f101"; }
 .icon-folder::before { content: "\f07b"; }
+
+/* Inline Action Buttons Styles */
+.select-actions-cell {
+    width: 120px;
+    padding: 8px 12px;
+    vertical-align: middle;
+}
+
+.select-actions-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.select-actions-container input[type="checkbox"] {
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.inline-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.entity-table tr:hover .inline-action-buttons {
+    opacity: 1;
+}
+
+.entity-table tr.selected .inline-action-buttons {
+    opacity: 1;
+}
+
+.inline-action-buttons .action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.inline-action-buttons .action-btn:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+.inline-action-buttons .more-actions {
+    position: relative;
+}
+
+.inline-action-buttons .more-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.inline-action-buttons .more-btn:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+.inline-action-buttons .more-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    min-width: 160px;
+    padding: 4px 0;
+}
+
+.inline-action-buttons .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.inline-action-buttons .dropdown-item:hover {
+    background-color: #f9fafb;
+}
+
+.inline-action-buttons .dropdown-item i {
+    width: 16px;
+    text-align: center;
+    color: #6b7280;
+}
+
+/* Filter Actions at Top */
+.filter-actions-top {
+    margin: 8px 0;
+    text-align: right;
+}
+
+.filter-actions-top .clear-filters-btn {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filter-actions-top .clear-filters-btn:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.filter-actions-top .clear-filters-btn i {
+    font-size: 12px;
+}

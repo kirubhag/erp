@@ -13,22 +13,22 @@
                 <!-- Custom View Selector with Dropdown Icon -->
                 <div class="view-selector" ng-if="config.features.customViews">
                     <button class="view-button" type="button" ng-click="toggleViewDropdown()">
-                        <i class="fas fa-caret-down"></i>
                         <span class="view-name">{{currentView.name || ('All ' + config.entityName + 's')}}</span>
+                        <i class="fas fa-caret-down"></i>
                     </button>
                     <div class="view-dropdown" ng-show="showViewDropdown">
                         <div class="view-option" ng-click="selectView(null)">
-                            <i class="icon-list"></i>
+                            <i class="fas fa-list"></i>
                             <span>All {{::config.entityName}}s</span>
                         </div>
                         <div class="view-divider"></div>
                         <div class="view-option" ng-repeat="view in customViews" ng-click="selectView(view)">
-                            <i class="icon-{{view.icon || 'view'}}"></i>
+                            <i class="fas fa-eye"></i>
                             <span>{{view.name}}</span>
                         </div>
                         <div class="view-divider" ng-if="customViews.length > 0"></div>
                         <div class="view-option" ng-click="openViewManager()">
-                            <i class="icon-settings"></i>
+                            <i class="fas fa-cog"></i>
                             <span>+ Create View</span>
                         </div>
                     </div>
@@ -50,8 +50,17 @@
             <div class="filters-panel">
                 <div class="filter-header">
                     <h3>FILTER {{::config.entityName.toUpperCase()}}S BY</h3>
+                    
+                    <!-- Clear all filters button at top -->
+                    <div class="filter-actions-top" ng-show="hasActiveFilters()">
+                        <button class="clear-filters-btn" ng-click="clearAllFilters()">
+                            <i class="fas fa-times"></i>
+                            Clear All Filters
+                        </button>
+                    </div>
+                    
                     <div class="search-fields">
-                        <i class="icon-search"></i>
+                        <i class="fas fa-search"></i>
                         <input type="text" 
                                placeholder="Search fields..." 
                                ng-model="fieldSearchQuery"
@@ -139,14 +148,6 @@
                                 </div>
                             </div>
                         </div>
-                    
-                    <!-- Clear all filters button -->
-                    <div class="filter-actions" ng-show="hasActiveFilters()">
-                        <button class="clear-filters-btn" ng-click="clearAllFilters()">
-                            <i class="icon-close"></i>
-                            Clear All Filters
-                        </button>
-                    </div>
                 </div>
             </div>
             
@@ -163,12 +164,12 @@
                         <button class="view-mode-btn" 
                                 ng-class="{active: viewMode === 'table'}"
                                 ng-click="setViewMode('table')">
-                            <i class="icon-table"></i>
+                            <i class="fas fa-table"></i>
                         </button>
                         <button class="view-mode-btn" 
                                 ng-class="{active: viewMode === 'grid'}"
                                 ng-click="setViewMode('grid')">
-                            <i class="icon-grid"></i>
+                            <i class="fas fa-th"></i>
                         </button>
                     </div>
                 </div>
@@ -205,7 +206,7 @@
                     <table class="entity-table">
                         <thead>
                             <tr>
-                                <th class="select-column">
+                                <th class="select-actions-column">
                                     <input type="checkbox" 
                                            ng-click="toggleSelectAll()"
                                            ng-checked="isAllSelected()">
@@ -215,12 +216,11 @@
                                     ng-click="sortBy(column.field)">
                                     <span class="column-header">
                                         {{column.label}}
-                                        <i class="sort-icon" 
+                                        <i class="sort-icon fas" 
                                            ng-if="column.sortable && sortField === column.field"
-                                           ng-class="{'icon-sort-asc': sortDirection === 'asc', 'icon-sort-desc': sortDirection === 'desc'}"></i>
+                                           ng-class="{'fa-sort-up': sortDirection === 'asc', 'fa-sort-down': sortDirection === 'desc'}"></i>
                                     </span>
                                 </th>
-                                <th class="actions-column">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -228,10 +228,37 @@
                                 ng-class="{'selected': isSelected(item)}"
                                 ng-click="handleRowClick(item, $event)">
                                 
-                                <td class="select-cell">
-                                    <input type="checkbox" 
-                                           ng-checked="isSelected(item)"
-                                           ng-click="toggleSelection(item, $event)">
+                                <td class="select-actions-cell">
+                                    <div class="select-actions-container">
+                                        <input type="checkbox" 
+                                               ng-checked="isSelected(item)"
+                                               ng-click="toggleSelection(item, $event)">
+                                        
+                                        <div class="inline-action-buttons">
+                                            <button class="action-btn" 
+                                                    ng-repeat="action in config.rowActions"
+                                                    ng-if="isActionVisible(action, item)"
+                                                    ng-click="executeAction(action, item, $event)"
+                                                    title="{{action.label}}">
+                                                <i class="icon-{{action.icon}}"></i>
+                                            </button>
+                                            
+                                            <!-- More actions dropdown -->
+                                            <div class="more-actions" ng-if="getMoreActions(item).length > 0">
+                                                <button class="more-btn" ng-click="toggleMoreActions(item)">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <div class="more-dropdown" ng-show="item.showMoreActions">
+                                                    <div class="dropdown-item" 
+                                                         ng-repeat="action in getMoreActions(item)"
+                                                         ng-click="executeAction(action, item)">
+                                                        <i class="icon-{{action.icon}}"></i>
+                                                        <span>{{action.label}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 
                                 <!-- Dynamic columns based on entity type -->
@@ -284,33 +311,6 @@
                                         {{getFieldValue(item, column.field)}}
                                     </div>
                                 </td>
-                                
-                                <td class="actions-cell">
-                                    <div class="action-buttons">
-                                        <button class="action-btn" 
-                                                ng-repeat="action in config.rowActions"
-                                                ng-if="isActionVisible(action, item)"
-                                                ng-click="executeAction(action, item, $event)"
-                                                title="{{action.label}}">
-                                            <i class="icon-{{action.icon}}"></i>
-                                        </button>
-                                        
-                                        <!-- More actions dropdown -->
-                                        <div class="more-actions" ng-if="getMoreActions(item).length > 0">
-                                            <button class="more-btn" ng-click="toggleMoreActions(item)">
-                                                <i class="icon-more"></i>
-                                            </button>
-                                            <div class="more-dropdown" ng-show="item.showMoreActions">
-                                                <div class="dropdown-item" 
-                                                     ng-repeat="action in getMoreActions(item)"
-                                                     ng-click="executeAction(action, item)">
-                                                    <i class="icon-{{action.icon}}"></i>
-                                                    <span>{{action.label}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -318,12 +318,12 @@
                     <!-- Empty state -->
                     <div class="empty-state" ng-show="filteredData.length === 0 && !loading">
                         <div class="empty-icon">
-                            <i class="icon-{{config.emptyIcon || 'folder'}}"></i>
+                            <i class="fas fa-folder-open"></i>
                         </div>
                         <div class="empty-title">No {{::config.entityName}}s found</div>
                         <div class="empty-subtitle">{{::config.emptyMessage}}</div>
                         <button class="primary-button" ng-click="openCreateDialog()" ng-if="::config.allowCreate">
-                            <i class="icon-plus"></i>
+                            <i class="fas fa-plus"></i>
                             <span>Create {{::config.entityName}}</span>
                         </button>
                     </div>

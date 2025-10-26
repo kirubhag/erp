@@ -9,29 +9,60 @@ angular.module('erpApp', ['ngRoute'])
             templateUrl: '/templates/dashboard.html',
             controller: 'MainController'
         })
+        
+        // Student Routes
         .when('/students', {
-            templateUrl: '/templates/student/students.html',
-            controller: 'StudentController'
+            templateUrl: '/templates/student/student-list.html',
+            controller: 'StudentEntityController'
         })
+        .when('/students/new', {
+            templateUrl: '/templates/student/student-edit.html',
+            controller: 'StudentEditController'
+        })
+        .when('/students/:id', {
+            templateUrl: '/templates/student/student-detail.html',
+            controller: 'StudentDetailController'
+        })
+        .when('/students/:id/edit', {
+            templateUrl: '/templates/student/student-edit.html',
+            controller: 'StudentEditController'
+        })
+        
+        // Parent Routes  
+        .when('/parents', {
+            templateUrl: '/templates/parent/parent-list.html',
+            controller: 'ParentEntityController'
+        })
+        .when('/parents/:id', {
+            templateUrl: '/templates/parent/parent-detail.html',
+            controller: 'ParentDetailController'
+        })
+        .when('/parents/:id/edit', {
+            templateUrl: '/templates/parent/parent-edit.html',
+            controller: 'ParentEditController'
+        })
+        
+        // Health Routes
+        .when('/health', {
+            templateUrl: '/templates/health/health-list.html',
+            controller: 'HealthEntityController'
+        })
+        .when('/health/:id', {
+            templateUrl: '/templates/health/health-detail.html',
+            controller: 'HealthDetailController'
+        })
+        .when('/health/:id/edit', {
+            templateUrl: '/templates/health/health-edit.html',
+            controller: 'HealthEditController'
+        })
+        
+        // Attendance Routes (keeping existing for now)
         .when('/attendance', {
             templateUrl: '/templates/attendance/attendance.html',
             controller: 'AttendanceController',
             resolve: {
                 loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
                     return ScriptLoaderService.loadModule('attendance');
-                }]
-            }
-        })
-        .when('/parents', {
-            templateUrl: '/templates/parent/parents.html',
-            controller: 'ParentController'
-        })
-        .when('/health', {
-            templateUrl: '/templates/health/health.html',
-            controller: 'HealthController',
-            resolve: {
-                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
-                    return ScriptLoaderService.loadModule('health');
                 }]
             }
         })
@@ -108,6 +139,10 @@ angular.module('erpApp', ['ngRoute'])
             }
         })
         .when('/settings/organization-details', {
+            templateUrl: '/templates/organization/organization-details.html',
+            controller: 'OrganizationDetailsController'
+        })
+        .when('/organization-details/edit', {
             templateUrl: '/templates/organization/organization-details.html',
             controller: 'OrganizationDetailsController'
         })

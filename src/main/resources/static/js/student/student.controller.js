@@ -612,3 +612,7 @@ var appModule = angular.module('erpApp');
         $scope.init();
         
     }]);
+
+} catch (error) {
+    console.error('❌ Error registering StudentController:', error);
+}

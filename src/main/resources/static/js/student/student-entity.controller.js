@@ -16,24 +16,53 @@
 
     function StudentEntityController($scope, $controller, $location, $timeout, EntityDataService, NotificationService) {
 
-
         // Extend the generic EntityListController
         angular.extend(this, $controller('EntityListController', {$scope: $scope}));
 
-        // Student-specific initialization
+        // Ensure config object exists first
+        if (!$scope.config) {
+            console.log('DEBUG: Creating config object');
+            $scope.config = {};
+        }
+        
+        // Initialize handlers object immediately
+        console.log('DEBUG: Initializing handlers object');
+        $scope.config.handlers = {};
+        
+        // Initialize student-specific configuration immediately
+        console.log('DEBUG: About to call initializeStudentSpecifics immediately');
         initializeStudentSpecifics();
-
-        /**
+        
+        // Also set a fallback timeout to ensure it runs
+        $timeout(function() {
+            console.log('DEBUG: Calling initializeStudentSpecifics from timeout fallback');
+            initializeStudentSpecifics();
+        }, 100);        /**
          * Initialize student-specific functionality
          */
         function initializeStudentSpecifics() {
-            // Override entity type to ensure correct configuration
-            if ($scope.config) {
-                $scope.config.entityType = 'STUDENT';
+            console.log('DEBUG: initializeStudentSpecifics called');
+            
+            // Ensure config exists - create if needed
+            if (!$scope.config) {
+                console.log('DEBUG: Creating $scope.config object');
+                $scope.config = {};
             }
+            
+            // Ensure handlers exists - create if needed
+            if (!$scope.config.handlers) {
+                console.log('DEBUG: Creating $scope.config.handlers object');
+                $scope.config.handlers = {};
+            }
+            
+            // Set entity type
+            $scope.config.entityType = 'STUDENT';
 
             // Set up student-specific handlers
             setupStudentHandlers();
+            
+            console.log('DEBUG: After setupStudentHandlers, config:', $scope.config);
+            console.log('DEBUG: After setupStudentHandlers, handlers:', $scope.config.handlers);
 
             // Initialize student-specific data
             $scope.gradeLevels = [
@@ -65,26 +94,53 @@
         }
 
         /**
-         * Set up student-specific action handlers
+         * Set up student-specific event handlers
          */
         function setupStudentHandlers() {
-            if (!$scope.config || !$scope.config.handlers) {
-                if ($scope.config) {
-                    $scope.config.handlers = {};
-                }
+            console.log('Setting up student handlers...');
+            
+            // Ensure config object exists with all required properties
+            if (!$scope.config) {
+                $scope.config = {};
             }
+            
+            // Ensure handlers object exists
+            if (!$scope.config.handlers) {
+                $scope.config.handlers = {};
+            }
+
+            console.log('Config before setting handlers:', $scope.config);
 
             // Create action handler
             $scope.config.handlers.create = function() {
-
-                $scope.showAddStudentForm();
+                console.log('Create handler called');
+                try {
+                    $scope.showAddStudentForm();
+                } catch (error) {
+                    console.error('Error in create handler:', error);
+                }
             };
 
             // Export action handler
             $scope.config.handlers.export = function(format, data) {
-
+                console.log('Export handler called');
                 $scope.exportStudents(format, data);
             };
+
+            // Edit configuration - set both editUrl and onEdit for compatibility
+            $scope.config.editUrl = '/students/{id}/edit';
+            $scope.config.onEdit = function(student) {
+                console.log('onEdit handler called for student:', student.id);
+                $scope.editStudent(student);
+            };
+
+            // View configuration - for row clicks
+            $scope.config.onRowClick = function(student) {
+                console.log('onRowClick handler called for student:', student.id);
+                $scope.viewStudent(student);
+            };
+
+            console.log('Student handlers configured:', $scope.config);
 
             // Set up bulk actions
             if (!$scope.config.bulkActions) {
@@ -108,15 +164,51 @@
                 ];
             }
 
-            // Update configuration with student-specific row actions
-            if ($scope.config && $scope.config.rowActions) {
+            // Ensure rowActions exist and update with student-specific handlers
+            if (!$scope.config.rowActions) {
+                $scope.config.rowActions = [
+                    {
+                        name: 'view',
+                        icon: 'eye',
+                        label: 'View Details',
+                        visible: true,
+                        handler: function(student) {
+                            console.log('View action handler called for student:', student.id);
+                            $scope.viewStudent(student);
+                        }
+                    },
+                    {
+                        name: 'edit',
+                        icon: 'edit',
+                        label: 'Edit Student',
+                        visible: true,
+                        handler: function(student) {
+                            console.log('Edit action handler called for student:', student.id);
+                            $scope.editStudent(student);
+                        }
+                    },
+                    {
+                        name: 'delete',
+                        icon: 'trash',
+                        label: 'Delete Student',
+                        visible: true,
+                        handler: function(student) {
+                            console.log('Delete action handler called for student:', student.id);
+                            $scope.deleteStudent(student);
+                        }
+                    }
+                ];
+            } else {
+                // Update existing row actions with handlers
                 $scope.config.rowActions.forEach(function(action) {
                     if (action.name === 'view') {
                         action.handler = function(student) {
+                            console.log('View action handler called for student:', student.id);
                             $scope.viewStudent(student);
                         };
                     } else if (action.name === 'edit') {
                         action.handler = function(student) {
+                            console.log('Edit action handler called for student:', student.id);
                             $scope.editStudent(student);
                         };
                     } else if (action.name === 'delete') {
@@ -131,30 +223,48 @@
         // Student-specific methods
 
         /**
-         * Show add student form
+         * Show add student form (navigate to create page)
          */
         $scope.showAddStudentForm = function() {
-
-            // TODO: Implement student form modal or navigate to form page
-            NotificationService.info('Add Student form will open here');
+            console.log('showAddStudentForm called - navigating to /students/new');
+            console.log('Current location:', $location.path());
+            $location.path('/students/new');
+            console.log('Location after path change:', $location.path());
+            
+            // Force apply to ensure route change is processed
+            if (!$scope.$root.$$phase) {
+                $scope.$apply();
+            }
         };
 
         /**
          * View student details
          */
         $scope.viewStudent = function(student) {
-
-            // TODO: Implement student detail view
-            NotificationService.info('Student details view for: ' + $scope.formatStudentName(student));
+            console.log('viewStudent called for student ID:', student.id);
+            var path = '/students/' + student.id;
+            console.log('Navigating to:', path);
+            $location.path(path);
+            
+            // Force apply to ensure route change is processed
+            if (!$scope.$root.$$phase) {
+                $scope.$apply();
+            }
         };
 
         /**
          * Edit student
          */
         $scope.editStudent = function(student) {
-
-            // TODO: Implement student edit form
-            NotificationService.info('Edit form for: ' + $scope.formatStudentName(student));
+            console.log('editStudent called for student ID:', student.id);
+            var path = '/students/' + student.id + '/edit';
+            console.log('Navigating to:', path);
+            $location.path(path);
+            
+            // Force apply to ensure route change is processed
+            if (!$scope.$root.$$phase) {
+                $scope.$apply();
+            }
         };
 
         /**
@@ -359,6 +469,146 @@
                 // Perform bulk delete
                 NotificationService.success('Bulk delete functionality coming soon');
                 $scope.clearSelection();
+            }
+        };
+
+        /**
+         * Initialize modal variables
+         */
+        function initializeModalVariables() {
+            $scope.showStudentModal = false;
+            $scope.studentForm = {};
+            $scope.studentFormSubmitting = false;
+            $scope.editingStudent = null;
+        }
+
+        /**
+         * Create empty student object
+         */
+        function createEmptyStudent() {
+            return {
+                studentId: '',
+                firstName: '',
+                lastName: '',
+                middleName: '',
+                dateOfBirth: null,
+                gender: '',
+                gradeLevel: '',
+                enrollmentStatus: 'ENROLLED',
+                enrollmentDate: new Date().toISOString().split('T')[0],
+                email: '',
+                phoneNumber: '',
+                address: {
+                    street: '',
+                    city: '',
+                    state: '',
+                    zipCode: ''
+                },
+                emergencyContact: {
+                    name: '',
+                    phoneNumber: '',
+                    relationship: ''
+                },
+                notes: ''
+            };
+        }
+
+        /**
+         * Close student modal
+         */
+        $scope.closeStudentModal = function() {
+            $scope.showStudentModal = false;
+            $scope.studentForm = {};
+            $scope.editingStudent = null;
+            $scope.studentFormSubmitting = false;
+        };
+
+        /**
+         * Save student
+         */
+        $scope.saveStudent = function() {
+            if ($scope.studentFormSubmitting) return;
+
+            $scope.studentFormSubmitting = true;
+
+            // Prepare data for API
+            var studentData = angular.copy($scope.studentForm);
+            
+            // Convert date strings to proper format if needed
+            if (studentData.dateOfBirth) {
+                studentData.dateOfBirth = new Date(studentData.dateOfBirth).toISOString().split('T')[0];
+            }
+            if (studentData.enrollmentDate) {
+                studentData.enrollmentDate = new Date(studentData.enrollmentDate).toISOString().split('T')[0];
+            }
+
+            var apiCall;
+            if ($scope.editingStudent) {
+                // Update existing student
+                studentData.id = $scope.editingStudent.id;
+                apiCall = EntityDataService.updateEntity('STUDENT', studentData.id, studentData);
+            } else {
+                // Create new student
+                apiCall = EntityDataService.createEntity('STUDENT', studentData);
+            }
+
+            apiCall.then(function(response) {
+                NotificationService.success($scope.editingStudent ? 'Student updated successfully' : 'Student created successfully');
+                $scope.closeStudentModal();
+                
+                // Reload the entity list
+                if ($scope.loadEntityData) {
+                    $scope.loadEntityData();
+                }
+            }).catch(function(error) {
+                console.error('Error saving student:', error);
+                NotificationService.error('Error saving student: ' + (error.message || 'Unknown error'));
+            }).finally(function() {
+                $scope.studentFormSubmitting = false;
+            });
+        };
+
+        /**
+         * Format grade name for display
+         */
+        $scope.formatGradeName = function(grade) {
+            if (!grade) return '';
+            
+            var gradeMap = {
+                'KINDERGARTEN': 'Kindergarten',
+                'FIRST_GRADE': '1st Grade',
+                'SECOND_GRADE': '2nd Grade',
+                'THIRD_GRADE': '3rd Grade',
+                'FOURTH_GRADE': '4th Grade',
+                'FIFTH_GRADE': '5th Grade',
+                'SIXTH_GRADE': '6th Grade',
+                'SEVENTH_GRADE': '7th Grade',
+                'EIGHTH_GRADE': '8th Grade',
+                'NINTH_GRADE': '9th Grade',
+                'TENTH_GRADE': '10th Grade',
+                'ELEVENTH_GRADE': '11th Grade',
+                'TWELFTH_GRADE': '12th Grade'
+            };
+            
+            return gradeMap[grade] || grade.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+        };
+
+        // Initialize modal variables
+        initializeModalVariables();
+
+        // Override the base entity functions to use our specific implementations  
+        $scope.editItem = $scope.editStudent;
+        $scope.deleteItem = function(student) {
+            if (confirm('Are you sure you want to delete ' + $scope.formatStudentName(student) + '?')) {
+                EntityDataService.deleteEntity('STUDENT', student.id).then(function() {
+                    NotificationService.success('Student deleted successfully');
+                    if ($scope.loadEntityData) {
+                        $scope.loadEntityData();
+                    }
+                }).catch(function(error) {
+                    console.error('Error deleting student:', error);
+                    NotificationService.error('Error deleting student: ' + (error.message || 'Unknown error'));
+                });
             }
         };
 
