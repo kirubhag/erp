@@ -19,7 +19,7 @@
                         <li><a class="dropdown-item" href="#" ng-click="duplicateItem()">
                             <i class="fas fa-copy me-2"></i>Duplicate
                         </a></li>
-                        <li><a class="dropdown-item" href="#" ng-click="exportItem()">
+                        <li><a class="dropdown-item" href="#" ng-click="exportStudent()">
                             <i class="fas fa-download me-2"></i>Export
                         </a></li>
                         <li><hr class="dropdown-divider"></li>
@@ -34,21 +34,21 @@
         <!-- Student Header Info -->
         <div class="student-header-info">
             <div class="student-avatar-large">
-                <div class="avatar-circle-large" ng-style="getAvatarStyle(item)">
-                    {{getAvatarInitials(item)}}
+                <div class="avatar-circle-large" ng-style="getAvatarStyle(student)">
+                    {{getAvatarInitials(student)}}
                 </div>
             </div>
             <div class="student-basic-info">
-                <h1 class="student-name">{{item.firstName}} {{item.lastName}}</h1>
+                <h1 class="student-name">{{student.firstName}} {{student.lastName}}</h1>
                 <div class="student-meta">
-                    <span class="student-id-badge">ID: {{item.studentId}}</span>
-                    <span class="student-grade">{{formatGradeName(item.gradeLevel)}}</span>
-                    <span class="student-status" ng-class="'status-' + (item.enrollmentStatus || 'enrolled').toLowerCase()">
-                        {{item.enrollmentStatus || 'Enrolled'}}
+                    <span class="student-id-badge">ID: {{student.studentId}}</span>
+                    <span class="student-grade">{{formatGradeName(student.gradeLevel)}}</span>
+                    <span class="student-status" ng-class="'status-' + (student.enrollmentStatus || 'enrolled').toLowerCase()">
+                        {{student.enrollmentStatus || 'Enrolled'}}
                     </span>
                 </div>
                 <div class="last-update">
-                    Last Update: {{item.modifiedTime | date:'MMM dd, yyyy'}} ago
+                    Last Update: {{student.modifiedTime | date:'MMM dd, yyyy'}} ago
                 </div>
             </div>
         </div>
@@ -83,114 +83,114 @@
                                     <div class="detail-field">
                                         <label class="field-label">Email</label>
                                         <div class="field-value">
-                                            <a href="mailto:{{item.email}}" ng-if="item.email">{{item.email}}</a>
-                                            <span class="text-muted" ng-if="!item.email">-</span>
+                                            <a href="mailto:{{student.email}}" ng-if="student.email">{{student.email}}</a>
+                                            <span class="text-muted" ng-if="!student.email">-</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="detail-field">
                                         <label class="field-label">Student ID</label>
-                                        <div class="field-value">{{item.studentId}}</div>
+                                        <div class="field-value">{{student.studentId}}</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="detail-field">
                                         <label class="field-label">Phone</label>
                                         <div class="field-value">
-                                            <a href="tel:{{item.phoneNumber}}" ng-if="item.phoneNumber">{{item.phoneNumber}}</a>
-                                            <span class="text-muted" ng-if="!item.phoneNumber">-</span>
+                                            <a href="tel:{{student.phoneNumber}}" ng-if="student.phoneNumber">{{student.phoneNumber}}</a>
+                                            <span class="text-muted" ng-if="!student.phoneNumber">-</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="detail-field">
                                         <label class="field-label">Date of Birth</label>
-                                        <div class="field-value">{{item.dateOfBirth | date:'MMM dd, yyyy'}}</div>
+                                        <div class="field-value">{{student.dateOfBirth | date:'MMM dd, yyyy'}}</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="detail-field">
                                         <label class="field-label">Gender</label>
-                                        <div class="field-value">{{item.gender | capitalize}}</div>
+                                        <div class="field-value">{{student.gender | capitalize}}</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="detail-field">
                                         <label class="field-label">Enrollment Date</label>
-                                        <div class="field-value">{{item.enrollmentDate | date:'MMM dd, yyyy'}}</div>
+                                        <div class="field-value">{{student.enrollmentDate | date:'MMM dd, yyyy'}}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Address Information Section -->
-                        <div class="detail-section" ng-if="item.address">
+                        <div class="detail-section" ng-if="student.address">
                             <h3 class="section-title">Address Information</h3>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="detail-field">
                                         <label class="field-label">Street</label>
-                                        <div class="field-value">{{item.address.street || '-'}}</div>
+                                        <div class="field-value">{{student.address.street || '-'}}</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="detail-field">
                                         <label class="field-label">City</label>
-                                        <div class="field-value">{{item.address.city || '-'}}</div>
+                                        <div class="field-value">{{student.address.city || '-'}}</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="detail-field">
                                         <label class="field-label">State</label>
-                                        <div class="field-value">{{item.address.state || '-'}}</div>
+                                        <div class="field-value">{{student.address.state || '-'}}</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="detail-field">
                                         <label class="field-label">Zip Code</label>
-                                        <div class="field-value">{{item.address.zipCode || '-'}}</div>
+                                        <div class="field-value">{{student.address.zipCode || '-'}}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Emergency Contact Section -->
-                        <div class="detail-section" ng-if="item.emergencyContact">
+                        <div class="detail-section" ng-if="student.emergencyContact">
                             <h3 class="section-title">Emergency Contact</h3>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="detail-field">
                                         <label class="field-label">Name</label>
-                                        <div class="field-value">{{item.emergencyContact.name || '-'}}</div>
+                                        <div class="field-value">{{student.emergencyContact.name || '-'}}</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="detail-field">
                                         <label class="field-label">Phone</label>
                                         <div class="field-value">
-                                            <a href="tel:{{item.emergencyContact.phoneNumber}}" ng-if="item.emergencyContact.phoneNumber">
-                                                {{item.emergencyContact.phoneNumber}}
+                                            <a href="tel:{{student.emergencyContact.phoneNumber}}" ng-if="student.emergencyContact.phoneNumber">
+                                                {{student.emergencyContact.phoneNumber}}
                                             </a>
-                                            <span class="text-muted" ng-if="!item.emergencyContact.phoneNumber">-</span>
+                                            <span class="text-muted" ng-if="!student.emergencyContact.phoneNumber">-</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="detail-field">
                                         <label class="field-label">Relationship</label>
-                                        <div class="field-value">{{item.emergencyContact.relationship || '-'}}</div>
+                                        <div class="field-value">{{student.emergencyContact.relationship || '-'}}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Additional Information -->
-                        <div class="detail-section" ng-if="item.notes">
+                        <div class="detail-section" ng-if="student.notes">
                             <h3 class="section-title">Additional Information</h3>
                             <div class="detail-field">
                                 <label class="field-label">Notes</label>
-                                <div class="field-value">{{item.notes}}</div>
+                                <div class="field-value">{{student.notes}}</div>
                             </div>
                         </div>
                     </div>
@@ -199,7 +199,7 @@
                     <div class="tab-pane fade" id="timeline" role="tabpanel">
                         <div class="timeline-section">
                             <h3 class="section-title">Recent Activity</h3>
-                            <div class="timeline-item" ng-repeat="activity in activities">
+                            <div class="timeline-item" ng-repeat="activity in studentActivities">
                                 <div class="timeline-marker">
                                     <i class="fas fa-{{activity.icon}}"></i>
                                 </div>
@@ -210,10 +210,6 @@
                                     </div>
                                     <p class="timeline-description">{{activity.description}}</p>
                                 </div>
-                            </div>
-                            <div class="text-center text-muted py-4" ng-if="!activities || activities.length === 0">
-                                <i class="fas fa-history fa-3x mb-3" style="opacity: 0.3;"></i>
-                                <p>No activity history yet</p>
                             </div>
                         </div>
                     </div>
@@ -229,7 +225,7 @@
                     <div class="related-item">
                         <div class="related-header">
                             <span class="related-name">Notes</span>
-                            <span class="related-count">{{notes.length}}</span>
+                            <span class="related-count">{{studentNotes.length}}</span>
                         </div>
                     </div>
                     
@@ -237,7 +233,7 @@
                     <div class="related-item">
                         <div class="related-header">
                             <span class="related-name">Attachments</span>
-                            <span class="related-count">{{attachments.length}}</span>
+                            <span class="related-count">{{studentAttachments.length}}</span>
                         </div>
                     </div>
                     
@@ -245,7 +241,7 @@
                     <div class="related-item">
                         <div class="related-header">
                             <span class="related-name">My Courses</span>
-                            <span class="related-count">{{courses.length}}</span>
+                            <span class="related-count">{{studentCourses.length}}</span>
                         </div>
                     </div>
                 </div>
@@ -277,7 +273,7 @@
                 <div class="modal-body">
                     <p class="mb-0">
                         Are you sure you want to delete 
-                        <strong>{{itemToDelete.firstName}} {{itemToDelete.lastName}}</strong>?
+                        <strong>{{studentToDelete.firstName}} {{studentToDelete.lastName}}</strong>?
                     </p>
                     <p class="text-muted small mb-0 mt-2">
                         <i class="fas fa-info-circle me-1"></i>

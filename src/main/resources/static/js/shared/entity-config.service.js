@@ -30,12 +30,19 @@
             entityConfigs['STUDENT'] = {
                 entityType: 'STUDENT',
                 entityName: 'Student',
+                entityDisplayName: 'Student',
                 title: 'Students',
                 subtitle: 'Manage student profiles, enrollment, and academic information',
                 createButtonText: 'Add Student',
                 emptyIcon: 'user-graduate',
                 emptyMessage: 'Get started by adding your first student to the system',
                 allowCreate: true,
+                
+                // URL configurations for CRUD operations
+                createUrl: '/students/new',
+                viewUrl: '/students/:id',
+                editUrl: '/students/:id/edit',
+                listUrl: '/students',
                 
                 features: {
                     customViews: true,

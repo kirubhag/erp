@@ -10,7 +10,7 @@
                 <button class="btn btn-outline-secondary" ng-click="cancelEdit()" ng-disabled="saving">
                     Cancel
                 </button>
-                <button class="btn btn-primary" ng-click="saveStudent()" ng-disabled="saving || studentForm.$invalid">
+                <button class="btn btn-primary" ng-click="saveItem()" ng-disabled="saving || itemForm.$invalid">
                     <i class="fas fa-save me-2" ng-show="!saving"></i>
                     <i class="fas fa-spinner fa-spin me-2" ng-show="saving"></i>
                     Save Changes
@@ -26,7 +26,7 @@
 
     <!-- Form Content -->
     <div class="edit-content">
-        <form name="studentForm" ng-submit="saveStudent()" novalidate>
+        <form name="itemForm" ng-submit="saveItem()" novalidate>
             <div class="row">
                 <!-- Left Column - Main Form -->
                 <div class="col-lg-8">
@@ -39,42 +39,75 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Student ID <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="studentId" 
-                                       ng-model="student.studentId" required>
-                                <div class="invalid-feedback" ng-show="studentForm.studentId.$invalid && studentForm.studentId.$touched">
+                                       ng-model="item.studentId" 
+                                       ng-class="{'is-invalid': itemForm.studentId.$invalid && itemForm.studentId.$touched}"
+                                       required 
+                                       minlength="2" 
+                                       maxlength="20">
+                                <div class="invalid-feedback" ng-show="itemForm.studentId.$error.required && itemForm.studentId.$touched">
                                     Student ID is required
+                                </div>
+                                <div class="invalid-feedback" ng-show="itemForm.studentId.$error.minlength && itemForm.studentId.$touched">
+                                    Student ID must be at least 2 characters
+                                </div>
+                                <div class="invalid-feedback" ng-show="itemForm.studentId.$error.maxlength && itemForm.studentId.$touched">
+                                    Student ID must not exceed 20 characters
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">First Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="firstName" 
-                                       ng-model="student.firstName" required>
-                                <div class="invalid-feedback" ng-show="studentForm.firstName.$invalid && studentForm.firstName.$touched">
+                                       ng-model="item.firstName" 
+                                       ng-class="{'is-invalid': itemForm.firstName.$invalid && itemForm.firstName.$touched}"
+                                       required 
+                                       minlength="2" 
+                                       maxlength="50">
+                                <div class="invalid-feedback" ng-show="itemForm.firstName.$error.required && itemForm.firstName.$touched">
                                     First name is required
+                                </div>
+                                <div class="invalid-feedback" ng-show="itemForm.firstName.$error.minlength && itemForm.firstName.$touched">
+                                    First name must be at least 2 characters
+                                </div>
+                                <div class="invalid-feedback" ng-show="itemForm.firstName.$error.maxlength && itemForm.firstName.$touched">
+                                    First name must not exceed 50 characters
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Last Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="lastName" 
-                                       ng-model="student.lastName" required>
-                                <div class="invalid-feedback" ng-show="studentForm.lastName.$invalid && studentForm.lastName.$touched">
+                                       ng-model="item.lastName" 
+                                       ng-class="{'is-invalid': itemForm.lastName.$invalid && itemForm.lastName.$touched}"
+                                       required 
+                                       minlength="2" 
+                                       maxlength="50">
+                                <div class="invalid-feedback" ng-show="itemForm.lastName.$error.required && itemForm.lastName.$touched">
                                     Last name is required
+                                </div>
+                                <div class="invalid-feedback" ng-show="itemForm.lastName.$error.minlength && itemForm.lastName.$touched">
+                                    Last name must be at least 2 characters
+                                </div>
+                                <div class="invalid-feedback" ng-show="itemForm.lastName.$error.maxlength && itemForm.lastName.$touched">
+                                    Last name must not exceed 50 characters
+                                </div>
+                                <div class="invalid-feedback" ng-show="itemForm.lastName.$error.server">
+                                    {{itemForm.lastName.$error.serverMessage}}
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Middle Name</label>
-                                <input type="text" class="form-control" ng-model="student.middleName">
+                                <input type="text" class="form-control" ng-model="item.middleName">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Date of Birth <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" name="dateOfBirth" 
-                                       ng-model="student.dateOfBirth" required>
+                                       ng-model="item.dateOfBirth" required>
                                 <div class="invalid-feedback" ng-show="studentForm.dateOfBirth.$invalid && studentForm.dateOfBirth.$touched">
                                     Date of birth is required
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Gender <span class="text-danger">*</span></label>
-                                <select class="form-select" name="gender" ng-model="student.gender" required>
+                                <select class="form-select" name="gender" ng-model="item.gender" required>
                                     <option value="">Select Gender</option>
                                     <option value="MALE">Male</option>
                                     <option value="FEMALE">Female</option>
@@ -95,7 +128,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Grade Level <span class="text-danger">*</span></label>
-                                <select class="form-select" name="gradeLevel" ng-model="student.gradeLevel" required>
+                                <select class="form-select" name="gradeLevel" ng-model="item.gradeLevel" required>
                                     <option value="">Select Grade</option>
                                     <option ng-repeat="grade in gradeLevels" value="{{grade}}">
                                         {{formatGradeName(grade)}}
@@ -107,7 +140,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Enrollment Status</label>
-                                <select class="form-select" ng-model="student.enrollmentStatus">
+                                <select class="form-select" ng-model="item.enrollmentStatus">
                                     <option value="ACTIVE">Active</option>
                                     <option value="INACTIVE">Inactive</option>
                                     <option value="SUSPENDED">Suspended</option>
@@ -118,7 +151,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Enrollment Date</label>
-                                <input type="date" class="form-control" ng-model="student.enrollmentDate">
+                                <input type="date" class="form-control" ng-model="item.enrollmentDate">
                             </div>
                         </div>
                     </div>
@@ -131,14 +164,26 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" ng-model="student.email">
-                                <div class="invalid-feedback" ng-show="studentForm.email.$invalid && studentForm.email.$touched">
+                                <input type="email" class="form-control" name="email" 
+                                       ng-model="item.email"
+                                       ng-class="{'is-invalid': itemForm.email.$invalid && itemForm.email.$touched}"
+                                       maxlength="100">
+                                <div class="invalid-feedback" ng-show="itemForm.email.$error.email && itemForm.email.$touched">
                                     Please enter a valid email address
+                                </div>
+                                <div class="invalid-feedback" ng-show="itemForm.email.$error.maxlength && itemForm.email.$touched">
+                                    Email must not exceed 100 characters
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Phone Number</label>
-                                <input type="tel" class="form-control" ng-model="student.phoneNumber">
+                                <input type="tel" class="form-control" name="phoneNumber"
+                                       ng-model="item.phoneNumber"
+                                       ng-class="{'is-invalid': itemForm.phoneNumber.$invalid && itemForm.phoneNumber.$touched}"
+                                       maxlength="20">
+                                <div class="invalid-feedback" ng-show="itemForm.phoneNumber.$error.maxlength && itemForm.phoneNumber.$touched">
+                                    Phone number must not exceed 20 characters
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -151,19 +196,19 @@
                         <div class="row">
                             <div class="col-12 mb-3">
                                 <label class="form-label">Street Address</label>
-                                <input type="text" class="form-control" ng-model="student.address.street">
+                                <input type="text" class="form-control" ng-model="item.address.street">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">City</label>
-                                <input type="text" class="form-control" ng-model="student.address.city">
+                                <input type="text" class="form-control" ng-model="item.address.city">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">State</label>
-                                <input type="text" class="form-control" ng-model="student.address.state">
+                                <input type="text" class="form-control" ng-model="item.address.state">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Zip Code</label>
-                                <input type="text" class="form-control" ng-model="student.address.zipCode">
+                                <input type="text" class="form-control" ng-model="item.address.zipCode">
                             </div>
                         </div>
                     </div>
@@ -176,15 +221,15 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Contact Name</label>
-                                <input type="text" class="form-control" ng-model="student.emergencyContact.name">
+                                <input type="text" class="form-control" ng-model="item.emergencyContact.name">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Contact Phone</label>
-                                <input type="tel" class="form-control" ng-model="student.emergencyContact.phoneNumber">
+                                <input type="tel" class="form-control" ng-model="item.emergencyContact.phoneNumber">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Relationship</label>
-                                <input type="text" class="form-control" ng-model="student.emergencyContact.relationship" 
+                                <input type="text" class="form-control" ng-model="item.emergencyContact.relationship" 
                                        placeholder="e.g., Parent, Guardian, Sibling">
                             </div>
                         </div>
@@ -197,7 +242,7 @@
                         </h3>
                         <div class="mb-3">
                             <label class="form-label">Notes</label>
-                            <textarea class="form-control" rows="4" ng-model="student.notes" 
+                            <textarea class="form-control" rows="4" ng-model="item.notes" 
                                       placeholder="Additional notes about the student"></textarea>
                         </div>
                     </div>
@@ -209,26 +254,26 @@
                         <h3 class="summary-title">Student Summary</h3>
                         <div class="summary-content">
                             <div class="summary-avatar">
-                                <div class="avatar-circle" ng-style="getAvatarStyle(student)">
-                                    {{getAvatarInitials(student)}}
+                                <div class="avatar-circle" ng-style="getAvatarStyle(item)">
+                                    {{getAvatarInitials(item)}}
                                 </div>
                             </div>
                             <div class="summary-info">
                                 <h4 class="summary-name">
-                                    {{student.firstName || 'First'}} {{student.lastName || 'Last'}}
+                                    {{item.firstName || 'First'}} {{item.lastName || 'Last'}}
                                 </h4>
                                 <div class="summary-details">
                                     <div class="summary-item">
                                         <span class="summary-label">Student ID:</span>
-                                        <span class="summary-value">{{student.studentId || 'Not set'}}</span>
+                                        <span class="summary-value">{{item.studentId || 'Not set'}}</span>
                                     </div>
                                     <div class="summary-item">
                                         <span class="summary-label">Grade:</span>
-                                        <span class="summary-value">{{formatGradeName(student.gradeLevel) || 'Not set'}}</span>
+                                        <span class="summary-value">{{formatGradeName(item.gradeLevel) || 'Not set'}}</span>
                                     </div>
                                     <div class="summary-item">
                                         <span class="summary-label">Status:</span>
-                                        <span class="summary-value">{{student.enrollmentStatus || 'Enrolled'}}</span>
+                                        <span class="summary-value">{{item.enrollmentStatus || 'Enrolled'}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -236,10 +281,10 @@
                         
                         <!-- Form Status -->
                         <div class="form-status">
-                            <div class="status-item" ng-class="{'text-success': studentForm.$valid, 'text-danger': studentForm.$invalid}">
-                                <i class="fas fa-circle-check" ng-show="studentForm.$valid"></i>
-                                <i class="fas fa-circle-exclamation" ng-show="studentForm.$invalid"></i>
-                                Form {{studentForm.$valid ? 'Valid' : 'Invalid'}}
+                            <div class="status-item" ng-class="{'text-success': itemForm.$valid, 'text-danger': itemForm.$invalid}">
+                                <i class="fas fa-circle-check" ng-show="itemForm.$valid"></i>
+                                <i class="fas fa-circle-exclamation" ng-show="itemForm.$invalid"></i>
+                                Form {{itemForm.$valid ? 'Valid' : 'Invalid'}}
                             </div>
                             <div class="status-item" ng-show="hasChanges" class="text-warning">
                                 <i class="fas fa-circle-info"></i>
@@ -259,6 +304,29 @@
                 <span class="visually-hidden">Loading...</span>
             </div>
             <p class="loading-text">Loading student data...</p>
+        </div>
+    </div>
+
+    <!-- Fixed Footer Actions -->
+    <div class="edit-footer-fixed">
+        <div class="container-fluid">
+            <div class="footer-actions">
+                <div class="footer-info">
+                    <span class="text-muted" ng-show="hasChanges">
+                        <i class="fas fa-circle-info me-2"></i>You have unsaved changes
+                    </span>
+                </div>
+                <div class="footer-buttons">
+                    <button class="btn btn-outline-secondary" ng-click="cancelEdit()" ng-disabled="saving">
+                        Cancel
+                    </button>
+                    <button class="btn btn-primary" ng-click="saveItem()" ng-disabled="saving || itemForm.$invalid">
+                        <i class="fas fa-save me-2" ng-show="!saving"></i>
+                        <i class="fas fa-spinner fa-spin me-2" ng-show="saving"></i>
+                        Save Changes
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -451,5 +519,38 @@
     margin-top: 16px;
     color: #6b7280;
     font-size: 14px;
+}
+
+/* Fixed Footer Styles */
+.edit-footer-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 2px solid #e5e7eb;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+    padding: 16px 0;
+}
+
+.footer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-info {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.footer-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.edit-content {
+    padding-bottom: 100px; /* Add padding to prevent content from being hidden behind fixed footer */
 }
 </style>

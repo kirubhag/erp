@@ -10,22 +10,22 @@ angular.module('erpApp', ['ngRoute'])
             controller: 'MainController'
         })
         
-        // Student Routes
+        // Student Routes - using generic controllers
         .when('/students', {
             templateUrl: '/templates/student/student-list.html'
             // Controller is defined in the template to avoid scope issues with modal
         })
         .when('/students/new', {
             templateUrl: '/templates/student/student-edit.html',
-            controller: 'StudentEditController'
+            controller: 'EntityEditController'
         })
         .when('/students/:id', {
             templateUrl: '/templates/student/student-detail.html',
-            controller: 'StudentDetailController'
+            controller: 'EntityDetailController'
         })
         .when('/students/:id/edit', {
             templateUrl: '/templates/student/student-edit.html',
-            controller: 'StudentEditController'
+            controller: 'EntityEditController'
         })
         
         // Parent Routes  

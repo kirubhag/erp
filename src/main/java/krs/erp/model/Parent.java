@@ -86,8 +86,15 @@ public class Parent extends BaseEntity {
     @Column(name = "authorized_pickup", nullable = false)
     private Boolean authorizedPickup = true;
     
-    @Column(name = "receive_notifications", nullable = false)
+        @Column(name = "receive_notifications", nullable = false)
     private Boolean receiveNotifications = true;
+    
+    // Address relationship - uses polymorphic association via Address entity
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private Address address;
+    
+    @Column(name = "emergency_contact", nullable = false)
     
     // Relationships
     @OneToOne(fetch = FetchType.LAZY)
@@ -195,52 +202,12 @@ public class Parent extends BaseEntity {
         this.workPhone = workPhone;
     }
     
-    public String getAddressLine1() {
-        return addressLine1;
+    public Address getAddress() {
+        return address;
     }
     
-    public void setAddressLine1(String addressLine1) {
-        this.addressLine1 = addressLine1;
-    }
-    
-    public String getAddressLine2() {
-        return addressLine2;
-    }
-    
-    public void setAddressLine2(String addressLine2) {
-        this.addressLine2 = addressLine2;
-    }
-    
-    public String getCity() {
-        return city;
-    }
-    
-    public void setCity(String city) {
-        this.city = city;
-    }
-    
-    public String getState() {
-        return state;
-    }
-    
-    public void setState(String state) {
-        this.state = state;
-    }
-    
-    public String getPostalCode() {
-        return postalCode;
-    }
-    
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-    
-    public String getCountry() {
-        return country;
-    }
-    
-    public void setCountry(String country) {
-        this.country = country;
+    public void setAddress(Address address) {
+        this.address = address;
     }
     
     public Boolean getEmergencyContact() {
@@ -294,30 +261,9 @@ public class Parent extends BaseEntity {
     }
     
     public String getFullAddress() {
-        StringBuilder address = new StringBuilder();
-        if (addressLine1 != null && !addressLine1.isEmpty()) {
-            address.append(addressLine1);
+        if (this.address != null) {
+            return this.address.getFullAddress();
         }
-        if (addressLine2 != null && !addressLine2.isEmpty()) {
-            if (address.length() > 0) address.append(", ");
-            address.append(addressLine2);
-        }
-        if (city != null && !city.isEmpty()) {
-            if (address.length() > 0) address.append(", ");
-            address.append(city);
-        }
-        if (state != null && !state.isEmpty()) {
-            if (address.length() > 0) address.append(", ");
-            address.append(state);
-        }
-        if (postalCode != null && !postalCode.isEmpty()) {
-            if (address.length() > 0) address.append(" ");
-            address.append(postalCode);
-        }
-        if (country != null && !country.isEmpty()) {
-            if (address.length() > 0) address.append(", ");
-            address.append(country);
-        }
-        return address.toString();
+        return "";
     }
 }

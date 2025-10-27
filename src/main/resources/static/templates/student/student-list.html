@@ -1,40 +1,45 @@
 <!-- Modern Student List Template -->
-<div ng-controller="StudentEntityController">
+<div ng-controller="EntityListController">
     <div ng-include="'/templates/shared/entity-list.html'"></div>
 
-    <!-- Student Form Modal -->
-    <div ng-include="'/templates/student/student-form-modal.html'"></div>
-
     <!-- Delete Confirmation Modal -->
-<div class="delete-modal-wrapper" 
-     ng-show="showDeleteModal" 
-     ng-click="cancelDelete()">
-    <div class="delete-modal-dialog" 
-         ng-click="$event.stopPropagation()">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <h5 class="modal-title">
-                    <i class="fas fa-exclamation-triangle text-danger me-2"></i>
-                    Confirm Delete
-                </h5>
-                <button type="button" class="btn-close" ng-click="cancelDelete()"></button>
-            </div>
-            <div class="modal-body">
-                <p class="mb-0">
-                    Are you sure you want to delete 
-                    <strong>{{studentToDelete.firstName}} {{studentToDelete.lastName}}</strong>?
-                </p>
-                <p class="text-muted small mb-0 mt-2">
-                    <i class="fas fa-info-circle me-1"></i>
-                    This action cannot be undone.
-                </p>
-            </div>
+    <div class="delete-modal-wrapper" 
+         ng-show="showDeleteModal" 
+         ng-click="cancelDelete()">
+        <div class="delete-modal-dialog" 
+             ng-click="$event.stopPropagation()">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle text-danger me-2"></i>
+                        Confirm Delete
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="cancelDelete()"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0" ng-if="itemToDelete">
+                        Are you sure you want to delete 
+                        <strong ng-if="itemToDelete.firstName && itemToDelete.lastName">
+                            {{itemToDelete.firstName}} {{itemToDelete.lastName}}
+                        </strong>
+                        <strong ng-if="itemToDelete.name && !itemToDelete.firstName">
+                            {{itemToDelete.name}}
+                        </strong>
+                        <strong ng-if="!itemToDelete.name && !itemToDelete.firstName">
+                            this {{config.entityDisplayName.toLowerCase()}}
+                        </strong>?
+                    </p>
+                    <p class="text-muted small mb-0 mt-2">
+                        <i class="fas fa-info-circle me-1"></i>
+                        This action cannot be undone.
+                    </p>
+                </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-secondary" ng-click="cancelDelete()">
                     <i class="fas fa-times me-1"></i>Cancel
                 </button>
                 <button type="button" class="btn btn-danger" ng-click="confirmDelete()">
-                    <i class="fas fa-trash me-1"></i>Delete Student
+                    <i class="fas fa-trash me-1"></i>Delete {{config.entityDisplayName}}
                 </button>
             </div>
         </div>
@@ -77,4 +82,3 @@
         font-weight: 500;
     }
 </style>
-</div>

@@ -477,8 +477,12 @@
             if ($scope.config && $scope.config.onRowClick && typeof $scope.config.onRowClick === 'function') {
                 console.log('Calling onRowClick handler');
                 $scope.config.onRowClick(item);
+            } else if ($scope.config && $scope.config.viewUrl) {
+                // Default behavior: navigate to detail view using viewUrl
+                console.log('No row click handler, using viewUrl:', $scope.config.viewUrl);
+                $scope.viewItem(item);
             } else {
-                console.log('No row click handler, falling back to selection toggle');
+                console.log('No row click handler or viewUrl, falling back to selection toggle');
                 // Fallback to selection toggle
                 $scope.toggleSelection(item);
             }
@@ -718,26 +722,20 @@
         /**
          * Open create dialog
          */
+        /**
+         * Open create dialog for new entity
+         */
         $scope.openCreateDialog = function() {
-            console.log('openCreateDialog called, config:', $scope.config);
-            console.log('Config exists:', !!$scope.config);
-            console.log('Handlers exists:', !!($scope.config && $scope.config.handlers));
-            console.log('Create handler exists:', !!($scope.config && $scope.config.handlers && $scope.config.handlers.create));
-            
-            // This will be handled by entity-specific controllers or services
-            if ($scope.config && $scope.config.handlers && $scope.config.handlers.create) {
-                console.log('Calling create handler');
+            if ($scope.config && $scope.config.createUrl) {
+                // Use configured create URL
+                $location.path($scope.config.createUrl);
+            } else if ($scope.config && $scope.config.handlers && $scope.config.handlers.create) {
+                // Fallback to handler if createUrl not configured
                 $scope.config.handlers.create();
             } else {
-                console.error('Create handler not configured!', {
-                    config: $scope.config,
-                    handlers: $scope.config ? $scope.config.handlers : null,
-                    create: $scope.config && $scope.config.handlers ? $scope.config.handlers.create : null
-                });
+                console.error('Create functionality not configured. Please set config.createUrl or config.handlers.create');
             }
-        };
-
-        /**
+        };        /**
          * Export data in specified format
          */
         $scope.exportData = function(format) {
@@ -1149,9 +1147,95 @@
         };
 
         /**
-         * Delete an item - placeholder function that can be overridden by specific controllers
+         * Delete an item - with Bootstrap modal confirmation
          */
         $scope.deleteItem = function(item) {
+            console.log('deleteItem called with item:', item);
+            $scope.itemToDelete = item;
+            $scope.showDeleteModal = true;
+        };
+
+        /**
+         * Confirm delete - called from modal
+         */
+        $scope.confirmDelete = function() {
+            if (!$scope.itemToDelete) {
+                console.error('No item to delete');
+                return;
+            }
+            
+            console.log('=== DELETE OPERATION START ===');
+            console.log('Item to delete:', $scope.itemToDelete);
+            console.log('Item ID:', $scope.itemToDelete.id);
+            
+            var itemId = $scope.itemToDelete.id;
+            var itemName = getItemDisplayName($scope.itemToDelete);
+            var entityType = $scope.config.entityType;
+            
+            // Close modal first
+            $scope.showDeleteModal = false;
+            var deletedItem = $scope.itemToDelete;
+            $scope.itemToDelete = null;
+            
+            EntityDataService.deleteItem(entityType, itemId)
+                .then(function(response) {
+                    console.log('DELETE API SUCCESS');
+                    console.log('Response:', response);
+                    console.log('Response status:', response.status);
+                    
+                    // Show success notification with entity name
+                    NotificationService.success($scope.config.entityDisplayName + ' "' + itemName + '" deleted successfully');
+                    
+                    // Use $timeout to ensure reload happens in next digest cycle
+                    return $timeout(function() {
+                        console.log('Reloading data after timeout...');
+                        loadEntityData();
+                    }, 200);
+                })
+                .catch(function(error) {
+                    console.error('DELETE API ERROR');
+                    console.error('Error:', error);
+                    
+                    var errorMsg = 'Failed to delete ' + $scope.config.entityDisplayName.toLowerCase();
+                    if (error.data && error.data.message) {
+                        errorMsg = error.data.message;
+                    } else if (error.statusText) {
+                        errorMsg += ': ' + error.statusText;
+                    }
+                    NotificationService.error(errorMsg);
+                })
+                .finally(function() {
+                    console.log('=== DELETE OPERATION END ===');
+                });
+        };
+
+        /**
+         * Cancel delete - called from modal
+         */
+        $scope.cancelDelete = function() {
+            $scope.showDeleteModal = false;
+            $scope.itemToDelete = null;
+        };
+
+        /**
+         * Get display name for an item (for delete confirmation)
+         */
+        function getItemDisplayName(item) {
+            if (item.firstName && item.lastName) {
+                return item.firstName + ' ' + item.lastName;
+            } else if (item.name) {
+                return item.name;
+            } else if (item.title) {
+                return item.title;
+            } else {
+                return 'item #' + item.id;
+            }
+        }
+
+        /**
+         * Delete an item - placeholder function that can be overridden by specific controllers
+         */
+        $scope.deleteItemOld = function(item) {
             if ($scope.config && $scope.config.onDelete && typeof $scope.config.onDelete === 'function') {
                 // Call the delete handler directly (child controllers should handle modal display)
                 $scope.config.onDelete(item);
