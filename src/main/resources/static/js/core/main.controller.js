@@ -237,12 +237,37 @@ angular.module('erpApp').controller('MainController', [
         // Logout function
         $scope.logout = function() {
             if (confirm('Are you sure you want to logout?')) {
-                // Clear user session and redirect to login
-                $scope.currentUser = null;
-                $location.path('/login');
-                $scope.showToast('info', 'Logged Out', 'You have been successfully logged out.');
+                // Get CSRF token
+                var csrfToken = getCookie('XSRF-TOKEN');
+                
+                // Create a form and submit it to logout endpoint
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/logout';
+                
+                // Add CSRF token
+                if (csrfToken) {
+                    var csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = '_csrf';
+                    csrfInput.value = csrfToken;
+                    form.appendChild(csrfInput);
+                }
+                
+                document.body.appendChild(form);
+                form.submit();
             }
         };
+        
+        // Helper function to get cookie
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length === 2) {
+                return parts.pop().split(";").shift();
+            }
+            return null;
+        }
         
         // Global error handling
         $rootScope.$on('app:error', function(event, error) {

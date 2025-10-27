@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
@@ -22,32 +23,30 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authz -> authz
-                // Allow access to static resources
-                .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/vendor/**").permitAll()
-                .requestMatchers("/templates/**").permitAll()
-                // Allow access to H2 console for development
-                .requestMatchers("/h2-console/**").permitAll()
-                // Allow access to actuator health endpoint
-                .requestMatchers("/actuator/health").permitAll()
-                // Allow access to API endpoints for testing
-                .requestMatchers("/api/**").permitAll()
-                // Temporarily allow all access for testing JavaScript console errors
-                .requestMatchers("/**").permitAll()
+                // Public resources
+                .requestMatchers("/login.html", "/vendor/**", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
+                .requestMatchers("/actuator/health", "/csrf").permitAll()
                 // All other requests require authentication
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/login")
-                .permitAll()
+                .loginPage("/login.html")
+                .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/", true)
+                .failureUrl("/login.html?error=true")
+                .permitAll()
             )
             .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login.html?logout=true")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .permitAll()
-                .logoutSuccessUrl("/login?logout")
             )
-            // Disable CSRF for H2 console and API endpoints
+            // Enable CSRF protection with cookie-based tokens
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/h2-console/**", "/api/**")
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .ignoringRequestMatchers("/h2-console/**") // Ignore CSRF for H2 console only
             )
             // Allow frames for H2 console
             .headers(headers -> headers
