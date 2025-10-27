@@ -61,40 +61,19 @@ public class Parent extends BaseEntity {
     @Column(name = "work_phone", length = 20)
     private String workPhone;
     
-    // Address Information
-    @Column(name = "address_line1", length = 100)
-    private String addressLine1;
-    
-    @Column(name = "address_line2", length = 100)
-    private String addressLine2;
-    
-    @Column(name = "city", length = 50)
-    private String city;
-    
-    @Column(name = "state", length = 50)
-    private String state;
-    
-    @Column(name = "postal_code", length = 20)
-    private String postalCode;
-    
-    @Column(name = "country", length = 50)
-    private String country;
-    
     @Column(name = "emergency_contact", nullable = false)
     private Boolean emergencyContact = false;
     
     @Column(name = "authorized_pickup", nullable = false)
     private Boolean authorizedPickup = true;
     
-        @Column(name = "receive_notifications", nullable = false)
+    @Column(name = "receive_notifications", nullable = false)
     private Boolean receiveNotifications = true;
     
     // Address relationship - uses polymorphic association via Address entity
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
-    
-    @Column(name = "emergency_contact", nullable = false)
     
     // Relationships
     @OneToOne(fetch = FetchType.LAZY)

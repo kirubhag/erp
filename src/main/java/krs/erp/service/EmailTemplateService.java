@@ -206,10 +206,20 @@ public class EmailTemplateService {
                     variables.put("PHONE", student.getPhone() != null ? student.getPhone() : "");
                     variables.put("GRADE_LEVEL", student.getGradeLevel() != null ? student.getGradeLevel().toString() : "");
                     variables.put("ADDRESS", student.getFullAddress() != null ? student.getFullAddress() : "");
-                    variables.put("CITY", student.getCity() != null ? student.getCity() : "");
-                    variables.put("STATE", student.getState() != null ? student.getState() : "");
-                    variables.put("POSTAL_CODE", student.getPostalCode() != null ? student.getPostalCode() : "");
-                    variables.put("COUNTRY", student.getCountry() != null ? student.getCountry() : "");
+                    
+                    // Address fields accessed through address relationship
+                    if (student.getAddress() != null) {
+                        variables.put("CITY", student.getAddress().getCity() != null ? student.getAddress().getCity() : "");
+                        variables.put("STATE", student.getAddress().getState() != null ? student.getAddress().getState() : "");
+                        variables.put("POSTAL_CODE", student.getAddress().getPostalCode() != null ? student.getAddress().getPostalCode() : "");
+                        variables.put("COUNTRY", student.getAddress().getCountry() != null ? student.getAddress().getCountry() : "");
+                    } else {
+                        variables.put("CITY", "");
+                        variables.put("STATE", "");
+                        variables.put("POSTAL_CODE", "");
+                        variables.put("COUNTRY", "");
+                    }
+                    
                     variables.put("DATE_OF_BIRTH", student.getDateOfBirth() != null ? student.getDateOfBirth().toString() : "");
                     variables.put("ENROLLMENT_DATE", student.getEnrollmentDate() != null ? student.getEnrollmentDate().toString() : "");
                     variables.put("ENROLLMENT_STATUS", student.getEnrollmentStatus() != null ? student.getEnrollmentStatus().toString() : "");

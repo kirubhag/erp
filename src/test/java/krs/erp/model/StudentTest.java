@@ -92,11 +92,13 @@ class StudentTest {
 
     @Test
     void testStudentAddress() {
-        student.setAddressLine1("123 Main St");
-        student.setCity("Anytown");
-        student.setState("CA");
-        student.setPostalCode("12345");
-        student.setCountry("USA");
+        Address address = new Address();
+        address.setAddressLine1("123 Main St");
+        address.setCity("Anytown");
+        address.setState("CA");
+        address.setPostalCode("12345");
+        address.setCountry("USA");
+        student.setAddress(address);
 
         String fullAddress = student.getFullAddress();
         assertTrue(fullAddress.contains("123 Main St"));

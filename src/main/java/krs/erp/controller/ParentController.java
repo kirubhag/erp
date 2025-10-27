@@ -79,12 +79,12 @@ public class ParentController {
                     parent.setPhone(parentDetails.getPhone());
                     parent.setAlternatePhone(parentDetails.getAlternatePhone());
                     parent.setWorkPhone(parentDetails.getWorkPhone());
-                    parent.setAddressLine1(parentDetails.getAddressLine1());
-                    parent.setAddressLine2(parentDetails.getAddressLine2());
-                    parent.setCity(parentDetails.getCity());
-                    parent.setState(parentDetails.getState());
-                    parent.setPostalCode(parentDetails.getPostalCode());
-                    parent.setCountry(parentDetails.getCountry());
+                    
+                    // Update address relationship
+                    if (parentDetails.getAddress() != null) {
+                        parent.setAddress(parentDetails.getAddress());
+                    }
+                    
                     parent.setOccupation(parentDetails.getOccupation());
                     parent.setWorkplace(parentDetails.getWorkplace());
                     parent.setGender(parentDetails.getGender());

@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
+import krs.erp.model.Address;
 import krs.erp.model.Student;
 
 /**
@@ -183,14 +184,20 @@ class StudentRepositoryTest {
         // Given
         Student student1 = createTestStudent();
         student1.setStudentId("STU001");
-        student1.setCity("New York");
+        Address address1 = new Address();
+        address1.setCity("New York");
+        student1.setAddress(address1);
         student1.setEnrollmentStatus(Student.EnrollmentStatus.ACTIVE);
         
         Student student2 = createTestStudent();
         student2.setStudentId("STU002");
-        student2.setCity("Los Angeles");
+        Address address2 = new Address();
+        address2.setCity("Los Angeles");
+        student2.setAddress(address2);
         student2.setEnrollmentStatus(Student.EnrollmentStatus.ACTIVE);
         
+        entityManager.persistAndFlush(address1);
+        entityManager.persistAndFlush(address2);
         entityManager.persistAndFlush(student1);
         entityManager.persistAndFlush(student2);
 
@@ -199,7 +206,7 @@ class StudentRepositoryTest {
 
         // Then
         assertEquals(1, newYorkStudents.size());
-        assertEquals("New York", newYorkStudents.get(0).getCity());
+        assertEquals("New York", newYorkStudents.get(0).getAddress().getCity());
     }
 
     private static final AtomicLong studentCounter = new AtomicLong(1);

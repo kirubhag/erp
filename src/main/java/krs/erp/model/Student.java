@@ -73,7 +73,7 @@ public class Student extends BaseEntity {
     private EnrollmentStatus enrollmentStatus = EnrollmentStatus.ACTIVE;
     
     // Address relationship - uses polymorphic association via Address entity
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
     

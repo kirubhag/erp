@@ -46,7 +46,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     
     Page<Student> findByEnrollmentStatus(Student.EnrollmentStatus enrollmentStatus, Pageable pageable);
     
-    @Query("SELECT s FROM Student s WHERE s.city = :city AND s.enrollmentStatus = 'ACTIVE'")
+    @Query("SELECT s FROM Student s WHERE s.address.city = :city AND s.enrollmentStatus = 'ACTIVE'")
     List<Student> findActiveStudentsByCity(@Param("city") String city);
     
     @Query("SELECT s FROM Student s JOIN s.parentRelations pr WHERE pr.parent.id = :parentId")

@@ -103,12 +103,12 @@ public class StudentController {
             student.setGender(studentDetails.getGender());
             student.setGradeLevel(studentDetails.getGradeLevel());
             student.setEnrollmentStatus(studentDetails.getEnrollmentStatus());
-            student.setAddressLine1(studentDetails.getAddressLine1());
-            student.setAddressLine2(studentDetails.getAddressLine2());
-            student.setCity(studentDetails.getCity());
-            student.setState(studentDetails.getState());
-            student.setPostalCode(studentDetails.getPostalCode());
-            student.setCountry(studentDetails.getCountry());
+            
+            // Update address relationship
+            if (studentDetails.getAddress() != null) {
+                student.setAddress(studentDetails.getAddress());
+            }
+            
             student.setEmergencyContactName(studentDetails.getEmergencyContactName());
             student.setEmergencyContactPhone(studentDetails.getEmergencyContactPhone());
             student.setEmergencyContactRelation(studentDetails.getEmergencyContactRelation());

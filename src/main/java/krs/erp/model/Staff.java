@@ -88,7 +88,7 @@ public class Staff extends BaseEntity {
     private Double salary;
     
     // Address relationship - uses polymorphic association via Address entity
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
     

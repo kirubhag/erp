@@ -85,17 +85,22 @@ class StaffTest {
     void testStaffContact() {
         staff.setPhone("555-1234");
         staff.setEmergencyContactPhone("555-5678");
-        staff.setAddressLine1("123 Main St");
-        staff.setCity("Anytown");
-        staff.setState("CA");
-        staff.setPostalCode("12345");
+        
+        // Create and set address
+        Address address = new Address();
+        address.setAddressLine1("123 Main St");
+        address.setCity("Anytown");
+        address.setState("CA");
+        address.setPostalCode("12345");
+        staff.setAddress(address);
 
         assertEquals("555-1234", staff.getPhone());
         assertEquals("555-5678", staff.getEmergencyContactPhone());
-        assertEquals("123 Main St", staff.getAddressLine1());
-        assertEquals("Anytown", staff.getCity());
-        assertEquals("CA", staff.getState());
-        assertEquals("12345", staff.getPostalCode());
+        assertNotNull(staff.getAddress());
+        assertEquals("123 Main St", staff.getAddress().getAddressLine1());
+        assertEquals("Anytown", staff.getAddress().getCity());
+        assertEquals("CA", staff.getAddress().getState());
+        assertEquals("12345", staff.getAddress().getPostalCode());
     }
 
     @Test

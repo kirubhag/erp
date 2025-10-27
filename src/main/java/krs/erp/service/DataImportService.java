@@ -20,6 +20,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import krs.erp.model.Address;
 import krs.erp.model.Attendance;
 import krs.erp.model.HealthRecord;
 import krs.erp.model.Parent;
@@ -29,6 +30,7 @@ import krs.erp.model.Role;
 import krs.erp.model.Staff;
 import krs.erp.model.Student;
 import krs.erp.model.User;
+import krs.erp.repository.AddressRepository;
 import krs.erp.repository.AttendanceRepository;
 import krs.erp.repository.HealthRecordRepository;
 import krs.erp.repository.ParentRepository;
@@ -71,6 +73,9 @@ public class DataImportService {
     @Autowired
     private HealthRecordRepository healthRecordRepository;
     
+    @Autowired
+    private AddressRepository addressRepository;
+    
     // Cache for loaded entities
     private final Map<Long, Permission> permissions = new HashMap<>();
     private final Map<Long, Role> roles = new HashMap<>();
@@ -78,6 +83,7 @@ public class DataImportService {
     private final Map<Long, Staff> staffMembers = new HashMap<>();
     private final Map<Long, Parent> parents = new HashMap<>();
     private final Map<Long, Student> students = new HashMap<>();
+    private final Map<Long, Address> addresses = new HashMap<>();
     
     @Transactional
     public void importDataFromXml(String xmlFilePath) {
@@ -104,6 +110,7 @@ public class DataImportService {
             importRolePermissions(document);
             importUsers(document);
             importUserRoles(document);
+            importAddresses(document); // Import addresses first before entities that reference them
             importStaff(document);
             importParents(document);
             importStudents(document);
@@ -153,6 +160,7 @@ public class DataImportService {
         staffMembers.clear();
         parents.clear();
         students.clear();
+        addresses.clear();
     }
     
     private void importPermissions(Document document) {
@@ -262,6 +270,33 @@ public class DataImportService {
         }
     }
     
+    private void importAddresses(Document document) {
+        NodeList addressNodes = document.getElementsByTagName("addresses");
+        logger.info("Importing {} addresses", addressNodes.getLength());
+        
+        for (int i = 0; i < addressNodes.getLength(); i++) {
+            Element element = (Element) addressNodes.item(i);
+            
+            Address address = new Address();
+            address.setAddressLine1(getAttributeOrNull(element, "address_line1"));
+            address.setAddressLine2(getAttributeOrNull(element, "address_line2"));
+            address.setCity(getAttributeOrNull(element, "city"));
+            address.setState(getAttributeOrNull(element, "state"));
+            address.setPostalCode(getAttributeOrNull(element, "postal_code"));
+            address.setCountry(getAttributeOrNull(element, "country"));
+            
+            String entityType = getAttributeOrNull(element, "entity_type");
+            if (entityType != null) {
+                address.setEntityType(Address.EntityType.valueOf(entityType));
+            }
+            
+            setBaseEntityFields(address, element);
+            
+            address = addressRepository.save(address);
+            addresses.put(Long.valueOf(element.getAttribute("id")), address);
+        }
+    }
+    
     private void importStaff(Document document) {
         NodeList staffNodes = document.getElementsByTagName("staff");
         logger.info("Importing {} staff members", staffNodes.getLength());
@@ -301,13 +336,11 @@ public class DataImportService {
                 staff.setSalary(Double.valueOf(salary));
             }
             
-            // Address
-            staff.setAddressLine1(getAttributeOrNull(element, "address_line1"));
-            staff.setAddressLine2(getAttributeOrNull(element, "address_line2"));
-            staff.setCity(getAttributeOrNull(element, "city"));
-            staff.setState(getAttributeOrNull(element, "state"));
-            staff.setPostalCode(getAttributeOrNull(element, "postal_code"));
-            staff.setCountry(getAttributeOrNull(element, "country"));
+            // Address relationship
+            String addressId = getAttributeOrNull(element, "address_id");
+            if (addressId != null) {
+                staff.setAddress(addresses.get(Long.valueOf(addressId)));
+            }
             
             // Emergency contact
             staff.setEmergencyContactName(getAttributeOrNull(element, "emergency_contact_name"));
@@ -346,13 +379,11 @@ public class DataImportService {
             parent.setWorkplace(getAttributeOrNull(element, "workplace"));
             parent.setWorkPhone(getAttributeOrNull(element, "work_phone"));
             
-            // Address
-            parent.setAddressLine1(getAttributeOrNull(element, "address_line1"));
-            parent.setAddressLine2(getAttributeOrNull(element, "address_line2"));
-            parent.setCity(getAttributeOrNull(element, "city"));
-            parent.setState(getAttributeOrNull(element, "state"));
-            parent.setPostalCode(getAttributeOrNull(element, "postal_code"));
-            parent.setCountry(getAttributeOrNull(element, "country"));
+            // Address relationship
+            String addressId = getAttributeOrNull(element, "address_id");
+            if (addressId != null) {
+                parent.setAddress(addresses.get(Long.valueOf(addressId)));
+            }
             
             parent.setEmergencyContact(parseBooleanValue(element.getAttribute("emergency_contact")));
             parent.setAuthorizedPickup(parseBooleanValue(element.getAttribute("authorized_pickup")));
@@ -395,13 +426,11 @@ public class DataImportService {
             student.setGradeLevel(Student.GradeLevel.valueOf(element.getAttribute("grade_level")));
             student.setEnrollmentStatus(Student.EnrollmentStatus.valueOf(element.getAttribute("enrollment_status")));
             
-            // Address
-            student.setAddressLine1(getAttributeOrNull(element, "address_line1"));
-            student.setAddressLine2(getAttributeOrNull(element, "address_line2"));
-            student.setCity(getAttributeOrNull(element, "city"));
-            student.setState(getAttributeOrNull(element, "state"));
-            student.setPostalCode(getAttributeOrNull(element, "postal_code"));
-            student.setCountry(getAttributeOrNull(element, "country"));
+            // Address relationship
+            String addressId = getAttributeOrNull(element, "address_id");
+            if (addressId != null) {
+                student.setAddress(addresses.get(Long.valueOf(addressId)));
+            }
             
             // Emergency contact
             student.setEmergencyContactName(getAttributeOrNull(element, "emergency_contact_name"));

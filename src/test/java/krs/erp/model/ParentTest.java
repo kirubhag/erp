@@ -112,32 +112,37 @@ class ParentTest {
     void testAddressInfo() {
         // Given
         Parent parent = new Parent();
-        parent.setAddressLine1("123 Main St");
-        parent.setAddressLine2("Apt 4B");
-        parent.setCity("Springfield");
-        parent.setState("IL");
-        parent.setPostalCode("62701");
-        parent.setCountry("USA");
+        Address address = new Address();
+        address.setAddressLine1("123 Main St");
+        address.setAddressLine2("Apt 4B");
+        address.setCity("Springfield");
+        address.setState("IL");
+        address.setPostalCode("62701");
+        address.setCountry("USA");
+        parent.setAddress(address);
 
         // Then
-        assertEquals("123 Main St", parent.getAddressLine1());
-        assertEquals("Apt 4B", parent.getAddressLine2());
-        assertEquals("Springfield", parent.getCity());
-        assertEquals("IL", parent.getState());
-        assertEquals("62701", parent.getPostalCode());
-        assertEquals("USA", parent.getCountry());
+        assertNotNull(parent.getAddress());
+        assertEquals("123 Main St", parent.getAddress().getAddressLine1());
+        assertEquals("Apt 4B", parent.getAddress().getAddressLine2());
+        assertEquals("Springfield", parent.getAddress().getCity());
+        assertEquals("IL", parent.getAddress().getState());
+        assertEquals("62701", parent.getAddress().getPostalCode());
+        assertEquals("USA", parent.getAddress().getCountry());
     }
 
     @Test
     void testFullAddress() {
         // Given
         Parent parent = new Parent();
-        parent.setAddressLine1("123 Main St");
-        parent.setAddressLine2("Apt 4B");
-        parent.setCity("Springfield");
-        parent.setState("IL");
-        parent.setPostalCode("62701");
-        parent.setCountry("USA");
+        Address address = new Address();
+        address.setAddressLine1("123 Main St");
+        address.setAddressLine2("Apt 4B");
+        address.setCity("Springfield");
+        address.setState("IL");
+        address.setPostalCode("62701");
+        address.setCountry("USA");
+        parent.setAddress(address);
 
         // When
         String fullAddress = parent.getFullAddress();
