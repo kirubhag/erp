@@ -76,6 +76,7 @@
                 var entityMap = {
                     'students': 'STUDENT',
                     'parents': 'PARENT',
+                    'subjects': 'SUBJECT',
                     'health': 'HEALTH',
                     'staff': 'STAFF',
                     'users': 'USER',

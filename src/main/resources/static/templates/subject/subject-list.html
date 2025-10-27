@@ -1,0 +1,93 @@
+<!-- Subject List Template -->
+<div ng-controller="EntityListController">
+    <div ng-include="'/templates/shared/entity-list.html'"></div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="delete-modal-wrapper" 
+         ng-show="showDeleteModal" 
+         ng-click="cancelDelete()">
+        <div class="delete-modal-dialog" 
+             ng-click="$event.stopPropagation()">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle text-danger me-2"></i>
+                        Confirm Delete
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="cancelDelete()"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0" ng-if="itemToDelete">
+                        Are you sure you want to delete 
+                        <strong ng-if="itemToDelete.subjectName">
+                            {{itemToDelete.subjectName}} ({{itemToDelete.subjectCode}})
+                        </strong>
+                        <strong ng-if="!itemToDelete.subjectName">
+                            this {{config.entityDisplayName.toLowerCase()}}
+                        </strong>?
+                    </p>
+                    <p class="text-muted small mb-0 mt-2">
+                        <i class="fas fa-info-circle me-1"></i>
+                        This action cannot be undone.
+                    </p>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" ng-click="cancelDelete()">
+                        <i class="fas fa-times me-1"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="confirmDelete()">
+                        <i class="fas fa-trash me-1"></i>Delete {{config.entityDisplayName}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="delete-modal-backdrop" ng-show="showDeleteModal"></div>
+
+    <!-- Subject-specific CSS -->
+    <style>
+        .subject-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .subject-code-badge {
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .subject-difficulty {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .subject-difficulty.beginner {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .subject-difficulty.intermediate {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .subject-difficulty.advanced {
+            background-color: #fecaca;
+            color: #991b1b;
+        }
+
+        .subject-difficulty.expert {
+            background-color: #ddd6fe;
+            color: #5b21b6;
+        }
+
+        .entity-list-container .subject-row:hover {
+            background-color: #f0f4ff;
+        }
+    </style>
+</div>

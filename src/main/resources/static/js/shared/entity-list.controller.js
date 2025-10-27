@@ -140,6 +140,7 @@
                 'students': 'STUDENT',
                 'parents': 'PARENT',
                 'staff': 'STAFF',
+                'subjects': 'SUBJECT',
                 'attendance': 'ATTENDANCE',
                 'health': 'HEALTH',
                 'users': 'USER',

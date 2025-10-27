@@ -310,3 +310,26 @@ INSERT IGNORE INTO permissions (name, description, resource, action) VALUES
 ('MANAGE_STAFF', 'Manage staff information', 'STAFF', 'MANAGE'),
 ('VIEW_REPORTS', 'View system reports', 'REPORTS', 'VIEW'),
 ('MANAGE_SYSTEM', 'System administration', 'SYSTEM', 'MANAGE');
+-- Subjects table
+CREATE TABLE IF NOT EXISTS subjects (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    subject_code VARCHAR(20) NOT NULL UNIQUE,
+    subject_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    grade_level VARCHAR(50) NOT NULL,
+    category VARCHAR(50),
+    credits INT,
+    hours_per_week INT,
+    prerequisites VARCHAR(200),
+    difficulty_level VARCHAR(20),
+    is_mandatory BOOLEAN DEFAULT TRUE,
+    created_by VARCHAR(255),
+    modified_by VARCHAR(255),
+    created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    INDEX idx_subject_code (subject_code),
+    INDEX idx_grade_level (gradeLevel),
+    INDEX idx_is_active (is_active)
+);

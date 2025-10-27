@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<subjects>
+    <subject>
+        <subjectCode>KG-MATH</subjectCode>
+        <subjectName>Mathematics Foundation</subjectName>
+        <description>Basic counting, shapes, and number recognition</description>
+        <gradeLevel>KinderGarten</gradeLevel>
+        <category>Core</category>
+        <credits>2</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Easy</difficultyLevel>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>KG-ENG</subjectCode>
+        <subjectName>English Language</subjectName>
+        <description>Alphabet learning, phonics, and basic vocabulary</description>
+        <gradeLevel>KinderGarten</gradeLevel>
+        <category>Core</category>
+        <credits>2</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Easy</difficultyLevel>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>KG-SCI</subjectCode>
+        <subjectName>Science Exploration</subjectName>
+        <description>Exploring nature, animals, and basic scientific concepts</description>
+        <gradeLevel>KinderGarten</gradeLevel>
+        <category>Core</category>
+        <credits>1</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Easy</difficultyLevel>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G1-MATH</subjectCode>
+        <subjectName>Mathematics</subjectName>
+        <description>Addition, subtraction, and basic geometry</description>
+        <gradeLevel>Grade 1</gradeLevel>
+        <category>Core</category>
+        <credits>3</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Easy</difficultyLevel>
+        <prerequisites>KG-MATH</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G1-ENG</subjectCode>
+        <subjectName>English</subjectName>
+        <description>Reading, writing, and basic grammar</description>
+        <gradeLevel>Grade 1</gradeLevel>
+        <category>Core</category>
+        <credits>3</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Easy</difficultyLevel>
+        <prerequisites>KG-ENG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G1-SCI</subjectCode>
+        <subjectName>Science</subjectName>
+        <description>Plants, animals, and weather</description>
+        <gradeLevel>Grade 1</gradeLevel>
+        <category>Core</category>
+        <credits>2</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Easy</difficultyLevel>
+        <prerequisites>KG-SCI</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G2-MATH</subjectCode>
+        <subjectName>Mathematics</subjectName>
+        <description>Multiplication tables, division basics</description>
+        <gradeLevel>Grade 2</gradeLevel>
+        <category>Core</category>
+        <credits>3</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Easy</difficultyLevel>
+        <prerequisites>G1-MATH</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G2-ENG</subjectCode>
+        <subjectName>English</subjectName>
+        <description>Reading comprehension and creative writing</description>
+        <gradeLevel>Grade 2</gradeLevel>
+        <category>Core</category>
+        <credits>3</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Easy</difficultyLevel>
+        <prerequisites>G1-ENG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G2-SCI</subjectCode>
+        <subjectName>Science</subjectName>
+        <description>Life cycles, matter, and energy</description>
+        <gradeLevel>Grade 2</gradeLevel>
+        <category>Core</category>
+        <credits>2</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Easy</difficultyLevel>
+        <prerequisites>G1-SCI</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G3-MATH</subjectCode>
+        <subjectName>Mathematics</subjectName>
+        <description>Fractions, decimals, advanced multiplication</description>
+        <gradeLevel>Grade 3</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G2-MATH</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G3-ENG</subjectCode>
+        <subjectName>English</subjectName>
+        <description>Advanced grammar, vocabulary, essay writing</description>
+        <gradeLevel>Grade 3</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G2-ENG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G3-SCI</subjectCode>
+        <subjectName>Science</subjectName>
+        <description>Earth science, ecosystems, scientific method</description>
+        <gradeLevel>Grade 3</gradeLevel>
+        <category>Core</category>
+        <credits>3</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G2-SCI</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G3-COMP</subjectCode>
+        <subjectName>Computer Science</subjectName>
+        <description>Basic computer skills and typing</description>
+        <gradeLevel>Grade 3</gradeLevel>
+        <category>Elective</category>
+        <credits>1</credits>
+        <isMandatory>false</isMandatory>
+        <difficultyLevel>Easy</difficultyLevel>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G4-MATH</subjectCode>
+        <subjectName>Mathematics</subjectName>
+        <description>Advanced fractions, geometry, problem-solving</description>
+        <gradeLevel>Grade 4</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G3-MATH</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G4-ENG</subjectCode>
+        <subjectName>English</subjectName>
+        <description>Literature analysis and persuasive writing</description>
+        <gradeLevel>Grade 4</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G3-ENG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G4-SCI</subjectCode>
+        <subjectName>Science</subjectName>
+        <description>Physical science, electricity, magnetism</description>
+        <gradeLevel>Grade 4</gradeLevel>
+        <category>Core</category>
+        <credits>3</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G3-SCI</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G4-COMP</subjectCode>
+        <subjectName>Computer Science</subjectName>
+        <description>Introduction to coding and digital literacy</description>
+        <gradeLevel>Grade 4</gradeLevel>
+        <category>Elective</category>
+        <credits>2</credits>
+        <isMandatory>false</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G3-COMP</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G5-MATH</subjectCode>
+        <subjectName>Mathematics</subjectName>
+        <description>Pre-algebra, ratios, and percentages</description>
+        <gradeLevel>Grade 5</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G4-MATH</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G5-ENG</subjectCode>
+        <subjectName>English</subjectName>
+        <description>Advanced literature and research writing</description>
+        <gradeLevel>Grade 5</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G4-ENG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G5-SCI</subjectCode>
+        <subjectName>Science</subjectName>
+        <description>Chemistry basics and environmental science</description>
+        <gradeLevel>Grade 5</gradeLevel>
+        <category>Core</category>
+        <credits>3</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G4-SCI</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G5-COMP</subjectCode>
+        <subjectName>Computer Science</subjectName>
+        <description>Programming fundamentals and web basics</description>
+        <gradeLevel>Grade 5</gradeLevel>
+        <category>Elective</category>
+        <credits>2</credits>
+        <isMandatory>false</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G4-COMP</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G6-MATH</subjectCode>
+        <subjectName>Mathematics</subjectName>
+        <description>Algebra I, statistics, and probability</description>
+        <gradeLevel>Grade 6</gradeLevel>
+        <category>Core</category>
+        <credits>5</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G5-MATH</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G6-ENG</subjectCode>
+        <subjectName>English</subjectName>
+        <description>Critical reading and analytical writing</description>
+        <gradeLevel>Grade 6</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G5-ENG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G6-SCI</subjectCode>
+        <subjectName>Science</subjectName>
+        <description>Life science, cells, human body systems</description>
+        <gradeLevel>Grade 6</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G5-SCI</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G6-LANG</subjectCode>
+        <subjectName>Foreign Language</subjectName>
+        <description>Introduction to a second language</description>
+        <gradeLevel>Grade 6</gradeLevel>
+        <category>Elective</category>
+        <credits>2</credits>
+        <isMandatory>false</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G7-MATH</subjectCode>
+        <subjectName>Mathematics</subjectName>
+        <description>Algebra II and geometry introduction</description>
+        <gradeLevel>Grade 7</gradeLevel>
+        <category>Core</category>
+        <credits>5</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G6-MATH</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G7-ENG</subjectCode>
+        <subjectName>English</subjectName>
+        <description>Advanced literature and composition</description>
+        <gradeLevel>Grade 7</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G6-ENG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G7-SCI</subjectCode>
+        <subjectName>Science</subjectName>
+        <description>Earth science and astronomy</description>
+        <gradeLevel>Grade 7</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G6-SCI</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G7-LANG</subjectCode>
+        <subjectName>Foreign Language</subjectName>
+        <description>Intermediate second language</description>
+        <gradeLevel>Grade 7</gradeLevel>
+        <category>Elective</category>
+        <credits>2</credits>
+        <isMandatory>false</isMandatory>
+        <difficultyLevel>Medium</difficultyLevel>
+        <prerequisites>G6-LANG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G8-MATH</subjectCode>
+        <subjectName>Mathematics</subjectName>
+        <description>Advanced algebra and trigonometry basics</description>
+        <gradeLevel>Grade 8</gradeLevel>
+        <category>Core</category>
+        <credits>5</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G7-MATH</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G8-ENG</subjectCode>
+        <subjectName>English</subjectName>
+        <description>Advanced writing and rhetoric</description>
+        <gradeLevel>Grade 8</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G7-ENG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G8-SCI</subjectCode>
+        <subjectName>Science</subjectName>
+        <description>Physics fundamentals</description>
+        <gradeLevel>Grade 8</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G7-SCI</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G8-LANG</subjectCode>
+        <subjectName>Foreign Language</subjectName>
+        <description>Advanced second language</description>
+        <gradeLevel>Grade 8</gradeLevel>
+        <category>Elective</category>
+        <credits>2</credits>
+        <isMandatory>false</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G7-LANG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G9-MATH</subjectCode>
+        <subjectName>Geometry</subjectName>
+        <description>Advanced geometry and spatial reasoning</description>
+        <gradeLevel>Grade 9</gradeLevel>
+        <category>Core</category>
+        <credits>5</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G8-MATH</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G9-ENG</subjectCode>
+        <subjectName>English Literature</subjectName>
+        <description>World literature and critical analysis</description>
+        <gradeLevel>Grade 9</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G8-ENG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G9-BIO</subjectCode>
+        <subjectName>Biology</subjectName>
+        <description>Advanced biology and genetics</description>
+        <gradeLevel>Grade 9</gradeLevel>
+        <category>Core</category>
+        <credits>5</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G8-SCI</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G9-HIS</subjectCode>
+        <subjectName>World History</subjectName>
+        <description>Global history from ancient to modern times</description>
+        <gradeLevel>Grade 9</gradeLevel>
+        <category>Core</category>
+        <credits>3</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G10-MATH</subjectCode>
+        <subjectName>Algebra II</subjectName>
+        <description>Advanced algebra and functions</description>
+        <gradeLevel>Grade 10</gradeLevel>
+        <category>Core</category>
+        <credits>5</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G9-MATH</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G10-ENG</subjectCode>
+        <subjectName>English Literature</subjectName>
+        <description>American literature and composition</description>
+        <gradeLevel>Grade 10</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G9-ENG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G10-CHEM</subjectCode>
+        <subjectName>Chemistry</subjectName>
+        <description>General chemistry and lab work</description>
+        <gradeLevel>Grade 10</gradeLevel>
+        <category>Core</category>
+        <credits>5</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G9-BIO</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G10-HIS</subjectCode>
+        <subjectName>European History</subjectName>
+        <description>European history and culture</description>
+        <gradeLevel>Grade 10</gradeLevel>
+        <category>Core</category>
+        <credits>3</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G11-MATH</subjectCode>
+        <subjectName>Pre-Calculus</subjectName>
+        <description>Pre-calculus and advanced functions</description>
+        <gradeLevel>Grade 11</gradeLevel>
+        <category>Core</category>
+        <credits>5</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G10-MATH</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G11-ENG</subjectCode>
+        <subjectName>English Literature</subjectName>
+        <description>British literature and advanced composition</description>
+        <gradeLevel>Grade 11</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G10-ENG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G11-PHYS</subjectCode>
+        <subjectName>Physics</subjectName>
+        <description>Advanced physics and mechanics</description>
+        <gradeLevel>Grade 11</gradeLevel>
+        <category>Core</category>
+        <credits>5</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G10-CHEM</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G11-USH</subjectCode>
+        <subjectName>US History</subjectName>
+        <description>United States history</description>
+        <gradeLevel>Grade 11</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G12-CALC</subjectCode>
+        <subjectName>Calculus</subjectName>
+        <description>AP Calculus AB/BC</description>
+        <gradeLevel>Grade 12</gradeLevel>
+        <category>Core</category>
+        <credits>5</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G11-MATH</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G12-ENG</subjectCode>
+        <subjectName>English Literature</subjectName>
+        <description>Advanced placement English and literature</description>
+        <gradeLevel>Grade 12</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G11-ENG</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G12-ENV</subjectCode>
+        <subjectName>Environmental Science</subjectName>
+        <description>AP Environmental Science</description>
+        <gradeLevel>Grade 12</gradeLevel>
+        <category>Core</category>
+        <credits>4</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G11-PHYS</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G12-GOV</subjectCode>
+        <subjectName>Government</subjectName>
+        <description>Government and politics</description>
+        <gradeLevel>Grade 12</gradeLevel>
+        <category>Core</category>
+        <credits>3</credits>
+        <isMandatory>true</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <isActive>true</isActive>
+    </subject>
+    <subject>
+        <subjectCode>G12-COMP</subjectCode>
+        <subjectName>Computer Science</subjectName>
+        <description>AP Computer Science</description>
+        <gradeLevel>Grade 12</gradeLevel>
+        <category>Elective</category>
+        <credits>4</credits>
+        <isMandatory>false</isMandatory>
+        <difficultyLevel>Hard</difficultyLevel>
+        <prerequisites>G5-COMP</prerequisites>
+        <isActive>true</isActive>
+    </subject>
+</subjects>

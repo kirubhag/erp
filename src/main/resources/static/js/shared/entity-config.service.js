@@ -619,6 +619,178 @@
                     }
                 ]
             };
+
+            // Subject Configuration
+            entityConfigs['SUBJECT'] = {
+                entityType: 'SUBJECT',
+                entityName: 'Subject',
+                entityDisplayName: 'Subject',
+                title: 'Subjects',
+                subtitle: 'Manage academic subjects across all grade levels',
+                createButtonText: 'Add Subject',
+                emptyIcon: 'book',
+                emptyMessage: 'Get started by adding your first subject to the curriculum',
+                allowCreate: true,
+                
+                // URL configurations for CRUD operations
+                createUrl: '/subjects/new',
+                viewUrl: '/subjects/:id',
+                editUrl: '/subjects/:id/edit',
+                listUrl: '/subjects',
+                
+                features: {
+                    customViews: true,
+                    import: true,
+                    export: true,
+                    sourceBooters: false,
+                    bulkActions: true
+                },
+
+                defaultColumns: [
+                    {
+                        field: 'subjectCode',
+                        label: 'Subject Code',
+                        primary: true,
+                        sortable: true,
+                        type: 'text'
+                    },
+                    {
+                        field: 'subjectName',
+                        label: 'Subject Name',
+                        sortable: true,
+                        type: 'text'
+                    },
+                    {
+                        field: 'gradeLevel',
+                        label: 'Grade',
+                        sortable: true,
+                        type: 'text'
+                    },
+                    {
+                        field: 'category',
+                        label: 'Category',
+                        sortable: true,
+                        type: 'text'
+                    },
+                    {
+                        field: 'credits',
+                        label: 'Credits',
+                        sortable: true,
+                        type: 'number'
+                    },
+                    {
+                        field: 'hoursPerWeek',
+                        label: 'Hours/Week',
+                        sortable: true,
+                        type: 'number'
+                    },
+                    {
+                        field: 'difficultyLevel',
+                        label: 'Difficulty',
+                        sortable: true,
+                        type: 'text'
+                    },
+                    {
+                        field: 'isMandatory',
+                        label: 'Mandatory',
+                        sortable: true,
+                        type: 'boolean'
+                    }
+                ],
+
+                filters: [
+                    {
+                        name: 'Grade Level',
+                        field: 'gradeLevel',
+                        expanded: true,
+                        options: [
+                            { value: 'KinderGarten', label: 'Kindergarten', selected: false },
+                            { value: 'Grade 1', label: 'Grade 1', selected: false },
+                            { value: 'Grade 2', label: 'Grade 2', selected: false },
+                            { value: 'Grade 3', label: 'Grade 3', selected: false },
+                            { value: 'Grade 4', label: 'Grade 4', selected: false },
+                            { value: 'Grade 5', label: 'Grade 5', selected: false },
+                            { value: 'Grade 6', label: 'Grade 6', selected: false },
+                            { value: 'Grade 7', label: 'Grade 7', selected: false },
+                            { value: 'Grade 8', label: 'Grade 8', selected: false },
+                            { value: 'Grade 9', label: 'Grade 9', selected: false },
+                            { value: 'Grade 10', label: 'Grade 10', selected: false },
+                            { value: 'Grade 11', label: 'Grade 11', selected: false },
+                            { value: 'Grade 12', label: 'Grade 12', selected: false }
+                        ]
+                    },
+                    {
+                        name: 'Category',
+                        field: 'category',
+                        expanded: true,
+                        options: [
+                            { value: 'Mathematics', label: 'Mathematics', selected: false },
+                            { value: 'Science', label: 'Science', selected: false },
+                            { value: 'Language Arts', label: 'Language Arts', selected: false },
+                            { value: 'Social Studies', label: 'Social Studies', selected: false },
+                            { value: 'Arts', label: 'Arts', selected: false },
+                            { value: 'Physical Education', label: 'Physical Education', selected: false },
+                            { value: 'Technology', label: 'Technology', selected: false },
+                            { value: 'Foreign Language', label: 'Foreign Language', selected: false }
+                        ]
+                    },
+                    {
+                        name: 'Difficulty',
+                        field: 'difficultyLevel',
+                        expanded: false,
+                        options: [
+                            { value: 'Beginner', label: 'Beginner', selected: false },
+                            { value: 'Intermediate', label: 'Intermediate', selected: false },
+                            { value: 'Advanced', label: 'Advanced', selected: false },
+                            { value: 'Expert', label: 'Expert', selected: false }
+                        ]
+                    }
+                ],
+
+                rowActions: [
+                    {
+                        name: 'view',
+                        icon: 'eye',
+                        label: 'View Details',
+                        visible: true
+                    },
+                    {
+                        name: 'edit',
+                        icon: 'edit',
+                        label: 'Edit Subject',
+                        visible: true
+                    },
+                    {
+                        name: 'delete',
+                        icon: 'trash',
+                        label: 'Delete Subject',
+                        visible: true
+                    }
+                ],
+
+                bulkActions: [
+                    {
+                        name: 'export',
+                        icon: 'download',
+                        label: 'Export Selected'
+                    },
+                    {
+                        name: 'delete',
+                        icon: 'trash',
+                        label: 'Delete Selected'
+                    }
+                ],
+
+                gridConfig: {
+                    primaryField: 'subjectName',
+                    secondaryField: 'subjectCode',
+                    fields: [
+                        { field: 'gradeLevel', label: 'Grade' },
+                        { field: 'category', label: 'Category' },
+                        { field: 'credits', label: 'Credits' }
+                    ]
+                }
+            };
         }
 
         /**

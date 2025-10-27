@@ -56,6 +56,23 @@ angular.module('erpApp', ['ngRoute'])
             controller: 'HealthEditController'
         })
         
+        // Subject Routes
+        .when('/subjects', {
+            templateUrl: '/templates/subject/subject-list.html'
+        })
+        .when('/subjects/new', {
+            templateUrl: '/templates/subject/subject-edit.html',
+            controller: 'EntityEditController'
+        })
+        .when('/subjects/:id', {
+            templateUrl: '/templates/subject/subject-detail.html',
+            controller: 'EntityDetailController'
+        })
+        .when('/subjects/:id/edit', {
+            templateUrl: '/templates/subject/subject-edit.html',
+            controller: 'EntityEditController'
+        })
+        
         // Attendance Routes (keeping existing for now)
         .when('/attendance', {
             templateUrl: '/templates/attendance/attendance.html',
