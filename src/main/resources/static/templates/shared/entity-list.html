@@ -28,7 +28,7 @@
                         </div>
                         <div class="view-divider"></div>
                         <div class="view-option" ng-repeat="view in customViews" ng-click="selectView(view)">
-                            <i class="fas fa-eye"></i>
+                            <i class="fas fa-list"></i>
                             <span>{{view.name}}</span>
                         </div>
                         <div class="view-divider" ng-if="customViews.length > 0"></div>
@@ -51,6 +51,33 @@
                 <button class="refresh-btn" ng-click="loadEntityData()" title="Refresh list">
                     <i class="fas fa-sync-alt" ng-class="{'fa-spin': loading}"></i>
                 </button>
+                
+                <!-- Action Bar (appears when items are selected) -->
+                <div class="selection-bar" ng-show="hasSelectedItems()">
+                    <div class="selection-info">
+                        <span class="selected-count">{{selectedItems.length}}</span>
+                        <span class="selected-text">selected</span>
+                    </div>
+                    
+                    <div class="bulk-actions-dropdown">
+                        <button class="bulk-actions-trigger" ng-click="toggleBulkActionsMenu()">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                        
+                        <div class="bulk-actions-menu" ng-show="showBulkActionsMenu">
+                            <button class="bulk-action-item" 
+                                    ng-repeat="action in config.bulkActions"
+                                    ng-click="executeBulkAction(action)">
+                                <i class="fas fa-{{action.icon}}"></i>
+                                <span>{{action.label}}</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button class="clear-selection-btn" ng-click="clearSelection()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
             
             <div class="header-actions">
@@ -194,33 +221,6 @@
                 <!-- Loading Bar -->
                 <div class="loading-bar" ng-show="loading">
                     <div class="loading-bar-progress"></div>
-                </div>
-                
-                <!-- Action Bar (appears when items are selected) -->
-                <div class="selection-bar" ng-show="hasSelectedItems()">
-                    <div class="selection-info">
-                        <span class="selected-count">{{selectedItems.length}}</span>
-                        <span class="selected-text">selected</span>
-                    </div>
-                    
-                    <div class="bulk-actions-dropdown">
-                        <button class="bulk-actions-trigger" ng-click="toggleBulkActionsMenu()">
-                            <i class="fas fa-ellipsis-h"></i>
-                        </button>
-                        
-                        <div class="bulk-actions-menu" ng-show="showBulkActionsMenu">
-                            <button class="bulk-action-item" 
-                                    ng-repeat="action in config.bulkActions"
-                                    ng-click="executeBulkAction(action)">
-                                <i class="fas fa-{{action.icon}}"></i>
-                                <span>{{action.label}}</span>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <button class="clear-selection-btn" ng-click="clearSelection()">
-                        <i class="fas fa-times"></i>
-                    </button>
                 </div>
                 
                 <!-- Data Table -->
