@@ -181,13 +181,8 @@ angular.module('erpApp', ['ngRoute'])
             controller: 'OrganizationDetailsController'
         })
         .when('/settings/personal', {
-            templateUrl: '/templates/settings/settings.html',
-            controller: 'SettingsController',
-            resolve: {
-                loadModule: ['ScriptLoaderService', function(ScriptLoaderService) {
-                    return ScriptLoaderService.loadModule('settings');
-                }]
-            }
+            templateUrl: '/templates/settings/personal-settings.html',
+            controller: 'PersonalSettingsController'
         })
         .when('/settings/calendar', {
             templateUrl: '/templates/settings/settings.html',
@@ -281,10 +276,6 @@ angular.module('erpApp', ['ngRoute'])
         .when('/settings/recycle-bin', {
             templateUrl: '/templates/settings/recycle-bin-settings.html',
             controller: 'RecycleBinController'
-        })
-        .when('/settings/theme', {
-            templateUrl: '/templates/settings/theme-settings.html',
-            controller: 'ThemeSettingsController'
         })
         .when('/recycle-bin', {
             redirectTo: '/settings/recycle-bin'
