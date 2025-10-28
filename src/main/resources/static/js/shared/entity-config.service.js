@@ -139,12 +139,6 @@
 
                 rowActions: [
                     {
-                        name: 'view',
-                        icon: 'info-circle',
-                        label: 'View Details',
-                        visible: true
-                    },
-                    {
                         name: 'edit',
                         icon: 'edit',
                         label: 'Edit Student',
@@ -264,12 +258,6 @@
                 ],
 
                 rowActions: [
-                    {
-                        name: 'view',
-                        icon: 'info-circle',
-                        label: 'View Details',
-                        visible: true
-                    },
                     {
                         name: 'edit',
                         icon: 'edit',
@@ -391,12 +379,6 @@
 
                 rowActions: [
                     {
-                        name: 'view',
-                        icon: 'info-circle',
-                        label: 'View Details',
-                        visible: true
-                    },
-                    {
                         name: 'edit',
                         icon: 'edit',
                         label: 'Edit Staff',
@@ -501,12 +483,6 @@
 
                 rowActions: [
                     {
-                        name: 'view',
-                        icon: 'info-circle',
-                        label: 'View Details',
-                        visible: true
-                    },
-                    {
                         name: 'edit',
                         icon: 'edit',
                         label: 'Edit Record',
@@ -599,12 +575,6 @@
                 ],
 
                 rowActions: [
-                    {
-                        name: 'view',
-                        icon: 'info-circle',
-                        label: 'View Details',
-                        visible: true
-                    },
                     {
                         name: 'edit',
                         icon: 'edit',
@@ -748,12 +718,6 @@
                 ],
 
                 rowActions: [
-                    {
-                        name: 'view',
-                        icon: 'info-circle',
-                        label: 'View Details',
-                        visible: true
-                    },
                     {
                         name: 'edit',
                         icon: 'edit',
@@ -914,12 +878,6 @@
                 ],
 
                 rowActions: [
-                    {
-                        name: 'view',
-                        icon: 'info-circle',
-                        label: 'View Details',
-                        visible: true
-                    },
                     {
                         name: 'edit',
                         icon: 'edit',

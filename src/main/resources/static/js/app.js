@@ -282,6 +282,10 @@ angular.module('erpApp', ['ngRoute'])
             templateUrl: '/templates/settings/recycle-bin-settings.html',
             controller: 'RecycleBinController'
         })
+        .when('/settings/theme', {
+            templateUrl: '/templates/settings/theme-settings.html',
+            controller: 'ThemeSettingsController'
+        })
         .when('/recycle-bin', {
             redirectTo: '/settings/recycle-bin'
         })
@@ -289,7 +293,10 @@ angular.module('erpApp', ['ngRoute'])
             redirectTo: '/'
         });
 }])
-.run(['$rootScope', '$locale', function($rootScope, $locale) {
+.run(['$rootScope', '$locale', 'ThemeService', function($rootScope, $locale, ThemeService) {
+    // Initialize theme system on app startup
+    // ThemeService.init() is called automatically when the service is loaded
+    
     // Global application settings
     $rootScope.appName = 'Student Information System';
     $rootScope.version = '1.0.0';
