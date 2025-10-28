@@ -76,6 +76,13 @@ angular.module('erpApp').controller('MainController', [
             // Route change handling if needed
         });
         
+        // Listen for menu order updates
+        $scope.$on('menuOrderUpdated', function() {
+            // Clear menu cache and reload
+            MenuService.clearCache();
+            $scope.loadMenuItems();
+        });
+        
         // Dynamic menu items
         $scope.allMenuItems = [];
         $scope.visibleMenuItems = [];
@@ -96,41 +103,21 @@ angular.module('erpApp').controller('MainController', [
         
         // Calculate which menu items are visible and which go into "More" dropdown
         $scope.calculateMenuOverflow = function() {
-            // Wait for DOM to be ready
-            $timeout(function() {
-                var navbar = angular.element(document.querySelector('.navbar-nav.me-auto'));
-                if (!navbar || navbar.length === 0) {
-                    // If navbar not found, show all items
-                    $scope.visibleMenuItems = $scope.allMenuItems;
-                    $scope.overflowMenuItems = [];
-                    $scope.hasOverflow = false;
-                    return;
-                }
-                
-                // Get available width (navbar width minus settings/user items on right)
-                var navbarWidth = navbar[0].offsetWidth;
-                var availableWidth = navbarWidth - 150; // Reserve 150px for "More" button if needed
-                
-                // Calculate menu item widths (approximate: icon(40px) + text + padding(20px))
-                var visibleItems = [];
-                var overflowItems = [];
-                var usedWidth = 0;
-                var itemWidth = 120; // Approximate width per menu item
-                
-                for (var i = 0; i < $scope.allMenuItems.length; i++) {
-                    var item = $scope.allMenuItems[i];
-                    if (usedWidth + itemWidth <= availableWidth) {
-                        visibleItems.push(item);
-                        usedWidth += itemWidth;
-                    } else {
-                        overflowItems.push(item);
-                    }
-                }
-                
-                $scope.visibleMenuItems = visibleItems;
-                $scope.overflowMenuItems = overflowItems;
-                $scope.hasOverflow = overflowItems.length > 0;
-            }, 100);
+            // For now, show first 6 items in navbar, rest in overflow
+            // This provides good balance between visibility and responsiveness
+            var maxVisibleItems = 6;
+            
+            if ($scope.allMenuItems.length <= maxVisibleItems) {
+                // All items fit, no overflow needed
+                $scope.visibleMenuItems = $scope.allMenuItems;
+                $scope.overflowMenuItems = [];
+                $scope.hasOverflow = false;
+            } else {
+                // Split items: first maxVisibleItems visible, rest in overflow
+                $scope.visibleMenuItems = $scope.allMenuItems.slice(0, maxVisibleItems);
+                $scope.overflowMenuItems = $scope.allMenuItems.slice(maxVisibleItems);
+                $scope.hasOverflow = true;
+            }
         };
         
         // Recalculate menu overflow on window resize

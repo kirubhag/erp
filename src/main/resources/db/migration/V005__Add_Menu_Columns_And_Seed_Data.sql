@@ -2,16 +2,93 @@
 -- This migration adds menu-specific columns (sequence, system_name, presence, icon, route)
 -- and populates the table with all application menu items
 
--- Add new columns for dynamic menu system
-ALTER TABLE erp_entities 
-    ADD COLUMN sequence INT DEFAULT 0 AFTER is_active,
-    ADD COLUMN system_name VARCHAR(100) AFTER sequence,
-    ADD COLUMN presence BOOLEAN DEFAULT TRUE AFTER system_name,
-    ADD COLUMN icon VARCHAR(100) AFTER presence,
-    ADD COLUMN route VARCHAR(255) AFTER icon,
-    ADD INDEX idx_sequence (sequence),
-    ADD INDEX idx_presence (presence),
-    ADD INDEX idx_system_name (system_name);
+-- Check and add sequence column
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'erp_entities' AND COLUMN_NAME = 'sequence';
+SET @sql = IF(@col_exists = 0, 
+    'ALTER TABLE erp_entities ADD COLUMN sequence INT DEFAULT 0 AFTER is_active',
+    'SELECT ''Column sequence already exists'' AS Note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Check and add system_name column
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'erp_entities' AND COLUMN_NAME = 'system_name';
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_entities ADD COLUMN system_name VARCHAR(100) AFTER sequence',
+    'SELECT ''Column system_name already exists'' AS Note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Check and add presence column
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'erp_entities' AND COLUMN_NAME = 'presence';
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_entities ADD COLUMN presence BOOLEAN DEFAULT TRUE AFTER system_name',
+    'SELECT ''Column presence already exists'' AS Note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Check and add icon column
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'erp_entities' AND COLUMN_NAME = 'icon';
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_entities ADD COLUMN icon VARCHAR(100) AFTER presence',
+    'SELECT ''Column icon already exists'' AS Note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Check and add route column
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'erp_entities' AND COLUMN_NAME = 'route';
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_entities ADD COLUMN route VARCHAR(255) AFTER icon',
+    'SELECT ''Column route already exists'' AS Note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Check and add idx_sequence index
+SET @idx_exists = 0;
+SELECT COUNT(*) INTO @idx_exists FROM information_schema.STATISTICS
+WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'erp_entities' AND INDEX_NAME = 'idx_sequence';
+SET @sql = IF(@idx_exists = 0,
+    'CREATE INDEX idx_sequence ON erp_entities(sequence)',
+    'SELECT ''Index idx_sequence already exists'' AS Note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Check and add idx_presence index
+SET @idx_exists = 0;
+SELECT COUNT(*) INTO @idx_exists FROM information_schema.STATISTICS
+WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'erp_entities' AND INDEX_NAME = 'idx_presence';
+SET @sql = IF(@idx_exists = 0,
+    'CREATE INDEX idx_presence ON erp_entities(presence)',
+    'SELECT ''Index idx_presence already exists'' AS Note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Check and add idx_system_name index
+SET @idx_exists = 0;
+SELECT COUNT(*) INTO @idx_exists FROM information_schema.STATISTICS
+WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'erp_entities' AND INDEX_NAME = 'idx_system_name';
+SET @sql = IF(@idx_exists = 0,
+    'CREATE INDEX idx_system_name ON erp_entities(system_name)',
+    'SELECT ''Index idx_system_name already exists'' AS Note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
 -- Update existing entities with menu information
 UPDATE erp_entities SET 
@@ -38,13 +115,27 @@ UPDATE erp_entities SET
     route = '#!/attendance'
 WHERE singular_name = 'Attendance';
 
--- Insert additional menu items
-INSERT INTO erp_entities (singular_name, plural_name, description, is_active, sequence, system_name, presence, icon, route, created_by, last_modified_by) 
+UPDATE erp_entities SET 
+    sequence = 5,
+    system_name = 'subject',
+    presence = TRUE,
+    icon = 'fas fa-book',
+    route = '#!/subjects'
+WHERE singular_name = 'Subject';
+
+UPDATE erp_entities SET 
+    sequence = 6,
+    system_name = 'timetable',
+    presence = TRUE,
+    icon = 'fas fa-calendar',
+    route = '#!/timetables'
+WHERE singular_name = 'Timetable';
+
+-- Insert new menu items using INSERT IGNORE (skip if already exists)
+INSERT IGNORE INTO erp_entities (singular_name, plural_name, description, is_active, sequence, system_name, presence, icon, route, created_by, last_modified_by) 
 VALUES 
     ('Dashboard', 'Dashboard', 'Main dashboard for overview and analytics', TRUE, 1, 'dashboard', TRUE, 'fas fa-tachometer-alt', '#!/', 'system', 'system'),
     ('Parent', 'Parents', 'Parent management entity for managing parent/guardian information', TRUE, 4, 'parent', TRUE, 'fas fa-users', '#!/parents', 'system', 'system'),
-    ('Subject', 'Subjects', 'Subject management entity for managing academic subjects', TRUE, 5, 'subject', TRUE, 'fas fa-book', '#!/subjects', 'system', 'system'),
-    ('Timetable', 'Timetables', 'Timetable management entity for managing class schedules', TRUE, 6, 'timetable', TRUE, 'fas fa-calendar', '#!/timetables', 'system', 'system'),
     ('Health Record', 'Health Records', 'Health record management entity for student health information', TRUE, 7, 'health_record', TRUE, 'fas fa-heartbeat', '#!/health', 'system', 'system'),
     ('Settings', 'Settings', 'Application settings and configuration', TRUE, 99, 'settings', FALSE, 'fas fa-cog', '#!/settings', 'system', 'system');
 

@@ -1,7 +1,7 @@
 // Modules Controller - Handles module listing and management
 angular.module('erpApp').controller('ModulesController', [
-    '$scope', '$rootScope', '$location', 
-    function($scope, $rootScope, $location) {
+    '$scope', '$rootScope', '$location', 'ApiService',
+    function($scope, $rootScope, $location, ApiService) {
         
         // Initialize controller
         $scope.init = function() {
@@ -49,6 +49,51 @@ angular.module('erpApp').controller('ModulesController', [
         // Load module data
         $scope.loadModules = function() {
             $scope.loading = true;
+            
+            // Try to load from API if available
+            if (typeof ApiService !== 'undefined') {
+                ApiService.get('/module/menu-items').then(function(response) {
+                    if (response.data && response.data.length > 0) {
+                        // Convert API data to module format
+                        $scope.modules = response.data.map(function(item) {
+                            return {
+                                id: item.id,
+                                name: item.systemName || item.singularName.toLowerCase(),
+                                displayName: item.pluralName || item.displayName,
+                                description: item.description || 'Manage ' + item.pluralName.toLowerCase(),
+                                icon: item.icon || 'fas fa-cube',
+                                sequence: item.sequence,
+                                isActive: item.isActive,
+                                route: item.route,
+                                sharedTo: 'All Profiles',
+                                lastModified: item.lastModifiedDate ? new Date(item.lastModifiedDate) : new Date()
+                            };
+                        });
+                        
+                        // Sort by sequence
+                        $scope.modules.sort(function(a, b) {
+                            return a.sequence - b.sequence;
+                        });
+                        
+                        $scope.filteredModules = angular.copy($scope.modules);
+                        $scope.loading = false;
+                    } else {
+                        // Fallback to static modules
+                        $scope.loadStaticModules();
+                    }
+                }).catch(function(error) {
+                    console.error('Error loading modules from API:', error);
+                    // Fallback to static modules
+                    $scope.loadStaticModules();
+                });
+            } else {
+                // ApiService not available, use static modules
+                $scope.loadStaticModules();
+            }
+        };
+        
+        // Load static module data (fallback)
+        $scope.loadStaticModules = function() {
             
             // Define system modules (non-settings entities)
             $scope.modules = [
@@ -301,9 +346,141 @@ angular.module('erpApp').controller('ModulesController', [
             alert('Custom module creation is not yet implemented.');
         };
         
-        // Organize modules (placeholder)
+        // Organize modules
         $scope.organizeModules = function() {
-            alert('Module organization feature is not yet implemented.');
+            $scope.organizingModules = angular.copy($scope.modules);
+            // Store original order for comparison
+            $scope.originalModulesOrder = angular.copy($scope.modules);
+            
+            // Open Bootstrap modal with proper configuration
+            var modalElement = document.getElementById('organizeModulesModal');
+            var modal = new bootstrap.Modal(modalElement, {
+                backdrop: 'static',
+                keyboard: false,
+                focus: true
+            });
+            modal.show();
+            
+            // Initialize jQuery UI sortable after modal is shown
+            setTimeout(function() {
+                $('#sortable-modules').sortable({
+                    handle: '.organize-item-handle',
+                    axis: 'y',
+                    cursor: 'move',
+                    placeholder: 'sortable-placeholder',
+                    items: '.organize-item:not(.organize-item-locked)', // Exclude locked items from sorting
+                    start: function(event, ui) {
+                        ui.placeholder.height(ui.item.height());
+                    },
+                    update: function(event, ui) {
+                        // Update the organizingModules array based on new order
+                        $scope.$apply(function() {
+                            var newOrder = [];
+                            $('#sortable-modules .organize-item').each(function() {
+                                var moduleId = parseInt($(this).attr('data-module-id'));
+                                var module = $scope.organizingModules.find(function(m) {
+                                    return m.id === moduleId;
+                                });
+                                if (module) {
+                                    newOrder.push(module);
+                                }
+                            });
+                            $scope.organizingModules = newOrder;
+                        });
+                    }
+                });
+            }, 300);
+        };
+        
+        // Close modal function
+        $scope.closeModal = function() {
+            var modalElement = document.getElementById('organizeModulesModal');
+            var modal = bootstrap.Modal.getInstance(modalElement);
+            if (modal) {
+                modal.hide();
+            }
+            // Destroy sortable when modal closes
+            if ($('#sortable-modules').hasClass('ui-sortable')) {
+                $('#sortable-modules').sortable('destroy');
+            }
+        };
+        
+        // Save module order
+        $scope.saveModuleOrder = function() {
+            // Check if order has changed
+            var hasChanged = false;
+            for (var i = 0; i < $scope.organizingModules.length; i++) {
+                if ($scope.organizingModules[i].id !== $scope.originalModulesOrder[i].id) {
+                    hasChanged = true;
+                    break;
+                }
+            }
+            
+            // If no changes, just close modal
+            if (!hasChanged) {
+                $scope.closeModal();
+                return;
+            }
+            
+            $scope.loading = true;
+            
+            // Prepare data for API - ensure Dashboard is always at sequence 1
+            var updates = [];
+            var dashboardModule = null;
+            var otherModules = [];
+            
+            // Separate Dashboard from other modules
+            $scope.organizingModules.forEach(function(module) {
+                if (module.name === 'Dashboard') {
+                    dashboardModule = module;
+                } else {
+                    otherModules.push(module);
+                }
+            });
+            
+            // Dashboard always gets sequence 1
+            if (dashboardModule) {
+                updates.push({
+                    id: dashboardModule.id,
+                    sequence: 1
+                });
+            }
+            
+            // Other modules get sequences 2, 3, 4...
+            otherModules.forEach(function(module, index) {
+                updates.push({
+                    id: module.id,
+                    sequence: index + 2
+                });
+            });
+            
+            // Call API to update sequence
+            ApiService.put('/module/update-sequence', updates).then(function(response) {
+                // Update main list
+                $scope.modules = angular.copy($scope.organizingModules);
+                
+                // Update sequence numbers
+                $scope.modules.forEach(function(module, index) {
+                    module.sequence = index + 1;
+                });
+                
+                $scope.filteredModules = angular.copy($scope.modules);
+                
+                // Close modal
+                var modalElement = document.getElementById('organizeModulesModal');
+                var modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) {
+                    modal.hide();
+                }
+                
+                // Broadcast event to refresh menu items in navbar
+                $rootScope.$broadcast('menuOrderUpdated');
+            }).catch(function(error) {
+                console.error('Error saving module order:', error);
+                alert('Failed to save module order. Please try again.');
+            }).finally(function() {
+                $scope.loading = false;
+            });
         };
         
         // Permission check (placeholder)

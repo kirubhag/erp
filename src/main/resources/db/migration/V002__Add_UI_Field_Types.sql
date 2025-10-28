@@ -1,44 +1,155 @@
 -- Database migration script for UI Field Types implementation
 -- Add new columns to erp_fields table for enhanced field management
 
--- Add ui_type column
-ALTER TABLE erp_fields 
-ADD COLUMN ui_type INT NULL COMMENT 'UI Field Type ID (100-119 range)';
+-- Add ui_type column (check if not exists)
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME = 'erp_fields'
+  AND COLUMN_NAME = 'ui_type';
 
--- Add max_length column
-ALTER TABLE erp_fields 
-ADD COLUMN max_length INT NULL COMMENT 'Maximum field length for text fields';
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_fields ADD COLUMN ui_type INT NULL COMMENT ''UI Field Type ID (100-119 range)''',
+    'SELECT ''Column ui_type already exists'' AS note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
--- Add validation_pattern column
-ALTER TABLE erp_fields 
-ADD COLUMN validation_pattern VARCHAR(500) NULL COMMENT 'Regular expression pattern for field validation';
+-- Add max_length column (check if not exists)
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME = 'erp_fields'
+  AND COLUMN_NAME = 'max_length';
 
--- Add picklist_options column
-ALTER TABLE erp_fields 
-ADD COLUMN picklist_options TEXT NULL COMMENT 'JSON string containing picklist options';
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_fields ADD COLUMN max_length INT NULL COMMENT ''Maximum field length for text fields''',
+    'SELECT ''Column max_length already exists'' AS note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
--- Add decimal_places column
-ALTER TABLE erp_fields 
-ADD COLUMN decimal_places INT NULL COMMENT 'Number of decimal places for numeric fields';
+-- Add validation_pattern column (check if not exists)
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME = 'erp_fields'
+  AND COLUMN_NAME = 'validation_pattern';
 
--- Add is_unique column
-ALTER TABLE erp_fields 
-ADD COLUMN is_unique BOOLEAN DEFAULT FALSE COMMENT 'Whether field values must be unique';
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_fields ADD COLUMN validation_pattern VARCHAR(500) NULL COMMENT ''Regular expression pattern for field validation''',
+    'SELECT ''Column validation_pattern already exists'' AS note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
--- Add show_in_list column
-ALTER TABLE erp_fields 
-ADD COLUMN show_in_list BOOLEAN DEFAULT TRUE COMMENT 'Whether field should appear in list views';
+-- Add picklist_options column (check if not exists)
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME = 'erp_fields'
+  AND COLUMN_NAME = 'picklist_options';
 
--- Add show_in_form column
-ALTER TABLE erp_fields 
-ADD COLUMN show_in_form BOOLEAN DEFAULT TRUE COMMENT 'Whether field should appear in forms';
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_fields ADD COLUMN picklist_options TEXT NULL COMMENT ''JSON string containing picklist options''',
+    'SELECT ''Column picklist_options already exists'' AS note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
--- Add column_width column
-ALTER TABLE erp_fields 
-ADD COLUMN column_width VARCHAR(50) DEFAULT 'medium' COMMENT 'Column width for list view (small, medium, large, etc.)';
+-- Add decimal_places column (check if not exists)
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME = 'erp_fields'
+  AND COLUMN_NAME = 'decimal_places';
 
--- Add index on ui_type for better query performance
-CREATE INDEX idx_erp_fields_ui_type ON erp_fields(ui_type);
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_fields ADD COLUMN decimal_places INT NULL COMMENT ''Number of decimal places for numeric fields''',
+    'SELECT ''Column decimal_places already exists'' AS note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Add is_unique column (check if not exists)
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME = 'erp_fields'
+  AND COLUMN_NAME = 'is_unique';
+
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_fields ADD COLUMN is_unique BOOLEAN DEFAULT FALSE COMMENT ''Whether field values must be unique''',
+    'SELECT ''Column is_unique already exists'' AS note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Add show_in_list column (check if not exists)
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME = 'erp_fields'
+  AND COLUMN_NAME = 'show_in_list';
+
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_fields ADD COLUMN show_in_list BOOLEAN DEFAULT TRUE COMMENT ''Whether field should appear in list views''',
+    'SELECT ''Column show_in_list already exists'' AS note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Add show_in_form column (check if not exists)
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME = 'erp_fields'
+  AND COLUMN_NAME = 'show_in_form';
+
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_fields ADD COLUMN show_in_form BOOLEAN DEFAULT TRUE COMMENT ''Whether field should appear in forms''',
+    'SELECT ''Column show_in_form already exists'' AS note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Add column_width column (check if not exists)
+SET @col_exists = 0;
+SELECT COUNT(*) INTO @col_exists
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME = 'erp_fields'
+  AND COLUMN_NAME = 'column_width';
+
+SET @sql = IF(@col_exists = 0,
+    'ALTER TABLE erp_fields ADD COLUMN column_width VARCHAR(50) DEFAULT ''medium'' COMMENT ''Column width for list view (small, medium, large, etc.)''',
+    'SELECT ''Column column_width already exists'' AS note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Add index on ui_type for better query performance (check if not exists)
+SET @index_exists = 0;
+SELECT COUNT(*) INTO @index_exists
+FROM information_schema.STATISTICS
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME = 'erp_fields'
+  AND INDEX_NAME = 'idx_erp_fields_ui_type';
+
+SET @sql = IF(@index_exists = 0,
+    'CREATE INDEX idx_erp_fields_ui_type ON erp_fields(ui_type)',
+    'SELECT ''Index idx_erp_fields_ui_type already exists'' AS note');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
 -- Update existing fields with appropriate UI types based on field_type
 -- This maps existing FieldType enum values to new UIFieldType values

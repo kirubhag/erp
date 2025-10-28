@@ -46,7 +46,7 @@ public class SecurityConfig {
             // Enable CSRF protection with cookie-based tokens
             .csrf(csrf -> csrf
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers("/h2-console/**") // Ignore CSRF for H2 console only
+                .ignoringRequestMatchers("/h2-console/**", "/api/module/**") // Ignore CSRF for H2 console and module API
             )
             // Allow frames for H2 console
             .headers(headers -> headers

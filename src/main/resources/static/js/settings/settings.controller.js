@@ -610,74 +610,111 @@ angular.module('erpApp').controller('SettingsController', [
         
         // Initialize modules data
         $scope.initializeModules = function() {
+            $scope.loading = true;
+            
+            // Load menu items from backend (dynamic modules)
+            ApiService.get('/api/erp-entities/menu-items').then(function(response) {
+                if (response.data && response.data.length > 0) {
+                    // Convert menu items to module format
+                    $scope.availableEntities = response.data.map(function(item) {
+                        return {
+                            id: item.id,
+                            name: item.systemName ? item.systemName.toUpperCase() : item.singularName.toUpperCase(),
+                            displayName: item.pluralName,
+                            singularName: item.singularName,
+                            description: item.description || 'Manage ' + item.pluralName.toLowerCase(),
+                            icon: 'fas ' + (item.icon || 'fa-cube'),
+                            sequence: item.sequence,
+                            presence: item.presence,
+                            route: item.route,
+                            fieldCount: 0,
+                            recordCount: 0,
+                            isActive: item.isActive,
+                            sharedTo: 'All Profiles',
+                            lastModified: item.lastModifiedDate || new Date()
+                        };
+                    });
+                    
+                    // Sort by sequence
+                    $scope.availableEntities.sort(function(a, b) {
+                        return a.sequence - b.sequence;
+                    });
+                    
+                    $scope.filteredModules = angular.copy($scope.availableEntities);
+                    $scope.loadEntityStats();
+                } else {
+                    // Fallback to static modules if no data from backend
+                    $scope.loadStaticModules();
+                }
+            }).catch(function(error) {
+                console.error('Error loading menu items:', error);
+                $scope.loadStaticModules();
+            }).finally(function() {
+                $scope.loading = false;
+            });
+        };
+        
+        // Fallback to static modules
+        $scope.loadStaticModules = function() {
             $scope.availableEntities = [
                 {
                     name: 'STUDENT',
                     displayName: 'Students',
                     description: 'Manage student information and records',
-                    icon: 'user-graduate',
+                    icon: 'fas fa-user-graduate',
                     fieldCount: 0,
-                    recordCount: 0
+                    recordCount: 0,
+                    isActive: true,
+                    sharedTo: 'All Profiles',
+                    lastModified: new Date()
                 },
                 {
                     name: 'PARENT',
                     displayName: 'Parents',
                     description: 'Parent and guardian information',
-                    icon: 'users',
+                    icon: 'fas fa-users',
                     fieldCount: 0,
-                    recordCount: 0
+                    recordCount: 0,
+                    isActive: true,
+                    sharedTo: 'All Profiles',
+                    lastModified: new Date()
                 },
                 {
                     name: 'STAFF',
                     displayName: 'Staff',
                     description: 'Staff and faculty management',
-                    icon: 'chalkboard-teacher',
+                    icon: 'fas fa-chalkboard-teacher',
                     fieldCount: 0,
-                    recordCount: 0
+                    recordCount: 0,
+                    isActive: true,
+                    sharedTo: 'All Profiles',
+                    lastModified: new Date()
                 },
                 {
                     name: 'ATTENDANCE',
                     displayName: 'Attendance',
                     description: 'Attendance tracking and reports',
-                    icon: 'calendar-check',
+                    icon: 'fas fa-calendar-check',
                     fieldCount: 0,
-                    recordCount: 0
-                },
-                {
-                    name: 'GRADE',
-                    displayName: 'Grades',
-                    description: 'Student grades and assessments',
-                    icon: 'graduation-cap',
-                    fieldCount: 0,
-                    recordCount: 0
-                },
-                {
-                    name: 'ASSIGNMENT',
-                    displayName: 'Assignments',
-                    description: 'Assignment and homework management',
-                    icon: 'tasks',
-                    fieldCount: 0,
-                    recordCount: 0
-                },
-                {
-                    name: 'EXAM',
-                    displayName: 'Exams',
-                    description: 'Exam scheduling and management',
-                    icon: 'clipboard-list',
-                    fieldCount: 0,
-                    recordCount: 0
+                    recordCount: 0,
+                    isActive: true,
+                    sharedTo: 'All Profiles',
+                    lastModified: new Date()
                 },
                 {
                     name: 'HEALTH',
                     displayName: 'Health Records',
                     description: 'Student health and medical records',
-                    icon: 'heartbeat',
+                    icon: 'fas fa-heartbeat',
                     fieldCount: 0,
-                    recordCount: 0
+                    recordCount: 0,
+                    isActive: true,
+                    sharedTo: 'All Profiles',
+                    lastModified: new Date()
                 }
             ];
             
-            // Load field counts for each entity
+            $scope.filteredModules = angular.copy($scope.availableEntities);
             $scope.loadEntityStats();
         };
         
@@ -731,9 +768,138 @@ angular.module('erpApp').controller('SettingsController', [
             $location.path('/settings/modules/' + entity.name + '/fields');
         };
         
+        // Organize/Reorder modules
+        $scope.organizeModules = function() {
+            $scope.isOrganizing = true;
+            $scope.organizingModules = angular.copy($scope.availableEntities);
+        };
+        
+        // Cancel organizing
+        $scope.cancelOrganizing = function() {
+            $scope.isOrganizing = false;
+            $scope.organizingModules = null;
+        };
+        
+        // Move module up in sequence
+        $scope.moveModuleUp = function(index) {
+            if (index > 0) {
+                var temp = $scope.organizingModules[index];
+                $scope.organizingModules[index] = $scope.organizingModules[index - 1];
+                $scope.organizingModules[index - 1] = temp;
+                
+                // Update sequence numbers
+                updateSequenceNumbers();
+            }
+        };
+        
+        // Move module down in sequence
+        $scope.moveModuleDown = function(index) {
+            if (index < $scope.organizingModules.length - 1) {
+                var temp = $scope.organizingModules[index];
+                $scope.organizingModules[index] = $scope.organizingModules[index + 1];
+                $scope.organizingModules[index + 1] = temp;
+                
+                // Update sequence numbers
+                updateSequenceNumbers();
+            }
+        };
+        
+        // Update sequence numbers after reordering
+        function updateSequenceNumbers() {
+            $scope.organizingModules.forEach(function(module, index) {
+                module.sequence = index + 1;
+            });
+        }
+        
+        // Save module order
+        $scope.saveModuleOrder = function() {
+            $scope.loading = true;
+            
+            // Prepare data for API
+            var updates = $scope.organizingModules.map(function(module, index) {
+                return {
+                    id: module.id,
+                    sequence: index + 1
+                };
+            });
+            
+            // Call API to update sequence
+            ApiService.put('/api/erp-entities/update-sequence', updates).then(function(response) {
+                $scope.showToast('success', 'Modules Reordered', 'Module order has been saved successfully.');
+                
+                // Update main list
+                $scope.availableEntities = angular.copy($scope.organizingModules);
+                $scope.filteredModules = angular.copy($scope.availableEntities);
+                
+                // Exit organizing mode
+                $scope.isOrganizing = false;
+                $scope.organizingModules = null;
+                
+                // Refresh the page to update menu
+                $scope.refreshModulePage();
+            }).catch(function(error) {
+                console.error('Error saving module order:', error);
+                $scope.showToast('error', 'Error', 'Failed to save module order. Please try again.');
+            }).finally(function() {
+                $scope.loading = false;
+            });
+        };
+        
+        // Refresh module page
+        $scope.refreshModulePage = function() {
+            // Clear menu cache
+            if ($rootScope.MenuService) {
+                $rootScope.MenuService.clearCache();
+            }
+            
+            // Reload modules data
+            $scope.initializeModules();
+            
+            // Broadcast event to refresh main menu
+            $rootScope.$broadcast('menu:refresh');
+        };
+        
+        // Filter modules based on search
+        $scope.filterModules = function() {
+            if (!$scope.searchTerm || $scope.searchTerm.trim() === '') {
+                $scope.filteredModules = angular.copy($scope.availableEntities);
+            } else {
+                var searchLower = $scope.searchTerm.toLowerCase();
+                $scope.filteredModules = $scope.availableEntities.filter(function(module) {
+                    return (module.displayName && module.displayName.toLowerCase().indexOf(searchLower) >= 0) ||
+                           (module.name && module.name.toLowerCase().indexOf(searchLower) >= 0) ||
+                           (module.description && module.description.toLowerCase().indexOf(searchLower) >= 0);
+                });
+            }
+        };
+        
+        // Clear search filters
+        $scope.clearFilters = function() {
+            $scope.searchTerm = '';
+            $scope.filterModules();
+        };
+        
+        // Check if user has permission
+        $scope.hasPermission = function(permission) {
+            // For now, return true - implement proper permission checking later
+            return true;
+        };
+        
+        // Create new module (placeholder)
+        $scope.createNewModule = function() {
+            $scope.showToast('info', 'Coming Soon', 'Module creation feature is under development.');
+        };
+        
         // Listen for route changes to update active tab
         $scope.$on('$routeChangeSuccess', function() {
             $scope.detectAndSetActiveTab();
+        });
+        
+        // Listen for menu refresh event
+        $scope.$on('menu:refresh', function() {
+            if ($scope.activeSettingsTab === 'modules') {
+                $scope.initializeModules();
+            }
         });
         
         // Initialize controller when page loads

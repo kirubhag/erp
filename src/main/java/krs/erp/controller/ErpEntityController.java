@@ -1,6 +1,8 @@
 package krs.erp.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import krs.erp.dto.SequenceUpdateDTO;
 import krs.erp.model.ErpEntity;
 import krs.erp.model.ErpEntityRoleRelation;
 import krs.erp.model.Role;
@@ -110,6 +113,39 @@ public class ErpEntityController {
             return ResponseEntity.ok(updatedEntity);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * Update menu item sequences
+     * PUT /api/erp-entities/update-sequence
+     * 
+     * Accepts an array of objects with {id, sequence} to reorder menu items
+     */
+    @PutMapping("/update-sequence")
+    public ResponseEntity<Map<String, Object>> updateSequence(@RequestBody List<SequenceUpdateDTO> updates) {
+        try {
+            int updatedCount = 0;
+            for (SequenceUpdateDTO update : updates) {
+                ErpEntity entity = erpEntityService.getEntityById(update.getId())
+                        .orElseThrow(() -> new RuntimeException("Entity not found: " + update.getId()));
+                
+                entity.setSequence(update.getSequence());
+                erpEntityService.updateEntity(entity.getId(), entity);
+                updatedCount++;
+            }
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Successfully updated " + updatedCount + " menu items");
+            response.put("count", updatedCount);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("message", "Failed to update sequences: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 

@@ -107,3 +107,112 @@
 .back-to-setup i {
   margin-right: 5px;
 }
+
+/* Organize Modules Styles */
+.organize-list {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.organize-item {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  padding: 15px;
+  transition: all 0.2s ease;
+}
+
+.organize-item:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-color: #007bff;
+}
+
+.organize-item-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.organize-item-handle {
+  cursor: grab;
+  color: #6c757d;
+  padding: 0 10px;
+  font-size: 18px;
+}
+
+.organize-item-handle:active {
+  cursor: grabbing;
+}
+
+.organize-item-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.organize-item-icon {
+  font-size: 24px;
+  color: #007bff;
+  width: 40px;
+  text-align: center;
+}
+
+.organize-item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.organize-item-name {
+  font-size: 15px;
+  color: #333;
+  font-weight: 500;
+}
+
+
+/* Sortable drag and drop styles */
+.sortable-placeholder {
+  background-color: #f0f0f0;
+  border: 2px dashed #ccc;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  visibility: visible !important;
+}
+
+.organize-item.ui-sortable-helper {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+  cursor: move;
+}
+
+.organize-item-handle {
+  cursor: move;
+}
+
+/* Locked item styles */
+.organize-item-locked {
+  opacity: 0.7;
+  background-color: #f8f9fa !important;
+}
+
+.organize-item-locked .organize-item-handle {
+  cursor: not-allowed !important;
+}
+
+/* Modal z-index fix */
+#organizeModulesModal {
+  z-index: 1060 !important;
+}
+
+#organizeModulesModal .modal-backdrop {
+  z-index: 1050 !important;
+}
+
+.modal-backdrop.show {
+  z-index: 1050 !important;
+}

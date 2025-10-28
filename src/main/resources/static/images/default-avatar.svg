@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Background circle with gradient -->
+  <defs>
+    <linearGradient id="avatarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="64" cy="64" r="64" fill="url(#avatarGradient)"/>
+  
+  <!-- User icon -->
+  <g fill="#ffffff">
+    <!-- Head -->
+    <circle cx="64" cy="48" r="20"/>
+    
+    <!-- Body -->
+    <path d="M 64 72 C 44 72 30 82 30 95 L 30 100 C 30 105 32 108 35 108 L 93 108 C 96 108 98 105 98 100 L 98 95 C 98 82 84 72 64 72 Z"/>
+  </g>
+</svg>
