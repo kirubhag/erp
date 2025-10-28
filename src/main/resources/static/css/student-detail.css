@@ -1,0 +1,278 @@
+.student-detail-container {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.detail-header {
+    background: white;
+    border-bottom: 1px solid #e1e5e9;
+    padding: 24px;
+}
+
+.header-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.student-header-info {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.avatar-circle-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 32px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.student-name {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0 0 8px 0;
+}
+
+.student-meta {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.student-id-badge {
+    background: #e0e7ff;
+    color: #3730a3;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.student-grade {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.student-status {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-enrolled {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-withdrawn {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.last-update {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.detail-content {
+    padding: 24px;
+}
+
+.detail-tabs {
+    border-bottom: 2px solid #e5e7eb;
+    margin-bottom: 24px;
+}
+
+.detail-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #6b7280;
+    font-weight: 500;
+    padding: 12px 24px;
+}
+
+.detail-tabs .nav-link.active {
+    background: none;
+    border-bottom: 2px solid #3b82f6;
+    color: #3b82f6;
+}
+
+.detail-section {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid #e5e7eb;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.detail-field {
+    margin-bottom: 16px;
+}
+
+.field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.field-value {
+    font-size: 14px;
+    color: #374151;
+    font-weight: 500;
+}
+
+.field-value a {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.field-value a:hover {
+    text-decoration: underline;
+}
+
+.related-section {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.related-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+    padding: 20px 20px 16px 20px;
+    margin: 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.related-item {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.related-item:last-child {
+    border-bottom: none;
+}
+
+.related-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.related-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.related-count {
+    background: #f3f4f6;
+    color: #6b7280;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.timeline-marker {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #3b82f6;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.timeline-content {
+    flex: 1;
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.timeline-date {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.timeline-description {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-content {
+    text-align: center;
+}
+
+.loading-text {
+    margin-top: 16px;
+    color: #6b7280;
+    font-size: 14px;
+}

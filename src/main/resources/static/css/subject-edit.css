@@ -1,0 +1,21 @@
+    .subject-edit-container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        margin-bottom: 30px;
+    }
+
+    .form-actions {
+        margin-top: 30px;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .invalid-feedback {
+        display: block;
+    }
