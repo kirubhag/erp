@@ -89,4 +89,56 @@ public class ModuleController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+    
+    /**
+     * Rename a module (update plural and singular names)
+     * PUT /api/module/rename
+     * 
+     * Accepts {id, pluralName, singularName}
+     */
+    @PutMapping("/rename")
+    public ResponseEntity<Map<String, Object>> renameModule(@RequestBody Map<String, Object> renameData) {
+        try {
+            Long id = Long.valueOf(renameData.get("id").toString());
+            String pluralName = renameData.get("pluralName").toString();
+            String singularName = renameData.get("singularName").toString();
+            
+            // Validate inputs
+            if (pluralName == null || pluralName.trim().isEmpty()) {
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("success", false);
+                errorResponse.put("message", "Plural name is required");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+            }
+            
+            if (singularName == null || singularName.trim().isEmpty()) {
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("success", false);
+                errorResponse.put("message", "Singular name is required");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+            }
+            
+            // Get entity
+            ErpEntity entity = erpEntityService.getEntityById(id)
+                    .orElseThrow(() -> new RuntimeException("Entity not found: " + id));
+            
+            // Update names
+            entity.setPluralName(pluralName);
+            entity.setSingularName(singularName);
+            
+            erpEntityService.updateEntity(entity.getId(), entity);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Module renamed successfully");
+            response.put("data", entity);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("message", "Failed to rename module: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
 }

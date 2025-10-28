@@ -484,6 +484,83 @@ angular.module('erpApp').controller('ModulesController', [
             });
         };
         
+        // Rename module functionality
+        $scope.renamingModule = null;
+        
+        $scope.showRenameModal = function(module) {
+            $scope.renamingModule = {
+                id: module.id,
+                pluralName: module.displayName,
+                singularName: module.singularName,
+                originalPluralName: module.displayName,
+                originalSingularName: module.singularName
+            };
+            
+            var modalElement = document.getElementById('renameModuleModal');
+            var modal = new bootstrap.Modal(modalElement, {
+                backdrop: 'static',
+                keyboard: false
+            });
+            modal.show();
+        };
+        
+        $scope.closeRenameModal = function() {
+            var modalElement = document.getElementById('renameModuleModal');
+            var modal = bootstrap.Modal.getInstance(modalElement);
+            if (modal) {
+                modal.hide();
+            }
+            $scope.renamingModule = null;
+        };
+        
+        $scope.saveModuleRename = function() {
+            if (!$scope.renamingModule) return;
+            
+            // Check if anything changed
+            if ($scope.renamingModule.pluralName === $scope.renamingModule.originalPluralName &&
+                $scope.renamingModule.singularName === $scope.renamingModule.originalSingularName) {
+                $scope.closeRenameModal();
+                return;
+            }
+            
+            $scope.loading = true;
+            
+            var renameData = {
+                id: $scope.renamingModule.id,
+                pluralName: $scope.renamingModule.pluralName,
+                singularName: $scope.renamingModule.singularName
+            };
+            
+            ApiService.put('/module/rename', renameData).then(function(response) {
+                // Update the module in the list
+                var moduleIndex = $scope.modules.findIndex(function(m) {
+                    return m.id === $scope.renamingModule.id;
+                });
+                
+                if (moduleIndex !== -1) {
+                    $scope.modules[moduleIndex].displayName = $scope.renamingModule.pluralName;
+                    $scope.modules[moduleIndex].singularName = $scope.renamingModule.singularName;
+                    $scope.filteredModules = angular.copy($scope.modules);
+                }
+                
+                // Close modal
+                $scope.closeRenameModal();
+                
+                // Broadcast event to refresh menu items in navbar
+                $rootScope.$broadcast('menuOrderUpdated');
+            }).catch(function(error) {
+                console.error('Error renaming module:', error);
+                alert('Failed to rename module. Please try again.');
+            }).finally(function() {
+                $scope.loading = false;
+            });
+        };
+        
+        $scope.showLayoutOptions = function(module) {
+            // Navigate to module fields/layout page
+            $location.path('/settings/modules/' + module.name + '/fields');
+        };
+        
         // Permission check (placeholder)
         $scope.hasPermission = function(permission) {
             // For now, return true for basic permissions

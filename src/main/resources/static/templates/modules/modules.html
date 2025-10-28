@@ -61,10 +61,25 @@
                   class="module-row"
                   ng-class="{'active-module': module.isActive, 'inactive-module': !module.isActive}">
                 <td>
-                  <a href="#!/settings/modules/{{module.name}}/fields" 
-                     class="module-link" ng-class="{'text-primary': module.isActive, 'text-muted': !module.isActive}">
-                    <i class="{{module.icon}} me-2"></i>{{module.displayName}}
-                  </a>
+                  <div class="module-name-cell">
+                    <a href="#!/settings/modules/{{module.name}}/fields" 
+                       class="module-link" ng-class="{'text-primary': module.isActive, 'text-muted': !module.isActive}">
+                      <i class="{{module.icon}} me-2"></i>{{module.displayName}}
+                    </a>
+                    <div class="module-actions-dropdown" ng-if="module.isActive">
+                      <button class="module-actions-trigger" type="button">
+                        <i class="fas fa-ellipsis-h"></i>
+                      </button>
+                      <div class="module-actions-menu">
+                        <button type="button" class="module-action-item" ng-click="showLayoutOptions(module)">
+                          <i class="fas fa-th me-2"></i>Layout
+                        </button>
+                        <button type="button" class="module-action-item" ng-click="showRenameModal(module)">
+                          <i class="fas fa-edit me-2"></i>Rename
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </td>
                 <td>{{module.displayName}}</td>
                 <td>
@@ -110,6 +125,58 @@
             <i class="fas fa-times me-1"></i>Clear Search
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Rename Module Modal -->
+<div class="modal fade" id="renameModuleModal" tabindex="-1" aria-labelledby="renameModuleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="renameModuleModalLabel">Enter Module Name</h5>
+        <button type="button" class="btn-close" ng-click="closeRenameModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form name="renameForm" novalidate>
+          <div class="mb-3">
+            <label for="pluralName" class="form-label text-muted">Plural form of module name</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="pluralName" 
+                   name="pluralName"
+                   ng-model="renamingModule.pluralName" 
+                   placeholder="i.e. Students/Exams"
+                   required
+                   ng-disabled="loading">
+            <small class="form-text text-muted">(i.e. Students/Exams)</small>
+          </div>
+          <div class="mb-3">
+            <label for="singularName" class="form-label text-muted">Singular form of module name</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="singularName" 
+                   name="singularName"
+                   ng-model="renamingModule.singularName" 
+                   placeholder="i.e. Student/Exam"
+                   required
+                   ng-disabled="loading">
+            <small class="form-text text-muted">(i.e. Student/Exam)</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" ng-click="closeRenameModal()" ng-disabled="loading">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="saveModuleRename()" ng-disabled="loading || renameForm.$invalid">
+          <span ng-if="!loading">Save</span>
+          <span ng-if="loading">
+            <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+            Saving...
+          </span>
+        </button>
       </div>
     </div>
   </div>
