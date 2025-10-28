@@ -39,6 +39,16 @@ public class ModuleController {
     }
 
     /**
+     * Get active menu list (alias for menu-items)
+     * GET /api/module/list
+     */
+    @GetMapping("/list")
+    public ResponseEntity<List<ErpEntity>> getMenuList() {
+        List<ErpEntity> menuItems = erpEntityService.getActiveMenuItems();
+        return ResponseEntity.ok(menuItems);
+    }
+
+    /**
      * Update menu item sequences
      * PUT /api/module/update-sequence
      * 

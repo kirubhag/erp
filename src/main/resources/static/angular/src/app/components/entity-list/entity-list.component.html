@@ -1,0 +1,339 @@
+<div class="entity-list-container" 
+     [class.no-filters]="!showFilters || filters.length === 0"
+     [class.filters-visible]="showFilters && filters.length > 0"
+     [class.filters-hidden]="!showFilters || filters.length === 0">
+  <!-- Single Header Section -->
+  <div class="main-header d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex align-items-center">
+      <button class="btn btn-link p-0 me-2" (click)="showFilters = !showFilters">
+        <i class="fas fa-chevron-down" [class.rotate-180]="showFilters"></i>
+      </button>
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          All {{entityNamePlural}}
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">All {{entityNamePlural}}</a></li>
+          <li><a class="dropdown-item" href="#">Active</a></li>
+          <li><a class="dropdown-item" href="#">Inactive</a></li>
+        </ul>
+      </div>
+      <span class="ms-3 text-primary fw-bold">Total Records</span>
+      <button class="btn btn-link p-1 ms-2">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <!-- Search Bar -->
+      <div class="search-section">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-search"></i>
+          </span>
+          <input type="text" class="form-control" 
+                 [(ngModel)]="searchTerm" 
+                 (keyup.enter)="onSearch()"
+                 placeholder="Search fields...">
+        </div>
+      </div>
+
+      <!-- Custom View Dropdown -->
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown">
+          <i class="fas fa-eye me-1"></i>Custom View
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Default View</a></li>
+          <li><a class="dropdown-item" href="#">Basic Info</a></li>
+          <li><a class="dropdown-item" href="#">Contact Details</a></li>
+          <li><a class="dropdown-item" href="#">Academic Info</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#"><i class="fas fa-plus me-1"></i>Create New View</a></li>
+        </ul>
+      </div>
+
+      <!-- View Toggle -->
+      <div class="btn-group" *ngIf="showViewToggle">
+        <button class="btn btn-outline-secondary btn-sm" 
+                [class.active]="viewMode === 'table'"
+                (click)="toggleViewMode()">
+          <i class="fas fa-list"></i>
+        </button>
+        <button class="btn btn-outline-secondary btn-sm"
+                [class.active]="viewMode === 'grid'"
+                (click)="toggleViewMode()">
+          <i class="fas fa-th"></i>
+        </button>
+      </div>
+
+      <!-- Add Button -->
+      <button class="btn btn-primary" *ngIf="showAddButton" (click)="onAction('add')">
+        <i class="fas fa-plus me-1"></i>Add {{entityName}}
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="row">
+    <!-- Left Sidebar Filters -->
+    <div class="col-md-3" *ngIf="showFilters && filters.length > 0">
+      <div class="filters-sidebar">
+        <h6 class="filter-title mb-3">FILTER {{entityNamePlural | uppercase}} BY</h6>
+        
+        <div class="filter-group" *ngFor="let filter of filters">
+          <div [ngSwitch]="filter.type">
+            <!-- Checkbox Filter -->
+            <div *ngSwitchCase="'checkbox'" class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" 
+                     [(ngModel)]="filter.value" 
+                     (ngModelChange)="onFilterChange()"
+                     [id]="filter.key">
+              <label class="form-check-label" [for]="filter.key">
+                {{filter.label}}
+              </label>
+            </div>
+
+            <!-- Text Filter -->
+            <div *ngSwitchCase="'text'" class="mb-3">
+              <label class="form-label">{{filter.label}}</label>
+              <input type="text" class="form-control form-control-sm" 
+                     [(ngModel)]="filter.value" 
+                     (ngModelChange)="onFilterChange()"
+                     [placeholder]="'Search ' + filter.label + '...'">
+            </div>
+
+            <!-- Select Filter -->
+            <div *ngSwitchCase="'select'" class="mb-3">
+              <label class="form-label">{{filter.label}}</label>
+              <select class="form-select form-select-sm" 
+                      [(ngModel)]="filter.value" 
+                      (ngModelChange)="onFilterChange()">
+                <option value="">Select {{filter.label}}</option>
+                <option *ngFor="let option of filter.options" [value]="option.value">
+                  {{option.label}}
+                </option>
+              </select>
+            </div>
+
+            <!-- Date Filter -->
+            <div *ngSwitchCase="'date'" class="mb-3">
+              <label class="form-label">{{filter.label}}</label>
+              <input type="date" class="form-control form-control-sm" 
+                     [(ngModel)]="filter.value" 
+                     (ngModelChange)="onFilterChange()">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div [class]="showFilters && filters.length > 0 ? 'col-md-9' : 'col-12'">
+      <!-- Status Info -->
+      <div class="status-info d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center">
+          <span class="text-muted">{{totalRecords}} results</span>
+        </div>
+        
+        <div class="d-flex align-items-center gap-2">
+          <!-- Bulk Actions -->
+          <div class="dropdown" *ngIf="selectedItems.size > 0">
+            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown">
+              Actions ({{selectedItems.size}})
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#" (click)="onBulkAction('delete')">
+                <i class="fas fa-trash me-1"></i>Delete Selected
+              </a></li>
+              <li><a class="dropdown-item" href="#" (click)="onBulkAction('export')">
+                <i class="fas fa-download me-1"></i>Export Selected
+              </a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+  <!-- Data Table -->
+  <div class="data-section">
+    <div class="table-responsive" *ngIf="viewMode === 'table'">
+      <table class="table table-hover">
+        <thead class="table-light">
+          <tr>
+            <th *ngIf="showBulkActions" style="width: 40px;">
+              <input type="checkbox" class="form-check-input" 
+                     [checked]="allSelected" 
+                     (change)="toggleSelectAll()">
+            </th>
+            <th *ngFor="let column of columns" 
+                [style.width]="column.width"
+                [class.sortable]="column.sortable"
+                (click)="onSort(column)">
+              {{column.label}}
+              <i *ngIf="column.sortable && sortColumn === column.key" 
+                 class="fas ms-1"
+                 [class.fa-sort-up]="sortDirection === 'asc'"
+                 [class.fa-sort-down]="sortDirection === 'desc'"></i>
+              <i *ngIf="column.sortable && sortColumn !== column.key" 
+                 class="fas fa-sort ms-1 text-muted"></i>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data; trackBy: trackByFn">
+            <td *ngIf="showBulkActions">
+              <input type="checkbox" class="form-check-input" 
+                     [checked]="isSelected(item)" 
+                     (change)="toggleSelectItem(item)">
+            </td>
+            <td *ngFor="let column of columns" [ngSwitch]="column.type">
+              <!-- Avatar -->
+              <div *ngSwitchCase="'avatar'" class="d-flex align-items-center">
+                <div class="avatar-circle me-2" 
+                     [class]="getAvatarClass(getCellValue(item, column))">
+                  {{getAvatarText(getCellValue(item, column))}}
+                </div>
+                <div>
+                  <div class="fw-medium">{{getCellValue(item, column)}}</div>
+                  <small class="text-muted">{{item[column.key + 'Id'] || item.id}}</small>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <a *ngSwitchCase="'email'" 
+                 [href]="'mailto:' + getCellValue(item, column)"
+                 class="text-decoration-none">
+                {{getCellValue(item, column)}}
+              </a>
+
+              <!-- Badge -->
+              <span *ngSwitchCase="'badge'" 
+                    class="badge"
+                    [class.bg-success]="getCellValue(item, column) === 'ACTIVE'"
+                    [class.bg-secondary]="getCellValue(item, column) === 'INACTIVE'"
+                    [class.bg-warning]="getCellValue(item, column) === 'PENDING'">
+                {{getCellValue(item, column)}}
+              </span>
+
+              <!-- Date -->
+              <span *ngSwitchCase="'date'">
+                {{getCellValue(item, column) | date:'MMM dd, yyyy'}}
+              </span>
+
+              <!-- Default Text -->
+              <span *ngSwitchDefault>
+                {{getCellValue(item, column)}}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Grid View -->
+    <div class="row" *ngIf="viewMode === 'grid'">
+      <div class="col-md-4 col-lg-3 mb-3" *ngFor="let item of data">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-2" *ngIf="getFirstColumn()">
+              <div class="avatar-circle me-2" 
+                   [class]="getAvatarClass(getFirstColumnValue(item))">
+                {{getAvatarText(getFirstColumnValue(item))}}
+              </div>
+              <div>
+                <h6 class="card-title mb-0">{{getFirstColumnValue(item)}}</h6>
+                <small class="text-muted">{{item.id}}</small>
+              </div>
+            </div>
+            <div *ngFor="let column of getGridColumns()">
+              <small class="text-muted">{{column.label}}:</small>
+              <div>{{getCellValue(item, column)}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>      <!-- Empty State -->
+      <div class="text-center py-5" *ngIf="!loading && data.length === 0">
+        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+        <h5 class="text-muted">No {{entityNamePlural}} Found</h5>
+        <p class="text-muted">Try adjusting your search or filter criteria</p>
+      </div>
+
+      <!-- Loading State -->
+      <div class="text-center py-5" *ngIf="loading">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-muted mt-2">Loading {{entityNamePlural}}...</p>
+      </div>
+
+      <!-- Fixed Bottom Pagination -->
+      <div class="pagination-fixed" *ngIf="pagination.totalItems > 0">
+        <nav class="d-flex justify-content-center">
+          <ul class="pagination pagination-sm mb-0">
+            <!-- First Page -->
+            <li class="page-item" [class.disabled]="pagination.currentPage === 1">
+              <a class="page-link" (click)="onPageChange(1)">
+                <i class="fas fa-angle-double-left"></i>
+              </a>
+            </li>
+            
+            <!-- Previous Page -->
+            <li class="page-item" [class.disabled]="pagination.currentPage === 1">
+              <a class="page-link" (click)="onPageChange(pagination.currentPage - 1)">
+                <i class="fas fa-angle-left"></i>
+              </a>
+            </li>
+            
+            <!-- Page Numbers -->
+            <li *ngFor="let page of getPaginationPages()" 
+                class="page-item" 
+                [class.active]="page === pagination.currentPage"
+                [class.disabled]="page === -1">
+              <a class="page-link" 
+                 (click)="page !== -1 && onPageChange(page)">
+                {{page === -1 ? '...' : page}}
+              </a>
+            </li>
+            
+            <!-- Next Page -->
+            <li class="page-item" [class.disabled]="pagination.currentPage === pagination.totalPages">
+              <a class="page-link" (click)="onPageChange(pagination.currentPage + 1)">
+                <i class="fas fa-angle-right"></i>
+              </a>
+            </li>
+            
+            <!-- Last Page -->
+            <li class="page-item" [class.disabled]="pagination.currentPage === pagination.totalPages">
+              <a class="page-link" (click)="onPageChange(pagination.totalPages)">
+                <i class="fas fa-angle-double-right"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        
+        <!-- Items Count and Per Page Selector -->
+        <div class="d-flex justify-content-between align-items-center mt-2">
+          <small class="text-muted">
+            {{(pagination.currentPage - 1) * pagination.itemsPerPage + 1}} to 
+            {{getEndItem()}} of 
+            {{pagination.totalItems}}
+          </small>
+          
+          <!-- Items Per Page Selector -->
+          <div class="d-flex align-items-center">
+            <select class="form-select form-select-sm" style="width: auto;" 
+                    [(ngModel)]="pagination.itemsPerPage" 
+                    (ngModelChange)="onItemsPerPageChange()">
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

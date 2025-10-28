@@ -1,0 +1,333 @@
+.entity-list-container {
+  padding: 1rem;
+  padding-top: 80px; /* Add space below fixed navbar (56px navbar + 24px margin) */
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.main-header {
+  background-color: #ffffff;
+  border: 1px solid #e3e6f0;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.status-info {
+  background-color: #ffffff;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Left Sidebar Filters */
+.filters-sidebar {
+  background: #f8f9fc;
+  border-radius: 0;
+  padding: 1rem;
+  border-right: 1px solid #e3e6f0;
+  height: calc(100vh - 140px); /* Full height minus navbar and header */
+  overflow-y: auto;
+  position: sticky;
+  top: 140px;
+}
+
+.filter-title {
+  color: #5a5c69;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #e3e6f0;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.filter-group {
+  margin-bottom: 0.5rem;
+}
+
+.filter-group .form-check-label {
+  font-size: 0.875rem;
+  color: #5a5c69;
+}
+
+.filter-group .form-label {
+  font-size: 0.75rem;
+  color: #6c757d;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+/* Main Header Styling */
+.main-header .search-section {
+  width: 300px;
+}
+
+.main-header .search-section .form-control {
+  height: 36px;
+  font-size: 0.875rem;
+  border-color: #d1d3e2;
+}
+
+.main-header .search-section .input-group-text {
+  height: 36px;
+  padding: 0.25rem 0.75rem;
+  background-color: #f8f9fc;
+  border-color: #d1d3e2;
+  color: #6c757d;
+}
+
+.avatar-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.filters-section .card {
+  border: 1px solid #e3e6f0;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.table-responsive {
+  border-radius: 0.35rem;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead th {
+  border-bottom: 2px solid #e3e6f0;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #5a5c69;
+  background-color: #f8f9fc;
+  padding: 0.75rem;
+}
+
+.table tbody td {
+  padding: 0.75rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #e3e6f0;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.btn-group .btn.active {
+  background-color: #4e73df;
+  border-color: #4e73df;
+  color: white;
+}
+
+.search-section .input-group-text {
+  background-color: #f8f9fc;
+  border-color: #d1d3e2;
+  color: #6c757d;
+}
+
+.pagination .page-link {
+  border-color: #d1d3e2;
+  color: #5a5c69;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #4e73df;
+  border-color: #4e73df;
+}
+
+.pagination .page-link:hover {
+  background-color: #eaecf4;
+  border-color: #d1d3e2;
+  color: #5a5c69;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #4e73df;
+  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+.text-primary {
+  color: #4e73df !important;
+}
+
+.btn-primary {
+  background-color: #4e73df;
+  border-color: #4e73df;
+}
+
+.btn-primary:hover {
+  background-color: #2e59d9;
+  border-color: #2653d4;
+}
+
+.card {
+  border: 1px solid #e3e6f0;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.card-title {
+  color: #5a5c69;
+}
+
+.empty-state {
+  padding: 3rem 0;
+}
+
+@media (max-width: 768px) {
+  .entity-list-container {
+    padding: 0.5rem;
+  }
+  
+  .d-flex.justify-content-between {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .btn-group {
+    margin-top: 0.5rem;
+  }
+}
+
+/* Fixed Bottom Pagination */
+.pagination-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 25%; /* Start after the sidebar (col-md-3 = 25%) */
+  right: 0;
+  background: white;
+  border-top: 1px solid #e3e6f0;
+  padding: 1rem;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.filters-visible .pagination-fixed {
+  left: 25%; /* When filters are visible */
+}
+
+.no-filters .pagination-fixed,
+.filters-hidden .pagination-fixed {
+  left: 0; /* When no filters or filters hidden */
+}
+
+/* When no filters, pagination should span full width */
+.no-filters .pagination-fixed {
+  left: 0;
+}
+
+/* Responsive adjustments for pagination */
+@media (max-width: 768px) {
+  .pagination-fixed {
+    left: 0 !important; /* Full width on mobile */
+    padding: 0.75rem;
+  }
+  
+  .entity-list-container {
+    padding-top: 70px; /* Less padding on mobile */
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+.pagination-fixed .pagination {
+  margin-bottom: 0;
+}
+
+.pagination-fixed .page-link {
+  border-color: #d1d3e2;
+  color: #5a5c69;
+  padding: 0.375rem 0.75rem;
+}
+
+.pagination-fixed .page-item.active .page-link {
+  background-color: #4e73df;
+  border-color: #4e73df;
+  color: white;
+}
+
+.pagination-fixed .page-link:hover {
+  background-color: #eaecf4;
+  border-color: #d1d3e2;
+  color: #5a5c69;
+}
+
+/* Add bottom padding to main content to account for fixed pagination */
+.entity-list-container {
+  padding-bottom: 140px; /* Increased to ensure content doesn't hide behind pagination */
+}
+
+/* Table styling to match image */
+.table-responsive {
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+}
+
+.table {
+  border: none;
+}
+
+.table thead th {
+  background-color: #f8f9fc;
+  border-bottom: 1px solid #e3e6f0;
+  border-top: 1px solid #e3e6f0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6c757d;
+  text-transform: uppercase;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fc;
+}
+
+/* Custom scrollbar for table */
+.table-responsive::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

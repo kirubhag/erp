@@ -11,8 +11,8 @@
     
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
-        <!-- Dynamic menu items (visible) -->
-        <li class="nav-item" *ngFor="let menuItem of visibleMenuItems">
+        <!-- Dynamic menu items -->
+        <li class="nav-item" *ngFor="let menuItem of visibleMenuItems; trackBy: trackByMenuItem">
           <a class="nav-link" 
              [routerLink]="[menuItem.route]" 
              routerLinkActive="active"
