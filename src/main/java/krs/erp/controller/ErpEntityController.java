@@ -46,6 +46,26 @@ public class ErpEntityController {
     }
 
     /**
+     * Get active menu items ordered by sequence
+     * GET /api/erp-entities/menu-items
+     */
+    @GetMapping("/menu-items")
+    public ResponseEntity<List<ErpEntity>> getMenuItems() {
+        List<ErpEntity> menuItems = erpEntityService.getActiveMenuItems();
+        return ResponseEntity.ok(menuItems);
+    }
+
+    /**
+     * Get menu items accessible by specific roles
+     * POST /api/erp-entities/menu-items/by-roles
+     */
+    @PostMapping("/menu-items/by-roles")
+    public ResponseEntity<List<ErpEntity>> getMenuItemsByRoles(@RequestBody List<Long> roleIds) {
+        List<ErpEntity> menuItems = erpEntityService.getActiveMenuItemsByRoles(roleIds);
+        return ResponseEntity.ok(menuItems);
+    }
+
+    /**
      * Get entity by ID
      * GET /api/erp-entities/{id}
      */

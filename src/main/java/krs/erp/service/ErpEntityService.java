@@ -44,6 +44,22 @@ public class ErpEntityService {
     }
 
     /**
+     * Get all active menu items ordered by sequence
+     */
+    @Transactional(readOnly = true)
+    public List<ErpEntity> getActiveMenuItems() {
+        return erpEntityRepository.findActiveMenuItems();
+    }
+
+    /**
+     * Get active menu items accessible by specific roles
+     */
+    @Transactional(readOnly = true)
+    public List<ErpEntity> getActiveMenuItemsByRoles(List<Long> roleIds) {
+        return erpEntityRepository.findActiveMenuItemsByRoleIds(roleIds);
+    }
+
+    /**
      * Get entity by ID
      */
     @Transactional(readOnly = true)
@@ -79,6 +95,11 @@ public class ErpEntityService {
         entity.setPluralName(updatedEntity.getPluralName());
         entity.setDescription(updatedEntity.getDescription());
         entity.setIsActive(updatedEntity.getIsActive());
+        entity.setSequence(updatedEntity.getSequence());
+        entity.setSystemName(updatedEntity.getSystemName());
+        entity.setPresence(updatedEntity.getPresence());
+        entity.setIcon(updatedEntity.getIcon());
+        entity.setRoute(updatedEntity.getRoute());
         entity.setLastModifiedBy("system");
         
         return erpEntityRepository.save(entity);

@@ -51,4 +51,21 @@ public interface ErpEntityRepository extends JpaRepository<ErpEntity, Long> {
            "JOIN e.roleRelations r " +
            "WHERE e.id = :entityId AND r.role.id = :roleId AND e.isActive = true")
     boolean isEntityAccessibleByRole(@Param("entityId") Long entityId, @Param("roleId") Long roleId);
+
+    /**
+     * Find all active menu items with presence ordered by sequence
+     */
+    @Query("SELECT e FROM ErpEntity e " +
+           "WHERE e.isActive = true AND e.presence = true " +
+           "ORDER BY e.sequence ASC")
+    List<ErpEntity> findActiveMenuItems();
+
+    /**
+     * Find active menu items accessible by role, ordered by sequence
+     */
+    @Query("SELECT DISTINCT e FROM ErpEntity e " +
+           "JOIN e.roleRelations r " +
+           "WHERE r.role.id IN :roleIds AND e.isActive = true AND e.presence = true " +
+           "ORDER BY e.sequence ASC")
+    List<ErpEntity> findActiveMenuItemsByRoleIds(@Param("roleIds") List<Long> roleIds);
 }

@@ -34,47 +34,28 @@
                 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!/" 
-                               ng-class="{active: activeTab === 'dashboard'}">
-                                <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        <!-- Dynamic menu items (visible) -->
+                        <li class="nav-item" ng-repeat="menuItem in visibleMenuItems">
+                            <a class="nav-link" ng-href="{{menuItem.route}}" 
+                               ng-class="{active: isMenuItemActive(menuItem)}">
+                                <i class="{{menuItem.icon}} me-1"></i>{{menuItem.pluralName}}
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!/students" 
-                               ng-class="{active: activeTab === 'students'}">
-                                <i class="fas fa-user-graduate me-1"></i>Students
+                        
+                        <!-- More dropdown for overflow items -->
+                        <li class="nav-item dropdown" ng-show="hasOverflow">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" 
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-ellipsis-h me-1"></i>More
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!/attendance" 
-                               ng-class="{active: activeTab === 'attendance'}">
-                                <i class="fas fa-calendar-check me-1"></i>Attendance
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!/parents" 
-                               ng-class="{active: activeTab === 'parents'}">
-                                <i class="fas fa-users me-1"></i>Parents
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!/subjects" 
-                               ng-class="{active: activeTab === 'subjects'}">
-                                <i class="fas fa-book me-1"></i>Subjects
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!/timetables" 
-                               ng-class="{active: activeTab === 'timetables'}">
-                                <i class="fas fa-calendar me-1"></i>Timetables
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!/health" 
-                               ng-class="{active: activeTab === 'health'}">
-                                <i class="fas fa-heartbeat me-1"></i>Health Records
-                            </a>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="menuItem in overflowMenuItems">
+                                    <a class="dropdown-item" ng-href="{{menuItem.route}}"
+                                       ng-class="{active: isMenuItemActive(menuItem)}">
+                                        <i class="{{menuItem.icon}} me-2"></i>{{menuItem.pluralName}}
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                     
@@ -149,8 +130,11 @@
     <script src="/js/core/performance-monitor.service.js?v=1"></script>
     <script src="/js/core/theme.service.js?v=1&t=20251028120000"></script>
     <script src="/js/core/api.js?v=3"></script>
-    <script src="/js/core/main.controller.js?v=5&t=20251028053000"></script>
+    <script src="/js/core/main.controller.js?v=6&t=20251028170000"></script>
     <script src="/js/core/lazy-controllers.js?v=3"></script>
+    
+    <!-- Services -->
+    <script src="/js/services/menu.service.js?v=1&t=20251028170000"></script>
     
     <!-- Shared Entity List Components - Generic for ALL entities -->
     <script src="/js/shared/notification.service.js?v=2&t=20251026200500"></script>

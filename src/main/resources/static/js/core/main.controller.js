@@ -1,12 +1,15 @@
 // Main Controller - Dashboard and navigation
 angular.module('erpApp').controller('MainController', [
-    '$scope', '$rootScope', '$location', 'ApiService', 'PerformanceMonitorService',
-    function($scope, $rootScope, $location, ApiService, PerformanceMonitorService) {
+    '$scope', '$rootScope', '$location', '$window', '$timeout', 'ApiService', 'PerformanceMonitorService', 'MenuService',
+    function($scope, $rootScope, $location, $window, $timeout, ApiService, PerformanceMonitorService, MenuService) {
         
         // Initialize controller
         $scope.init = function() {
             // Initialize performance monitoring
             PerformanceMonitorService.init();
+            
+            // Load dynamic menu items
+            $scope.loadMenuItems();
             
             // Determine active tab based on current route
             var currentPath = $location.path();
@@ -72,6 +75,85 @@ angular.module('erpApp').controller('MainController', [
         $scope.$on('$routeChangeSuccess', function(event, current, previous) {
             // Route change handling if needed
         });
+        
+        // Dynamic menu items
+        $scope.allMenuItems = [];
+        $scope.visibleMenuItems = [];
+        $scope.overflowMenuItems = [];
+        $scope.hasOverflow = false;
+        
+        // Load menu items from backend
+        $scope.loadMenuItems = function() {
+            MenuService.getMenuItems().then(function(items) {
+                $scope.allMenuItems = items;
+                $scope.calculateMenuOverflow();
+            }).catch(function(error) {
+                console.error('Error loading menu items:', error);
+                // Fallback to empty array on error
+                $scope.allMenuItems = [];
+            });
+        };
+        
+        // Calculate which menu items are visible and which go into "More" dropdown
+        $scope.calculateMenuOverflow = function() {
+            // Wait for DOM to be ready
+            $timeout(function() {
+                var navbar = angular.element(document.querySelector('.navbar-nav.me-auto'));
+                if (!navbar || navbar.length === 0) {
+                    // If navbar not found, show all items
+                    $scope.visibleMenuItems = $scope.allMenuItems;
+                    $scope.overflowMenuItems = [];
+                    $scope.hasOverflow = false;
+                    return;
+                }
+                
+                // Get available width (navbar width minus settings/user items on right)
+                var navbarWidth = navbar[0].offsetWidth;
+                var availableWidth = navbarWidth - 150; // Reserve 150px for "More" button if needed
+                
+                // Calculate menu item widths (approximate: icon(40px) + text + padding(20px))
+                var visibleItems = [];
+                var overflowItems = [];
+                var usedWidth = 0;
+                var itemWidth = 120; // Approximate width per menu item
+                
+                for (var i = 0; i < $scope.allMenuItems.length; i++) {
+                    var item = $scope.allMenuItems[i];
+                    if (usedWidth + itemWidth <= availableWidth) {
+                        visibleItems.push(item);
+                        usedWidth += itemWidth;
+                    } else {
+                        overflowItems.push(item);
+                    }
+                }
+                
+                $scope.visibleMenuItems = visibleItems;
+                $scope.overflowMenuItems = overflowItems;
+                $scope.hasOverflow = overflowItems.length > 0;
+            }, 100);
+        };
+        
+        // Recalculate menu overflow on window resize
+        angular.element($window).on('resize', function() {
+            $scope.$apply(function() {
+                $scope.calculateMenuOverflow();
+            });
+        });
+        
+        // Check if a menu item is active based on current route
+        $scope.isMenuItemActive = function(menuItem) {
+            if (!menuItem || !menuItem.route) return false;
+            var currentPath = $location.path();
+            var menuPath = menuItem.route.replace('#!/', '/');
+            
+            // Dashboard is active when path is empty or '/'
+            if (menuPath === '/' && (currentPath === '' || currentPath === '/')) {
+                return true;
+            }
+            
+            // Other items match if current path starts with menu path
+            return currentPath.indexOf(menuPath) === 0;
+        };
         
         // Navigation functions
         $scope.setActiveTab = function(tab) {

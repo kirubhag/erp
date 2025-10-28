@@ -47,6 +47,21 @@ public class ErpEntity {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
 
+    @Column(name = "sequence", nullable = false)
+    private Integer sequence = 0;
+
+    @Column(name = "system_name", length = 100)
+    private String systemName;
+
+    @Column(name = "presence", nullable = false)
+    private Boolean presence = true;
+
+    @Column(name = "icon", length = 100)
+    private String icon;
+
+    @Column(name = "route", length = 255)
+    private String route;
+
     @Column(name = "created_date", nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
@@ -113,6 +128,46 @@ public class ErpEntity {
 
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
+    }
+
+    public String getSystemName() {
+        return systemName;
+    }
+
+    public void setSystemName(String systemName) {
+        this.systemName = systemName;
+    }
+
+    public Boolean getPresence() {
+        return presence;
+    }
+
+    public void setPresence(Boolean presence) {
+        this.presence = presence;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getRoute() {
+        return route;
+    }
+
+    public void setRoute(String route) {
+        this.route = route;
     }
 
     public LocalDateTime getCreatedDate() {
