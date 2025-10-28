@@ -140,7 +140,7 @@
                 rowActions: [
                     {
                         name: 'view',
-                        icon: 'eye',
+                        icon: 'info-circle',
                         label: 'View Details',
                         visible: true
                     },
@@ -266,7 +266,7 @@
                 rowActions: [
                     {
                         name: 'view',
-                        icon: 'eye',
+                        icon: 'info-circle',
                         label: 'View Details',
                         visible: true
                     },
@@ -392,7 +392,7 @@
                 rowActions: [
                     {
                         name: 'view',
-                        icon: 'eye',
+                        icon: 'info-circle',
                         label: 'View Details',
                         visible: true
                     },
@@ -502,7 +502,7 @@
                 rowActions: [
                     {
                         name: 'view',
-                        icon: 'eye',
+                        icon: 'info-circle',
                         label: 'View Details',
                         visible: true
                     },
@@ -601,7 +601,7 @@
                 rowActions: [
                     {
                         name: 'view',
-                        icon: 'eye',
+                        icon: 'info-circle',
                         label: 'View Details',
                         visible: true
                     },
@@ -750,7 +750,7 @@
                 rowActions: [
                     {
                         name: 'view',
-                        icon: 'eye',
+                        icon: 'info-circle',
                         label: 'View Details',
                         visible: true
                     },
@@ -916,7 +916,7 @@
                 rowActions: [
                     {
                         name: 'view',
-                        icon: 'eye',
+                        icon: 'info-circle',
                         label: 'View Details',
                         visible: true
                     },
