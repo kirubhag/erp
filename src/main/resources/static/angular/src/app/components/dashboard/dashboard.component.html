@@ -1,0 +1,128 @@
+<div class="dashboard-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">Dashboard</h1>
+    <button class="btn btn-outline-primary refresh-btn" (click)="refresh()">
+      <i class="fas fa-sync-alt me-2"></i>Refresh
+    </button>
+  </div>
+
+  <p class="welcome-text">Welcome back! Here's what's happening in your school today.</p>
+
+  <!-- Statistics Cards -->
+  <div class="row stats-row">
+    <div class="col-md-3 mb-4">
+      <div class="stat-card stat-card-purple">
+        <div class="stat-number">{{stats.totalStudents}}</div>
+        <div class="stat-label">TOTAL STUDENTS</div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="stat-card stat-card-indigo">
+        <div class="stat-number">{{stats.presentToday}}</div>
+        <div class="stat-label">PRESENT TODAY</div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="stat-card stat-card-pink">
+        <div class="stat-number">{{stats.absentToday}}</div>
+        <div class="stat-label">ABSENT TODAY</div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="stat-card stat-card-cyan">
+        <div class="stat-number">{{stats.registeredParents}}</div>
+        <div class="stat-label">REGISTERED PARENTS</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Today's Attendance -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Today's Attendance</h5>
+      <span class="text-muted">{{currentDate | date:'dd/MM/yyyy'}}</span>
+    </div>
+    <div class="card-body">
+      <div class="attendance-bar-container">
+        <div class="attendance-bar">
+          <div class="attendance-bar-fill" 
+               [style.width.%]="stats.attendanceRate"></div>
+        </div>
+      </div>
+      <div class="attendance-stats">
+        <div><strong>Present:</strong> {{stats.presentToday}}</div>
+        <div><strong>Absent:</strong> {{stats.absentToday}}</div>
+        <div><strong>Total:</strong> {{stats.totalAttendance}}</div>
+        <div class="attendance-rate">
+          <strong>{{stats.attendanceRate}}%</strong>
+          <br>
+          <small>Attendance Rate</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3 mb-3" *ngFor="let action of quickActions">
+          <div class="quick-action-card">
+            <div class="quick-action-icon">
+              <i [class]="action.icon"></i>
+            </div>
+            <h6 class="quick-action-title">{{action.title}}</h6>
+            <p class="quick-action-desc">{{action.description}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activities and System Information -->
+  <div class="row">
+    <div class="col-md-8 mb-4">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Recent Activities</h5>
+          <button class="btn btn-sm btn-outline-secondary">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="activity-item" *ngFor="let activity of recentActivities">
+            <div class="activity-icon" [ngClass]="activity.iconClass">
+              <i [class]="activity.icon"></i>
+            </div>
+            <div class="activity-content">
+              <p class="activity-message">{{activity.message}}</p>
+              <small class="activity-time text-muted">{{activity.timeAgo}}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>System Information</h5>
+        </div>
+        <div class="card-body">
+          <div class="system-info-item">
+            <strong>System Status:</strong>
+            <span class="badge bg-success ms-2">{{systemStatus}}</span>
+          </div>
+          <div class="system-info-item mt-3">
+            <strong>Last Backup:</strong>
+            <p class="text-muted mb-0">24 hours ago</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
