@@ -1,89 +1,93 @@
-<div class="modern-modules-container">
-  <!-- Sidebar Navigation -->
-  <div class="modules-sidebar">
-    <div class="sidebar-header">
-      <h3>Setup</h3>
+<!-- Modules Settings Page -->
+<link href="/css/settings-layout.css" rel="stylesheet">
+
+<div class="settings-layout">
+    <!-- Left Sidebar -->
+    <div class="settings-sidebar">
+        <div class="settings-sidebar-header">
+            <a href="#!/settings" class="back-to-setup">
+                <i class="fas fa-arrow-left"></i> Setup
+            </a>
+        </div>
+        
+        <!-- General Section -->
+        <div class="settings-sidebar-section">
+            <div class="settings-sidebar-section-title" ng-click="toggleSection('general')">
+                <span>General</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="settings-sidebar-items">
+                <a href="#!/settings/personal" class="settings-sidebar-item">Personal Settings</a>
+                <a href="#!/settings/organization-details" class="settings-sidebar-item">Organisation Details</a>
+                <a href="#!/settings/calendar" class="settings-sidebar-item">Calendar Settings</a>
+                <a href="#!/settings/email-settings" class="settings-sidebar-item">Email Settings</a>
+                <a href="#!/settings/notification" class="settings-sidebar-item">Notification Settings</a>
+            </div>
+        </div>
+        
+        <!-- Users and Control Section -->
+        <div class="settings-sidebar-section">
+            <div class="settings-sidebar-section-title" ng-click="toggleSection('users')">
+                <span>Users and Control</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="settings-sidebar-items">
+                <a href="#!/settings/user" class="settings-sidebar-item">Territory Management</a>
+            </div>
+        </div>
+        
+        <!-- Customization Section -->
+        <div class="settings-sidebar-section">
+            <div class="settings-sidebar-section-title" ng-click="toggleSection('customization')">
+                <span>Customization</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="settings-sidebar-items">
+                <a href="#!/settings/modules" class="settings-sidebar-item active">Modules</a>
+                <a href="#!/settings/email-templates" class="settings-sidebar-item">Templates</a>
+            </div>
+        </div>
+        
+        <!-- Portal Setup Section -->
+        <div class="settings-sidebar-section">
+            <div class="settings-sidebar-section-title" ng-click="toggleSection('portal')">
+                <span>Portal Setup</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="settings-sidebar-items">
+                <a href="#!/settings/vendor-portal" class="settings-sidebar-item">Vendor Portal</a>
+            </div>
+        </div>
+        
+        <!-- Data Administration Section -->
+        <div class="settings-sidebar-section">
+            <div class="settings-sidebar-section-title" ng-click="toggleSection('data')">
+                <span>Data Administration</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="settings-sidebar-items">
+                <a href="#!/settings/recycle-bin" class="settings-sidebar-item">Recycle Bin</a>
+                <a href="#!/settings/data-migration" class="settings-sidebar-item">Data Migration</a>
+                <a href="#!/settings/export" class="settings-sidebar-item">Export</a>
+                <a href="#!/settings/audit-log" class="settings-sidebar-item">Audit Log</a>
+                <a href="#!/settings/activity-log" class="settings-sidebar-item">Activity Log</a>
+            </div>
+        </div>
+        
+        <!-- Developer Space Section -->
+        <div class="settings-sidebar-section">
+            <div class="settings-sidebar-section-title" ng-click="toggleSection('developer')">
+                <span>Developer Space</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="settings-sidebar-items">
+                <a href="#!/settings/apis" class="settings-sidebar-item">APIs</a>
+            </div>
+        </div>
     </div>
     
-    <div class="sidebar-content">
-      <!-- General Section -->
-      <div class="sidebar-section">
-        <div class="section-header" ng-click="toggleSection('general')" ng-class="{active: expandedSections.general}">
-          <i class="fas fa-chevron-right section-toggle"></i>
-          <span>General</span>
-        </div>
-        <div class="section-content" ng-show="expandedSections.general">
-          <a href="#!/settings/personal" class="sidebar-link">Personal Settings</a>
-          <a href="#!/settings/organization-details" class="sidebar-link">Organization Details</a>
-          <a href="#!/settings/calendar" class="sidebar-link">Calendar Settings</a>
-          <a href="#!/settings/email-settings" class="sidebar-link">Email Settings</a>
-          <a href="#!/settings/notification" class="sidebar-link">Notification Settings</a>
-        </div>
-      </div>
-      
-      <!-- Users and Control Section -->
-      <div class="sidebar-section">
-        <div class="section-header" ng-click="toggleSection('users')" ng-class="{active: expandedSections.users}">
-          <i class="fas fa-chevron-right section-toggle"></i>
-          <span>Users and Control</span>
-        </div>
-        <div class="section-content" ng-show="expandedSections.users">
-          <a href="#!/settings/user" class="sidebar-link">Territory Management</a>
-        </div>
-      </div>
-      
-      <!-- Customization Section -->
-      <div class="sidebar-section">
-        <div class="section-header" ng-click="toggleSection('customization')" ng-class="{active: expandedSections.customization}">
-          <i class="fas fa-chevron-down section-toggle"></i>
-          <span>Customization</span>
-        </div>
-        <div class="section-content" ng-show="expandedSections.customization">
-          <a href="#!/settings/modules" class="sidebar-link active">Modules</a>
-          <a href="#!/settings/email-templates" class="sidebar-link">Templates</a>
-        </div>
-      </div>
-      
-      <!-- Portal Setup Section -->
-      <div class="sidebar-section">
-        <div class="section-header" ng-click="toggleSection('portal')" ng-class="{active: expandedSections.portal}">
-          <i class="fas fa-chevron-right section-toggle"></i>
-          <span>Portal Setup</span>
-        </div>
-        <div class="section-content" ng-show="expandedSections.portal">
-          <a href="#!/settings/vendor-portal" class="sidebar-link">Vendor Portal</a>
-        </div>
-      </div>
-      
-      <!-- Data Administration Section -->
-      <div class="sidebar-section">
-        <div class="section-header" ng-click="toggleSection('dataAdmin')" ng-class="{active: expandedSections.dataAdmin}">
-          <i class="fas fa-chevron-right section-toggle"></i>
-          <span>Data Administration</span>
-        </div>
-        <div class="section-content" ng-show="expandedSections.dataAdmin">
-          <a href="#!/settings/data-migration" class="sidebar-link">Data Migration</a>
-          <a href="#!/settings/export" class="sidebar-link">Export</a>
-          <a href="#!/settings/audit-log" class="sidebar-link">Audit Log</a>
-          <a href="#!/settings/activity-log" class="sidebar-link">Activity Log</a>
-        </div>
-      </div>
-      
-      <!-- Developer Space Section -->
-      <div class="sidebar-section">
-        <div class="section-header" ng-click="toggleSection('developer')" ng-class="{active: expandedSections.developer}">
-          <i class="fas fa-chevron-right section-toggle"></i>
-          <span>Developer Space</span>
-        </div>
-        <div class="section-content" ng-show="expandedSections.developer">
-          <a href="#!/settings/apis" class="sidebar-link">APIs</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main Content Area -->
-  <div class="modules-main-content">
+    <!-- Main Content Area -->
+    <div class="settings-content">
     <!-- Header with Tabs -->
     <div class="content-header">
       <div class="tab-container">
@@ -188,3 +192,5 @@
     </div>
   </div>
 </div>
+
+<script src="/js/settings-sidebar.js"></script>
