@@ -54,7 +54,7 @@ public class ModuleController {
                 ErpEntity entity = erpEntityService.getEntityById(update.getId())
                         .orElseThrow(() -> new RuntimeException("Entity not found: " + update.getId()));
                 
-                if ("Dashboard".equals(entity.getName())) {
+                if ("Dashboard".equals(entity.getSingularName())) {
                     dashboardFound = true;
                     if (update.getSequence() != 1) {
                         Map<String, Object> errorResponse = new HashMap<>();

@@ -59,6 +59,7 @@ angular.module('erpApp').controller('ModulesController', [
                             return {
                                 id: item.id,
                                 name: item.systemName || item.singularName.toLowerCase(),
+                                singularName: item.singularName,
                                 displayName: item.pluralName || item.displayName,
                                 description: item.description || 'Manage ' + item.pluralName.toLowerCase(),
                                 icon: item.icon || 'fas fa-cube',
@@ -431,7 +432,7 @@ angular.module('erpApp').controller('ModulesController', [
             
             // Separate Dashboard from other modules
             $scope.organizingModules.forEach(function(module) {
-                if (module.name === 'Dashboard') {
+                if (module.singularName === 'Dashboard') {
                     dashboardModule = module;
                 } else {
                     otherModules.push(module);

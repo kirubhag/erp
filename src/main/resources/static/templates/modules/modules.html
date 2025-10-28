@@ -134,12 +134,12 @@
         <div class="organize-list" id="sortable-modules">
           <div class="organize-item" ng-repeat="module in organizingModules track by module.id" 
                data-module-id="{{module.id}}"
-               ng-class="{'organize-item-locked': module.name === 'Dashboard'}">
+               ng-class="{'organize-item-locked': module.singularName === 'Dashboard'}">
             <div class="organize-item-content">
-              <div class="organize-item-handle" ng-if="module.name !== 'Dashboard'">
+              <div class="organize-item-handle" ng-if="module.singularName !== 'Dashboard'">
                 <i class="fas fa-grip-vertical text-muted"></i>
               </div>
-              <div class="organize-item-handle" ng-if="module.name === 'Dashboard'" title="Dashboard position is fixed">
+              <div class="organize-item-handle" ng-if="module.singularName === 'Dashboard'" title="Dashboard position is fixed">
                 <i class="fas fa-lock text-muted"></i>
               </div>
               <div class="organize-item-info">
@@ -149,7 +149,7 @@
                 <div class="organize-item-details">
                   <div class="organize-item-name">
                     {{module.displayName}}
-                    <span ng-if="module.name === 'Dashboard'" class="badge bg-secondary ms-2" style="font-size: 0.65rem;">Fixed</span>
+                    <span ng-if="module.singularName === 'Dashboard'" class="badge bg-secondary ms-2" style="font-size: 0.65rem;">Fixed</span>
                   </div>
                 </div>
               </div>
