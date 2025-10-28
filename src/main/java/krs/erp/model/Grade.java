@@ -259,7 +259,7 @@ public class Grade extends BaseEntity {
         if (marksObtained != null && totalMarks != null && totalMarks.compareTo(BigDecimal.ZERO) > 0) {
             this.percentage = marksObtained
                 .multiply(BigDecimal.valueOf(100))
-                .divide(totalMarks, 2, BigDecimal.ROUND_HALF_UP);
+                .divide(totalMarks, 2, java.math.RoundingMode.HALF_UP);
         }
     }
 
