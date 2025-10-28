@@ -215,7 +215,10 @@
 
             observers.forEach(function(callback) {
                 try {
-                    callback(themeData);
+                    // Use setTimeout to avoid $digest already in progress error
+                    setTimeout(function() {
+                        callback(themeData);
+                    }, 0);
                 } catch (e) {
                     console.error('Error in theme observer:', e);
                 }

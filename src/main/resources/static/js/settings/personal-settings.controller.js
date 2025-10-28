@@ -139,11 +139,10 @@
          * Subscribe to theme changes
          */
         ThemeService.subscribe(function(themeData) {
-            $scope.$apply(function() {
-                vm.currentTheme = themeData.theme;
-                vm.currentColor = themeData.color;
-                vm.currentFont = themeData.font;
-            });
+            // No need for $apply since we're using setTimeout in the service
+            vm.currentTheme = themeData.theme;
+            vm.currentColor = themeData.color;
+            vm.currentFont = themeData.font;
         });
     }
 })();
