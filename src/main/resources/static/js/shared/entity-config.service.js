@@ -791,6 +791,173 @@
                     ]
                 }
             };
+
+            // Timetable Configuration
+            entityConfigs['TIMETABLE'] = {
+                entityType: 'TIMETABLE',
+                entityName: 'Timetable',
+                entityDisplayName: 'Timetable',
+                title: 'Timetables',
+                subtitle: 'Manage class schedules and timetable entries',
+                createButtonText: 'Add Timetable Entry',
+                emptyIcon: 'calendar',
+                emptyMessage: 'Get started by creating your first timetable schedule',
+                allowCreate: true,
+                
+                // URL configurations for CRUD operations
+                createUrl: '/timetables/new',
+                viewUrl: '/timetables/:id',
+                editUrl: '/timetables/:id/edit',
+                listUrl: '/timetables',
+                
+                features: {
+                    customViews: true,
+                    import: true,
+                    export: true,
+                    sourceBooters: false,
+                    bulkActions: true
+                },
+
+                defaultColumns: [
+                    {
+                        field: 'timetableCode',
+                        label: 'Code',
+                        primary: true,
+                        sortable: true,
+                        type: 'text'
+                    },
+                    {
+                        field: 'className',
+                        label: 'Class',
+                        sortable: true,
+                        type: 'text'
+                    },
+                    {
+                        field: 'gradeLevel',
+                        label: 'Grade',
+                        sortable: true,
+                        type: 'text'
+                    },
+                    {
+                        field: 'dayOfWeek',
+                        label: 'Day',
+                        sortable: true,
+                        type: 'text'
+                    },
+                    {
+                        field: 'startTime',
+                        label: 'Start Time',
+                        sortable: true,
+                        type: 'time'
+                    },
+                    {
+                        field: 'endTime',
+                        label: 'End Time',
+                        sortable: true,
+                        type: 'time'
+                    },
+                    {
+                        field: 'subjectName',
+                        label: 'Subject',
+                        sortable: true,
+                        type: 'text'
+                    },
+                    {
+                        field: 'teacherName',
+                        label: 'Teacher',
+                        sortable: true,
+                        type: 'text'
+                    },
+                    {
+                        field: 'roomNumber',
+                        label: 'Room',
+                        sortable: true,
+                        type: 'text'
+                    }
+                ],
+
+                filters: [
+                    {
+                        name: 'Grade Level',
+                        field: 'gradeLevel',
+                        expanded: true,
+                        options: [
+                            { value: 'KinderGarten', label: 'Kindergarten', selected: false },
+                            { value: 'Grade 1', label: 'Grade 1', selected: false },
+                            { value: 'Grade 2', label: 'Grade 2', selected: false },
+                            { value: 'Grade 3', label: 'Grade 3', selected: false },
+                            { value: 'Grade 4', label: 'Grade 4', selected: false },
+                            { value: 'Grade 5', label: 'Grade 5', selected: false },
+                            { value: 'Grade 6', label: 'Grade 6', selected: false },
+                            { value: 'Grade 7', label: 'Grade 7', selected: false },
+                            { value: 'Grade 8', label: 'Grade 8', selected: false },
+                            { value: 'Grade 9', label: 'Grade 9', selected: false },
+                            { value: 'Grade 10', label: 'Grade 10', selected: false },
+                            { value: 'Grade 11', label: 'Grade 11', selected: false },
+                            { value: 'Grade 12', label: 'Grade 12', selected: false }
+                        ]
+                    },
+                    {
+                        name: 'Day of Week',
+                        field: 'dayOfWeek',
+                        expanded: true,
+                        options: [
+                            { value: 'MONDAY', label: 'Monday', selected: false },
+                            { value: 'TUESDAY', label: 'Tuesday', selected: false },
+                            { value: 'WEDNESDAY', label: 'Wednesday', selected: false },
+                            { value: 'THURSDAY', label: 'Thursday', selected: false },
+                            { value: 'FRIDAY', label: 'Friday', selected: false },
+                            { value: 'SATURDAY', label: 'Saturday', selected: false },
+                            { value: 'SUNDAY', label: 'Sunday', selected: false }
+                        ]
+                    }
+                ],
+
+                rowActions: [
+                    {
+                        name: 'view',
+                        icon: 'eye',
+                        label: 'View Details',
+                        visible: true
+                    },
+                    {
+                        name: 'edit',
+                        icon: 'edit',
+                        label: 'Edit Timetable',
+                        visible: true
+                    },
+                    {
+                        name: 'delete',
+                        icon: 'trash',
+                        label: 'Delete Timetable',
+                        visible: true
+                    }
+                ],
+
+                bulkActions: [
+                    {
+                        name: 'export',
+                        icon: 'download',
+                        label: 'Export Selected'
+                    },
+                    {
+                        name: 'delete',
+                        icon: 'trash',
+                        label: 'Delete Selected'
+                    }
+                ],
+
+                gridConfig: {
+                    primaryField: 'subjectName',
+                    secondaryField: 'className',
+                    fields: [
+                        { field: 'dayOfWeek', label: 'Day' },
+                        { field: 'startTime', label: 'Time' },
+                        { field: 'teacherName', label: 'Teacher' },
+                        { field: 'roomNumber', label: 'Room' }
+                    ]
+                }
+            };
         }
 
         /**

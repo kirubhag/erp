@@ -73,6 +73,23 @@ angular.module('erpApp', ['ngRoute'])
             controller: 'EntityEditController'
         })
         
+        // Timetable Routes
+        .when('/timetables', {
+            templateUrl: '/templates/timetable/timetable-list.html'
+        })
+        .when('/timetables/new', {
+            templateUrl: '/templates/timetable/timetable-edit.html',
+            controller: 'EntityEditController'
+        })
+        .when('/timetables/:id', {
+            templateUrl: '/templates/timetable/timetable-detail.html',
+            controller: 'EntityDetailController'
+        })
+        .when('/timetables/:id/edit', {
+            templateUrl: '/templates/timetable/timetable-edit.html',
+            controller: 'EntityEditController'
+        })
+        
         // Attendance Routes (keeping existing for now)
         .when('/attendance', {
             templateUrl: '/templates/attendance/attendance.html',

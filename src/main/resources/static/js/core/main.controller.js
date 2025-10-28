@@ -33,9 +33,15 @@ angular.module('erpApp').controller('MainController', [
                 email: 'admin@school.edu'
             };
             
+            // Initialize organization name
+            $scope.organizationName = 'Student Information System';
+            
             // Set current date/time for dashboard
             $scope.currentDate = new Date();
             $scope.currentDateTime = new Date();
+            
+            // Load organization details
+            $scope.loadOrganizationDetails();
             
             $scope.loadDashboardData();
             
@@ -119,6 +125,18 @@ angular.module('erpApp').controller('MainController', [
             $scope.loadRecentActivities();
             
             $scope.loading = false;
+        };
+        
+        // Load organization details for navbar
+        $scope.loadOrganizationDetails = function() {
+            ApiService.get('/organization/details').then(function(response) {
+                if (response.data && response.data.name) {
+                    $scope.organizationName = response.data.name;
+                }
+            }).catch(function(error) {
+                // Silently fail - organization endpoint may not exist yet
+                // Keep default name 'Student Information System'
+            });
         };
         
         // Load recent activities

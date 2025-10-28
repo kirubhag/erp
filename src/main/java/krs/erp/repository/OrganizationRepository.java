@@ -18,21 +18,25 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
     /**
      * Find organization by code (unique identifier)
      */
-    Optional<Organization> findByCodeAndIsActiveTrue(String code);
+    @Query("SELECT o FROM Organization o WHERE o.code = :code AND o.isActive = 1")
+    Optional<Organization> findByCodeAndIsActiveTrue(@Param("code") String code);
     
     /**
      * Find organization by name
      */
-    Optional<Organization> findByNameAndIsActiveTrue(String name);
+    @Query("SELECT o FROM Organization o WHERE o.name = :name AND o.isActive = 1")
+    Optional<Organization> findByNameAndIsActiveTrue(@Param("name") String name);
     
     /**
      * Find organizations by type
      */
-    List<Organization> findByTypeAndIsActiveTrueOrderByNameAsc(String type);
+    @Query("SELECT o FROM Organization o WHERE o.type = :type AND o.isActive = 1 ORDER BY o.name ASC")
+    List<Organization> findByTypeAndIsActiveTrueOrderByNameAsc(@Param("type") String type);
     
     /**
      * Find all active organizations
      */
+    @Query("SELECT o FROM Organization o WHERE o.isActive = 1 ORDER BY o.name ASC")
     Page<Organization> findByIsActiveTrueOrderByNameAsc(Pageable pageable);
     
     /**
@@ -46,22 +50,26 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
     /**
      * Find organizations by city
      */
-    List<Organization> findByCityAndIsActiveTrueOrderByNameAsc(String city);
+    @Query("SELECT o FROM Organization o WHERE o.city = :city AND o.isActive = 1 ORDER BY o.name ASC")
+    List<Organization> findByCityAndIsActiveTrueOrderByNameAsc(@Param("city") String city);
     
     /**
      * Find organizations by country
      */
-    List<Organization> findByCountryAndIsActiveTrueOrderByNameAsc(String country);
+    @Query("SELECT o FROM Organization o WHERE o.country = :country AND o.isActive = 1 ORDER BY o.name ASC")
+    List<Organization> findByCountryAndIsActiveTrueOrderByNameAsc(@Param("country") String country);
     
     /**
      * Check if organization code exists (for validation)
      */
-    boolean existsByCodeAndIsActiveTrue(String code);
+    @Query("SELECT CASE WHEN COUNT(o) > 0 THEN true ELSE false END FROM Organization o WHERE o.code = :code AND o.isActive = 1")
+    boolean existsByCodeAndIsActiveTrue(@Param("code") String code);
     
     /**
      * Check if organization name exists (for validation)
      */
-    boolean existsByNameAndIsActiveTrue(String name);
+    @Query("SELECT CASE WHEN COUNT(o) > 0 THEN true ELSE false END FROM Organization o WHERE o.name = :name AND o.isActive = 1")
+    boolean existsByNameAndIsActiveTrue(@Param("name") String name);
     
     /**
      * Get organization types

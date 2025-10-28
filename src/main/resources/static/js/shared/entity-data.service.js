@@ -246,6 +246,7 @@
                 'ATTENDANCE': '/api/attendance',
                 'HEALTH': '/api/health-records',
                 'SUBJECT': '/api/subjects',
+                'TIMETABLE': '/api/timetables',
                 'USER': '/api/users',
                 'ORGANIZATION': '/api/organizations',
                 'PERMISSION': '/api/permissions',

@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<timetables>
+    <!-- KinderGarten Timetables -->
+    <timetable>
+        <timetableCode>TT-KG-2024-MON-1</timetableCode>
+        <className>KG-A</className>
+        <gradeLevel>KinderGarten</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>MONDAY</dayOfWeek>
+        <startTime>08:00</startTime>
+        <endTime>08:45</endTime>
+        <subjectName>English Language Arts</subjectName>
+        <subjectCode>ENG-KG</subjectCode>
+        <teacherName>Mrs. Anderson</teacherName>
+        <teacherId>T001</teacherId>
+        <roomNumber>101</roomNumber>
+        <building>Elementary Wing</building>
+        <periodNumber>1</periodNumber>
+        <notes>Morning circle and phonics</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-KG-2024-MON-2</timetableCode>
+        <className>KG-A</className>
+        <gradeLevel>KinderGarten</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>MONDAY</dayOfWeek>
+        <startTime>09:00</startTime>
+        <endTime>09:45</endTime>
+        <subjectName>Mathematics</subjectName>
+        <subjectCode>MATH-KG</subjectCode>
+        <teacherName>Mrs. Anderson</teacherName>
+        <teacherId>T001</teacherId>
+        <roomNumber>101</roomNumber>
+        <building>Elementary Wing</building>
+        <periodNumber>2</periodNumber>
+        <notes>Number recognition and counting</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <!-- Grade 1 Timetables -->
+    <timetable>
+        <timetableCode>TT-G1-2024-MON-1</timetableCode>
+        <className>1-A</className>
+        <gradeLevel>Grade 1</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>MONDAY</dayOfWeek>
+        <startTime>08:00</startTime>
+        <endTime>08:50</endTime>
+        <subjectName>English Language Arts</subjectName>
+        <subjectCode>ENG-G1</subjectCode>
+        <teacherName>Miss Johnson</teacherName>
+        <teacherId>T002</teacherId>
+        <roomNumber>102</roomNumber>
+        <building>Elementary Wing</building>
+        <periodNumber>1</periodNumber>
+        <notes>Reading and writing basics</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G1-2024-TUE-3</timetableCode>
+        <className>1-A</className>
+        <gradeLevel>Grade 1</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>TUESDAY</dayOfWeek>
+        <startTime>10:00</startTime>
+        <endTime>10:50</endTime>
+        <subjectName>Science</subjectName>
+        <subjectCode>SCI-G1</subjectCode>
+        <teacherName>Mr. Williams</teacherName>
+        <teacherId>T003</teacherId>
+        <roomNumber>Lab-101</roomNumber>
+        <building>Science Block</building>
+        <periodNumber>3</periodNumber>
+        <notes>Basic science concepts with hands-on activities</notes>
+        <isLabSession>true</isLabSession>
+    </timetable>
+
+    <!-- Grade 2 Timetables -->
+    <timetable>
+        <timetableCode>TT-G2-2024-WED-2</timetableCode>
+        <className>2-B</className>
+        <gradeLevel>Grade 2</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>WEDNESDAY</dayOfWeek>
+        <startTime>09:00</startTime>
+        <endTime>09:50</endTime>
+        <subjectName>Mathematics</subjectName>
+        <subjectCode>MATH-G2</subjectCode>
+        <teacherName>Mrs. Davis</teacherName>
+        <teacherId>T004</teacherId>
+        <roomNumber>103</roomNumber>
+        <building>Elementary Wing</building>
+        <periodNumber>2</periodNumber>
+        <notes>Addition and subtraction with regrouping</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G2-2024-THU-4</timetableCode>
+        <className>2-B</className>
+        <gradeLevel>Grade 2</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>THURSDAY</dayOfWeek>
+        <startTime>11:00</startTime>
+        <endTime>11:50</endTime>
+        <subjectName>Art</subjectName>
+        <subjectCode>ART-G2</subjectCode>
+        <teacherName>Ms. Garcia</teacherName>
+        <teacherId>T005</teacherId>
+        <roomNumber>Art-201</roomNumber>
+        <building>Creative Arts Wing</building>
+        <periodNumber>4</periodNumber>
+        <notes>Creative expression through drawing and painting</notes>
+        <isLabSession>true</isLabSession>
+    </timetable>
+
+    <!-- Grade 3 Timetables -->
+    <timetable>
+        <timetableCode>TT-G3-2024-FRI-1</timetableCode>
+        <className>3-A</className>
+        <gradeLevel>Grade 3</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>FRIDAY</dayOfWeek>
+        <startTime>08:00</startTime>
+        <endTime>08:50</endTime>
+        <subjectName>English Language Arts</subjectName>
+        <subjectCode>ENG-G3</subjectCode>
+        <teacherName>Mrs. Martinez</teacherName>
+        <teacherId>T006</teacherId>
+        <roomNumber>104</roomNumber>
+        <building>Elementary Wing</building>
+        <periodNumber>1</periodNumber>
+        <notes>Reading comprehension and grammar</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G3-2024-MON-5</timetableCode>
+        <className>3-A</className>
+        <gradeLevel>Grade 3</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>MONDAY</dayOfWeek>
+        <startTime>13:00</startTime>
+        <endTime>13:50</endTime>
+        <subjectName>Physical Education</subjectName>
+        <subjectCode>PE-G3</subjectCode>
+        <teacherName>Coach Brown</teacherName>
+        <teacherId>T007</teacherId>
+        <roomNumber>Gym-1</roomNumber>
+        <building>Sports Complex</building>
+        <periodNumber>5</periodNumber>
+        <notes>Team sports and fitness activities</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <!-- Grade 4 Timetables -->
+    <timetable>
+        <timetableCode>TT-G4-2024-TUE-2</timetableCode>
+        <className>4-C</className>
+        <gradeLevel>Grade 4</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>TUESDAY</dayOfWeek>
+        <startTime>09:00</startTime>
+        <endTime>09:50</endTime>
+        <subjectName>Social Studies</subjectName>
+        <subjectCode>SS-G4</subjectCode>
+        <teacherName>Mr. Wilson</teacherName>
+        <teacherId>T008</teacherId>
+        <roomNumber>105</roomNumber>
+        <building>Elementary Wing</building>
+        <periodNumber>2</periodNumber>
+        <notes>Introduction to world geography</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G4-2024-WED-3</timetableCode>
+        <className>4-C</className>
+        <gradeLevel>Grade 4</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>WEDNESDAY</dayOfWeek>
+        <startTime>10:00</startTime>
+        <endTime>10:50</endTime>
+        <subjectName>Mathematics</subjectName>
+        <subjectCode>MATH-G4</subjectCode>
+        <teacherName>Mrs. Taylor</teacherName>
+        <teacherId>T009</teacherId>
+        <roomNumber>105</roomNumber>
+        <building>Elementary Wing</building>
+        <periodNumber>3</periodNumber>
+        <notes>Multiplication and division, fractions</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <!-- Grade 5 Timetables -->
+    <timetable>
+        <timetableCode>TT-G5-2024-THU-1</timetableCode>
+        <className>5-A</className>
+        <gradeLevel>Grade 5</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>THURSDAY</dayOfWeek>
+        <startTime>08:00</startTime>
+        <endTime>08:50</endTime>
+        <subjectName>Science</subjectName>
+        <subjectCode>SCI-G5</subjectCode>
+        <teacherName>Dr. Lee</teacherName>
+        <teacherId>T010</teacherId>
+        <roomNumber>Lab-102</roomNumber>
+        <building>Science Block</building>
+        <periodNumber>1</periodNumber>
+        <notes>Earth science and basic chemistry experiments</notes>
+        <isLabSession>true</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G5-2024-FRI-4</timetableCode>
+        <className>5-A</className>
+        <gradeLevel>Grade 5</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>FRIDAY</dayOfWeek>
+        <startTime>11:00</startTime>
+        <endTime>11:50</endTime>
+        <subjectName>Music</subjectName>
+        <subjectCode>MUS-G5</subjectCode>
+        <teacherName>Ms. Chen</teacherName>
+        <teacherId>T011</teacherId>
+        <roomNumber>Music-101</roomNumber>
+        <building>Creative Arts Wing</building>
+        <periodNumber>4</periodNumber>
+        <notes>Introduction to musical instruments</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <!-- Grade 6 Timetables -->
+    <timetable>
+        <timetableCode>TT-G6-2024-MON-2</timetableCode>
+        <className>6-B</className>
+        <gradeLevel>Grade 6</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>MONDAY</dayOfWeek>
+        <startTime>09:00</startTime>
+        <endTime>09:50</endTime>
+        <subjectName>English Literature</subjectName>
+        <subjectCode>ENG-101</subjectCode>
+        <teacherName>Mrs. Thompson</teacherName>
+        <teacherId>T012</teacherId>
+        <roomNumber>201</roomNumber>
+        <building>Middle School Block</building>
+        <periodNumber>2</periodNumber>
+        <notes>Introduction to classic literature</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G6-2024-TUE-3</timetableCode>
+        <className>6-B</className>
+        <gradeLevel>Grade 6</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>TUESDAY</dayOfWeek>
+        <startTime>10:00</startTime>
+        <endTime>10:50</endTime>
+        <subjectName>Pre-Algebra</subjectName>
+        <subjectCode>MATH-G6</subjectCode>
+        <teacherName>Mr. Robinson</teacherName>
+        <teacherId>T013</teacherId>
+        <roomNumber>202</roomNumber>
+        <building>Middle School Block</building>
+        <periodNumber>3</periodNumber>
+        <notes>Introduction to algebraic concepts</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <!-- Grade 7 Timetables -->
+    <timetable>
+        <timetableCode>TT-G7-2024-WED-1</timetableCode>
+        <className>7-A</className>
+        <gradeLevel>Grade 7</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>WEDNESDAY</dayOfWeek>
+        <startTime>08:00</startTime>
+        <endTime>08:50</endTime>
+        <subjectName>Life Science</subjectName>
+        <subjectCode>SCI-G7</subjectCode>
+        <teacherName>Dr. Martinez</teacherName>
+        <teacherId>T014</teacherId>
+        <roomNumber>Lab-201</roomNumber>
+        <building>Science Block</building>
+        <periodNumber>1</periodNumber>
+        <notes>Biology fundamentals with microscope work</notes>
+        <isLabSession>true</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G7-2024-THU-4</timetableCode>
+        <className>7-A</className>
+        <gradeLevel>Grade 7</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>THURSDAY</dayOfWeek>
+        <startTime>11:00</startTime>
+        <endTime>11:50</endTime>
+        <subjectName>World History</subjectName>
+        <subjectCode>HIST-101</subjectCode>
+        <teacherName>Mr. Anderson</teacherName>
+        <teacherId>T015</teacherId>
+        <roomNumber>203</roomNumber>
+        <building>Middle School Block</building>
+        <periodNumber>4</periodNumber>
+        <notes>Ancient civilizations</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <!-- Grade 8 Timetables -->
+    <timetable>
+        <timetableCode>TT-G8-2024-FRI-2</timetableCode>
+        <className>8-C</className>
+        <gradeLevel>Grade 8</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>FRIDAY</dayOfWeek>
+        <startTime>09:00</startTime>
+        <endTime>09:50</endTime>
+        <subjectName>Algebra I</subjectName>
+        <subjectCode>MATH-201</subjectCode>
+        <teacherName>Mrs. Kim</teacherName>
+        <teacherId>T016</teacherId>
+        <roomNumber>204</roomNumber>
+        <building>Middle School Block</building>
+        <periodNumber>2</periodNumber>
+        <notes>Equations and functions</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G8-2024-MON-3</timetableCode>
+        <className>8-C</className>
+        <gradeLevel>Grade 8</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>MONDAY</dayOfWeek>
+        <startTime>10:00</startTime>
+        <endTime>10:50</endTime>
+        <subjectName>Physical Science</subjectName>
+        <subjectCode>SCI-G8</subjectCode>
+        <teacherName>Dr. White</teacherName>
+        <teacherId>T017</teacherId>
+        <roomNumber>Lab-202</roomNumber>
+        <building>Science Block</building>
+        <periodNumber>3</periodNumber>
+        <notes>Physics and chemistry introduction with experiments</notes>
+        <isLabSession>true</isLabSession>
+    </timetable>
+
+    <!-- Grade 9 Timetables -->
+    <timetable>
+        <timetableCode>TT-G9-2024-TUE-1</timetableCode>
+        <className>9-A</className>
+        <gradeLevel>Grade 9</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>TUESDAY</dayOfWeek>
+        <startTime>08:00</startTime>
+        <endTime>08:50</endTime>
+        <subjectName>Biology</subjectName>
+        <subjectCode>SCI-301</subjectCode>
+        <teacherName>Dr. Green</teacherName>
+        <teacherId>T018</teacherId>
+        <roomNumber>Lab-301</roomNumber>
+        <building>High School Science Wing</building>
+        <periodNumber>1</periodNumber>
+        <notes>Cell biology and genetics with lab work</notes>
+        <isLabSession>true</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G9-2024-WED-2</timetableCode>
+        <className>9-A</className>
+        <gradeLevel>Grade 9</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>WEDNESDAY</dayOfWeek>
+        <startTime>09:00</startTime>
+        <endTime>09:50</endTime>
+        <subjectName>Algebra II</subjectName>
+        <subjectCode>MATH-201</subjectCode>
+        <teacherName>Mr. Davis</teacherName>
+        <teacherId>T019</teacherId>
+        <roomNumber>301</roomNumber>
+        <building>High School Academic Block</building>
+        <periodNumber>2</periodNumber>
+        <notes>Quadratic equations and polynomials</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G9-2024-THU-5</timetableCode>
+        <className>9-A</className>
+        <gradeLevel>Grade 9</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>THURSDAY</dayOfWeek>
+        <startTime>13:00</startTime>
+        <endTime>13:50</endTime>
+        <subjectName>Spanish I</subjectName>
+        <subjectCode>SPAN-101</subjectCode>
+        <teacherName>Señora Rodriguez</teacherName>
+        <teacherId>T020</teacherId>
+        <roomNumber>302</roomNumber>
+        <building>High School Academic Block</building>
+        <periodNumber>5</periodNumber>
+        <notes>Introduction to Spanish language and culture</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <!-- Grade 10 Timetables -->
+    <timetable>
+        <timetableCode>TT-G10-2024-FRI-1</timetableCode>
+        <className>10-B</className>
+        <gradeLevel>Grade 10</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>FRIDAY</dayOfWeek>
+        <startTime>08:00</startTime>
+        <endTime>08:50</endTime>
+        <subjectName>Chemistry</subjectName>
+        <subjectCode>CHEM-401</subjectCode>
+        <teacherName>Dr. Brown</teacherName>
+        <teacherId>T021</teacherId>
+        <roomNumber>Lab-302</roomNumber>
+        <building>High School Science Wing</building>
+        <periodNumber>1</periodNumber>
+        <notes>Chemical reactions and stoichiometry with lab</notes>
+        <isLabSession>true</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G10-2024-MON-3</timetableCode>
+        <className>10-B</className>
+        <gradeLevel>Grade 10</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>MONDAY</dayOfWeek>
+        <startTime>10:00</startTime>
+        <endTime>10:50</endTime>
+        <subjectName>World History</subjectName>
+        <subjectCode>HIST-101</subjectCode>
+        <teacherName>Mrs. Clark</teacherName>
+        <teacherId>T022</teacherId>
+        <roomNumber>303</roomNumber>
+        <building>High School Academic Block</building>
+        <periodNumber>3</periodNumber>
+        <notes>Modern world history and global conflicts</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G10-2024-TUE-4</timetableCode>
+        <className>10-B</className>
+        <gradeLevel>Grade 10</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>TUESDAY</dayOfWeek>
+        <startTime>11:00</startTime>
+        <endTime>11:50</endTime>
+        <subjectName>Computer Science I</subjectName>
+        <subjectCode>CS-301</subjectCode>
+        <teacherName>Mr. Patel</teacherName>
+        <teacherId>T023</teacherId>
+        <roomNumber>CompLab-101</roomNumber>
+        <building>Technology Center</building>
+        <periodNumber>4</periodNumber>
+        <notes>Programming fundamentals with Python</notes>
+        <isLabSession>true</isLabSession>
+    </timetable>
+
+    <!-- Grade 11 Timetables -->
+    <timetable>
+        <timetableCode>TT-G11-2024-WED-2</timetableCode>
+        <className>11-A</className>
+        <gradeLevel>Grade 11</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>WEDNESDAY</dayOfWeek>
+        <startTime>09:00</startTime>
+        <endTime>09:50</endTime>
+        <subjectName>Pre-Calculus</subjectName>
+        <subjectCode>MATH-401</subjectCode>
+        <teacherName>Dr. Wilson</teacherName>
+        <teacherId>T024</teacherId>
+        <roomNumber>304</roomNumber>
+        <building>High School Academic Block</building>
+        <periodNumber>2</periodNumber>
+        <notes>Trigonometry and advanced functions</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G11-2024-THU-1</timetableCode>
+        <className>11-A</className>
+        <gradeLevel>Grade 11</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>THURSDAY</dayOfWeek>
+        <startTime>08:00</startTime>
+        <endTime>08:50</endTime>
+        <subjectName>Physics</subjectName>
+        <subjectCode>PHY-501</subjectCode>
+        <teacherName>Dr. Lewis</teacherName>
+        <teacherId>T025</teacherId>
+        <roomNumber>Lab-303</roomNumber>
+        <building>High School Science Wing</building>
+        <periodNumber>1</periodNumber>
+        <notes>Mechanics and motion with experiments</notes>
+        <isLabSession>true</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G11-2024-FRI-5</timetableCode>
+        <className>11-A</className>
+        <gradeLevel>Grade 11</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>FRIDAY</dayOfWeek>
+        <startTime>13:00</startTime>
+        <endTime>13:50</endTime>
+        <subjectName>English Literature</subjectName>
+        <subjectCode>ENG-101</subjectCode>
+        <teacherName>Ms. Harris</teacherName>
+        <teacherId>T026</teacherId>
+        <roomNumber>305</roomNumber>
+        <building>High School Academic Block</building>
+        <periodNumber>5</periodNumber>
+        <notes>American literature and composition</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <!-- Grade 12 Timetables -->
+    <timetable>
+        <timetableCode>TT-G12-2024-MON-1</timetableCode>
+        <className>12-C</className>
+        <gradeLevel>Grade 12</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>MONDAY</dayOfWeek>
+        <startTime>08:00</startTime>
+        <endTime>08:50</endTime>
+        <subjectName>AP Calculus</subjectName>
+        <subjectCode>MATH-501</subjectCode>
+        <teacherName>Dr. Young</teacherName>
+        <teacherId>T027</teacherId>
+        <roomNumber>306</roomNumber>
+        <building>High School Academic Block</building>
+        <periodNumber>1</periodNumber>
+        <notes>Differential and integral calculus</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G12-2024-TUE-2</timetableCode>
+        <className>12-C</className>
+        <gradeLevel>Grade 12</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>TUESDAY</dayOfWeek>
+        <startTime>09:00</startTime>
+        <endTime>09:50</endTime>
+        <subjectName>AP Chemistry</subjectName>
+        <subjectCode>CHEM-401</subjectCode>
+        <teacherName>Dr. Brown</teacherName>
+        <teacherId>T021</teacherId>
+        <roomNumber>Lab-304</roomNumber>
+        <building>High School Science Wing</building>
+        <periodNumber>2</periodNumber>
+        <notes>Advanced chemistry with college-level lab work</notes>
+        <isLabSession>true</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G12-2024-WED-3</timetableCode>
+        <className>12-C</className>
+        <gradeLevel>Grade 12</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>WEDNESDAY</dayOfWeek>
+        <startTime>10:00</startTime>
+        <endTime>10:50</endTime>
+        <subjectName>Government and Economics</subjectName>
+        <subjectCode>GOV-601</subjectCode>
+        <teacherName>Mr. Miller</teacherName>
+        <teacherId>T028</teacherId>
+        <roomNumber>307</roomNumber>
+        <building>High School Academic Block</building>
+        <periodNumber>3</periodNumber>
+        <notes>Civics and economic principles</notes>
+        <isLabSession>false</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G12-2024-THU-4</timetableCode>
+        <className>12-C</className>
+        <gradeLevel>Grade 12</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>THURSDAY</dayOfWeek>
+        <startTime>11:00</startTime>
+        <endTime>11:50</endTime>
+        <subjectName>Computer Science</subjectName>
+        <subjectCode>CS-301</subjectCode>
+        <teacherName>Ms. Zhang</teacherName>
+        <teacherId>T029</teacherId>
+        <roomNumber>CompLab-102</roomNumber>
+        <building>Technology Center</building>
+        <periodNumber>4</periodNumber>
+        <notes>Advanced programming and data structures</notes>
+        <isLabSession>true</isLabSession>
+    </timetable>
+
+    <timetable>
+        <timetableCode>TT-G12-2024-FRI-5</timetableCode>
+        <className>12-C</className>
+        <gradeLevel>Grade 12</gradeLevel>
+        <academicYear>2024-2025</academicYear>
+        <semester>Fall 2024</semester>
+        <dayOfWeek>FRIDAY</dayOfWeek>
+        <startTime>13:00</startTime>
+        <endTime>13:50</endTime>
+        <subjectName>Visual Arts</subjectName>
+        <subjectCode>ART-150</subjectCode>
+        <teacherName>Ms. Garcia</teacherName>
+        <teacherId>T005</teacherId>
+        <roomNumber>Art-301</roomNumber>
+        <building>Creative Arts Wing</building>
+        <periodNumber>5</periodNumber>
+        <notes>Advanced studio art and portfolio development</notes>
+        <isLabSession>true</isLabSession>
+    </timetable>
+</timetables>

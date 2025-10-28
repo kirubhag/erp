@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grades>
+    <!-- KinderGarten Grades -->
+    <grade>
+        <studentId>1001</studentId>
+        <studentName>Emma Johnson</studentName>
+        <gradeLevel>KinderGarten</gradeLevel>
+        <courseCode>KG-ENG</courseCode>
+        <courseName>English Language Arts</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>85</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-15</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Excellent participation</remarks>
+        <teacherId>T001</teacherId>
+        <teacherName>Ms. Sarah Anderson</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+    
+    <grade>
+        <studentId>1001</studentId>
+        <studentName>Emma Johnson</studentName>
+        <gradeLevel>KinderGarten</gradeLevel>
+        <courseCode>KG-MATH</courseCode>
+        <courseName>Mathematics</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>90</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-18</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Outstanding performance in counting</remarks>
+        <teacherId>T002</teacherId>
+        <teacherName>Mr. David Brown</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Grade 1 -->
+    <grade>
+        <studentId>1002</studentId>
+        <studentName>Liam Smith</studentName>
+        <gradeLevel>Grade 1</gradeLevel>
+        <courseCode>G1-ENG</courseCode>
+        <courseName>English</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>78</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-20</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Good reading skills</remarks>
+        <teacherId>T003</teacherId>
+        <teacherName>Mrs. Jennifer Wilson</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1002</studentId>
+        <studentName>Liam Smith</studentName>
+        <gradeLevel>Grade 1</gradeLevel>
+        <courseCode>G1-MATH</courseCode>
+        <courseName>Mathematics</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>92</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-22</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Excellent problem solving</remarks>
+        <teacherId>T004</teacherId>
+        <teacherName>Mr. Robert Martinez</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Grade 2 -->
+    <grade>
+        <studentId>1003</studentId>
+        <studentName>Olivia Davis</studentName>
+        <gradeLevel>Grade 2</gradeLevel>
+        <courseCode>G2-ENG</courseCode>
+        <courseName>English</courseName>
+        <examType>Final</examType>
+        <marksObtained>88</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-12-15</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Great improvement</remarks>
+        <teacherId>T005</teacherId>
+        <teacherName>Ms. Emily Taylor</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1003</studentId>
+        <studentName>Olivia Davis</studentName>
+        <gradeLevel>Grade 2</gradeLevel>
+        <courseCode>G2-SCI</courseCode>
+        <courseName>Science</courseName>
+        <examType>Final</examType>
+        <marksObtained>95</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-12-18</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Excellent curiosity and understanding</remarks>
+        <teacherId>T006</teacherId>
+        <teacherName>Dr. Michael Lee</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Grade 3 -->
+    <grade>
+        <studentId>1004</studentId>
+        <studentName>Noah Garcia</studentName>
+        <gradeLevel>Grade 3</gradeLevel>
+        <courseCode>G3-MATH</courseCode>
+        <courseName>Mathematics</courseName>
+        <examType>Quiz</examType>
+        <marksObtained>72</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-10-25</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Needs more practice with multiplication</remarks>
+        <teacherId>T007</teacherId>
+        <teacherName>Mrs. Lisa Rodriguez</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1004</studentId>
+        <studentName>Noah Garcia</studentName>
+        <gradeLevel>Grade 3</gradeLevel>
+        <courseCode>G3-SOC</courseCode>
+        <courseName>Social Studies</courseName>
+        <examType>Assignment</examType>
+        <marksObtained>85</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-05</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Good research on community helpers</remarks>
+        <teacherId>T008</teacherId>
+        <teacherName>Mr. James Anderson</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Grade 4 -->
+    <grade>
+        <studentId>1005</studentId>
+        <studentName>Ava Martinez</studentName>
+        <gradeLevel>Grade 4</gradeLevel>
+        <courseCode>G4-ENG</courseCode>
+        <courseName>English Literature</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>91</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-12</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Exceptional comprehension skills</remarks>
+        <teacherId>T009</teacherId>
+        <teacherName>Ms. Patricia Thomas</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1005</studentId>
+        <studentName>Ava Martinez</studentName>
+        <gradeLevel>Grade 4</gradeLevel>
+        <courseCode>G4-ART</courseCode>
+        <courseName>Art</courseName>
+        <examType>Project</examType>
+        <marksObtained>97</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-30</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Creative and well-executed project</remarks>
+        <teacherId>T010</teacherId>
+        <teacherName>Mr. Christopher White</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Grade 5 -->
+    <grade>
+        <studentId>1006</studentId>
+        <studentName>Ethan Robinson</studentName>
+        <gradeLevel>Grade 5</gradeLevel>
+        <courseCode>G5-MATH</courseCode>
+        <courseName>Mathematics</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>84</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-14</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Strong grasp of fractions and decimals</remarks>
+        <teacherId>T011</teacherId>
+        <teacherName>Dr. Maria Clark</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1006</studentId>
+        <studentName>Ethan Robinson</studentName>
+        <gradeLevel>Grade 5</gradeLevel>
+        <courseCode>G5-SCI</courseCode>
+        <courseName>Science</courseName>
+        <examType>Practical</examType>
+        <marksObtained>89</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-12-05</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Excellent lab work and observations</remarks>
+        <teacherId>T012</teacherId>
+        <teacherName>Mr. Daniel Lewis</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Grade 6 -->
+    <grade>
+        <studentId>1007</studentId>
+        <studentName>Sophia Walker</studentName>
+        <gradeLevel>Grade 6</gradeLevel>
+        <courseCode>G6-MATH</courseCode>
+        <courseName>Advanced Mathematics</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>93</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-16</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Outstanding algebraic thinking</remarks>
+        <teacherId>T013</teacherId>
+        <teacherName>Mrs. Sandra Hall</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1007</studentId>
+        <studentName>Sophia Walker</studentName>
+        <gradeLevel>Grade 6</gradeLevel>
+        <courseCode>G6-ENG</courseCode>
+        <courseName>English Language Arts</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>87</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-19</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Good analytical writing</remarks>
+        <teacherId>T014</teacherId>
+        <teacherName>Ms. Barbara Young</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Grade 7 -->
+    <grade>
+        <studentId>1008</studentId>
+        <studentName>Mason Allen</studentName>
+        <gradeLevel>Grade 7</gradeLevel>
+        <courseCode>G7-SCI</courseCode>
+        <courseName>Life Science</courseName>
+        <examType>Final</examType>
+        <marksObtained>79</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-12-20</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Good understanding of cellular biology</remarks>
+        <teacherId>T015</teacherId>
+        <teacherName>Dr. Kevin King</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1008</studentId>
+        <studentName>Mason Allen</studentName>
+        <gradeLevel>Grade 7</gradeLevel>
+        <courseCode>G7-HIST</courseCode>
+        <courseName>World History</courseName>
+        <examType>Final</examType>
+        <marksObtained>86</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-12-17</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Excellent essay on ancient civilizations</remarks>
+        <teacherId>T016</teacherId>
+        <teacherName>Mr. Steven Wright</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Grade 8 -->
+    <grade>
+        <studentId>1009</studentId>
+        <studentName>Isabella Scott</studentName>
+        <gradeLevel>Grade 8</gradeLevel>
+        <courseCode>G8-MATH</courseCode>
+        <courseName>Pre-Algebra</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>95</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-13</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Exceptional problem-solving abilities</remarks>
+        <teacherId>T017</teacherId>
+        <teacherName>Dr. Nancy Green</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1009</studentId>
+        <studentName>Isabella Scott</studentName>
+        <gradeLevel>Grade 8</gradeLevel>
+        <courseCode>G8-PHY</courseCode>
+        <courseName>Physical Science</courseName>
+        <examType>Practical</examType>
+        <marksObtained>91</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-12-03</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Great lab techniques</remarks>
+        <teacherId>T018</teacherId>
+        <teacherName>Mr. Paul Baker</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Grade 9 -->
+    <grade>
+        <studentId>1010</studentId>
+        <studentName>Lucas Adams</studentName>
+        <gradeLevel>Grade 9</gradeLevel>
+        <courseCode>G9-ENG</courseCode>
+        <courseName>English Literature</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>82</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-21</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Strong literary analysis</remarks>
+        <teacherId>T019</teacherId>
+        <teacherName>Mrs. Karen Nelson</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1010</studentId>
+        <studentName>Lucas Adams</studentName>
+        <gradeLevel>Grade 9</gradeLevel>
+        <courseCode>G9-BIO</courseCode>
+        <courseName>Biology</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>88</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-25</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Good understanding of genetics</remarks>
+        <teacherId>T020</teacherId>
+        <teacherName>Dr. Laura Carter</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Grade 10 -->
+    <grade>
+        <studentId>1011</studentId>
+        <studentName>Mia Mitchell</studentName>
+        <gradeLevel>Grade 10</gradeLevel>
+        <courseCode>G10-CHEM</courseCode>
+        <courseName>Chemistry</courseName>
+        <examType>Final</examType>
+        <marksObtained>94</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-12-22</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Excellent grasp of chemical reactions</remarks>
+        <teacherId>T021</teacherId>
+        <teacherName>Dr. Richard Perez</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1011</studentId>
+        <studentName>Mia Mitchell</studentName>
+        <gradeLevel>Grade 10</gradeLevel>
+        <courseCode>G10-MATH</courseCode>
+        <courseName>Geometry</courseName>
+        <examType>Final</examType>
+        <marksObtained>89</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-12-19</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Strong spatial reasoning</remarks>
+        <teacherId>T022</teacherId>
+        <teacherName>Mr. George Roberts</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Grade 11 -->
+    <grade>
+        <studentId>1012</studentId>
+        <studentName>Benjamin Turner</studentName>
+        <gradeLevel>Grade 11</gradeLevel>
+        <courseCode>G11-PHYS</courseCode>
+        <courseName>Physics</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>91</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-17</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Excellent understanding of mechanics</remarks>
+        <teacherId>T023</teacherId>
+        <teacherName>Dr. Susan Phillips</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1012</studentId>
+        <studentName>Benjamin Turner</studentName>
+        <gradeLevel>Grade 11</gradeLevel>
+        <courseCode>G11-CALC</courseCode>
+        <courseName>Calculus</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>87</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-11-23</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Good grasp of derivatives</remarks>
+        <teacherId>T024</teacherId>
+        <teacherName>Dr. Brian Campbell</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Grade 12 -->
+    <grade>
+        <studentId>1013</studentId>
+        <studentName>Charlotte Evans</studentName>
+        <gradeLevel>Grade 12</gradeLevel>
+        <courseCode>G12-ENG</courseCode>
+        <courseName>Advanced English</courseName>
+        <examType>Final</examType>
+        <marksObtained>96</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-12-16</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Outstanding critical analysis</remarks>
+        <teacherId>T025</teacherId>
+        <teacherName>Ms. Dorothy Parker</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1013</studentId>
+        <studentName>Charlotte Evans</studentName>
+        <gradeLevel>Grade 12</gradeLevel>
+        <courseCode>G12-CALC</courseCode>
+        <courseName>Advanced Calculus</courseName>
+        <examType>Final</examType>
+        <marksObtained>93</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-12-21</examDate>
+        <semester>Fall 2024</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Excellent integration techniques</remarks>
+        <teacherId>T026</teacherId>
+        <teacherName>Dr. Edward Collins</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Additional Spring 2025 semester grades -->
+    <grade>
+        <studentId>1001</studentId>
+        <studentName>Emma Johnson</studentName>
+        <gradeLevel>KinderGarten</gradeLevel>
+        <courseCode>KG-ART</courseCode>
+        <courseName>Arts and Crafts</courseName>
+        <examType>Project</examType>
+        <marksObtained>92</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2025-03-15</examDate>
+        <semester>Spring 2025</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Very creative and colorful work</remarks>
+        <teacherId>T027</teacherId>
+        <teacherName>Ms. Rebecca Stewart</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1005</studentId>
+        <studentName>Ava Martinez</studentName>
+        <gradeLevel>Grade 4</gradeLevel>
+        <courseCode>G4-MATH</courseCode>
+        <courseName>Mathematics</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>88</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2025-03-20</examDate>
+        <semester>Spring 2025</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Great progress in division</remarks>
+        <teacherId>T028</teacherId>
+        <teacherName>Mr. Anthony Morris</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1009</studentId>
+        <studentName>Isabella Scott</studentName>
+        <gradeLevel>Grade 8</gradeLevel>
+        <courseCode>G8-ENG</courseCode>
+        <courseName>English</courseName>
+        <examType>Midterm</examType>
+        <marksObtained>90</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2025-03-18</examDate>
+        <semester>Spring 2025</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Excellent essay writing</remarks>
+        <teacherId>T029</teacherId>
+        <teacherName>Mrs. Michelle Rogers</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1012</studentId>
+        <studentName>Benjamin Turner</studentName>
+        <gradeLevel>Grade 11</gradeLevel>
+        <courseCode>G11-CHEM</courseCode>
+        <courseName>Advanced Chemistry</courseName>
+        <examType>Quiz</examType>
+        <marksObtained>85</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2025-03-10</examDate>
+        <semester>Spring 2025</semester>
+        <academicYear>2024-2025</academicYear>
+        <remarks>Good understanding of organic chemistry</remarks>
+        <teacherId>T030</teacherId>
+        <teacherName>Dr. Carol Reed</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <!-- Previous year grades (2023-2024) -->
+    <grade>
+        <studentId>1002</studentId>
+        <studentName>Liam Smith</studentName>
+        <gradeLevel>KinderGarten</gradeLevel>
+        <courseCode>KG-ENG</courseCode>
+        <courseName>English Language Arts</courseName>
+        <examType>Final</examType>
+        <marksObtained>75</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-05-20</examDate>
+        <semester>Spring 2024</semester>
+        <academicYear>2023-2024</academicYear>
+        <remarks>Good progress throughout the year</remarks>
+        <teacherId>T001</teacherId>
+        <teacherName>Ms. Sarah Anderson</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1007</studentId>
+        <studentName>Sophia Walker</studentName>
+        <gradeLevel>Grade 5</gradeLevel>
+        <courseCode>G5-SCI</courseCode>
+        <courseName>Science</courseName>
+        <examType>Final</examType>
+        <marksObtained>91</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-05-25</examDate>
+        <semester>Spring 2024</semester>
+        <academicYear>2023-2024</academicYear>
+        <remarks>Excellent scientific inquiry</remarks>
+        <teacherId>T012</teacherId>
+        <teacherName>Mr. Daniel Lewis</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1011</studentId>
+        <studentName>Mia Mitchell</studentName>
+        <gradeLevel>Grade 9</gradeLevel>
+        <courseCode>G9-BIO</courseCode>
+        <courseName>Biology</courseName>
+        <examType>Final</examType>
+        <marksObtained>93</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-05-28</examDate>
+        <semester>Spring 2024</semester>
+        <academicYear>2023-2024</academicYear>
+        <remarks>Outstanding lab work and understanding</remarks>
+        <teacherId>T020</teacherId>
+        <teacherName>Dr. Laura Carter</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+
+    <grade>
+        <studentId>1013</studentId>
+        <studentName>Charlotte Evans</studentName>
+        <gradeLevel>Grade 11</gradeLevel>
+        <courseCode>G11-ENG</courseCode>
+        <courseName>English Literature</courseName>
+        <examType>Final</examType>
+        <marksObtained>95</marksObtained>
+        <totalMarks>100</totalMarks>
+        <examDate>2024-05-22</examDate>
+        <semester>Spring 2024</semester>
+        <academicYear>2023-2024</academicYear>
+        <remarks>Exceptional literary analysis and writing</remarks>
+        <teacherId>T019</teacherId>
+        <teacherName>Mrs. Karen Nelson</teacherName>
+        <organizationId>1</organizationId>
+    </grade>
+</grades>

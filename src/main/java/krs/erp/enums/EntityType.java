@@ -8,6 +8,8 @@ public enum EntityType {
     PARENT("Parent"), 
     ATTENDANCE("Attendance"),
     HEALTH("Health"),
+    SUBJECT("Subject"),
+    TIMETABLE("Timetable"),
     USER("User"),
     STAFF("Staff"),
     ORGANIZATION("Organization"),

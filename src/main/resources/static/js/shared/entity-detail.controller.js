@@ -59,6 +59,7 @@
                     'students': 'STUDENT',
                     'parents': 'PARENT',
                     'subjects': 'SUBJECT',
+                    'timetables': 'TIMETABLE',
                     'health': 'HEALTH',
                     'staff': 'STAFF',
                     'users': 'USER',

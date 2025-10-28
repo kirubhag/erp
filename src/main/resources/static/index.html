@@ -11,7 +11,7 @@
     
     <!-- Custom CSS -->
     <link href="/css/app.css?v=7&t=20251026201900" rel="stylesheet">
-    <link href="/css/entity-list.css?v=2&t=20251026230300" rel="stylesheet">
+    <link href="/css/entity-list.css?v=6&t=20251028053000" rel="stylesheet">
     <link href="/css/modules.css" rel="stylesheet">
     <link href="/css/entity-field-layout.css" rel="stylesheet">
 </head>
@@ -22,7 +22,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="#!/">
                     <i class="fas fa-graduation-cap me-2"></i>
-                    Student Information System
+                    {{organizationName}}
                 </a>
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -62,6 +62,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="#!/timetables" 
+                               ng-class="{active: activeTab === 'timetables'}">
+                                <i class="fas fa-calendar me-1"></i>Timetables
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#!/health" 
                                ng-class="{active: activeTab === 'health'}">
                                 <i class="fas fa-heartbeat me-1"></i>Health Records
@@ -97,7 +103,7 @@
         <notification-display></notification-display>
 
         <!-- Main Content Area -->
-        <div ng-view style="padding-top: 70px;"></div>
+        <div ng-view style="padding-top: 56px;"></div>
 
         <!-- Loading Screen -->
         <div class="loading-overlay" ng-show="loading || moduleLoading">
@@ -139,17 +145,17 @@
     <script src="/js/core/script-loader.service.js?v=8"></script>
     <script src="/js/core/performance-monitor.service.js?v=1"></script>
     <script src="/js/core/api.js?v=3"></script>
-    <script src="/js/core/main.controller.js?v=2&t=20251026200000"></script>
+    <script src="/js/core/main.controller.js?v=5&t=20251028053000"></script>
     <script src="/js/core/lazy-controllers.js?v=3"></script>
     
     <!-- Shared Entity List Components - Generic for ALL entities -->
     <script src="/js/shared/notification.service.js?v=2&t=20251026200500"></script>
     <script src="/js/shared/notification.directive.js?v=1&t=20251026200500"></script>
-    <script src="/js/shared/entity-config.service.js?v=2&t=20251027184800"></script>
-    <script src="/js/shared/entity-data.service.js?v=4&t=20251027184800"></script>
-    <script src="/js/shared/entity-list.controller.js?v=14&t=20251027184800"></script>
-    <script src="/js/shared/entity-detail.controller.js?v=2&t=20251027184800"></script>
-    <script src="/js/shared/entity-edit.controller.js?v=2&t=20251027184800"></script>
+    <script src="/js/shared/entity-config.service.js?v=3&t=20251027200000"></script>
+    <script src="/js/shared/entity-data.service.js?v=5&t=20251027200000"></script>
+    <script src="/js/shared/entity-list.controller.js?v=21&t=20251028052000"></script>
+    <script src="/js/shared/entity-detail.controller.js?v=3&t=20251027200000"></script>
+    <script src="/js/shared/entity-edit.controller.js?v=5&t=20251028000000"></script>
     
     <!-- Settings and Special Modules -->
     <script src="/js/modules/modules.controller.js?v=1"></script>

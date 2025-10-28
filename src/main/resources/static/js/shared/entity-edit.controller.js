@@ -25,6 +25,7 @@
             $scope.loading = true;
             $scope.saving = false;
             $scope.item = {};
+            $scope.entity = $scope.item; // Alias for templates that use 'entity'
             $scope.originalItem = {};
             $scope.hasChanges = false;
             $scope.isNew = false;
@@ -77,6 +78,7 @@
                     'students': 'STUDENT',
                     'parents': 'PARENT',
                     'subjects': 'SUBJECT',
+                    'timetables': 'TIMETABLE',
                     'health': 'HEALTH',
                     'staff': 'STAFF',
                     'users': 'USER',
@@ -101,8 +103,10 @@
             // Check if this is a new item creation
             if (itemId === 'new' || !itemId) {
                 $scope.item = createEmptyItem();
+                $scope.entity = $scope.item; // Keep alias in sync
                 $scope.originalItem = angular.copy($scope.item);
                 $scope.isNew = true;
+                $scope.isEditMode = false; // Alias for templates
                 $scope.loading = false;
                 return;
             }
@@ -112,7 +116,9 @@
                     // Use $timeout to ensure proper digest cycle for date inputs
                     $timeout(function() {
                         $scope.item = angular.copy(response);
+                        $scope.entity = $scope.item; // Keep alias in sync
                         $scope.originalItem = angular.copy(response);
+                        $scope.isEditMode = true; // Alias for templates
                         
                         // Transform flat backend structure to nested frontend structure
                         if ($scope.entityType === 'STUDENT' || $scope.entityType === 'PARENT') {
@@ -181,7 +187,10 @@
          * Save item changes
          */
         $scope.saveItem = function() {
-            if ($scope.saving || ($scope.itemForm && !$scope.itemForm.$valid)) {
+            // Check form validity - supports both 'itemForm' and entity-specific forms like 'timetableForm'
+            var form = $scope.itemForm || $scope.timetableForm || $scope[Object.keys($scope).find(key => key.endsWith('Form'))];
+            
+            if ($scope.saving || (form && !form.$valid)) {
                 return;
             }
 
@@ -275,6 +284,9 @@
                     $scope.saving = false;
                 });
         };
+
+        // Alias for templates that use 'saveEntity' instead of 'saveItem'
+        $scope.saveEntity = $scope.saveItem;
 
         /**
          * Convert date fields to ISO format for API
@@ -466,6 +478,26 @@
                     medications: '',
                     emergencyContact: '',
                     emergencyPhone: ''
+                };
+            } else if ($scope.entityType === 'TIMETABLE') {
+                item = {
+                    timetableCode: '',
+                    className: '',
+                    gradeLevel: '',
+                    academicYear: '',
+                    semester: '',
+                    dayOfWeek: '',
+                    startTime: '',
+                    endTime: '',
+                    periodNumber: null,
+                    subjectName: '',
+                    subjectCode: '',
+                    teacherName: '',
+                    teacherId: '',
+                    isLabSession: false,
+                    roomNumber: '',
+                    building: '',
+                    notes: ''
                 };
             }
             

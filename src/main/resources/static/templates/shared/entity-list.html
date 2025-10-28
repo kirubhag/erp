@@ -1,16 +1,20 @@
 <!-- Modern Reusable Entity List Template -->
 <!-- Controller is defined in the parent template (e.g., student-list.html) -->
-<div class="entity-list-container">
+<div class="entity-list-container" ng-class="{'filters-collapsed': !showFilterPanel}">
     
     <!-- Header Section -->
     <div class="entity-header">
         <div class="header-content">
             <div class="header-info">
-                <h1 class="entity-title">{{config.title}}</h1>
-                <p class="entity-subtitle">{{config.subtitle}}</p>
-            </div>
-            
-            <div class="header-actions">
+                <!-- Filter Toggle Button -->
+                <button class="filter-toggle-btn" 
+                        type="button"
+                        ng-click="toggleFilterPanel()"
+                        ng-class="{'active': showFilterPanel}"
+                        title="{{showFilterPanel ? 'Hide Filters' : 'Show Filters'}}">
+                    <i class="fas fa-filter"></i>
+                </button>
+                
                 <!-- Custom View Selector with Dropdown Icon -->
                 <div class="view-selector" ng-if="config.features.customViews">
                     <button class="view-button" type="button" ng-click="toggleViewDropdown()">
@@ -35,8 +39,41 @@
                     </div>
                 </div>
                 
+                <!-- Total Records Link -->
+                <a href="javascript:void(0)" 
+                   class="total-records-link"
+                   ng-click="toggleTotalCount()"
+                   title="Click to show/hide total count">
+                    Total Records<span ng-if="showTotalCount">: {{pagination.totalElements}}</span>
+                </a>
+                
+                <!-- Refresh Button -->
+                <button class="refresh-btn" ng-click="loadEntityData()" title="Refresh list">
+                    <i class="fas fa-sync-alt" ng-class="{'fa-spin': loading}"></i>
+                </button>
+            </div>
+            
+            <div class="header-actions">
+                <!-- View Mode Toggle -->
+                <div class="view-mode-toggle">
+                    <button class="view-mode-btn" 
+                            ng-class="{active: viewMode === 'table'}"
+                            ng-click="setViewMode('table')"
+                            title="Table View">
+                        <i class="fas fa-table"></i>
+                    </button>
+                    <button class="view-mode-btn" 
+                            ng-class="{active: viewMode === 'grid'}"
+                            ng-click="setViewMode('grid')"
+                            title="Grid View">
+                        <i class="fas fa-th"></i>
+                    </button>
+                </div>
+                
                 <!-- Primary Action Button -->
-                <button class="primary-button" ng-click="openCreateDialog()">
+                <button class="primary-button" 
+                        type="button"
+                        ng-click="openCreateDialog()">
                     <i class="fas fa-plus"></i>
                     <span>{{config.createButtonText || ('Add ' + config.entityName)}}</span>
                 </button>
@@ -46,9 +83,9 @@
     
     <!-- Filters Section -->
     <div class="filters-section">
-        <div class="filters-content">
+        <div class="filters-content" ng-class="{'filters-hidden': !showFilterPanel}">
             <!-- Left Side Field Filters Panel -->
-            <div class="filters-panel">
+            <div class="filters-panel" ng-show="showFilterPanel">
                 <div class="filter-header">
                     <h3>FILTER {{::config.entityName.toUpperCase()}}S BY</h3>
                     
@@ -159,30 +196,6 @@
                     <div class="loading-bar-progress"></div>
                 </div>
                 
-                <!-- Results Summary -->
-                <div class="results-summary">
-                    <div class="results-info">
-                        <span class="total-count">{{pagination.totalElements}}</span>
-                        <span class="results-text">{{config.entityName}}s found</span>
-                        <button class="refresh-btn" ng-click="loadEntityData()" title="Refresh list">
-                            <i class="fas fa-sync-alt" ng-class="{'fa-spin': loading}"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="view-mode-toggle">
-                        <button class="view-mode-btn" 
-                                ng-class="{active: viewMode === 'table'}"
-                                ng-click="setViewMode('table')">
-                            <i class="fas fa-table"></i>
-                        </button>
-                        <button class="view-mode-btn" 
-                                ng-class="{active: viewMode === 'grid'}"
-                                ng-click="setViewMode('grid')">
-                            <i class="fas fa-th"></i>
-                        </button>
-                    </div>
-                </div>
-                
                 <!-- Action Bar (appears when items are selected) -->
                 <div class="selection-bar" ng-show="hasSelectedItems()">
                     <div class="selection-info">
@@ -249,7 +262,7 @@
                                                     ng-if="isActionVisible(action, item)"
                                                     ng-click="executeAction(action, item, $event)"
                                                     title="{{action.label}}">
-                                                <i class="icon-{{action.icon}}"></i>
+                                                <i class="fas fa-{{action.icon}}"></i>
                                             </button>
                                             
                                             <!-- More actions dropdown -->
@@ -261,7 +274,7 @@
                                                     <div class="dropdown-item" 
                                                          ng-repeat="action in getMoreActions(item)"
                                                          ng-click="executeAction(action, item, $event)">
-                                                        <i class="icon-{{action.icon}}"></i>
+                                                        <i class="fas fa-{{action.icon}}"></i>
                                                         <span>{{action.label}}</span>
                                                     </div>
                                                 </div>
@@ -363,7 +376,7 @@
                                             ng-repeat="action in config.rowActions.slice(0, 2)"
                                             ng-click="executeAction(action, item, $event)"
                                             title="{{action.label}}">
-                                        <i class="icon-{{action.icon}}"></i>
+                                        <i class="fas fa-{{action.icon}}"></i>
                                     </button>
                                 </div>
                             </div>
@@ -435,7 +448,9 @@
                         <select class="page-size-selector" 
                                 ng-model="pagination.size"
                                 ng-change="changePageSize()">
-                            <option ng-repeat="size in pageSizeOptions" value="{{size}}">
+                            <option ng-repeat="size in pageSizeOptions" 
+                                    value="{{size}}"
+                                    ng-selected="pagination.size == size">
                                 {{size}} Records Per Page
                             </option>
                         </select>

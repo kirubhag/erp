@@ -54,7 +54,8 @@ public interface ErpFieldRepository extends JpaRepository<ErpField, Long> {
     /**
      * Check if a field exists for an entity
      */
-    boolean existsByEntityTypeAndFieldNameAndIsActiveTrue(EntityType entityType, String fieldName);
+    @Query("SELECT CASE WHEN COUNT(ef) > 0 THEN true ELSE false END FROM ErpField ef WHERE ef.entityType = :entityType AND ef.fieldName = :fieldName AND ef.isActive = 1")
+    boolean existsByEntityTypeAndFieldNameAndIsActiveTrue(@Param("entityType") EntityType entityType, @Param("fieldName") String fieldName);
     
     /**
      * Get distinct field categories for an entity type

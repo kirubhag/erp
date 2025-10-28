@@ -39,6 +39,11 @@
             $scope.viewMode = 'table'; // 'table' or 'grid'
             $scope.showViewDropdown = false;
             $scope.showExportDropdown = false;
+            $scope.showFilterPanel = true; // Filter panel visible by default
+            
+            // Total count display
+            $scope.showTotalCount = false;
+            $scope.totalCountLoaded = false;
             
             // Search and filtering
             $scope.searchQuery = '';
@@ -141,6 +146,7 @@
                 'parents': 'PARENT',
                 'staff': 'STAFF',
                 'subjects': 'SUBJECT',
+                'timetables': 'TIMETABLE',
                 'attendance': 'ATTENDANCE',
                 'health': 'HEALTH',
                 'users': 'USER',
@@ -283,6 +289,36 @@
                     }
                 });
         }
+
+        /**
+         * Load total count (called when user clicks Total Records link)
+         */
+        $scope.loadTotalCount = function() {
+            if ($scope.totalCountLoaded) {
+                return; // Already loaded
+            }
+            
+            // The count is already loaded from the pagination data
+            // Just mark it as loaded so we don't reload unnecessarily
+            $scope.totalCountLoaded = true;
+        };
+
+        /**
+         * Toggle total count display
+         */
+        $scope.toggleTotalCount = function() {
+            $scope.showTotalCount = !$scope.showTotalCount;
+            if ($scope.showTotalCount && !$scope.totalCountLoaded) {
+                $scope.loadTotalCount();
+            }
+        };
+
+        /**
+         * Toggle filter panel visibility
+         */
+        $scope.toggleFilterPanel = function() {
+            $scope.showFilterPanel = !$scope.showFilterPanel;
+        };
 
         /**
          * Load custom views for the entity
@@ -720,9 +756,6 @@
             return start + ' to ' + end + ' of ' + $scope.pagination.totalElements;
         };
 
-        /**
-         * Open create dialog
-         */
         /**
          * Open create dialog for new entity
          */
