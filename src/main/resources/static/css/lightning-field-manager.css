@@ -1,13 +1,13 @@
 /* Lightning Design System - Field Manager Styles */
 .lightning-field-manager {
-    background-color: #f3f2f2;
+    background-color: var(--background-color);
     min-height: 100vh;
 }
 
 /* Header Section */
 .lightning-header {
     background: white;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -25,11 +25,11 @@
     display: flex;
     align-items: center;
     font-size: 12px;
-    color: #706e6b;
+    color: var(--text-secondary);
 }
 
 .breadcrumb-link {
-    color: #0176d3;
+    color: var(--primary-color);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -37,18 +37,18 @@
 }
 
 .breadcrumb-link:hover {
-    color: #014486;
+    color: var(--primary-hover);
     text-decoration: underline;
 }
 
 .breadcrumb-nav i.fas.fa-chevron-right {
     margin: 0 8px;
     font-size: 10px;
-    color: #c9c7c5;
+    color: var(--border-light);
 }
 
 .current-breadcrumb {
-    color: #080707;
+    color: var(--text-primary);
     font-weight: 500;
 }
 
@@ -69,7 +69,7 @@
 .entity-icon {
     width: 48px;
     height: 48px;
-    background: #0176d3;
+    background: var(--primary-color);
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -81,14 +81,14 @@
 .entity-title {
     font-size: 24px;
     font-weight: 700;
-    color: #080707;
+    color: var(--text-primary);
     margin: 0;
     line-height: 1.2;
 }
 
 .entity-subtitle {
     font-size: 14px;
-    color: #706e6b;
+    color: var(--text-secondary);
     margin: 0;
 }
 
@@ -100,7 +100,7 @@
 /* Lightning Tabs */
 .lightning-tabs {
     background: white;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .tab-container {
@@ -118,7 +118,7 @@
     background: none;
     border: none;
     padding: 12px 16px;
-    color: #706e6b;
+    color: var(--text-secondary);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -130,13 +130,13 @@
 }
 
 .tab-item:hover {
-    color: #0176d3;
-    background-color: #f3f2f2;
+    color: var(--primary-color);
+    background-color: var(--background-color);
 }
 
 .tab-item.active {
-    color: #0176d3;
-    border-bottom-color: #0176d3;
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
     background-color: white;
 }
 
@@ -166,13 +166,13 @@
 .section-title h2 {
     font-size: 20px;
     font-weight: 700;
-    color: #080707;
+    color: var(--text-primary);
     margin: 0 0 4px 0;
 }
 
 .section-title p {
     font-size: 14px;
-    color: #706e6b;
+    color: var(--text-secondary);
     margin: 0;
 }
 
@@ -193,14 +193,14 @@
     left: 12px;
     top: 50%;
     transform: translateY(-50%);
-    color: #706e6b;
+    color: var(--text-secondary);
     font-size: 14px;
 }
 
 .search-input {
     width: 100%;
     padding: 8px 12px 8px 36px;
-    border: 1px solid #c9c7c5;
+    border: 1px solid var(--border-light);
     border-radius: 4px;
     font-size: 14px;
     background: white;
@@ -208,13 +208,13 @@
 
 .search-input:focus {
     outline: none;
-    border-color: #0176d3;
-    box-shadow: 0 0 0 1px #0176d3;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
 }
 
 .filter-dropdown {
     padding: 8px 12px;
-    border: 1px solid #c9c7c5;
+    border: 1px solid var(--border-light);
     border-radius: 4px;
     background: white;
     font-size: 14px;
@@ -236,7 +236,7 @@
 .section-header h3 {
     font-size: 16px;
     font-weight: 700;
-    color: #080707;
+    color: var(--text-primary);
     margin: 0;
     display: flex;
     align-items: center;
@@ -245,7 +245,7 @@
 
 .field-count {
     font-size: 14px;
-    color: #706e6b;
+    color: var(--text-secondary);
     font-weight: normal;
 }
 
@@ -259,7 +259,7 @@
 /* Field Cards */
 .field-card {
     background: white;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 16px;
     cursor: pointer;
@@ -268,19 +268,19 @@
 }
 
 .field-card:hover {
-    border-color: #0176d3;
+    border-color: var(--primary-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transform: translateY(-1px);
 }
 
 .field-card.modified {
-    border-left: 4px solid #ff9500;
-    background-color: #fffbf0;
+    border-left: 4px solid var(--warning-color);
+    background-color: var(--warning-light);
 }
 
 .field-card.system-field {
-    background-color: #f8f9fa;
-    border-color: #c9c7c5;
+    background-color: var(--background-color);
+    border-color: var(--border-light);
 }
 
 .field-card-header {
@@ -293,12 +293,12 @@
 .field-type-icon {
     width: 32px;
     height: 32px;
-    background: #f3f2f2;
+    background: var(--background-color);
     border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #706e6b;
+    color: var(--text-secondary);
     flex-shrink: 0;
 }
 
@@ -310,7 +310,7 @@
 .field-label {
     font-size: 14px;
     font-weight: 600;
-    color: #080707;
+    color: var(--text-primary);
     margin: 0 0 2px 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -319,7 +319,7 @@
 
 .field-name {
     font-size: 12px;
-    color: #706e6b;
+    color: var(--text-secondary);
     margin: 0;
     font-family: 'Courier New', monospace;
     overflow: hidden;
@@ -344,7 +344,7 @@
     background: none;
     border: none;
     border-radius: 4px;
-    color: #706e6b;
+    color: var(--text-secondary);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -354,13 +354,13 @@
 }
 
 .action-btn:hover {
-    background: #f3f2f2;
-    color: #0176d3;
+    background: var(--background-color);
+    color: var(--primary-color);
 }
 
 .delete-btn:hover {
-    background: #fef7f7;
-    color: #c23934;
+    background: var(--danger-light);
+    color: var(--danger-color);
 }
 
 .system-badge {
@@ -369,7 +369,7 @@
     justify-content: center;
     width: 20px;
     height: 20px;
-    color: #706e6b;
+    color: var(--text-secondary);
     font-size: 10px;
 }
 
@@ -386,8 +386,8 @@
 
 .field-type {
     font-size: 12px;
-    color: #0176d3;
-    background: #f0f9ff;
+    color: var(--primary-color);
+    background: var(--primary-light);
     padding: 2px 6px;
     border-radius: 2px;
     font-weight: 500;
@@ -396,8 +396,8 @@
 .field-required,
 .field-unique {
     font-size: 11px;
-    color: #c23934;
-    background: #fef7f7;
+    color: var(--danger-color);
+    background: var(--danger-light);
     padding: 2px 4px;
     border-radius: 2px;
     display: flex;
@@ -406,13 +406,13 @@
 }
 
 .field-unique {
-    color: #ff9500;
-    background: #fffbf0;
+    color: var(--warning-color);
+    background: var(--warning-light);
 }
 
 .field-description {
     font-size: 12px;
-    color: #706e6b;
+    color: var(--text-secondary);
     margin: 0;
     line-height: 1.4;
     display: -webkit-box;
@@ -438,35 +438,35 @@
 }
 
 .btn-primary {
-    background: #0176d3;
+    background: var(--primary-color);
     color: white;
-    border-color: #0176d3;
+    border-color: var(--primary-color);
 }
 
 .btn-primary:hover {
-    background: #014486;
-    border-color: #014486;
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
 }
 
 .btn-outline-secondary {
     background: white;
-    color: #0176d3;
-    border-color: #c9c7c5;
+    color: var(--primary-color);
+    border-color: var(--border-light);
 }
 
 .btn-outline-secondary:hover {
-    background: #f3f2f2;
-    border-color: #0176d3;
+    background: var(--background-color);
+    border-color: var(--primary-color);
 }
 
 .btn-outline-primary {
     background: white;
-    color: #0176d3;
-    border-color: #0176d3;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .btn-outline-primary:hover {
-    background: #0176d3;
+    background: var(--primary-color);
     color: white;
 }
 
@@ -479,18 +479,18 @@
 .coming-soon {
     text-align: center;
     padding: 80px 20px;
-    color: #706e6b;
+    color: var(--text-secondary);
 }
 
 .coming-soon i {
-    color: #c9c7c5;
+    color: var(--border-light);
     margin-bottom: 16px;
 }
 
 .coming-soon h3 {
     font-size: 20px;
     font-weight: 600;
-    color: #080707;
+    color: var(--text-primary);
     margin: 0 0 8px 0;
 }
 
@@ -501,7 +501,7 @@
 
 .coming-soon small {
     font-size: 12px;
-    color: #c9c7c5;
+    color: var(--border-light);
 }
 
 /* Modal Styles */
@@ -534,7 +534,7 @@
 
 .modal-header {
     padding: 16px 20px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -543,7 +543,7 @@
 .modal-title {
     font-size: 16px;
     font-weight: 600;
-    color: #080707;
+    color: var(--text-primary);
     margin: 0;
     display: flex;
     align-items: center;
@@ -554,7 +554,7 @@
     background: none;
     border: none;
     font-size: 20px;
-    color: #706e6b;
+    color: var(--text-secondary);
     cursor: pointer;
     padding: 0;
     width: 24px;
@@ -565,7 +565,7 @@
 }
 
 .close:hover {
-    color: #080707;
+    color: var(--text-primary);
 }
 
 .modal-body {

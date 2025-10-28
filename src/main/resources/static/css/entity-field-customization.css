@@ -1,13 +1,13 @@
 /* Entity Field Customization Styles */
 .entity-field-customization {
     min-height: 100vh;
-    background-color: #f8f9fa;
+    background-color: var(--background-color);
 }
 
 /* Header Section */
 .customization-header {
     background: white;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid var(--border-color);
     padding: 20px 30px;
     display: flex;
     justify-content: space-between;
@@ -19,11 +19,11 @@
     align-items: center;
     margin-bottom: 10px;
     font-size: 14px;
-    color: #6c757d;
+    color: var(--text-secondary);
 }
 
 .breadcrumb-link {
-    color: #007bff;
+    color: var(--primary-color);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -31,17 +31,17 @@
 }
 
 .breadcrumb-link:hover {
-    color: #0056b3;
+    color: var(--primary-hover);
     text-decoration: underline;
 }
 
 .breadcrumb-separator {
     margin: 0 10px;
-    color: #adb5bd;
+    color: var(--text-muted);
 }
 
 .current-page {
-    color: #495057;
+    color: var(--text-secondary);
     font-weight: 500;
 }
 
@@ -49,7 +49,7 @@
     margin: 0 0 5px 0;
     font-size: 24px;
     font-weight: 600;
-    color: #212529;
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -57,7 +57,7 @@
 
 .page-description {
     margin: 0;
-    color: #6c757d;
+    color: var(--text-secondary);
     font-size: 14px;
 }
 
@@ -76,21 +76,21 @@
 .field-sidebar {
     width: 350px;
     background: white;
-    border-right: 1px solid #dee2e6;
+    border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
 }
 
 .sidebar-header {
     padding: 20px;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .sidebar-header h3 {
     margin: 0 0 15px 0;
     font-size: 18px;
     font-weight: 600;
-    color: #212529;
+    color: var(--text-primary);
 }
 
 .field-search {
@@ -106,7 +106,7 @@
     right: 10px;
     top: 50%;
     transform: translateY(-50%);
-    color: #adb5bd;
+    color: var(--text-muted);
     pointer-events: none;
 }
 
@@ -118,7 +118,7 @@
 }
 
 .field-category {
-    border-bottom: 1px solid #f1f3f4;
+    border-bottom: 1px solid var(--hover-bg);
 }
 
 .category-title {
@@ -126,8 +126,8 @@
     margin: 0;
     font-size: 14px;
     font-weight: 600;
-    color: #495057;
-    background-color: #f8f9fa;
+    color: var(--text-secondary);
+    background-color: var(--background-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -136,7 +136,7 @@
 
 .field-count {
     font-size: 12px;
-    color: #6c757d;
+    color: var(--text-secondary);
     font-weight: normal;
 }
 
@@ -146,7 +146,7 @@
 
 .field-item {
     padding: 12px 20px;
-    border-bottom: 1px solid #f1f3f4;
+    border-bottom: 1px solid var(--hover-bg);
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -155,22 +155,22 @@
 }
 
 .field-item:hover {
-    background-color: #f8f9fa;
+    background-color: var(--background-color);
 }
 
 .field-item.active {
-    background-color: #e3f2fd;
-    border-left: 3px solid #2196f3;
+    background-color: var(--primary-light);
+    border-left: 3px solid var(--primary-color);
 }
 
 .field-item.modified {
-    background-color: #fff3e0;
-    border-left: 3px solid #ff9800;
+    background-color: var(--warning-light);
+    border-left: 3px solid var(--warning-color);
 }
 
 .field-item.active.modified {
-    background-color: #e8f5e8;
-    border-left: 3px solid #4caf50;
+    background-color: var(--success-light);
+    border-left: 3px solid var(--success-color);
 }
 
 .field-info {
@@ -180,7 +180,7 @@
 .field-name {
     display: block;
     font-weight: 500;
-    color: #212529;
+    color: var(--text-primary);
     font-size: 14px;
     margin-bottom: 2px;
 }
@@ -188,7 +188,7 @@
 .field-type {
     display: block;
     font-size: 12px;
-    color: #6c757d;
+    color: var(--text-secondary);
 }
 
 .field-status,
@@ -226,14 +226,14 @@
     align-items: center;
     margin-bottom: 30px;
     padding-bottom: 15px;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .editor-header h3 {
     margin: 0;
     font-size: 20px;
     font-weight: 600;
-    color: #212529;
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -243,14 +243,14 @@
     font-size: 11px;
     padding: 4px 8px;
     border-radius: 12px;
-    background-color: #6c757d;
+    background-color: var(--text-secondary);
     color: white;
     font-weight: 500;
     text-transform: uppercase;
 }
 
 .field-status-badge.modified {
-    background-color: #ff9800;
+    background-color: var(--warning-color);
 }
 
 /* Form Sections */
@@ -266,9 +266,9 @@
     margin: 0 0 20px 0;
     font-size: 16px;
     font-weight: 600;
-    color: #495057;
+    color: var(--text-secondary);
     padding-bottom: 10px;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .form-row {
@@ -285,7 +285,7 @@
     display: block;
     margin-bottom: 5px;
     font-weight: 500;
-    color: #495057;
+    color: var(--text-secondary);
     font-size: 14px;
 }
 
@@ -357,7 +357,7 @@
     display: flex;
     gap: 10px;
     padding-top: 20px;
-    border-top: 1px solid #dee2e6;
+    border-top: 1px solid var(--border-color);
     margin-top: 30px;
 }
 
@@ -376,18 +376,18 @@
 }
 
 .empty-state i {
-    color: #adb5bd;
+    color: var(--text-muted);
     margin-bottom: 20px;
 }
 
 .empty-state h3 {
     margin: 0 0 10px 0;
-    color: #495057;
+    color: var(--text-secondary);
     font-weight: 600;
 }
 
 .empty-state p {
-    color: #6c757d;
+    color: var(--text-secondary);
     margin-bottom: 20px;
     line-height: 1.5;
 }
@@ -411,19 +411,19 @@
 
 .btn-primary {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-hover);
     border-color: #004085;
 }
 
 .btn-secondary {
-    color: #6c757d;
-    background-color: #f8f9fa;
-    border-color: #6c757d;
+    color: var(--text-secondary);
+    background-color: var(--background-color);
+    border-color: var(--text-secondary);
 }
 
 .btn-secondary:hover {
@@ -459,7 +459,7 @@
 }
 
 .text-muted {
-    color: #6c757d !important;
+    color: var(--text-secondary) !important;
 }
 
 /* Responsive Design */
