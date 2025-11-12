@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %c{1} - %msg%n"/>
+        </Console>
+
+    <!-- Allow setting log path via system property for tests (-DAPP_LOG_PATH=...), otherwise fall back to environment variable, then default -->
+    <RollingFile name="RollingFile" fileName="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-/var/log/erp}}/erp.log" filePattern="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-/var/log/erp}}/erp-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %c{1} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+        
+        <!-- Access log appender: rotates daily into access-log-<dd-MM-yyyy>.log.gz -->
+        <RollingFile name="AccessRollingFile" fileName="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-/var/log/erp}}/access-log.log" filePattern="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-/var/log/erp}}/access-log-%d{dd-MM-yyyy}.log.gz">
+            <PatternLayout pattern="%m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+            <DefaultRolloverStrategy max="90"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Application package logger -->
+        <Logger name="krs.erp" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+
+        <!-- Spring framework loggers kept at INFO -->
+        <Logger name="org.springframework" level="info"/>
+
+        <!-- Root logger -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+
+        <!-- Dedicated access logger -->
+        <Logger name="ACCESS" level="info" additivity="false">
+            <AppenderRef ref="AccessRollingFile"/>
+        </Logger>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XML representation of the docker-compose configuration (for documentation/validation) -->
+<dockerCompose xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="docker-compose.xsd">
+  <version>3.8</version>
+  <services>
+    <service name="mysql">
+      <image>mysql:9.0</image>
+      <environment>
+        <var name="MYSQL_ROOT_PASSWORD">root</var>
+        <var name="MYSQL_DATABASE">erp_database</var>
+      </environment>
+      <ports>
+        <port>3307:3306</port>
+      </ports>
+      <healthcheck>
+        <test>mysqladmin ping -uroot -proot</test>
+        <interval>10s</interval>
+        <timeout>5s</timeout>
+        <retries>5</retries>
+      </healthcheck>
+    </service>
+  </services>
+</dockerCompose>

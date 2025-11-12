@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xsd:element name="kubernetesDeployment">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="apiVersion" type="xsd:string"/>
+        <xsd:element name="kind" type="xsd:string"/>
+        <xsd:element name="metadata">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="name" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="spec">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="replicas" type="xsd:positiveInteger"/>
+              <xsd:element name="selector">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="matchLabels">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="app" type="xsd:string"/>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="template">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="metadata">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="labels">
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element name="app" type="xsd:string"/>
+                              </xsd:sequence>
+                            </xsd:complexType>
+                          </xsd:element>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="spec">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="containers">
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element name="container" maxOccurs="unbounded">
+                                  <xsd:complexType>
+                                    <xsd:sequence>
+                                      <xsd:element name="name" type="xsd:string"/>
+                                      <xsd:element name="image" type="xsd:string"/>
+                                      <xsd:element name="env" minOccurs="0">
+                                        <xsd:complexType>
+                                          <xsd:sequence>
+                                            <xsd:element name="var" maxOccurs="unbounded">
+                                              <xsd:complexType>
+                                                <xsd:simpleContent>
+                                                  <xsd:extension base="xsd:string">
+                                                    <xsd:attribute name="name" type="xsd:string" use="required"/>
+                                                  </xsd:extension>
+                                                </xsd:simpleContent>
+                                              </xsd:complexType>
+                                            </xsd:element>
+                                          </xsd:sequence>
+                                        </xsd:complexType>
+                                      </xsd:element>
+                                      <xsd:element name="volumeMounts" minOccurs="0">
+                                        <xsd:complexType>
+                                          <xsd:sequence>
+                                            <xsd:element name="volumeMount" maxOccurs="unbounded">
+                                              <xsd:complexType>
+                                                <xsd:sequence>
+                                                  <xsd:element name="name" type="xsd:string"/>
+                                                  <xsd:element name="mountPath" type="xsd:string"/>
+                                                </xsd:sequence>
+                                              </xsd:complexType>
+                                            </xsd:element>
+                                          </xsd:sequence>
+                                        </xsd:complexType>
+                                      </xsd:element>
+                                    </xsd:sequence>
+                                  </xsd:complexType>
+                                </xsd:element>
+                              </xsd:sequence>
+                            </xsd:complexType>
+                          </xsd:element>
+                          <xsd:element name="volumes" minOccurs="0">
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element name="volume" maxOccurs="unbounded">
+                                  <xsd:complexType>
+                                    <xsd:sequence>
+                                      <xsd:element name="name" type="xsd:string"/>
+                                      <xsd:element name="hostPath">
+                                        <xsd:complexType>
+                                          <xsd:sequence>
+                                            <xsd:element name="path" type="xsd:string"/>
+                                            <xsd:element name="type" type="xsd:string"/>
+                                          </xsd:sequence>
+                                        </xsd:complexType>
+                                      </xsd:element>
+                                    </xsd:sequence>
+                                  </xsd:complexType>
+                                </xsd:element>
+                              </xsd:sequence>
+                            </xsd:complexType>
+                          </xsd:element>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

@@ -1,0 +1,56 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<!-- Jenkins job config for running integration tests against MySQL 9 -->
+<project>
+  <actions/>
+  <description>Run integration tests with MySQL 9 and prod profile</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>APP_LOG_PATH</name>
+          <description>Path to write logs</description>
+          <defaultValue>/tmp/erp-logs</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SPRING_PROFILES_ACTIVE</name>
+          <description>Spring profile to use</description>
+          <defaultValue>prod</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@4.11.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://github.com/kirubhag/erp.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/ERP_ANGULAR2_CHANGES</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+  </scm>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash -e
+export APP_LOG_PATH=${APP_LOG_PATH}
+export SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+# Start a MySQL 9 container for the job (ephemeral)
+docker run --name jenkins-erp-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=erp_database -d -p 3307:3306 mysql:9.0
+# Wait for readiness
+for i in {1..60}; do docker exec jenkins-erp-mysql mysqladmin ping -uroot -proot --silent && break || sleep 2; done
+# Run tests
+./mvnw -B -DskipTests=false test || rc=$?
+RC=${rc:-0}
+# Tear down DB
+docker rm -f jenkins-erp-mysql || true
+exit $RC
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

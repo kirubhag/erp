@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %c{1} - %msg%n"/>
+        </Console>
+
+    <RollingFile name="RollingFile" fileName="${env:APP_LOG_PATH:-/var/log/erp}/erp-prod.log" filePattern="${env:APP_LOG_PATH:-/var/log/erp}/erp-prod-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %c{1} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="90"/>
+        </RollingFile>
+        <RollingFile name="AccessRollingFile" fileName="${env:APP_LOG_PATH:-/var/log/erp}/access-log.log" filePattern="${env:APP_LOG_PATH:-/var/log/erp}/access-log-%d{dd-MM-yyyy}.log.gz">
+            <PatternLayout pattern="%m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+            <DefaultRolloverStrategy max="365"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Production settings: quieter, file-based retention -->
+        <Logger name="krs.erp" level="info" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="org.springframework" level="info"/>
+
+        <Root level="info">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <Logger name="ACCESS" level="info" additivity="false">
+            <AppenderRef ref="AccessRollingFile"/>
+        </Logger>
+    </Loggers>
+</Configuration>

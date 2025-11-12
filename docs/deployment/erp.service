@@ -1,0 +1,16 @@
+[Unit]
+Description=ERP Spring Boot Application
+After=network.target
+
+[Service]
+User=erp
+Group=erp
+Environment=SPRING_PROFILES_ACTIVE=prod
+Environment=APP_LOG_PATH=/var/log/erp
+ExecStart=/usr/bin/java -Dspring.profiles.active=${SPRING_PROFILES_ACTIVE} -Dapp.logging.path=${APP_LOG_PATH} -jar /opt/erp/erp.war
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XML representation of Kubernetes Deployment for documentation/validation -->
+<kubernetesDeployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:noNamespaceSchemaLocation="erp-deployment-k8s.xsd">
+  <apiVersion>apps/v1</apiVersion>
+  <kind>Deployment</kind>
+  <metadata>
+    <name>erp-deployment</name>
+  </metadata>
+  <spec>
+    <replicas>1</replicas>
+    <selector>
+      <matchLabels>
+        <app>erp</app>
+      </matchLabels>
+    </selector>
+    <template>
+      <metadata>
+        <labels>
+          <app>erp</app>
+        </labels>
+      </metadata>
+      <spec>
+        <containers>
+          <container>
+            <name>erp</name>
+            <image>yourrepo/erp:latest</image>
+            <env>
+              <var name="SPRING_PROFILES_ACTIVE">prod</var>
+              <var name="APP_LOG_PATH">/var/log/erp</var>
+            </env>
+            <volumeMounts>
+              <volumeMount>
+                <name>erp-logs</name>
+                <mountPath>/var/log/erp</mountPath>
+              </volumeMount>
+            </volumeMounts>
+          </container>
+        </containers>
+        <volumes>
+          <volume>
+            <name>erp-logs</name>
+            <hostPath>
+              <path>/var/log/erp</path>
+              <type>DirectoryOrCreate</type>
+            </hostPath>
+          </volume>
+        </volumes>
+      </spec>
+    </template>
+  </spec>
+</kubernetesDeployment>

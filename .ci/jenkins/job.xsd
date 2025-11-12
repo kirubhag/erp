@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xsd:element name="project">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+        <xsd:element name="properties" minOccurs="0"/>
+        <xsd:element name="scm" minOccurs="0"/>
+        <xsd:element name="builders" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

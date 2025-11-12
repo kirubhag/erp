@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XML representation of the CI workflow that was previously a GitHub Actions YAML.
+     This XML is for documentation/consumption by tools that prefer XML and can be
+     imported into Jenkins or other CI systems. The actual Jenkins job is available
+     at .ci/jenkins/integration-job.xml which implements the same steps. -->
+<ciWorkflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="workflow.xsd">
+  <name>CI - Integration (MySQL)</name>
+  <triggers>
+    <trigger type="push">
+      <branches>
+        <branch>ERP_ANGULAR2_CHANGES</branch>
+        <branch>main</branch>
+      </branches>
+    </trigger>
+    <trigger type="pull_request">
+      <branches>
+        <branch>main</branch>
+      </branches>
+    </trigger>
+  </triggers>
+  <jobs>
+    <job id="integration">
+      <runsOn>ubuntu-latest</runsOn>
+      <services>
+        <service name="mysql">
+          <image>mysql:8.0</image>
+          <env>
+            <var name="MYSQL_ROOT_PASSWORD">root</var>
+            <var name="MYSQL_DATABASE">erp_test</var>
+          </env>
+          <ports>
+            <port>3306:3306</port>
+          </ports>
+          <options>--health-cmd='mysqladmin ping --silent' --health-interval=10s --health-timeout=5s --health-retries=3</options>
+        </service>
+      </services>
+      <steps>
+        <step type="checkout">actions/checkout@v4</step>
+        <step type="setup-java">
+          <distribution>temurin</distribution>
+          <javaVersion>21</javaVersion>
+        </step>
+        <step id="wait-for-mysql">
+          <run><![CDATA[for i in {1..30}; do
+  if mysqladmin ping -h127.0.0.1 -uroot -proot --silent; then
+    echo "MySQL ready"; break
+  fi
+  echo "Waiting for MySQL..."; sleep 2
+done]]></run>
+        </step>
+        <step id="build-and-run-tests">
+          <env>
+            <var name="SPRING_PROFILES_ACTIVE">prod</var>
+            <var name="APP_LOG_PATH">/tmp/erp-logs</var>
+            <var name="DB_HOST">127.0.0.1</var>
+            <var name="DB_PORT">3306</var>
+            <var name="DB_NAME">erp_test</var>
+            <var name="DB_USER">root</var>
+            <var name="DB_PASSWORD">root</var>
+          </env>
+          <run><![CDATA[./mvnw -B -DskipTests=false test]]></run>
+        </step>
+      </steps>
+    </job>
+  </jobs>
+</ciWorkflow>
