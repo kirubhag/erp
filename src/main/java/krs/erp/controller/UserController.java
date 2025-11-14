@@ -56,6 +56,7 @@ public class UserController {
      * @param id User ID
      * @return User details or 404 if not found
      */
+    @PermitAll
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userRepository.findById(id);
@@ -69,6 +70,7 @@ public class UserController {
      * @param username Username
      * @return User details or 404 if not found
      */
+    @PermitAll
     @GetMapping("/username/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
         Optional<User> user = userRepository.findByUsername(username);
@@ -82,6 +84,7 @@ public class UserController {
      * @param email Email address
      * @return User details or 404 if not found
      */
+    @PermitAll
     @GetMapping("/email/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
         Optional<User> user = userRepository.findByEmail(email);
@@ -95,6 +98,7 @@ public class UserController {
      * @param userType User type (STUDENT, STAFF, PARENT, ADMIN)
      * @return List of users of specified type
      */
+    @PermitAll
     @GetMapping("/type/{userType}")
     public ResponseEntity<List<User>> getUsersByType(@PathVariable String userType) {
         try {
@@ -111,6 +115,7 @@ public class UserController {
      * 
      * @return List of enabled users
      */
+    @PermitAll
     @GetMapping("/status/enabled")
     public ResponseEntity<List<User>> getEnabledUsers() {
         List<User> users = userRepository.findByEnabledTrue();
@@ -122,6 +127,7 @@ public class UserController {
      * 
      * @return List of disabled users
      */
+    @PermitAll
     @GetMapping("/status/disabled")
     public ResponseEntity<List<User>> getDisabledUsers() {
         List<User> users = userRepository.findByEnabledFalse();
@@ -134,6 +140,7 @@ public class UserController {
      * @param user User details
      * @return Created user with 201 status
      */
+    @PermitAll
     @PostMapping
     public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         try {
@@ -165,6 +172,7 @@ public class UserController {
      * @param userDetails Updated user details
      * @return Updated user or 404 if not found
      */
+    @PermitAll
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @Valid @RequestBody User userDetails) {
         Optional<User> optionalUser = userRepository.findById(id);
@@ -224,6 +232,7 @@ public class UserController {
      * @param id User ID
      * @return 204 No Content if deleted, 404 if not found
      */
+    @PermitAll
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         if (userRepository.existsById(id)) {
@@ -238,6 +247,7 @@ public class UserController {
      * 
      * @return List of locked users
      */
+    @PermitAll
     @GetMapping("/locked/users")
     public ResponseEntity<List<User>> getLockedUsers() {
         List<User> lockedUsers = userRepository.findLockedUsers();
@@ -249,6 +259,7 @@ public class UserController {
      * 
      * @return List of users with expired credentials
      */
+    @PermitAll
     @GetMapping("/credentials/expired")
     public ResponseEntity<List<User>> getUsersWithExpiredCredentials() {
         List<User> expiredUsers = userRepository.findUsersWithExpiredCredentials();
@@ -261,6 +272,7 @@ public class UserController {
      * @param name First or last name to search
      * @return List of matching users
      */
+    @PermitAll
     @GetMapping("/search")
     public ResponseEntity<List<User>> searchUsersByName(@RequestParam String name) {
         List<User> users = userRepository.findByNameContaining(name);
@@ -273,6 +285,7 @@ public class UserController {
      * @param userType User type
      * @return Count of active users
      */
+    @PermitAll
     @GetMapping("/count/{userType}")
     public ResponseEntity<Long> countActiveUsersByType(@PathVariable String userType) {
         try {
