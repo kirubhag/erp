@@ -55,11 +55,15 @@
 
 /* Setup Section */
 .setup-section {
-  background: white;
+  background: white !important;
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   min-height: 150px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .section-title {
@@ -129,6 +133,16 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .setup-container {
+    padding: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .setup-header {
     flex-direction: column;
@@ -149,7 +163,6 @@
   }
   
   .row {
-    display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
   }
@@ -172,15 +185,23 @@
 /* Bootstrap grid fixes */
 .row {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin: 0;
+  width: 100%;
+  background-color: transparent;
 }
 
 .col-lg-4 {
   margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
 }
 
 .mb-4 {
   margin-bottom: 0 !important;
+  background-color: transparent;
 }

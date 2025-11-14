@@ -74,6 +74,23 @@ export class AuthService {
   }
 
   /**
+   * Login user with email and password
+   */
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, { email, password }).pipe(
+      tap((response: any) => {
+        if (response.user) {
+          this.currentUserSubject.next(response.user);
+          localStorage.setItem('currentUser', JSON.stringify(response.user));
+        }
+        if (response.token) {
+          localStorage.setItem('authToken', response.token);
+        }
+      })
+    );
+  }
+
+  /**
    * Update user profile
    */
   updateUserProfile(userId: number, userData: Partial<UserDetails>): Observable<UserDetails> {

@@ -127,7 +127,7 @@ export class NavbarComponent implements OnInit {
     this.authService.logout();
     localStorage.removeItem('selectedTheme');
     localStorage.removeItem('currentUser');
-    this.router.navigate(['/login']).then(() => {
+    this.router.navigate(['/']).then(() => {
       window.location.reload();
     });
   }
