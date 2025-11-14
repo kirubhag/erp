@@ -1,0 +1,56 @@
+<aside class="settings-sidebar">
+  <div class="sidebar-header">
+    <h3>Setup</h3>
+  </div>
+
+  <!-- Search Box -->
+  <div class="sidebar-search">
+    <div class="input-group">
+      <span class="input-group-text"><i class="fas fa-search"></i></span>
+      <input 
+        type="text" 
+        class="form-control search-input" 
+        placeholder="Search"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch($event)">
+      <button 
+        *ngIf="searchTerm" 
+        class="btn btn-clear" 
+        (click)="clearSearch()">
+        ×
+      </button>
+    </div>
+  </div>
+
+  <!-- Navigation Items -->
+  <nav class="sidebar-nav">
+    <div class="nav-category" *ngFor="let category of filteredCategories; trackBy: trackCategory">
+      <!-- Category Header (Expandable) -->
+      <button 
+        class="nav-category-link"
+        (click)="toggleCategory(category)"
+        [class.expanded]="category.isExpanded">
+        {{ category.title }}
+        <i class="fas" [ngClass]="category.isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+      </button>
+
+      <!-- Category Items -->
+      <div class="nav-items" *ngIf="category.isExpanded && category.items">
+        <a 
+          *ngFor="let item of category.items; trackBy: trackItem"
+          [routerLink]="item.route"
+          class="nav-item"
+          [class.active]="item.active"
+          (click)="setActiveItem(item)">
+          <i [class]="item.icon"></i>
+          <span>{{ item.label }}</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- No Results -->
+  <div class="no-results" *ngIf="filteredCategories.length === 0 && searchTerm">
+    <p><i class="fas fa-search"></i> No settings found</p>
+  </div>
+</aside>

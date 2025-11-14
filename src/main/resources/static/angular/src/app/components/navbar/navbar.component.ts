@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
+import { AuthService } from '../../services/auth.service';
 
 export interface MenuItem {
   id: number;
@@ -28,11 +29,50 @@ export class NavbarComponent implements OnInit {
   hasOverflow = false;
   organizationName = 'Zylker';
   currentUser = { name: 'Administrator' };
+  selectedTheme = '#0056b3';
 
-  constructor(private menuService: MenuService) {}
+  constructor(private menuService: MenuService, private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.loadMenuItems();
+    // Set default menu items immediately (synchronous)
+    this.setDefaultMenuItems();
+    console.log('Navbar initialized with default menu items');
+    
+    // Load current user
+    this.loadCurrentUser();
+    
+    // Load theme from localStorage
+    this.loadTheme();
+  }
+
+  loadCurrentUser(): void {
+    this.authService.currentUser$.subscribe(user => {
+      if (user) {
+        this.currentUser = { name: user.firstName + ' ' + user.lastName };
+      }
+    });
+  }
+
+  loadTheme(): void {
+    const savedTheme = localStorage.getItem('selectedTheme');
+    if (savedTheme) {
+      this.selectedTheme = savedTheme;
+      this.applyTheme(savedTheme);
+    }
+  }
+
+  applyTheme(color: string): void {
+    document.documentElement.style.setProperty('--primary-color', color);
+    const navbar = document.querySelector('nav.navbar');
+    if (navbar) {
+      (navbar as HTMLElement).style.backgroundColor = color;
+    }
+  }
+
+  loadMenuItemsAsync(): void {
+    setTimeout(() => {
+      this.loadMenuItems();
+    }, 0);
   }
 
   loadMenuItems(): void {
@@ -44,10 +84,11 @@ export class NavbarComponent implements OnInit {
         }));
         
         this.visibleMenuItems = this.menuItems.filter(item => item.isActive);
+        console.log('Menu items loaded from API:', items.length);
       },
       error: (error) => {
         console.error('Error loading menu items:', error);
-        this.setDefaultMenuItems();
+        // Default already set in ngOnInit
       }
     });
   }
@@ -83,7 +124,11 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    // TODO: Implement logout functionality
-    console.log('Logout clicked');
+    this.authService.logout();
+    localStorage.removeItem('selectedTheme');
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
   }
 }

@@ -75,13 +75,19 @@ export class DashboardComponent implements OnInit {
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit() {
-    this.loadDashboardStats();
+    // Show default stats immediately
+    console.log('Dashboard initialized with default stats');
+    
+    // Load data in background (non-blocking)
+    // Commented out for now to debug infinite loading
+    // setTimeout(() => this.loadDashboardStats(), 100);
   }
 
   loadDashboardStats() {
     this.dashboardService.getDashboardStats().subscribe({
       next: (data: DashboardStats) => {
         this.stats = data;
+        console.log('Dashboard stats loaded');
       },
       error: (error: any) => {
         console.error('Error loading dashboard stats:', error);

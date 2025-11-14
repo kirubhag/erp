@@ -2,13 +2,15 @@
      [class.no-filters]="!showFilters || filters.length === 0"
      [class.filters-visible]="showFilters && filters.length > 0"
      [class.filters-hidden]="!showFilters || filters.length === 0">
-  <!-- Single Header Section -->
-  <div class="main-header d-flex justify-content-between align-items-center mb-3">
+  <!-- Fixed Main Header Section -->
+  <div class="main-header fixed-header d-flex justify-content-between align-items-center">
     <div class="d-flex align-items-center">
-      <button class="btn btn-link p-0 me-2" (click)="showFilters = !showFilters">
-        <i class="fas fa-chevron-down" [class.rotate-180]="showFilters"></i>
+      <button class="btn btn-link p-0 me-3" (click)="showFilters = !showFilters">
+        <i class="fas fa-filter" [class.text-primary]="showFilters"></i>
       </button>
-      <div class="dropdown">
+      
+      <!-- Custom View Dropdown -->
+      <div class="dropdown me-3">
         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
           All {{entityNamePlural}}
         </button>
@@ -16,43 +18,44 @@
           <li><a class="dropdown-item" href="#">All {{entityNamePlural}}</a></li>
           <li><a class="dropdown-item" href="#">Active</a></li>
           <li><a class="dropdown-item" href="#">Inactive</a></li>
-        </ul>
-      </div>
-      <span class="ms-3 text-primary fw-bold">Total Records</span>
-      <button class="btn btn-link p-1 ms-2">
-        <i class="fas fa-sync-alt"></i>
-      </button>
-    </div>
-
-    <div class="d-flex align-items-center gap-2">
-      <!-- Search Bar -->
-      <div class="search-section">
-        <div class="input-group">
-          <span class="input-group-text">
-            <i class="fas fa-search"></i>
-          </span>
-          <input type="text" class="form-control" 
-                 [(ngModel)]="searchTerm" 
-                 (keyup.enter)="onSearch()"
-                 placeholder="Search fields...">
-        </div>
-      </div>
-
-      <!-- Custom View Dropdown -->
-      <div class="dropdown">
-        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown">
-          <i class="fas fa-eye me-1"></i>Custom View
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Default View</a></li>
-          <li><a class="dropdown-item" href="#">Basic Info</a></li>
-          <li><a class="dropdown-item" href="#">Contact Details</a></li>
-          <li><a class="dropdown-item" href="#">Academic Info</a></li>
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" href="#"><i class="fas fa-plus me-1"></i>Create New View</a></li>
         </ul>
       </div>
+      
+      <button class="btn btn-link text-primary fw-bold p-0 me-3" (click)="toggleTotalRecords()">
+        Total Records <span *ngIf="showTotalCount">({{totalRecords}})</span>
+      </button>
+      <button class="btn btn-link p-1 me-3" (click)="refreshData()">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+      
+      <!-- Records Selected Label -->
+      <span class="text-muted me-2" *ngIf="selectedItems.size > 0">
+        {{selectedItems.size}} records selected
+      </span>
+      
+      <!-- 3-dots Action Dropdown -->
+      <div class="dropdown me-3" *ngIf="selectedItems.size > 0">
+        <button class="btn btn-link p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-ellipsis-h"></i>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#" (click)="onBulkAction('delete')">
+            <i class="fas fa-trash me-2"></i>Delete Selected
+          </a></li>
+          <li><a class="dropdown-item" href="#" (click)="onBulkAction('export')">
+            <i class="fas fa-download me-2"></i>Export Selected
+          </a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" (click)="onBulkAction('archive')">
+            <i class="fas fa-archive me-2"></i>Archive Selected
+          </a></li>
+        </ul>
+      </div>
+    </div>
 
+    <div class="d-flex align-items-center gap-3">
       <!-- View Toggle -->
       <div class="btn-group" *ngIf="showViewToggle">
         <button class="btn btn-outline-secondary btn-sm" 
@@ -67,19 +70,32 @@
         </button>
       </div>
 
-      <!-- Add Button -->
-      <button class="btn btn-primary" *ngIf="showAddButton" (click)="onAction('add')">
-        <i class="fas fa-plus me-1"></i>Add {{entityName}}
+      <!-- Circle Add Button -->
+      <button class="btn btn-primary btn-circle" *ngIf="showAddButton" (click)="onAction('add')" title="Add {{entityName}}">
+        <i class="fas fa-plus"></i>
       </button>
     </div>
   </div>
 
   <!-- Main Content Area -->
-  <div class="row">
+  <div class="row g-0">
     <!-- Left Sidebar Filters -->
     <div class="col-md-3" *ngIf="showFilters && filters.length > 0">
       <div class="filters-sidebar">
         <h6 class="filter-title mb-3">FILTER {{entityNamePlural | uppercase}} BY</h6>
+        
+        <!-- Search Bar -->
+        <div class="search-section mb-3">
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-search"></i>
+            </span>
+            <input type="text" class="form-control" 
+                   [(ngModel)]="searchTerm" 
+                   (keyup.enter)="onSearch()"
+                   placeholder="Search fields...">
+          </div>
+        </div>
         
         <div class="filter-group" *ngFor="let filter of filters">
           <div [ngSwitch]="filter.type">
@@ -129,30 +145,7 @@
     </div>
 
     <!-- Main Content -->
-    <div [class]="showFilters && filters.length > 0 ? 'col-md-9' : 'col-12'">
-      <!-- Status Info -->
-      <div class="status-info d-flex justify-content-between align-items-center mb-3">
-        <div class="d-flex align-items-center">
-          <span class="text-muted">{{totalRecords}} results</span>
-        </div>
-        
-        <div class="d-flex align-items-center gap-2">
-          <!-- Bulk Actions -->
-          <div class="dropdown" *ngIf="selectedItems.size > 0">
-            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown">
-              Actions ({{selectedItems.size}})
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#" (click)="onBulkAction('delete')">
-                <i class="fas fa-trash me-1"></i>Delete Selected
-              </a></li>
-              <li><a class="dropdown-item" href="#" (click)="onBulkAction('export')">
-                <i class="fas fa-download me-1"></i>Export Selected
-              </a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
+    <div [class]="showFilters && filters.length > 0 ? 'col-md-9' : 'col-12'" class="main-content-area">
 
   <!-- Data Table -->
   <div class="data-section">
@@ -160,31 +153,36 @@
       <table class="table table-hover">
         <thead class="table-light">
           <tr>
-            <th *ngIf="showBulkActions" style="width: 40px;">
+            <th *ngIf="showBulkActions" style="width: 100px;">
               <input type="checkbox" class="form-check-input" 
                      [checked]="allSelected" 
                      (change)="toggleSelectAll()">
             </th>
             <th *ngFor="let column of columns" 
-                [style.width]="column.width"
-                [class.sortable]="column.sortable"
-                (click)="onSort(column)">
+                [style.width]="column.width">
               {{column.label}}
-              <i *ngIf="column.sortable && sortColumn === column.key" 
-                 class="fas ms-1"
-                 [class.fa-sort-up]="sortDirection === 'asc'"
-                 [class.fa-sort-down]="sortDirection === 'desc'"></i>
-              <i *ngIf="column.sortable && sortColumn !== column.key" 
-                 class="fas fa-sort ms-1 text-muted"></i>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of data; trackBy: trackByFn">
-            <td *ngIf="showBulkActions">
+          <tr *ngFor="let item of data; trackBy: trackByFn" class="table-row-hover">
+            <td *ngIf="showBulkActions" class="position-relative">
               <input type="checkbox" class="form-check-input" 
                      [checked]="isSelected(item)" 
                      (change)="toggleSelectItem(item)">
+              <!-- Row Actions (next to checkbox) -->
+              <div class="row-actions">
+                <button class="btn btn-sm btn-outline-primary me-1" 
+                        (click)="onAction('edit', item)"
+                        title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" 
+                        (click)="onAction('delete', item)"
+                        title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
             </td>
             <td *ngFor="let column of columns" [ngSwitch]="column.type">
               <!-- Avatar -->
@@ -232,22 +230,53 @@
 
     <!-- Grid View -->
     <div class="row" *ngIf="viewMode === 'grid'">
-      <div class="col-md-4 col-lg-3 mb-3" *ngFor="let item of data">
-        <div class="card h-100">
-          <div class="card-body">
-            <div class="d-flex align-items-center mb-2" *ngIf="getFirstColumn()">
-              <div class="avatar-circle me-2" 
-                   [class]="getAvatarClass(getFirstColumnValue(item))">
-                {{getAvatarText(getFirstColumnValue(item))}}
+      <div class="col-md-6 col-lg-4 col-xl-3 mb-3" *ngFor="let item of data; trackBy: trackByFn">
+        <div class="card student-card h-100">
+          <div class="card-body p-3">
+            <!-- Checkbox in top-right corner -->
+            <div class="position-relative">
+              <input type="checkbox" class="form-check-input position-absolute top-0 end-0 custom-checkbox" 
+                     [checked]="isSelected(item)" 
+                     (change)="toggleSelectItem(item)"
+                     *ngIf="showBulkActions">
+            </div>
+            
+            <!-- Student Avatar and Name -->
+            <div class="text-center mb-3">
+              <div class="avatar-circle-large mx-auto mb-2" 
+                   [class]="getAvatarClass(getCellValue(item, columns[0]))">
+                {{getAvatarText(getCellValue(item, columns[0]))}}
               </div>
-              <div>
-                <h6 class="card-title mb-0">{{getFirstColumnValue(item)}}</h6>
-                <small class="text-muted">{{item.id}}</small>
+              <h6 class="card-title mb-1">{{getCellValue(item, columns[0])}}</h6>
+              <p class="text-muted small mb-0">{{item.id}}</p>
+            </div>
+            
+            <!-- Student Details -->
+            <div class="student-details">
+              <div class="detail-row mb-2" *ngFor="let column of getGridColumns()">
+                <small class="text-muted d-block">{{column.label}}</small>
+                <div class="fw-medium" [ngSwitch]="column.type">
+                  <a *ngSwitchCase="'email'" 
+                     [href]="'mailto:' + getCellValue(item, column)"
+                     class="text-decoration-none text-primary">
+                    {{getCellValue(item, column)}}
+                  </a>
+                  <span *ngSwitchCase="'badge'" 
+                        class="badge"
+                        [class.bg-success]="getCellValue(item, column) === 'ACTIVE'"
+                        [class.bg-secondary]="getCellValue(item, column) !== 'ACTIVE'">
+                    {{getCellValue(item, column)}}
+                  </span>
+                  <span *ngSwitchDefault>{{getCellValue(item, column)}}</span>
+                </div>
               </div>
             </div>
-            <div *ngFor="let column of getGridColumns()">
-              <small class="text-muted">{{column.label}}:</small>
-              <div>{{getCellValue(item, column)}}</div>
+            
+            <!-- Action Button -->
+            <div class="text-center mt-3">
+              <button class="btn btn-outline-primary btn-sm" (click)="onAction('view', item)">
+                <i class="fas fa-eye me-1"></i>View Details
+              </button>
             </div>
           </div>
         </div>
@@ -267,9 +296,23 @@
         <p class="text-muted mt-2">Loading {{entityNamePlural}}...</p>
       </div>
 
-      <!-- Fixed Bottom Pagination -->
-      <div class="pagination-fixed" *ngIf="pagination.totalItems > 0">
-        <nav class="d-flex justify-content-center">
+    </div>
+    
+  </div>
+  
+  <!-- Fixed Bottom Pagination -->
+  <div class="pagination-fixed" 
+       [class.filters-visible]="showFilters && filters.length > 0"
+       *ngIf="pagination.totalItems > 0">
+    <div class="pagination-content d-flex justify-content-between align-items-center">
+      <!-- Items Count Info on Left -->
+      <div class="pagination-info d-flex align-items-center">
+        <span class="text-muted">{{(pagination.currentPage - 1) * pagination.itemsPerPage + 1}} to {{getEndItem()}} of {{pagination.totalItems}}</span>
+      </div>
+      
+      <!-- Navigation in Center -->
+      <div class="pagination-nav">
+        <nav>
           <ul class="pagination pagination-sm mb-0">
             <!-- First Page -->
             <li class="page-item" [class.disabled]="pagination.currentPage === 1">
@@ -311,29 +354,20 @@
             </li>
           </ul>
         </nav>
-        
-        <!-- Items Count and Per Page Selector -->
-        <div class="d-flex justify-content-between align-items-center mt-2">
-          <small class="text-muted">
-            {{(pagination.currentPage - 1) * pagination.itemsPerPage + 1}} to 
-            {{getEndItem()}} of 
-            {{pagination.totalItems}}
-          </small>
-          
-          <!-- Items Per Page Selector -->
-          <div class="d-flex align-items-center">
-            <select class="form-select form-select-sm" style="width: auto;" 
-                    [(ngModel)]="pagination.itemsPerPage" 
-                    (ngModelChange)="onItemsPerPageChange()">
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-              <option value="200">200</option>
-            </select>
-          </div>
-        </div>
       </div>
       
+      <!-- Items Per Page Selector on Right -->
+      <div class="pagination-per-page d-flex align-items-center">
+        <span class="text-muted me-2">Records per page:</span>
+        <select class="form-select form-select-sm" style="width: auto;" 
+                [(ngModel)]="pagination.itemsPerPage" 
+                (ngModelChange)="onItemsPerPageChange()">
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+        </select>
+      </div>
     </div>
   </div>
 </div>

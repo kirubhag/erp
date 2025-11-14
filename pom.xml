@@ -53,6 +53,12 @@
 		</profile>
 	</profiles>
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 		<!-- Spring Boot Starters -->
 		<!-- Exclude default logging (Logback) from JPA starter so Log4j2 is used consistently -->
 		<dependency>

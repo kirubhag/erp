@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EntityListComponent, EntityColumn, EntityFilter, PaginationInfo } from '../entity-list/entity-list.component';
+import { StudentService } from '../../services/student.service';
 
 export interface Student {
   id: number;
@@ -43,6 +44,8 @@ export class StudentListComponent implements OnInit {
   students: Student[] = [];
   loading = false;
   showFilters = true; // Show filters by default
+
+  constructor(private studentService: StudentService) {}
 
   columns: EntityColumn[] = [
     {
@@ -99,65 +102,34 @@ export class StudentListComponent implements OnInit {
   filters: EntityFilter[] = [
     {
       key: 'status',
-      label: 'Active',
-      type: 'checkbox',
-      value: true
+      label: 'Status',
+      type: 'select',
+      options: [
+        { value: 'ACTIVE', label: 'Active' },
+        { value: 'INACTIVE', label: 'Inactive' },
+        { value: 'PENDING', label: 'Pending' }
+      ],
+      value: ''
     },
     {
-      key: 'createdAt',
-      label: 'Created At',
-      type: 'checkbox',
-      value: false
-    },
-    {
-      key: 'updatedAt',
-      label: 'Updated At',
-      type: 'checkbox',
-      value: false
-    },
-    {
-      key: 'firstName',
-      label: 'First Name',
-      type: 'checkbox',
-      value: false
-    },
-    {
-      key: 'lastName',
-      label: 'Last Name',
-      type: 'checkbox',
-      value: false
-    },
-    {
-      key: 'middleName',
-      label: 'Middle Name',
-      type: 'checkbox',
-      value: false
-    },
-    {
-      key: 'dateOfBirth',
-      label: 'Date of Birth',
-      type: 'checkbox',
-      value: false
-    },
-    {
-      key: 'gender',
-      label: 'Gender',
-      type: 'checkbox',
-      value: false
-    },
-    {
-      key: 'studentId',
-      label: 'Student ID',
-      type: 'checkbox',
-      value: false
+      key: 'grade',
+      label: 'Grade',
+      type: 'select',
+      options: [
+        { value: 'KINDERGARTEN', label: 'Kindergarten' },
+        { value: 'GRADE_1', label: 'Grade 1' },
+        { value: 'GRADE_2', label: 'Grade 2' },
+        { value: 'GRADE_3', label: 'Grade 3' }
+      ],
+      value: ''
     }
   ];
 
   pagination: PaginationInfo = {
     currentPage: 1,
-    itemsPerPage: 100,
-    totalItems: 358,
-    totalPages: 4
+    itemsPerPage: 10,
+    totalItems: 0,
+    totalPages: 0
   };
 
   ngOnInit() {
@@ -166,148 +138,112 @@ export class StudentListComponent implements OnInit {
 
   loadStudents() {
     this.loading = true;
+    const page = this.pagination.currentPage - 1; // Convert to 0-based for backend
     
-    // Simulate API call
-    setTimeout(() => {
-      this.students = [
-        {
-          id: 1,
-          studentId: 'KGSTU016',
-          firstName: 'Patrick',
-          lastName: 'Parker',
-          fullName: 'Patrick Parker',
-          email: 'patrick.parker@student.school.edu',
-          phone: '',
-          grade: 'KINDERGARTEN',
-          status: 'ACTIVE',
-          enrollmentDate: '2024-08-15'
+    this.studentService.getStudents(page, this.pagination.itemsPerPage)
+      .subscribe({
+        next: (response) => {
+          this.students = response.content;
+          this.pagination.totalItems = response.totalElements;
+          this.pagination.totalPages = response.totalPages;
         },
-        {
-          id: 2,
-          studentId: 'KGSTU017',
-          firstName: 'Queenie',
-          lastName: 'Quinn',
-          fullName: 'Queenie Quinn',
-          email: 'queenie.quinn@student.school.edu',
-          phone: '',
-          grade: 'KINDERGARTEN',
-          status: 'ACTIVE',
-          enrollmentDate: '2024-08-15'
+        error: (error) => {
+          console.error('Error loading students:', error);
+          // Handle error appropriately
         },
-        {
-          id: 3,
-          studentId: 'KGSTU018',
-          firstName: 'Roman',
-          lastName: 'Roberts',
-          fullName: 'Roman Roberts',
-          email: 'roman.roberts@student.school.edu',
-          phone: '',
-          grade: 'KINDERGARTEN',
-          status: 'ACTIVE',
-          enrollmentDate: '2024-08-15'
-        },
-        {
-          id: 4,
-          studentId: 'KGSTU019',
-          firstName: 'Sophia',
-          lastName: 'Smith',
-          fullName: 'Sophia Smith',
-          email: 'sophia.smith@student.school.edu',
-          phone: '',
-          grade: 'KINDERGARTEN',
-          status: 'ACTIVE',
-          enrollmentDate: '2024-08-15'
-        },
-        {
-          id: 5,
-          studentId: 'KGSTU020',
-          firstName: 'Theodore',
-          lastName: 'Taylor',
-          fullName: 'Theodore Taylor',
-          email: 'theodore.taylor@student.school.edu',
-          phone: '',
-          grade: 'KINDERGARTEN',
-          status: 'ACTIVE',
-          enrollmentDate: '2024-08-15'
-        },
-        {
-          id: 6,
-          studentId: 'KGSTU021',
-          firstName: 'Uma',
-          lastName: 'Turner',
-          fullName: 'Uma Turner',
-          email: 'uma.turner@student.school.edu',
-          phone: '',
-          grade: 'KINDERGARTEN',
-          status: 'ACTIVE',
-          enrollmentDate: '2024-08-15'
-        },
-        {
-          id: 7,
-          studentId: 'KGSTU022',
-          firstName: 'Vincent',
-          lastName: 'White',
-          fullName: 'Vincent White',
-          email: 'vincent.white@student.school.edu',
-          phone: '',
-          grade: 'KINDERGARTEN',
-          status: 'ACTIVE',
-          enrollmentDate: '2024-08-15'
-        },
-        {
-          id: 8,
-          studentId: 'KGSTU023',
-          firstName: 'Willa',
-          lastName: 'Wilson',
-          fullName: 'Willa Wilson',
-          email: 'willa.wilson@student.school.edu',
-          phone: '',
-          grade: 'KINDERGARTEN',
-          status: 'ACTIVE',
-          enrollmentDate: '2024-08-15'
-        },
-        {
-          id: 9,
-          studentId: 'KGSTU024',
-          firstName: 'Xavier',
-          lastName: 'Young',
-          fullName: 'Xavier Young',
-          email: 'xavier.young@student.school.edu',
-          phone: '',
-          grade: 'KINDERGARTEN',
-          status: 'ACTIVE',
-          enrollmentDate: '2024-08-15'
-        },
-        {
-          id: 10,
-          studentId: 'KGSTU025',
-          firstName: 'Yelena',
-          lastName: 'Adams',
-          fullName: 'Yelena Adams',
-          email: 'yelena.adams@student.school.edu',
-          phone: '',
-          grade: 'KINDERGARTEN',
-          status: 'ACTIVE',
-          enrollmentDate: '2024-08-15'
+        complete: () => {
+          this.loading = false;
         }
-      ];
-      this.loading = false;
-    }, 1000);
+      });
   }
 
   onSearch(searchTerm: string) {
-    console.log('Search:', searchTerm);
-    // Implement search logic
+    if (searchTerm && searchTerm.trim() !== '') {
+      this.loading = true;
+      const page = this.pagination.currentPage - 1;
+      
+      this.studentService.searchStudents(searchTerm, page, this.pagination.itemsPerPage)
+        .subscribe({
+          next: (response) => {
+            this.students = response.content;
+            this.pagination.totalItems = response.totalElements;
+            this.pagination.totalPages = response.totalPages;
+          },
+          error: (error) => {
+            console.error('Error searching students:', error);
+          },
+          complete: () => {
+            this.loading = false;
+          }
+        });
+    } else {
+      this.loadStudents();
+    }
   }
 
   onFilterChange(filters: { [key: string]: any }) {
-    console.log('Filters:', filters);
-    // Implement filter logic
+    // Handle status filter
+    if (filters['status']) {
+      this.loading = true;
+      const page = this.pagination.currentPage - 1;
+      
+      this.studentService.getStudentsByStatus(filters['status'], page, this.pagination.itemsPerPage)
+        .subscribe({
+          next: (response) => {
+            this.students = response.content;
+            this.pagination.totalItems = response.totalElements;
+            this.pagination.totalPages = response.totalPages;
+          },
+          error: (error) => {
+            console.error('Error filtering students by status:', error);
+          },
+          complete: () => {
+            this.loading = false;
+          }
+        });
+    }
+    
+    // Handle grade filter
+    if (filters['grade']) {
+      this.loading = true;
+      const page = this.pagination.currentPage - 1;
+      
+      this.studentService.getStudentsByGrade(filters['grade'], page, this.pagination.itemsPerPage)
+        .subscribe({
+          next: (response) => {
+            this.students = response.content;
+            this.pagination.totalItems = response.totalElements;
+            this.pagination.totalPages = response.totalPages;
+          },
+          error: (error) => {
+            console.error('Error filtering students by grade:', error);
+          },
+          complete: () => {
+            this.loading = false;
+          }
+        });
+    }
   }
 
   onSort(sort: { column: string; direction: 'asc' | 'desc' }) {
-    console.log('Sort:', sort);
-    // Implement sort logic
+    const sortQuery = `${sort.column},${sort.direction}`;
+    const page = this.pagination.currentPage - 1;
+    
+    this.loading = true;
+    this.studentService.getStudents(page, this.pagination.itemsPerPage, sortQuery)
+      .subscribe({
+        next: (response) => {
+          this.students = response.content;
+          this.pagination.totalItems = response.totalElements;
+          this.pagination.totalPages = response.totalPages;
+        },
+        error: (error) => {
+          console.error('Error sorting students:', error);
+        },
+        complete: () => {
+          this.loading = false;
+        }
+      });
   }
 
   onPageChange(page: number) {

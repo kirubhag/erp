@@ -1,0 +1,126 @@
+<div class="settings-wrapper">
+  <!-- Reusable Sidebar Component -->
+  <app-settings-sidebar></app-settings-sidebar>
+
+  <!-- Main Content -->
+  <div class="settings-content">
+    <!-- Tabs Navigation -->
+    <ul class="nav nav-tabs tabs-navigation">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#" (click)="openTab('personal-settings')">
+          <i class="fas fa-user"></i> Personal Settings
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" (click)="openTab('accessibility')">
+          <i class="fas fa-universal-access"></i> Accessibility
+        </a>
+      </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content-wrapper">
+      <!-- Personal Settings Tab -->
+      <div class="personal-settings-tab">
+        <!-- Success/Error Messages -->
+        <div *ngIf="successMessage" class="alert alert-success alert-dismissible">
+          <i class="fas fa-check-circle"></i> {{ successMessage }}
+          <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible">
+          <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+          <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+        </div>
+
+        <!-- Profile Header -->
+        <div class="profile-header">
+          <img src="https://placehold.co/80x80/E8F0FE/333?text=K" class="profile-avatar" alt="User Avatar">
+          <div class="profile-info">
+            <h2 class="profile-name">{{ getFullName() }}</h2>
+            <span class="profile-badge">{{ currentUser?.userType || 'User' }}</span>
+            <p class="profile-title" *ngIf="currentUser?.userType === 'ADMIN'">Super Admin</p>
+            <p class="profile-company">CRM Corp</p>
+          </div>
+          <div class="profile-actions">
+            <button class="btn-edit" *ngIf="!isEditing" (click)="startEdit()">
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Locale Information -->
+        <div class="info-section">
+          <h5 class="section-header">Locale Information</h5>
+          <dl class="info-list">
+            <div class="info-item">
+              <dt class="info-label">Language</dt>
+              <dd class="info-value">{{ localeInfo.language }}</dd>
+            </div>
+            <div class="info-item">
+              <dt class="info-label">Country Locale</dt>
+              <dd class="info-value">{{ localeInfo.countryLocale }}</dd>
+            </div>
+            <div class="info-item">
+              <dt class="info-label">Date Format</dt>
+              <dd class="info-value">{{ localeInfo.dateFormat }}</dd>
+            </div>
+            <div class="info-item">
+              <dt class="info-label">Time Format</dt>
+              <dd class="info-value">{{ localeInfo.timeFormat }}</dd>
+            </div>
+            <div class="info-item">
+              <dt class="info-label">Time Zone</dt>
+              <dd class="info-value">{{ localeInfo.timeZone }}</dd>
+            </div>
+            <div class="info-item">
+              <dt class="info-label">Number Format</dt>
+              <dd class="info-value">{{ localeInfo.numberFormat }}</dd>
+            </div>
+          </dl>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Display Name Format -->
+        <div class="info-section">
+          <h5 class="section-header">Display Name Format & Preferences</h5>
+          <div class="form-group">
+            <label class="form-label">Name Format</label>
+            <select class="form-select" [(ngModel)]="selectedNameFormat">
+              <option *ngFor="let format of nameFormats">{{ format }}</option>
+            </select>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Themes Section -->
+        <div class="info-section">
+          <h5 class="section-header">Themes</h5>
+          <div class="themes-grid">
+            <span 
+              *ngFor="let theme of themes" 
+              class="color-dot" 
+              [style.backgroundColor]="theme"
+              [class.active]="theme === selectedTheme"
+              (click)="selectedTheme = theme"
+              [title]="theme">
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accessibility Tab -->
+      <div class="accessibility-tab" style="display: none;">
+        <div class="accessibility-content">
+          <h3>Accessibility Settings</h3>
+          <p>Accessibility settings will be configured here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

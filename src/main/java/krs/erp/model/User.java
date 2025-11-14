@@ -19,7 +19,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "users")
+@Table(name = "iam_users")
 public class User extends BaseEntity {
     
     @NotBlank(message = "Username is required")

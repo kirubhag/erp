@@ -33,5 +33,6 @@
         "**/.project": true,
         "**/.settings": true,
         "**/.factorypath": true
-    }
+    },
+    "java.debug.settings.onBuildFailureProceed": true
 }

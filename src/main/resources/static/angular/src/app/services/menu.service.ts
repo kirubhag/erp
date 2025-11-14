@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, timeout } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 export interface MenuItem {
@@ -24,6 +24,7 @@ export class MenuService {
 
   getMenuItems(): Observable<MenuItem[]> {
     return this.http.get<MenuItem[]>(`${this.apiUrl}/list`).pipe(
+      timeout(5000), // 5 second timeout
       catchError(error => {
         console.error('Error fetching menu items:', error);
         // Return default menu items as fallback

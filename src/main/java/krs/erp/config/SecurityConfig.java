@@ -1,15 +1,15 @@
 package krs.erp.config;
 
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.firewall.HttpFirewall;
@@ -17,11 +17,13 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,8 +32,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 // Public resources
                 .requestMatchers("/login.html", "/vendor/**", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
-                .requestMatchers("/actuator/health", "/csrf").permitAll()
-                // Allow API endpoints for Angular development
+                .requestMatchers("/actuator/health", "/__healthcheck", "/csrf").permitAll()
+                // Allow IAM endpoints BEFORE general /api/** (more specific first)
+                .requestMatchers("/api/iam/**").permitAll()
+                // Allow all API endpoints for Angular development
                 .requestMatchers("/api/**").permitAll()
                 // All other requests require authentication
                 .anyRequest().authenticated()
@@ -78,25 +82,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user = User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("admin123"))
-                .roles("ADMIN")
-                .build();
-
-        UserDetails student = User.builder()
-                .username("student")
-                .password(passwordEncoder().encode("student123"))
-                .roles("STUDENT")
-                .build();
-
-        UserDetails teacher = User.builder()
-                .username("teacher")
-                .password(passwordEncoder().encode("teacher123"))
-                .roles("TEACHER")
-                .build();
-
-        return new InMemoryUserDetailsManager(user, student, teacher);
+        return customUserDetailsService;
     }
 
     @Bean

@@ -75,6 +75,7 @@ export class EntityListComponent implements OnInit {
   sortColumn: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
   viewMode: 'table' | 'grid' = 'table';
+  showTotalCount: boolean = false;
   
   get totalRecords(): number {
     return this.pagination.totalItems;
@@ -170,6 +171,17 @@ export class EntityListComponent implements OnInit {
 
   applyFilters() {
     this.onFilterChange();
+  }
+
+  toggleTotalRecords() {
+    this.showTotalCount = !this.showTotalCount;
+  }
+
+  refreshData() {
+    // Emit refresh event to parent component
+    this.actionClick.emit({ action: 'refresh' });
+    // For demo purposes, we'll just reload the current data
+    window.location.reload();
   }
 
   getCellValue(item: any, column: EntityColumn): any {
