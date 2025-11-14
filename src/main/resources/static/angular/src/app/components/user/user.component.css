@@ -1,7 +1,9 @@
 /* Layout with sidebar */
 .setup-layout {
   display: flex;
-  min-height: calc(100vh - 56px);
+  height: calc(100vh - 56px);
+  margin-top: 56px;
+  width: 100%;
 }
 
 .setup-layout app-settings-sidebar {
@@ -13,6 +15,7 @@
   padding: 1.5rem;
   background-color: #f8f9fa;
   overflow-y: auto;
+  height: calc(100vh - 56px);
 }
 
 .card {
