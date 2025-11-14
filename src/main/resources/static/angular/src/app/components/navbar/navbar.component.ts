@@ -127,21 +127,23 @@ export class NavbarComponent implements OnInit {
     // Call backend logout endpoint to clear server session
     this.authService.logout().subscribe({
       next: (response) => {
-        console.log('Logout response:', response);
+        console.log('Logout successful:', response);
         localStorage.removeItem('selectedTheme');
-        
-        // Navigate to home after successful logout
-        setTimeout(() => {
-          this.router.navigate(['/']);
-        }, 50);
+        // Navigate to home without page reload
+        this.router.navigate(['/']);
       },
       error: (error) => {
         console.error('Logout error:', error);
-        // Still clear client-side state and redirect even if server call fails
+        // Even if server logout fails, clear client state and navigate
         localStorage.removeItem('selectedTheme');
-        this.authService.logout().subscribe(() => {
-          this.router.navigate(['/']);
-        });
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('authToken');
+        this.authService['currentUserSubject'].next(null);
+        // Navigate to home without page reload
+        this.router.navigate(['/']);
+      },
+      complete: () => {
+        console.log('Logout completed');
       }
     });
   }
