@@ -1,0 +1,216 @@
+.setup-layout {
+  display: flex;
+  height: calc(100vh - 56px);
+  margin-top: 56px;
+  width: 100%;
+}
+
+.profile-container {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #f5f7fa;
+}
+
+.content-header {
+  background: white;
+  padding: 30px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.content-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #262626;
+}
+
+.content-description {
+  font-size: 13px;
+  color: #8c8c8c;
+  margin-bottom: 0;
+}
+
+.content-body {
+  background: white;
+  padding: 20px 30px;
+  margin: 1px 0;
+}
+
+.search-bar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-box i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8c8c8c;
+  font-size: 14px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px 8px 35px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.btn-new-profile {
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-new-profile:hover {
+  background-color: #0d7dd9;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.profiles-table {
+  width: 100%;
+  font-size: 13px;
+  border-collapse: collapse;
+}
+
+.profiles-table thead {
+  background-color: #fafafa;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.profiles-table th {
+  padding: 12px;
+  font-weight: 600;
+  color: #262626;
+  text-align: left;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.profiles-table td {
+  padding: 16px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.profile-row {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.profile-row:hover {
+  background-color: #fafafa;
+}
+
+.profile-name {
+  color: #1890ff;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.profile-name:hover {
+  text-decoration: underline;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.edit-btn {
+  color: #1890ff;
+}
+
+.edit-btn:hover {
+  color: #0d7dd9;
+}
+
+.delete-btn {
+  color: #ff4d4f;
+}
+
+.delete-btn:hover {
+  color: #ff7875;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: #8c8c8c;
+}
+
+.empty-state i {
+  font-size: 48px;
+  margin-bottom: 15px;
+  opacity: 0.5;
+  display: block;
+}
+
+.empty-state p {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .setup-layout {
+    flex-direction: column;
+  }
+
+  .search-bar-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .search-box {
+    max-width: 100%;
+  }
+
+  .profiles-table {
+    font-size: 12px;
+  }
+
+  .profiles-table th,
+  .profiles-table td {
+    padding: 8px;
+  }
+}

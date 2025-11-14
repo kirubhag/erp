@@ -1,0 +1,320 @@
+<div class="setup-layout">
+  <app-settings-sidebar></app-settings-sidebar>
+  
+  <div class="company-container">
+    <!-- Header -->
+    <div class="content-header">
+      <h1 class="content-title">Company Settings</h1>
+      <p class="content-description">Manage your company information and global preferences</p>
+    </div>
+
+    <!-- Content Body -->
+    <div class="content-body">
+      <!-- Tabs -->
+      <div class="tabs-nav">
+        <button 
+          class="tab-link" 
+          [class.active]="activeTab === 'general'"
+          (click)="setActiveTab('general')"
+        >
+          <i class="fas fa-info-circle me-2"></i> General
+        </button>
+        <button 
+          class="tab-link" 
+          [class.active]="activeTab === 'address'"
+          (click)="setActiveTab('address')"
+        >
+          <i class="fas fa-map-marker-alt me-2"></i> Address
+        </button>
+        <button 
+          class="tab-link" 
+          [class.active]="activeTab === 'preferences'"
+          (click)="setActiveTab('preferences')"
+        >
+          <i class="fas fa-sliders-h me-2"></i> Preferences
+        </button>
+      </div>
+
+      <!-- General Tab -->
+      <div class="tab-content" [hidden]="activeTab !== 'general'">
+        <!-- Company Logo and Header -->
+        <div class="company-header">
+          <div class="company-logo">
+            <img [src]="logoPreviewUrl" alt="Company Logo">
+          </div>
+          <div class="company-info">
+            <h2>{{ companyForm.get('companyName')?.value || 'Company Name' }}</h2>
+            <p class="org-id">ID: {{ companyForm.get('companyId')?.value }}</p>
+            <button class="edit-icon" (click)="editCompanyInfo()" *ngIf="!isEditing">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+          </div>
+        </div>
+
+        <!-- Company Information Form -->
+        <form [formGroup]="companyForm" *ngIf="isEditing" class="company-form">
+          <div class="section-header">
+            <h3>Basic Information</h3>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Company Name</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                formControlName="companyName"
+              >
+            </div>
+            <div class="form-group">
+              <label class="form-label">Organization ID</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                formControlName="companyId"
+                disabled
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Website</label>
+              <input 
+                type="url" 
+                class="form-control" 
+                formControlName="website"
+              >
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                formControlName="email"
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <input 
+                type="tel" 
+                class="form-control" 
+                formControlName="phone"
+              >
+            </div>
+            <div class="form-group">
+              <label class="form-label">Industry</label>
+              <select class="form-control" formControlName="industry">
+                <option value="">Select Industry</option>
+                <option value="education">Education</option>
+                <option value="technology">Technology</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="finance">Finance</option>
+                <option value="retail">Retail</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Employee Count</label>
+              <select class="form-control" formControlName="employeeCount">
+                <option value="1-10">1-10</option>
+                <option value="11-50">11-50</option>
+                <option value="50-100">50-100</option>
+                <option value="100-500">100-500</option>
+                <option value="500+">500+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Fiscal Year Start</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                formControlName="fiscalYearStart"
+                placeholder="MM-DD"
+              >
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="cancelEdit()">Cancel</button>
+            <button type="button" class="btn-save" (click)="saveCompanyInfo()">Save Changes</button>
+          </div>
+        </form>
+
+        <!-- Company Info Display (when not editing) -->
+        <div *ngIf="!isEditing" class="info-display">
+          <div class="section-header">
+            <h3>Company Information</h3>
+            <button class="btn-edit" (click)="editCompanyInfo()">
+              <i class="fas fa-edit me-2"></i> Edit
+            </button>
+          </div>
+
+          <ul class="info-list">
+            <li>
+              <i class="fas fa-globe"></i>
+              <strong>Website:</strong> {{ companyForm.get('website')?.value }}
+            </li>
+            <li>
+              <i class="fas fa-envelope"></i>
+              <strong>Email:</strong> {{ companyForm.get('email')?.value }}
+            </li>
+            <li>
+              <i class="fas fa-phone"></i>
+              <strong>Phone:</strong> {{ companyForm.get('phone')?.value }}
+            </li>
+            <li>
+              <i class="fas fa-industry"></i>
+              <strong>Industry:</strong> {{ companyForm.get('industry')?.value }}
+            </li>
+            <li>
+              <i class="fas fa-users"></i>
+              <strong>Employees:</strong> {{ companyForm.get('employeeCount')?.value }}
+            </li>
+            <li>
+              <i class="fas fa-calendar"></i>
+              <strong>Fiscal Year Start:</strong> {{ companyForm.get('fiscalYearStart')?.value }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Address Tab -->
+      <div class="tab-content" [hidden]="activeTab !== 'address'">
+        <form [formGroup]="companyForm" class="address-form">
+          <div class="section-header">
+            <h3>Address Information</h3>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Street Address</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              formControlName="address"
+              [disabled]="!isEditing"
+            >
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">City</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                formControlName="city"
+                [disabled]="!isEditing"
+              >
+            </div>
+            <div class="form-group">
+              <label class="form-label">State/Province</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                formControlName="state"
+                [disabled]="!isEditing"
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">ZIP/Postal Code</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                formControlName="zipCode"
+                [disabled]="!isEditing"
+              >
+            </div>
+            <div class="form-group">
+              <label class="form-label">Country</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                formControlName="country"
+                [disabled]="!isEditing"
+              >
+            </div>
+          </div>
+
+          <div class="form-actions" *ngIf="isEditing">
+            <button type="button" class="btn-cancel" (click)="cancelEdit()">Cancel</button>
+            <button type="button" class="btn-save" (click)="saveCompanyInfo()">Save Changes</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Preferences Tab -->
+      <div class="tab-content" [hidden]="activeTab !== 'preferences'">
+        <form [formGroup]="companyForm" class="preferences-form">
+          <div class="section-header">
+            <h3>System Preferences</h3>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Timezone</label>
+              <select class="form-control" formControlName="timezone" [disabled]="!isEditing">
+                <option value="UTC">UTC</option>
+                <option value="EST">Eastern Standard Time</option>
+                <option value="CST">Central Standard Time</option>
+                <option value="MST">Mountain Standard Time</option>
+                <option value="PST">Pacific Standard Time</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Language</label>
+              <select class="form-control" formControlName="language" [disabled]="!isEditing">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Currency</label>
+              <select class="form-control" formControlName="currency" [disabled]="!isEditing">
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="GBP">GBP (£)</option>
+                <option value="INR">INR (₹)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date Format</label>
+              <select class="form-control" formControlName="dateFormat" [disabled]="!isEditing">
+                <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Time Format</label>
+              <select class="form-control" formControlName="timeFormat" [disabled]="!isEditing">
+                <option value="12h">12-Hour (AM/PM)</option>
+                <option value="24h">24-Hour</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-actions" *ngIf="isEditing">
+            <button type="button" class="btn-cancel" (click)="cancelEdit()">Cancel</button>
+            <button type="button" class="btn-save" (click)="saveCompanyInfo()">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

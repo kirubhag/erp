@@ -1,0 +1,103 @@
+<div class="setup-layout">
+  <app-settings-sidebar></app-settings-sidebar>
+  
+  <div class="detail-container">
+    <!-- Header -->
+    <div class="content-header">
+      <div class="header-top">
+        <button class="btn-back" (click)="cancel()">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1 class="content-title">{{ profileId === 'new' ? 'Create New Profile' : 'Edit Profile' }}</h1>
+      </div>
+      <div class="header-actions">
+        <button class="btn-cancel" (click)="cancel()">Cancel</button>
+        <button class="btn-save" (click)="saveProfile()">Save</button>
+      </div>
+    </div>
+
+    <!-- Content Body -->
+    <div class="content-body">
+      <!-- Tabs -->
+      <div class="tabs-nav">
+        <button 
+          class="tab-link" 
+          [class.active]="activeTab === 'basic'"
+          (click)="setActiveTab('basic')"
+        >
+          <i class="fas fa-info-circle me-2"></i> Basic Information
+        </button>
+        <button 
+          class="tab-link" 
+          [class.active]="activeTab === 'permissions'"
+          (click)="setActiveTab('permissions')"
+        >
+          <i class="fas fa-lock me-2"></i> Permissions
+        </button>
+      </div>
+
+      <!-- Basic Information Tab -->
+      <div class="tab-content" [hidden]="activeTab !== 'basic'">
+        <form [formGroup]="profileForm" class="form-section">
+          <div class="form-group">
+            <label class="form-label">Profile Name</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              formControlName="name"
+              placeholder="Enter profile name"
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea 
+              class="form-control" 
+              formControlName="description"
+              placeholder="Enter profile description"
+              rows="4"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <div class="form-check">
+              <input 
+                type="checkbox" 
+                class="form-check-input" 
+                id="enabledCheck"
+                formControlName="enabled"
+              >
+              <label class="form-check-label" for="enabledCheck">
+                Enable this profile
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Permissions Tab -->
+      <div class="tab-content" [hidden]="activeTab !== 'permissions'">
+        <div class="permissions-section">
+          <h3 class="section-title">Basic Permissions</h3>
+          
+          <div class="permission-row" *ngFor="let permission of permissions">
+            <div class="permission-info">
+              <h4 class="permission-name">{{ permission.name }}</h4>
+              <p class="permission-description">{{ permission.description }}</p>
+            </div>
+            <div class="permission-actions">
+              <label class="toggle-switch" [class.on]="permission.enabled">
+                <input 
+                  type="checkbox" 
+                  [checked]="permission.enabled"
+                  (change)="togglePermission(permission)"
+                >
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

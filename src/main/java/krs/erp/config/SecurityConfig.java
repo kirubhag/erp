@@ -31,8 +31,9 @@ public class SecurityConfig {
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(authz -> authz
-                // Allow user management endpoints - HIGHEST PRIORITY
-                .requestMatchers("/settings/users/**", "/settings/users").permitAll()
+                // Allow user management endpoints - HIGHEST PRIORITY (match all methods)
+                .requestMatchers("/settings/users/**").permitAll()
+                .requestMatchers("/settings/users").permitAll()
                 // Public resources
                 .requestMatchers("/login.html", "/vendor/**", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
                 .requestMatchers("/actuator/health", "/__healthcheck", "/csrf").permitAll()
