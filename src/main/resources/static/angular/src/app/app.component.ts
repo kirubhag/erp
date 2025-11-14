@@ -19,18 +19,29 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // Subscribe to user state
+    // Subscribe to user state changes
     this.authService.currentUser$.subscribe(user => {
-      this.showNavbar = !!user;
+      this.updateNavbarVisibility();
     });
 
     // Listen to route changes
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
-        // Hide navbar on home, login, and register pages
-        const hiddenRoutes = ['/', '/login', '/register'];
-        this.showNavbar = !hiddenRoutes.includes(event.url) && !!this.authService.getCurrentUser();
+        this.updateNavbarVisibility();
       });
   }
+
+  private updateNavbarVisibility(): void {
+    // Hide navbar on home, login, and register pages regardless of user state
+    const hiddenRoutes = ['/', '/login', '/register'];
+    const currentUser = this.authService.getCurrentUser();
+    const currentUrl = this.router.url;
+    
+    // Show navbar only if:
+    // 1. User is logged in (has currentUser with id)
+    // 2. Current URL is NOT a hidden route
+    this.showNavbar = !!currentUser && !!currentUser.id && !hiddenRoutes.includes(currentUrl);
+  }
 }
+

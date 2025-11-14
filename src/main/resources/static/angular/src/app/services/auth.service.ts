@@ -27,6 +27,7 @@ export class AuthService {
   private apiUrl = 'http://localhost:8081/settings';
   private currentUserSubject = new BehaviorSubject<UserDetails | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  private isLoggedOut = false;
 
   constructor(private http: HttpClient) {
     this.loadCurrentUser();
@@ -36,6 +37,11 @@ export class AuthService {
    * Load current user from localStorage or fetch from backend
    */
   private loadCurrentUser(): void {
+    // Don't load user if we're explicitly logged out
+    if (this.isLoggedOut) {
+      return;
+    }
+    
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
       try {
@@ -79,6 +85,8 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, { email, password }).pipe(
       tap((response: any) => {
+        // Reset logout flag when logging in
+        this.isLoggedOut = false;
         if (response.user) {
           this.currentUserSubject.next(response.user);
           localStorage.setItem('currentUser', JSON.stringify(response.user));
@@ -103,17 +111,24 @@ export class AuthService {
   }
 
   /**
-   * Logout user
+   * Logout user - calls backend logout endpoint to clear server session
    */
-  logout(): void {
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+  logout(): Observable<any> {
+    this.isLoggedOut = true;
+    return this.http.post<any>(`${this.apiUrl}/auth/logout`, {}).pipe(
+      tap(() => {
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('authToken');
+        this.currentUserSubject.next(null);
+      })
+    );
   }
 
   /**
    * Set current user (after login)
    */
   setCurrentUser(user: UserDetails): void {
+    this.isLoggedOut = false;
     this.currentUserSubject.next(user);
     localStorage.setItem('currentUser', JSON.stringify(user));
   }

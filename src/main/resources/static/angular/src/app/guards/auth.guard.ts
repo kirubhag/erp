@@ -17,8 +17,8 @@ export class AuthGuard implements CanActivate {
     return this.authService.currentUser$.pipe(
       take(1),
       map(user => {
-        if (user) {
-          // User is logged in
+        // User must exist and have an id to be considered logged in
+        if (user && user.id) {
           return true;
         } else {
           // User is not logged in, redirect to home
