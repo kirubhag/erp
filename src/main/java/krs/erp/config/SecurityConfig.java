@@ -5,13 +5,13 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.cors.CorsConfiguration;
@@ -20,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
     
     @Autowired
@@ -30,11 +31,13 @@ public class SecurityConfig {
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(authz -> authz
+                // Allow user management endpoints - HIGHEST PRIORITY
+                .requestMatchers("/settings/users/**", "/settings/users").permitAll()
                 // Public resources
                 .requestMatchers("/login.html", "/vendor/**", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
                 .requestMatchers("/actuator/health", "/__healthcheck", "/csrf").permitAll()
                 // Allow authentication endpoints
-                .requestMatchers("/settings/auth/**").permitAll()
+                .requestMatchers("/settings/auth/**", "/settings/auth").permitAll()
                 // Allow IAM endpoints BEFORE general /api/** (more specific first)
                 .requestMatchers("/api/iam/**").permitAll()
                 // Allow all API endpoints for Angular development
@@ -49,11 +52,8 @@ public class SecurityConfig {
                 .deleteCookies("JSESSIONID")
                 .permitAll()
             )
-            // Enable CSRF protection with cookie-based tokens
-            .csrf(csrf -> csrf
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers("/h2-console/**", "/api/**", "/settings/auth/**") // Ignore CSRF for H2 console, API, and auth endpoints
-            )
+            // Disable CSRF for REST API endpoints
+            .csrf(csrf -> csrf.disable())
             // Allow frames for H2 console
             .headers(headers -> headers
                 .frameOptions(frameOptions -> frameOptions.sameOrigin())

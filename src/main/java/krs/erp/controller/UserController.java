@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import krs.erp.model.User;
 import krs.erp.repository.UserRepository;
@@ -41,19 +39,14 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
     
     /**
-     * Get all users with pagination
+     * Get all users
      * 
-     * @param page Page number (default 0)
-     * @param size Page size (default 10)
-     * @return Paginated list of users
+     * @return List of all users
      */
+    @PermitAll
     @GetMapping
-    public ResponseEntity<Page<User>> getAllUsers(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        
-        Pageable pageable = PageRequest.of(page, size);
-        Page<User> users = userRepository.findAll(pageable);
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
     

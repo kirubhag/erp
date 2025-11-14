@@ -18,29 +18,27 @@ CREATE TABLE IF NOT EXISTS organizations (
     is_active BOOLEAN DEFAULT TRUE
 );
 
--- Users table
-CREATE TABLE IF NOT EXISTS users (
+-- Users IAM table
+CREATE TABLE IF NOT EXISTS iam_users (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(100) UNIQUE NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    phone_number VARCHAR(20),
-    avatar_url VARCHAR(500),
-    is_active BOOLEAN DEFAULT TRUE,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    phone VARCHAR(20),
+    user_type VARCHAR(50) NOT NULL,
+    enabled BOOLEAN NOT NULL DEFAULT TRUE,
+    account_non_expired BOOLEAN NOT NULL DEFAULT TRUE,
+    credentials_non_expired BOOLEAN NOT NULL DEFAULT TRUE,
+    account_non_locked BOOLEAN NOT NULL DEFAULT TRUE,
     last_login_date TIMESTAMP NULL,
-    password_reset_token VARCHAR(255),
-    password_reset_token_expiry TIMESTAMP NULL,
-    email_verification_token VARCHAR(255),
-    is_email_verified BOOLEAN DEFAULT FALSE,
-    organization_id BIGINT,
+    password_change_date TIMESTAMP NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     version BIGINT DEFAULT 0,
     created_by VARCHAR(100),
-    last_modified_by VARCHAR(100),
-    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+    last_modified_by VARCHAR(100)
 );
 
 -- Roles table
@@ -76,7 +74,7 @@ CREATE TABLE IF NOT EXISTS user_roles (
     user_id BIGINT NOT NULL,
     role_id BIGINT NOT NULL,
     PRIMARY KEY (user_id, role_id),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES iam_users(id) ON DELETE CASCADE,
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
 );
 
@@ -406,3 +404,10 @@ CREATE TABLE IF NOT EXISTS grades (
     INDEX idx_is_active (is_active),
     UNIQUE KEY unique_grade_entry (student_id, course_code, exam_type, semester)
 );
+
+-- Insert test users for authentication
+INSERT IGNORE INTO iam_users (username, password_hash, email, first_name, last_name, user_type, enabled, account_non_expired, credentials_non_expired, account_non_locked, created_date, last_modified_date, created_by, last_modified_by)
+VALUES 
+('admin', '$2a$10$dXJ3SW6G7P50eS6DtJV8Ue8LlYpTLj4h4z4W3K1e3L9K4J6M9P2Tu', 'admin@school.edu', 'Admin', 'User', 'ADMIN', true, true, true, true, NOW(), NOW(), 'system', 'system'),
+('student', '$2a$10$wZ3MmW7Z5K3B2L9N8Q1R4S5T6U7V8W9X0Y1Z2A3B4C5D6E7F8G9H0', 'student@school.edu', 'John', 'Student', 'STUDENT', true, true, true, true, NOW(), NOW(), 'system', 'system'),
+('teacher', '$2a$10$zV4NnX8L6J2M9P1Q5R6S7T8U9V0W1X2Y3Z4A5B6C7D8E9F0G1H2I3', 'teacher@school.edu', 'Jane', 'Teacher', 'STAFF', true, true, true, true, NOW(), NOW(), 'system', 'system');
