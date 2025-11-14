@@ -33,19 +33,14 @@ public class SecurityConfig {
                 // Public resources
                 .requestMatchers("/login.html", "/vendor/**", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
                 .requestMatchers("/actuator/health", "/__healthcheck", "/csrf").permitAll()
+                // Allow authentication endpoints
+                .requestMatchers("/settings/auth/**").permitAll()
                 // Allow IAM endpoints BEFORE general /api/** (more specific first)
                 .requestMatchers("/api/iam/**").permitAll()
                 // Allow all API endpoints for Angular development
                 .requestMatchers("/api/**").permitAll()
                 // All other requests require authentication
                 .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/login.html")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/login.html?error=true")
-                .permitAll()
             )
             .logout(logout -> logout
                 .logoutUrl("/logout")
@@ -57,7 +52,7 @@ public class SecurityConfig {
             // Enable CSRF protection with cookie-based tokens
             .csrf(csrf -> csrf
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers("/h2-console/**", "/api/**") // Ignore CSRF for H2 console and API
+                .ignoringRequestMatchers("/h2-console/**", "/api/**", "/settings/auth/**") // Ignore CSRF for H2 console, API, and auth endpoints
             )
             // Allow frames for H2 console
             .headers(headers -> headers
@@ -70,13 +65,15 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type", "X-CSRF-TOKEN"));
         configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", configuration);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 

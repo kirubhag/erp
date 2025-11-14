@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  email = '';
+  username = '';
   password = '';
   loading = false;
   errorMessage = '';
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(): void {
-    if (!this.email || !this.password) {
+    if (!this.username || !this.password) {
       this.errorMessage = 'Please fill in all fields';
       return;
     }
@@ -39,8 +39,8 @@ export class LoginComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    // Try to login with email and password
-    this.authService.login(this.email, this.password).subscribe({
+    // Try to login with username/email and password
+    this.authService.login(this.username, this.password).subscribe({
       next: (response: any) => {
         this.successMessage = 'Login successful! Redirecting...';
         this.loading = false;

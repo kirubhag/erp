@@ -80,10 +80,12 @@ export class AuthService {
   }
 
   /**
-   * Login user with email and password
+   * Login user with username/email and password
+   * Supports both username and email as login identifier
    */
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/login`, { email, password }).pipe(
+  login(usernameOrEmail: string, password: string): Observable<any> {
+    // Send as 'username' parameter - backend will handle both username and email
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, { username: usernameOrEmail, password }).pipe(
       tap((response: any) => {
         // Reset logout flag when logging in
         this.isLoggedOut = false;

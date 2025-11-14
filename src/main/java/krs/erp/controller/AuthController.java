@@ -54,24 +54,36 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> loginRequest, 
                                                       HttpServletRequest request) {
         try {
+            String username = loginRequest.get("username");
             String email = loginRequest.get("email");
             String password = loginRequest.get("password");
             
-            if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            if ((username == null || username.isEmpty()) && (email == null || email.isEmpty())) {
                 Map<String, Object> response = new HashMap<>();
                 response.put("status", "error");
-                response.put("message", "Email and password are required");
+                response.put("message", "Username/email and password are required");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
             
-            // Find user by email
-            User user = userRepository.findByEmail(email)
-                    .orElse(null);
+            if (password == null || password.isEmpty()) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("status", "error");
+                response.put("message", "Password is required");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            }
+            
+            // Find user by username or email
+            User user = null;
+            if (username != null && !username.isEmpty()) {
+                user = userRepository.findByUsername(username).orElse(null);
+            } else if (email != null && !email.isEmpty()) {
+                user = userRepository.findByEmail(email).orElse(null);
+            }
             
             if (user == null || !user.getEnabled()) {
                 Map<String, Object> response = new HashMap<>();
                 response.put("status", "error");
-                response.put("message", "Invalid email or password");
+                response.put("message", "Invalid credentials");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
             
@@ -79,15 +91,11 @@ public class AuthController {
             if (!passwordEncoder.matches(password, user.getPasswordHash())) {
                 Map<String, Object> response = new HashMap<>();
                 response.put("status", "error");
-                response.put("message", "Invalid email or password");
+                response.put("message", "Invalid credentials");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
             
-            // Create authentication token and set in security context
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    user.getUsername(), password);
-            
-            // Load user details and authenticate
+            // Load user details and create authentication token
             org.springframework.security.core.userdetails.UserDetails userDetails = 
                     customUserDetailsService.loadUserByUsername(user.getUsername());
             
