@@ -114,12 +114,17 @@ export class AuthService {
    * Logout user - calls backend logout endpoint to clear server session
    */
   logout(): Observable<any> {
+    // Set logout flag FIRST to prevent auto-redirect in home component
     this.isLoggedOut = true;
+    // Clear user immediately to prevent home component redirect
+    this.currentUserSubject.next(null);
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('authToken');
+    
     return this.http.post<any>(`${this.apiUrl}/auth/logout`, {}).pipe(
       tap(() => {
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('authToken');
-        this.currentUserSubject.next(null);
+        // Additional cleanup after server confirms logout
+        console.log('Server logout confirmed');
       })
     );
   }
