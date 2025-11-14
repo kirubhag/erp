@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
+import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 
 export interface User {
   id: number;
@@ -24,7 +25,7 @@ export interface User {
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, SettingsSidebarComponent],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
   providers: [UserService]

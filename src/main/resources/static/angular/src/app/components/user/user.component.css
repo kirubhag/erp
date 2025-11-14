@@ -1,7 +1,18 @@
+/* Layout with sidebar */
+.setup-layout {
+  display: flex;
+  min-height: calc(100vh - 56px);
+}
+
+.setup-layout app-settings-sidebar {
+  flex-shrink: 0;
+}
+
 .user-container {
+  flex: 1;
   padding: 1.5rem;
   background-color: #f8f9fa;
-  min-height: 100vh;
+  overflow-y: auto;
 }
 
 .card {
@@ -95,6 +106,10 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .setup-layout {
+    flex-direction: column;
+  }
+
   .user-container {
     padding: 1rem;
   }
