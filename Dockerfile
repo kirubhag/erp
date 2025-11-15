@@ -10,5 +10,5 @@ COPY target/erp-0.0.1-SNAPSHOT.war app.war
 # Expose port 8080
 EXPOSE 8080
 
-# Run the application with docker profile
-CMD ["java", "-Dspring.profiles.active=docker", "-jar", "app.war"]
+# Run the application with docker profile and override port to 8080
+CMD ["java", "-Dspring.profiles.active=docker", "-Dserver.port=8080", "-jar", "app.war"]
