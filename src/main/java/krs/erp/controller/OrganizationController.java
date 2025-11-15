@@ -186,4 +186,47 @@ public class OrganizationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    
+    /**
+     * Register new organization with sample data population option
+     * POST /api/organizations/register
+     */
+    @PostMapping("/register")
+    public ResponseEntity<Organization> registerOrganization(
+            @Valid @RequestBody krs.erp.dto.OrganizationRegistrationRequest request) {
+        try {
+            // Create organization from registration request
+            Organization organization = new Organization();
+            organization.setName(request.getName());
+            organization.setType(request.getType());
+            organization.setCode(request.getCode());
+            organization.setDescription(request.getDescription());
+            organization.setEmail(request.getEmail());
+            organization.setPhone(request.getPhone());
+            organization.setFax(request.getFax());
+            organization.setWebsite(request.getWebsite());
+            organization.setStreetAddress(request.getStreetAddress());
+            organization.setCity(request.getCity());
+            organization.setState(request.getState());
+            organization.setPostalCode(request.getPostalCode());
+            organization.setCountry(request.getCountry());
+            organization.setRegistrationNumber(request.getRegistrationNumber());
+            organization.setTaxId(request.getTaxId());
+            organization.setEstablishedYear(request.getEstablishedYear());
+            organization.setAccreditation(request.getAccreditation());
+            
+            // Save organization
+            Organization savedOrganization = organizationService.createOrganization(organization);
+            
+            // TODO: If loadSampleData is true, trigger sample data population
+            // This will be handled by a separate async task or by the frontend
+            // importHistoryService.populateSampleData(request.getLoadSampleData());
+            
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedOrganization);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

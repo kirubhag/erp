@@ -628,7 +628,7 @@ CREATE TABLE IF NOT EXISTS custom_view_fields (
 );
 
 -- =============================================================================
--- Phase 13: Recycle Bin Table (No FK dependencies)
+-- Phase 13: Recycle Bin and Import History Tables (No FK dependencies)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS recycle_bin (
@@ -646,6 +646,28 @@ CREATE TABLE IF NOT EXISTS recycle_bin (
     INDEX idx_deleted_by (deleted_by)
 );
 
+-- Import History Table - Tracks data population events for audit and idempotency
+CREATE TABLE IF NOT EXISTS import_history (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    entity_name VARCHAR(100) NOT NULL,
+    import_type VARCHAR(50) NOT NULL,
+    record_count INT NOT NULL DEFAULT 0,
+    source VARCHAR(255),
+    imported_by VARCHAR(100) NOT NULL,
+    import_start_time DATETIME NOT NULL,
+    import_end_time DATETIME,
+    import_status VARCHAR(20) NOT NULL,
+    error_message VARCHAR(1000),
+    notes VARCHAR(500),
+    created_at DATETIME NOT NULL,
+    is_active BOOLEAN DEFAULT true,
+    INDEX idx_entity_name (entity_name),
+    INDEX idx_import_type (import_type),
+    INDEX idx_import_status (import_status),
+    INDEX idx_created_at (created_at),
+    INDEX idx_is_active (is_active)
+);
+
 -- ============================================================================
--- End of Schema - All 24 tables created with proper FK ordering
+-- End of Schema - All 25 tables created with proper FK ordering
 -- ============================================================================

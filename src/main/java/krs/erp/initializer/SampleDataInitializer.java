@@ -22,6 +22,7 @@ import krs.erp.model.Permission;
 import krs.erp.model.Role;
 import krs.erp.model.Staff;
 import krs.erp.model.User;
+import krs.erp.repository.ImportHistoryRepository;
 import krs.erp.repository.OrganizationRepository;
 import krs.erp.repository.PermissionRepository;
 import krs.erp.repository.RoleRepository;
@@ -70,6 +71,9 @@ public class SampleDataInitializer implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ImportHistoryRepository importHistoryRepository;
+
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -78,18 +82,13 @@ public class SampleDataInitializer implements CommandLineRunner {
         logger.info("Starting unified sample data initialization...");
 
         try {
-            // Check if any data already exists
-            // DISABLED: if (isDataAlreadyLoaded()) {
-            //     logger.info("Sample data already exists. Skipping initialization.");
-            //     return;
-            // }
-
             logger.info("Loading sample data from organized XML files...");
 
             // Load data in proper order (dependencies first)
             loadPermissions();
             loadRoles();
-            loadOrganizations();
+            // DISABLED: Organization data should be populated via registration form, not auto-initialization
+            // loadOrganizations();
             loadStaff();
             loadUsers();
 
