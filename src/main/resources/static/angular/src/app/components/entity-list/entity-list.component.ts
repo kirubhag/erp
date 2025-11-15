@@ -243,6 +243,10 @@ export class EntityListComponent implements OnInit {
     this.viewMode = this.viewMode === 'table' ? 'grid' : 'table';
   }
 
+  toggleSidebar() {
+    this.showFilters = !this.showFilters;
+  }
+
   trackByFn(index: number, item: any): any {
     return item.id || index;
   }

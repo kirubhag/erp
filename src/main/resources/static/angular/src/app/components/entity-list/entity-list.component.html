@@ -1,294 +1,253 @@
-<div class="entity-list-container" 
-     [class.no-filters]="!showFilters || filters.length === 0"
-     [class.filters-visible]="showFilters && filters.length > 0"
-     [class.filters-hidden]="!showFilters || filters.length === 0">
-  <!-- Fixed Main Header Section -->
-  <div class="main-header fixed-header d-flex justify-content-between align-items-center">
+<!-- Top Navigation -->
+<nav class="top-nav">
+  <div class="d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center">
-      <button class="btn btn-link p-0 me-3" (click)="showFilters = !showFilters">
-        <i class="fas fa-filter" [class.text-primary]="showFilters"></i>
-      </button>
-      
-      <!-- Custom View Dropdown -->
-      <div class="dropdown me-3">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-          All {{entityNamePlural}}
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">All {{entityNamePlural}}</a></li>
-          <li><a class="dropdown-item" href="#">Active</a></li>
-          <li><a class="dropdown-item" href="#">Inactive</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#"><i class="fas fa-plus me-1"></i>Create New View</a></li>
-        </ul>
+      <div class="brand me-3">
+        <i class="bi bi-broadcast-pin me-2"></i>
+        <span>{{title}}</span>
       </div>
-      
-      <button class="btn btn-link text-primary fw-bold p-0 me-3" (click)="toggleTotalRecords()">
-        Total Records <span *ngIf="showTotalCount">({{totalRecords}})</span>
-      </button>
-      <button class="btn btn-link p-1 me-3" (click)="refreshData()">
-        <i class="fas fa-sync-alt"></i>
-      </button>
-      
-      <!-- Records Selected Label -->
-      <span class="text-muted me-2" *ngIf="selectedItems.size > 0">
-        {{selectedItems.size}} records selected
-      </span>
-      
-      <!-- 3-dots Action Dropdown -->
-      <div class="dropdown me-3" *ngIf="selectedItems.size > 0">
-        <button class="btn btn-link p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fas fa-ellipsis-h"></i>
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#" (click)="onBulkAction('delete')">
-            <i class="fas fa-trash me-2"></i>Delete Selected
-          </a></li>
-          <li><a class="dropdown-item" href="#" (click)="onBulkAction('export')">
-            <i class="fas fa-download me-2"></i>Export Selected
-          </a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#" (click)="onBulkAction('archive')">
-            <i class="fas fa-archive me-2"></i>Archive Selected
-          </a></li>
-        </ul>
-      </div>
+      <i class="bi bi-list text-white" style="font-size: 20px;" (click)="toggleSidebar()"></i>
     </div>
-
     <div class="d-flex align-items-center gap-3">
-      <!-- View Toggle -->
-      <div class="btn-group" *ngIf="showViewToggle">
-        <button class="btn btn-outline-secondary btn-sm" 
-                [class.active]="viewMode === 'table'"
-                (click)="toggleViewMode()">
-          <i class="fas fa-list"></i>
-        </button>
-        <button class="btn btn-outline-secondary btn-sm"
-                [class.active]="viewMode === 'grid'"
-                (click)="toggleViewMode()">
-          <i class="fas fa-th"></i>
-        </button>
+      <i class="bi bi-grid-3x3-gap icon-btn"></i>
+      <i class="bi bi-search icon-btn"></i>
+      <i class="bi bi-pencil-square icon-btn"></i>
+      <i class="bi bi-clock-history icon-btn"></i>
+      <i class="bi bi-calendar-check icon-btn"></i>
+      <div style="position: relative;">
+        <i class="bi bi-bell icon-btn"></i>
+        <span class="notification-dot" *ngIf="selectedItems.size > 0"></span>
       </div>
-
-      <!-- Circle Add Button -->
-      <button class="btn btn-primary btn-circle" *ngIf="showAddButton" (click)="onAction('add')" title="Add {{entityName}}">
-        <i class="fas fa-plus"></i>
-      </button>
+      <i class="bi bi-gear icon-btn"></i>
+      <img src="https://ui-avatars.com/api/?name=User&background=0099cc&color=fff" alt="User" class="user-avatar">
+      <i class="bi bi-grid-3x3-gap icon-btn"></i>
     </div>
   </div>
+</nav>
 
-  <!-- Main Content Area -->
-  <div class="row g-0">
-    <!-- Left Sidebar Filters -->
-    <div class="col-md-3" *ngIf="showFilters && filters.length > 0">
-      <div class="filters-sidebar">
-        <h6 class="filter-title mb-3">FILTER {{entityNamePlural | uppercase}} BY</h6>
-        
-        <!-- Search Bar -->
-        <div class="search-section mb-3">
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="fas fa-search"></i>
-            </span>
-            <input type="text" class="form-control" 
-                   [(ngModel)]="searchTerm" 
-                   (keyup.enter)="onSearch()"
-                   placeholder="Search fields...">
-          </div>
-        </div>
-        
-        <div class="filter-group" *ngFor="let filter of filters">
-          <div [ngSwitch]="filter.type">
-            <!-- Checkbox Filter -->
-            <div *ngSwitchCase="'checkbox'" class="form-check mb-2">
-              <input class="form-check-input" type="checkbox" 
-                     [(ngModel)]="filter.value" 
-                     (ngModelChange)="onFilterChange()"
-                     [id]="filter.key">
-              <label class="form-check-label" [for]="filter.key">
-                {{filter.label}}
-              </label>
-            </div>
+<!-- Toolbar -->
+<div class="toolbar">
+  <div class="filter-dropdown">
+    <button class="btn-icon" (click)="showFilters = !showFilters">
+      <i class="bi bi-funnel"></i>
+    </button>
+    <select class="filter-select">
+      <option>All {{entityNamePlural}}</option>
+      <option>My {{entityNamePlural}}</option>
+      <option>Recently Viewed</option>
+    </select>
+  </div>
+  <div class="toolbar-actions">
+    <button class="btn-icon" (click)="viewMode = 'table'" [class.active]="viewMode === 'table'">
+      <i class="bi bi-list"></i>
+    </button>
+    <button class="btn-icon" (click)="viewMode = 'grid'" [class.active]="viewMode === 'grid'">
+      <i class="bi bi-table"></i>
+    </button>
+    <button class="btn-icon" (click)="onAction('add')" *ngIf="showAddButton">
+      <i class="bi bi-plus-lg"></i>
+    </button>
+    <button class="btn-primary-custom" (click)="onAction('import')" *ngIf="showAddButton">
+      Import <i class="bi bi-chevron-down"></i>
+    </button>
+    <button class="btn-icon" (click)="onAction('more')">
+      <i class="bi bi-three-dots"></i>
+    </button>
+    <button class="btn-icon" (click)="onAction('calendar')">
+      <i class="bi bi-calendar"></i>
+    </button>
+    <button class="btn-icon" (click)="onAction('print')">
+      <i class="bi bi-printer"></i>
+    </button>
+    <button class="btn-icon" (click)="onAction('sort')">
+      <i class="bi bi-arrow-up-down"></i>
+    </button>
+    <button class="btn-icon" (click)="onAction('help')">
+      <i class="bi bi-question-circle"></i>
+    </button>
+  </div>
+</div>
 
-            <!-- Text Filter -->
-            <div *ngSwitchCase="'text'" class="mb-3">
-              <label class="form-label">{{filter.label}}</label>
-              <input type="text" class="form-control form-control-sm" 
-                     [(ngModel)]="filter.value" 
-                     (ngModelChange)="onFilterChange()"
-                     [placeholder]="'Search ' + filter.label + '...'">
-            </div>
+<!-- Main Container -->
+<div class="main-container">
+  <!-- Sidebar Filters -->
+  <div class="sidebar" *ngIf="showFilters && filters.length > 0">
+    <div class="sidebar-title">
+      FILTER {{entityNamePlural | uppercase}} BY
+      <i class="bi bi-search" style="font-size: 14px;"></i>
+    </div>
+    <ul class="filter-list">
+      <li *ngFor="let filter of filters">
+        <i class="bi bi-chevron-down" style="font-size: 12px;"></i>
+        <input type="checkbox" 
+               [id]="'filter_' + filter.key"
+               [(ngModel)]="filter.value"
+               (ngModelChange)="onFilterChange()">
+        <label [for]="'filter_' + filter.key">{{filter.label}}</label>
+      </li>
+    </ul>
+  </div>
 
-            <!-- Select Filter -->
-            <div *ngSwitchCase="'select'" class="mb-3">
-              <label class="form-label">{{filter.label}}</label>
-              <select class="form-select form-select-sm" 
-                      [(ngModel)]="filter.value" 
-                      (ngModelChange)="onFilterChange()">
-                <option value="">Select {{filter.label}}</option>
-                <option *ngFor="let option of filter.options" [value]="option.value">
-                  {{option.label}}
-                </option>
-              </select>
-            </div>
+  <!-- Content Area -->
+  <div class="content-area" [class.full-width]="!showFilters || filters.length === 0">
+    <!-- Table View -->
+    <div class="data-section" *ngIf="viewMode === 'table'">
+      <div class="table-responsive" *ngIf="!loading && data.length > 0">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th *ngIf="showBulkActions" style="width: 50px;">
+                <input type="checkbox" [checked]="allSelected" (change)="toggleSelectAll()">
+              </th>
+              <th *ngIf="showBulkActions" style="width: 30px;"><i class="bi bi-pencil"></i></th>
+              <th *ngIf="showBulkActions" style="width: 30px;"><input type="checkbox"></th>
+              <th *ngIf="showBulkActions" style="width: 30px;"><i class="bi bi-link-45deg"></i></th>
+              <th *ngFor="let column of columns" [style.width]="column.width">
+                {{column.label}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data; trackBy: trackByFn" 
+                class="table-row-hover"
+                (click)="onRowClick(item)"
+                style="cursor: pointer;">
+              <td *ngIf="showBulkActions">
+                <input type="checkbox" 
+                       [checked]="isSelected(item)" 
+                       (change)="toggleSelectItem(item)"
+                       (click)="$event.stopPropagation()">
+              </td>
+              <td *ngIf="showBulkActions">
+                <i class="bi bi-pencil text-muted"></i>
+              </td>
+              <td *ngIf="showBulkActions">
+                <i class="bi bi-circle-fill text-muted" style="font-size: 8px;"></i>
+              </td>
+              <td *ngIf="showBulkActions">
+                <i class="bi bi-link-45deg text-muted"></i>
+              </td>
+              <td *ngFor="let column of columns" [ngSwitch]="column.type">
+                <!-- Avatar -->
+                <div *ngSwitchCase="'avatar'" class="d-flex align-items-center">
+                  <div class="avatar-circle me-2" 
+                       [class]="getAvatarClass(getCellValue(item, column))">
+                    {{getAvatarText(getCellValue(item, column))}}
+                  </div>
+                  <div>
+                    <a href="#" class="fw-medium text-decoration-none" 
+                       (click)="onRowClick(item); $event.preventDefault()"
+                       style="color: var(--app-primary);">
+                      {{getCellValue(item, column)}}
+                    </a>
+                    <small class="text-muted">{{item[column.key + 'Id'] || item.id}}</small>
+                  </div>
+                </div>
 
-            <!-- Date Filter -->
-            <div *ngSwitchCase="'date'" class="mb-3">
-              <label class="form-label">{{filter.label}}</label>
-              <input type="date" class="form-control form-control-sm" 
-                     [(ngModel)]="filter.value" 
-                     (ngModelChange)="onFilterChange()">
+                <!-- Email -->
+                <a *ngSwitchCase="'email'" 
+                   [href]="'mailto:' + getCellValue(item, column)"
+                   class="text-decoration-none"
+                   style="color: var(--app-primary);">
+                  {{getCellValue(item, column)}}
+                </a>
+
+                <!-- Badge -->
+                <span *ngSwitchCase="'badge'" 
+                      class="status-badge"
+                      [class.badge-active]="getCellValue(item, column) === true || getCellValue(item, column) === 'Active' || getCellValue(item, column) === 'In-progress'"
+                      [class.badge-inactive]="getCellValue(item, column) === false || getCellValue(item, column) === 'Inactive'">
+                  {{getCellValue(item, column)}}
+                </span>
+
+                <!-- Date -->
+                <span *ngSwitchCase="'date'">
+                  {{getCellValue(item, column) | date:'MMM dd, yyyy'}}
+                </span>
+
+                <!-- Link -->
+                <a *ngSwitchCase="'link'" 
+                   href="#"
+                   class="text-decoration-none"
+                   (click)="onRowClick(item); $event.preventDefault()"
+                   style="color: var(--app-primary);">
+                  {{getCellValue(item, column)}}
+                </a>
+
+                <!-- Default Text -->
+                <span *ngSwitchDefault>
+                  {{getCellValue(item, column)}}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Grid View -->
+      <div class="grid-view" *ngIf="viewMode === 'grid' && !loading && data.length > 0">
+        <div class="row g-3 p-3">
+          <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let item of data; trackBy: trackByFn">
+            <div class="card entity-card h-100" (click)="onRowClick(item)" style="cursor: pointer;">
+              <div class="card-body p-3">
+                <!-- Checkbox -->
+                <div *ngIf="showBulkActions" class="position-absolute top-0 end-0 p-2">
+                  <input type="checkbox" 
+                         [checked]="isSelected(item)" 
+                         (change)="toggleSelectItem(item)"
+                         (click)="$event.stopPropagation()">
+                </div>
+                
+                <!-- Avatar and Name -->
+                <div class="text-center mb-3">
+                  <div class="avatar-circle-large mx-auto mb-2" 
+                       [class]="getAvatarClass(getCellValue(item, columns[0]))">
+                    {{getAvatarText(getCellValue(item, columns[0]))}}
+                  </div>
+                  <h6 class="card-title mb-1">{{getCellValue(item, columns[0])}}</h6>
+                  <p class="text-muted small mb-0">{{item.id}}</p>
+                </div>
+                
+                <!-- Details -->
+                <div class="entity-details">
+                  <div class="detail-row mb-2" *ngFor="let column of getGridColumns()">
+                    <small class="text-muted d-block">{{column.label}}</small>
+                    <div class="fw-medium" [ngSwitch]="column.type">
+                      <a *ngSwitchCase="'email'" 
+                         [href]="'mailto:' + getCellValue(item, column)"
+                         class="text-decoration-none"
+                         style="color: var(--app-primary);">
+                        {{getCellValue(item, column)}}
+                      </a>
+                      <span *ngSwitchCase="'badge'" 
+                            class="badge badge-sm"
+                            [class.bg-success]="getCellValue(item, column) === true || getCellValue(item, column) === 'Active'"
+                            [class.bg-warning]="getCellValue(item, column) === 'In-progress'"
+                            [class.bg-secondary]="getCellValue(item, column) === false || getCellValue(item, column) === 'Inactive'">
+                        {{getCellValue(item, column)}}
+                      </span>
+                      <span *ngSwitchDefault>{{getCellValue(item, column)}}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Action Button -->
+                <div class="text-center mt-3">
+                  <button class="btn btn-outline-primary btn-sm" 
+                          (click)="onRowClick(item); $event.stopPropagation()">
+                    <i class="bi bi-eye me-1"></i>View Details
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Main Content -->
-    <div [class]="showFilters && filters.length > 0 ? 'col-md-9' : 'col-12'" class="main-content-area">
-
-  <!-- Data Table -->
-  <div class="data-section">
-    <div class="table-responsive" *ngIf="viewMode === 'table'">
-      <table class="table table-hover">
-        <thead class="table-light">
-          <tr>
-            <th *ngIf="showBulkActions" style="width: 100px;">
-              <input type="checkbox" class="form-check-input" 
-                     [checked]="allSelected" 
-                     (change)="toggleSelectAll()">
-            </th>
-            <th *ngFor="let column of columns" 
-                [style.width]="column.width">
-              {{column.label}}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of data; trackBy: trackByFn" 
-              class="table-row-hover" 
-              (click)="onRowClick(item)"
-              style="cursor: pointer;">
-            <td *ngIf="showBulkActions" class="position-relative">
-              <input type="checkbox" class="form-check-input" 
-                     [checked]="isSelected(item)" 
-                     (change)="toggleSelectItem(item)"
-                     (click)="$event.stopPropagation()">
-              <!-- Row Actions (next to checkbox) -->
-              <div class="row-actions">
-                <button class="btn btn-sm btn-outline-primary me-1" 
-                        (click)="onAction('edit', item); $event.stopPropagation()"
-                        title="Edit">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-danger" 
-                        (click)="onAction('delete', item); $event.stopPropagation()"
-                        title="Delete">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </div>
-            </td>
-            <td *ngFor="let column of columns" [ngSwitch]="column.type">
-              <!-- Avatar -->
-              <div *ngSwitchCase="'avatar'" class="d-flex align-items-center">
-                <div class="avatar-circle me-2" 
-                     [class]="getAvatarClass(getCellValue(item, column))">
-                  {{getAvatarText(getCellValue(item, column))}}
-                </div>
-                <div>
-                  <div class="fw-medium">{{getCellValue(item, column)}}</div>
-                  <small class="text-muted">{{item[column.key + 'Id'] || item.id}}</small>
-                </div>
-              </div>
-
-              <!-- Email -->
-              <a *ngSwitchCase="'email'" 
-                 [href]="'mailto:' + getCellValue(item, column)"
-                 class="text-decoration-none">
-                {{getCellValue(item, column)}}
-              </a>
-
-              <!-- Badge -->
-              <span *ngSwitchCase="'badge'" 
-                    class="badge"
-                    [class.bg-success]="getCellValue(item, column) === 'ACTIVE'"
-                    [class.bg-secondary]="getCellValue(item, column) === 'INACTIVE'"
-                    [class.bg-warning]="getCellValue(item, column) === 'PENDING'">
-                {{getCellValue(item, column)}}
-              </span>
-
-              <!-- Date -->
-              <span *ngSwitchCase="'date'">
-                {{getCellValue(item, column) | date:'MMM dd, yyyy'}}
-              </span>
-
-              <!-- Default Text -->
-              <span *ngSwitchDefault>
-                {{getCellValue(item, column)}}
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Grid View -->
-    <div class="row" *ngIf="viewMode === 'grid'">
-      <div class="col-md-6 col-lg-4 col-xl-3 mb-3" *ngFor="let item of data; trackBy: trackByFn">
-        <div class="card student-card h-100">
-          <div class="card-body p-3">
-            <!-- Checkbox in top-right corner -->
-            <div class="position-relative">
-              <input type="checkbox" class="form-check-input position-absolute top-0 end-0 custom-checkbox" 
-                     [checked]="isSelected(item)" 
-                     (change)="toggleSelectItem(item)"
-                     *ngIf="showBulkActions">
-            </div>
-            
-            <!-- Student Avatar and Name -->
-            <div class="text-center mb-3">
-              <div class="avatar-circle-large mx-auto mb-2" 
-                   [class]="getAvatarClass(getCellValue(item, columns[0]))">
-                {{getAvatarText(getCellValue(item, columns[0]))}}
-              </div>
-              <h6 class="card-title mb-1">{{getCellValue(item, columns[0])}}</h6>
-              <p class="text-muted small mb-0">{{item.id}}</p>
-            </div>
-            
-            <!-- Student Details -->
-            <div class="student-details">
-              <div class="detail-row mb-2" *ngFor="let column of getGridColumns()">
-                <small class="text-muted d-block">{{column.label}}</small>
-                <div class="fw-medium" [ngSwitch]="column.type">
-                  <a *ngSwitchCase="'email'" 
-                     [href]="'mailto:' + getCellValue(item, column)"
-                     class="text-decoration-none text-primary">
-                    {{getCellValue(item, column)}}
-                  </a>
-                  <span *ngSwitchCase="'badge'" 
-                        class="badge"
-                        [class.bg-success]="getCellValue(item, column) === 'ACTIVE'"
-                        [class.bg-secondary]="getCellValue(item, column) !== 'ACTIVE'">
-                    {{getCellValue(item, column)}}
-                  </span>
-                  <span *ngSwitchDefault>{{getCellValue(item, column)}}</span>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Action Button -->
-            <div class="text-center mt-3">
-              <button class="btn btn-outline-primary btn-sm" (click)="onAction('view', item)">
-                <i class="fas fa-eye me-1"></i>View Details
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>      <!-- Empty State -->
+      <!-- Empty State -->
       <div class="text-center py-5" *ngIf="!loading && data.length === 0">
-        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-        <h5 class="text-muted">No {{entityNamePlural}} Found</h5>
+        <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc;"></i>
+        <h5 class="text-muted mt-3">No {{entityNamePlural}} Found</h5>
         <p class="text-muted">Try adjusting your search or filter criteria</p>
       </div>
 
@@ -299,78 +258,33 @@
         </div>
         <p class="text-muted mt-2">Loading {{entityNamePlural}}...</p>
       </div>
-
     </div>
     
-  </div>
-  
-  <!-- Fixed Bottom Pagination -->
-  <div class="pagination-fixed" 
-       [class.filters-visible]="showFilters && filters.length > 0"
-       *ngIf="pagination.totalItems > 0">
-    <div class="pagination-content d-flex justify-content-between align-items-center">
-      <!-- Items Count Info on Left -->
-      <div class="pagination-info d-flex align-items-center">
-        <span class="text-muted">{{(pagination.currentPage - 1) * pagination.itemsPerPage + 1}} to {{getEndItem()}} of {{pagination.totalItems}}</span>
-      </div>
-      
-      <!-- Navigation in Center -->
-      <div class="pagination-nav">
-        <nav>
-          <ul class="pagination pagination-sm mb-0">
-            <!-- First Page -->
-            <li class="page-item" [class.disabled]="pagination.currentPage === 1">
-              <a class="page-link" (click)="onPageChange(1)">
-                <i class="fas fa-angle-double-left"></i>
-              </a>
-            </li>
-            
-            <!-- Previous Page -->
-            <li class="page-item" [class.disabled]="pagination.currentPage === 1">
-              <a class="page-link" (click)="onPageChange(pagination.currentPage - 1)">
-                <i class="fas fa-angle-left"></i>
-              </a>
-            </li>
-            
-            <!-- Page Numbers -->
-            <li *ngFor="let page of getPaginationPages()" 
-                class="page-item" 
-                [class.active]="page === pagination.currentPage"
-                [class.disabled]="page === -1">
-              <a class="page-link" 
-                 (click)="page !== -1 && onPageChange(page)">
-                {{page === -1 ? '...' : page}}
-              </a>
-            </li>
-            
-            <!-- Next Page -->
-            <li class="page-item" [class.disabled]="pagination.currentPage === pagination.totalPages">
-              <a class="page-link" (click)="onPageChange(pagination.currentPage + 1)">
-                <i class="fas fa-angle-right"></i>
-              </a>
-            </li>
-            
-            <!-- Last Page -->
-            <li class="page-item" [class.disabled]="pagination.currentPage === pagination.totalPages">
-              <a class="page-link" (click)="onPageChange(pagination.totalPages)">
-                <i class="fas fa-angle-double-right"></i>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      
-      <!-- Items Per Page Selector on Right -->
-      <div class="pagination-per-page d-flex align-items-center">
-        <span class="text-muted me-2">Records per page:</span>
+    <!-- Table Footer -->
+    <div class="table-footer" *ngIf="pagination.totalItems > 0 && !loading">
+      <div class="pagination-info">Total Count: <strong>{{pagination.totalItems}}</strong></div>
+      <div class="d-flex align-items-center gap-3">
         <select class="form-select form-select-sm" style="width: auto;" 
-                [(ngModel)]="pagination.itemsPerPage" 
+                [(ngModel)]="pagination.itemsPerPage"
                 (ngModelChange)="onItemsPerPageChange()">
-          <option value="25">25</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-          <option value="200">200</option>
+          <option [value]="25">25 Records per page</option>
+          <option [value]="50">50 Records per page</option>
+          <option [value]="100">100 Records per page</option>
+          <option [value]="200">200 Records per page</option>
         </select>
+        <div class="pagination-controls">
+          <button class="btn btn-sm btn-outline-secondary me-2" 
+                  (click)="onPageChange(pagination.currentPage - 1)"
+                  [disabled]="pagination.currentPage === 1">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <span class="text-muted">{{(pagination.currentPage - 1) * pagination.itemsPerPage + 1}} to {{getEndItem()}}</span>
+          <button class="btn btn-sm btn-outline-secondary ms-2" 
+                  (click)="onPageChange(pagination.currentPage + 1)"
+                  [disabled]="pagination.currentPage === pagination.totalPages">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
       </div>
     </div>
   </div>
