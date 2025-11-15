@@ -27,7 +27,7 @@ import krs.erp.repository.GradeRepository;
  * Initializes Grade data from grades.xml on application startup
  */
 @Component
-@Order(5)
+@Order(7)
 public class GradeDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(GradeDataInitializer.class);
@@ -41,7 +41,7 @@ public class GradeDataInitializer implements CommandLineRunner {
 
         try {
             // Load the XML file from classpath
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("data/grades.xml");
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("data/grade/grades.xml");
             if (inputStream == null) {
                 logger.warn("grades.xml not found in classpath. Skipping Grade initialization.");
                 return;

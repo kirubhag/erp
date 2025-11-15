@@ -24,7 +24,7 @@ import krs.erp.repository.SubjectRepository;
  * Initializes subject data from subjects.xml if the database is empty.
  */
 @Component
-@Order(3) // Run after DataInitializer
+@Order(8) // Run after StudentDataInitializer
 public class SubjectDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(SubjectDataInitializer.class);
@@ -54,7 +54,7 @@ public class SubjectDataInitializer implements CommandLineRunner {
     private List<Subject> loadSubjectsFromXml() {
         List<Subject> subjects = new ArrayList<>();
         
-        try (var inputStream = new ClassPathResource("data/subjects.xml").getInputStream()) {
+        try (var inputStream = new ClassPathResource("data/subject/subjects.xml").getInputStream()) {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(inputStream);

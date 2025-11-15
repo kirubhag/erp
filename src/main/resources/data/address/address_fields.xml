@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="ADDRESS">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique identifier for the address record</fieldDescription>
+    </field>
+    <field>
+        <fieldName>entityType</fieldName>
+        <fieldLabel>Entity Type</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Type of entity (Student, Parent, Staff, Organization, Other)</fieldDescription>
+    </field>
+    <field>
+        <fieldName>entityId</fieldName>
+        <fieldLabel>Entity ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>ID of the entity</fieldDescription>
+    </field>
+    <field>
+        <fieldName>addressLine1</fieldName>
+        <fieldLabel>Address Line 1</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Address</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>First line of the address</fieldDescription>
+    </field>
+    <field>
+        <fieldName>addressLine2</fieldName>
+        <fieldLabel>Address Line 2</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Address</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Second line of the address</fieldDescription>
+    </field>
+    <field>
+        <fieldName>city</fieldName>
+        <fieldLabel>City</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Address</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>City name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>state</fieldName>
+        <fieldLabel>State</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Address</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>State/Province name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>postalCode</fieldName>
+        <fieldLabel>Postal Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Address</fieldCategory>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Postal/Zip code</fieldDescription>
+    </field>
+    <field>
+        <fieldName>country</fieldName>
+        <fieldLabel>Country</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Address</fieldCategory>
+        <displayOrder>9</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Country name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isPrimary</fieldName>
+        <fieldLabel>Primary Address</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <fieldCategory>Address</fieldCategory>
+        <displayOrder>10</displayOrder>
+        <defaultWidth>130</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Whether this is the primary address</fieldDescription>
+    </field>
+    <field>
+        <fieldName>addressType</fieldName>
+        <fieldLabel>Address Type</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <fieldCategory>Address</fieldCategory>
+        <displayOrder>11</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Type of address (Residential, Mailing, Work, Other)</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>25</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Whether the address record is active</fieldDescription>
+    </field>
+    <field>
+        <fieldName>createdAt</fieldName>
+        <fieldLabel>Created At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>26</displayOrder>
+        <defaultWidth>160</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Record creation timestamp</fieldDescription>
+    </field>
+    <field>
+        <fieldName>updatedAt</fieldName>
+        <fieldLabel>Updated At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>27</displayOrder>
+        <defaultWidth>160</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Last update timestamp</fieldDescription>
+    </field>
+</entityFields>

@@ -19,7 +19,7 @@ import krs.erp.model.Timetable.DayOfWeek;
 import krs.erp.repository.TimetableRepository;
 
 @Component
-@Order(4)
+@Order(9)
 public class TimetableDataInitializer implements CommandLineRunner {
 
     @Autowired
@@ -36,7 +36,7 @@ public class TimetableDataInitializer implements CommandLineRunner {
     }
 
     private void loadTimetablesFromXML() throws Exception {
-        InputStream xmlFile = getClass().getClassLoader().getResourceAsStream("data/timetables.xml");
+        InputStream xmlFile = getClass().getClassLoader().getResourceAsStream("data/timetable/timetables.xml");
 
         if (xmlFile == null) {
             System.err.println("timetables.xml file not found!");

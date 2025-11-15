@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="SUBJECT">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique identifier for the subject</fieldDescription>
+    </field>
+    <field>
+        <fieldName>subjectCode</fieldName>
+        <fieldLabel>Subject Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique code for the subject</fieldDescription>
+    </field>
+    <field>
+        <fieldName>subjectName</fieldName>
+        <fieldLabel>Subject Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Name of the subject</fieldDescription>
+    </field>
+    <field>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>250</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Description of the subject</fieldDescription>
+    </field>
+    <field>
+        <fieldName>gradeLevel</fieldName>
+        <fieldLabel>Grade Level</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Grade level for which this subject is offered</fieldDescription>
+    </field>
+    <field>
+        <fieldName>category</fieldName>
+        <fieldLabel>Category</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Category of the subject (Science, Arts, Commerce, etc.)</fieldDescription>
+    </field>
+    <field>
+        <fieldName>credits</fieldName>
+        <fieldLabel>Credits</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Credit hours for the subject</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isMandatory</fieldName>
+        <fieldLabel>Mandatory</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Whether the subject is mandatory</fieldDescription>
+    </field>
+    <field>
+        <fieldName>prerequisites</fieldName>
+        <fieldLabel>Prerequisites</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>9</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Prerequisites for taking this subject</fieldDescription>
+    </field>
+    <field>
+        <fieldName>difficultyLevel</fieldName>
+        <fieldLabel>Difficulty Level</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>10</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Difficulty level (Beginner, Intermediate, Advanced)</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>25</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Whether the subject is active</fieldDescription>
+    </field>
+    <field>
+        <fieldName>createdAt</fieldName>
+        <fieldLabel>Created At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>26</displayOrder>
+        <defaultWidth>160</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Record creation timestamp</fieldDescription>
+    </field>
+    <field>
+        <fieldName>updatedAt</fieldName>
+        <fieldLabel>Updated At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>27</displayOrder>
+        <defaultWidth>160</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Last update timestamp</fieldDescription>
+    </field>
+</entityFields>
