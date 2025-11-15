@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { EntityListComponent, EntityColumn, EntityFilter, PaginationInfo } from '../entity-list/entity-list.component';
 import { StudentService } from '../../services/student.service';
 
@@ -25,6 +26,7 @@ export interface Student {
       title="Students"
       entityName="Student"
       entityNamePlural="Students"
+      entityType="students"
       [columns]="columns"
       [data]="students"
       [filters]="filters"
@@ -36,7 +38,8 @@ export interface Student {
       (sortChange)="onSort($event)"
       (pageChange)="onPageChange($event)"
       (actionClick)="onAction($event)"
-      (selectionChange)="onSelectionChange($event)">
+      (selectionChange)="onSelectionChange($event)"
+      (rowClick)="onRowClick($event)">
     </app-entity-list>
   `
 })
@@ -45,7 +48,10 @@ export class StudentListComponent implements OnInit {
   loading = false;
   showFilters = true; // Show filters by default
 
-  constructor(private studentService: StudentService) {}
+  constructor(
+    private studentService: StudentService,
+    private router: Router
+  ) {}
 
   columns: EntityColumn[] = [
     {
@@ -264,6 +270,14 @@ export class StudentListComponent implements OnInit {
       case 'delete':
         console.log('Delete students:', event.selectedItems);
         break;
+    }
+  }
+
+  onRowClick(event: { entityType: string; item: any }): void {
+    const { entityType, item } = event;
+    const itemId = item.id;
+    if (itemId) {
+      this.router.navigate(['/entity-detail', entityType, itemId]);
     }
   }
 

@@ -176,6 +176,16 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>static/angular/node_modules/**</exclude>
+					<exclude>static/angular/.angular/**</exclude>
+					<exclude>static/angular/dist/**</exclude>
+				</excludes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

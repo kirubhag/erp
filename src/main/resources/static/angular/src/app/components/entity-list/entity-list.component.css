@@ -69,14 +69,28 @@ body {
 .icon-btn {
   color: white;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
   transition: all 0.2s ease;
   position: relative;
+  padding: 0.25rem 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon-btn:hover {
   opacity: 0.8;
   transform: scale(1.1);
+}
+
+.icon-btn i {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  color: white;
+  font-size: 18px;
+  line-height: 1;
+  vertical-align: middle;
 }
 
 .notification-dot {
@@ -469,9 +483,35 @@ body {
   font-size: 12px;
 }
 
-/* Font Awesome Icon Theme Colors */
-.bi {
+/* FontAwesome Icon Styling */
+.fas {
   color: inherit;
+  display: inline-block;
+  font-family: 'Font Awesome 6 Free';
+  font-size: inherit;
+  font-weight: 900;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1;
+  vertical-align: -0.125em;
+}
+
+.top-nav .fas {
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.toolbar .fas {
+  color: inherit;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.icon-btn .fas {
+  font-weight: 900;
 }
 
 /* Active state for icons */

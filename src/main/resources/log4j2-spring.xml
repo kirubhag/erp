@@ -5,8 +5,8 @@
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %c{1} - %msg%n"/>
         </Console>
 
-    <!-- Allow setting log path via system property for tests (-DAPP_LOG_PATH=...), otherwise fall back to environment variable, then default -->
-    <RollingFile name="RollingFile" fileName="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-/var/log/erp}}/erp.log" filePattern="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-/var/log/erp}}/erp-%d{yyyy-MM-dd}-%i.log.gz">
+    <!-- Allow setting log path via system property for tests (-DAPP_LOG_PATH=...), otherwise fall back to environment variable, then use local logs directory -->
+    <RollingFile name="RollingFile" fileName="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-./logs}}/erp.log" filePattern="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-./logs}}/erp-%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %c{1} - %msg%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy />
@@ -16,7 +16,7 @@
         </RollingFile>
         
         <!-- Access log appender: rotates daily into access-log-<dd-MM-yyyy>.log.gz -->
-        <RollingFile name="AccessRollingFile" fileName="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-/var/log/erp}}/access-log.log" filePattern="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-/var/log/erp}}/access-log-%d{dd-MM-yyyy}.log.gz">
+        <RollingFile name="AccessRollingFile" fileName="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-./logs}}/access-log.log" filePattern="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-./logs}}/access-log-%d{dd-MM-yyyy}.log.gz">
             <PatternLayout pattern="%m%n" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />

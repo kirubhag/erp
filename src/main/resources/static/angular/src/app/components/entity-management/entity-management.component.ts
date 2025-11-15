@@ -157,10 +157,8 @@ export class EntityManagementComponent implements OnInit {
       size: this.pagination.itemsPerPage
     };
 
-    // Use full backend URL directly
-    const backendUrl = `http://localhost:8081${endpoint}`;
-
-    this.http.get<ApiResponse>(backendUrl, { params }).subscribe({
+    // Use relative URL - request goes to the same origin as the page
+    this.http.get<ApiResponse>(endpoint, { params }).subscribe({
       next: (response) => {
         this.data = this.extractData(response);
         this.pagination.totalItems = this.extractTotalElements(response);

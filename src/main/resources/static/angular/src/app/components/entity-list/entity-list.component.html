@@ -3,24 +3,24 @@
   <div class="d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center">
       <div class="brand me-3">
-        <i class="bi bi-broadcast-pin me-2"></i>
+        <i class="fas fa-broadcast-tower me-2"></i>
         <span>{{title}}</span>
       </div>
-      <i class="bi bi-list text-white" style="font-size: 20px;" (click)="toggleSidebar()"></i>
+      <i class="fas fa-bars text-white" style="font-size: 20px;" (click)="toggleSidebar()"></i>
     </div>
     <div class="d-flex align-items-center gap-3">
-      <i class="bi bi-grid-3x3-gap icon-btn"></i>
-      <i class="bi bi-search icon-btn"></i>
-      <i class="bi bi-pencil-square icon-btn"></i>
-      <i class="bi bi-clock-history icon-btn"></i>
-      <i class="bi bi-calendar-check icon-btn"></i>
+      <i class="fas fa-th icon-btn"></i>
+      <i class="fas fa-search icon-btn"></i>
+      <i class="fas fa-edit icon-btn"></i>
+      <i class="fas fa-history icon-btn"></i>
+      <i class="fas fa-calendar-check icon-btn"></i>
       <div style="position: relative;">
-        <i class="bi bi-bell icon-btn"></i>
+        <i class="fas fa-bell icon-btn"></i>
         <span class="notification-dot" *ngIf="selectedItems.size > 0"></span>
       </div>
-      <i class="bi bi-gear icon-btn"></i>
+      <i class="fas fa-cog icon-btn"></i>
       <img src="https://ui-avatars.com/api/?name=User&background=0099cc&color=fff" alt="User" class="user-avatar">
-      <i class="bi bi-grid-3x3-gap icon-btn"></i>
+      <i class="fas fa-th icon-btn"></i>
     </div>
   </div>
 </nav>
@@ -29,7 +29,7 @@
 <div class="toolbar">
   <div class="filter-dropdown">
     <button class="btn-icon" (click)="showFilters = !showFilters">
-      <i class="bi bi-funnel"></i>
+      <i class="fas fa-filter"></i>
     </button>
     <select class="filter-select">
       <option>All {{entityNamePlural}}</option>
@@ -38,32 +38,32 @@
     </select>
   </div>
   <div class="toolbar-actions">
-    <button class="btn-icon" (click)="viewMode = 'table'" [class.active]="viewMode === 'table'">
-      <i class="bi bi-list"></i>
+    <button class="btn-icon" (click)="viewMode = 'table'" [class.active]="isTableView()">
+      <i class="fas fa-list"></i>
     </button>
-    <button class="btn-icon" (click)="viewMode = 'grid'" [class.active]="viewMode === 'grid'">
-      <i class="bi bi-table"></i>
+    <button class="btn-icon" (click)="viewMode = 'grid'" [class.active]="isGridView()">
+      <i class="fas fa-th-large"></i>
     </button>
     <button class="btn-icon" (click)="onAction('add')" *ngIf="showAddButton">
-      <i class="bi bi-plus-lg"></i>
+      <i class="fas fa-plus"></i>
     </button>
     <button class="btn-primary-custom" (click)="onAction('import')" *ngIf="showAddButton">
-      Import <i class="bi bi-chevron-down"></i>
+      Import <i class="fas fa-chevron-down"></i>
     </button>
     <button class="btn-icon" (click)="onAction('more')">
-      <i class="bi bi-three-dots"></i>
+      <i class="fas fa-ellipsis-v"></i>
     </button>
     <button class="btn-icon" (click)="onAction('calendar')">
-      <i class="bi bi-calendar"></i>
+      <i class="fas fa-calendar"></i>
     </button>
     <button class="btn-icon" (click)="onAction('print')">
-      <i class="bi bi-printer"></i>
+      <i class="fas fa-print"></i>
     </button>
     <button class="btn-icon" (click)="onAction('sort')">
-      <i class="bi bi-arrow-up-down"></i>
+      <i class="fas fa-sort"></i>
     </button>
     <button class="btn-icon" (click)="onAction('help')">
-      <i class="bi bi-question-circle"></i>
+      <i class="fas fa-question-circle"></i>
     </button>
   </div>
 </div>
@@ -74,11 +74,11 @@
   <div class="sidebar" *ngIf="showFilters && filters.length > 0">
     <div class="sidebar-title">
       FILTER {{entityNamePlural | uppercase}} BY
-      <i class="bi bi-search" style="font-size: 14px;"></i>
+      <i class="fas fa-search" style="font-size: 14px;"></i>
     </div>
     <ul class="filter-list">
       <li *ngFor="let filter of filters">
-        <i class="bi bi-chevron-down" style="font-size: 12px;"></i>
+        <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
         <input type="checkbox" 
                [id]="'filter_' + filter.key"
                [(ngModel)]="filter.value"
@@ -91,7 +91,7 @@
   <!-- Content Area -->
   <div class="content-area" [class.full-width]="!showFilters || filters.length === 0">
     <!-- Table View -->
-    <div class="data-section" *ngIf="viewMode === 'table'">
+    <div class="data-section" *ngIf="isTableView()">
       <div class="table-responsive" *ngIf="!loading && data.length > 0">
         <table class="data-table">
           <thead>
@@ -99,9 +99,9 @@
               <th *ngIf="showBulkActions" style="width: 50px;">
                 <input type="checkbox" [checked]="allSelected" (change)="toggleSelectAll()">
               </th>
-              <th *ngIf="showBulkActions" style="width: 30px;"><i class="bi bi-pencil"></i></th>
+              <th *ngIf="showBulkActions" style="width: 30px;"><i class="fas fa-pencil-alt"></i></th>
               <th *ngIf="showBulkActions" style="width: 30px;"><input type="checkbox"></th>
-              <th *ngIf="showBulkActions" style="width: 30px;"><i class="bi bi-link-45deg"></i></th>
+              <th *ngIf="showBulkActions" style="width: 30px;"><i class="fas fa-link"></i></th>
               <th *ngFor="let column of columns" [style.width]="column.width">
                 {{column.label}}
               </th>
@@ -119,13 +119,13 @@
                        (click)="$event.stopPropagation()">
               </td>
               <td *ngIf="showBulkActions">
-                <i class="bi bi-pencil text-muted"></i>
+                <i class="fas fa-pencil-alt text-muted"></i>
               </td>
               <td *ngIf="showBulkActions">
-                <i class="bi bi-circle-fill text-muted" style="font-size: 8px;"></i>
+                <i class="fas fa-circle text-muted" style="font-size: 8px;"></i>
               </td>
               <td *ngIf="showBulkActions">
-                <i class="bi bi-link-45deg text-muted"></i>
+                <i class="fas fa-link text-muted"></i>
               </td>
               <td *ngFor="let column of columns" [ngSwitch]="column.type">
                 <!-- Avatar -->
@@ -185,7 +185,7 @@
       </div>
 
       <!-- Grid View -->
-      <div class="grid-view" *ngIf="viewMode === 'grid' && !loading && data.length > 0">
+      <div class="grid-view" *ngIf="isGridView() && !loading && data.length > 0">
         <div class="row g-3 p-3">
           <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let item of data; trackBy: trackByFn">
             <div class="card entity-card h-100" (click)="onRowClick(item)" style="cursor: pointer;">
@@ -235,7 +235,7 @@
                 <div class="text-center mt-3">
                   <button class="btn btn-outline-primary btn-sm" 
                           (click)="onRowClick(item); $event.stopPropagation()">
-                    <i class="bi bi-eye me-1"></i>View Details
+                    <i class="fas fa-eye me-1"></i>View Details
                   </button>
                 </div>
               </div>
@@ -246,7 +246,7 @@
 
       <!-- Empty State -->
       <div class="text-center py-5" *ngIf="!loading && data.length === 0">
-        <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc;"></i>
+        <i class="fas fa-inbox" style="font-size: 3rem; color: #ccc;"></i>
         <h5 class="text-muted mt-3">No {{entityNamePlural}} Found</h5>
         <p class="text-muted">Try adjusting your search or filter criteria</p>
       </div>
@@ -276,13 +276,13 @@
           <button class="btn btn-sm btn-outline-secondary me-2" 
                   (click)="onPageChange(pagination.currentPage - 1)"
                   [disabled]="pagination.currentPage === 1">
-            <i class="bi bi-chevron-left"></i>
+            <i class="fas fa-chevron-left"></i>
           </button>
           <span class="text-muted">{{(pagination.currentPage - 1) * pagination.itemsPerPage + 1}} to {{getEndItem()}}</span>
           <button class="btn btn-sm btn-outline-secondary ms-2" 
                   (click)="onPageChange(pagination.currentPage + 1)"
                   [disabled]="pagination.currentPage === pagination.totalPages">
-            <i class="bi bi-chevron-right"></i>
+            <i class="fas fa-chevron-right"></i>
           </button>
         </div>
       </div>

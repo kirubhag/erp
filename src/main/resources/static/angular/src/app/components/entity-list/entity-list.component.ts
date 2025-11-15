@@ -79,6 +79,15 @@ export class EntityListComponent implements OnInit {
   viewMode: 'table' | 'grid' = 'table';
   showTotalCount: boolean = false;
   
+  // Helper methods for template
+  isTableView(): boolean {
+    return this.viewMode === 'table';
+  }
+
+  isGridView(): boolean {
+    return this.viewMode === 'grid';
+  }
+  
   get totalRecords(): number {
     return this.pagination.totalItems;
   }

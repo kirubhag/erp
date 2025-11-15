@@ -66,6 +66,7 @@ export class EntityDetailComponent implements OnInit {
 
   private getApiEndpoint(): string {
     const endpoints: { [key: string]: string } = {
+      students: `/api/students/${this.entityId}`,
       staff: `/api/v1/staff/${this.entityId}`,
       attendance: `/api/attendance/${this.entityId}`,
       parents: `/api/parents/${this.entityId}`,
@@ -76,11 +77,22 @@ export class EntityDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/entity-management', this.entityType]);
+    // Map entity types to their correct routes
+    const routeMap: { [key: string]: string } = {
+      students: '/students',
+      staff: '/staff',
+      attendance: '/attendance',
+      parents: '/parents',
+      subjects: '/subjects'
+    };
+    
+    const route = routeMap[this.entityType] || '/dashboard';
+    this.router.navigate([route]);
   }
 
   getPageTitle(): string {
     const titles: { [key: string]: string } = {
+      students: 'Student Details',
       staff: 'Staff Member',
       attendance: 'Attendance Record',
       parents: 'Parent',
@@ -113,6 +125,7 @@ export class EntityDetailComponent implements OnInit {
 
   getEntityIconClass(): string {
     const icons: { [key: string]: string } = {
+      students: 'fas fa-user-graduate',
       staff: 'fas fa-users-cog',
       attendance: 'fas fa-clipboard-check',
       parents: 'fas fa-home',
