@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="ATTENDANCE">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique identifier for attendance record</fieldDescription>
+    </field>
+    <field>
+        <fieldName>studentId</fieldName>
+        <fieldLabel>Student ID</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Student identifier</fieldDescription>
+    </field>
+    <field>
+        <fieldName>date</fieldName>
+        <fieldLabel>Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Attendance date</fieldDescription>
+    </field>
+    <field>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Attendance status (Present/Absent/Late)</fieldDescription>
+    </field>
+    <field>
+        <fieldName>timeIn</fieldName>
+        <fieldLabel>Time In</fieldLabel>
+        <fieldType>TIME</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Time student arrived</fieldDescription>
+    </field>
+    <field>
+        <fieldName>timeOut</fieldName>
+        <fieldLabel>Time Out</fieldLabel>
+        <fieldType>TIME</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Time student left</fieldDescription>
+    </field>
+    <field>
+        <fieldName>remarks</fieldName>
+        <fieldLabel>Remarks</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Additional remarks</fieldDescription>
+    </field>
+    <field>
+        <fieldName>recordedBy</fieldName>
+        <fieldLabel>Recorded By</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Person who recorded attendance</fieldDescription>
+    </field>
+</entityFields>

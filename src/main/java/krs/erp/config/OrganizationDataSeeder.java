@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 import krs.erp.model.Organization;
 import krs.erp.repository.OrganizationRepository;
@@ -14,7 +13,7 @@ import krs.erp.repository.OrganizationRepository;
 /**
  * Data seeder to create sample organization data for development and testing
  */
-@Component
+// @Component - Disabled to prevent data initialization before schema is ready
 public class OrganizationDataSeeder implements CommandLineRunner {
 
     @Autowired

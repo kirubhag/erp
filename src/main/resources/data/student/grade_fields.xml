@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="GRADE">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique identifier for grade record</fieldDescription>
+    </field>
+    <field>
+        <fieldName>studentId</fieldName>
+        <fieldLabel>Student ID</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Student identifier</fieldDescription>
+    </field>
+    <field>
+        <fieldName>courseCode</fieldName>
+        <fieldLabel>Course Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Course code</fieldDescription>
+    </field>
+    <field>
+        <fieldName>examType</fieldName>
+        <fieldLabel>Exam Type</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Type of examination</fieldDescription>
+    </field>
+    <field>
+        <fieldName>marksObtained</fieldName>
+        <fieldLabel>Marks Obtained</fieldLabel>
+        <fieldType>DECIMAL</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Marks obtained by student</fieldDescription>
+    </field>
+    <field>
+        <fieldName>totalMarks</fieldName>
+        <fieldLabel>Total Marks</fieldLabel>
+        <fieldType>DECIMAL</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Total marks for the exam</fieldDescription>
+    </field>
+    <field>
+        <fieldName>percentage</fieldName>
+        <fieldLabel>Percentage</fieldLabel>
+        <fieldType>DECIMAL</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Percentage scored</fieldDescription>
+    </field>
+    <field>
+        <fieldName>letterGrade</fieldName>
+        <fieldLabel>Letter Grade</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Letter grade (A, B, C, etc.)</fieldDescription>
+    </field>
+    <field>
+        <fieldName>examDate</fieldName>
+        <fieldLabel>Exam Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>9</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Date of examination</fieldDescription>
+    </field>
+</entityFields>

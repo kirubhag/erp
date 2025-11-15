@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="USER">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique identifier for user</fieldDescription>
+    </field>
+    <field>
+        <fieldName>username</fieldName>
+        <fieldLabel>Username</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Authentication</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>User login name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>email</fieldName>
+        <fieldLabel>Email</fieldLabel>
+        <fieldType>EMAIL</fieldType>
+        <fieldCategory>Contact</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>180</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>User email address</fieldDescription>
+    </field>
+    <field>
+        <fieldName>firstName</fieldName>
+        <fieldLabel>First Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>User's first name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>lastName</fieldName>
+        <fieldLabel>Last Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>User's last name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>role</fieldName>
+        <fieldLabel>Role</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <fieldCategory>Authorization</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>User role/permission level</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Whether user account is active</fieldDescription>
+    </field>
+    <field>
+        <fieldName>lastLogin</fieldName>
+        <fieldLabel>Last Login</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <fieldCategory>Authentication</fieldCategory>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>160</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Last login timestamp</fieldDescription>
+    </field>
+    <field>
+        <fieldName>createdAt</fieldName>
+        <fieldLabel>Created At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>9</displayOrder>
+        <defaultWidth>160</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Account creation timestamp</fieldDescription>
+    </field>
+    <field>
+        <fieldName>updatedAt</fieldName>
+        <fieldLabel>Updated At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>10</displayOrder>
+        <defaultWidth>160</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Last update timestamp</fieldDescription>
+    </field>
+</entityFields>

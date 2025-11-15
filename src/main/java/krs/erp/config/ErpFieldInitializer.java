@@ -2,7 +2,6 @@ package krs.erp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 import krs.erp.service.ErpFieldXmlLoaderService;
 
@@ -10,7 +9,7 @@ import krs.erp.service.ErpFieldXmlLoaderService;
  * Configuration class to initialize ERP field metadata on application startup
  * Loads field definitions from XML configuration file
  */
-@Component
+// @Component  // Disabled - prevents schema initialization
 public class ErpFieldInitializer implements CommandLineRunner {
 
     @Autowired
@@ -19,7 +18,7 @@ public class ErpFieldInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Initialize fields from XML configuration on application startup
-        xmlLoaderService.loadFieldsFromXml();
+        // xmlLoaderService.loadFieldsFromXml();
         
         long totalFields = xmlLoaderService.getTotalFieldCount();
         System.out.println("✓ ERP field initialization completed from XML. Total fields: " + totalFields);

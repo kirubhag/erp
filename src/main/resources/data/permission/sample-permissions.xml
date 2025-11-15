@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Permissions -->
+    <permissions id="1" name="USER_READ" description="Read user information" resource="user" action="read" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="2" name="USER_WRITE" description="Create and update user information" resource="user" action="write" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="3" name="USER_DELETE" description="Delete user information" resource="user" action="delete" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    
+    <permissions id="4" name="STUDENT_READ" description="Read student information" resource="student" action="read" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="5" name="STUDENT_WRITE" description="Create and update student information" resource="student" action="write" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="6" name="STUDENT_DELETE" description="Delete student information" resource="student" action="delete" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    
+    <permissions id="7" name="STAFF_READ" description="Read staff information" resource="staff" action="read" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="8" name="STAFF_WRITE" description="Create and update staff information" resource="staff" action="write" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="9" name="STAFF_DELETE" description="Delete staff information" resource="staff" action="delete" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    
+    <permissions id="10" name="PARENT_READ" description="Read parent information" resource="parent" action="read" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="11" name="PARENT_WRITE" description="Create and update parent information" resource="parent" action="write" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="12" name="PARENT_DELETE" description="Delete parent information" resource="parent" action="delete" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    
+    <permissions id="13" name="GRADE_READ" description="Read grade information" resource="grade" action="read" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="14" name="GRADE_WRITE" description="Create and update grade information" resource="grade" action="write" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    
+    <permissions id="15" name="ATTENDANCE_READ" description="Read attendance records" resource="attendance" action="read" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="16" name="ATTENDANCE_WRITE" description="Create and update attendance records" resource="attendance" action="write" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    
+    <permissions id="17" name="ORGANIZATION_READ" description="Read organization information" resource="organization" action="read" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="18" name="ORGANIZATION_WRITE" description="Create and update organization information" resource="organization" action="write" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    
+    <permissions id="19" name="REPORT_READ" description="Read reports" resource="report" action="read" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="20" name="REPORT_GENERATE" description="Generate reports" resource="report" action="generate" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    
+    <permissions id="21" name="SYSTEM_CONFIG" description="Configure system settings" resource="system" action="configure" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+    <permissions id="22" name="SYSTEM_AUDIT" description="View system audit logs" resource="system" action="audit" system_permission="1" created_time="2024-01-01 00:00:00" modified_time="2024-01-01 00:00:00" />
+</dataset>

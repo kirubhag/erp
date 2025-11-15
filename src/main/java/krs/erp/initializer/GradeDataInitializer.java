@@ -26,7 +26,7 @@ import krs.erp.repository.GradeRepository;
 /**
  * Initializes Grade data from grades.xml on application startup
  */
-//@Component
+@Component
 @Order(5)
 public class GradeDataInitializer implements CommandLineRunner {
 

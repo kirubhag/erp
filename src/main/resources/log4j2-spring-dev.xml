@@ -5,7 +5,7 @@
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %c{1} - %msg%n"/>
         </Console>
         <!-- Prefer system property, then env var, then default -->
-    <RollingFile name="RollingFile" fileName="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-/var/log/erp}}/erp-dev.log" filePattern="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-/var/log/erp}}/erp-dev-%d{yyyy-MM-dd}-%i.log.gz">
+    <RollingFile name="RollingFile" fileName="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-${sys:java.io.tmpdir}/erp}}/erp-dev.log" filePattern="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-${sys:java.io.tmpdir}/erp}}/erp-dev-%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %c{1} - %msg%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy />
@@ -13,7 +13,7 @@
             </Policies>
             <DefaultRolloverStrategy max="14"/>
         </RollingFile>
-        <RollingFile name="AccessRollingFile" fileName="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-/var/log/erp}}/access-log.log" filePattern="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-/var/log/erp}}/access-log-%d{dd-MM-yyyy}.log.gz">
+        <RollingFile name="AccessRollingFile" fileName="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-${sys:java.io.tmpdir}/erp}}/access-log.log" filePattern="${sys:APP_LOG_PATH:-${env:APP_LOG_PATH:-${sys:java.io.tmpdir}/erp}}/access-log-%d{dd-MM-yyyy}.log.gz">
             <PatternLayout pattern="%m%n" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />

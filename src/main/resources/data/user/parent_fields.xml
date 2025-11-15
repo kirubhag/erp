@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="PARENT">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique identifier for the parent</fieldDescription>
+    </field>
+    <field>
+        <fieldName>firstName</fieldName>
+        <fieldLabel>First Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Parent's first name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>lastName</fieldName>
+        <fieldLabel>Last Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Parent's last name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>gender</fieldName>
+        <fieldLabel>Gender</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Parent's gender</fieldDescription>
+    </field>
+    <field>
+        <fieldName>email</fieldName>
+        <fieldLabel>Email</fieldLabel>
+        <fieldType>EMAIL</fieldType>
+        <fieldCategory>Contact</fieldCategory>
+        <displayOrder>10</displayOrder>
+        <defaultWidth>180</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Parent's email address</fieldDescription>
+    </field>
+    <field>
+        <fieldName>phone</fieldName>
+        <fieldLabel>Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <fieldCategory>Contact</fieldCategory>
+        <displayOrder>11</displayOrder>
+        <defaultWidth>130</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Parent's primary phone number</fieldDescription>
+    </field>
+    <field>
+        <fieldName>alternatePhone</fieldName>
+        <fieldLabel>Alternate Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <fieldCategory>Contact</fieldCategory>
+        <displayOrder>12</displayOrder>
+        <defaultWidth>130</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Parent's alternate phone number</fieldDescription>
+    </field>
+    <field>
+        <fieldName>occupation</fieldName>
+        <fieldLabel>Occupation</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Professional</fieldCategory>
+        <displayOrder>20</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Parent's occupation</fieldDescription>
+    </field>
+    <field>
+        <fieldName>workplace</fieldName>
+        <fieldLabel>Workplace</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Professional</fieldCategory>
+        <displayOrder>21</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Parent's workplace</fieldDescription>
+    </field>
+    <field>
+        <fieldName>workPhone</fieldName>
+        <fieldLabel>Work Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <fieldCategory>Professional</fieldCategory>
+        <displayOrder>22</displayOrder>
+        <defaultWidth>130</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Parent's work phone number</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>30</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Whether the parent is active</fieldDescription>
+    </field>
+    <field>
+        <fieldName>emergencyContact</fieldName>
+        <fieldLabel>Emergency Contact</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>31</displayOrder>
+        <defaultWidth>130</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Whether this parent is an emergency contact</fieldDescription>
+    </field>
+</entityFields>

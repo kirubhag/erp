@@ -1,5 +1,23 @@
 # Student Information System (ERP)
 
+## Quick Start
+
+### Development Mode (Local MySQL)
+
+```bash
+# Simple one-command startup (MySQL must be running on localhost:3307)
+./reinit-dev-simple.sh
+
+# Full setup with database reset
+./reinit-dev.sh [mysql-root-password]
+```
+
+Access the application at: **http://localhost:8081**
+
+For detailed setup instructions, see **[REINIT_GUIDE.md](REINIT_GUIDE.md)**
+
+---
+
 ## Overview
 
 A comprehensive web-based Student Information System built with **Spring Boot** backend and **AngularJS** frontend. This system manages student records, attendance tracking, health records, parent information, and administrative settings with a modern, responsive interface.

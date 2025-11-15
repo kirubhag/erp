@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Roles -->
+    <roles 
+        id="1" 
+        name="ADMIN" 
+        description="System Administrator with full access to all features" 
+        system_role="1" 
+        created_time="2024-01-01 00:00:00" 
+        modified_time="2024-01-01 00:00:00" 
+    />
+    
+    <roles 
+        id="2" 
+        name="TEACHER" 
+        description="Teaching staff with access to classes, students, and grades" 
+        system_role="1" 
+        created_time="2024-01-01 00:00:00" 
+        modified_time="2024-01-01 00:00:00" 
+    />
+    
+    <roles 
+        id="3" 
+        name="PRINCIPAL" 
+        description="School principal with administrative and oversight access" 
+        system_role="1" 
+        created_time="2024-01-01 00:00:00" 
+        modified_time="2024-01-01 00:00:00" 
+    />
+    
+    <roles 
+        id="4" 
+        name="PARENT" 
+        description="Parent with limited access to their children's information" 
+        system_role="1" 
+        created_time="2024-01-01 00:00:00" 
+        modified_time="2024-01-01 00:00:00" 
+    />
+    
+    <roles 
+        id="5" 
+        name="STUDENT" 
+        description="Student with access to own grades and attendance" 
+        system_role="1" 
+        created_time="2024-01-01 00:00:00" 
+        modified_time="2024-01-01 00:00:00" 
+    />
+    
+    <roles 
+        id="6" 
+        name="LIBRARIAN" 
+        description="Librarian with access to library management features" 
+        system_role="0" 
+        created_time="2024-01-01 00:00:00" 
+        modified_time="2024-01-01 00:00:00" 
+    />
+    
+    <roles 
+        id="7" 
+        name="REGISTRAR" 
+        description="Registrar with access to enrollment and records management" 
+        system_role="0" 
+        created_time="2024-01-01 00:00:00" 
+        modified_time="2024-01-01 00:00:00" 
+    />
+    
+    <roles 
+        id="8" 
+        name="COUNSELOR" 
+        description="Counselor with access to student counseling and guidance records" 
+        system_role="0" 
+        created_time="2024-01-01 00:00:00" 
+        modified_time="2024-01-01 00:00:00" 
+    />
+    
+    <roles 
+        id="9" 
+        name="ACCOUNTANT" 
+        description="Accountant with access to financial records and budgets" 
+        system_role="0" 
+        created_time="2024-01-01 00:00:00" 
+        modified_time="2024-01-01 00:00:00" 
+    />
+    
+    <roles 
+        id="10" 
+        name="IT_ADMIN" 
+        description="IT Administrator with system and network access" 
+        system_role="0" 
+        created_time="2024-01-01 00:00:00" 
+        modified_time="2024-01-01 00:00:00" 
+    />
+</dataset>

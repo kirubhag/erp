@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="STUDENT">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique identifier for the student</fieldDescription>
+    </field>
+    <field>
+        <fieldName>firstName</fieldName>
+        <fieldLabel>First Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Student's first name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>lastName</fieldName>
+        <fieldLabel>Last Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Student's last name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>middleName</fieldName>
+        <fieldLabel>Middle Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Student's middle name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>dateOfBirth</fieldName>
+        <fieldLabel>Date of Birth</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Student's date of birth</fieldDescription>
+    </field>
+    <field>
+        <fieldName>gender</fieldName>
+        <fieldLabel>Gender</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Student's gender</fieldDescription>
+    </field>
+    <field>
+        <fieldName>email</fieldName>
+        <fieldLabel>Email</fieldLabel>
+        <fieldType>EMAIL</fieldType>
+        <fieldCategory>Contact</fieldCategory>
+        <displayOrder>10</displayOrder>
+        <defaultWidth>180</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Student's email address</fieldDescription>
+    </field>
+    <field>
+        <fieldName>phone</fieldName>
+        <fieldLabel>Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <fieldCategory>Contact</fieldCategory>
+        <displayOrder>11</displayOrder>
+        <defaultWidth>130</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Student's phone number</fieldDescription>
+    </field>
+    <field>
+        <fieldName>address</fieldName>
+        <fieldLabel>Address</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>Contact</fieldCategory>
+        <displayOrder>12</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Student's address</fieldDescription>
+    </field>
+    <field>
+        <fieldName>studentId</fieldName>
+        <fieldLabel>Student ID</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>20</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique student identifier</fieldDescription>
+    </field>
+    <field>
+        <fieldName>gradeLevel</fieldName>
+        <fieldLabel>Grade Level</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>21</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Student's current grade level</fieldDescription>
+    </field>
+    <field>
+        <fieldName>section</fieldName>
+        <fieldLabel>Section</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>22</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Student's class section</fieldDescription>
+    </field>
+    <field>
+        <fieldName>enrollmentDate</fieldName>
+        <fieldLabel>Enrollment Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>23</displayOrder>
+        <defaultWidth>140</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Date when student was enrolled</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>30</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Whether the student is active</fieldDescription>
+    </field>
+    <field>
+        <fieldName>createdAt</fieldName>
+        <fieldLabel>Created At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>31</displayOrder>
+        <defaultWidth>160</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Record creation timestamp</fieldDescription>
+    </field>
+    <field>
+        <fieldName>updatedAt</fieldName>
+        <fieldLabel>Updated At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>32</displayOrder>
+        <defaultWidth>160</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Last update timestamp</fieldDescription>
+    </field>
+</entityFields>

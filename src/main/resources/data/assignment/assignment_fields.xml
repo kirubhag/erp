@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="ASSIGNMENT">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique identifier for assignment</fieldDescription>
+    </field>
+    <field>
+        <fieldName>title</fieldName>
+        <fieldLabel>Title</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Assignment title</fieldDescription>
+    </field>
+    <field>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>250</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Assignment description</fieldDescription>
+    </field>
+    <field>
+        <fieldName>courseCode</fieldName>
+        <fieldLabel>Course Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Course code</fieldDescription>
+    </field>
+    <field>
+        <fieldName>assignedDate</fieldName>
+        <fieldLabel>Assigned Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>140</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Date assignment was given</fieldDescription>
+    </field>
+    <field>
+        <fieldName>dueDate</fieldName>
+        <fieldLabel>Due Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>140</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Assignment due date</fieldDescription>
+    </field>
+    <field>
+        <fieldName>maxMarks</fieldName>
+        <fieldLabel>Max Marks</fieldLabel>
+        <fieldType>DECIMAL</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Maximum marks for assignment</fieldDescription>
+    </field>
+    <field>
+        <fieldName>type</fieldName>
+        <fieldLabel>Type</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Assignment type (Homework, Project, etc.)</fieldDescription>
+    </field>
+    <field>
+        <fieldName>instructions</fieldName>
+        <fieldLabel>Instructions</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>9</displayOrder>
+        <defaultWidth>250</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Assignment instructions</fieldDescription>
+    </field>
+</entityFields>

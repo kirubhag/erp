@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="COURSE">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique identifier for the course</fieldDescription>
+    </field>
+    <field>
+        <fieldName>courseCode</fieldName>
+        <fieldLabel>Course Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique course code</fieldDescription>
+    </field>
+    <field>
+        <fieldName>courseName</fieldName>
+        <fieldLabel>Course Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Name of the course</fieldDescription>
+    </field>
+    <field>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>250</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Course description</fieldDescription>
+    </field>
+    <field>
+        <fieldName>credits</fieldName>
+        <fieldLabel>Credits</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Number of credits</fieldDescription>
+    </field>
+    <field>
+        <fieldName>duration</fieldName>
+        <fieldLabel>Duration (Hours)</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Course duration in hours</fieldDescription>
+    </field>
+    <field>
+        <fieldName>gradeLevel</fieldName>
+        <fieldLabel>Grade Level</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Target grade level</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <fieldCategory>Status</fieldCategory>
+        <displayOrder>30</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Whether the course is active</fieldDescription>
+    </field>
+</entityFields>
