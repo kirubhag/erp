@@ -29,40 +29,33 @@ public class SecurityConfig {
     
     @Value("${app.cors.allowed-origins:http://localhost:4200,http://localhost:3000,http://localhost:8080,http://localhost:8081}")
     private String allowedOrigins;
+    
+    // Public paths that should be accessible without authentication
+    private static final String[] PUBLIC_PATHS = {
+        "/", "/index.html", "/manifest.json", "/favicon.ico", "/robots.txt",
+        "/*.js", "/*.css", "/*.svg", "/*.png", "/*.jpg", "/*.jpeg", "/*.gif", "/*.ico",
+        "/assets/**", "/dist/**", "/angular/**", "/static/**", "/vendor/**", "/css/**", "/js/**", "/images/**",
+        "/login.html",
+        "/settings/users/**", "/settings/auth/**",
+        "/api/iam/**", "/api/**",
+        "/actuator/health", "/__healthcheck", "/csrf"
+    };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .authorizeHttpRequests(authz -> authz
-                // Allow user management endpoints - HIGHEST PRIORITY (match all methods)
-                .requestMatchers("/settings/users/**").permitAll()
-                .requestMatchers("/settings/users").permitAll()
-                // Public resources
-                .requestMatchers("/login.html", "/vendor/**", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
-                .requestMatchers("/actuator/health", "/__healthcheck", "/csrf").permitAll()
-                // Allow authentication endpoints
-                .requestMatchers("/settings/auth/**", "/settings/auth").permitAll()
-                // Allow IAM endpoints BEFORE general /api/** (more specific first)
-                .requestMatchers("/api/iam/**").permitAll()
-                // Allow all API endpoints for Angular development
-                .requestMatchers("/api/**").permitAll()
-                // All other requests require authentication
-                .anyRequest().authenticated()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login.html?logout=true")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-            )
-            // Disable CSRF for REST API endpoints
+            .cors(cors -> cors.disable())
             .csrf(csrf -> csrf.disable())
-            // Allow frames for H2 console
-            .headers(headers -> headers
-                .frameOptions(frameOptions -> frameOptions.sameOrigin())
-            );
+            .logout(logout -> logout.disable())
+            .sessionManagement(sess -> sess.disable())
+            .authorizeHttpRequests(authz -> authz
+                .anyRequest().permitAll()
+            )
+            .anonymous(anon -> anon.disable())
+            .httpBasic(basic -> basic.disable())
+            .formLogin(form -> form.disable())
+            .headers(headers -> headers.disable())
+            .exceptionHandling(handler -> handler.disable());
 
         return http.build();
     }

@@ -11,27 +11,15 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
-        // Static resources
-        registry.addResourceHandler("/css/**")
-                .addResourceLocations("classpath:/static/css/");
-        
-        registry.addResourceHandler("/js/**")
-                .addResourceLocations("classpath:/static/js/");
-        
-        registry.addResourceHandler("/images/**")
-                .addResourceLocations("classpath:/static/images/");
-        
-        registry.addResourceHandler("/templates/**")
-                .addResourceLocations("classpath:/static/templates/");
-                
-        // Webjars resources
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        // Serve all files from Angular dist directory
+        // This includes index.html for root path
+        registry.addResourceHandler("**")
+                .addResourceLocations("classpath:/static/angular/dist/erp-frontend/browser/")
+                .setCachePeriod(0);
     }
 
     @Override
     public void addViewControllers(@NonNull ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/").setViewName("index");
+        // No view controllers needed - resource handler will serve everything
     }
 }

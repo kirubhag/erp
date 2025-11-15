@@ -182,7 +182,7 @@
 				<excludes>
 					<exclude>static/angular/node_modules/**</exclude>
 					<exclude>static/angular/.angular/**</exclude>
-					<exclude>static/angular/dist/**</exclude>
+					<exclude>static/angular/src/**</exclude>
 				</excludes>
 			</resource>
 		</resources>
