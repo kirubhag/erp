@@ -11,15 +11,33 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
-        // Serve all files from Angular dist directory
-        registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/angular/dist/erp-frontend/browser/")
-                .setCachePeriod(0);
+        // Static resources
+        registry.addResourceHandler("/css/**")
+                .addResourceLocations("classpath:/static/css/");
+        
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/static/js/");
+        
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/static/images/");
+        
+        registry.addResourceHandler("/templates/**")
+                .addResourceLocations("classpath:/static/templates/");
+                
+        // Webjars resources
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        
+        // Angular resources - serve from dist
+        registry.addResourceHandler("/favicon.ico")
+                .addResourceLocations("classpath:/static/angular/dist/erp-frontend/browser/");
+        
+        registry.addResourceHandler("/assets/**", "/dist/**", "/angular/**")
+                .addResourceLocations("classpath:/static/angular/dist/erp-frontend/browser/");
     }
 
     @Override
     public void addViewControllers(@NonNull ViewControllerRegistry registry) {
-        // Redirect root path to index.html
-        registry.addViewController("/").setViewName("forward:/index.html");
+        // No view controllers - let resource handlers and REST controllers handle it
     }
 }

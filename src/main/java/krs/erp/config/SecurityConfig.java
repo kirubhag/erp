@@ -29,33 +29,22 @@ public class SecurityConfig {
     
     @Value("${app.cors.allowed-origins:http://localhost:4200,http://localhost:3000,http://localhost:8080,http://localhost:8081}")
     private String allowedOrigins;
-    
-    // Public paths that should be accessible without authentication
-    private static final String[] PUBLIC_PATHS = {
-        "/", "/index.html", "/manifest.json", "/favicon.ico", "/robots.txt",
-        "/*.js", "/*.css", "/*.svg", "/*.png", "/*.jpg", "/*.jpeg", "/*.gif", "/*.ico",
-        "/assets/**", "/dist/**", "/angular/**", "/static/**", "/vendor/**", "/css/**", "/js/**", "/images/**",
-        "/login.html",
-        "/settings/users/**", "/settings/auth/**",
-        "/api/iam/**", "/api/**",
-        "/actuator/health", "/__healthcheck", "/csrf"
-    };
 
+    /**
+     * Create a security filter chain that allows ALL requests without authentication.
+     * This disables Spring Security's request authorization checks.
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.disable())
-            .csrf(csrf -> csrf.disable())
-            .logout(logout -> logout.disable())
-            .sessionManagement(sess -> sess.disable())
-            .anonymous(anon -> {})  // Enable anonymous authentication  (default)
             .authorizeHttpRequests(authz -> authz
+                // Allow all requests without any authorization checks
                 .anyRequest().permitAll()
             )
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.disable())
             .httpBasic(basic -> basic.disable())
-            .formLogin(form -> form.disable())
-            .headers(headers -> headers.disable())
-            .exceptionHandling(handler -> handler.disable());
+            .formLogin(form -> form.disable());
 
         return http.build();
     }
