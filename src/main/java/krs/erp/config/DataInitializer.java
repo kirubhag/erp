@@ -12,7 +12,7 @@ import krs.erp.repository.UserRepository;
 import krs.erp.service.DataImportService;
 
 @Component
-@Profile("!test") // Don't run in test profile
+@Profile("never") // Disable for now
 public class DataInitializer implements CommandLineRunner {
     
     private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);

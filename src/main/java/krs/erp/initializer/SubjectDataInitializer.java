@@ -23,8 +23,9 @@ import krs.erp.repository.SubjectRepository;
 /**
  * Initializes subject data from subjects.xml if the database is empty.
  */
-@Component
-@Order(3) // Run after DataInitializer
+//@Component
+@Order(3) // Run after DataInitializer - DISABLED
+//@Component
 public class SubjectDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(SubjectDataInitializer.class);

@@ -18,8 +18,10 @@ import krs.erp.model.Timetable;
 import krs.erp.model.Timetable.DayOfWeek;
 import krs.erp.repository.TimetableRepository;
 
-@Component
-@Order(4)
+
+//@Component
+@Order(4) // DISABLED
+//@Component
 public class TimetableDataInitializer implements CommandLineRunner {
 
     @Autowired

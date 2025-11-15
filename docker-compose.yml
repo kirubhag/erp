@@ -12,8 +12,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
-      - ./src/main/resources/data:/docker-entrypoint-initdb.d/02-data
+      - ./src/main/resources/db/mysql-init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - erp-network
     healthcheck:
@@ -36,9 +35,10 @@ services:
       SPRING_DATASOURCE_USERNAME: erp_user
       SPRING_DATASOURCE_PASSWORD: erp_password
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
-      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: false
       SPRING_APPLICATION_NAME: Edu ERP
+      SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8080:8080"
     networks:
