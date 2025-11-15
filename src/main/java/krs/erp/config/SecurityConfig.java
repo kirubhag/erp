@@ -48,10 +48,10 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .logout(logout -> logout.disable())
             .sessionManagement(sess -> sess.disable())
+            .anonymous(anon -> {})  // Enable anonymous authentication  (default)
             .authorizeHttpRequests(authz -> authz
                 .anyRequest().permitAll()
             )
-            .anonymous(anon -> anon.disable())
             .httpBasic(basic -> basic.disable())
             .formLogin(form -> form.disable())
             .headers(headers -> headers.disable())
