@@ -45,6 +45,7 @@ export class EntityListComponent implements OnInit {
   @Input() title: string = 'Entity List';
   @Input() entityName: string = 'Item';
   @Input() entityNamePlural: string = 'Items';
+  @Input() entityType: string = ''; // For navigation to detail page
   @Input() columns: EntityColumn[] = [];
   @Input() data: any[] = [];
   @Input() filters: EntityFilter[] = [];
@@ -68,6 +69,7 @@ export class EntityListComponent implements OnInit {
   @Output() itemsPerPageChange = new EventEmitter<number>();
   @Output() actionClick = new EventEmitter<{ action: string; item?: any; selectedItems?: any[] }>();
   @Output() selectionChange = new EventEmitter<any[]>();
+  @Output() rowClick = new EventEmitter<{ entityType: string; item: any }>();
 
   searchTerm: string = '';
   selectedItems: Set<any> = new Set();
@@ -160,6 +162,12 @@ export class EntityListComponent implements OnInit {
       action,
       selectedItems: Array.from(this.selectedItems)
     });
+  }
+
+  onRowClick(item: any) {
+    if (this.entityType) {
+      this.rowClick.emit({ entityType: this.entityType, item });
+    }
   }
 
   clearFilters() {

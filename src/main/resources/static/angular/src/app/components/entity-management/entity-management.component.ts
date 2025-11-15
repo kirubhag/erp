@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EntityListComponent, EntityColumn, PaginationInfo } from '../entity-list/entity-list.component';
 import { HttpClient } from '@angular/common/http';
@@ -25,12 +25,14 @@ interface ApiResponse {
       [title]="title"
       [entityName]="entityName"
       [entityNamePlural]="entityNamePlural"
+      [entityType]="entityType"
       [columns]="columns"
       [data]="data"
       [pagination]="pagination"
       [loading]="loading"
       (pageChange)="onPageChange($event)"
       (searchChange)="onSearch($event)"
+      (rowClick)="onRowClick($event)"
     ></app-entity-list>
   `,
   styles: []
@@ -94,6 +96,7 @@ export class EntityManagementComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private http: HttpClient
   ) {}
 
@@ -208,5 +211,13 @@ export class EntityManagementComponent implements OnInit {
   onSearch(searchTerm: string): void {
     // Implement search functionality if needed
     console.log('Searching for:', searchTerm);
+  }
+
+  onRowClick(event: { entityType: string; item: any }): void {
+    const { entityType, item } = event;
+    const itemId = item.id;
+    if (itemId) {
+      this.router.navigate(['/entity-detail', entityType, itemId]);
+    }
   }
 }

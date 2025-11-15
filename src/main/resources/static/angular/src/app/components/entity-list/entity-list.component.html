@@ -165,20 +165,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of data; trackBy: trackByFn" class="table-row-hover">
+          <tr *ngFor="let item of data; trackBy: trackByFn" 
+              class="table-row-hover" 
+              (click)="onRowClick(item)"
+              style="cursor: pointer;">
             <td *ngIf="showBulkActions" class="position-relative">
               <input type="checkbox" class="form-check-input" 
                      [checked]="isSelected(item)" 
-                     (change)="toggleSelectItem(item)">
+                     (change)="toggleSelectItem(item)"
+                     (click)="$event.stopPropagation()">
               <!-- Row Actions (next to checkbox) -->
               <div class="row-actions">
                 <button class="btn btn-sm btn-outline-primary me-1" 
-                        (click)="onAction('edit', item)"
+                        (click)="onAction('edit', item); $event.stopPropagation()"
                         title="Edit">
                   <i class="fas fa-edit"></i>
                 </button>
                 <button class="btn btn-sm btn-outline-danger" 
-                        (click)="onAction('delete', item)"
+                        (click)="onAction('delete', item); $event.stopPropagation()"
                         title="Delete">
                   <i class="fas fa-trash"></i>
                 </button>
