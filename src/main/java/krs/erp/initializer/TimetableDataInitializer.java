@@ -9,7 +9,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -18,7 +17,7 @@ import krs.erp.model.Timetable;
 import krs.erp.model.Timetable.DayOfWeek;
 import krs.erp.repository.TimetableRepository;
 
-@Component
+// @Component  // Disabled - schema mismatch issues
 @Order(9)
 public class TimetableDataInitializer implements CommandLineRunner {
 

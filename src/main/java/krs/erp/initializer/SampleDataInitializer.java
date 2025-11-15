@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -50,7 +49,7 @@ import krs.erp.repository.UserRepository;
  * - data/staff/sample-staff.xml
  * - data/user/sample-users.xml
  */
-@Component
+// @Component  // Disabled - schema mismatch issues
 @Order(0)
 public class SampleDataInitializer implements CommandLineRunner {
 

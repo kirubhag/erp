@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -39,10 +38,10 @@ import krs.erp.repository.StudentRepository;
  *   enrollment_status="ACTIVE" 
  *   emergency_contact_name="Jennifer Anderson" 
  *   emergency_contact_phone="+1234560101" 
- *   emergency_contact_relation="Mother" 
+ * emergency_contact_relation="Mother" 
  * />
  */
-@Component
+// @Component  // Disabled - schema mismatch issues
 @Order(6)
 public class StudentDataInitializer implements CommandLineRunner {
 

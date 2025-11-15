@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -19,15 +18,11 @@ import krs.erp.model.Parent;
 import krs.erp.repository.ParentRepository;
 
 /**
- * ParentDataInitializer loads sample parent data from XML files.
- * 
- * Execution Order:
- * @Order(11) - After all other initializers to ensure dependent entities exist
- * 
- * Data is loaded from: data/parent/sample-parents.xml
+ * Data initializer for Parent entities.
+ * Loads parents from sample-data.xml on application startup.
  */
-@Component
-@Order(11)
+// @Component  // Disabled - schema mismatch issues
+@Order(3)
 public class ParentDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ParentDataInitializer.class);

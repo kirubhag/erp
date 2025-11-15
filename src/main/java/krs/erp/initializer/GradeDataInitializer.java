@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -26,7 +25,7 @@ import krs.erp.repository.GradeRepository;
 /**
  * Initializes Grade data from grades.xml on application startup
  */
-@Component
+// @Component  // Disabled - schema mismatch issues
 @Order(7)
 public class GradeDataInitializer implements CommandLineRunner {
 

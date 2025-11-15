@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -21,10 +20,10 @@ import krs.erp.model.Subject;
 import krs.erp.repository.SubjectRepository;
 
 /**
- * Initializes subject data from subjects.xml if the database is empty.
+ * Initializes Subject data from subjects.xml on application startup
  */
-@Component
-@Order(8) // Run after StudentDataInitializer
+// @Component  // Disabled - schema mismatch issues
+@Order(6)
 public class SubjectDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(SubjectDataInitializer.class);
