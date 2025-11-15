@@ -87,6 +87,29 @@ CREATE TABLE IF NOT EXISTS role_permissions (
     FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE
 );
 
+-- Addresses table (must be created before students, staff, and parents tables)
+CREATE TABLE IF NOT EXISTS addresses (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    entity_type VARCHAR(50) NOT NULL,
+    entity_id BIGINT NOT NULL,
+    address_line1 VARCHAR(100),
+    address_line2 VARCHAR(100),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    postal_code VARCHAR(20),
+    country VARCHAR(50),
+    is_primary BOOLEAN DEFAULT TRUE NOT NULL,
+    address_type VARCHAR(20) DEFAULT 'RESIDENTIAL',
+    created_time DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    modified_time DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    INDEX idx_entity (entity_type, entity_id),
+    INDEX idx_primary (entity_type, entity_id, is_primary)
+);
+
 -- Students table
 CREATE TABLE IF NOT EXISTS students (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -114,12 +137,14 @@ CREATE TABLE IF NOT EXISTS students (
     medical_conditions TEXT,
     transportation_mode VARCHAR(50),
     organization_id BIGINT,
+    address_id BIGINT,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     version BIGINT DEFAULT 0,
     created_by VARCHAR(100),
     last_modified_by VARCHAR(100),
-    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+    FOREIGN KEY (organization_id) REFERENCES organizations(id),
+    FOREIGN KEY (address_id) REFERENCES addresses(id)
 );
 
 -- Staff table
@@ -144,13 +169,15 @@ CREATE TABLE IF NOT EXISTS staff (
     experience_years INT DEFAULT 0,
     organization_id BIGINT,
     user_id BIGINT UNIQUE,
+    address_id BIGINT,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     version BIGINT DEFAULT 0,
     created_by VARCHAR(100),
     last_modified_by VARCHAR(100),
     FOREIGN KEY (organization_id) REFERENCES organizations(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES iam_users(id),
+    FOREIGN KEY (address_id) REFERENCES addresses(id)
 );
 
 -- Parents table
@@ -166,12 +193,14 @@ CREATE TABLE IF NOT EXISTS parents (
     is_primary_contact BOOLEAN DEFAULT FALSE,
     is_emergency_contact BOOLEAN DEFAULT FALSE,
     organization_id BIGINT,
+    address_id BIGINT,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     version BIGINT DEFAULT 0,
     created_by VARCHAR(100),
     last_modified_by VARCHAR(100),
-    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+    FOREIGN KEY (organization_id) REFERENCES organizations(id),
+    FOREIGN KEY (address_id) REFERENCES addresses(id)
 );
 
 -- Student parent relationships
@@ -186,21 +215,27 @@ CREATE TABLE IF NOT EXISTS student_parent_relationships (
 -- Attendance table (without custom fields to avoid row size issues)
 CREATE TABLE IF NOT EXISTS attendance (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    student_id BIGINT NOT NULL,
+    student_id BIGINT,
+    staff_id BIGINT,
     attendance_date DATE NOT NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'PRESENT',
     check_in_time TIME,
     check_out_time TIME,
-    notes TEXT,
-    marked_by VARCHAR(100),
+    attendance_type VARCHAR(20) NOT NULL,
+    remarks TEXT,
+    excused BOOLEAN DEFAULT FALSE,
+    recorded_by BIGINT,
     organization_id BIGINT,
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    version BIGINT DEFAULT 0,
+    created_time DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    modified_time DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     created_by VARCHAR(100),
-    last_modified_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
     UNIQUE KEY unique_student_date (student_id, attendance_date),
     FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
+    FOREIGN KEY (staff_id) REFERENCES staff(id) ON DELETE CASCADE,
+    FOREIGN KEY (recorded_by) REFERENCES iam_users(id),
     FOREIGN KEY (organization_id) REFERENCES organizations(id)
 );
 
@@ -328,7 +363,7 @@ CREATE TABLE IF NOT EXISTS subjects (
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     INDEX idx_subject_code (subject_code),
-    INDEX idx_grade_level (gradeLevel),
+    INDEX idx_grade_level (grade_level),
     INDEX idx_is_active (is_active)
 );
 

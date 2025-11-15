@@ -1,0 +1,60 @@
+services:
+  # MySQL Database Service
+  mysql:
+    image: mysql:9.0
+    container_name: erp-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: erp_db
+      MYSQL_USER: erp_user
+      MYSQL_PASSWORD: erp_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./src/main/resources/data:/docker-entrypoint-initdb.d/02-data
+    networks:
+      - erp-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Application Service
+  erp-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: erp-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/erp_db
+      SPRING_DATASOURCE_USERNAME: erp_user
+      SPRING_DATASOURCE_PASSWORD: erp_password
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_JPA_SHOW_SQL: false
+      SPRING_APPLICATION_NAME: Edu ERP
+    ports:
+      - "8080:8080"
+    networks:
+      - erp-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  erp-network:
+    driver: bridge

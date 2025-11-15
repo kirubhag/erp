@@ -72,7 +72,7 @@ export class SettingsSidebarComponent implements OnInit {
         title: 'Customization',
         isExpanded: false,
         items: [
-          { label: 'Modules and Fields', icon: 'fas fa-cubes', route: '/setup/modules', active: false },
+          { label: 'Modules and Fields', icon: 'fas fa-cubes', route: '/setup/modules-fields', active: false },
           { label: 'Customize Home page', icon: 'fas fa-home', route: '/setup/customize-home', active: false },
           { label: 'Email Templates', icon: 'fas fa-envelope-open-text', route: '/setup/email-templates', active: false }
         ]
