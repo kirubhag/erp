@@ -7,9 +7,12 @@
 
 /* Theme Color Variables */
 :root {
-  --app-primary: #0891B2;
+  --app-primary: #0099cc;
+  --app-primary-default: #0099cc;
   --app-primary-dark: #0369A1;
+  --app-primary-dark-default: #0369A1;
   --app-primary-light: #CFFAFE;
+  --app-primary-light-default: #CFFAFE;
   --app-secondary: #6c757d;
   --app-success: #10B981;
   --app-danger: #EF4444;
@@ -17,8 +20,8 @@
   --app-info: #06B6D4;
   --app-border: #E5E7EB;
   
-  --bs-primary: #0891B2;
-  --bs-primary-rgb: 8, 145, 178;
+  --bs-primary: #0099cc;
+  --bs-primary-rgb: 0, 153, 204;
 }
 
 body {

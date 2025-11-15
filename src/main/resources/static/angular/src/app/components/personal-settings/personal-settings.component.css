@@ -41,13 +41,13 @@
 }
 
 .tab-link:hover {
-  color: var(--app-primary, #0099cc);
+  color: var(--app-primary, var(--app-primary-default));
   background-color: #f9f9f9;
 }
 
 .tab-link.active {
-  color: var(--app-primary, #0099cc);
-  border-bottom-color: var(--app-primary, #0099cc);
+  color: var(--app-primary, var(--app-primary-default));
+  border-bottom-color: var(--app-primary, var(--app-primary-default));
 }
 
 .tab-link i {
@@ -68,13 +68,13 @@
 }
 
 .nav-link:hover {
-  color: var(--app-primary, #0099cc) !important;
+  color: var(--app-primary, var(--app-primary-default)) !important;
   background-color: #f9f9f9;
 }
 
 .nav-link.active {
-  color: var(--app-primary, #0099cc) !important;
-  border-bottom-color: var(--app-primary, #0099cc) !important;
+  color: var(--app-primary, var(--app-primary-default)) !important;
+  border-bottom-color: var(--app-primary, var(--app-primary-default)) !important;
 }
 
 .nav-link i {
@@ -213,8 +213,8 @@
 }
 
 .btn-edit:hover {
-  border-color: var(--app-primary, #0099cc);
-  color: var(--app-primary, #0099cc);
+  border-color: var(--app-primary, var(--app-primary-default));
+  color: var(--app-primary, var(--app-primary-default));
   background-color: #f0f7ff;
 }
 
@@ -293,7 +293,7 @@
 
 .form-select:focus {
   outline: none;
-  border-color: var(--app-primary, #0099cc);
+  border-color: var(--app-primary, var(--app-primary-default));
   box-shadow: 0 0 0 2px rgba(0, 153, 204, 0.1);
 }
 

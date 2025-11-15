@@ -34,12 +34,12 @@
 
 .list-group-item:hover {
   background-color: #f8f9fa;
-  border-left-color: var(--app-primary, #0099cc);
+  border-left-color: var(--app-primary, var(--app-primary-default));
 }
 
 .list-group-item.active {
-  background-color: var(--app-primary-light, #E0F7F4);
-  border-color: var(--app-primary, #0099cc);
+  background-color: var(--app-primary-light, var(--app-primary-light-default));
+  border-color: var(--app-primary, var(--app-primary-default));
   color: inherit;
 }
 

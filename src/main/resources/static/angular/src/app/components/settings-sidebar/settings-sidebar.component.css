@@ -117,11 +117,11 @@
 
 .nav-category-link:hover {
   background-color: #f5f5f5;
-  color: var(--app-primary, #0099cc);
+  color: var(--app-primary, var(--app-primary-default));
 }
 
 .nav-category-link.active {
-  color: var(--app-primary, #0099cc);
+  color: var(--app-primary, var(--app-primary-default));
 }
 
 .nav-category-link i {
@@ -172,14 +172,14 @@
 
 .nav-item:hover {
   background-color: #f5f5f5;
-  color: var(--app-primary, #0099cc);
-  border-left-color: var(--app-primary, #0099cc);
+  color: var(--app-primary, var(--app-primary-default));
+  border-left-color: var(--app-primary, var(--app-primary-default));
 }
 
 .nav-item.active {
-  background-color: var(--app-primary-light, #E0F7F4);
-  color: var(--app-primary, #0099cc);
-  border-left-color: var(--app-primary, #0099cc);
+  background-color: var(--app-primary-light, var(--app-primary-light-default));
+  color: var(--app-primary, var(--app-primary-default));
+  border-left-color: var(--app-primary, var(--app-primary-default));
   font-weight: 500;
 }
 

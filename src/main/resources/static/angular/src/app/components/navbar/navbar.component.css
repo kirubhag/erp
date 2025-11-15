@@ -37,8 +37,8 @@
 }
 
 .btn-primary:hover {
-  background-color: var(--app-primary-dark, #0369A1) !important;
-  border-color: var(--app-primary-dark, #0369A1) !important;
+  background-color: var(--app-primary-dark, var(--app-primary-dark-default)) !important;
+  border-color: var(--app-primary-dark, var(--app-primary-dark-default)) !important;
   opacity: 1;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

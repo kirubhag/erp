@@ -112,12 +112,12 @@
 }
 
 .tab-link:hover {
-  color: var(--app-primary, #0099cc);
+  color: var(--app-primary, var(--app-primary-default));
 }
 
 .tab-link.active {
-  color: var(--app-primary, #0099cc);
-  border-bottom-color: var(--app-primary, #0099cc);
+  color: var(--app-primary, var(--app-primary-default));
+  border-bottom-color: var(--app-primary, var(--app-primary-default));
   font-weight: 500;
 }
 
