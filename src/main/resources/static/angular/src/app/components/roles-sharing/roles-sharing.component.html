@@ -1,0 +1,155 @@
+<div class="roles-sharing-page">
+  <!-- Sidebar Navigation -->
+  <div class="roles-sidebar-wrapper">
+    <app-settings-sidebar></app-settings-sidebar>
+  </div>
+
+  <!-- Main Content -->
+  <div class="roles-content-wrapper">
+    <div class="roles-sharing-wrapper">
+
+  <!-- Tabs -->
+  <div class="tabs-section">
+    <div class="tabs">
+      <button class="tab-button active">
+        <i class="fas fa-sitemap me-2"></i>Roles
+      </button>
+      <button class="tab-button">
+        <i class="fas fa-share-nodes me-2"></i>Data Sharing Settings
+      </button>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content-section">
+    <!-- Roles Tab -->
+    <div class="roles-container">
+      <!-- Main Content -->
+      <div class="roles-main">
+        <!-- Description and Actions -->
+        <div class="description-section">
+          <p class="description">
+            <i class="fas fa-info-circle me-2"></i>
+            This page allows you to define how you share the data among users based on your organization's role hierarchy.
+          </p>
+
+          <div class="action-buttons">
+            <button class="btn btn-primary" (click)="openNewRoleForm()">
+              <i class="fas fa-plus-circle me-2"></i>New Role
+            </button>
+            <button class="btn btn-link" (click)="expandAll()">
+              Expand All
+            </button>
+            <button class="btn btn-link" (click)="collapseAll()">
+              Collapse All
+            </button>
+          </div>
+        </div>
+
+        <!-- Role Hierarchy Tree -->
+        <div class="role-hierarchy">
+          <div class="tree-container">
+            <!-- Render all roles recursively in tree structure -->
+            <ng-container *ngFor="let role of getAllRolesInTree()">
+              <div class="tree-node" [ngClass]="getLevelClass(role)">
+                <!-- Tree Connector Lines -->
+                <div class="tree-connector" *ngIf="!isRootRole(role)">
+                  <div class="tree-connector-branch"></div>
+                </div>
+
+                <!-- Tree Content -->
+                <div class="tree-content">
+                  <div class="tree-item" [ngClass]="{'selected': selectedRole?.id === role.id, 'parent': role.children && role.children.length > 0}" (click)="selectRole(role)">
+                    <!-- Expand/Collapse Button -->
+                    <button
+                      class="expand-btn"
+                      *ngIf="role.children && role.children.length > 0"
+                      (click)="toggleRole(role); $event.stopPropagation()"
+                    >
+                      <i [ngClass]="isRoleExpanded(role.id) ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>
+                    </button>
+                    <span class="expand-placeholder" *ngIf="!role.children || role.children.length === 0"></span>
+
+                    <!-- Role Icon -->
+                    <i class="fas fa-sitemap tree-icon"></i>
+
+                    <!-- Role Name -->
+                    <span class="role-name">{{ role.name }}</span>
+
+                    <!-- System Badge -->
+                    <span class="role-badge" *ngIf="role.isSystemRole">SYSTEM</span>
+
+                    <!-- User Count -->
+                    <span class="user-count">
+                      <i class="fas fa-users"></i> {{ getTotalUserCount(role) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+
+          <!-- Details Panel for Selected Role -->
+          <div class="details-panel" *ngIf="selectedRole">
+            <h4>{{ selectedRole.name }} - Details</h4>
+            <p><strong>Description:</strong> {{ selectedRole.description }}</p>
+            <p><strong>Direct Users:</strong> {{ selectedRole.users }}</p>
+            <p><strong>Total Users (including children):</strong> {{ getTotalUserCount(selectedRole) }}</p>
+            <p><strong>Permissions:</strong> {{ selectedRole.permissions.join(', ') || 'None assigned' }}</p>
+            <div class="role-actions">
+              <button class="btn btn-sm btn-primary" (click)="editRole(selectedRole)" *ngIf="!selectedRole.isSystemRole">
+                <i class="fas fa-edit me-1"></i>Edit
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="deleteRole(selectedRole)" *ngIf="!selectedRole.isSystemRole">
+                <i class="fas fa-trash me-1"></i>Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Role Modal -->
+  <div class="modal-overlay" *ngIf="showNewRoleForm" (click)="closeNewRoleForm()"></div>
+  <div class="modal" *ngIf="showNewRoleForm" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Create New Role</h2>
+      <button class="close-btn" (click)="closeNewRoleForm()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="roleName">Role Name <span class="required">*</span></label>
+        <input
+          type="text"
+          id="roleName"
+          class="form-control"
+          [(ngModel)]="newRoleName"
+          placeholder="Enter role name"
+        >
+      </div>
+      <div class="form-group">
+        <label for="roleDescription">Description</label>
+        <textarea
+          id="roleDescription"
+          class="form-control"
+          [(ngModel)]="newRoleDescription"
+          placeholder="Enter role description"
+          rows="3"
+        ></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-secondary" (click)="closeNewRoleForm()">
+        Cancel
+      </button>
+      <button class="btn btn-primary" (click)="createNewRole()">
+        <i class="fas fa-check me-1"></i>Create Role
+      </button>
+    </div>
+  </div>
+    </div>
+  </div>
+</div>

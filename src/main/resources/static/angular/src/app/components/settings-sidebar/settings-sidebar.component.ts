@@ -99,7 +99,7 @@ export class SettingsSidebarComponent implements OnInit {
         title: 'Data Administration',
         isExpanded: false,
         items: [
-          { label: 'Import', icon: 'fas fa-download', route: '/setup/import', active: false },
+          { label: 'Import', icon: 'fas fa-download', route: '/setup/import-history', active: false },
           { label: 'Export', icon: 'fas fa-upload', route: '/setup/export', active: false },
           { label: 'Data Backup', icon: 'fas fa-database', route: '/setup/backup', active: false },
           { label: 'Storage', icon: 'fas fa-server', route: '/setup/storage', active: false },

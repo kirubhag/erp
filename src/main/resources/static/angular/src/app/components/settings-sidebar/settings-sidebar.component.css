@@ -2,13 +2,15 @@
 .settings-sidebar {
   width: 280px;
   background: white;
-  border-right: 1px solid #e0e0e0;
+  border-right: 1px solid var(--app-border, #E5E7EB);
   padding: 20px 0;
   position: relative;
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 /* Sidebar Header */
@@ -106,6 +108,20 @@
   justify-content: space-between;
   transition: all 0.3s ease;
   text-transform: capitalize;
+  box-sizing: border-box;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-category-link:hover {
+  background-color: #f0f9fc;
+  color: var(--app-primary, #0891B2);
+}
+
+.nav-category-link.active {
+  color: var(--app-primary, #0891B2);
 }
 
 .nav-category-link:hover {
@@ -152,6 +168,24 @@
   font-size: 13px;
   transition: all 0.3s ease;
   border-left: 3px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.nav-item:hover {
+  background-color: #f0f9fc;
+  color: var(--app-primary, #0891B2);
+  border-left-color: var(--app-primary, #0891B2);
+}
+
+.nav-item.active {
+  background-color: var(--app-primary-light, #CFFAFE);
+  color: var(--app-primary, #0891B2);
+  border-left-color: var(--app-primary, #0891B2);
+  font-weight: 500;
 }
 
 .nav-item:hover {

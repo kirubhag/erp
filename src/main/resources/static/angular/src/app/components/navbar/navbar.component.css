@@ -1,7 +1,7 @@
 .navbar {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  background-color: var(--primary-color, #0056b3) !important;
+  background-color: var(--app-primary, #0891B2) !important;
   transition: background-color 0.3s ease;
 }
 
@@ -31,13 +31,15 @@
 }
 
 .btn-primary {
-  background-color: var(--primary-color, #0056b3) !important;
-  border-color: var(--primary-color, #0056b3) !important;
+  background-color: var(--app-primary, #0891B2) !important;
+  border-color: var(--app-primary, #0891B2) !important;
   transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-  opacity: 0.9;
+  background-color: var(--app-primary-dark, #0369A1) !important;
+  border-color: var(--app-primary-dark, #0369A1) !important;
+  opacity: 1;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -55,8 +57,13 @@
 }
 
 .dropdown-item:hover {
-  background-color: #f8f9fa;
-  color: var(--primary-color, #0056b3) !important;
+  background-color: #f0f9fc;
+  color: var(--app-primary, #0891B2) !important;
+}
+
+.dropdown-item.active {
+  background-color: var(--app-primary, #0891B2) !important;
+  color: white !important;
 }
 
 @media (max-width: 991px) {

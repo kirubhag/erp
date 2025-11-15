@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardService, DashboardStats } from '../../services/dashboard.service';
+import { SampleDataModalComponent } from '../sample-data-modal/sample-data-modal.component';
 
 interface QuickAction {
   icon: string;
@@ -19,7 +21,7 @@ interface Activity {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SampleDataModalComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -32,6 +34,8 @@ export class DashboardComponent implements OnInit {
     attendanceRate: 0,
     totalAttendance: 0
   };
+
+  showSampleDataModal = false;
 
   quickActions: QuickAction[] = [
     { 
@@ -72,9 +76,16 @@ export class DashboardComponent implements OnInit {
   systemStatus = 'Online';
   currentDate = new Date();
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(private dashboardService: DashboardService, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    // Check for loadSampleData query parameter
+    this.route.queryParams.subscribe(params => {
+      if (params['loadSampleData'] === 'true') {
+        this.showSampleDataModal = true;
+      }
+    });
+
     // Show default stats immediately
     console.log('Dashboard initialized with default stats');
     

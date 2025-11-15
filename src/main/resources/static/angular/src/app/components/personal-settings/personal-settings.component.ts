@@ -39,12 +39,30 @@ export class PersonalSettingsComponent implements OnInit {
 
   // Available Themes
   themes = [
-    '#8B1538', '#C4161C', '#E7625E', '#F07E7F', '#E391B0',
-    '#A64D79', '#704D8D', '#005F87', '#1B4B7C', '#2E5090',
-    '#3B7DBA', '#5B9BD5', '#70AD47', '#92D050', '#00B050',
-    '#1BA140', '#BDD7EE', '#E2EFDA', '#FFF2CC', '#FCE4D6'
+    { name: 'Dark Red', color: '#660000' },
+    { name: 'Red', color: '#990000' },
+    { name: 'Red Light', color: '#D24143' },
+    { name: 'Red Salmon', color: '#DE4F5D' },
+    { name: 'Pink', color: '#ea4c88' },
+    { name: 'Purple', color: '#993399' },
+    { name: 'Purple Dark', color: '#663399' },
+    { name: 'Navy', color: '#07385D' },
+    { name: 'Blue Dark', color: '#1e5598' },
+    { name: 'Blue', color: '#2d72d9' },
+    { name: 'Blue Light', color: '#018EE0' },
+    { name: 'Cyan', color: '#0099cc' },
+    { name: 'Teal', color: '#37a5a5' },
+    { name: 'Green', color: '#439454' },
+    { name: 'Green Dark', color: '#336600' },
+    { name: 'Green Teal', color: '#165151' },
+    { name: 'Olive', color: '#999900' },
+    { name: 'Orange', color: '#E9A23F' },
+    { name: 'Orange Dark', color: '#E77817' },
+    { name: 'Brown', color: '#996633' },
+    { name: 'Mauve', color: '#553A48' },
+    { name: 'Gray', color: '#313949' }
   ];
-  _selectedTheme = '#005F87';
+  _selectedTheme = '#0099cc'; // Default to cyan
 
   get selectedTheme(): string {
     return this._selectedTheme;
@@ -67,9 +85,12 @@ export class PersonalSettingsComponent implements OnInit {
    */
   loadThemeFromStorage(): void {
     const savedTheme = localStorage.getItem('selectedTheme');
-    if (savedTheme && this.themes.includes(savedTheme)) {
+    if (savedTheme) {
       this._selectedTheme = savedTheme;
       this.applyTheme(savedTheme);
+    } else {
+      // Apply default cyan theme
+      this.applyTheme(this._selectedTheme);
     }
   }
 
@@ -82,18 +103,12 @@ export class PersonalSettingsComponent implements OnInit {
   }
 
   /**
-   * Apply theme to document
+   * Apply theme to document using CSS variables
    */
   applyTheme(color: string): void {
-    document.documentElement.style.setProperty('--primary-color', color);
-    const navbar = document.querySelector('nav.navbar');
-    if (navbar) {
-      (navbar as HTMLElement).style.backgroundColor = color;
-    }
-    const buttons = document.querySelectorAll('.btn-primary');
-    buttons.forEach(btn => {
-      (btn as HTMLElement).style.backgroundColor = color;
-    });
+    // Set the main CSS variable - all components reference this
+    document.documentElement.style.setProperty('--app-primary', color);
+    // All themed elements will automatically update through CSS cascade
   }
 
   /**

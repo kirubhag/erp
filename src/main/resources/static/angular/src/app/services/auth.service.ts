@@ -24,7 +24,7 @@ export interface UserDetails {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8081/settings';
+  private apiUrl = '/settings';
   private currentUserSubject = new BehaviorSubject<UserDetails | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
   private isLoggedOut = false;

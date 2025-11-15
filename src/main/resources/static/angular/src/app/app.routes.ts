@@ -12,6 +12,9 @@ import { CompanySettingsComponent } from './components/company-settings/company-
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { EntityManagementComponent } from './components/entity-management/entity-management.component';
+import { ImportHistoryComponent } from './components/import-history/import-history.component';
+import { RolesSharingComponent } from './components/roles-sharing/roles-sharing.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -20,6 +23,10 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'students', component: StudentListComponent, canActivate: [AuthGuard] },
+  { path: 'staff', component: EntityManagementComponent, canActivate: [AuthGuard] },
+  { path: 'attendance', component: EntityManagementComponent, canActivate: [AuthGuard] },
+  { path: 'parents', component: EntityManagementComponent, canActivate: [AuthGuard] },
+  { path: 'subjects', component: EntityManagementComponent, canActivate: [AuthGuard] },
   { path: 'setup', component: SetupComponent, canActivate: [AuthGuard] },
   { path: 'setup/personal-settings', component: PersonalSettingsComponent, canActivate: [AuthGuard] },
   { path: 'setup/users', component: UserComponent, canActivate: [AuthGuard] },
@@ -28,12 +35,7 @@ export const routes: Routes = [
   { path: 'setup/modules-fields', component: ModulesComponent, canActivate: [AuthGuard] },
   { path: 'setup/module-builder/:id', component: ModuleBuilderComponent, canActivate: [AuthGuard] },
   { path: 'setup/company-settings', component: CompanySettingsComponent, canActivate: [AuthGuard] },
-  // Add other routes as needed
-  // { path: 'staff', component: StaffComponent },
-  // { path: 'attendance', component: AttendanceComponent },
-  // { path: 'parents', component: ParentsComponent },
-  // { path: 'subjects', component: SubjectsComponent },
-  // { path: 'timetables', component: TimetablesComponent },
-  // { path: 'health', component: HealthRecordsComponent },
+  { path: 'setup/import-history', component: ImportHistoryComponent, canActivate: [AuthGuard] },
+  { path: 'setup/roles-sharing', component: RolesSharingComponent, canActivate: [AuthGuard] },
 ];
 

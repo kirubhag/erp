@@ -179,7 +179,7 @@ export class SetupComponent implements OnInit {
           id: 'import',
           label: 'Import',
           icon: 'fas fa-file-import',
-          route: '/setup/import',
+          route: '/setup/import-history',
           description: 'Import data from external sources'
         },
         {

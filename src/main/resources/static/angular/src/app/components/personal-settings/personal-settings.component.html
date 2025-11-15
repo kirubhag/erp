@@ -104,10 +104,10 @@
             <span 
               *ngFor="let theme of themes" 
               class="color-dot" 
-              [style.backgroundColor]="theme"
-              [class.active]="theme === selectedTheme"
-              (click)="selectedTheme = theme"
-              [title]="theme">
+              [style.backgroundColor]="theme.color"
+              [class.active]="theme.color === selectedTheme"
+              (click)="selectedTheme = theme.color"
+              [title]="theme.name">
             </span>
           </div>
         </div>
