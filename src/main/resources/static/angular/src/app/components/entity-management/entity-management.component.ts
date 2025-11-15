@@ -87,9 +87,9 @@ export class EntityManagementComponent implements OnInit {
 
   private apiEndpoints: { [key: string]: string } = {
     staff: '/api/v1/staff',
-    attendance: '/api/v1/attendance',
-    parents: '/api/v1/parents',
-    subjects: '/api/v1/subjects'
+    attendance: '/api/attendance',
+    parents: '/api/parents',
+    subjects: '/api/subjects'
   };
 
   constructor(
