@@ -1,11 +1,121 @@
 -- ============================================================================
--- Comprehensive ERP Database Schema
--- MySQL 9.x Compatible
+-- Comprehensive ERP Database Schema - MySQL 9.x Compatible
+-- Table creation order optimized to resolve foreign key constraints
 -- Generated from all 23 entity definitions in krs.erp.model package
 -- ============================================================================
 
 -- =============================================================================
--- 1. IAM (Identity & Access Management) Tables
+-- Phase 1: Base IAM Tables (No FK Dependencies)
+-- =============================================================================
+
+-- Organizations table - Created first as it's referenced by other tables
+CREATE TABLE IF NOT EXISTS organizations (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    code VARCHAR(20) UNIQUE,
+    description VARCHAR(500),
+    email VARCHAR(100),
+    phone VARCHAR(20),
+    fax VARCHAR(20),
+    website VARCHAR(100),
+    street_address VARCHAR(200),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    postal_code VARCHAR(10),
+    country VARCHAR(50),
+    registration_number VARCHAR(50),
+    tax_id VARCHAR(20),
+    established_year INT,
+    accreditation VARCHAR(50),
+    academic_year_format VARCHAR(20),
+    default_language VARCHAR(10) DEFAULT 'en',
+    default_currency VARCHAR(10) DEFAULT 'USD',
+    timezone VARCHAR(50) DEFAULT 'UTC',
+    logo_url VARCHAR(500),
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    INDEX idx_code (code),
+    INDEX idx_name (name),
+    INDEX idx_type (type),
+    INDEX idx_is_active (is_active)
+);
+
+-- Permissions table - Created before Roles
+CREATE TABLE IF NOT EXISTS permissions (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description VARCHAR(255),
+    resource VARCHAR(50),
+    action VARCHAR(50),
+    system_permission BOOLEAN NOT NULL DEFAULT false,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    INDEX idx_name (name),
+    INDEX idx_resource_action (resource, action),
+    INDEX idx_is_active (is_active)
+);
+
+-- Roles table - Created before Users
+CREATE TABLE IF NOT EXISTS roles (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    description VARCHAR(255),
+    system_role BOOLEAN NOT NULL DEFAULT false,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    INDEX idx_name (name),
+    INDEX idx_is_active (is_active)
+);
+
+-- Role-Permission relationship
+CREATE TABLE IF NOT EXISTS role_permissions (
+    role_id BIGINT NOT NULL,
+    permission_id BIGINT NOT NULL,
+    PRIMARY KEY (role_id, permission_id),
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
+    FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE,
+    INDEX idx_permission_id (permission_id)
+);
+
+-- Address table - Created early as it's used polymorphically
+CREATE TABLE IF NOT EXISTS addresses (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    entity_type VARCHAR(50) NOT NULL,
+    entity_id BIGINT NOT NULL,
+    address_line1 VARCHAR(100),
+    address_line2 VARCHAR(100),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    postal_code VARCHAR(20),
+    country VARCHAR(50),
+    is_primary BOOLEAN NOT NULL DEFAULT true,
+    address_type VARCHAR(20),
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    INDEX idx_entity (entity_type, entity_id),
+    INDEX idx_is_primary (is_primary),
+    INDEX idx_is_active (is_active)
+);
+
+-- =============================================================================
+-- Phase 2: Users Table (Depends on nothing - FK independent)
 -- =============================================================================
 
 -- Users table - Base for all user types
@@ -36,41 +146,6 @@ CREATE TABLE IF NOT EXISTS iam_users (
     INDEX idx_is_active (is_active)
 );
 
--- Roles table
-CREATE TABLE IF NOT EXISTS roles (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE,
-    description VARCHAR(255),
-    system_role BOOLEAN NOT NULL DEFAULT false,
-    created_by VARCHAR(100),
-    modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
-    modified_time DATETIME,
-    owner_id BIGINT,
-    is_active INT DEFAULT 1,
-    INDEX idx_name (name),
-    INDEX idx_is_active (is_active)
-);
-
--- Permissions table
-CREATE TABLE IF NOT EXISTS permissions (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    description VARCHAR(255),
-    resource VARCHAR(50),
-    action VARCHAR(50),
-    system_permission BOOLEAN NOT NULL DEFAULT false,
-    created_by VARCHAR(100),
-    modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
-    modified_time DATETIME,
-    owner_id BIGINT,
-    is_active INT DEFAULT 1,
-    INDEX idx_name (name),
-    INDEX idx_resource_action (resource, action),
-    INDEX idx_is_active (is_active)
-);
-
 -- User-Role relationship
 CREATE TABLE IF NOT EXISTS user_roles (
     user_id BIGINT NOT NULL,
@@ -81,45 +156,8 @@ CREATE TABLE IF NOT EXISTS user_roles (
     INDEX idx_role_id (role_id)
 );
 
--- Role-Permission relationship
-CREATE TABLE IF NOT EXISTS role_permissions (
-    role_id BIGINT NOT NULL,
-    permission_id BIGINT NOT NULL,
-    PRIMARY KEY (role_id, permission_id),
-    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
-    FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE,
-    INDEX idx_permission_id (permission_id)
-);
-
 -- =============================================================================
--- 2. Address Table (Polymorphic - used by Student, Staff, Parent, Organization)
--- =============================================================================
-
-CREATE TABLE IF NOT EXISTS addresses (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(50) NOT NULL,
-    entity_id BIGINT NOT NULL,
-    address_line1 VARCHAR(100),
-    address_line2 VARCHAR(100),
-    city VARCHAR(50),
-    state VARCHAR(50),
-    postal_code VARCHAR(20),
-    country VARCHAR(50),
-    is_primary BOOLEAN NOT NULL DEFAULT true,
-    address_type VARCHAR(20),
-    created_by VARCHAR(100),
-    modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
-    modified_time DATETIME,
-    owner_id BIGINT,
-    is_active INT DEFAULT 1,
-    INDEX idx_entity (entity_type, entity_id),
-    INDEX idx_is_primary (is_primary),
-    INDEX idx_is_active (is_active)
-);
-
--- =============================================================================
--- 3. Student & Related Tables
+-- Phase 3: Student Table (Depends on addresses and iam_users)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS students (
@@ -157,7 +195,7 @@ CREATE TABLE IF NOT EXISTS students (
 );
 
 -- =============================================================================
--- 4. Staff & Related Tables
+-- Phase 4: Staff Table (Depends on addresses and iam_users)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS staff (
@@ -201,7 +239,7 @@ CREATE TABLE IF NOT EXISTS staff (
 );
 
 -- =============================================================================
--- 5. Parent & Related Tables
+-- Phase 5: Parent Table (Depends on addresses and iam_users)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS parents (
@@ -234,7 +272,7 @@ CREATE TABLE IF NOT EXISTS parents (
     INDEX idx_is_active (is_active)
 );
 
--- Parent-Student relationship
+-- Parent-Student relationship (Depends on parents and students)
 CREATE TABLE IF NOT EXISTS parent_student_relations (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     parent_id BIGINT NOT NULL,
@@ -261,7 +299,7 @@ CREATE TABLE IF NOT EXISTS parent_student_relations (
 );
 
 -- =============================================================================
--- 6. Academic Tables (Subjects, Grades, Timetables)
+-- Phase 6: Academic Tables (Subjects, Grades, Timetables)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS subjects (
@@ -353,7 +391,7 @@ CREATE TABLE IF NOT EXISTS timetables (
 );
 
 -- =============================================================================
--- 7. Attendance Table
+-- Phase 7: Attendance Table (Depends on students, staff, iam_users)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS attendance (
@@ -386,7 +424,7 @@ CREATE TABLE IF NOT EXISTS attendance (
 );
 
 -- =============================================================================
--- 8. Health Records Table
+-- Phase 8: Health Records Table (Depends on students and iam_users)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS health_records (
@@ -423,47 +461,7 @@ CREATE TABLE IF NOT EXISTS health_records (
 );
 
 -- =============================================================================
--- 9. Organization Table
--- =============================================================================
-
-CREATE TABLE IF NOT EXISTS organizations (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    type VARCHAR(50) NOT NULL,
-    code VARCHAR(20) UNIQUE,
-    description VARCHAR(500),
-    email VARCHAR(100),
-    phone VARCHAR(20),
-    fax VARCHAR(20),
-    website VARCHAR(100),
-    street_address VARCHAR(200),
-    city VARCHAR(50),
-    state VARCHAR(50),
-    postal_code VARCHAR(10),
-    country VARCHAR(50),
-    registration_number VARCHAR(50),
-    tax_id VARCHAR(20),
-    established_year INT,
-    accreditation VARCHAR(50),
-    academic_year_format VARCHAR(20),
-    default_language VARCHAR(10) DEFAULT 'en',
-    default_currency VARCHAR(10) DEFAULT 'USD',
-    timezone VARCHAR(50) DEFAULT 'UTC',
-    logo_url VARCHAR(500),
-    created_by VARCHAR(100),
-    modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
-    modified_time DATETIME,
-    owner_id BIGINT,
-    is_active INT DEFAULT 1,
-    INDEX idx_code (code),
-    INDEX idx_name (name),
-    INDEX idx_type (type),
-    INDEX idx_is_active (is_active)
-);
-
--- =============================================================================
--- 10. ERP Field Configuration Tables
+-- Phase 9: ERP Field Configuration Tables (No FK dependencies)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS erp_fields (
@@ -501,7 +499,7 @@ CREATE TABLE IF NOT EXISTS erp_fields (
 );
 
 -- =============================================================================
--- 11. Email Configuration Tables
+-- Phase 10: Email Configuration Tables (Depends on nothing directly)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS email_templates (
@@ -561,7 +559,7 @@ CREATE TABLE IF NOT EXISTS email_logs (
 );
 
 -- =============================================================================
--- 12. ERP Entity Management Tables
+-- Phase 11: ERP Entity Management Tables (No FK dependencies initially)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS erp_entities (
@@ -599,7 +597,7 @@ CREATE TABLE IF NOT EXISTS erp_entities_role_relation (
 );
 
 -- =============================================================================
--- 13. Custom View Tables
+-- Phase 12: Custom View Tables (No FK dependencies)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS custom_views (
@@ -630,7 +628,7 @@ CREATE TABLE IF NOT EXISTS custom_view_fields (
 );
 
 -- =============================================================================
--- 14. Recycle Bin Table
+-- Phase 13: Recycle Bin Table (No FK dependencies)
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS recycle_bin (
@@ -649,5 +647,5 @@ CREATE TABLE IF NOT EXISTS recycle_bin (
 );
 
 -- ============================================================================
--- End of Schema
+-- End of Schema - All 24 tables created with proper FK ordering
 -- ============================================================================

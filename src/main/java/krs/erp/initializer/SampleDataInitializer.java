@@ -79,10 +79,10 @@ public class SampleDataInitializer implements CommandLineRunner {
 
         try {
             // Check if any data already exists
-            if (isDataAlreadyLoaded()) {
-                logger.info("Sample data already exists. Skipping initialization.");
-                return;
-            }
+            // DISABLED: if (isDataAlreadyLoaded()) {
+            //     logger.info("Sample data already exists. Skipping initialization.");
+            //     return;
+            // }
 
             logger.info("Loading sample data from organized XML files...");
 
@@ -111,10 +111,10 @@ public class SampleDataInitializer implements CommandLineRunner {
     private void loadPermissions() {
         logger.info("Loading Permissions from data/permission/sample-permissions.xml...");
         try {
-            if (permissionRepository.count() > 0) {
-                logger.info("Permissions already exist. Skipping.");
-                return;
-            }
+            // DISABLED: if (permissionRepository.count() > 0) {
+            //     logger.info("Permissions already exist. Skipping.");
+            //     return;
+            // }
 
             InputStream inputStream = getClass().getClassLoader()
                     .getResourceAsStream("data/permission/sample-permissions.xml");
@@ -144,10 +144,10 @@ public class SampleDataInitializer implements CommandLineRunner {
     private void loadRoles() {
         logger.info("Loading Roles from data/role/sample-roles.xml...");
         try {
-            if (roleRepository.count() > 0) {
-                logger.info("Roles already exist. Skipping.");
-                return;
-            }
+            // DISABLED: if (roleRepository.count() > 0) {
+            //     logger.info("Roles already exist. Skipping.");
+            //     return;
+            // }
 
             InputStream inputStream = getClass().getClassLoader()
                     .getResourceAsStream("data/role/sample-roles.xml");
@@ -177,10 +177,10 @@ public class SampleDataInitializer implements CommandLineRunner {
     private void loadOrganizations() {
         logger.info("Loading Organizations from data/organisation/sample-organisations.xml...");
         try {
-            if (organizationRepository.count() > 0) {
-                logger.info("Organizations already exist. Skipping.");
-                return;
-            }
+            // DISABLED: if (organizationRepository.count() > 0) {
+            //     logger.info("Organizations already exist. Skipping.");
+            //     return;
+            // }
 
             InputStream inputStream = getClass().getClassLoader()
                     .getResourceAsStream("data/organisation/sample-organisations.xml");
@@ -210,10 +210,10 @@ public class SampleDataInitializer implements CommandLineRunner {
     private void loadStaff() {
         logger.info("Loading Staff from data/staff/sample-staff.xml...");
         try {
-            if (staffRepository.count() > 0) {
-                logger.info("Staff already exist. Skipping.");
-                return;
-            }
+            // DISABLED: if (staffRepository.count() > 0) {
+            //     logger.info("Staff already exist. Skipping.");
+            //     return;
+            // }
 
             InputStream inputStream = getClass().getClassLoader()
                     .getResourceAsStream("data/staff/sample-staff.xml");
@@ -243,10 +243,10 @@ public class SampleDataInitializer implements CommandLineRunner {
     private void loadUsers() {
         logger.info("Loading Users from data/user/sample-users.xml...");
         try {
-            if (userRepository.count() > 0) {
-                logger.info("Users already exist. Skipping.");
-                return;
-            }
+            // DISABLED: if (userRepository.count() > 0) {
+            //     logger.info("Users already exist. Skipping.");
+            //     return;
+            // }
 
             InputStream inputStream = getClass().getClassLoader()
                     .getResourceAsStream("data/user/sample-users.xml");
@@ -380,8 +380,11 @@ public class SampleDataInitializer implements CommandLineRunner {
             try {
                 staff.setStaffType(Staff.StaffType.valueOf(staffType));
             } catch (IllegalArgumentException e) {
-                logger.warn("Invalid staff_type value: {}", staffType);
+                logger.warn("Invalid staff_type value: {}, defaulting to OTHER", staffType);
+                staff.setStaffType(Staff.StaffType.OTHER);
             }
+        } else {
+            staff.setStaffType(Staff.StaffType.OTHER);
         }
 
         staff.setDepartment(element.getAttribute("department"));
@@ -404,7 +407,7 @@ public class SampleDataInitializer implements CommandLineRunner {
     private User mapToUser(Element element) {
         User user = new User();
         user.setUsername(element.getAttribute("username"));
-        user.setPasswordHash(element.getAttribute("password"));
+        user.setPasswordHash(element.getAttribute("password_hash"));
         user.setEmail(element.getAttribute("email"));
         user.setFirstName(element.getAttribute("first_name"));
         user.setLastName(element.getAttribute("last_name"));
