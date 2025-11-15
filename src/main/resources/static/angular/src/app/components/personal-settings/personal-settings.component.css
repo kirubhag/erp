@@ -41,13 +41,13 @@
 }
 
 .tab-link:hover {
-  color: #2196F3;
+  color: var(--app-primary, #0099cc);
   background-color: #f9f9f9;
 }
 
 .tab-link.active {
-  color: #2196F3;
-  border-bottom-color: #2196F3;
+  color: var(--app-primary, #0099cc);
+  border-bottom-color: var(--app-primary, #0099cc);
 }
 
 .tab-link i {
@@ -68,13 +68,13 @@
 }
 
 .nav-link:hover {
-  color: #2196F3 !important;
+  color: var(--app-primary, #0099cc) !important;
   background-color: #f9f9f9;
 }
 
 .nav-link.active {
-  color: #2196F3 !important;
-  border-bottom-color: #2196F3 !important;
+  color: var(--app-primary, #0099cc) !important;
+  border-bottom-color: var(--app-primary, #0099cc) !important;
 }
 
 .nav-link i {
@@ -213,8 +213,8 @@
 }
 
 .btn-edit:hover {
-  border-color: #2196F3;
-  color: #2196F3;
+  border-color: var(--app-primary, #0099cc);
+  color: var(--app-primary, #0099cc);
   background-color: #f0f7ff;
 }
 
@@ -293,8 +293,8 @@
 
 .form-select:focus {
   outline: none;
-  border-color: #2196F3;
-  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+  border-color: var(--app-primary, #0099cc);
+  box-shadow: 0 0 0 2px rgba(0, 153, 204, 0.1);
 }
 
 /* Themes Grid */

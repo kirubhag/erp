@@ -116,17 +116,12 @@
 }
 
 .nav-category-link:hover {
-  background-color: #f0f9fc;
-  color: var(--app-primary, #0891B2);
+  background-color: #f5f5f5;
+  color: var(--app-primary, #0099cc);
 }
 
 .nav-category-link.active {
-  color: var(--app-primary, #0891B2);
-}
-
-.nav-category-link:hover {
-  background-color: #f5f5f5;
-  color: #2196F3;
+  color: var(--app-primary, #0099cc);
 }
 
 .nav-category-link i {
@@ -176,28 +171,15 @@
 }
 
 .nav-item:hover {
-  background-color: #f0f9fc;
-  color: var(--app-primary, #0891B2);
-  border-left-color: var(--app-primary, #0891B2);
-}
-
-.nav-item.active {
-  background-color: var(--app-primary-light, #CFFAFE);
-  color: var(--app-primary, #0891B2);
-  border-left-color: var(--app-primary, #0891B2);
-  font-weight: 500;
-}
-
-.nav-item:hover {
   background-color: #f5f5f5;
-  color: #2196F3;
-  border-left-color: #2196F3;
+  color: var(--app-primary, #0099cc);
+  border-left-color: var(--app-primary, #0099cc);
 }
 
 .nav-item.active {
-  background-color: #e8f4f8;
-  color: #2196F3;
-  border-left-color: #2196F3;
+  background-color: var(--app-primary-light, #E0F7F4);
+  color: var(--app-primary, #0099cc);
+  border-left-color: var(--app-primary, #0099cc);
   font-weight: 500;
 }
 
