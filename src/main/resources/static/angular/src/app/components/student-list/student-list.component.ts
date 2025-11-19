@@ -295,6 +295,12 @@ export class StudentListComponent implements OnInit, OnDestroy {
       case 'add':
         console.log('Add new student');
         break;
+      case 'import':
+        console.log('Import students');
+        this.router.navigate(['/import-wizard'], { 
+          queryParams: { entityType: 'students' } 
+        });
+        break;
       case 'edit':
         console.log('Edit student:', event.item);
         break;
