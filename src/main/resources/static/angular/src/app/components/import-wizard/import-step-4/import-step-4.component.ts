@@ -43,44 +43,42 @@ import { takeUntil, switchMap } from 'rxjs/operators';
           <div class="stats-section">
             <div class="stats-item">
               <span class="stats-label">Total records in file</span>
-              <span class="stats-value ms-2">{{ session.statistics?.totalRecords || session.totalRecords }}</span>
+              <span class="stats-value ms-2">{{ getTotalRecords() }}</span>
             </div>
           </div>
 
           <div class="stats-section">
-            <div class="stats-item" *ngIf="session.statistics?.addedRecords">
+            <div class="stats-item" *ngIf="session?.statistics?.addedRecords">
               <span class="stats-label status-added">
                 <i class="fas fa-plus-circle me-1"></i>Added
               </span>
-              <span class="stats-value ms-2">{{ session.statistics.addedRecords }}</span>
+              <span class="stats-value ms-2">{{ session?.statistics?.addedRecords }}</span>
             </div>
-            <div class="stats-item" *ngIf="session.statistics?.updatedRecords">
+            <div class="stats-item" *ngIf="session?.statistics?.updatedRecords">
               <span class="stats-label status-updated">
                 <i class="fas fa-edit me-1"></i>Updated
               </span>
-              <span class="stats-value ms-2">{{ session.statistics.updatedRecords }}</span>
+              <span class="stats-value ms-2">{{ session?.statistics?.updatedRecords }}</span>
             </div>
-            <div class="stats-item" *ngIf="session.statistics?.skippedRecords">
+            <div class="stats-item" *ngIf="session?.statistics?.skippedRecords">
               <span class="stats-label status-skipped">
                 <i class="fas fa-skip-forward me-1"></i>Skipped
               </span>
-              <span class="stats-value ms-2">{{ session.statistics.skippedRecords }}</span>
+              <span class="stats-value ms-2">{{ session?.statistics?.skippedRecords }}</span>
             </div>
-            <div class="stats-item" *ngIf="session.statistics?.failedRecords && session.statistics.failedRecords > 0">
+            <div class="stats-item" *ngIf="hasFailedRecords()">
               <span class="stats-label status-failed">
                 <i class="fas fa-times-circle me-1"></i>Failed
               </span>
-              <span class="stats-value ms-2">{{ session.statistics.failedRecords }}</span>
+              <span class="stats-value ms-2">{{ session?.statistics?.failedRecords }}</span>
             </div>
-          </div>
-
-          <!-- Success Rate -->
-          <div class="success-rate" *ngIf="session.statistics?.successRate">
+          </div>          <!-- Success Rate -->
+          <div class="success-rate" *ngIf="getSuccessRate() !== null">
             <span class="rate-label">Success Rate:</span>
             <div class="rate-bar">
-              <div class="rate-fill" [style.width.%]="session.statistics.successRate"></div>
+              <div class="rate-fill" [style.width.%]="getSuccessRate()"></div>
             </div>
-            <span class="rate-value">{{ session.statistics.successRate }}%</span>
+            <span class="rate-value">{{ getSuccessRate() }}%</span>
           </div>
 
           <!-- Results Table -->
@@ -429,6 +427,10 @@ export class ImportStep4Component implements OnInit, OnDestroy {
     return Math.round((this.importedCount / this.session.totalRecords) * 100);
   }
 
+  getTotalRecords(): number {
+    return this.session?.statistics?.totalRecords || this.session?.totalRecords || 0;
+  }
+
   getStatusBadgeClass(status: string): string {
     const classes: { [key: string]: string } = {
       'added': 'bg-success',
@@ -437,6 +439,19 @@ export class ImportStep4Component implements OnInit, OnDestroy {
       'failed': 'bg-danger'
     };
     return classes[status] || 'bg-secondary';
+  }
+
+  getSuccessRate(): number | null {
+    if (!this.session?.statistics) return null;
+    const stats = this.session.statistics;
+    const total = stats.totalRecords;
+    if (total === 0) return null;
+    const successful = (stats.addedRecords || 0) + (stats.updatedRecords || 0);
+    return Math.round((successful / total) * 100);
+  }
+
+  hasFailedRecords(): boolean {
+    return !!(this.session?.statistics && (this.session.statistics.failedRecords || 0) > 0);
   }
 
   onUndoImport(event: any) {
