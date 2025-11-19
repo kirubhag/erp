@@ -167,6 +167,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
         if (user) {
           this.userId = user.id;
           this.organizationId = user.organizationId;
+          console.log('Updated userId/organizationId from auth service:', { userId: this.userId, organizationId: this.organizationId });
         }
       });
 

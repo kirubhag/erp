@@ -99,11 +99,13 @@ export class EntityListComponent implements OnInit {
 
   toggleTableView() {
     this.viewMode = 'table';
+    console.log('Switching to table view, userId:', this.userId, 'orgId:', this.organizationId);
     this.saveViewModePreference();
   }
 
   toggleGridView() {
     this.viewMode = 'grid';
+    console.log('Switching to grid view, userId:', this.userId, 'orgId:', this.organizationId);
     this.saveViewModePreference();
   }
   
