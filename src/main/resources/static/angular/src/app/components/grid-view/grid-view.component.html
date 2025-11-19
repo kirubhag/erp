@@ -1,0 +1,226 @@
+<!-- Title Bar -->
+<div class="grid-view-header" *ngIf="title">
+  <h5 class="mb-0">{{title}}</h5>
+  <div class="view-mode-toggle">
+    <button class="view-btn" 
+            [class.active]="displayModeInternal === 'list'"
+            (click)="switchMode('list')"
+            title="List view">
+      <i class="fas fa-list"></i>
+    </button>
+    <button class="view-btn" 
+            [class.active]="displayModeInternal === 'cards'"
+            (click)="switchMode('cards')"
+            title="Card view">
+      <i class="fas fa-th"></i>
+    </button>
+  </div>
+</div>
+
+<!-- Error Message -->
+<div class="alert alert-danger m-3" *ngIf="errorMessage">
+  <i class="fas fa-exclamation-circle me-2"></i>
+  {{errorMessage}}
+</div>
+
+<!-- Loading State -->
+<div class="grid-loading" *ngIf="loading">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p class="text-muted mt-2">Loading items...</p>
+</div>
+
+<!-- Card View -->
+<div class="grid-cards-container" *ngIf="displayModeInternal === 'cards' && !loading && items.length > 0">
+  <div class="row g-3 p-3">
+    <div [ngClass]="getGridColClasses()" *ngFor="let item of items; trackBy: trackByFn">
+      <div class="grid-card" 
+           [class.card-hover]="hoverEffect"
+           (click)="onCardClick(item)">
+        
+        <!-- Checkbox -->
+        <div class="card-checkbox" *ngIf="showCheckbox && enableSelection">
+          <input type="checkbox" 
+                 [checked]="isSelected(item)"
+                 (change)="toggleItem(item)"
+                 (click)="$event.stopPropagation()">
+        </div>
+
+        <!-- Card Content -->
+        <div class="card-content">
+          <!-- Avatar and Title -->
+          <div class="card-header-section" *ngIf="getFirstColumn() as firstCol">
+            <div class="card-avatar" *ngIf="showAvatar" [ngClass]="getAvatarClass(getCellValue(item, firstCol))">
+              {{getAvatarText(getCellValue(item, firstCol))}}
+            </div>
+            <div class="card-title-section">
+              <h6 class="card-title">{{getCellValue(item, firstCol)}}</h6>
+              <p class="card-subtitle">ID: {{item.id}}</p>
+            </div>
+          </div>
+
+          <!-- Card Body Details -->
+          <div class="card-body-details" *ngIf="getCardColumns().length > 0">
+            <div class="detail-item" *ngFor="let column of getCardColumns()">
+              <span class="detail-label">{{column.label}}</span>
+              <div class="detail-value" [ngSwitch]="column.type">
+                <!-- Email -->
+                <a *ngSwitchCase="'email'" 
+                   [href]="'mailto:' + getCellValue(item, column)"
+                   class="text-primary text-decoration-none"
+                   (click)="$event.stopPropagation()">
+                  {{getCellValue(item, column)}}
+                </a>
+
+                <!-- Badge -->
+                <span *ngSwitchCase="'badge'" 
+                      class="badge"
+                      [class.badge-success]="getBadgeClass(getCellValue(item, column)) === 'badge-success'"
+                      [class.badge-danger]="getBadgeClass(getCellValue(item, column)) === 'badge-danger'"
+                      [class.badge-secondary]="getBadgeClass(getCellValue(item, column)) === 'badge-secondary'">
+                  {{getBadgeText(getCellValue(item, column))}}
+                </span>
+
+                <!-- Date -->
+                <span *ngSwitchCase="'date'">
+                  {{item[column.key] | date:'MMM dd, yyyy'}}
+                </span>
+
+                <!-- Currency -->
+                <span *ngSwitchCase="'currency'" class="text-success fw-500">
+                  {{item[column.key] | currency}}
+                </span>
+
+                <!-- Percentage -->
+                <span *ngSwitchCase="'percentage'">
+                  {{(item[column.key] * 100 | number: '1.1-2')}}%
+                </span>
+
+                <!-- Default Text -->
+                <span *ngSwitchDefault>
+                  {{truncate(getCellValue(item, column), 50)}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Footer Actions -->
+          <div class="card-footer-actions" *ngIf="showActions">
+            <button class="action-btn" (click)="onActionClick('view', item, $event)">
+              <i class="fas fa-eye"></i> View
+            </button>
+            <button class="action-btn" (click)="onActionClick('edit', item, $event)">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="action-btn" (click)="onActionClick('more', item, $event)">
+              <i class="fas fa-ellipsis-h"></i> More
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- List View (Table) -->
+<div class="grid-list-container" *ngIf="displayModeInternal === 'list' && !loading && items.length > 0">
+  <div class="table-responsive">
+    <table class="grid-table">
+      <thead>
+        <tr>
+          <th *ngIf="showCheckbox && enableSelection" class="checkbox-col">
+            <input type="checkbox" 
+                   [checked]="allSelected"
+                   (change)="toggleSelectAll()">
+          </th>
+          <th *ngFor="let column of columns" 
+              [style.width]="column.width"
+              [class.sortable]="column.sortable">
+            {{column.label}}
+          </th>
+          <th *ngIf="showActions" class="actions-col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items; trackBy: trackByFn" 
+            class="grid-row"
+            (click)="onCardClick(item)">
+          <td *ngIf="showCheckbox && enableSelection" class="checkbox-col">
+            <input type="checkbox" 
+                   [checked]="isSelected(item)"
+                   (change)="toggleItem(item)"
+                   (click)="$event.stopPropagation()">
+          </td>
+          <td *ngFor="let column of columns" [ngSwitch]="column.type">
+            <!-- Avatar + Text -->
+            <div *ngSwitchCase="'avatar'" class="d-flex align-items-center gap-2">
+              <div class="avatar-sm" [ngClass]="getAvatarClass(getCellValue(item, column))">
+                {{getAvatarText(getCellValue(item, column))}}
+              </div>
+              <span>{{getCellValue(item, column)}}</span>
+            </div>
+
+            <!-- Email -->
+            <a *ngSwitchCase="'email'" 
+               [href]="'mailto:' + getCellValue(item, column)"
+               class="text-primary text-decoration-none">
+              {{getCellValue(item, column)}}
+            </a>
+
+            <!-- Badge -->
+            <span *ngSwitchCase="'badge'" 
+                  class="badge"
+                  [class.badge-success]="getBadgeClass(getCellValue(item, column)) === 'badge-success'"
+                  [class.badge-danger]="getBadgeClass(getCellValue(item, column)) === 'badge-danger'"
+                  [class.badge-secondary]="getBadgeClass(getCellValue(item, column)) === 'badge-secondary'">
+              {{getBadgeText(getCellValue(item, column))}}
+            </span>
+
+            <!-- Date -->
+            <span *ngSwitchCase="'date'">
+              {{item[column.key] | date:'MMM dd, yyyy'}}
+            </span>
+
+            <!-- Currency -->
+            <span *ngSwitchCase="'currency'" class="text-success fw-500">
+              {{item[column.key] | currency}}
+            </span>
+
+            <!-- Percentage -->
+            <span *ngSwitchCase="'percentage'">
+              {{(item[column.key] * 100 | number: '1.1-2')}}%
+            </span>
+
+            <!-- Default Text -->
+            <span *ngSwitchDefault>
+              {{truncate(getCellValue(item, column), 50)}}
+            </span>
+          </td>
+          <td *ngIf="showActions" class="actions-col" (click)="$event.stopPropagation()">
+            <div class="action-buttons">
+              <button class="action-btn-sm" (click)="onActionClick('view', item, $event)" title="View">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="action-btn-sm" (click)="onActionClick('edit', item, $event)" title="Edit">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="action-btn-sm" (click)="onActionClick('more', item, $event)" title="More">
+                <i class="fas fa-ellipsis-h"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Empty State -->
+<div class="grid-empty" *ngIf="!loading && items.length === 0">
+  <div class="empty-icon">
+    <i class="fas fa-inbox"></i>
+  </div>
+  <h6 class="text-muted">{{emptyMessage}}</h6>
+  <p class="text-muted small">Try adjusting your filters or search criteria</p>
+</div>

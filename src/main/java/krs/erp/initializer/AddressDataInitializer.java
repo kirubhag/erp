@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,11 +20,10 @@ import krs.erp.model.Address;
 import krs.erp.repository.AddressRepository;
 
 /**
- * Data initializer for Address entities.
- * Loads addresses from sample-addresses.xml if they don't exist in the database.
+ * Initializes Address data from sample-addresses.xml on application startup
  */
-// @Component  // Disabled - schema mismatch issues
-@Order(2)
+// @Component  // DISABLED: Schema issues with address_id column
+@Order(10)
 public class AddressDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(AddressDataInitializer.class);

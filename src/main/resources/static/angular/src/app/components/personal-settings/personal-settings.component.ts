@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService, UserDetails } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 
 @Component({
@@ -37,31 +38,8 @@ export class PersonalSettingsComponent implements OnInit {
   ];
   selectedNameFormat = 'First Name, Last Name';
 
-  // Available Themes
-  themes = [
-    { name: 'Dark Red', color: '#660000' },
-    { name: 'Red', color: '#990000' },
-    { name: 'Red Light', color: '#D24143' },
-    { name: 'Red Salmon', color: '#DE4F5D' },
-    { name: 'Pink', color: '#ea4c88' },
-    { name: 'Purple', color: '#993399' },
-    { name: 'Purple Dark', color: '#663399' },
-    { name: 'Navy', color: '#07385D' },
-    { name: 'Blue Dark', color: '#1e5598' },
-    { name: 'Blue', color: '#2d72d9' },
-    { name: 'Blue Light', color: '#018EE0' },
-    { name: 'Cyan', color: '#0099cc' },
-    { name: 'Teal', color: '#37a5a5' },
-    { name: 'Green', color: '#439454' },
-    { name: 'Green Dark', color: '#336600' },
-    { name: 'Green Teal', color: '#165151' },
-    { name: 'Olive', color: '#999900' },
-    { name: 'Orange', color: '#E9A23F' },
-    { name: 'Orange Dark', color: '#E77817' },
-    { name: 'Brown', color: '#996633' },
-    { name: 'Mauve', color: '#553A48' },
-    { name: 'Gray', color: '#313949' }
-  ];
+  // Available Themes - now loaded from ThemeService
+  themes: { name: string; color: string }[] = [];
   _selectedTheme = '#0099cc'; // Default to cyan
 
   get selectedTheme(): string {
@@ -73,42 +51,41 @@ export class PersonalSettingsComponent implements OnInit {
     this.saveTheme(theme);
   }
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private themeService: ThemeService
+  ) {}
 
   ngOnInit(): void {
     this.loadCurrentUser();
-    this.loadThemeFromStorage();
+    this.loadThemeFromService();
+    this.themes = this.themeService.getAvailableThemes();
   }
 
   /**
-   * Load theme from localStorage
+   * Load theme from ThemeService with database persistence
    */
-  loadThemeFromStorage(): void {
-    const savedTheme = localStorage.getItem('selectedTheme');
-    if (savedTheme) {
-      this._selectedTheme = savedTheme;
-      this.applyTheme(savedTheme);
-    } else {
-      // Apply default cyan theme
-      this.applyTheme(this._selectedTheme);
+  loadThemeFromService(): void {
+    this._selectedTheme = this.themeService.getTheme();
+    
+    // Load from database if user context is available
+    if (this.currentUser?.id && this.currentUser?.organizationId) {
+      this.themeService.loadThemeFromDatabase(
+        this.currentUser.id,
+        this.currentUser.organizationId
+      );
     }
   }
 
   /**
-   * Save theme to localStorage and apply it
+   * Save theme using ThemeService (will persist to database)
    */
   saveTheme(theme: string): void {
-    localStorage.setItem('selectedTheme', theme);
-    this.applyTheme(theme);
-  }
-
-  /**
-   * Apply theme to document using CSS variables
-   */
-  applyTheme(color: string): void {
-    // Set the main CSS variable - all components reference this
-    document.documentElement.style.setProperty('--app-primary', color);
-    // All themed elements will automatically update through CSS cascade
+    this.themeService.setTheme(
+      theme,
+      this.currentUser?.id,
+      this.currentUser?.organizationId
+    );
   }
 
   /**
@@ -119,6 +96,10 @@ export class PersonalSettingsComponent implements OnInit {
       if (user) {
         this.currentUser = user;
         this.initializeEditForm();
+        // Reload theme from database after user is loaded
+        if (user.id && user.organizationId) {
+          this.themeService.loadThemeFromDatabase(user.id, user.organizationId);
+        }
       } else {
         // Try to fetch from a default user or show message
         this.currentUser = {

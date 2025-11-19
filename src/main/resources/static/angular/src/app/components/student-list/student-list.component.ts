@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { EntityListComponent, EntityColumn, EntityFilter, PaginationInfo } from '../entity-list/entity-list.component';
 import { StudentService } from '../../services/student.service';
+import { AuthService } from '../../services/auth.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 export interface Student {
   id: number;
@@ -33,6 +36,8 @@ export interface Student {
       [pagination]="pagination"
       [loading]="loading"
       [showFilters]="showFilters"
+      [userId]="userId"
+      [organizationId]="organizationId"
       (searchChange)="onSearch($event)"
       (filterChange)="onFilterChange($event)"
       (sortChange)="onSort($event)"
@@ -43,15 +48,26 @@ export interface Student {
     </app-entity-list>
   `
 })
-export class StudentListComponent implements OnInit {
+export class StudentListComponent implements OnInit, OnDestroy {
   students: Student[] = [];
   loading = false;
   showFilters = true; // Show filters by default
+  userId?: number;
+  organizationId?: number;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private studentService: StudentService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private authService: AuthService
+  ) {
+    // Get current user info for preferences
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      this.userId = currentUser.id;
+      this.organizationId = currentUser.organizationId;
+    }
+  }
 
   columns: EntityColumn[] = [
     {
@@ -138,7 +154,22 @@ export class StudentListComponent implements OnInit {
     totalPages: 0
   };
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   ngOnInit() {
+    // Subscribe to user changes to update userId/organizationId if needed
+    this.authService.currentUser$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => {
+        if (user) {
+          this.userId = user.id;
+          this.organizationId = user.organizationId;
+        }
+      });
+
     this.loadStudents();
   }
 

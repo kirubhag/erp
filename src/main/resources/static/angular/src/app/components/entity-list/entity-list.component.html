@@ -1,29 +1,4 @@
-<!-- Top Navigation -->
-<nav class="top-nav">
-  <div class="d-flex align-items-center justify-content-between">
-    <div class="d-flex align-items-center">
-      <div class="brand me-3">
-        <i class="fas fa-broadcast-tower me-2"></i>
-        <span>{{title}}</span>
-      </div>
-      <i class="fas fa-bars text-white" style="font-size: 20px;" (click)="toggleSidebar()"></i>
-    </div>
-    <div class="d-flex align-items-center gap-3">
-      <i class="fas fa-th icon-btn"></i>
-      <i class="fas fa-search icon-btn"></i>
-      <i class="fas fa-edit icon-btn"></i>
-      <i class="fas fa-history icon-btn"></i>
-      <i class="fas fa-calendar-check icon-btn"></i>
-      <div style="position: relative;">
-        <i class="fas fa-bell icon-btn"></i>
-        <span class="notification-dot" *ngIf="selectedItems.size > 0"></span>
-      </div>
-      <i class="fas fa-cog icon-btn"></i>
-      <img src="https://ui-avatars.com/api/?name=User&background=0099cc&color=fff" alt="User" class="user-avatar">
-      <i class="fas fa-th icon-btn"></i>
-    </div>
-  </div>
-</nav>
+<!-- Top Navigation - REMOVED -->
 
 <!-- Toolbar -->
 <div class="toolbar">
@@ -38,11 +13,11 @@
     </select>
   </div>
   <div class="toolbar-actions">
-    <button class="btn-icon" (click)="viewMode = 'table'" [class.active]="isTableView()">
+    <button class="btn-icon" (click)="toggleTableView()" [class.active]="isTableView()">
       <i class="fas fa-list"></i>
     </button>
-    <button class="btn-icon" (click)="viewMode = 'grid'" [class.active]="isGridView()">
-      <i class="fas fa-th-large"></i>
+    <button class="btn-icon" (click)="toggleGridView()" [class.active]="isGridView()">
+      <i class="fas fa-th"></i>
     </button>
     <button class="btn-icon" (click)="onAction('add')" *ngIf="showAddButton">
       <i class="fas fa-plus"></i>
@@ -71,25 +46,45 @@
 <!-- Main Container -->
 <div class="main-container">
   <!-- Sidebar Filters -->
-  <div class="sidebar" *ngIf="showFilters && filters.length > 0">
+  <div class="sidebar" *ngIf="sidebarVisible && (filters.length > 0 || columns.length > 0)">
     <div class="sidebar-title">
       FILTER {{entityNamePlural | uppercase}} BY
       <i class="fas fa-search" style="font-size: 14px;"></i>
     </div>
-    <ul class="filter-list">
-      <li *ngFor="let filter of filters">
-        <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
-        <input type="checkbox" 
-               [id]="'filter_' + filter.key"
-               [(ngModel)]="filter.value"
-               (ngModelChange)="onFilterChange()">
-        <label [for]="'filter_' + filter.key">{{filter.label}}</label>
-      </li>
-    </ul>
+    
+    <!-- Entity Fields Section -->
+    <div class="filter-section" *ngIf="columns.length > 0">
+      <div class="filter-section-title">{{entityName}} Fields</div>
+      <ul class="filter-list">
+        <li *ngFor="let column of columns">
+          <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+          <input type="checkbox" 
+                 [id]="'entity_field_' + column.key"
+                 [(ngModel)]="entityFieldFilters[column.key]"
+                 (ngModelChange)="onEntityFieldFilterChange(column.key)">
+          <label [for]="'entity_field_' + column.key">{{column.label}}</label>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Additional Filters Section -->
+    <div class="filter-section" *ngIf="filters.length > 0">
+      <div class="filter-section-title">Advanced Filters</div>
+      <ul class="filter-list">
+        <li *ngFor="let filter of filters">
+          <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+          <input type="checkbox" 
+                 [id]="'filter_' + filter.key"
+                 [(ngModel)]="filter.value"
+                 (ngModelChange)="onFilterChange()">
+          <label [for]="'filter_' + filter.key">{{filter.label}}</label>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <!-- Content Area -->
-  <div class="content-area" [class.full-width]="!showFilters || filters.length === 0">
+  <div class="content-area" [class.full-width]="!sidebarVisible || filters.length === 0">
     <!-- Table View -->
     <div class="data-section" *ngIf="isTableView()">
       <div class="table-responsive" *ngIf="!loading && data.length > 0">
@@ -185,64 +180,18 @@
       </div>
 
       <!-- Grid View -->
-      <div class="grid-view" *ngIf="isGridView() && !loading && data.length > 0">
-        <div class="row g-3 p-3">
-          <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let item of data; trackBy: trackByFn">
-            <div class="card entity-card h-100" (click)="onRowClick(item)" style="cursor: pointer;">
-              <div class="card-body p-3">
-                <!-- Checkbox -->
-                <div *ngIf="showBulkActions" class="position-absolute top-0 end-0 p-2">
-                  <input type="checkbox" 
-                         [checked]="isSelected(item)" 
-                         (change)="toggleSelectItem(item)"
-                         (click)="$event.stopPropagation()">
-                </div>
-                
-                <!-- Avatar and Name -->
-                <div class="text-center mb-3">
-                  <div class="avatar-circle-large mx-auto mb-2" 
-                       [class]="getAvatarClass(getCellValue(item, columns[0]))">
-                    {{getAvatarText(getCellValue(item, columns[0]))}}
-                  </div>
-                  <h6 class="card-title mb-1">{{getCellValue(item, columns[0])}}</h6>
-                  <p class="text-muted small mb-0">{{item.id}}</p>
-                </div>
-                
-                <!-- Details -->
-                <div class="entity-details">
-                  <div class="detail-row mb-2" *ngFor="let column of getGridColumns()">
-                    <small class="text-muted d-block">{{column.label}}</small>
-                    <div class="fw-medium" [ngSwitch]="column.type">
-                      <a *ngSwitchCase="'email'" 
-                         [href]="'mailto:' + getCellValue(item, column)"
-                         class="text-decoration-none"
-                         style="color: var(--app-primary);">
-                        {{getCellValue(item, column)}}
-                      </a>
-                      <span *ngSwitchCase="'badge'" 
-                            class="badge badge-sm"
-                            [class.bg-success]="getCellValue(item, column) === true || getCellValue(item, column) === 'Active'"
-                            [class.bg-warning]="getCellValue(item, column) === 'In-progress'"
-                            [class.bg-secondary]="getCellValue(item, column) === false || getCellValue(item, column) === 'Inactive'">
-                        {{getCellValue(item, column)}}
-                      </span>
-                      <span *ngSwitchDefault>{{getCellValue(item, column)}}</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <!-- Action Button -->
-                <div class="text-center mt-3">
-                  <button class="btn btn-outline-primary btn-sm" 
-                          (click)="onRowClick(item); $event.stopPropagation()">
-                    <i class="fas fa-eye me-1"></i>View Details
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-grid-view 
+        *ngIf="isGridView() && !loading && data.length > 0"
+        [items]="data"
+        [columns]="columns"
+        [displayMode]="'cards'"
+        [enableSelection]="showBulkActions"
+        [selectedItems]="selectedItems"
+        [loading]="loading"
+        (itemClick)="onRowClick($event)"
+        (selectionChange)="onGridSelectionChange($event)"
+        (actionClick)="onActionClick($event)">
+      </app-grid-view>
 
       <!-- Empty State -->
       <div class="text-center py-5" *ngIf="!loading && data.length === 0">
@@ -262,29 +211,32 @@
     
     <!-- Table Footer -->
     <div class="table-footer" *ngIf="pagination.totalItems > 0 && !loading">
-      <div class="pagination-info">Total Count: <strong>{{pagination.totalItems}}</strong></div>
-      <div class="d-flex align-items-center gap-3">
-        <select class="form-select form-select-sm" style="width: auto;" 
-                [(ngModel)]="pagination.itemsPerPage"
-                (ngModelChange)="onItemsPerPageChange()">
-          <option [value]="25">25 Records per page</option>
-          <option [value]="50">50 Records per page</option>
-          <option [value]="100">100 Records per page</option>
-          <option [value]="200">200 Records per page</option>
-        </select>
-        <div class="pagination-controls">
-          <button class="btn btn-sm btn-outline-secondary me-2" 
-                  (click)="onPageChange(pagination.currentPage - 1)"
-                  [disabled]="pagination.currentPage === 1">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <span class="text-muted">{{(pagination.currentPage - 1) * pagination.itemsPerPage + 1}} to {{getEndItem()}}</span>
-          <button class="btn btn-sm btn-outline-secondary ms-2" 
-                  (click)="onPageChange(pagination.currentPage + 1)"
-                  [disabled]="pagination.currentPage === pagination.totalPages">
-            <i class="fas fa-chevron-right"></i>
-          </button>
+      <div class="pagination-info">
+        <span>Showing {{(pagination.currentPage - 1) * pagination.itemsPerPage + 1}} to {{getEndItem()}} of {{pagination.totalItems}}</span>
+        <span class="ms-3">|</span>
+        <div class="items-per-page-wrapper">
+          <select class="form-select form-select-sm ms-3" 
+                  [(ngModel)]="pagination.itemsPerPage"
+                  (ngModelChange)="onItemsPerPageChange()">
+            <option [value]="25">25 per page</option>
+            <option [value]="50">50 per page</option>
+            <option [value]="100">100 per page</option>
+            <option [value]="200">200 per page</option>
+          </select>
         </div>
+      </div>
+      <div class="pagination-controls">
+        <button class="btn btn-sm btn-outline-secondary me-2" 
+                (click)="onPageChange(pagination.currentPage - 1)"
+                [disabled]="pagination.currentPage === 1">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <span class="text-muted">Page {{pagination.currentPage}} of {{pagination.totalPages}}</span>
+        <button class="btn btn-sm btn-outline-secondary ms-2" 
+                (click)="onPageChange(pagination.currentPage + 1)"
+                [disabled]="pagination.currentPage === pagination.totalPages">
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
     </div>
   </div>

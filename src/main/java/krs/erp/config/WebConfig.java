@@ -11,6 +11,21 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
+        // Angular dist resources - serve root-level Angular files (highest priority)
+        // These must be served BEFORE the SpaController fallback
+        registry.addResourceHandler("/main-*.js", "/polyfills-*.js", "/styles-*.css", 
+                "/favicon.ico", "/*.map")
+                .addResourceLocations("classpath:/static/angular/dist/erp-frontend/browser/")
+                .setCachePeriod(3600); // Cache for 1 hour
+        
+        // Angular vendor libraries
+        registry.addResourceHandler("/vendor/**")
+                .addResourceLocations("classpath:/static/angular/dist/erp-frontend/browser/vendor/");
+        
+        // Angular assets
+        registry.addResourceHandler("/assets/**")
+                .addResourceLocations("classpath:/static/angular/dist/erp-frontend/browser/assets/");
+        
         // Static resources
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("classpath:/static/css/");
@@ -27,13 +42,6 @@ public class WebConfig implements WebMvcConfigurer {
         // Webjars resources
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
-        
-        // Angular resources - serve from dist
-        registry.addResourceHandler("/favicon.ico")
-                .addResourceLocations("classpath:/static/angular/dist/erp-frontend/browser/");
-        
-        registry.addResourceHandler("/assets/**", "/dist/**", "/angular/**")
-                .addResourceLocations("classpath:/static/angular/dist/erp-frontend/browser/");
     }
 
     @Override

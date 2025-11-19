@@ -105,16 +105,19 @@ body {
 
 /* Toolbar */
 .toolbar {
-  background-color: #fafafa;
-  padding: 0.75rem 1rem;
+  background: white;
   border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 1rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  height: 56px;
+  justify-content: space-between;
+  gap: 0.5rem;
+  height: auto;
+  min-height: 50px;
   position: sticky;
   top: 56px;
   z-index: 1020;
+  flex-shrink: 0;
 }
 
 .filter-dropdown {
@@ -179,6 +182,7 @@ body {
 .main-container {
   display: flex;
   height: calc(100vh - 112px);
+  overflow: hidden;
 }
 
 /* Sidebar */
@@ -189,8 +193,8 @@ body {
   padding: 1rem;
   overflow-y: auto;
   position: sticky;
-  top: 112px;
-  max-height: calc(100vh - 112px);
+  top: 56px;
+  max-height: calc(100vh - 56px);
 }
 
 .sidebar-title {
@@ -233,6 +237,26 @@ body {
   cursor: pointer;
   margin: 0;
   user-select: none;
+}
+
+/* Filter Sections */
+.filter-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.filter-section:last-child {
+  border-bottom: none;
+}
+
+.filter-section-title {
+  font-size: 11px;
+  color: #999;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  padding-left: 0.25rem;
 }
 
 /* Content Area */
@@ -403,6 +427,15 @@ body {
 .pagination-info {
   font-size: 13px;
   color: #666;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.items-per-page-wrapper {
+  display: flex;
+  align-items: center;
 }
 
 .pagination-controls {
@@ -479,8 +512,9 @@ body {
 }
 
 .form-select-sm {
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 1.75rem 0.25rem 0.5rem;
   font-size: 12px;
+  background-position: right 0.5rem center;
 }
 
 /* FontAwesome Icon Styling */
@@ -518,12 +552,26 @@ body {
 .icon-btn i,
 .btn-icon i {
   transition: color 0.2s ease;
+  color: inherit;
 }
 
-.btn-icon.active i,
+.btn-icon.active {
+  background-color: var(--app-primary, #0891B2);
+  color: white;
+  border-color: var(--app-primary, #0891B2);
+}
+
+.btn-icon.active i {
+  color: white !important;
+}
+
 .btn-icon:hover i,
 .icon-btn:hover {
   color: var(--app-primary, #0891B2) !important;
+}
+
+.btn-icon.active:hover i {
+  color: white !important;
 }
 
 /* Checkbox styling */

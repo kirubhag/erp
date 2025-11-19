@@ -188,6 +188,42 @@ public class AuthController {
     }
     
     /**
+     * Get CSRF token for use in API requests
+     * Required for authenticated API calls (PUT, POST, DELETE)
+     * The token should be included in the X-CSRF-TOKEN header for API requests
+     * 
+     * @param request HttpServletRequest containing CSRF token
+     * @return CSRF token details
+     */
+    @GetMapping("/csrf")
+    public ResponseEntity<Map<String, Object>> getCsrfToken(HttpServletRequest request) {
+        Map<String, Object> response = new HashMap<>();
+        
+        // Try to get CSRF token from request
+        Object csrfTokenObj = request.getAttribute("_csrf");
+        
+        if (csrfTokenObj != null) {
+            try {
+                // Reflect on the token object to get the token string
+                String tokenString = csrfTokenObj.toString();
+                response.put("token", tokenString);
+                response.put("headerName", "X-CSRF-TOKEN");
+                response.put("parameterName", "_csrf");
+                response.put("message", "CSRF token retrieved successfully");
+            } catch (Exception e) {
+                response.put("message", "Error retrieving CSRF token: " + e.getMessage());
+            }
+        } else {
+            // Return a message if token is not available
+            response.put("message", "CSRF token not available in this request context. Use the X-CSRF-TOKEN header from login response.");
+            response.put("headerName", "X-CSRF-TOKEN");
+            response.put("instruction", "After login, the CSRF token will be automatically managed by the session cookie for same-origin requests");
+        }
+        
+        return ResponseEntity.ok(response);
+    }
+    
+    /**
      * Health check for authentication service
      * 
      * @return Health status

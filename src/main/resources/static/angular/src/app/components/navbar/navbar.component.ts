@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
-import { AuthService } from '../../services/auth.service';
+import { AuthService, UserDetails } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 
 export interface MenuItem {
   id: number;
@@ -28,10 +29,15 @@ export class NavbarComponent implements OnInit {
   overflowMenuItems: MenuItem[] = [];
   hasOverflow = false;
   organizationName = 'Zylker';
-  currentUser = { name: 'Administrator' };
+  currentUser: UserDetails | null = null;
   selectedTheme = '#0056b3';
 
-  constructor(private menuService: MenuService, private authService: AuthService, private router: Router) {}
+  constructor(
+    private menuService: MenuService,
+    private authService: AuthService,
+    private themeService: ThemeService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     // Set default menu items immediately (synchronous)
@@ -41,32 +47,36 @@ export class NavbarComponent implements OnInit {
     // Load current user
     this.loadCurrentUser();
     
-    // Load theme from localStorage
+    // Load theme from service (will load from localStorage + database if available)
     this.loadTheme();
   }
 
+  /**
+   * Load current user from AuthService
+   */
   loadCurrentUser(): void {
     this.authService.currentUser$.subscribe(user => {
       if (user) {
-        this.currentUser = { name: user.firstName + ' ' + user.lastName };
+        this.currentUser = user;
+        // Reload theme from database with user context
+        if (user.id && user.organizationId) {
+          this.themeService.loadThemeFromDatabase(user.id, user.organizationId);
+        }
       }
     });
   }
 
+  /**
+   * Load theme using ThemeService
+   */
   loadTheme(): void {
-    const savedTheme = localStorage.getItem('selectedTheme');
-    if (savedTheme) {
-      this.selectedTheme = savedTheme;
-      this.applyTheme(savedTheme);
-    }
-  }
-
-  applyTheme(color: string): void {
-    document.documentElement.style.setProperty('--primary-color', color);
-    const navbar = document.querySelector('nav.navbar');
-    if (navbar) {
-      (navbar as HTMLElement).style.backgroundColor = color;
-    }
+    // Get current theme from service
+    this.selectedTheme = this.themeService.getTheme();
+    
+    // Subscribe to theme changes
+    this.themeService.getTheme$().subscribe(theme => {
+      this.selectedTheme = theme;
+    });
   }
 
   loadMenuItemsAsync(): void {
@@ -123,17 +133,21 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
+  /**
+   * Logout - clears theme and session
+   */
   logout() {
     // Call backend logout endpoint to clear server session
     this.authService.logout().subscribe({
       next: (response) => {
         console.log('Logout successful:', response);
-        localStorage.removeItem('selectedTheme');
+        // Don't clear theme on logout - let it persist for next login
+        // But you can reset to default if you prefer
+        // this.themeService.resetTheme();
       },
       error: (error) => {
         console.error('Logout error:', error);
         // Error handler - state already cleared by AuthService
-        localStorage.removeItem('selectedTheme');
       },
       complete: () => {
         console.log('Logout completed, navigating to home');

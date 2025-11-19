@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -20,7 +21,7 @@ import krs.erp.repository.UserRepository;
  * Initializes user data from sample-users.xml on application startup
  * DEPRECATED: Use SampleDataInitializer instead for consolidated data loading
  */
-// @Component  // Disabled - using SampleDataInitializer instead
+@Component  // Enabled to load user authentication data
 // @Order(5)
 public class UserDataInitializer implements CommandLineRunner {
 
@@ -39,7 +40,7 @@ public class UserDataInitializer implements CommandLineRunner {
                 return;
             }
 
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("data/sample-users.xml");
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("data/user/sample-users.xml");
             if (inputStream == null) {
                 logger.warn("sample-users.xml not found. Skipping User initialization.");
                 return;

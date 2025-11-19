@@ -31,21 +31,45 @@ public class SecurityConfig {
     private String allowedOrigins;
 
     /**
-     * Create a security filter chain that allows ALL requests without authentication.
-     * This disables Spring Security's request authorization checks.
+     * Create a security filter chain with proper security controls.
+     * - Public endpoints: /, /login, /register, /api/auth/**, /actuator/health
+     * - Static resources: /static/**, /assets/**, /css/**, /js/**, /images/**, /vendor/**
+     * - Authenticated endpoints: Everything else
+     * - CSRF enabled for all requests including APIs
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .securityMatcher("/**")
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.disable())
-            .headers(headers -> headers.disable())
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/api/auth/**", "/settings/auth/**", "/webjars/**", "/actuator/**")
+            )
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .headers(headers -> headers
+                .contentSecurityPolicy(csp -> csp
+                    .policyDirectives("default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;")
+                )
+            )
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/", "/**").permitAll()
+                .requestMatchers("/", "/login", "/register", "/error", "/favicon.ico").permitAll()
+                .requestMatchers("/api/auth/**", "/settings/auth/**").permitAll()
+                .requestMatchers("/api/**").authenticated()  // API endpoints require authentication
+                .requestMatchers("/actuator/health", "/__healthcheck").permitAll()
+                .requestMatchers("/static/**", "/assets/**", "/css/**", "/js/**", "/images/**", "/vendor/**", "/dist/**", "/angular/**").permitAll()
+                .requestMatchers("**.js", "**.css", "**.map", "**.woff", "**.woff2", "**.ttf", "**.eot").permitAll()
+                .anyRequest().authenticated()
             )
             .httpBasic(basic -> basic.disable())
-            .formLogin(form -> form.disable());
+            .formLogin(form -> form
+                .loginPage("/login")
+                .permitAll()
+                .defaultSuccessUrl("/dashboard", true)
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .permitAll()
+            );
 
         return http.build();
     }

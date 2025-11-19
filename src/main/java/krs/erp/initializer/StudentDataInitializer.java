@@ -38,10 +38,10 @@ import krs.erp.repository.StudentRepository;
  *   enrollment_status="ACTIVE" 
  *   emergency_contact_name="Jennifer Anderson" 
  *   emergency_contact_phone="+1234560101" 
- * emergency_contact_relation="Mother" 
+ *   emergency_contact_relation="Mother" 
  * />
  */
-// @Component  // Disabled - schema mismatch issues
+// @Component  // DISABLED: Schema issues with address_id and other columns
 @Order(6)
 public class StudentDataInitializer implements CommandLineRunner {
 

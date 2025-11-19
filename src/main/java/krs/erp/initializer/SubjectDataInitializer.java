@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -20,10 +21,10 @@ import krs.erp.model.Subject;
 import krs.erp.repository.SubjectRepository;
 
 /**
- * Initializes Subject data from subjects.xml on application startup
+ * Initializes Subject data from subject XML files on application startup
  */
-// @Component  // Disabled - schema mismatch issues
-@Order(6)
+// @Component  // DISABLED: Schema issues
+@Order(8) // Run after StudentDataInitializer
 public class SubjectDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(SubjectDataInitializer.class);

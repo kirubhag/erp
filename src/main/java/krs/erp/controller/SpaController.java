@@ -26,9 +26,10 @@ public class SpaController {
     
     /**
      * Serve index.html for Angular SPA routes
-     * This handles any route that doesn't match API or static files
+     * This handles any route that doesn't match API, actuator, or static asset files
+     * Excludes paths with file extensions (.js, .css, .map, etc.)
      */
-    @GetMapping("/{path:^(?!api|actuator|webjars|css|js|images|fonts|vendor|dist|angular|assets).*}")
+    @GetMapping("/{path:^(?!.*\\.)(?!api|actuator|webjars).*}")
     public ResponseEntity<byte[]> spaRoute() throws IOException {
         return serveIndexHtml();
     }

@@ -5,17 +5,15 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import krs.erp.model.User;
 import krs.erp.model.UserSettings;
 
 /**
  * UserSettingsRepository - Data access layer for UserSettings entity
  * 
  * Provides query methods for:
- * - Finding settings by user
+ * - Finding settings by user and organization
  * - Updating specific settings fields
  * - Checking if settings exist
  */
@@ -23,67 +21,43 @@ import krs.erp.model.UserSettings;
 public interface UserSettingsRepository extends JpaRepository<UserSettings, Long> {
     
     /**
-     * Find settings by user ID
+     * Find settings by userId and organizationId
      * @param userId User ID
+     * @param organizationId Organization ID
      * @return Optional containing UserSettings if found
      */
-    Optional<UserSettings> findByUserId(Long userId);
+    Optional<UserSettings> findByUserIdAndOrganizationId(Long userId, Long organizationId);
     
     /**
-     * Find settings by user entity
-     * @param user User entity
-     * @return Optional containing UserSettings if found
-     */
-    Optional<UserSettings> findByUser(User user);
-    
-    /**
-     * Check if settings exist for a user
-     * @param userId User ID
-     * @return true if settings exist, false otherwise
-     */
-    boolean existsByUserId(Long userId);
-    
-    /**
-     * Delete settings by user ID
-     * @param userId User ID
+     * Update theme preference
      */
     @Modifying
-    @Query("DELETE FROM UserSettings us WHERE us.user.id = :userId")
-    void deleteByUserId(@Param("userId") Long userId);
+    @Query("UPDATE UserSettings u SET u.theme = :theme, u.lastUpdated = CURRENT_TIMESTAMP " +
+           "WHERE u.userId = :userId AND u.organizationId = :organizationId")
+    void updateThemePreference(Long userId, Long organizationId, String theme);
     
     /**
-     * Update theme preference for a user
-     * @param userId User ID
-     * @param themePreference Theme preference (LIGHT/DARK)
+     * Update list items per page
      */
     @Modifying
-    @Query("UPDATE UserSettings us SET us.themePreference = :themePreference, us.lastUpdated = CURRENT_TIMESTAMP WHERE us.user.id = :userId")
-    void updateThemePreference(@Param("userId") Long userId, @Param("themePreference") String themePreference);
+    @Query("UPDATE UserSettings u SET u.recordsPerPage = :itemsPerPage, u.lastUpdated = CURRENT_TIMESTAMP " +
+           "WHERE u.userId = :userId AND u.organizationId = :organizationId")
+    void updateListItemsPerPage(Long userId, Long organizationId, Integer itemsPerPage);
     
     /**
-     * Update primary color for a user
-     * @param userId User ID
-     * @param primaryColor Primary color hex code
+     * Update list sidebar visibility
      */
     @Modifying
-    @Query("UPDATE UserSettings us SET us.primaryColor = :primaryColor, us.lastUpdated = CURRENT_TIMESTAMP WHERE us.user.id = :userId")
-    void updatePrimaryColor(@Param("userId") Long userId, @Param("primaryColor") String primaryColor);
+    @Query("UPDATE UserSettings u SET u.listSidebarExpanded = :expanded, u.lastUpdated = CURRENT_TIMESTAMP " +
+           "WHERE u.userId = :userId AND u.organizationId = :organizationId")
+    void updateListSidebarState(Long userId, Long organizationId, Boolean expanded);
     
     /**
-     * Update list sidebar state for a user
-     * @param userId User ID
-     * @param expanded true if expanded, false if collapsed
+     * Update default list view (table or card)
      */
     @Modifying
-    @Query("UPDATE UserSettings us SET us.listSidebarExpanded = :expanded, us.lastUpdated = CURRENT_TIMESTAMP WHERE us.user.id = :userId")
-    void updateListSidebarState(@Param("userId") Long userId, @Param("expanded") Boolean expanded);
-    
-    /**
-     * Update list items per page for a user
-     * @param userId User ID
-     * @param itemsPerPage Items per page count
-     */
-    @Modifying
-    @Query("UPDATE UserSettings us SET us.listItemsPerPage = :itemsPerPage, us.lastUpdated = CURRENT_TIMESTAMP WHERE us.user.id = :userId")
-    void updateListItemsPerPage(@Param("userId") Long userId, @Param("itemsPerPage") Integer itemsPerPage);
+    @Query("UPDATE UserSettings u SET u.defaultListView = :listView, u.lastUpdated = CURRENT_TIMESTAMP " +
+           "WHERE u.userId = :userId AND u.organizationId = :organizationId")
+    void updateDefaultListView(Long userId, Long organizationId, String listView);
 }
+

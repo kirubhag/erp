@@ -1,156 +1,129 @@
 package krs.erp.service;
 
+import krs.erp.model.UserSettings;
+import krs.erp.dto.UserSettingsDTO;
 import java.util.Optional;
 
-import krs.erp.dto.UserSettingsDTO;
-
 /**
- * UserSettingsService - Business logic for user settings management
- * 
- * Responsibilities:
- * - CRUD operations for user settings
- * - Getting/setting specific preferences
- * - Widget state management
- * - Preference updates
- * - Validation and defaults
+ * UserSettingsService - Interface for user settings management
  */
 public interface UserSettingsService {
     
     /**
-     * Get settings for a user by user ID
-     * Creates default settings if they don't exist
-     * @param userId User ID
-     * @return UserSettingsDTO
+     * Get user settings by userId and organizationId
+     */
+    Optional<UserSettings> getUserSettings(Long userId, Long organizationId);
+    
+    /**
+     * Save or update user settings
+     */
+    UserSettings saveUserSettings(UserSettings userSettings);
+    
+    /**
+     * Create user settings DTO from entity
+     */
+    UserSettingsDTO convertToDTO(UserSettings userSettings);
+    
+    /**
+     * Update user theme preference
+     */
+    void updateThemePreference(Long userId, Long organizationId, String theme);
+    
+    /**
+     * Update records per page preference
+     */
+    void updateListItemsPerPage(Long userId, Long organizationId, Integer itemsPerPage);
+    
+    /**
+     * Update list view mode (table/card)
+     */
+    void updateListViewMode(Long userId, Long organizationId, String viewMode);
+    
+    /**
+     * Update list sidebar expansion state
+     */
+    void updateListSidebarState(Long userId, Long organizationId, Boolean expanded);
+    
+    /**
+     * Delete user settings
+     */
+    void deleteUserSettings(Long userId, Long organizationId);
+    
+    // Backward-compatible methods for controller
+    
+    /**
+     * Get settings by userId only (assumes organizationId = 1)
      */
     UserSettingsDTO getSettingsByUserId(Long userId);
     
     /**
-     * Get settings optionally
-     * @param userId User ID
-     * @return Optional containing UserSettingsDTO
+     * Save settings from DTO (userId extracted from DTO, organizationId = 1)
      */
-    Optional<UserSettingsDTO> findSettingsByUserId(Long userId);
+    UserSettingsDTO saveSettings(UserSettingsDTO settingsDTO);
     
     /**
-     * Save or update user settings
-     * @param settings UserSettingsDTO
-     * @return Updated UserSettingsDTO
-     */
-    UserSettingsDTO saveSettings(UserSettingsDTO settings);
-    
-    /**
-     * Update theme preference
-     * @param userId User ID
-     * @param themePreference LIGHT or DARK
-     * @return Updated UserSettingsDTO
+     * Update theme preference by userId only
      */
     UserSettingsDTO updateThemePreference(Long userId, String themePreference);
     
     /**
-     * Update primary color
-     * @param userId User ID
-     * @param primaryColor Hex color code (e.g., #0099cc)
-     * @return Updated UserSettingsDTO
+     * Update primary color by userId only
      */
     UserSettingsDTO updatePrimaryColor(Long userId, String primaryColor);
     
     /**
-     * Update list sidebar state
-     * @param userId User ID
-     * @param expanded true if expanded, false if collapsed
-     * @return Updated UserSettingsDTO
+     * Update sidebar state by userId only
      */
     UserSettingsDTO updateListSidebarState(Long userId, Boolean expanded);
     
     /**
-     * Update list items per page
-     * @param userId User ID
-     * @param itemsPerPage Items per page count (25, 50, 100, 200)
-     * @return Updated UserSettingsDTO
+     * Update items per page by userId only
      */
     UserSettingsDTO updateListItemsPerPage(Long userId, Integer itemsPerPage);
     
     /**
-     * Set widget expanded state
-     * @param userId User ID
-     * @param widgetKey Widget identifier
-     * @param expanded true if expanded, false if collapsed
-     * @return Updated UserSettingsDTO
-     */
-    UserSettingsDTO setWidgetExpanded(Long userId, String widgetKey, boolean expanded);
-    
-    /**
-     * Get widget state
-     * @param userId User ID
-     * @param widgetKey Widget identifier
-     * @return true if expanded, false if collapsed, true if not found (default)
+     * Check if widget is expanded
      */
     boolean isWidgetExpanded(Long userId, String widgetKey);
     
     /**
+     * Set widget expanded state
+     */
+    UserSettingsDTO setWidgetExpanded(Long userId, String widgetKey, Boolean expanded);
+    
+    /**
      * Toggle widget state
-     * @param userId User ID
-     * @param widgetKey Widget identifier
-     * @return Updated UserSettingsDTO
      */
     UserSettingsDTO toggleWidgetState(Long userId, String widgetKey);
     
     /**
      * Set custom preference
-     * @param userId User ID
-     * @param key Preference key
-     * @param value Preference value
-     * @return Updated UserSettingsDTO
      */
     UserSettingsDTO setPreference(Long userId, String key, String value);
     
     /**
      * Get custom preference
-     * @param userId User ID
-     * @param key Preference key
-     * @param defaultValue Default value if not found
-     * @return Preference value or default
      */
     String getPreference(Long userId, String key, String defaultValue);
     
     /**
-     * Remove custom preference
-     * @param userId User ID
-     * @param key Preference key
-     * @return Updated UserSettingsDTO
+     * Remove preference
      */
     UserSettingsDTO removePreference(Long userId, String key);
     
     /**
-     * Delete all settings for a user
-     * @param userId User ID
+     * Delete settings by userId
      */
     void deleteSettings(Long userId);
     
     /**
-     * Create default settings for a new user
-     * @param userId User ID
-     * @return Created UserSettingsDTO
-     */
-    UserSettingsDTO createDefaultSettings(Long userId);
-    
-    /**
      * Get valid items per page values
-     * @return Array of valid values
      */
     Integer[] getValidItemsPerPageValues();
     
     /**
-     * Validate theme preference
-     * @param themePreference Theme preference string
-     * @return true if valid
+     * Create default settings
      */
-    boolean isValidThemePreference(String themePreference);
-    
-    /**
-     * Validate items per page value
-     * @param itemsPerPage Items per page value
-     * @return true if valid
-     */
-    boolean isValidItemsPerPage(Integer itemsPerPage);
+    UserSettingsDTO createDefaultSettings(Long userId);
 }
+

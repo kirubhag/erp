@@ -75,13 +75,13 @@ public class UserSettingsDTO {
         this();
         if (settings != null) {
             this.id = settings.getId();
-            this.userId = settings.getUser() != null ? settings.getUser().getId() : null;
-            this.themePreference = settings.getThemePreference().name();
-            this.primaryColor = settings.getPrimaryColor();
-            this.listSidebarExpanded = settings.getListSidebarExpanded();
-            this.listItemsPerPage = settings.getListItemsPerPage();
-            this.widgetStates = new HashMap<>(settings.getWidgetStates());
-            this.preferences = new HashMap<>(settings.getPreferences());
+            this.userId = settings.getUserId();
+            this.themePreference = settings.getTheme() != null ? settings.getTheme() : "LIGHT";
+            this.primaryColor = settings.getThemePrimaryColor() != null ? settings.getThemePrimaryColor() : "#0099cc";
+            this.listSidebarExpanded = settings.getListSidebarExpanded() != null ? settings.getListSidebarExpanded() : true;
+            this.listItemsPerPage = settings.getRecordsPerPage() != null ? settings.getRecordsPerPage() : 50;
+            this.widgetStates = new HashMap<>();
+            this.preferences = new HashMap<>();
             this.lastUpdated = settings.getLastUpdated();
         }
     }
@@ -166,18 +166,10 @@ public class UserSettingsDTO {
     public UserSettings toEntity() {
         UserSettings settings = new UserSettings();
         settings.setId(this.id);
-        if (this.themePreference != null) {
-            try {
-                settings.setThemePreference(UserSettings.ThemePreference.valueOf(this.themePreference));
-            } catch (IllegalArgumentException e) {
-                settings.setThemePreference(UserSettings.ThemePreference.LIGHT);
-            }
-        }
-        settings.setPrimaryColor(this.primaryColor);
-        settings.setListSidebarExpanded(this.listSidebarExpanded);
-        settings.setListItemsPerPage(this.listItemsPerPage);
-        settings.setWidgetStates(this.widgetStates);
-        settings.setPreferences(this.preferences);
+        settings.setTheme(this.themePreference != null ? this.themePreference : "LIGHT");
+        settings.setThemePrimaryColor(this.primaryColor != null ? this.primaryColor : "#0099cc");
+        settings.setListSidebarExpanded(this.listSidebarExpanded != null ? this.listSidebarExpanded : true);
+        settings.setRecordsPerPage(this.listItemsPerPage != null ? this.listItemsPerPage : 50);
         settings.setLastUpdated(this.lastUpdated);
         return settings;
     }

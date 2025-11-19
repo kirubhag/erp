@@ -8,8 +8,10 @@ export interface UserDetails {
   username: string;
   firstName?: string;
   lastName?: string;
+  name?: string;
   email?: string;
   phone?: string;
+  organizationId?: number;
   userType?: string;
   enabled?: boolean;
   accountNonExpired?: boolean;
