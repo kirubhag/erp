@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS field_mappings (
 CREATE TABLE IF NOT EXISTS import_results (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     import_session_id VARCHAR(50) NOT NULL,
-    row_number INT,
+    row_num INT,
     record_id VARCHAR(255),
     status VARCHAR(20) NOT NULL,
     data LONGTEXT,
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS import_results (
 -- FieldMappingTemplate table
 CREATE TABLE IF NOT EXISTS field_mapping_templates (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(50) NOT NULL UNIQUE,
+    entity_type VARCHAR(50) NOT NULL,
     field_name VARCHAR(100) NOT NULL,
     field_label VARCHAR(255) NOT NULL,
     is_required BOOLEAN DEFAULT false,
@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS field_mapping_templates (
     suggestions LONGTEXT,
     section VARCHAR(100),
     display_order INT DEFAULT 0,
+    UNIQUE KEY unique_entity_field (entity_type, field_name),
     INDEX idx_entity_type (entity_type),
     INDEX idx_field_name (field_name)
 );
