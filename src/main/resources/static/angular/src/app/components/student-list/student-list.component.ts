@@ -296,9 +296,14 @@ export class StudentListComponent implements OnInit, OnDestroy {
         console.log('Add new student');
         break;
       case 'import':
-        console.log('Import students');
+        console.log('Import students - navigating to import-wizard route');
+        console.log('Available routes should include: /import-wizard');
         this.router.navigate(['/import-wizard'], { 
           queryParams: { entityType: 'students' } 
+        }).then(success => {
+          console.log('Navigation to import-wizard:', success ? 'SUCCESS' : 'FAILED');
+        }).catch(error => {
+          console.error('Navigation error:', error);
         });
         break;
       case 'edit':
