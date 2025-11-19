@@ -16,6 +16,7 @@ import { EntityManagementComponent } from './components/entity-management/entity
 import { EntityDetailComponent } from './components/entity-detail/entity-detail.component';
 import { ImportHistoryComponent } from './components/import-history/import-history.component';
 import { RolesSharingComponent } from './components/roles-sharing/roles-sharing.component';
+import { ImportWizardComponent } from './components/import-wizard/import-wizard.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -29,6 +30,7 @@ export const routes: Routes = [
   { path: 'parents', component: EntityManagementComponent, canActivate: [AuthGuard] },
   { path: 'subjects', component: EntityManagementComponent, canActivate: [AuthGuard] },
   { path: 'entity-detail/:entityType/:id', component: EntityDetailComponent, canActivate: [AuthGuard] },
+  { path: 'import-wizard', component: ImportWizardComponent, canActivate: [AuthGuard] },
   { path: 'setup', component: SetupComponent, canActivate: [AuthGuard] },
   { path: 'setup/personal-settings', component: PersonalSettingsComponent, canActivate: [AuthGuard] },
   { path: 'setup/users', component: UserComponent, canActivate: [AuthGuard] },
