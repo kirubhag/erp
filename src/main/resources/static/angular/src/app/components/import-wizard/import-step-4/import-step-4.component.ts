@@ -48,29 +48,29 @@ import { takeUntil, switchMap } from 'rxjs/operators';
           </div>
 
           <div class="stats-section">
-            <div class="stats-item" *ngIf="session?.statistics?.addedRecords">
+            <div class="stats-item" *ngIf="session?.statistics.addedRecords">
               <span class="stats-label status-added">
                 <i class="fas fa-plus-circle me-1"></i>Added
               </span>
-              <span class="stats-value ms-2">{{ session?.statistics?.addedRecords }}</span>
+              <span class="stats-value ms-2">{{ session.statistics.addedRecords }}</span>
             </div>
-            <div class="stats-item" *ngIf="session?.statistics?.updatedRecords">
+            <div class="stats-item" *ngIf="session?.statistics.updatedRecords">
               <span class="stats-label status-updated">
                 <i class="fas fa-edit me-1"></i>Updated
               </span>
-              <span class="stats-value ms-2">{{ session?.statistics?.updatedRecords }}</span>
+              <span class="stats-value ms-2">{{ session.statistics.updatedRecords }}</span>
             </div>
-            <div class="stats-item" *ngIf="session?.statistics?.skippedRecords">
+            <div class="stats-item" *ngIf="session?.statistics.skippedRecords">
               <span class="stats-label status-skipped">
                 <i class="fas fa-skip-forward me-1"></i>Skipped
               </span>
-              <span class="stats-value ms-2">{{ session?.statistics?.skippedRecords }}</span>
+              <span class="stats-value ms-2">{{ session.statistics.skippedRecords }}</span>
             </div>
             <div class="stats-item" *ngIf="hasFailedRecords()">
               <span class="stats-label status-failed">
                 <i class="fas fa-times-circle me-1"></i>Failed
               </span>
-              <span class="stats-value ms-2">{{ session?.statistics?.failedRecords }}</span>
+              <span class="stats-value ms-2">{{ session.statistics.failedRecords }}</span>
             </div>
           </div>          <!-- Success Rate -->
           <div class="success-rate" *ngIf="getSuccessRate() !== null">
