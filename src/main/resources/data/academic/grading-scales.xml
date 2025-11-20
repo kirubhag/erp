@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gradingScales>
+    <!-- Standard US Grading Scale -->
+    <gradingScale>
+        <name>Outstanding</name>
+        <letterGrade>A+</letterGrade>
+        <minPercentage>95.0</minPercentage>
+        <maxPercentage>100.0</maxPercentage>
+        <gradePoint>4.0</gradePoint>
+        <organizationId>1</organizationId>
+    </gradingScale>
+    
+    <gradingScale>
+        <name>Excellent</name>
+        <letterGrade>A</letterGrade>
+        <minPercentage>90.0</minPercentage>
+        <maxPercentage>94.99</maxPercentage>
+        <gradePoint>4.0</gradePoint>
+        <organizationId>1</organizationId>
+    </gradingScale>
+    
+    <gradingScale>
+        <name>Very Good</name>
+        <letterGrade>B+</letterGrade>
+        <minPercentage>85.0</minPercentage>
+        <maxPercentage>89.99</maxPercentage>
+        <gradePoint>3.5</gradePoint>
+        <organizationId>1</organizationId>
+    </gradingScale>
+    
+    <gradingScale>
+        <name>Good</name>
+        <letterGrade>B</letterGrade>
+        <minPercentage>80.0</minPercentage>
+        <maxPercentage>84.99</maxPercentage>
+        <gradePoint>3.0</gradePoint>
+        <organizationId>1</organizationId>
+    </gradingScale>
+    
+    <gradingScale>
+        <name>Above Average</name>
+        <letterGrade>C+</letterGrade>
+        <minPercentage>75.0</minPercentage>
+        <maxPercentage>79.99</maxPercentage>
+        <gradePoint>2.5</gradePoint>
+        <organizationId>1</organizationId>
+    </gradingScale>
+    
+    <gradingScale>
+        <name>Average</name>
+        <letterGrade>C</letterGrade>
+        <minPercentage>70.0</minPercentage>
+        <maxPercentage>74.99</maxPercentage>
+        <gradePoint>2.0</gradePoint>
+        <organizationId>1</organizationId>
+    </gradingScale>
+    
+    <gradingScale>
+        <name>Below Average</name>
+        <letterGrade>D+</letterGrade>
+        <minPercentage>65.0</minPercentage>
+        <maxPercentage>69.99</maxPercentage>
+        <gradePoint>1.5</gradePoint>
+        <organizationId>1</organizationId>
+    </gradingScale>
+    
+    <gradingScale>
+        <name>Pass</name>
+        <letterGrade>D</letterGrade>
+        <minPercentage>60.0</minPercentage>
+        <maxPercentage>64.99</maxPercentage>
+        <gradePoint>1.0</gradePoint>
+        <organizationId>1</organizationId>
+    </gradingScale>
+    
+    <gradingScale>
+        <name>Fail</name>
+        <letterGrade>F</letterGrade>
+        <minPercentage>0.0</minPercentage>
+        <maxPercentage>59.99</maxPercentage>
+        <gradePoint>0.0</gradePoint>
+        <organizationId>1</organizationId>
+    </gradingScale>
+</gradingScales>

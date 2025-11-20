@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<terms>
+    <!-- Terms for 2024-2025 Academic Year -->
+    <term>
+        <name>Fall Semester 2024</name>
+        <startDate>2024-08-15</startDate>
+        <endDate>2024-12-20</endDate>
+        <academicYearName>2024-2025</academicYearName>
+        <organizationId>1</organizationId>
+    </term>
+    
+    <term>
+        <name>Spring Semester 2025</name>
+        <startDate>2025-01-10</startDate>
+        <endDate>2025-05-25</endDate>
+        <academicYearName>2024-2025</academicYearName>
+        <organizationId>1</organizationId>
+    </term>
+    
+    <term>
+        <name>Summer Term 2025</name>
+        <startDate>2025-06-01</startDate>
+        <endDate>2025-07-31</endDate>
+        <academicYearName>2024-2025</academicYearName>
+        <organizationId>1</organizationId>
+    </term>
+    
+    <!-- Terms for 2025-2026 Academic Year -->
+    <term>
+        <name>Fall Semester 2025</name>
+        <startDate>2025-08-15</startDate>
+        <endDate>2025-12-20</endDate>
+        <academicYearName>2025-2026</academicYearName>
+        <organizationId>1</organizationId>
+    </term>
+    
+    <term>
+        <name>Spring Semester 2026</name>
+        <startDate>2026-01-10</startDate>
+        <endDate>2026-05-25</endDate>
+        <academicYearName>2025-2026</academicYearName>
+        <organizationId>1</organizationId>
+    </term>
+</terms>

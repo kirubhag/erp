@@ -20,7 +20,7 @@ public interface AcademicYearRepository extends JpaRepository<AcademicYear, Long
     
     Optional<AcademicYear> findByOrganizationIdAndIsActive(Long organizationId, Boolean isActive);
     
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE AcademicYear a SET a.isActive = false WHERE a.organizationId = :organizationId")
     void deactivateAllForOrganization(Long organizationId);
 }

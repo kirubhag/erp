@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<academicYears>
+    <academicYear>
+        <name>2023-2024</name>
+        <startDate>2023-06-01</startDate>
+        <endDate>2024-05-31</endDate>
+        <isActive>false</isActive>
+        <organizationId>1</organizationId>
+    </academicYear>
+    
+    <academicYear>
+        <name>2024-2025</name>
+        <startDate>2024-06-01</startDate>
+        <endDate>2025-05-31</endDate>
+        <isActive>true</isActive>
+        <organizationId>1</organizationId>
+    </academicYear>
+    
+    <academicYear>
+        <name>2025-2026</name>
+        <startDate>2025-06-01</startDate>
+        <endDate>2026-05-31</endDate>
+        <isActive>false</isActive>
+        <organizationId>1</organizationId>
+    </academicYear>
+</academicYears>
