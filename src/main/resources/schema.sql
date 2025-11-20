@@ -675,7 +675,7 @@ CREATE TABLE IF NOT EXISTS import_history (
 -- Organization Settings Table - Store organization-wide settings
 CREATE TABLE IF NOT EXISTS organization_settings (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    organization_id BIGINT NOT NULL,
+    organization_id BIGINT,
     
     -- Theme and Display Settings
     default_theme VARCHAR(50) DEFAULT 'light' COMMENT 'light, dark, auto',
@@ -751,6 +751,9 @@ CREATE TABLE IF NOT EXISTS user_settings (
     
     -- Theme and Display Preferences
     theme VARCHAR(50) COMMENT 'light, dark, auto - user override',
+    theme_primary_color VARCHAR(50),
+    theme_secondary_color VARCHAR(50),
+    theme_accent_color VARCHAR(50),
     theme_custom_colors JSON COMMENT 'User custom color overrides {primary, secondary, accent}',
     
     -- Localization Preferences
@@ -762,8 +765,10 @@ CREATE TABLE IF NOT EXISTS user_settings (
     -- List and Grid View Settings
     default_list_view VARCHAR(20) DEFAULT 'table' COMMENT 'User default: table or card view',
     records_per_page INT DEFAULT 25 COMMENT 'User preferred pagination size',
+    list_sidebar_expanded BOOLEAN DEFAULT true,
     enable_smart_filters BOOLEAN DEFAULT true COMMENT 'User filter preferences',
     saved_filters JSON COMMENT 'User saved filter configurations',
+    saved_views JSON COMMENT 'User saved view configurations',
     
     -- Column Customization
     grid_columns JSON COMMENT 'Saved column configurations per module {module: [columns]}',
@@ -818,11 +823,12 @@ CREATE TABLE IF NOT EXISTS user_settings (
     last_activity DATETIME,
     current_session_id VARCHAR(100),
     remember_me_enabled BOOLEAN DEFAULT false,
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
     -- Metadata
-    created_by VARCHAR(100) NOT NULL,
+    created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME ON UPDATE CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT true,
     
