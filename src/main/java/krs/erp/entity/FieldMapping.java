@@ -110,7 +110,7 @@ public class FieldMapping implements Serializable {
     }
     
     public Boolean getIsRequired() {
-        return isRequired != null ? isRequired : false;
+        return isRequired != null && isRequired;
     }
     
     public void setIsRequired(Boolean isRequired) {

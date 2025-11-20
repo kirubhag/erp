@@ -17,12 +17,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import krs.erp.model.Organization;
 import krs.erp.model.Permission;
 import krs.erp.model.Role;
 import krs.erp.model.Staff;
 import krs.erp.model.User;
-import krs.erp.repository.ImportHistoryRepository;
 import krs.erp.repository.OrganizationRepository;
 import krs.erp.repository.PermissionRepository;
 import krs.erp.repository.RoleRepository;
@@ -50,7 +48,7 @@ import krs.erp.repository.UserRepository;
  * - data/staff/sample-staff.xml
  * - data/user/sample-users.xml
  */
-// @Component  // DISABLED: Causing startup issues due to schema mismatch - will be enabled after schema is fixed
+@Component
 @Order(0)
 public class SampleDataInitializer implements CommandLineRunner {
 
@@ -71,11 +69,7 @@ public class SampleDataInitializer implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private ImportHistoryRepository importHistoryRepository;
-
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public void run(String... args) throws Exception {
@@ -99,21 +93,13 @@ public class SampleDataInitializer implements CommandLineRunner {
         }
     }
 
-    private boolean isDataAlreadyLoaded() {
-        return permissionRepository.count() > 0 ||
-               roleRepository.count() > 0 ||
-               organizationRepository.count() > 0 ||
-               staffRepository.count() > 0 ||
-               userRepository.count() > 0;
-    }
-
     private void loadPermissions() {
         logger.info("Loading Permissions from data/permission/sample-permissions.xml...");
         try {
-            // DISABLED: if (permissionRepository.count() > 0) {
-            //     logger.info("Permissions already exist. Skipping.");
-            //     return;
-            // }
+            if (permissionRepository.count() > 0) {
+                logger.info("Permissions already exist. Skipping.");
+                return;
+            }
 
             InputStream inputStream = getClass().getClassLoader()
                     .getResourceAsStream("data/permission/sample-permissions.xml");
@@ -143,10 +129,10 @@ public class SampleDataInitializer implements CommandLineRunner {
     private void loadRoles() {
         logger.info("Loading Roles from data/role/sample-roles.xml...");
         try {
-            // DISABLED: if (roleRepository.count() > 0) {
-            //     logger.info("Roles already exist. Skipping.");
-            //     return;
-            // }
+            if (roleRepository.count() > 0) {
+                logger.info("Roles already exist. Skipping.");
+                return;
+            }
 
             InputStream inputStream = getClass().getClassLoader()
                     .getResourceAsStream("data/role/sample-roles.xml");
@@ -173,46 +159,13 @@ public class SampleDataInitializer implements CommandLineRunner {
         }
     }
 
-    private void loadOrganizations() {
-        logger.info("Loading Organizations from data/organisation/sample-organisations.xml...");
-        try {
-            // DISABLED: if (organizationRepository.count() > 0) {
-            //     logger.info("Organizations already exist. Skipping.");
-            //     return;
-            // }
-
-            InputStream inputStream = getClass().getClassLoader()
-                    .getResourceAsStream("data/organisation/sample-organisations.xml");
-            if (inputStream == null) {
-                logger.warn("Organizations XML file not found. Skipping.");
-                return;
-            }
-
-            Document document = parseXml(inputStream);
-            NodeList organizationList = document.getElementsByTagName("organizations");
-            int loadedCount = 0;
-
-            for (int i = 0; i < organizationList.getLength(); i++) {
-                Element element = (Element) organizationList.item(i);
-                Organization organization = mapToOrganization(element);
-                organizationRepository.save(organization);
-                loadedCount++;
-            }
-
-            logger.info("✓ Loaded {} organizations", loadedCount);
-
-        } catch (Exception e) {
-            logger.error("Error loading organizations", e);
-        }
-    }
-
     private void loadStaff() {
         logger.info("Loading Staff from data/staff/sample-staff.xml...");
         try {
-            // DISABLED: if (staffRepository.count() > 0) {
-            //     logger.info("Staff already exist. Skipping.");
-            //     return;
-            // }
+            if (staffRepository.count() > 0) {
+                logger.info("Staff already exist. Skipping.");
+                return;
+            }
 
             InputStream inputStream = getClass().getClassLoader()
                     .getResourceAsStream("data/staff/sample-staff.xml");
@@ -242,10 +195,10 @@ public class SampleDataInitializer implements CommandLineRunner {
     private void loadUsers() {
         logger.info("Loading Users from data/user/sample-users.xml...");
         try {
-            // DISABLED: if (userRepository.count() > 0) {
-            //     logger.info("Users already exist. Skipping.");
-            //     return;
-            // }
+            if (userRepository.count() > 0) {
+                logger.info("Users already exist. Skipping.");
+                return;
+            }
 
             InputStream inputStream = getClass().getClassLoader()
                     .getResourceAsStream("data/user/sample-users.xml");
@@ -296,37 +249,6 @@ public class SampleDataInitializer implements CommandLineRunner {
         role.setDescription(element.getAttribute("description"));
         role.setSystemRole("1".equals(element.getAttribute("system_role")));
         return role;
-    }
-
-    private Organization mapToOrganization(Element element) {
-        Organization organization = new Organization();
-        organization.setName(element.getAttribute("name"));
-        organization.setType(element.getAttribute("type"));
-        organization.setCode(element.getAttribute("code"));
-        organization.setDescription(element.getAttribute("description"));
-        organization.setEmail(element.getAttribute("email"));
-        organization.setPhone(element.getAttribute("phone"));
-        organization.setFax(element.getAttribute("fax"));
-        organization.setWebsite(element.getAttribute("website"));
-        organization.setStreetAddress(element.getAttribute("street_address"));
-        organization.setCity(element.getAttribute("city"));
-        organization.setState(element.getAttribute("state"));
-        organization.setPostalCode(element.getAttribute("postal_code"));
-        organization.setCountry(element.getAttribute("country"));
-        organization.setRegistrationNumber(element.getAttribute("registration_number"));
-        organization.setTaxId(element.getAttribute("tax_id"));
-
-        String establishedYear = element.getAttribute("established_year");
-        if (!establishedYear.isEmpty()) {
-            try {
-                organization.setEstablishedYear(Integer.parseInt(establishedYear));
-            } catch (NumberFormatException e) {
-                logger.warn("Invalid established_year format: {}", establishedYear);
-            }
-        }
-
-        organization.markAsActive();
-        return organization;
     }
 
     private Staff mapToStaff(Element element) {
@@ -422,9 +344,9 @@ public class SampleDataInitializer implements CommandLineRunner {
         }
 
         user.setEnabled("1".equals(element.getAttribute("enabled")));
-        user.setAccountNonExpired("0".equals(element.getAttribute("account_expired")) ? false : true);
-        user.setCredentialsNonExpired("0".equals(element.getAttribute("credentials_expired")) ? false : true);
-        user.setAccountNonLocked("0".equals(element.getAttribute("account_locked")) ? false : true);
+        user.setAccountNonExpired(!"0".equals(element.getAttribute("account_expired")));
+        user.setCredentialsNonExpired(!"0".equals(element.getAttribute("credentials_expired")));
+        user.setAccountNonLocked(!"0".equals(element.getAttribute("account_locked")));
 
         user.markAsActive();
         return user;

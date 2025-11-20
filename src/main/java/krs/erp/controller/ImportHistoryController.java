@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import krs.erp.model.ImportHistory;
 import krs.erp.repository.ImportHistoryRepository;
-import krs.erp.service.ImportHistoryService;
 
 /**
  * REST API for managing import history
@@ -29,9 +28,6 @@ import krs.erp.service.ImportHistoryService;
 @RequestMapping("/api/v1/import-history")
 @CrossOrigin(origins = "*")
 public class ImportHistoryController {
-    
-    @Autowired
-    private ImportHistoryService importHistoryService;
     
     @Autowired
     private ImportHistoryRepository importHistoryRepository;

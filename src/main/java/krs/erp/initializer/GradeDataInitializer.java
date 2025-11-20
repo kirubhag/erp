@@ -26,7 +26,7 @@ import krs.erp.repository.GradeRepository;
 /**
  * Initializes Grade data from grade XML files on application startup
  */
-// @Component  // DISABLED: Schema issues with student_id column
+@Component
 @Order(7)
 public class GradeDataInitializer implements CommandLineRunner {
 

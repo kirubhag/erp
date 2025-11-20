@@ -26,8 +26,8 @@ import krs.erp.repository.ParentRepository;
  * 
  * Data is loaded from: data/parent/sample-parents.xml
  */
-// @Component  // DISABLED: Schema issues
-@Order(11)
+@Component
+@Order(9)
 public class ParentDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ParentDataInitializer.class);

@@ -275,7 +275,8 @@ public class ImportSession implements Serializable {
     }
     
     public Integer getAddedRecords() {
-        return addedRecords != null ? addedRecords : 0;
+        Integer added = addedRecords;
+        return added != null ? added : 0;
     }
     
     public void setAddedRecords(Integer addedRecords) {
@@ -283,7 +284,8 @@ public class ImportSession implements Serializable {
     }
     
     public Integer getUpdatedRecords() {
-        return updatedRecords != null ? updatedRecords : 0;
+        Integer updated = updatedRecords;
+        return updated != null ? updated : 0;
     }
     
     public void setUpdatedRecords(Integer updatedRecords) {
@@ -291,7 +293,8 @@ public class ImportSession implements Serializable {
     }
     
     public Integer getSkippedRecords() {
-        return skippedRecords != null ? skippedRecords : 0;
+        Integer skipped = skippedRecords;
+        return skipped != null ? skipped : 0;
     }
     
     public void setSkippedRecords(Integer skippedRecords) {
@@ -299,7 +302,8 @@ public class ImportSession implements Serializable {
     }
     
     public Integer getFailedRecords() {
-        return failedRecords != null ? failedRecords : 0;
+        Integer failed = failedRecords;
+        return failed != null ? failed : 0;
     }
     
     public void setFailedRecords(Integer failedRecords) {
@@ -307,7 +311,8 @@ public class ImportSession implements Serializable {
     }
     
     public Double getSuccessRate() {
-        return successRate != null ? successRate : 0.0;
+        Double success = successRate;
+        return success != null ? success : 0.0;
     }
     
     public void setSuccessRate(Double successRate) {
@@ -353,8 +358,10 @@ public class ImportSession implements Serializable {
         if (totalRecords == null || totalRecords == 0) {
             this.successRate = 0.0;
         } else {
-            int successCount = (addedRecords != null ? addedRecords : 0) + 
-                               (updatedRecords != null ? updatedRecords : 0);
+            Integer added = addedRecords;
+            Integer updated = updatedRecords;
+            int successCount = (added != null ? added : 0) + 
+                               (updated != null ? updated : 0);
             this.successRate = (double) successCount / totalRecords * 100;
         }
     }

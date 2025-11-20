@@ -78,8 +78,10 @@ public class UserSettingsDTO {
             this.userId = settings.getUserId();
             this.themePreference = settings.getTheme() != null ? settings.getTheme() : "LIGHT";
             this.primaryColor = settings.getThemePrimaryColor() != null ? settings.getThemePrimaryColor() : "#0099cc";
-            this.listSidebarExpanded = settings.getListSidebarExpanded() != null ? settings.getListSidebarExpanded() : true;
-            this.listItemsPerPage = settings.getRecordsPerPage() != null ? settings.getRecordsPerPage() : 50;
+            Boolean sidebarExpanded = settings.getListSidebarExpanded();
+            this.listSidebarExpanded = sidebarExpanded != null ? sidebarExpanded : true;
+            Integer recordsPerPage = settings.getRecordsPerPage();
+            this.listItemsPerPage = recordsPerPage != null ? recordsPerPage : 50;
             this.widgetStates = new HashMap<>();
             this.preferences = new HashMap<>();
             this.lastUpdated = settings.getLastUpdated();
@@ -168,8 +170,10 @@ public class UserSettingsDTO {
         settings.setId(this.id);
         settings.setTheme(this.themePreference != null ? this.themePreference : "LIGHT");
         settings.setThemePrimaryColor(this.primaryColor != null ? this.primaryColor : "#0099cc");
-        settings.setListSidebarExpanded(this.listSidebarExpanded != null ? this.listSidebarExpanded : true);
-        settings.setRecordsPerPage(this.listItemsPerPage != null ? this.listItemsPerPage : 50);
+        Boolean sidebarExpanded = this.listSidebarExpanded;
+        settings.setListSidebarExpanded(sidebarExpanded != null ? sidebarExpanded : true);
+        Integer itemsPerPage = this.listItemsPerPage;
+        settings.setRecordsPerPage(itemsPerPage != null ? itemsPerPage : 50);
         settings.setLastUpdated(this.lastUpdated);
         return settings;
     }

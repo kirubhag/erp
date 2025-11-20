@@ -36,7 +36,7 @@ public class ImportResult implements Serializable {
     @JoinColumn(name = "import_session_id", nullable = false)
     private ImportSession importSession;
     
-    @Column(name = "row_number")
+    @Column(name = "row_num")
     private Integer rowNumber;
     
     @Column(name = "record_id")

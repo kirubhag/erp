@@ -23,8 +23,8 @@ import krs.erp.repository.SubjectRepository;
 /**
  * Initializes Subject data from subject XML files on application startup
  */
-// @Component  // DISABLED: Schema issues
-@Order(8) // Run after StudentDataInitializer
+@Component
+@Order(6) // Run after StudentDataInitializer
 public class SubjectDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(SubjectDataInitializer.class);

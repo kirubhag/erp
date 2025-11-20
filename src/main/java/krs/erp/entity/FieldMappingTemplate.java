@@ -94,7 +94,7 @@ public class FieldMappingTemplate implements Serializable {
     }
     
     public Boolean getIsRequired() {
-        return isRequired != null ? isRequired : false;
+        return isRequired != null && isRequired;
     }
     
     public void setIsRequired(Boolean isRequired) {
@@ -126,7 +126,8 @@ public class FieldMappingTemplate implements Serializable {
     }
     
     public Integer getDisplayOrder() {
-        return displayOrder != null ? displayOrder : 0;
+        Integer order = displayOrder;
+        return order != null ? order : 0;
     }
     
     public void setDisplayOrder(Integer displayOrder) {
