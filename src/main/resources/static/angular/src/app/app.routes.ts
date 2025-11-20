@@ -9,6 +9,7 @@ import { ProfileDetailComponent } from './components/profile-detail/profile-deta
 import { ModulesComponent } from './components/modules/modules.component';
 import { ModuleBuilderComponent } from './components/module-builder/module-builder.component';
 import { CompanySettingsComponent } from './components/company-settings/company-settings.component';
+import { AcademicSettingsComponent } from './components/academic-settings/academic-settings.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -39,6 +40,7 @@ export const routes: Routes = [
   { path: 'setup/modules-fields', component: ModulesComponent, canActivate: [AuthGuard] },
   { path: 'setup/module-builder/:id', component: ModuleBuilderComponent, canActivate: [AuthGuard] },
   { path: 'setup/company-settings', component: CompanySettingsComponent, canActivate: [AuthGuard] },
+  { path: 'setup/academic-settings', component: AcademicSettingsComponent, canActivate: [AuthGuard] },
   { path: 'setup/import-history', component: ImportHistoryComponent, canActivate: [AuthGuard] },
   { path: 'setup/roles-sharing', component: RolesSharingComponent, canActivate: [AuthGuard] },
 ];

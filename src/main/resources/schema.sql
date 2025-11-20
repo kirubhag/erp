@@ -675,7 +675,7 @@ CREATE TABLE IF NOT EXISTS import_history (
 -- Organization Settings Table - Store organization-wide settings
 CREATE TABLE IF NOT EXISTS organization_settings (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    organization_id BIGINT,
+    organization_id BIGINT NOT NULL,
     
     -- Theme and Display Settings
     default_theme VARCHAR(50) DEFAULT 'light' COMMENT 'light, dark, auto',
@@ -926,6 +926,92 @@ CREATE TABLE IF NOT EXISTS field_mapping_templates (
     INDEX idx_entity_type (entity_type),
     INDEX idx_field_name (field_name)
 ) COMMENT='Pre-configured field templates for auto-detection during import mapping';
+
+-- ============================================================================
+-- Academic Management Tables
+-- ============================================================================
+
+-- Academic Years table
+CREATE TABLE IF NOT EXISTS academic_years (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    is_active BOOLEAN DEFAULT false,
+    organization_id BIGINT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE,
+    INDEX idx_org_active (organization_id, is_active),
+    INDEX idx_dates (start_date, end_date)
+) COMMENT='Academic/School years for the organization';
+
+-- Academic Terms/Semesters table
+CREATE TABLE IF NOT EXISTS academic_terms (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    academic_year_id BIGINT NOT NULL,
+    organization_id BIGINT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (academic_year_id) REFERENCES academic_years(id) ON DELETE CASCADE,
+    FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE,
+    INDEX idx_academic_year (academic_year_id),
+    INDEX idx_org_dates (organization_id, start_date)
+) COMMENT='Terms/Semesters within academic years';
+
+-- Grading Scales table
+CREATE TABLE IF NOT EXISTS grading_scales (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    letter_grade VARCHAR(10) NOT NULL,
+    min_percentage DOUBLE NOT NULL,
+    max_percentage DOUBLE NOT NULL,
+    grade_point DOUBLE NOT NULL,
+    organization_id BIGINT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE,
+    INDEX idx_org_percentage (organization_id, min_percentage)
+) COMMENT='Grading scales and grade points for the organization';
+
+-- Academic Settings table
+CREATE TABLE IF NOT EXISTS academic_settings (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    organization_id BIGINT NOT NULL UNIQUE,
+    
+    -- Attendance Settings
+    enable_attendance_tracking BOOLEAN DEFAULT true,
+    attendance_calculation_method VARCHAR(20) DEFAULT 'percentage',
+    minimum_attendance_percentage DOUBLE DEFAULT 75.0,
+    allow_late_marking BOOLEAN DEFAULT true,
+    late_marking_cutoff_minutes INT DEFAULT 30,
+    enable_biometric_integration BOOLEAN DEFAULT false,
+    
+    -- Exam Settings
+    default_exam_duration INT DEFAULT 60,
+    allow_makeup_exams BOOLEAN DEFAULT true,
+    makeup_exam_deadline_days INT DEFAULT 7,
+    passing_percentage DOUBLE DEFAULT 40.0,
+    enable_grade_moderation BOOLEAN DEFAULT false,
+    auto_calculate_grades BOOLEAN DEFAULT true,
+    publish_results_immediately BOOLEAN DEFAULT false,
+    
+    -- Promotion Rules
+    auto_promote_students BOOLEAN DEFAULT false,
+    minimum_attendance_for_promotion DOUBLE DEFAULT 75.0,
+    minimum_grade_for_promotion DOUBLE DEFAULT 40.0,
+    allow_grace_marks BOOLEAN DEFAULT true,
+    grace_marks_limit DOUBLE DEFAULT 5.0,
+    require_all_subjects_pass BOOLEAN DEFAULT true,
+    allow_compartment_exams BOOLEAN DEFAULT true,
+    
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
+) COMMENT='Academic settings for attendance, exams, and promotion rules';
 
 -- ============================================================================
 -- End of Schema - All tables created with proper FK ordering

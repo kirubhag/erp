@@ -45,6 +45,7 @@ export class SettingsSidebarComponent implements OnInit {
           { label: 'Personal Settings', icon: 'fas fa-user', route: '/setup/personal-settings', active: true },
           { label: 'Users', icon: 'fas fa-users', route: '/setup/users', active: false },
           { label: 'Company Settings', icon: 'fas fa-building', route: '/setup/company-settings', active: false },
+          { label: 'Academic Settings', icon: 'fas fa-graduation-cap', route: '/setup/academic-settings', active: false },
           { label: 'Calendar Booking', icon: 'fas fa-calendar', route: '/setup/calendar-booking', active: false },
           { label: 'Motivator', icon: 'fas fa-heart', route: '/setup/motivator', active: false }
         ]
