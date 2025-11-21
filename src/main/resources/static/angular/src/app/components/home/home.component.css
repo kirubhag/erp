@@ -8,9 +8,7 @@
 
 /* Home Page Header */
 .home-page-header {
-  flex-shrink: 0;
-  position: relative;
-  z-index: 100;
+  display: none;
 }
 
 /* Home Page Content */
