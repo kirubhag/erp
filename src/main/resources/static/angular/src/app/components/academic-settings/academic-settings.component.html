@@ -2,11 +2,16 @@
   <app-settings-sidebar></app-settings-sidebar>
   
   <div class="settings-content-container">
-    <div class="settings-header">
-      <h1>Academic Settings</h1>
-      <p class="text-muted">Configure academic year, terms, grading, attendance and exam settings</p>
+    <!-- Header -->
+    <div class="content-header">
+      <div>
+        <h1 class="content-title">Academic Settings</h1>
+        <p class="content-description">Configure academic year, terms, grading, attendance and exam settings</p>
+      </div>
     </div>
 
+    <!-- Content Body -->
+    <div class="content-body">
     <!-- Success/Error Messages -->
     <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
       {{ successMessage }}
@@ -498,3 +503,6 @@
   </div>
 </div>
 <div class="modal-backdrop" [class.show]="showGradingModal" [style.display]="showGradingModal ? 'block' : 'none'"></div>
+    </div>
+  </div>
+</div>

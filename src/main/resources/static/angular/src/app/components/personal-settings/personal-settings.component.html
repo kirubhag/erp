@@ -2,22 +2,32 @@
   <app-settings-sidebar></app-settings-sidebar>
 
   <div class="settings-content-container">
-    <!-- Tabs Navigation -->
-    <ul class="nav nav-tabs tabs-navigation">
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#" (click)="openTab('personal-settings')">
-          <i class="fas fa-user"></i> Personal Settings
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#" (click)="openTab('accessibility')">
-          <i class="fas fa-universal-access"></i> Accessibility
-        </a>
-      </li>
-    </ul>
+    <!-- Header -->
+    <div class="content-header">
+      <div>
+        <h1 class="content-title">Personal Settings</h1>
+        <p class="content-description">Manage your personal preferences and account settings</p>
+      </div>
+    </div>
 
-    <!-- Tab Content -->
-    <div class="tab-content-wrapper">
+    <!-- Content Body -->
+    <div class="content-body">
+      <!-- Tabs Navigation -->
+      <ul class="nav nav-tabs tabs-navigation">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" (click)="openTab('personal-settings')">
+            <i class="fas fa-user"></i> Personal Settings
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" (click)="openTab('accessibility')">
+            <i class="fas fa-universal-access"></i> Accessibility
+          </a>
+        </li>
+      </ul>
+
+      <!-- Tab Content -->
+      <div class="tab-content-wrapper">
       <!-- Personal Settings Tab -->
       <div class="personal-settings-tab">
         <!-- Success/Error Messages -->
@@ -117,6 +127,7 @@
           <h3>Accessibility Settings</h3>
           <p>Accessibility settings will be configured here.</p>
         </div>
+      </div>
       </div>
     </div>
   </div>
