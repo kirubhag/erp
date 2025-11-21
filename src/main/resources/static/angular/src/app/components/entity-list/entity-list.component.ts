@@ -296,9 +296,13 @@ export class EntityListComponent implements OnInit {
   }
 
   onItemsPerPageChange() {
-    this.itemsPerPageChange.emit(this.pagination.itemsPerPage);
-    this.saveItemsPerPagePreference();
+    // Reset to first page when changing items per page
+    this.pagination.currentPage = 1;
     this.updatePagination();
+    this.saveItemsPerPagePreference();
+    this.itemsPerPageChange.emit(this.pagination.itemsPerPage);
+    // Trigger page change to reload data
+    this.pageChange.emit(1);
   }
 
   toggleSelectAll() {
@@ -338,6 +342,11 @@ export class EntityListComponent implements OnInit {
       action,
       selectedItems: Array.from(this.selectedItems)
     });
+  }
+
+  onRefresh() {
+    // Emit page change to trigger data reload
+    this.pageChange.emit(this.pagination.currentPage);
   }
 
   onRowClick(item: any) {

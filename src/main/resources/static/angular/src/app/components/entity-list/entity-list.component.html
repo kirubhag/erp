@@ -11,6 +11,9 @@
       <option>My {{entityNamePlural}}</option>
       <option>Recently Viewed</option>
     </select>
+    <button class="btn-icon" (click)="onRefresh()" title="Refresh">
+      <i class="fas fa-sync-alt"></i>
+    </button>
   </div>
   <div class="toolbar-actions">
     <button class="btn-icon" (click)="toggleTableView()" [class.active]="isTableView()">
