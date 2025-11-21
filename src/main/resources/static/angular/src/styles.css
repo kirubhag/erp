@@ -167,7 +167,7 @@ a:hover,
 
 /* Content Body */
 .content-body {
-  background: white;
+  background-color: #f8f9fa;
   padding: 30px;
   margin: 0;
   flex: 1;
