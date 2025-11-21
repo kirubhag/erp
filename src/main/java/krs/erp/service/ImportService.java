@@ -30,7 +30,6 @@ import krs.erp.entity.ImportStatus;
 import krs.erp.entity.ImportType;
 import krs.erp.repository.FieldMappingRepository;
 import krs.erp.repository.FieldMappingTemplateRepository;
-import krs.erp.repository.ImportResultRepository;
 import krs.erp.repository.ImportSessionRepository;
 
 /**
@@ -41,7 +40,6 @@ import krs.erp.repository.ImportSessionRepository;
 public class ImportService {
     
     private final ImportSessionRepository importSessionRepository;
-    private final ImportResultRepository importResultRepository;
     private final FieldMappingRepository fieldMappingRepository;
     private final FieldMappingTemplateRepository fieldMappingTemplateRepository;
     
@@ -49,11 +47,9 @@ public class ImportService {
     private static final String[] SUPPORTED_FORMATS = {"csv", "xlsx", "xls", "vcf"};
     
     public ImportService(ImportSessionRepository importSessionRepository,
-                        ImportResultRepository importResultRepository,
                         FieldMappingRepository fieldMappingRepository,
                         FieldMappingTemplateRepository fieldMappingTemplateRepository) {
         this.importSessionRepository = importSessionRepository;
-        this.importResultRepository = importResultRepository;
         this.fieldMappingRepository = fieldMappingRepository;
         this.fieldMappingTemplateRepository = fieldMappingTemplateRepository;
     }

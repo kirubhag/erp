@@ -34,5 +34,11 @@
         "**/.settings": true,
         "**/.factorypath": true
     },
+    
+    // Exclude external files causing IDE errors
+    "files.watcherExclude": {
+        "**/Desktop/**": true
+    },
+    
     "java.debug.settings.onBuildFailureProceed": true
 }

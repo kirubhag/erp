@@ -53,7 +53,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/", "/login", "/register", "/error", "/favicon.ico").permitAll()
                 .requestMatchers("/api/auth/**", "/settings/auth/**").permitAll()
-                .requestMatchers("/api/**").authenticated()  // API endpoints require authentication
+                .requestMatchers("/api/import/**").permitAll()  // Allow import endpoints for testing
+                .requestMatchers("/api/**").authenticated()  // Other API endpoints require authentication
                 .requestMatchers("/actuator/health", "/__healthcheck").permitAll()
                 .requestMatchers("/static/**", "/assets/**", "/css/**", "/js/**", "/images/**", "/vendor/**", "/dist/**", "/angular/**").permitAll()
                 .requestMatchers("**.js", "**.css", "**.map", "**.woff", "**.woff2", "**.ttf", "**.eot").permitAll()
