@@ -1,0 +1,108 @@
+<div class="onboarding-container">
+  <div class="row g-0">
+    <!-- Sidebar -->
+    <div class="col-md-2">
+      <div class="sidebar">
+        <h5 class="sidebar-title">Get Started</h5>
+        <ul class="sidebar-menu">
+          <li [class.active]="activeTab === 'system-setup'" (click)="setActiveTab('system-setup')">
+            System Setup
+          </li>
+          <li [class.active]="activeTab === 'resources'" (click)="setActiveTab('resources')">
+            Resources
+          </li>
+          <li [class.active]="activeTab === 'video-library'" (click)="setActiveTab('video-library')">
+            Video Library
+          </li>
+          <li [class.active]="activeTab === 'integrations'" (click)="setActiveTab('integrations')">
+            Integrations ✨
+          </li>
+          <li [class.active]="activeTab === 'community'" (click)="setActiveTab('community')">
+            Community <i class="fas fa-external-link-alt ms-1" style="font-size: 10px;"></i>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-10">
+      <div class="main-content">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div></div>
+          <div class="d-flex align-items-center gap-3">
+            <span class="wizard-badge">Onboarding Wizard</span>
+            <i class="fas fa-circle" style="font-size: 8px; color: #d9d9d9;"></i>
+            <i class="far fa-comment-dots" style="color: #595959; cursor: pointer;"></i>
+            <a href="#" class="btn-add-data" (click)="$event.preventDefault()">
+              <i class="fas fa-plus-circle me-1"></i> Add Demo Data
+            </a>
+          </div>
+        </div>
+
+        <!-- Greeting Card -->
+        <div class="greeting-card">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+              <div class="greeting-icon">
+                <i class="fas fa-rocket"></i>
+              </div>
+              <h5 class="mb-0">Welcome! Let's set up your ERP system</h5>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <div class="progress-custom">
+                <div class="progress-bar-custom" [style.width.%]="progressPercentage"></div>
+              </div>
+              <strong class="progress-text">{{ progressPercentage }}%</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Setup Sections -->
+        <div class="section-card" *ngFor="let section of setupSections">
+          <h4 class="section-title">{{ section.title }}</h4>
+          <p class="section-description">{{ section.description }}</p>
+
+          <div class="row">
+            <div class="col-md-6" *ngFor="let item of section.items">
+              <div class="setup-item" 
+                   [class.clickable]="item.route"
+                   (click)="onSetupItemClick(item)">
+                <div class="d-flex align-items-start justify-content-between">
+                  <div class="d-flex align-items-start gap-3">
+                    <div *ngIf="item.completed" class="checkmark-icon">
+                      <i class="fas fa-check"></i>
+                    </div>
+                    <div *ngIf="!item.completed" 
+                         class="setup-item-icon"
+                         [ngClass]="'icon-' + item.iconColor">
+                      <i [class]="item.icon"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                      <div class="setup-item-title">{{ item.title }}</div>
+                      <div class="setup-item-desc">{{ item.description }}</div>
+                    </div>
+                  </div>
+                  <i *ngIf="!item.completed" class="fas fa-chevron-right arrow-icon"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile App Widget -->
+  <div class="mobile-app-widget">
+    <div class="d-flex align-items-center gap-2">
+      <div class="mobile-app-icon">
+        <i class="fas fa-mobile-alt"></i>
+      </div>
+      <div>
+        <div class="mobile-app-text">Install Mobile App</div>
+      </div>
+      <i class="fas fa-chevron-up" style="color: #8c8c8c; font-size: 12px; margin-left: 10px;"></i>
+    </div>
+  </div>
+</div>

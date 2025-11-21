@@ -21,6 +21,7 @@ import { ImportWizardComponent } from './components/import-wizard/import-wizard.
 import { FileStorageComponent } from './components/file-storage/file-storage.component';
 import { RecordStorageComponent } from './components/record-storage/record-storage.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
+import { OnboardingComponent } from './components/onboarding/onboarding.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -28,6 +29,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'onboarding', component: OnboardingComponent, canActivate: [AuthGuard] },
   { path: 'students', component: StudentListComponent, canActivate: [AuthGuard] },
   { path: 'staff', component: EntityManagementComponent, canActivate: [AuthGuard] },
   { path: 'attendance', component: EntityManagementComponent, canActivate: [AuthGuard] },
