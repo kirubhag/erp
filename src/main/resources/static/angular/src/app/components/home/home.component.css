@@ -1,7 +1,10 @@
 /* Home Wrapper */
 .home-wrapper {
   min-height: 100vh;
+  height: 100%;
   background-color: #f8f9fa;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Navbar */
