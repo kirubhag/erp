@@ -34,9 +34,22 @@ body {
 }
 
 app-root {
-  display: block;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   overflow: hidden;
+  padding-top: 56px;
+}
+
+router-outlet {
+  display: none;
+}
+
+router-outlet + * {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Bootstrap Primary Color Override */
