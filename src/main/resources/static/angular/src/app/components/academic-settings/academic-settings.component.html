@@ -1,4 +1,4 @@
-<div class="settings-container">
+<div class="setup-layout">
   <app-settings-sidebar></app-settings-sidebar>
   
   <div class="settings-content">
@@ -124,7 +124,7 @@
               <td>{{ term.startDate | date:'mediumDate' }}</td>
               <td>{{ term.endDate | date:'mediumDate' }}</td>
               <td>
-                {{ (academicYears.find(y => y.id === term.academicYearId))?.name || 'N/A' }}
+                {{ getAcademicYearName(term.academicYearId) }}
               </td>
               <td>
                 <button class="btn btn-sm btn-info me-2" (click)="openTermModal(term)">

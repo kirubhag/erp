@@ -72,7 +72,6 @@
                 type="text" 
                 class="form-control" 
                 formControlName="companyId"
-                [disabled]="true"
               >
             </div>
           </div>
@@ -197,7 +196,6 @@
               type="text" 
               class="form-control" 
               formControlName="address"
-              [disabled]="!isEditing"
             >
           </div>
 
@@ -208,7 +206,6 @@
                 type="text" 
                 class="form-control" 
                 formControlName="city"
-                [disabled]="!isEditing"
               >
             </div>
             <div class="form-group">
@@ -217,7 +214,6 @@
                 type="text" 
                 class="form-control" 
                 formControlName="state"
-                [disabled]="!isEditing"
               >
             </div>
           </div>
@@ -229,7 +225,6 @@
                 type="text" 
                 class="form-control" 
                 formControlName="zipCode"
-                [disabled]="!isEditing"
               >
             </div>
             <div class="form-group">
@@ -238,7 +233,6 @@
                 type="text" 
                 class="form-control" 
                 formControlName="country"
-                [disabled]="!isEditing"
               >
             </div>
           </div>
@@ -260,7 +254,7 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Timezone</label>
-              <select class="form-control" formControlName="timezone" [disabled]="!isEditing">
+              <select class="form-control" formControlName="timezone">
                 <option value="UTC">UTC</option>
                 <option value="EST">Eastern Standard Time</option>
                 <option value="CST">Central Standard Time</option>
@@ -270,7 +264,7 @@
             </div>
             <div class="form-group">
               <label class="form-label">Language</label>
-              <select class="form-control" formControlName="language" [disabled]="!isEditing">
+              <select class="form-control" formControlName="language">
                 <option value="en">English</option>
                 <option value="es">Spanish</option>
                 <option value="fr">French</option>
@@ -282,7 +276,7 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Currency</label>
-              <select class="form-control" formControlName="currency" [disabled]="!isEditing">
+              <select class="form-control" formControlName="currency">
                 <option value="USD">USD ($)</option>
                 <option value="EUR">EUR (€)</option>
                 <option value="GBP">GBP (£)</option>
@@ -291,7 +285,7 @@
             </div>
             <div class="form-group">
               <label class="form-label">Date Format</label>
-              <select class="form-control" formControlName="dateFormat" [disabled]="!isEditing">
+              <select class="form-control" formControlName="dateFormat">
                 <option value="MM/DD/YYYY">MM/DD/YYYY</option>
                 <option value="DD/MM/YYYY">DD/MM/YYYY</option>
                 <option value="YYYY-MM-DD">YYYY-MM-DD</option>
@@ -302,7 +296,7 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Time Format</label>
-              <select class="form-control" formControlName="timeFormat" [disabled]="!isEditing">
+              <select class="form-control" formControlName="timeFormat">
                 <option value="12h">12-Hour (AM/PM)</option>
                 <option value="24h">24-Hour</option>
               </select>

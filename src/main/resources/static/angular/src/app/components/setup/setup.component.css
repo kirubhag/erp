@@ -64,6 +64,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .section-title {
@@ -80,6 +81,9 @@
   color: #666;
   cursor: pointer;
   transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .setup-item:last-child {
@@ -88,6 +92,13 @@
 
 .setup-item:hover {
   color: #2196F3;
+}
+
+.setup-item i {
+  font-size: 14px;
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 /* No Results */
@@ -183,9 +194,9 @@
 }
 
 /* Bootstrap grid fixes */
-.row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.setup-container .row {
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
   margin: 0;
   width: 100%;
@@ -199,6 +210,8 @@
   display: flex;
   flex-direction: column;
   background-color: transparent;
+  flex: 1 1 calc(33.333% - 1.5rem);
+  min-width: 280px;
 }
 
 .mb-4 {

@@ -20,7 +20,7 @@ export class CompanySettingsComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {
     this.companyForm = this.formBuilder.group({
       companyName: ['', Validators.required],
-      companyId: ['ORG123', Validators.required],
+      companyId: [{value: 'ORG123', disabled: true}, Validators.required],
       website: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
@@ -42,6 +42,25 @@ export class CompanySettingsComponent implements OnInit {
 
   ngOnInit() {
     this.loadCompanyData();
+    this.disableFormControls();
+  }
+
+  disableFormControls() {
+    // Disable all controls except companyId (which is always disabled)
+    Object.keys(this.companyForm.controls).forEach(key => {
+      if (key !== 'companyId') {
+        this.companyForm.get(key)?.disable();
+      }
+    });
+  }
+
+  enableFormControls() {
+    // Enable all controls except companyId (which stays disabled)
+    Object.keys(this.companyForm.controls).forEach(key => {
+      if (key !== 'companyId') {
+        this.companyForm.get(key)?.enable();
+      }
+    });
   }
 
   loadCompanyData() {
@@ -64,6 +83,7 @@ export class CompanySettingsComponent implements OnInit {
 
   editCompanyInfo() {
     this.isEditing = true;
+    this.enableFormControls();
   }
 
   saveCompanyInfo() {
@@ -71,12 +91,14 @@ export class CompanySettingsComponent implements OnInit {
       console.log('Saving company settings:', this.companyForm.value);
       alert('Company settings saved successfully!');
       this.isEditing = false;
+      this.disableFormControls();
     }
   }
 
   cancelEdit() {
     this.isEditing = false;
     this.loadCompanyData();
+    this.disableFormControls();
   }
 
   onLogoUpload(event: any) {

@@ -113,6 +113,26 @@ a:hover,
   color: var(--app-primary-dark);
 }
 
+/* Setup Layout - Common layout for all setup pages */
+.setup-layout {
+  display: flex;
+  height: calc(100vh - 56px);
+  margin-top: 56px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.setup-layout app-settings-sidebar {
+  flex-shrink: 0;
+}
+
+.setup-layout .settings-content,
+.setup-layout > div:not(app-settings-sidebar) {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

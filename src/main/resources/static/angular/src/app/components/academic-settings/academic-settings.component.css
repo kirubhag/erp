@@ -7,7 +7,7 @@
 .settings-content {
   flex: 1;
   padding: 2rem;
-  margin-left: 280px;
+  margin-top: 56px;
 }
 
 .settings-header {
@@ -40,14 +40,14 @@
 }
 
 .nav-tabs .nav-link:hover {
-  color: #0099cc;
+  color: var(--app-primary, var(--app-primary-default));
   border-color: transparent;
   background-color: #f8f9fa;
 }
 
 .nav-tabs .nav-link.active {
-  color: #0099cc;
-  border-bottom-color: #0099cc;
+  color: var(--app-primary, var(--app-primary-default));
+  border-bottom-color: var(--app-primary, var(--app-primary-default));
   background-color: transparent;
 }
 
@@ -100,13 +100,13 @@
 }
 
 .form-control:focus, .form-select:focus {
-  border-color: #0099cc;
+  border-color: var(--app-primary, var(--app-primary-default));
   box-shadow: 0 0 0 0.2rem rgba(0, 153, 204, 0.25);
 }
 
 .form-check-input:checked {
-  background-color: #0099cc;
-  border-color: #0099cc;
+  background-color: var(--app-primary, var(--app-primary-default));
+  border-color: var(--app-primary, var(--app-primary-default));
 }
 
 .form-check-label {

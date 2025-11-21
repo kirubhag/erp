@@ -146,6 +146,13 @@ export class AcademicSettingsComponent implements OnInit {
     this.loadPromotionSettings();
   }
 
+  // Helper method to get academic year name
+  getAcademicYearName(yearId?: number): string {
+    if (!yearId) return 'N/A';
+    const year = this.academicYears.find(y => y.id === yearId);
+    return year?.name || 'N/A';
+  }
+
   // Academic Year Methods
   loadAcademicYears() {
     this.http.get<AcademicYear[]>('/api/academic/years').subscribe({

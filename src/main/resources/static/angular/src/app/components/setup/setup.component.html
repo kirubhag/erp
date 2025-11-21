@@ -25,7 +25,8 @@
             *ngFor="let item of section.items; trackBy: trackItem"
             (click)="onItemClick(item)"
             [attr.data-section]="section.title">
-            {{ item.label }}
+            <i *ngIf="item.icon" [class]="item.icon"></i>
+            <span>{{ item.label }}</span>
           </div>
         </div>
       </div>

@@ -41,6 +41,13 @@ export class SetupComponent implements OnInit {
           description: 'Manage your personal preferences and account settings'
         },
         {
+          id: 'academic-settings',
+          label: 'Academic Settings',
+          icon: 'fas fa-graduation-cap',
+          route: '/setup/academic-settings',
+          description: 'Configure academic year, terms, grading scales, and educational settings'
+        },
+        {
           id: 'users',
           label: 'Users',
           icon: 'fas fa-users',

@@ -23,7 +23,7 @@ export interface User {
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8081/settings/users';
+  private apiUrl = '/settings/users';
 
   constructor(private http: HttpClient) {}
 
