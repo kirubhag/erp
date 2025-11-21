@@ -149,7 +149,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
 
   pagination: PaginationInfo = {
     currentPage: 1,
-    itemsPerPage: 10,
+    itemsPerPage: 25,
     totalItems: 0,
     totalPages: 0
   };

@@ -85,9 +85,10 @@
 
   <!-- Content Area -->
   <div class="content-area" [class.full-width]="!sidebarVisible || filters.length === 0">
-    <!-- Table View -->
-    <div class="data-section" *ngIf="isTableView()">
-      <div class="table-responsive" *ngIf="!loading && data.length > 0">
+    <!-- Data Section -->
+    <div class="data-section">
+      <!-- Table View -->
+      <div class="table-responsive" *ngIf="isTableView() && !loading && data.length > 0">
         <table class="data-table">
           <thead>
             <tr>
@@ -218,6 +219,7 @@
           <select class="form-select form-select-sm ms-3" 
                   [(ngModel)]="pagination.itemsPerPage"
                   (ngModelChange)="onItemsPerPageChange()">
+            <option [value]="10">10 per page</option>
             <option [value]="25">25 per page</option>
             <option [value]="50">50 per page</option>
             <option [value]="100">100 per page</option>
