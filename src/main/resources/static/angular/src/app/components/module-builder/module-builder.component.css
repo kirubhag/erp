@@ -1,24 +1,9 @@
-.setup-layout {
-  display: flex;
-  height: calc(100vh - 56px);
-  width: 100%;
-}
-
 .builder-container {
   flex: 1;
   overflow-y: auto;
   background-color: #f5f7fa;
   display: flex;
   flex-direction: column;
-}
-
-.content-header {
-  background: white;
-  padding: 20px 30px;
-  border-bottom: 1px solid #e8e8e8;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .header-top {
@@ -81,13 +66,6 @@
 
 .btn-save:hover {
   background-color: #0d7dd9;
-}
-
-.content-body {
-  flex: 1;
-  background: white;
-  margin: 1px 0;
-  overflow-y: auto;
 }
 
 .tabs-nav {
@@ -384,10 +362,6 @@ textarea.form-control {
 }
 
 @media (max-width: 768px) {
-  .setup-layout {
-    flex-direction: column;
-  }
-
   .form-row {
     grid-template-columns: 1fr;
   }

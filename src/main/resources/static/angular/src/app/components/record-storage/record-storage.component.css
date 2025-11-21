@@ -1,14 +1,5 @@
 /* Container styles moved to global styles.css as .settings-content-container */
 
-.content-header {
-  background: white;
-  padding: 30px;
-  border-bottom: 1px solid #e8e8e8;
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-}
-
 .content-title {
   font-size: 24px;
   font-weight: 600;
@@ -31,13 +22,6 @@
 
 .help-link:hover {
   color: var(--app-primary, #1890ff);
-}
-
-.content-body {
-  flex: 1;
-  background: white;
-  margin: 1px 0;
-  overflow-y: auto;
 }
 
 /* Tab Header */
@@ -200,10 +184,6 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .setup-layout {
-    flex-direction: column;
-  }
-
   .content-header {
     flex-direction: column;
     gap: 15px;

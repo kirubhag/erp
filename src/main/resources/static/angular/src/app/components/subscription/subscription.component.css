@@ -1,14 +1,5 @@
 /* Container styles moved to global styles.css as .settings-content-container */
 
-.content-header {
-  background: white;
-  padding: 30px;
-  border-bottom: 1px solid #e8e8e8;
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-}
-
 .content-title {
   font-size: 24px;
   font-weight: 600;
@@ -310,10 +301,6 @@
 }
 
 @media (max-width: 768px) {
-  .setup-layout {
-    flex-direction: column;
-  }
-
   .content-header {
     flex-direction: column;
     gap: 15px;

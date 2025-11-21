@@ -357,14 +357,6 @@
   overflow-y: auto;
 }
 
-.content-header {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
 .tabs {
   display: flex;
   gap: 2rem;
@@ -386,11 +378,6 @@
 .tab.active {
   color: var(--app-primary);
   border-bottom-color: var(--app-primary);
-}
-
-.content-body {
-  padding: 1.5rem;
-  max-width: 1200px;
 }
 
 /* Collapsible Section */

@@ -7,10 +7,6 @@
 }
 
 /* Container styles moved to global styles.css as .settings-content-container */
-/* Component-specific overrides */
-.settings-content-container {
-  background-color: #f8f9fa;
-}
 
 .tabs-navigation {
   background: white;
@@ -382,10 +378,6 @@
     border-left: none;
     margin-left: 0;
     white-space: nowrap;
-  }
-
-  .settings-content-container {
-    flex: 1;
   }
 
   .info-list {

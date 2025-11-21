@@ -1,11 +1,5 @@
 /* Container styles moved to global styles.css as .settings-content-container */
 
-.content-header {
-  background: white;
-  padding: 30px;
-  border-bottom: 1px solid #e8e8e8;
-}
-
 .content-title {
   font-size: 24px;
   font-weight: 600;
@@ -17,13 +11,6 @@
   font-size: 13px;
   color: #8c8c8c;
   margin-bottom: 0;
-}
-
-.content-body {
-  flex: 1;
-  background: white;
-  margin: 1px 0;
-  overflow-y: auto;
 }
 
 .tabs-nav {
@@ -277,10 +264,6 @@
 }
 
 @media (max-width: 768px) {
-  .setup-layout {
-    flex-direction: column;
-  }
-
   .company-header {
     flex-direction: column;
     align-items: flex-start;

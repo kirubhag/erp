@@ -167,11 +167,6 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .settings-content-container {
-    margin-left: 0;
-    padding: 1rem;
-  }
-  
   .nav-tabs .nav-link {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
