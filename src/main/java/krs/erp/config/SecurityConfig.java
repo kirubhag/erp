@@ -42,7 +42,7 @@ public class SecurityConfig {
         http
             .securityMatcher("/**")
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/auth/**", "/settings/auth/**", "/webjars/**", "/actuator/**")
+                .ignoringRequestMatchers("/api/auth/**", "/settings/auth/**", "/webjars/**", "/actuator/**", "/api/import/**")
             )
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .headers(headers -> headers
