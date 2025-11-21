@@ -63,6 +63,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/fields/**").permitAll()  // Allow ERP fields metadata endpoints
                 .requestMatchers("/api/academic/**").permitAll()  // Allow academic settings endpoints
                 .requestMatchers("/api/users/**").permitAll()  // Allow users endpoints
+                .requestMatchers("/settings/users/**").permitAll()  // Allow settings users endpoints
                 .requestMatchers("/api/**").authenticated()  // Other API endpoints require authentication
                 .requestMatchers("/actuator/health", "/__healthcheck").permitAll()
                 .requestMatchers("/static/**", "/assets/**", "/css/**", "/js/**", "/images/**", "/vendor/**", "/dist/**", "/angular/**").permitAll()
