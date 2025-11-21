@@ -1,0 +1,128 @@
+<div class="setup-layout">
+  <app-settings-sidebar></app-settings-sidebar>
+  
+  <div class="subscription-container">
+    <!-- Header -->
+    <div class="content-header">
+      <div>
+        <h1 class="content-title">Subscription Information</h1>
+        <p class="content-description">Displays an overview of your organization's subscription plan and feature usage limits</p>
+      </div>
+      <a href="#" class="help-link"><i class="far fa-question-circle me-1"></i> Help</a>
+    </div>
+
+    <!-- Content Body -->
+    <div class="content-body">
+      <!-- Plan Details -->
+      <div class="plan-section">
+        <div class="section-header">
+          <h5>Plan Details</h5>
+          <div class="header-actions">
+            <span class="profile-id">Profile Id: {{ profileId }}</span>
+            <a href="#" class="manage-link">Manage Plan</a>
+          </div>
+        </div>
+
+        <div class="plan-content">
+          <div class="plan-badge">
+            <i class="fas fa-crown"></i>
+          </div>
+          
+          <div class="plan-info-grid">
+            <div class="plan-info-item">
+              <small class="label">Current Plan</small>
+              <strong>{{ currentPlan }}</strong>
+            </div>
+            <div class="plan-info-item">
+              <small class="label">Support Plan</small>
+              <strong>{{ supportPlan }} <i class="fas fa-shield-alt"></i></strong>
+            </div>
+            <div class="plan-info-item">
+              <small class="label">Billing Cycle</small>
+              <strong>{{ billingCycle }}</strong>
+            </div>
+            <div class="plan-info-item">
+              <small class="label">Next Renewal</small>
+              <strong>{{ formatDate(nextRenewal) }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Users Limit -->
+        <div class="users-limit">
+          <div class="limit-header">
+            <strong>Users Limit</strong>
+            <span class="badge-count">{{ totalUsers }}</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="usersPercentage"></div>
+          </div>
+          <div class="limit-stats">
+            <small><span class="dot used"></span> Used: {{ usedUsers }}</small>
+            <small><span class="dot available"></span> Available: {{ availableUsers }}</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Usage Details -->
+      <div class="usage-section">
+        <h5 class="section-title">Usage Details</h5>
+        
+        <!-- Tabs -->
+        <div class="usage-tabs">
+          <button 
+            class="tab-btn" 
+            [class.active]="activeTab === 'onetime'"
+            (click)="setActiveTab('onetime')"
+          >
+            One-Time Limits
+          </button>
+          <button 
+            class="tab-btn" 
+            [class.active]="activeTab === 'daily'"
+            (click)="setActiveTab('daily')"
+          >
+            Daily Limits
+          </button>
+        </div>
+
+        <!-- One-Time Limits Table -->
+        <div class="table-section" *ngIf="activeTab === 'onetime'">
+          <table class="usage-table">
+            <thead>
+              <tr>
+                <th>Features</th>
+                <th>Default Limit</th>
+                <th>Additional Limit</th>
+                <th>Total Limit</th>
+                <th>Used</th>
+                <th>Remaining</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let limit of oneTimeLimits">
+                <td>
+                  <a *ngIf="limit.hasLink" href="#" class="feature-link">{{ limit.feature }}</a>
+                  <span *ngIf="!limit.hasLink">{{ limit.feature }}</span>
+                </td>
+                <td>{{ limit.defaultLimit }}</td>
+                <td>
+                  {{ limit.additionalLimit }}
+                  <i class="fas fa-plus-circle add-icon" *ngIf="limit.additionalLimit !== 'NA'"></i>
+                </td>
+                <td>{{ limit.totalLimit }}</td>
+                <td>{{ limit.used }}</td>
+                <td>{{ limit.remaining }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Daily Limits Table -->
+        <div class="table-section" *ngIf="activeTab === 'daily'">
+          <p class="text-muted">Daily usage limits will be displayed here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

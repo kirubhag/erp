@@ -18,6 +18,9 @@ import { EntityDetailComponent } from './components/entity-detail/entity-detail.
 import { ImportHistoryComponent } from './components/import-history/import-history.component';
 import { RolesSharingComponent } from './components/roles-sharing/roles-sharing.component';
 import { ImportWizardComponent } from './components/import-wizard/import-wizard.component';
+import { FileStorageComponent } from './components/file-storage/file-storage.component';
+import { RecordStorageComponent } from './components/record-storage/record-storage.component';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -43,5 +46,8 @@ export const routes: Routes = [
   { path: 'setup/academic-settings', component: AcademicSettingsComponent, canActivate: [AuthGuard] },
   { path: 'setup/import-history', component: ImportHistoryComponent, canActivate: [AuthGuard] },
   { path: 'setup/roles-sharing', component: RolesSharingComponent, canActivate: [AuthGuard] },
+  { path: 'setup/subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
+  { path: 'setup/file-storage', component: FileStorageComponent, canActivate: [AuthGuard] },
+  { path: 'setup/record-storage', component: RecordStorageComponent, canActivate: [AuthGuard] },
 ];
 

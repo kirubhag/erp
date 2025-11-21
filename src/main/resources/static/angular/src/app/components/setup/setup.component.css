@@ -93,7 +93,6 @@
 .setup-wrapper {
   display: flex;
   min-height: calc(100vh - 60px);
-  margin-top: 60px;
   background-color: #f8f9fa;
 }
 

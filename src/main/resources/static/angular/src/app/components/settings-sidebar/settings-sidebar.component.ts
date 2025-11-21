@@ -77,7 +77,8 @@ export class SettingsSidebarComponent implements OnInit {
           { label: 'Personal Settings', icon: 'fas fa-user-cog', route: '/setup/personal-settings', active: true },
           { label: 'Academic Settings', icon: 'fas fa-graduation-cap', route: '/setup/academic-settings', active: false },
           { label: 'Users', icon: 'fas fa-users', route: '/setup/users', active: false },
-          { label: 'Company Settings', icon: 'fas fa-building', route: '/setup/company-settings', active: false }
+          { label: 'Company Settings', icon: 'fas fa-building', route: '/setup/company-settings', active: false },
+          { label: 'Subscription', icon: 'fas fa-crown', route: '/setup/subscription', active: false }
         ]
       },
       {
@@ -96,7 +97,9 @@ export class SettingsSidebarComponent implements OnInit {
         items: [
           { label: 'Modules and Fields', icon: 'fas fa-puzzle-piece', route: '/setup/modules-fields', active: false },
           { label: 'Customize Home page', icon: 'fas fa-home', route: '/setup/customize-home', active: false },
-          { label: 'Email Templates', icon: 'fas fa-envelope-open-text', route: '/setup/email-templates', active: false }
+          { label: 'Email Templates', icon: 'fas fa-envelope-open-text', route: '/setup/email-templates', active: false },
+          { label: 'File Storage', icon: 'fas fa-file-alt', route: '/setup/file-storage', active: false },
+          { label: 'Record Storage', icon: 'fas fa-database', route: '/setup/record-storage', active: false }
         ]
       },
       {

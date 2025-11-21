@@ -1,0 +1,84 @@
+<div class="setup-layout">
+  <app-settings-sidebar></app-settings-sidebar>
+  
+  <div class="storage-container">
+    <!-- Header -->
+    <div class="content-header">
+      <div>
+        <h1 class="content-title">Storage Management</h1>
+        <p class="content-description">Monitor and manage your organization's file and record storage</p>
+      </div>
+      <a href="#" class="help-link"><i class="far fa-question-circle me-1"></i> Help</a>
+    </div>
+
+    <!-- Content Body -->
+    <div class="content-body">
+      <!-- Header Tabs -->
+      <div class="tab-header">
+        <button 
+          class="tab-item" 
+          [class.active]="activeTab === 'file'"
+          [routerLink]="['/setup/file-storage']"
+        >
+          File Storage
+        </button>
+        <button 
+          class="tab-item" 
+          [class.active]="activeTab === 'record'"
+          (click)="setActiveTab('record')"
+        >
+          Record Storage
+        </button>
+      </div>
+
+      <!-- Record Storage Tab Content -->
+      <div class="tab-content" *ngIf="activeTab === 'record'">
+        <p class="description-text">
+          Displays the total Record Storage space used by your organization, which includes records across all modules 
+          and related entities. This usage also includes records that are drafted and in recycle bin.
+        </p>
+
+        <!-- Storage Card -->
+        <div class="storage-card">
+          <div class="card-content">
+            <div class="storage-stats">
+              <div class="storage-header">Records used {{ recordsUsed }}</div>
+              <div class="unlimited-badge" *ngIf="isUnlimited">
+                <i class="fas fa-infinity"></i>
+                Unlimited Storage
+              </div>
+            </div>
+            <div class="update-time">
+              Updated on {{ formatDate(lastUpdated) }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Records Usage Section -->
+        <div class="table-section">
+          <h6 class="table-title">Records Usage by Module</h6>
+          
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>
+                  Module 
+                  <i class="fas fa-search ms-2 search-icon"></i>
+                </th>
+                <th>Record Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of filteredModuleData">
+                <td>
+                  <a href="#" class="module-link">{{ item.module }}</a>
+                </td>
+                <td>{{ item.recordCount }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

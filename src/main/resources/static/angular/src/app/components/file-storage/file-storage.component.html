@@ -1,0 +1,184 @@
+<div class="setup-layout">
+  <app-settings-sidebar></app-settings-sidebar>
+  
+  <div class="storage-container">
+    <!-- Header -->
+    <div class="content-header">
+      <div>
+        <h1 class="content-title">Storage Management</h1>
+        <p class="content-description">Monitor and manage your organization's file and record storage</p>
+      </div>
+      <a href="#" class="help-link"><i class="far fa-question-circle me-1"></i> Help</a>
+    </div>
+
+    <!-- Content Body -->
+    <div class="content-body">
+      <!-- Header Tabs -->
+      <div class="tab-header">
+        <button 
+          class="tab-item" 
+          [class.active]="activeTab === 'file'"
+          (click)="setActiveTab('file')"
+        >
+          File Storage
+        </button>
+        <button 
+          class="tab-item" 
+          [class.active]="activeTab === 'record'"
+          [routerLink]="['/setup/record-storage']"
+        >
+          Record Storage
+        </button>
+      </div>
+
+      <!-- File Storage Tab Content -->
+      <div class="tab-content" *ngIf="activeTab === 'file'">
+        <p class="description-text">
+          Displays the total File Storage space used by your organization, which includes attachments stored in modules, 
+          documents, and templates. This usage also includes attachments that are present in the Drafted records and Recycle bin.
+        </p>
+
+        <div class="storage-layout">
+          <!-- Left Column - Storage Bar -->
+          <div class="storage-main">
+            <!-- Storage Bar -->
+            <div class="storage-bar-section">
+              <div class="storage-label">
+                <strong>Total Storage {{ totalStorage }}</strong>
+              </div>
+              <div class="storage-bar">
+                <div class="storage-segment file-attachments" [style.width.%]="fileAttachmentsPercentage"></div>
+                <div class="storage-segment documents" [style.width.%]="documentsPercentage"></div>
+                <div class="storage-segment templates" [style.width.%]="templatesPercentage"></div>
+              </div>
+
+              <div class="storage-legend">
+                <div class="legend-item">
+                  <div class="legend-color file-attachments-color"></div>
+                  <div class="legend-text">
+                    <span>File Attachments</span>
+                    <small>{{ fileAttachments }}</small>
+                  </div>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color documents-color"></div>
+                  <div class="legend-text">
+                    <span>Documents</span>
+                    <small>{{ documents }}</small>
+                  </div>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color templates-color"></div>
+                  <div class="legend-text">
+                    <span>Templates</span>
+                    <small>{{ templates }}</small>
+                  </div>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color available-color"></div>
+                  <div class="legend-text">
+                    <span>Available</span>
+                    <small>{{ available }}</small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Info Box -->
+              <div class="info-box">
+                <strong>Note:</strong><br>
+                The table displays attachment usage by module. Usage from Documents and Templates is not included.
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column - Storage Info Card -->
+          <div class="storage-sidebar">
+            <div class="storage-info-card">
+              <div class="card-header">
+                <h6>Storage Info</h6>
+                <a href="#" class="add-storage-link">Add Storage</a>
+              </div>
+              
+              <div class="storage-info-row">
+                <span>Default</span>
+                <strong>{{ defaultStorage }}</strong>
+              </div>
+              <div class="storage-info-row">
+                <span>
+                  Complimentary Storage
+                  <small class="text-muted d-block">{{ complimentaryDetails }}</small>
+                </span>
+                <strong>{{ complimentaryStorage }}</strong>
+              </div>
+              <div class="storage-info-row">
+                <span>Purchased</span>
+                <strong>{{ purchasedStorage }}</strong>
+              </div>
+              <div class="storage-info-row total">
+                <span>Total</span>
+                <strong>{{ totalStorage }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View Tabs -->
+        <div class="view-tabs">
+          <button 
+            class="btn-tab" 
+            [class.active]="activeView === 'module'"
+            (click)="setActiveView('module')"
+          >
+            By Module
+          </button>
+          <button 
+            class="btn-tab" 
+            [class.active]="activeView === 'user'"
+            (click)="setActiveView('user')"
+          >
+            By User
+          </button>
+        </div>
+
+        <!-- Module Usage Table -->
+        <div class="table-section" *ngIf="activeView === 'module'">
+          <h6 class="table-title">
+            <i class="fas fa-circle text-success me-2"></i> 
+            Attachments Usage by Module
+          </h6>
+          
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>
+                  Module 
+                  <i class="fas fa-search ms-2 search-icon"></i>
+                </th>
+                <th>Attachment Count</th>
+                <th>Storage Used</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of filteredModuleData">
+                <td>
+                  <a href="#" class="module-link">{{ item.module }}</a>
+                </td>
+                <td>{{ item.attachmentCount }}</td>
+                <td>{{ item.storageUsed }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- User Usage View (placeholder) -->
+        <div class="table-section" *ngIf="activeView === 'user'">
+          <h6 class="table-title">
+            <i class="fas fa-circle text-success me-2"></i> 
+            Attachments Usage by User
+          </h6>
+          <p class="text-muted">User-wise storage usage will be displayed here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
