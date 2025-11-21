@@ -19,6 +19,7 @@ export interface UserDetails {
   accountNonLocked?: boolean;
   lastLoginDate?: string;
   passwordChangeDate?: string;
+  avatarUrl?: string;
   roles?: any[];
 }
 

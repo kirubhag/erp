@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { AuthService, UserDetails } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
@@ -19,6 +20,8 @@ export class PersonalSettingsComponent implements OnInit {
   editForm: Partial<UserDetails> = {};
   successMessage = '';
   errorMessage = '';
+  isUploadingAvatar = false;
+  avatarUrl: string | null = null;
 
   // Locale Information
   localeInfo = {
@@ -53,7 +56,8 @@ export class PersonalSettingsComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -248,5 +252,84 @@ export class PersonalSettingsComponent implements OnInit {
     if (activeLink) {
       activeLink.classList.add('active');
     }
+  }
+
+  /**
+   * Handle avatar file selection
+   */
+  onAvatarSelect(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    const file = input.files[0];
+    
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      this.errorMessage = 'Please select an image file';
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      this.errorMessage = 'Image size must be less than 5MB';
+      return;
+    }
+
+    this.uploadAvatar(file);
+  }
+
+  /**
+   * Upload avatar to server
+   */
+  uploadAvatar(file: File): void {
+    if (!this.currentUser?.id || !this.currentUser?.organizationId) {
+      this.errorMessage = 'User information not available';
+      return;
+    }
+
+    this.isUploadingAvatar = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('userId', this.currentUser.id.toString());
+    formData.append('organizationId', this.currentUser.organizationId.toString());
+
+    this.http.post<any>('/api/attachments/avatar/upload', formData).subscribe({
+      next: (response) => {
+        this.isUploadingAvatar = false;
+        this.successMessage = 'Avatar uploaded successfully!';
+        // Update avatar URL
+        this.avatarUrl = response.attachment.url + '?t=' + new Date().getTime();
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 3000);
+      },
+      error: (err) => {
+        this.isUploadingAvatar = false;
+        this.errorMessage = err.error?.message || 'Failed to upload avatar';
+        console.error('Error uploading avatar:', err);
+      }
+    });
+  }
+
+  /**
+   * Get avatar URL
+   */
+  getAvatarUrl(): string {
+    if (this.avatarUrl) {
+      return this.avatarUrl;
+    }
+    
+    if (this.currentUser?.id) {
+      return `/api/attachments/avatar/${this.currentUser.id}?t=${new Date().getTime()}`;
+    }
+    
+    // Default placeholder
+    const initials = this.getUserInitials();
+    return `https://placehold.co/80x80/E8F0FE/333?text=${initials}`;
   }
 }

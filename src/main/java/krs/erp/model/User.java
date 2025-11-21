@@ -74,6 +74,9 @@ public class User extends BaseEntity {
     @Column(name = "password_change_date")
     private LocalDateTime passwordChangeDate;
     
+    @Column(name = "avatar_url", length = 500)
+    private String avatarUrl;
+    
     // Relationships
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -217,6 +220,14 @@ public class User extends BaseEntity {
     
     public void setPasswordChangeDate(LocalDateTime passwordChangeDate) {
         this.passwordChangeDate = passwordChangeDate;
+    }
+    
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+    
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
     
     public Set<Role> getRoles() {
