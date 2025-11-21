@@ -6,12 +6,10 @@
   background-color: #f8f9fa;
 }
 
-/* Main Content Area */
-.settings-content {
-  flex: 1;
+/* Container styles moved to global styles.css as .settings-content-container */
+/* Component-specific overrides */
+.settings-content-container {
   background-color: #f8f9fa;
-  overflow-y: auto;
-  min-height: calc(100vh - 120px);
 }
 
 .tabs-navigation {
@@ -386,7 +384,7 @@
     white-space: nowrap;
   }
 
-  .settings-content {
+  .settings-content-container {
     flex: 1;
   }
 

@@ -22,7 +22,7 @@ interface Role {
   styles: [`
     .roles-sharing-page { display: flex; min-height: 100vh; }
     .roles-sidebar-wrapper { width: 280px; background-color: white; border-right: 1px solid var(--app-border, #E5E7EB); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; }
-    .roles-content-wrapper { flex: 1; overflow-y: auto; overflow-x: hidden; padding-top: 60px; }
+    .settings-content-container { flex: 1; overflow-y: auto; overflow-x: hidden; padding-top: 60px; }
     .roles-sharing-wrapper { min-height: 100vh; background-color: #f5f5f5; }
     .tabs-section { background: white; border-bottom: 1px solid var(--app-border, #E5E7EB); }
     .tabs { max-width: 1400px; margin: 0 auto; padding: 0 30px; display: flex; gap: 30px; }

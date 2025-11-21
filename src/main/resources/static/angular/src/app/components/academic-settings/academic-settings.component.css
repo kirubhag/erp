@@ -1,14 +1,4 @@
-.settings-container {
-  display: flex;
-  min-height: calc(100vh - 60px);
-  background-color: #f8f9fa;
-}
-
-.settings-content {
-  flex: 1;
-  padding: 2rem;
-  background-color: white;
-}
+/* Container styles moved to global styles.css as .settings-content-container */
 
 .settings-header {
   margin-bottom: 2rem;
@@ -177,7 +167,7 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .settings-content {
+  .settings-content-container {
     margin-left: 0;
     padding: 1rem;
   }
