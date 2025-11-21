@@ -66,20 +66,51 @@ public class ImportController {
      */
     @PostMapping("/sessions")
     public ResponseEntity<ImportSessionDTO> createImportSession(
+            @RequestParam("file") MultipartFile file,
             @RequestParam("entityType") String entityType,
-            @RequestParam("fileName") String fileName,
-            @RequestParam("fileFormat") String fileFormat,
-            @RequestParam("totalRecords") Integer totalRecords,
-            @RequestParam("importType") String importType,
-            @RequestParam("duplicateAction") String duplicateAction,
-            @RequestParam("findDuplicatesBy") String findDuplicatesBy,
-            @RequestParam("enableManualApproval") Boolean enableManualApproval,
-            @RequestParam("skipEmptyFields") Boolean skipEmptyFields,
-            @RequestParam("headerRow") String[] headerRow) {
+            @RequestParam(value = "settings", required = false) String settingsJson) {
         try {
             String sessionId = UUID.randomUUID().toString();
             Long userId = 1L; // TODO: Get from authenticated user
             Long organizationId = 1L; // TODO: Get from authenticated user
+            
+            // Parse file info
+            String fileName = file.getOriginalFilename();
+            String fileFormat = fileName != null && fileName.contains(".") 
+                ? fileName.substring(fileName.lastIndexOf(".") + 1).toUpperCase() 
+                : "CSV";
+            
+            // Default settings
+            ImportType importType = ImportType.ORGANIZATION;
+            DuplicateAction duplicateAction = DuplicateAction.SKIP;
+            String findDuplicatesBy = "email";
+            Boolean enableManualApproval = false;
+            Boolean skipEmptyFields = true;
+            
+            // Parse settings if provided
+            if (settingsJson != null && !settingsJson.isEmpty()) {
+                // TODO: Parse JSON settings
+            }
+            
+            // Parse CSV to get header row and count
+            String[] headerRow = new String[0];
+            int totalRecords = 0;
+            
+            try {
+                java.io.BufferedReader reader = new java.io.BufferedReader(
+                    new java.io.InputStreamReader(file.getInputStream())
+                );
+                String headerLine = reader.readLine();
+                if (headerLine != null) {
+                    headerRow = headerLine.split(",");
+                }
+                while (reader.readLine() != null) {
+                    totalRecords++;
+                }
+                reader.close();
+            } catch (IOException e) {
+                // Ignore, use defaults
+            }
             
             ImportSessionDTO session = importService.createSession(
                     sessionId,
@@ -90,8 +121,8 @@ public class ImportController {
                     fileFormat,
                     totalRecords,
                     headerRow,
-                    ImportType.valueOf(importType),
-                    DuplicateAction.valueOf(duplicateAction),
+                    importType,
+                    duplicateAction,
                     findDuplicatesBy,
                     enableManualApproval,
                     skipEmptyFields
@@ -99,6 +130,7 @@ public class ImportController {
             
             return ResponseEntity.status(HttpStatus.CREATED).body(session);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
