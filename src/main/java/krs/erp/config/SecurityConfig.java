@@ -41,10 +41,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .securityMatcher("/**")
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/api/auth/**", "/settings/auth/**", "/webjars/**", "/actuator/**", "/api/import/**")
             )
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .headers(headers -> headers
                 .contentSecurityPolicy(csp -> csp
                     .policyDirectives("default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;")
