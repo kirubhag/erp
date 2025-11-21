@@ -1,35 +1,5 @@
 /* Container styles moved to global styles.css as .settings-content-container */
 
-.tabs-nav {
-  display: flex;
-  border-bottom: 1px solid #e8e8e8;
-  padding: 0 30px;
-  background: white;
-}
-
-.tab-link {
-  background: none;
-  border: none;
-  padding: 12px 20px;
-  font-size: 14px;
-  color: #595959;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-}
-
-.tab-link:hover {
-  color: var(--app-primary, var(--app-primary-default));
-}
-
-.tab-link.active {
-  color: var(--app-primary, var(--app-primary-default));
-  border-bottom-color: var(--app-primary, var(--app-primary-default));
-  font-weight: 500;
-}
-
 .tab-content {
   background: #ffffff;
   padding: 30px;

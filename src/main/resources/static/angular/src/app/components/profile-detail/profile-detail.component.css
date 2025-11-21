@@ -68,13 +68,6 @@
   background-color: #0d7dd9;
 }
 
-.tabs-nav {
-  display: flex;
-  border-bottom: 1px solid #e8e8e8;
-  padding: 0 30px;
-  background: white;
-}
-
 .tab-link {
   padding: 15px 0;
   border: none;
