@@ -136,18 +136,26 @@
               </td>
               <td *ngFor="let column of columns" [ngSwitch]="column.type">
                 <!-- Avatar -->
-                <div *ngSwitchCase="'avatar'" class="d-flex align-items-center">
-                  <div class="avatar-circle me-2" 
-                       [class]="getAvatarClass(getCellValue(item, column))">
-                    {{getAvatarText(getCellValue(item, column))}}
-                  </div>
+                <div *ngSwitchCase="'avatar'" class="d-flex align-items-center gap-2">
+                  <app-entity-avatar
+                    [entityId]="item.id"
+                    [entityType]="entityType"
+                    [entityName]="getCellValue(item, column)"
+                    [organizationId]="organizationId || 1"
+                    [size]="'small'"
+                    [showControls]="true"
+                    [clickable]="true"
+                    (click)="$event.stopPropagation()">
+                  </app-entity-avatar>
                   <div>
                     <a href="#" class="fw-medium text-decoration-none" 
                        (click)="onRowClick(item); $event.preventDefault()"
                        style="color: var(--app-primary);">
                       {{getCellValue(item, column)}}
                     </a>
-                    <small class="text-muted">{{item[column.key + 'Id'] || item.id}}</small>
+                    <div>
+                      <small class="text-muted">{{item[column.key + 'Id'] || item.id}}</small>
+                    </div>
                   </div>
                 </div>
 
@@ -200,6 +208,8 @@
         [enableSelection]="showBulkActions"
         [selectedItems]="selectedItems"
         [loading]="loading"
+        [entityType]="entityType"
+        [organizationId]="organizationId"
         (itemClick)="onRowClick($event)"
         (selectionChange)="onGridSelectionChange($event)"
         (actionClick)="onActionClick($event)">

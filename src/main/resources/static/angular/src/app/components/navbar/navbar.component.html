@@ -56,7 +56,14 @@
              (click)="toggleProfileDropdown($event)" 
              [class.active]="isProfileDropdownOpen">
             <div class="user-avatar">
-              <i class="fas fa-user"></i>
+              <img *ngIf="hasAvatar && !avatarLoadError" 
+                   [src]="getAvatarUrl()" 
+                   alt="User Avatar"
+                   class="avatar-image"
+                   (error)="onAvatarError()">
+              <div *ngIf="!hasAvatar || avatarLoadError" class="avatar-initials">
+                {{ getUserInitials() }}
+              </div>
             </div>
           </a>
           

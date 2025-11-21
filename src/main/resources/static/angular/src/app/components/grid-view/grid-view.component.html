@@ -51,7 +51,17 @@
         <div class="card-content">
           <!-- Avatar and Title -->
           <div class="card-header-section" *ngIf="getFirstColumn() as firstCol">
-            <div class="card-avatar" *ngIf="showAvatar" [ngClass]="getAvatarClass(getCellValue(item, firstCol))">
+            <app-entity-avatar *ngIf="showAvatar && entityType"
+              [entityId]="item.id"
+              [entityType]="entityType"
+              [entityName]="getCellValue(item, firstCol)"
+              [organizationId]="organizationId || 1"
+              [size]="'medium'"
+              [showControls]="true"
+              [clickable]="true"
+              (click)="$event.stopPropagation()">
+            </app-entity-avatar>
+            <div class="card-avatar" *ngIf="showAvatar && !entityType" [ngClass]="getAvatarClass(getCellValue(item, firstCol))">
               {{getAvatarText(getCellValue(item, firstCol))}}
             </div>
             <div class="card-title-section">

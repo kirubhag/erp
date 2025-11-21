@@ -1,0 +1,138 @@
+<!-- Avatar Display -->
+<div class="entity-avatar-container" [ngClass]="getSizeClass()">
+  <div class="avatar-wrapper" 
+       [class.clickable]="clickable && hasAvatar && !avatarLoadError"
+       (click)="onAvatarClick($event)">
+    <!-- Avatar Image -->
+    <img *ngIf="hasAvatar && !avatarLoadError" 
+         [src]="avatarUrl" 
+         [alt]="entityName"
+         class="avatar-image"
+         (error)="onAvatarError()">
+    
+    <!-- Avatar Initials (fallback) -->
+    <div *ngIf="!hasAvatar || avatarLoadError" class="avatar-initials">
+      {{getInitials()}}
+    </div>
+    
+    <!-- Hover Overlay (when clickable) -->
+    <div *ngIf="clickable && hasAvatar && !avatarLoadError" class="avatar-hover-overlay">
+      <i class="fas fa-eye"></i>
+    </div>
+  </div>
+  
+  <!-- Control Buttons -->
+  <div *ngIf="showControls" class="avatar-controls">
+    <button class="btn-avatar-control" (click)="openUploadDialog()" title="Upload Avatar">
+      <i class="fas fa-upload"></i>
+    </button>
+    <button *ngIf="hasAvatar && !avatarLoadError" 
+            class="btn-avatar-control" 
+            (click)="viewAvatar()" 
+            title="View Avatar">
+      <i class="fas fa-eye"></i>
+    </button>
+    <button *ngIf="hasAvatar && !avatarLoadError" 
+            class="btn-avatar-control btn-delete" 
+            (click)="deleteAvatar()" 
+            title="Delete Avatar">
+      <i class="fas fa-trash"></i>
+    </button>
+  </div>
+  
+  <!-- Hidden File Input -->
+  <input type="file" 
+         #fileInput 
+         accept="image/*" 
+         (change)="onFileSelected($event)" 
+         style="display: none;">
+</div>
+
+<!-- Success/Error Messages -->
+<div *ngIf="successMessage" class="alert alert-success">
+  {{successMessage}}
+</div>
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{errorMessage}}
+</div>
+
+<!-- View Avatar Modal -->
+<div class="modal-overlay" *ngIf="showViewModal" (click)="closeViewModal()">
+  <div class="modal-content-avatar" (click)="$event.stopPropagation()">
+    <div class="modal-header-avatar">
+      <h5>{{entityName}} - Avatar</h5>
+      <button class="btn-close-modal" (click)="closeViewModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body-avatar">
+      <img [src]="avatarUrl" [alt]="entityName" class="avatar-full-view">
+    </div>
+    <div class="modal-footer-avatar">
+      <button class="btn-modal-action" (click)="openUploadDialog(); closeViewModal()">
+        <i class="fas fa-upload"></i> Change Avatar
+      </button>
+      <button class="btn-modal-action btn-delete" (click)="deleteAvatar(); closeViewModal()">
+        <i class="fas fa-trash"></i> Delete Avatar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Crop Avatar Modal -->
+<div class="modal-overlay" *ngIf="showCropModal" (click)="closeCropModal()">
+  <div class="modal-content-crop" (click)="$event.stopPropagation()">
+    <div class="modal-header-avatar">
+      <h5>Crop & Edit Avatar</h5>
+      <button class="btn-close-modal" (click)="closeCropModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body-crop">
+      <div class="crop-canvas-container">
+        <canvas #cropCanvas 
+                width="400" 
+                height="400" 
+                class="crop-canvas"></canvas>
+      </div>
+      
+      <div class="crop-controls">
+        <div class="control-group">
+          <label>
+            <i class="fas fa-search-plus"></i> Zoom
+          </label>
+          <input type="range" 
+                 min="0.5" 
+                 max="3" 
+                 step="0.1" 
+                 [(ngModel)]="zoom" 
+                 (input)="onZoomChange()"
+                 class="slider">
+          <span>{{zoom.toFixed(1)}}x</span>
+        </div>
+        
+        <div class="control-group">
+          <label>
+            <i class="fas fa-redo"></i> Rotate
+          </label>
+          <input type="range" 
+                 min="0" 
+                 max="360" 
+                 step="15" 
+                 [(ngModel)]="rotation" 
+                 (input)="onRotationChange()"
+                 class="slider">
+          <span>{{rotation}}°</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer-avatar">
+      <button class="btn-modal-action btn-secondary" (click)="closeCropModal()">
+        Cancel
+      </button>
+      <button class="btn-modal-action btn-primary" (click)="saveCroppedAvatar()">
+        <i class="fas fa-check"></i> Save Avatar
+      </button>
+    </div>
+  </div>
+</div>

@@ -33,6 +33,8 @@ export class NavbarComponent implements OnInit {
   currentUser: UserDetails | null = null;
   selectedTheme = '#0056b3';
   isProfileDropdownOpen = false;
+  hasAvatar = false;
+  avatarLoadError = false;
 
   constructor(
     private menuService: MenuService,
@@ -63,6 +65,9 @@ export class NavbarComponent implements OnInit {
     this.authService.currentUser$.subscribe(user => {
       if (user) {
         this.currentUser = user;
+        // Update avatar state
+        this.hasAvatar = !!(user.avatarUrl);
+        this.avatarLoadError = false;
         // Reload theme from database with user context
         if (user.id && user.organizationId) {
           this.themeService.loadThemeFromDatabase(user.id, user.organizationId);
@@ -162,6 +167,37 @@ export class NavbarComponent implements OnInit {
   navigateAndClose(route: string): void {
     this.router.navigate([route]);
     this.closeProfileDropdown();
+  }
+
+  /**
+   * Get user initials for avatar
+   */
+  getUserInitials(): string {
+    if (!this.currentUser) return '?';
+    const first = this.currentUser.firstName?.charAt(0) || this.currentUser.name?.charAt(0) || '';
+    const last = this.currentUser.lastName?.charAt(0) || '';
+    return (first + last).toUpperCase() || this.currentUser.username?.charAt(0).toUpperCase() || '?';
+  }
+
+  /**
+   * Get avatar URL
+   */
+  getAvatarUrl(): string {
+    if (this.currentUser?.avatarUrl) {
+      return this.currentUser.avatarUrl;
+    }
+    if (this.currentUser?.id) {
+      return `/api/attachments/avatar/${this.currentUser.id}`;
+    }
+    return '';
+  }
+
+  /**
+   * Handle avatar load error
+   */
+  onAvatarError(): void {
+    this.avatarLoadError = true;
+    this.hasAvatar = false;
   }
 
   /**

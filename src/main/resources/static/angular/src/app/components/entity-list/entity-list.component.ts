@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { GridViewComponent } from '../grid-view/grid-view.component';
 import { EntityFieldsSidebarComponent, FieldFilter } from '../entity-fields-sidebar/entity-fields-sidebar.component';
+import { EntityAvatarComponent } from '../entity-avatar/entity-avatar.component';
 
 export interface EntityColumn {
   key: string;
@@ -40,7 +41,7 @@ export interface PaginationInfo {
 @Component({
   selector: 'app-entity-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, GridViewComponent, EntityFieldsSidebarComponent],
+  imports: [CommonModule, FormsModule, RouterModule, GridViewComponent, EntityFieldsSidebarComponent, EntityAvatarComponent],
   templateUrl: './entity-list.component.html',
   styleUrls: ['./entity-list.component.css']
 })

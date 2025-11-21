@@ -87,6 +87,12 @@
 
 /* Grid Card */
 .grid-card {
+  --grid-gap: 1rem;
+  --card-border-radius: 8px;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --border-color: #e0e0e0;
+  
   background-color: white;
   border: 1px solid var(--border-color);
   border-radius: var(--card-border-radius);
@@ -101,10 +107,10 @@
   overflow: hidden;
 }
 
-.grid-card.card-hover:hover {
+.grid-card:hover {
   box-shadow: var(--card-shadow-hover);
   transform: translateY(-4px);
-  border-color: var(--primary-color);
+  border-color: var(--app-primary, #0891B2);
 }
 
 .card-checkbox {
@@ -629,32 +635,6 @@
   
   .grid-card {
     break-inside: avoid;
-  }
-}
-
-/* Dark Mode Support (Optional) */
-@media (prefers-color-scheme: dark) {
-  .grid-card {
-    background-color: #1a1a1a;
-    border-color: #333;
-  }
-  
-  .grid-table {
-    background-color: #1a1a1a;
-  }
-  
-  .grid-table th {
-    background-color: #2a2a2a;
-    color: #aaa;
-  }
-  
-  .grid-table td {
-    color: #ddd;
-    border-color: #333;
-  }
-  
-  .grid-table tbody tr:hover {
-    background-color: #252525;
   }
 }
 

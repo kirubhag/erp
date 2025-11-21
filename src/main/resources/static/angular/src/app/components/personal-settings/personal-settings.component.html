@@ -48,15 +48,20 @@
                  [src]="getAvatarUrl()" 
                  class="profile-avatar" 
                  alt="User Avatar"
-                 (error)="onAvatarError()">
+                 (error)="onAvatarError()"
+                 (click)="viewAvatar()">
             <div *ngIf="!hasAvatar || avatarLoadError" class="profile-avatar profile-avatar-initials">
               {{ getUserInitials() }}
             </div>
             <div class="avatar-upload-overlay">
-              <label for="avatar-upload" class="avatar-upload-label">
-                <i class="fas fa-camera"></i>
-                <span>Change Photo</span>
-              </label>
+              <div class="avatar-actions">
+                <button *ngIf="hasAvatar && !avatarLoadError" class="avatar-action-btn" (click)="viewAvatar()" title="View Avatar">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <label for="avatar-upload" class="avatar-action-btn" title="Change Photo">
+                  <i class="fas fa-camera"></i>
+                </label>
+              </div>
               <input 
                 type="file" 
                 id="avatar-upload" 
@@ -153,6 +158,56 @@
         </div>
       </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Avatar View Modal -->
+<div *ngIf="showViewModal" class="modal-overlay" (click)="closeViewModal()">
+  <div class="modal-content avatar-view-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Profile Picture</h3>
+      <button class="modal-close" (click)="closeViewModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <img [src]="getAvatarUrl()" alt="User Avatar" class="avatar-view-image">
+    </div>
+  </div>
+</div>
+
+<!-- Avatar Crop Modal -->
+<div *ngIf="showCropModal" class="modal-overlay" (click)="closeCropModal()">
+  <div class="modal-content avatar-crop-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Crop & Edit Avatar</h3>
+      <button class="modal-close" (click)="closeCropModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="crop-container">
+        <canvas #cropCanvas class="crop-canvas"></canvas>
+      </div>
+      <div class="crop-controls">
+        <div class="control-group">
+          <label><i class="fas fa-search-plus"></i> Zoom</label>
+          <input type="range" min="1" max="3" step="0.1" [(ngModel)]="cropScale" (input)="updateCropPreview()" class="slider">
+          <span>{{ (cropScale * 100).toFixed(0) }}%</span>
+        </div>
+        <div class="control-group">
+          <label><i class="fas fa-undo"></i> Rotate</label>
+          <input type="range" min="0" max="360" step="1" [(ngModel)]="cropRotation" (input)="updateCropPreview()" class="slider">
+          <span>{{ cropRotation }}°</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeCropModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="saveCroppedAvatar()" [disabled]="isUploadingAvatar">
+        <i class="fas fa-check"></i> Save Avatar
+      </button>
     </div>
   </div>
 </div>

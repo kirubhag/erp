@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { EntityAvatarComponent } from '../entity-avatar/entity-avatar.component';
 
 /**
  * Grid column configuration for responsive display
@@ -32,7 +33,7 @@ export interface GridItem {
 @Component({
   selector: 'app-grid-view',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, EntityAvatarComponent],
   templateUrl: './grid-view.component.html',
   styleUrls: ['./grid-view.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -53,6 +54,8 @@ export class GridViewComponent implements OnInit {
   @Input() hoverEffect: boolean = true;
   @Input() showActions: boolean = true;
   @Input() actionsTemplate?: any;
+  @Input() entityType: string = '';
+  @Input() organizationId?: number;
 
   @Output() itemClick = new EventEmitter<GridItem>();
   @Output() selectionChange = new EventEmitter<Set<string | number>>();

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { AuthService, UserDetails } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
@@ -24,6 +25,16 @@ export class PersonalSettingsComponent implements OnInit {
   avatarUrl: string | null = null;
   hasAvatar = false;
   avatarLoadError = false;
+  
+  // Avatar view and crop
+  showViewModal = false;
+  showCropModal = false;
+  cropScale = 1;
+  cropRotation = 0;
+  selectedFile: File | null = null;
+  imagePreview: string | null = null;
+  
+  @ViewChild('cropCanvas', { static: false }) cropCanvas!: ElementRef<HTMLCanvasElement>;
 
   // Locale Information
   localeInfo = {
@@ -59,7 +70,8 @@ export class PersonalSettingsComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private themeService: ThemeService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -103,6 +115,10 @@ export class PersonalSettingsComponent implements OnInit {
         this.currentUser = user;
         // Check if user has avatar URL in their profile
         this.hasAvatar = !!(user.avatarUrl);
+        // Set the avatar URL from user profile
+        if (user.avatarUrl) {
+          this.avatarUrl = user.avatarUrl;
+        }
         this.initializeEditForm();
         // Reload theme from database after user is loaded
         if (user.id && user.organizationId) {
@@ -119,6 +135,7 @@ export class PersonalSettingsComponent implements OnInit {
           userType: 'ADMIN'
         };
         this.hasAvatar = false;
+        this.avatarUrl = null;
         this.initializeEditForm();
       }
     });
@@ -282,7 +299,12 @@ export class PersonalSettingsComponent implements OnInit {
       return;
     }
 
-    this.uploadAvatar(file);
+    // Open crop modal
+    this.selectedFile = file;
+    this.openCropModal(file);
+    
+    // Reset input
+    input.value = '';
   }
 
   /**
@@ -314,6 +336,17 @@ export class PersonalSettingsComponent implements OnInit {
         this.avatarUrl = response.attachment.url + '?t=' + timestamp;
         this.hasAvatar = true;
         this.avatarLoadError = false;
+        
+        // Update current user with new avatar URL
+        if (this.currentUser) {
+          this.currentUser.avatarUrl = response.attachment.url;
+          // Update localStorage
+          localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+          // Update auth service to trigger navbar refresh
+          this.authService.setCurrentUser(this.currentUser);
+        }
+        
+        // Clear success message after 3 seconds
         setTimeout(() => {
           this.successMessage = '';
         }, 3000);
@@ -350,5 +383,145 @@ export class PersonalSettingsComponent implements OnInit {
   onAvatarError(): void {
     this.avatarLoadError = true;
     this.hasAvatar = false;
+  }
+
+  /**
+   * View avatar in modal
+   */
+  viewAvatar(): void {
+    if (this.hasAvatar && !this.avatarLoadError) {
+      this.showViewModal = true;
+    }
+  }
+
+  /**
+   * Close view modal
+   */
+  closeViewModal(): void {
+    this.showViewModal = false;
+  }
+
+  /**
+   * Open crop modal with image
+   */
+  openCropModal(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagePreview = e.target.result;
+      this.showCropModal = true;
+      this.cropScale = 1;
+      this.cropRotation = 0;
+      
+      // Wait for canvas to be available
+      setTimeout(() => {
+        this.drawImageOnCanvas();
+      }, 100);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  /**
+   * Close crop modal
+   */
+  closeCropModal(): void {
+    this.showCropModal = false;
+    this.imagePreview = null;
+    this.selectedFile = null;
+    this.cropScale = 1;
+    this.cropRotation = 0;
+  }
+
+  /**
+   * Draw image on canvas with transformations
+   */
+  drawImageOnCanvas(): void {
+    if (!this.cropCanvas || !this.imagePreview) return;
+
+    const canvas = this.cropCanvas.nativeElement;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const img = new Image();
+    img.onload = () => {
+      // Set canvas size
+      const size = 400;
+      canvas.width = size;
+      canvas.height = size;
+
+      // Clear canvas
+      ctx.clearRect(0, 0, size, size);
+
+      // Save context state
+      ctx.save();
+
+      // Move to center
+      ctx.translate(size / 2, size / 2);
+
+      // Apply rotation
+      ctx.rotate((this.cropRotation * Math.PI) / 180);
+
+      // Apply scale
+      ctx.scale(this.cropScale, this.cropScale);
+
+      // Calculate dimensions to fit image in circle
+      const imgSize = Math.min(img.width, img.height);
+      const scale = size / imgSize;
+      const drawWidth = img.width * scale;
+      const drawHeight = img.height * scale;
+
+      // Draw image centered
+      ctx.drawImage(img, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
+
+      // Restore context state
+      ctx.restore();
+
+      // Draw circular mask
+      ctx.globalCompositeOperation = 'destination-in';
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalCompositeOperation = 'source-over';
+
+      // Draw circle border
+      ctx.strokeStyle = '#ddd';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+      ctx.stroke();
+    };
+    img.src = this.imagePreview;
+  }
+
+  /**
+   * Update crop preview when controls change
+   */
+  updateCropPreview(): void {
+    this.drawImageOnCanvas();
+  }
+
+  /**
+   * Save cropped avatar
+   */
+  saveCroppedAvatar(): void {
+    if (!this.cropCanvas) return;
+
+    const canvas = this.cropCanvas.nativeElement;
+    
+    // Convert canvas to blob
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        this.errorMessage = 'Failed to process image';
+        return;
+      }
+
+      // Create file from blob
+      const file = new File([blob], this.selectedFile?.name || 'avatar.png', {
+        type: 'image/png'
+      });
+
+      // Close modal and upload
+      this.closeCropModal();
+      this.uploadAvatar(file);
+    }, 'image/png');
   }
 }
