@@ -341,55 +341,12 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .settings-wrapper {
-    flex-direction: column;
-  }
-
-  .settings-sidebar {
-    width: 100%;
-    max-height: auto;
-    border-right: none;
-    border-bottom: 1px solid #e0e0e0;
-    position: relative;
-    top: 0;
-    height: auto;
-  }
-
-  .sidebar-nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .nav-category {
-    flex-direction: row;
-    align-items: center;
-    margin-top: 0;
-    margin-right: 20px;
-  }
-
-  .nav-category-link {
-    padding: 0;
-    margin-right: 15px;
-    font-weight: 500;
-  }
-
-  .nav-item {
-    padding: 0;
-    border-left: none;
-    margin-left: 0;
-    white-space: nowrap;
-  }
-
   .info-list {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 768px) {
-  .settings-sidebar {
-    padding: 15px 0;
-  }
-
   .tab-content-wrapper {
     padding: 20px;
   }
@@ -434,14 +391,6 @@
 }
 
 @media (max-width: 576px) {
-  .settings-wrapper {
-    flex-direction: column;
-  }
-
-  .settings-sidebar {
-    width: 100%;
-  }
-
   .tab-content-wrapper {
     padding: 15px;
   }
