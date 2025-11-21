@@ -7,7 +7,7 @@ import { Student } from '../components/student-list/student-list.component';
   providedIn: 'root'
 })
 export class StudentService {
-  private baseUrl = '/api/students';
+  private baseUrl = '/settings/students';
 
   constructor(private http: HttpClient) {}
 

@@ -197,8 +197,15 @@ export class ImportStep2Component implements OnInit {
   constructor(private importService: ImportService) {}
 
   ngOnInit() {
+    // If session is not provided via @Input, get it from the service
+    if (!this.session) {
+      this.session = this.importService.getCurrentSession();
+    }
+    
     if (this.session) {
       this.initializeMapping();
+    } else {
+      this.errorMessage = 'No import session found. Please start from step 1.';
     }
   }
 
@@ -206,14 +213,18 @@ export class ImportStep2Component implements OnInit {
     if (!this.session) return;
 
     // Get available columns from session
-    this.availableColumns = this.session.fieldMappings
-      .map(m => m.sourceColumn)
-      .filter((v, i, a) => a.indexOf(v) === i);
+    if (this.session.fieldMappings && this.session.fieldMappings.length > 0) {
+      this.availableColumns = this.session.fieldMappings
+        .map(m => m.sourceColumn)
+        .filter((v, i, a) => v && a.indexOf(v) === i);
 
-    // Load field mapping template
-    // For now, use existing mappings from session
-    this.fieldMappings = [...this.session.fieldMappings];
-    this.entityName = this.session.importType === 'personal' ? 'My Students' : 'Organization Students';
+      // Load field mapping template
+      // For now, use existing mappings from session
+      this.fieldMappings = [...this.session.fieldMappings];
+      this.entityName = this.session.importType === 'personal' ? 'My Students' : 'Organization Students';
+    } else {
+      this.errorMessage = 'No field mappings found in session. Please restart the import process.';
+    }
   }
 
   getSectionTitle(fieldKey: string): string {

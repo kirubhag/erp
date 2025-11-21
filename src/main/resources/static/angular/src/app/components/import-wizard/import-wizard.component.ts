@@ -86,11 +86,13 @@ import { ImportStep4Component } from './import-step-4/import-step-4.component';
   `,
   styles: [`
     .import-wizard-container {
-      max-width: 1200px;
-      margin: 0 auto;
+      width: 100%;
+      margin: 60px 0 0 0;
       padding: 2rem;
       background: white;
-      border-radius: 8px;
+      min-height: calc(100vh - 60px);
+      position: relative;
+      z-index: 1;
     }
 
     .wizard-header {
@@ -127,8 +129,10 @@ import { ImportStep4Component } from './import-step-4/import-step-4.component';
     }
 
     .progress-bar {
-      background-color: #0077cc;
+      background-color: var(--app-primary, #0099cc);
       transition: width 0.3s ease;
+      height: 100%;
+      border-radius: 3px;
     }
 
     .steps-container {
