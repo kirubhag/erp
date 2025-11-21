@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { GridViewComponent } from '../grid-view/grid-view.component';
+import { EntityFieldsSidebarComponent, FieldFilter } from '../entity-fields-sidebar/entity-fields-sidebar.component';
 
 export interface EntityColumn {
   key: string;
@@ -39,7 +40,7 @@ export interface PaginationInfo {
 @Component({
   selector: 'app-entity-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, GridViewComponent],
+  imports: [CommonModule, FormsModule, RouterModule, GridViewComponent, EntityFieldsSidebarComponent],
   templateUrl: './entity-list.component.html',
   styleUrls: ['./entity-list.component.css']
 })
@@ -242,7 +243,7 @@ export class EntityListComponent implements OnInit {
   }
 
   /**
-   * Handle entity field filter changes
+   * Handle entity field filter changes (for legacy use)
    */
   onEntityFieldFilterChange(fieldKey: string) {
     const activeFields = Object.keys(this.entityFieldFilters)
@@ -253,6 +254,24 @@ export class EntityListComponent implements OnInit {
     // Emit filter change event with active fields
     this.filterChange.emit({ 
       entityFields: activeFields 
+    });
+  }
+
+  /**
+   * Handle field filter changes from the dynamic sidebar
+   */
+  onFieldFilterChange(selectedFilters: FieldFilter[]) {
+    console.log('Selected field filters from sidebar:', selectedFilters);
+    
+    // Update entity field filters for backward compatibility
+    this.entityFieldFilters = {};
+    selectedFilters.forEach(filter => {
+      this.entityFieldFilters[filter.fieldName] = true;
+    });
+    
+    // Emit filter change event
+    this.filterChange.emit({ 
+      entityFields: selectedFilters.map(f => f.fieldName)
     });
   }
 

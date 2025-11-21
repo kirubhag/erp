@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities>
+    <entity>
+        <id>1</id>
+        <singular_name>Dashboard</singular_name>
+        <plural_name>Dashboard</plural_name>
+        <system_name>dashboard</system_name>
+        <description>Main dashboard for overview and analytics</description>
+        <is_active>true</is_active>
+        <sequence>1</sequence>
+        <presence>true</presence>
+        <icon>fas fa-home</icon>
+        <route>#!/dashboard</route>
+    </entity>
+    
+    <entity>
+        <id>2</id>
+        <singular_name>Student</singular_name>
+        <plural_name>Students</plural_name>
+        <system_name>students</system_name>
+        <description>Student management module</description>
+        <is_active>true</is_active>
+        <sequence>2</sequence>
+        <presence>true</presence>
+        <icon>fas fa-user-graduate</icon>
+        <route>#!/students</route>
+    </entity>
+    
+    <entity>
+        <id>3</id>
+        <singular_name>Staff</singular_name>
+        <plural_name>Staff</plural_name>
+        <system_name>staff</system_name>
+        <description>Staff and teacher management module</description>
+        <is_active>true</is_active>
+        <sequence>3</sequence>
+        <presence>true</presence>
+        <icon>fas fa-chalkboard-teacher</icon>
+        <route>#!/staff</route>
+    </entity>
+    
+    <entity>
+        <id>4</id>
+        <singular_name>Attendance</singular_name>
+        <plural_name>Attendance</plural_name>
+        <system_name>attendance</system_name>
+        <description>Student and staff attendance tracking</description>
+        <is_active>true</is_active>
+        <sequence>4</sequence>
+        <presence>true</presence>
+        <icon>fas fa-calendar-check</icon>
+        <route>#!/attendance</route>
+    </entity>
+    
+    <entity>
+        <id>5</id>
+        <singular_name>Parent</singular_name>
+        <plural_name>Parents</plural_name>
+        <system_name>parents</system_name>
+        <description>Parent and guardian management module</description>
+        <is_active>true</is_active>
+        <sequence>5</sequence>
+        <presence>true</presence>
+        <icon>fas fa-users</icon>
+        <route>#!/parents</route>
+    </entity>
+    
+    <entity>
+        <id>6</id>
+        <singular_name>Subject</singular_name>
+        <plural_name>Subjects</plural_name>
+        <system_name>subjects</system_name>
+        <description>Subject and course management module</description>
+        <is_active>true</is_active>
+        <sequence>6</sequence>
+        <presence>true</presence>
+        <icon>fas fa-book</icon>
+        <route>#!/subjects</route>
+    </entity>
+</entities>

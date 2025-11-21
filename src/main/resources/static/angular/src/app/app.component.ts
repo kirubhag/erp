@@ -3,7 +3,7 @@ import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
-import { filter } from 'rxjs/operators';
+import { LoadingService } from './services/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +15,13 @@ import { filter } from 'rxjs/operators';
 export class AppComponent implements OnInit {
   title = 'erp-frontend';
   showNavbar = false;
+  isLoading = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    private loadingService: LoadingService
+  ) {}
 
   ngOnInit(): void {
     // Subscribe to user state changes
@@ -24,12 +29,17 @@ export class AppComponent implements OnInit {
       this.updateNavbarVisibility();
     });
 
-    // Listen to route changes
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
+    // Subscribe to loading state from HTTP requests
+    this.loadingService.loading$.subscribe(loading => {
+      this.isLoading = loading;
+    });
+
+    // Listen to route changes for navbar visibility
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
         this.updateNavbarVisibility();
-      });
+      }
+    });
   }
 
   private updateNavbarVisibility(): void {

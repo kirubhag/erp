@@ -1,0 +1,42 @@
+/* Top Loading Progress Bar - Modern Style */
+.top-loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: transparent;
+  z-index: 10050;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.top-loading-bar.loading {
+  opacity: 1;
+}
+
+.top-loading-bar.loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 50%;
+  background: linear-gradient(90deg, 
+    transparent,
+    var(--app-primary, #0891B2) 50%, 
+    var(--app-primary-dark, #0369A1) 100%
+  );
+  animation: loading-slide 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  box-shadow: 0 0 10px var(--app-primary, #0891B2);
+}
+
+@keyframes loading-slide {
+  0% {
+    left: -50%;
+  }
+  100% {
+    left: 100%;
+  }
+}

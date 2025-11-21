@@ -37,9 +37,13 @@ public class ErpFieldController {
      * Get all fields for a specific entity type
      */
     @GetMapping("/{entityType}")
-    public ResponseEntity<List<ErpField>> getFieldsByEntityType(@PathVariable EntityType entityType) {
+    public ResponseEntity<List<ErpField>> getFieldsByEntityType(@PathVariable String entityType) {
         try {
-            List<ErpField> fields = erpFieldService.getFieldsByEntityType(entityType);
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            List<ErpField> fields = erpFieldService.getFieldsByEntityType(type);
             return ResponseEntity.ok(fields);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -50,9 +54,13 @@ public class ErpFieldController {
      * Get fields grouped by category for a specific entity type
      */
     @GetMapping("/{entityType}/grouped")
-    public ResponseEntity<Map<String, List<ErpField>>> getFieldsGroupedByCategory(@PathVariable EntityType entityType) {
+    public ResponseEntity<Map<String, List<ErpField>>> getFieldsGroupedByCategory(@PathVariable String entityType) {
         try {
-            Map<String, List<ErpField>> groupedFields = erpFieldService.getFieldsGroupedByCategory(entityType);
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            Map<String, List<ErpField>> groupedFields = erpFieldService.getFieldsGroupedByCategory(type);
             return ResponseEntity.ok(groupedFields);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -63,9 +71,13 @@ public class ErpFieldController {
      * Get searchable fields for a specific entity type
      */
     @GetMapping("/{entityType}/searchable")
-    public ResponseEntity<List<ErpField>> getSearchableFields(@PathVariable EntityType entityType) {
+    public ResponseEntity<List<ErpField>> getSearchableFields(@PathVariable String entityType) {
         try {
-            List<ErpField> fields = erpFieldService.getSearchableFields(entityType);
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            List<ErpField> fields = erpFieldService.getSearchableFields(type);
             return ResponseEntity.ok(fields);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -76,9 +88,13 @@ public class ErpFieldController {
      * Get sortable fields for a specific entity type
      */
     @GetMapping("/{entityType}/sortable")
-    public ResponseEntity<List<ErpField>> getSortableFields(@PathVariable EntityType entityType) {
+    public ResponseEntity<List<ErpField>> getSortableFields(@PathVariable String entityType) {
         try {
-            List<ErpField> fields = erpFieldService.getSortableFields(entityType);
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            List<ErpField> fields = erpFieldService.getSortableFields(type);
             return ResponseEntity.ok(fields);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -89,9 +105,13 @@ public class ErpFieldController {
      * Get distinct categories for a specific entity type
      */
     @GetMapping("/{entityType}/categories")
-    public ResponseEntity<List<String>> getFieldCategories(@PathVariable EntityType entityType) {
+    public ResponseEntity<List<String>> getFieldCategories(@PathVariable String entityType) {
         try {
-            List<String> categories = erpFieldService.getFieldCategories(entityType);
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            List<String> categories = erpFieldService.getFieldCategories(type);
             return ResponseEntity.ok(categories);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -102,9 +122,13 @@ public class ErpFieldController {
      * Get a specific field by entity type and field name
      */
     @GetMapping("/{entityType}/field/{fieldName}")
-    public ResponseEntity<ErpField> getFieldByName(@PathVariable EntityType entityType, @PathVariable String fieldName) {
+    public ResponseEntity<ErpField> getFieldByName(@PathVariable String entityType, @PathVariable String fieldName) {
         try {
-            ErpField field = erpFieldService.getFieldByName(entityType, fieldName);
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            ErpField field = erpFieldService.getFieldByName(type, fieldName);
             if (field != null) {
                 return ResponseEntity.ok(field);
             } else {
@@ -172,9 +196,13 @@ public class ErpFieldController {
      * Get field count for an entity type
      */
     @GetMapping("/{entityType}/count")
-    public ResponseEntity<Long> getFieldCount(@PathVariable EntityType entityType) {
+    public ResponseEntity<Long> getFieldCount(@PathVariable String entityType) {
         try {
-            Long count = erpFieldService.getFieldCount(entityType);
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            Long count = erpFieldService.getFieldCount(type);
             return ResponseEntity.ok(count);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -185,9 +213,13 @@ public class ErpFieldController {
      * Check if a field exists
      */
     @GetMapping("/{entityType}/exists/{fieldName}")
-    public ResponseEntity<Boolean> fieldExists(@PathVariable EntityType entityType, @PathVariable String fieldName) {
+    public ResponseEntity<Boolean> fieldExists(@PathVariable String entityType, @PathVariable String fieldName) {
         try {
-            boolean exists = erpFieldService.fieldExists(entityType, fieldName);
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            boolean exists = erpFieldService.fieldExists(type, fieldName);
             return ResponseEntity.ok(exists);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -227,9 +259,13 @@ public class ErpFieldController {
      * Get all fields for entity type including UI type information
      */
     @GetMapping("/{entityType}/all")
-    public ResponseEntity<List<ErpField>> getAllFieldsWithUIType(@PathVariable EntityType entityType) {
+    public ResponseEntity<List<ErpField>> getAllFieldsWithUIType(@PathVariable String entityType) {
         try {
-            List<ErpField> fields = erpFieldService.getAllFieldsWithUIType(entityType);
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            List<ErpField> fields = erpFieldService.getAllFieldsWithUIType(type);
             return ResponseEntity.ok(fields);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -240,9 +276,13 @@ public class ErpFieldController {
      * Get fields by UI field type
      */
     @GetMapping("/{entityType}/ui-type/{uiType}")
-    public ResponseEntity<List<ErpField>> getFieldsByUIType(@PathVariable EntityType entityType, @PathVariable int uiType) {
+    public ResponseEntity<List<ErpField>> getFieldsByUIType(@PathVariable String entityType, @PathVariable int uiType) {
         try {
-            List<ErpField> fields = erpFieldService.getFieldsByUIType(entityType, uiType);
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            List<ErpField> fields = erpFieldService.getFieldsByUIType(type, uiType);
             return ResponseEntity.ok(fields);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

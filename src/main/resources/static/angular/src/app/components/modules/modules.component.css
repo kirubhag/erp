@@ -103,8 +103,8 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #1890ff;
-  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  border-color: var(--app-primary, #1890ff);
+  box-shadow: 0 0 0 2px rgba(var(--app-primary-rgb, 24, 144, 255), 0.2);
 }
 
 .action-buttons {
@@ -113,7 +113,7 @@
 }
 
 .btn-primary {
-  background-color: #1890ff;
+  background-color: var(--app-primary, #1890ff);
   color: white;
   border: none;
   padding: 8px 20px;
@@ -128,7 +128,7 @@
 }
 
 .btn-primary:hover {
-  background-color: #0d7dd9;
+  background-color: var(--app-primary-dark, #0d7dd9);
 }
 
 .btn-secondary {
@@ -145,8 +145,8 @@
 }
 
 .btn-secondary:hover {
-  border-color: #1890ff;
-  color: #1890ff;
+  border-color: var(--app-primary, #1890ff);
+  color: var(--app-primary, #1890ff);
 }
 
 .table-container {
@@ -195,11 +195,11 @@
 
 .module-name-cell i {
   font-size: 16px;
-  color: #1890ff;
+  color: var(--app-primary, #1890ff);
 }
 
 .module-name {
-  color: #1890ff;
+  color: var(--app-primary, #1890ff);
   text-decoration: none;
   font-weight: 500;
   cursor: pointer;
@@ -219,8 +219,8 @@
 }
 
 .module-type.custom {
-  background-color: #e6f7ff;
-  color: #1890ff;
+  background-color: var(--app-primary-light, #e6f7ff);
+  color: var(--app-primary, #1890ff);
 }
 
 .status-badge {
@@ -257,11 +257,11 @@
 }
 
 .edit-btn {
-  color: #1890ff;
+  color: var(--app-primary, #1890ff);
 }
 
 .edit-btn:hover {
-  color: #0d7dd9;
+  color: var(--app-primary-dark, #0d7dd9);
 }
 
 .delete-btn {

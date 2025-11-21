@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -21,8 +23,8 @@ import krs.erp.repository.StaffRepository;
  * Initializes staff data from XML files on application startup.
  * DEPRECATED: Use SampleDataInitializer instead for consolidated data loading
  */
-// @Component  // Disabled - using SampleDataInitializer instead
-// @Order(4)
+@Component
+@Order(4)
 public class StaffDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(StaffDataInitializer.class);

@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -20,8 +22,8 @@ import krs.erp.repository.PermissionRepository;
  * Initializes Permission data from sample-permissions.xml on application startup
  * DEPRECATED: Use SampleDataInitializer instead for consolidated data loading
  */
-// @Component  // Disabled - using SampleDataInitializer instead
-// @Order(1)
+@Component
+@Order(1)
 public class PermissionDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(PermissionDataInitializer.class);

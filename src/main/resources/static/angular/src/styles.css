@@ -1,3 +1,6 @@
+/* Import Local Fonts */
+@import url('./assets/fonts/inter/inter.css');
+
 /* Global Styles */
 * {
   margin: 0;
@@ -28,6 +31,12 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background-color: #f5f7fa;
   color: #2c3e50;
+}
+
+app-root {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* Bootstrap Primary Color Override */

@@ -54,6 +54,13 @@ public class SecurityConfig {
                 .requestMatchers("/", "/login", "/register", "/error", "/favicon.ico").permitAll()
                 .requestMatchers("/api/auth/**", "/settings/auth/**").permitAll()
                 .requestMatchers("/api/import/**").permitAll()  // Allow import endpoints for testing
+                .requestMatchers("/api/students/**").permitAll()  // Allow students endpoints for testing
+                .requestMatchers("/api/v1/staff/**").permitAll()  // Allow staff endpoints for testing
+                .requestMatchers("/api/attendance/**").permitAll()  // Allow attendance endpoints for testing
+                .requestMatchers("/api/parents/**").permitAll()  // Allow parents endpoints for testing
+                .requestMatchers("/api/subjects/**").permitAll()  // Allow subjects endpoints for testing
+                .requestMatchers("/api/module/**").permitAll()  // Allow module/menu endpoints for testing
+                .requestMatchers("/api/fields/**").permitAll()  // Allow ERP fields metadata endpoints
                 .requestMatchers("/api/**").authenticated()  // Other API endpoints require authentication
                 .requestMatchers("/actuator/health", "/__healthcheck").permitAll()
                 .requestMatchers("/static/**", "/assets/**", "/css/**", "/js/**", "/images/**", "/vendor/**", "/dist/**", "/angular/**").permitAll()

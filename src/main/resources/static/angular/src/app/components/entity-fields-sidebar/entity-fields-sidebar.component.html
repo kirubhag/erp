@@ -1,0 +1,55 @@
+<aside class="entity-fields-sidebar" *ngIf="visible">
+  <div class="sidebar-header">
+    <div class="sidebar-title">
+      FILTER {{ entityType | uppercase }} BY
+      <i class="fas fa-search"></i>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="loading-shimmer"></div>
+    <p class="text-muted mt-2">Loading fields...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-state" *ngIf="error && !loading">
+    <i class="fas fa-exclamation-triangle"></i>
+    <p class="text-danger">{{ error }}</p>
+  </div>
+
+  <!-- Entity Fields Section -->
+  <div class="filter-section" *ngIf="!loading && !error && fieldFilters.length > 0">
+    <div class="filter-section-title">
+      {{ entityType }} Fields
+      <span class="filter-count" *ngIf="getSelectedCount() > 0">({{ getSelectedCount() }})</span>
+    </div>
+    
+    <ul class="filter-list">
+      <li *ngFor="let filter of fieldFilters">
+        <i class="fas fa-chevron-down"></i>
+        <input 
+          type="checkbox" 
+          [id]="'field_' + filter.fieldName"
+          [checked]="filter.selected"
+          (change)="onFieldFilterChange(filter.fieldName)">
+        <label [for]="'field_' + filter.fieldName">{{ filter.fieldLabel }}</label>
+      </li>
+    </ul>
+
+    <!-- Clear Filters -->
+    <button 
+      class="btn-clear-filters" 
+      *ngIf="getSelectedCount() > 0"
+      (click)="clearAllFilters()">
+      <i class="fas fa-times-circle me-1"></i>
+      Clear All Filters
+    </button>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && !error && fieldFilters.length === 0">
+    <i class="fas fa-inbox"></i>
+    <p>No fields available</p>
+  </div>
+</aside>

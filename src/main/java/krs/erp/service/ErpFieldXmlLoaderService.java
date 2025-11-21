@@ -10,7 +10,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,19 +34,45 @@ public class ErpFieldXmlLoaderService {
     @Autowired
     private ErpFieldRepository erpFieldRepository;
 
-    private static final String XML_FILE_PATH = "data/erpfields.xml";
+    private static final String XML_FILE_PATTERN = "classpath:data/**/*_fields.xml";
 
     /**
-     * Load all entity fields from XML configuration
+     * Load all entity fields from XML configuration files in subdirectories
+     * Scans for all *_fields.xml files and loads them
      * Checks for existing fields and only creates new ones
      */
     public void loadFieldsFromXml() {
         try {
-            logger.info("Loading ERP field definitions from XML: {}", XML_FILE_PATH);
+            logger.info("Loading ERP field definitions from XML pattern: {}", XML_FILE_PATTERN);
             
-            ClassPathResource resource = new ClassPathResource(XML_FILE_PATH);
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            Resource[] resources = resolver.getResources(XML_FILE_PATTERN);
+            
+            if (resources.length == 0) {
+                logger.error("No XML files found matching pattern: {}", XML_FILE_PATTERN);
+                return;
+            }
+            
+            logger.info("Found {} field definition XML files", resources.length);
+            
+            for (Resource resource : resources) {
+                loadFieldsFromResource(resource);
+            }
+            
+        } catch (Exception e) {
+            logger.error("Error loading field definitions from XML", e);
+        }
+    }
+    
+    /**
+     * Load fields from a single XML resource
+     */
+    private void loadFieldsFromResource(Resource resource) {
+        try {
+            logger.info("Loading fields from: {}", resource.getFilename());
+            
             if (!resource.exists()) {
-                logger.error("XML file not found: {}", XML_FILE_PATH);
+                logger.error("XML resource not found: {}", resource.getFilename());
                 return;
             }
 
@@ -54,24 +81,22 @@ public class ErpFieldXmlLoaderService {
             Document document = builder.parse(resource.getInputStream());
             document.getDocumentElement().normalize();
 
-            NodeList entityNodes = document.getElementsByTagName("entity");
-            int totalFieldsLoaded = 0;
-
-            for (int i = 0; i < entityNodes.getLength(); i++) {
-                Element entityElement = (Element) entityNodes.item(i);
-                String entityTypeStr = entityElement.getAttribute("type");
-                
-                try {
-                    EntityType entityType = EntityType.valueOf(entityTypeStr);
-                    int fieldsLoaded = loadEntityFields(entityElement, entityType);
-                    totalFieldsLoaded += fieldsLoaded;
-                    logger.info("Loaded {} fields for entity type: {}", fieldsLoaded, entityType);
-                } catch (IllegalArgumentException e) {
-                    logger.error("Invalid entity type in XML: {}", entityTypeStr);
-                }
+            // Look for entityFields tag (actual XML structure)
+            Element rootElement = document.getDocumentElement();
+            String entityTypeStr = rootElement.getAttribute("type");
+            
+            if (entityTypeStr == null || entityTypeStr.isEmpty()) {
+                logger.error("No entity type found in XML root element for: {}", resource.getFilename());
+                return;
             }
-
-            logger.info("✓ ERP field XML loading completed. Total fields processed: {}", totalFieldsLoaded);
+            
+            try {
+                EntityType entityType = EntityType.valueOf(entityTypeStr);
+                int fieldsLoaded = loadEntityFields(rootElement, entityType);
+                logger.info("✓ Loaded {} fields for entity type: {} from {}", fieldsLoaded, entityType, resource.getFilename());
+            } catch (IllegalArgumentException e) {
+                logger.error("Invalid entity type in XML: {}", entityTypeStr);
+            }
 
         } catch (Exception e) {
             logger.error("Error loading ERP fields from XML: {}", e.getMessage(), e);

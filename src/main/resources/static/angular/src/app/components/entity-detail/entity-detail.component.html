@@ -130,14 +130,6 @@
   </div>
 </div>
 
-<!-- Loading State -->
-<div class="loading-container" *ngIf="loading">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <p class="mt-2">Loading {{ entityType }} details...</p>
-</div>
-
 <!-- Error State -->
 <div class="error-container" *ngIf="error && !loading">
   <div class="alert alert-danger" role="alert">

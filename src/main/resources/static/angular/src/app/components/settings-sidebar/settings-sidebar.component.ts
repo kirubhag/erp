@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { filter } from 'rxjs/operators';
 
 export interface SettingCategory {
   title: string;
@@ -28,9 +29,40 @@ export class SettingsSidebarComponent implements OnInit {
   categories: SettingCategory[] = [];
   filteredCategories: SettingCategory[] = [];
 
+  constructor(private router: Router) {}
+
   ngOnInit(): void {
     this.initializeCategories();
     this.filterCategories();
+    this.expandActiveCategory();
+    
+    // Listen to route changes to update expanded category
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.expandActiveCategory();
+    });
+  }
+
+  /**
+   * Expand the category that contains the active route
+   */
+  private expandActiveCategory(): void {
+    const currentUrl = this.router.url;
+    
+    // Find the category that contains the active route
+    for (const category of this.categories) {
+      if (category.items) {
+        const hasActiveItem = category.items.some(item => currentUrl.startsWith(item.route));
+        if (hasActiveItem) {
+          // Close all categories first
+          this.categories.forEach(cat => cat.isExpanded = false);
+          // Open the category with active item
+          category.isExpanded = true;
+          break;
+        }
+      }
+    }
   }
 
   /**
@@ -42,38 +74,27 @@ export class SettingsSidebarComponent implements OnInit {
         title: 'General',
         isExpanded: true,
         items: [
-          { label: 'Personal Settings', icon: 'fas fa-user', route: '/setup/personal-settings', active: true },
-          { label: 'Users', icon: 'fas fa-users', route: '/setup/users', active: false },
-          { label: 'Company Settings', icon: 'fas fa-building', route: '/setup/company-settings', active: false },
+          { label: 'Personal Settings', icon: 'fas fa-user-cog', route: '/setup/personal-settings', active: true },
           { label: 'Academic Settings', icon: 'fas fa-graduation-cap', route: '/setup/academic-settings', active: false },
-          { label: 'Calendar Booking', icon: 'fas fa-calendar', route: '/setup/calendar-booking', active: false },
-          { label: 'Motivator', icon: 'fas fa-heart', route: '/setup/motivator', active: false }
+          { label: 'Users', icon: 'fas fa-users', route: '/setup/users', active: false },
+          { label: 'Company Settings', icon: 'fas fa-building', route: '/setup/company-settings', active: false }
         ]
       },
       {
         title: 'Security Control',
         isExpanded: false,
         items: [
-          { label: 'Profiles', icon: 'fas fa-shield-alt', route: '/setup/profiles', active: false },
-          { label: 'Roles and Sharing', icon: 'fas fa-lock', route: '/setup/roles', active: false },
+          { label: 'Profiles', icon: 'fas fa-id-card', route: '/setup/profiles', active: false },
+          { label: 'Roles and Sharing', icon: 'fas fa-share-alt', route: '/setup/roles-sharing', active: false },
           { label: 'Login History', icon: 'fas fa-history', route: '/setup/login-history', active: false },
           { label: 'Audit Log', icon: 'fas fa-clipboard-list', route: '/setup/audit-log', active: false }
-        ]
-      },
-      {
-        title: 'Channels',
-        isExpanded: false,
-        items: [
-          { label: 'Email', icon: 'fas fa-envelope', route: '/setup/email', active: false },
-          { label: 'SMS', icon: 'fas fa-sms', route: '/setup/sms', active: false },
-          { label: 'Social Media', icon: 'fas fa-share-alt', route: '/setup/social', active: false }
         ]
       },
       {
         title: 'Customization',
         isExpanded: false,
         items: [
-          { label: 'Modules and Fields', icon: 'fas fa-cubes', route: '/setup/modules-fields', active: false },
+          { label: 'Modules and Fields', icon: 'fas fa-puzzle-piece', route: '/setup/modules-fields', active: false },
           { label: 'Customize Home page', icon: 'fas fa-home', route: '/setup/customize-home', active: false },
           { label: 'Email Templates', icon: 'fas fa-envelope-open-text', route: '/setup/email-templates', active: false }
         ]
@@ -82,50 +103,30 @@ export class SettingsSidebarComponent implements OnInit {
         title: 'Automation',
         isExpanded: false,
         items: [
-          { label: 'Workflow Rules', icon: 'fas fa-cogs', route: '/setup/workflow', active: false },
-          { label: 'Actions', icon: 'fas fa-tasks', route: '/setup/actions', active: false },
-          { label: 'Schedules', icon: 'fas fa-clock', route: '/setup/schedules', active: false }
+          { label: 'Workflow Rules', icon: 'fas fa-project-diagram', route: '/setup/workflow-rules', active: false },
+          { label: 'Actions', icon: 'fas fa-bolt', route: '/setup/actions', active: false },
+          { label: 'Schedules', icon: 'fas fa-calendar-alt', route: '/setup/schedules', active: false }
         ]
       },
       {
         title: 'Process Management',
         isExpanded: false,
         items: [
-          { label: 'Blueprint', icon: 'fas fa-project-diagram', route: '/setup/blueprint', active: false },
-          { label: 'Approval Processes', icon: 'fas fa-check-circle', route: '/setup/approval', active: false },
-          { label: 'Review Processes', icon: 'fas fa-eye', route: '/setup/review', active: false }
+          { label: 'Blueprint', icon: 'fas fa-drafting-compass', route: '/setup/blueprint', active: false },
+          { label: 'Approval Processes', icon: 'fas fa-check-circle', route: '/setup/approval-processes', active: false },
+          { label: 'Review Processes', icon: 'fas fa-search', route: '/setup/review-processes', active: false }
         ]
       },
       {
         title: 'Data Administration',
         isExpanded: false,
         items: [
-          { label: 'Import', icon: 'fas fa-download', route: '/setup/import-history', active: false },
-          { label: 'Export', icon: 'fas fa-upload', route: '/setup/export', active: false },
-          { label: 'Data Backup', icon: 'fas fa-database', route: '/setup/backup', active: false },
-          { label: 'Storage', icon: 'fas fa-server', route: '/setup/storage', active: false },
-          { label: 'Recycle Bin', icon: 'fas fa-trash', route: '/setup/recycle-bin', active: false }
-        ]
-      },
-      {
-        title: 'Experience Center',
-        isExpanded: false,
-        items: [
-          { label: 'Modules', icon: 'fas fa-th', route: '/setup/experience-modules', active: false }
-        ]
-      },
-      {
-        title: 'Marketplace',
-        isExpanded: false,
-        items: [
-          { label: 'Extensions', icon: 'fas fa-puzzle-piece', route: '/setup/marketplace', active: false }
-        ]
-      },
-      {
-        title: 'Developer Hub',
-        isExpanded: false,
-        items: [
-          { label: 'API', icon: 'fas fa-code', route: '/setup/api', active: false }
+          { label: 'Import', icon: 'fas fa-file-import', route: '/setup/import-history', active: false },
+          { label: 'Export', icon: 'fas fa-file-export', route: '/setup/export', active: false },
+          { label: 'Data Backup', icon: 'fas fa-database', route: '/setup/data-backup', active: false },
+          { label: 'Storage', icon: 'fas fa-hdd', route: '/setup/storage', active: false },
+          { label: 'Recycle Bin', icon: 'fas fa-trash-restore', route: '/setup/recycle-bin', active: false },
+          { label: 'Copy Customization', icon: 'fas fa-copy', route: '/setup/copy-customization', active: false }
         ]
       }
     ];
@@ -171,7 +172,11 @@ export class SettingsSidebarComponent implements OnInit {
    * Toggle category expansion
    */
   toggleCategory(category: SettingCategory): void {
-    category.isExpanded = !category.isExpanded;
+    const wasExpanded = category.isExpanded;
+    // Close all categories first
+    this.categories.forEach(cat => cat.isExpanded = false);
+    // Toggle the clicked category - open it if it was closed, keep it closed if it was open
+    category.isExpanded = !wasExpanded;
   }
 
   /**

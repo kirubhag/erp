@@ -53,6 +53,11 @@ public interface ErpEntityRepository extends JpaRepository<ErpEntity, Long> {
     boolean isEntityAccessibleByRole(@Param("entityId") Long entityId, @Param("roleId") Long roleId);
 
     /**
+     * Find an ERP entity by its system name
+     */
+    Optional<ErpEntity> findBySystemName(String systemName);
+
+    /**
      * Find all active menu items with presence ordered by sequence
      */
     @Query("SELECT e FROM ErpEntity e " +

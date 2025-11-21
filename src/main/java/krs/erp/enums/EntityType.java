@@ -47,15 +47,27 @@ public enum EntityType {
     
     /**
      * Get EntityType from string value
+     * Handles both singular and plural forms (e.g., "student" or "students")
      */
     public static EntityType fromValue(String value) {
         if (value == null) {
             return null;
         }
         
+        String upperValue = value.toUpperCase();
+        
         try {
-            return EntityType.valueOf(value.toUpperCase());
+            // Try exact match first
+            return EntityType.valueOf(upperValue);
         } catch (IllegalArgumentException e) {
+            // Try removing trailing 'S' for plural forms
+            if (upperValue.endsWith("S") && upperValue.length() > 1) {
+                try {
+                    return EntityType.valueOf(upperValue.substring(0, upperValue.length() - 1));
+                } catch (IllegalArgumentException e2) {
+                    // Ignore and return null
+                }
+            }
             return null;
         }
     }

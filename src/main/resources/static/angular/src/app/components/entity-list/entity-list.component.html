@@ -3,7 +3,7 @@
 <!-- Toolbar -->
 <div class="toolbar">
   <div class="filter-dropdown">
-    <button class="btn-icon" (click)="showFilters = !showFilters">
+    <button class="btn-icon" (click)="toggleSidebar()">
       <i class="fas fa-filter"></i>
     </button>
     <select class="filter-select">
@@ -45,8 +45,16 @@
 
 <!-- Main Container -->
 <div class="main-container">
-  <!-- Sidebar Filters -->
-  <div class="sidebar" *ngIf="sidebarVisible && (filters.length > 0 || columns.length > 0)">
+  <!-- Dynamic Entity Fields Sidebar -->
+  <app-entity-fields-sidebar 
+    *ngIf="sidebarVisible && entityType"
+    [entityType]="entityType"
+    [visible]="sidebarVisible"
+    (fieldFilterChange)="onFieldFilterChange($event)">
+  </app-entity-fields-sidebar>
+  
+  <!-- Legacy Sidebar - Fallback when no entityType -->
+  <div class="sidebar" *ngIf="sidebarVisible && !entityType && (filters.length > 0 || columns.length > 0)">
     <div class="sidebar-title">
       FILTER {{entityNamePlural | uppercase}} BY
       <i class="fas fa-search" style="font-size: 14px;"></i>
@@ -199,14 +207,6 @@
         <i class="fas fa-inbox" style="font-size: 3rem; color: #ccc;"></i>
         <h5 class="text-muted mt-3">No {{entityNamePlural}} Found</h5>
         <p class="text-muted">Try adjusting your search or filter criteria</p>
-      </div>
-
-      <!-- Loading State -->
-      <div class="text-center py-5" *ngIf="loading">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-        <p class="text-muted mt-2">Loading {{entityNamePlural}}...</p>
       </div>
     </div>
     

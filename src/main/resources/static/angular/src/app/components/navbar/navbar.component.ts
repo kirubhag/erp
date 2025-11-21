@@ -49,6 +49,9 @@ export class NavbarComponent implements OnInit {
     
     // Load theme from service (will load from localStorage + database if available)
     this.loadTheme();
+    
+    // Load menu items from API
+    this.loadMenuItems();
   }
 
   /**
@@ -129,8 +132,9 @@ export class NavbarComponent implements OnInit {
   }
 
   isMenuItemActive(menuItem: MenuItem): boolean {
-    // TODO: Implement active menu detection based on current route
-    return false;
+    const currentRoute = this.router.url;
+    // Check if current route starts with menu item route (handles detail pages)
+    return currentRoute.startsWith(menuItem.route);
   }
 
   /**

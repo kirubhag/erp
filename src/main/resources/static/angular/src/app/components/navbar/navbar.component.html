@@ -15,8 +15,7 @@
         <li class="nav-item" *ngFor="let menuItem of visibleMenuItems; trackBy: trackByMenuItem">
           <a class="nav-link" 
              [routerLink]="[menuItem.route]" 
-             routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: true}">
+             routerLinkActive="active">
             <i [class]="menuItem.icon + ' me-1'"></i>{{menuItem.pluralName}}
           </a>
         </li>
@@ -30,7 +29,8 @@
           <ul class="dropdown-menu">
             <li *ngFor="let menuItem of overflowMenuItems">
               <a class="dropdown-item" [routerLink]="[menuItem.route]"
-                 routerLinkActive="active">
+                 routerLinkActive="active"
+                 [routerLinkActiveOptions]="{exact: false}">
                 <i [class]="menuItem.icon + ' me-2'"></i>{{menuItem.pluralName}}
               </a>
             </li>
