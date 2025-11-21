@@ -200,6 +200,7 @@
   width: 16px;
   text-align: center;
   flex-shrink: 0;
+  color: var(--app-primary, #0099cc);
 }
 
 /* No Results */
