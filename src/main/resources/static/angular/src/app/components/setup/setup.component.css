@@ -104,6 +104,7 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: calc(100vh - 120px);
   overflow-y: auto;
+  margin-top: 56px;
 }
 
 /* Header Section */
@@ -160,7 +161,7 @@
 .section-title {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #333;
+  color: var(--app-primary, #0099cc);
   margin: 0 0 1rem 0;
 }
 
@@ -189,6 +190,7 @@
   width: 16px;
   text-align: center;
   flex-shrink: 0;
+  color: var(--app-primary, #0099cc);
 }
 
 /* No Results */
