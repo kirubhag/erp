@@ -1,20 +1,8 @@
-/* Layout with sidebar */
-.setup-layout {
-  display: flex;
-  height: calc(100vh - 56px);
-  width: 100%;
-}
+/* Container styles moved to global styles.css as .settings-content-container */
 
-.setup-layout app-settings-sidebar {
-  flex-shrink: 0;
-}
-
-.user-container {
-  flex: 1;
+.settings-content-container {
   padding: 1.5rem;
   background-color: #f8f9fa;
-  overflow-y: auto;
-  height: calc(100vh - 56px);
 }
 
 .card {
@@ -108,11 +96,7 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .setup-layout {
-    flex-direction: column;
-  }
-
-  .user-container {
+  .settings-content-container {
     padding: 1rem;
   }
 

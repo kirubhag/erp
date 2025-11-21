@@ -1,16 +1,4 @@
-.setup-layout {
-  display: flex;
-  height: calc(100vh - 56px);
-  width: 100%;
-}
-
-.subscription-container {
-  flex: 1;
-  overflow-y: auto;
-  background-color: #f5f7fa;
-  display: flex;
-  flex-direction: column;
-}
+/* Container styles moved to global styles.css as .settings-content-container */
 
 .content-header {
   background: white;

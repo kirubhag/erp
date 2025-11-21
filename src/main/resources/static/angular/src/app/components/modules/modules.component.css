@@ -10,6 +10,7 @@
   background-color: #f5f7fa;
   display: flex;
   flex-direction: column;
+  margin-top: 56px;
 }
 
 .content-header {

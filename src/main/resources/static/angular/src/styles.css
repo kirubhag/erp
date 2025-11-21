@@ -46,7 +46,7 @@ router-outlet {
 
 router-outlet + * {
   flex: 1;
-  overflow: scroll;
+  /* overflow: scroll; */
   display: flex;
   flex-direction: column;
 }
@@ -146,6 +146,17 @@ a:hover,
   flex-shrink: 0;
 }
 
+/* Common container class for all settings/setup pages */
+.settings-content-container {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Alternative name for backward compatibility */
 .setup-layout .settings-content,
 .setup-layout > div:not(app-settings-sidebar) {
   flex: 1;
