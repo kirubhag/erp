@@ -44,16 +44,105 @@
             <i class="fas fa-cog"></i>
           </a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
-             data-bs-toggle="dropdown">
-            <i class="fas fa-user me-1"></i>{{currentUser?.name}}
+        
+        <!-- Profile Dropdown -->
+        <li class="nav-item profile-dropdown" (clickOutside)="closeProfileDropdown()">
+          <a class="nav-link profile-icon" 
+             (click)="toggleProfileDropdown($event)" 
+             [class.active]="isProfileDropdownOpen">
+            <div class="user-avatar">
+              <i class="fas fa-user"></i>
+            </div>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#" (click)="logout(); $event.preventDefault()">
-              <i class="fas fa-sign-out-alt me-1"></i>Logout
-            </a></li>
-          </ul>
+          
+          <!-- Custom Dropdown Menu -->
+          <div class="profile-dropdown-menu" [class.show]="isProfileDropdownOpen">
+            <!-- User Info Section -->
+            <div class="dropdown-header">
+              <div class="user-info">
+                <div class="user-name">{{ currentUser?.name || 'User' }}</div>
+                <div class="user-id">User Id: {{ currentUser?.id || '96430261' }}</div>
+              </div>
+            </div>
+            
+            <div class="dropdown-divider"></div>
+            
+            <!-- My Account -->
+            <a class="dropdown-item" (click)="navigateAndClose('/setup/personal-settings')">
+              <i class="fas fa-user-circle"></i>
+              <span>My Account</span>
+            </a>
+            
+            <div class="dropdown-divider"></div>
+            
+            <!-- Subscriptions Section -->
+            <div class="dropdown-section-title">SUBSCRIPTIONS</div>
+            <div class="subscription-badge">Enterprise</div>
+            
+            <a class="dropdown-item" (click)="navigateAndClose('/setup/subscription')">
+              <i class="fas fa-crown"></i>
+              <span>Manage Subscription</span>
+            </a>
+            
+            <div class="dropdown-divider"></div>
+            
+            <!-- Need Help Section -->
+            <div class="dropdown-section-title">NEED HELP?</div>
+            
+            <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
+              <i class="fas fa-book"></i>
+              <span>Resources</span>
+              <i class="fas fa-chevron-right ms-auto"></i>
+            </a>
+            
+            <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
+              <i class="fas fa-users"></i>
+              <span>User Community</span>
+            </a>
+            
+            <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
+              <i class="fas fa-envelope"></i>
+              <span>Write to us</span>
+            </a>
+            
+            <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
+              <i class="fas fa-comments"></i>
+              <span>Chat with us</span>
+            </a>
+            
+            <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
+              <i class="fas fa-phone"></i>
+              <span>Call us</span>
+            </a>
+            
+            <div class="dropdown-divider"></div>
+            
+            <!-- News Room Section -->
+            <div class="dropdown-section-title">NEWS ROOM</div>
+            
+            <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
+              <i class="fas fa-newspaper"></i>
+              <span>What's New?</span>
+            </a>
+            
+            <div class="dropdown-divider"></div>
+            
+            <!-- Privacy Section -->
+            <div class="dropdown-section-title">PRIVACY</div>
+            
+            <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
+              <i class="fas fa-shield-alt"></i>
+              <span>GDPR Desk</span>
+            </a>
+            
+            <div class="dropdown-divider"></div>
+            
+            <!-- Sign Out -->
+            <a class="dropdown-item sign-out" (click)="logout(); $event.preventDefault()">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Sign Out</span>
+            </a>
+          </div>
         </li>
       </ul>
     </div>

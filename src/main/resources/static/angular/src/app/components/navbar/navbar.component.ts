@@ -4,6 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { AuthService, UserDetails } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
+import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 
 export interface MenuItem {
   id: number;
@@ -19,7 +20,7 @@ export interface MenuItem {
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ClickOutsideDirective],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
@@ -31,6 +32,7 @@ export class NavbarComponent implements OnInit {
   organizationName = 'Zylker';
   currentUser: UserDetails | null = null;
   selectedTheme = '#0056b3';
+  isProfileDropdownOpen = false;
 
   constructor(
     private menuService: MenuService,
@@ -138,9 +140,35 @@ export class NavbarComponent implements OnInit {
   }
 
   /**
+   * Toggle profile dropdown
+   */
+  toggleProfileDropdown(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.isProfileDropdownOpen = !this.isProfileDropdownOpen;
+  }
+
+  /**
+   * Close profile dropdown when clicking outside
+   */
+  closeProfileDropdown(): void {
+    this.isProfileDropdownOpen = false;
+  }
+
+  /**
+   * Navigate to a route and close dropdown
+   */
+  navigateAndClose(route: string): void {
+    this.router.navigate([route]);
+    this.closeProfileDropdown();
+  }
+
+  /**
    * Logout - clears theme and session
    */
   logout() {
+    this.closeProfileDropdown();
     // Call backend logout endpoint to clear server session
     this.authService.logout().subscribe({
       next: (response) => {

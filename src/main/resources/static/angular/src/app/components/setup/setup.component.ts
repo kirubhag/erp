@@ -60,6 +60,13 @@ export class SetupComponent implements OnInit {
           icon: 'fas fa-building',
           route: '/setup/company-settings',
           description: 'Configure company-wide settings and preferences'
+        },
+        { 
+          id: 'subscription',
+          label: 'Subscription', 
+          icon: 'fas fa-crown', 
+          route: '/setup/subscription', 
+          description: "Displays an overview of your organization's subscription plan and feature usage limits"
         }
       ]
     },
@@ -121,6 +128,20 @@ export class SetupComponent implements OnInit {
           icon: 'fas fa-envelope-open-text',
           route: '/setup/email-templates',
           description: 'Create and manage email templates'
+        },
+        {
+          id: 'file-storage',
+          label: 'File Storage',
+          icon: 'fas fa-file-alt',
+          route: '/setup/file-storage',
+          description: 'Monitor file storage usage and attachments'
+        },
+        {
+          id: 'record-storage',
+          label: 'Record Storage',
+          icon: 'fas fa-hdd',
+          route: '/setup/record-storage',
+          description: 'View record storage usage across modules'
         }
       ]
     },
@@ -202,20 +223,6 @@ export class SetupComponent implements OnInit {
           icon: 'fas fa-database',
           route: '/setup/data-backup',
           description: 'Manage data backup and restore operations'
-        },
-        {
-          id: 'file-storage',
-          label: 'File Storage',
-          icon: 'fas fa-file-alt',
-          route: '/setup/file-storage',
-          description: 'Monitor file storage usage and attachments'
-        },
-        {
-          id: 'record-storage',
-          label: 'Record Storage',
-          icon: 'fas fa-hdd',
-          route: '/setup/record-storage',
-          description: 'View record storage usage across modules'
         },
         {
           id: 'recycle-bin',

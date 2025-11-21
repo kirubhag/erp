@@ -38,7 +38,6 @@ app-root {
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
-  padding-top: 56px;
 }
 
 router-outlet {
@@ -47,7 +46,7 @@ router-outlet {
 
 router-outlet + * {
   flex: 1;
-  overflow: hidden;
+  overflow: scroll;
   display: flex;
   flex-direction: column;
 }
