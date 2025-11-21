@@ -22,6 +22,8 @@ export class PersonalSettingsComponent implements OnInit {
   errorMessage = '';
   isUploadingAvatar = false;
   avatarUrl: string | null = null;
+  hasAvatar = false;
+  avatarLoadError = false;
 
   // Locale Information
   localeInfo = {
@@ -64,6 +66,7 @@ export class PersonalSettingsComponent implements OnInit {
     this.loadCurrentUser();
     this.loadThemeFromService();
     this.themes = this.themeService.getAvailableThemes();
+    this.checkAvatarExists();
   }
 
   /**
@@ -302,8 +305,11 @@ export class PersonalSettingsComponent implements OnInit {
       next: (response) => {
         this.isUploadingAvatar = false;
         this.successMessage = 'Avatar uploaded successfully!';
-        // Update avatar URL
-        this.avatarUrl = response.attachment.url + '?t=' + new Date().getTime();
+        // Update avatar URL with cache-busting timestamp
+        const timestamp = Date.now();
+        this.avatarUrl = response.attachment.url + '?t=' + timestamp;
+        this.hasAvatar = true;
+        this.avatarLoadError = false;
         setTimeout(() => {
           this.successMessage = '';
         }, 3000);
@@ -317,19 +323,53 @@ export class PersonalSettingsComponent implements OnInit {
   }
 
   /**
-   * Get avatar URL
+   * Get avatar URL - returns stable URL to avoid change detection errors
    */
   getAvatarUrl(): string {
     if (this.avatarUrl) {
       return this.avatarUrl;
     }
     
-    if (this.currentUser?.id) {
-      return `/api/attachments/avatar/${this.currentUser.id}?t=${new Date().getTime()}`;
+    if (this.currentUser?.id && this.hasAvatar && !this.avatarLoadError) {
+      // Use a stable URL without timestamp to avoid change detection errors
+      return `/api/attachments/avatar/${this.currentUser.id}`;
     }
     
-    // Default placeholder
+    // Default placeholder with user initials
     const initials = this.getUserInitials();
     return `https://placehold.co/80x80/E8F0FE/333?text=${initials}`;
+  }
+
+  /**
+   * Check if user has an avatar
+   */
+  checkAvatarExists(): void {
+    if (!this.currentUser?.id) {
+      this.hasAvatar = false;
+      return;
+    }
+
+    // Try to load the avatar to check if it exists
+    this.http.get(`/api/attachments/avatar/${this.currentUser.id}`, { 
+      responseType: 'blob',
+      observe: 'response'
+    }).subscribe({
+      next: () => {
+        this.hasAvatar = true;
+        this.avatarLoadError = false;
+      },
+      error: () => {
+        this.hasAvatar = false;
+        this.avatarLoadError = true;
+      }
+    });
+  }
+
+  /**
+   * Handle avatar load error
+   */
+  onAvatarError(): void {
+    this.avatarLoadError = true;
+    this.hasAvatar = false;
   }
 }

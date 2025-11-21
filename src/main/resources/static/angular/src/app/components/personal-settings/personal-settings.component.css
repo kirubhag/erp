@@ -164,6 +164,18 @@
   display: block;
 }
 
+.profile-avatar-initials {
+  background: linear-gradient(135deg, var(--app-primary, #0099cc) 0%, #0077aa 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 600;
+  text-transform: uppercase;
+  user-select: none;
+}
+
 .avatar-upload-overlay {
   position: absolute;
   top: 0;

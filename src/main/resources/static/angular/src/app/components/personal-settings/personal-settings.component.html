@@ -44,7 +44,14 @@
         <!-- Profile Header -->
         <div class="profile-header">
           <div class="profile-avatar-container">
-            <img [src]="getAvatarUrl()" class="profile-avatar" alt="User Avatar">
+            <img *ngIf="hasAvatar && !avatarLoadError" 
+                 [src]="getAvatarUrl()" 
+                 class="profile-avatar" 
+                 alt="User Avatar"
+                 (error)="onAvatarError()">
+            <div *ngIf="!hasAvatar || avatarLoadError" class="profile-avatar profile-avatar-initials">
+              {{ getUserInitials() }}
+            </div>
             <div class="avatar-upload-overlay">
               <label for="avatar-upload" class="avatar-upload-label">
                 <i class="fas fa-camera"></i>
