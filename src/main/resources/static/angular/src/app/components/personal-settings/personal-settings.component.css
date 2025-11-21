@@ -12,7 +12,6 @@
   background-color: #f8f9fa;
   overflow-y: auto;
   min-height: calc(100vh - 120px);
-  padding-top: 20px;
 }
 
 .tabs-navigation {

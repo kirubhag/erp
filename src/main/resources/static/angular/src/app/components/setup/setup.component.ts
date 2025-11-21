@@ -204,11 +204,18 @@ export class SetupComponent implements OnInit {
           description: 'Manage data backup and restore operations'
         },
         {
-          id: 'storage',
-          label: 'Storage',
+          id: 'file-storage',
+          label: 'File Storage',
+          icon: 'fas fa-file-alt',
+          route: '/setup/file-storage',
+          description: 'Monitor file storage usage and attachments'
+        },
+        {
+          id: 'record-storage',
+          label: 'Record Storage',
           icon: 'fas fa-hdd',
-          route: '/setup/storage',
-          description: 'Manage storage settings and usage'
+          route: '/setup/record-storage',
+          description: 'View record storage usage across modules'
         },
         {
           id: 'recycle-bin',
