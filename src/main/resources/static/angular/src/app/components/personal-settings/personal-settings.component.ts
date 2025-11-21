@@ -66,7 +66,6 @@ export class PersonalSettingsComponent implements OnInit {
     this.loadCurrentUser();
     this.loadThemeFromService();
     this.themes = this.themeService.getAvailableThemes();
-    this.checkAvatarExists();
   }
 
   /**
@@ -102,6 +101,8 @@ export class PersonalSettingsComponent implements OnInit {
     this.authService.currentUser$.subscribe(user => {
       if (user) {
         this.currentUser = user;
+        // Check if user has avatar URL in their profile
+        this.hasAvatar = !!(user.avatarUrl);
         this.initializeEditForm();
         // Reload theme from database after user is loaded
         if (user.id && user.organizationId) {
@@ -117,6 +118,7 @@ export class PersonalSettingsComponent implements OnInit {
           phone: '9876543210',
           userType: 'ADMIN'
         };
+        this.hasAvatar = false;
         this.initializeEditForm();
       }
     });
@@ -338,31 +340,6 @@ export class PersonalSettingsComponent implements OnInit {
     // Default placeholder with user initials
     const initials = this.getUserInitials();
     return `https://placehold.co/80x80/E8F0FE/333?text=${initials}`;
-  }
-
-  /**
-   * Check if user has an avatar
-   */
-  checkAvatarExists(): void {
-    if (!this.currentUser?.id) {
-      this.hasAvatar = false;
-      return;
-    }
-
-    // Try to load the avatar to check if it exists
-    this.http.get(`/api/attachments/avatar/${this.currentUser.id}`, { 
-      responseType: 'blob',
-      observe: 'response'
-    }).subscribe({
-      next: () => {
-        this.hasAvatar = true;
-        this.avatarLoadError = false;
-      },
-      error: () => {
-        this.hasAvatar = false;
-        this.avatarLoadError = true;
-      }
-    });
   }
 
   /**
