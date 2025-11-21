@@ -77,6 +77,9 @@ public class User extends BaseEntity {
     @Column(name = "avatar_url", length = 500)
     private String avatarUrl;
     
+    @Column(name = "organization_id")
+    private Long organizationId;
+    
     // Relationships
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -228,6 +231,14 @@ public class User extends BaseEntity {
     
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+    
+    public Long getOrganizationId() {
+        return organizationId;
+    }
+    
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
     }
     
     public Set<Role> getRoles() {

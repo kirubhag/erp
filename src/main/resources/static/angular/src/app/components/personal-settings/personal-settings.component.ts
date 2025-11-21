@@ -289,8 +289,8 @@ export class PersonalSettingsComponent implements OnInit {
    * Upload avatar to server
    */
   uploadAvatar(file: File): void {
-    if (!this.currentUser?.id || !this.currentUser?.organizationId) {
-      this.errorMessage = 'User information not available';
+    if (!this.currentUser?.id) {
+      this.errorMessage = 'User ID not available';
       return;
     }
 
@@ -301,7 +301,9 @@ export class PersonalSettingsComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('userId', this.currentUser.id.toString());
-    formData.append('organizationId', this.currentUser.organizationId.toString());
+    // Use organizationId if available, otherwise default to 1
+    const orgId = this.currentUser.organizationId || 1;
+    formData.append('organizationId', orgId.toString());
 
     this.http.post<any>('/api/attachments/avatar/upload', formData).subscribe({
       next: (response) => {
