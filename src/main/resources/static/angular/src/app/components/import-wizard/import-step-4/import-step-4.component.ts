@@ -344,9 +344,16 @@ import { takeUntil, switchMap } from 'rxjs/operators';
     .footer-controls {
       display: flex;
       gap: 0.5rem;
-      padding-top: 1.5rem;
+      padding: 1.5rem;
       border-top: 1px solid #dee2e6;
       justify-content: flex-end;
+      background-color: white;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .error-banner {
