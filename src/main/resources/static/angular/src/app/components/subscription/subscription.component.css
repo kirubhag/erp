@@ -1,18 +1,5 @@
 /* Container styles moved to global styles.css as .settings-content-container */
 
-.content-title {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #262626;
-}
-
-.content-description {
-  font-size: 13px;
-  color: #8c8c8c;
-  margin-bottom: 0;
-}
-
 .help-link {
   color: #8c8c8c;
   text-decoration: none;
@@ -186,7 +173,8 @@
 
 /* Usage Section */
 .usage-section {
-  margin-top: 30px;
+    background: #fff;
+    padding: 25px;
 }
 
 .section-title {

@@ -1,18 +1,5 @@
 /* Container styles moved to global styles.css as .settings-content-container */
 
-.content-title {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #262626;
-}
-
-.content-description {
-  font-size: 13px;
-  color: #8c8c8c;
-  margin-bottom: 0;
-}
-
 .tabs-nav {
   display: flex;
   border-bottom: 1px solid #e8e8e8;
@@ -44,6 +31,7 @@
 }
 
 .tab-content {
+  background: #ffffff;
   padding: 30px;
   animation: fadeIn 0.3s ease;
 }
