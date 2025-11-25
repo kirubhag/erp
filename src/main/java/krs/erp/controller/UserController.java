@@ -21,6 +21,8 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import krs.erp.model.User;
 import krs.erp.repository.UserRepository;
+import krs.erp.service.SubscriptionService;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * REST Controller for User CRUD operations
@@ -28,6 +30,7 @@ import krs.erp.repository.UserRepository;
  */
 @RestController
 @RequestMapping("/settings/users")
+@Slf4j
 public class UserController {
     
     @Autowired
@@ -35,6 +38,9 @@ public class UserController {
     
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private SubscriptionService subscriptionService;
     
     /**
      * Get all users
@@ -157,6 +163,20 @@ public class UserController {
             user.setPasswordHash(encodedPassword);
             
             User savedUser = userRepository.save(user);
+            
+            // Automatically start 15-day Premium trial for new users
+            try {
+                subscriptionService.startPremiumTrial(
+                    savedUser.getId(), 
+                    savedUser.getOrganizationId(), 
+                    savedUser.getId()
+                );
+                log.info("Started Premium trial for new user: {}", savedUser.getUsername());
+            } catch (Exception e) {
+                // Log the error but don't fail user creation
+                log.error("Failed to start trial for user {}: {}", savedUser.getUsername(), e.getMessage());
+            }
+            
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
