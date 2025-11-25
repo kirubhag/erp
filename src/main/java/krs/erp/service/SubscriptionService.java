@@ -1,23 +1,30 @@
 package krs.erp.service;
 
-import krs.erp.model.*;
-import krs.erp.model.enums.BillingCycle;
-import krs.erp.model.enums.PlanType;
-import krs.erp.model.enums.SubscriptionStatus;
-import krs.erp.repository.*;
-import krs.erp.service.payment.MockPaymentGatewayService;
-import krs.erp.service.payment.PaymentRequest;
-import krs.erp.service.payment.PaymentResponse;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import krs.erp.model.PaymentTransaction;
+import krs.erp.model.PricingPlan;
+import krs.erp.model.SubscriptionHistory;
+import krs.erp.model.UserSubscription;
+import krs.erp.model.enums.BillingCycle;
+import krs.erp.model.enums.PlanType;
+import krs.erp.model.enums.SubscriptionStatus;
+import krs.erp.repository.PaymentTransactionRepository;
+import krs.erp.repository.PricingPlanRepository;
+import krs.erp.repository.SubscriptionHistoryRepository;
+import krs.erp.repository.UserSubscriptionRepository;
+import krs.erp.service.payment.MockPaymentGatewayService;
+import krs.erp.service.payment.PaymentRequest;
+import krs.erp.service.payment.PaymentResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service for managing user subscriptions and plan changes
@@ -142,15 +149,12 @@ public class SubscriptionService {
             PaymentResponse paymentResponse = paymentGatewayService.processPayment(paymentRequest);
 
             if (!paymentResponse.isSuccess()) {
-                // Record failed transaction
-                recordFailedTransaction(paymentRequest, paymentResponse);
+                // Record failed transaction (doesn't need subscription_id)
+                recordFailedTransaction(userId, organizationId, paymentRequest, paymentResponse);
                 throw new IllegalStateException("Payment failed: " + paymentResponse.getMessage());
             }
 
-            // Record successful transaction
-            PaymentTransaction transaction = recordSuccessfulTransaction(paymentRequest, paymentResponse);
-
-            // Create or update subscription
+            // Create or update subscription FIRST (so we have subscription.getId())
             UserSubscription subscription;
             Long previousPlanId = null;
 
@@ -183,6 +187,9 @@ public class SubscriptionService {
             subscription.setSubscriptionEndDate(nextBilling);
 
             subscription = subscriptionRepository.save(subscription);
+
+            // Record successful transaction AFTER subscription is saved
+            PaymentTransaction transaction = recordSuccessfulTransaction(subscription.getId(), userId, organizationId, paymentRequest, paymentResponse);
 
             // Record history
             String changeType = previousPlanId == null ? "UPGRADE" : 
@@ -243,11 +250,12 @@ public class SubscriptionService {
         historyRepository.save(history);
     }
 
-    private PaymentTransaction recordSuccessfulTransaction(PaymentRequest request, PaymentResponse response) {
+    private PaymentTransaction recordSuccessfulTransaction(Long subscriptionId, Long userId, Long organizationId, 
+                                                          PaymentRequest request, PaymentResponse response) {
         PaymentTransaction transaction = new PaymentTransaction();
-        transaction.setSubscriptionId(request.getSubscriptionId());
-        transaction.setUserId(request.getUserId());
-        transaction.setOrganizationId(request.getOrganizationId());
+        transaction.setSubscriptionId(subscriptionId);
+        transaction.setUserId(userId);
+        transaction.setOrganizationId(organizationId);
         transaction.setTransactionId(response.getTransactionId());
         transaction.setTransactionType("SUBSCRIPTION");
         transaction.setPaymentMethod(request.getPaymentMethod());
@@ -261,11 +269,13 @@ public class SubscriptionService {
         return transactionRepository.save(transaction);
     }
 
-    private void recordFailedTransaction(PaymentRequest request, PaymentResponse response) {
+    private void recordFailedTransaction(Long userId, Long organizationId, 
+                                        PaymentRequest request, PaymentResponse response) {
         PaymentTransaction transaction = new PaymentTransaction();
-        transaction.setSubscriptionId(request.getSubscriptionId());
-        transaction.setUserId(request.getUserId());
-        transaction.setOrganizationId(request.getOrganizationId());
+        // subscription_id can be null for failed transactions
+        transaction.setSubscriptionId(null);
+        transaction.setUserId(userId);
+        transaction.setOrganizationId(organizationId);
         transaction.setTransactionId(response.getTransactionId());
         transaction.setTransactionType("SUBSCRIPTION");
         transaction.setPaymentMethod(request.getPaymentMethod());

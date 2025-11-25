@@ -1,237 +1,180 @@
-<div class="setup-layout">
-  <app-settings-sidebar></app-settings-sidebar>
-  
-  <div class="builder-container">
-    <!-- Header -->
-    <div class="content-header">
-      <div class="header-top">
-        <button class="btn-back" (click)="cancel()">
-          <i class="fas fa-arrow-left"></i>
-        </button>
-        <h1 class="content-title">{{ moduleId === 'new' ? 'Create New Module' : 'Edit Module' }}</h1>
-      </div>
-      <div class="header-actions">
-        <button class="btn-cancel" (click)="cancel()">Cancel</button>
-        <button class="btn-save" (click)="saveModule()">Save</button>
+<!-- Page Header -->
+<div class="page-header">
+  <div class="d-flex align-items-center">
+    <a (click)="cancel()" class="text-decoration-none me-3" style="cursor: pointer;">
+      <i class="fas fa-arrow-left"></i>
+    </a>
+    <h4 class="mb-0 me-3">Modules</h4>
+    <div class="dropdown">
+      <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        {{ currentModule }}
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" (click)="selectModule('Candidates')">Candidates</a></li>
+        <li><a class="dropdown-item" (click)="selectModule('Jobs')">Jobs</a></li>
+        <li><a class="dropdown-item" (click)="selectModule('Clients')">Clients</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Tabs Navigation -->
+<div class="tabs-nav">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'layouts'" (click)="setActiveTab('layouts')">Layouts</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'fields'" (click)="setActiveTab('fields')">Fields</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'tabular'" (click)="setActiveTab('tabular')">Tabular</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'layoutRules'" (click)="setActiveTab('layoutRules')">Layout Rules</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'validationRules'" (click)="setActiveTab('validationRules')">
+        Validation Rules <i class="fas fa-star text-warning" style="font-size: 0.7rem;"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'links'" (click)="setActiveTab('links')">Links and Buttons</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'tags'" (click)="setActiveTab('tags')">Tags</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'summary'" (click)="setActiveTab('summary')">Summary</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'coolingOff'" (click)="setActiveTab('coolingOff')">Cooling-off Period</a>
+    </li>
+  </ul>
+</div>
+
+<!-- Main Content -->
+<div class="content-area" *ngIf="activeTab === 'layouts'">
+  <div class="row">
+    <!-- Left Sidebar - Field Types -->
+    <div class="col-lg-3">
+      <div class="field-sidebar">
+        <!-- New Fields Accordion -->
+        <div class="accordion mb-3" id="newFieldsAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#newFieldsCollapse">
+                New Fields
+              </button>
+            </h2>
+            <div id="newFieldsCollapse" class="accordion-collapse collapse show" data-bs-parent="#newFieldsAccordion">
+              <div class="accordion-body">
+                <div class="fields-grid">
+                  <div class="field-item" *ngFor="let fieldType of newFieldTypes" (click)="addNewField(fieldType)">
+                    <i [class]="fieldType.icon"></i>
+                    <span>{{ fieldType.label }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <button class="btn btn-sm btn-outline-secondary w-100 mb-3" (click)="addNewSection()">NEW SECTION</button>
+        
+        <!-- Unused Fields Accordion -->
+        <div class="accordion" id="unusedFieldsAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#unusedFieldsCollapse">
+                Unused Fields
+                <span class="badge bg-secondary ms-2">{{ unusedFields.length }}</span>
+              </button>
+            </h2>
+            <div id="unusedFieldsCollapse" class="accordion-collapse collapse" data-bs-parent="#unusedFieldsAccordion">
+              <div class="accordion-body">
+                <div class="field-item" *ngFor="let field of unusedFields">
+                  <i [class]="field.icon"></i>
+                  <span>{{ field.label }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Content Body -->
-    <div class="content-body">
-      <!-- Tabs -->
-      <div class="tabs-nav">
-        <button 
-          class="tab-link" 
-          [class.active]="activeTab === 'layout'"
-          (click)="setActiveTab('layout')"
-        >
-          <i class="fas fa-window-restore me-2"></i> Module Layout
-        </button>
-        <button 
-          class="tab-link" 
-          [class.active]="activeTab === 'fields'"
-          (click)="setActiveTab('fields')"
-        >
-          <i class="fas fa-list me-2"></i> Fields
-        </button>
-        <button 
-          class="tab-link" 
-          [class.active]="activeTab === 'settings'"
-          (click)="setActiveTab('settings')"
-        >
-          <i class="fas fa-cog me-2"></i> Settings
-        </button>
-      </div>
-
-      <!-- Module Layout Tab -->
-      <div class="tab-content" [hidden]="activeTab !== 'layout'">
-        <form [formGroup]="moduleForm" class="form-section">
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Module Name (Internal)</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                formControlName="name"
-                placeholder="e.g., candidates"
-              >
-            </div>
-            <div class="form-group">
-              <label class="form-label">Display Name</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                formControlName="displayName"
-                placeholder="e.g., Candidates"
-              >
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Description</label>
-            <textarea 
-              class="form-control" 
-              formControlName="description"
-              placeholder="Describe what this module is used for"
-              rows="3"
-            ></textarea>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Singular Label</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                formControlName="singularLabel"
-                placeholder="e.g., Candidate"
-              >
-            </div>
-            <div class="form-group">
-              <label class="form-label">Plural Label</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                formControlName="pluralLabel"
-                placeholder="e.g., Candidates"
-              >
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Module Icon</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              formControlName="icon"
-              placeholder="e.g., fas fa-user-tie"
-            >
-          </div>
-        </form>
-      </div>
-
-      <!-- Fields Tab -->
-      <div class="tab-content" [hidden]="activeTab !== 'fields'">
-        <div class="fields-section">
-          <div class="section-header">
-            <h3 class="section-title">Module Fields</h3>
-            <button class="btn-add-field" (click)="addField()">
-              <i class="fas fa-plus me-2"></i> Add Field
+    <!-- Main Panel - Form Fields -->
+    <div class="col-lg-9">
+      <div class="main-panel">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              {{ selectedLayout }}
             </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" (click)="selectLayout('Standard')">Standard</a></li>
+              <li><a class="dropdown-item" (click)="selectLayout('Compact')">Compact</a></li>
+              <li><a class="dropdown-item" (click)="selectLayout('Extended')">Extended</a></li>
+            </ul>
           </div>
+          <button class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-cog"></i>
+          </button>
+        </div>
 
-          <div class="fields-grid">
-            <div class="field-item" *ngFor="let field of fields">
-              <div class="field-header">
-                <input 
-                  type="text" 
-                  class="field-name-input" 
-                  [(ngModel)]="field.displayName"
-                  placeholder="Field Display Name"
-                >
-                <button 
-                  class="btn-remove" 
-                  (click)="removeField(field)"
-                  title="Remove field"
-                >
-                  <i class="fas fa-times"></i>
+        <!-- User Fields Section -->
+        <div class="section-wrapper" *ngFor="let section of sections" [class.active]="section.id === activeSection" (click)="setActiveSection(section.id)">
+          <div class="section-header">{{ section.name }}</div>
+          
+          <div class="form-row" *ngFor="let row of section.rows">
+            <div class="form-field" 
+                 *ngFor="let field of row" 
+                 [class.active]="field.id === activeField"
+                 (click)="setActiveField(field.id, $event)">
+              <div class="field-label" [class.required]="field.required">{{ field.label }}</div>
+              <div class="field-type">
+                <div class="d-flex align-items-center gap-2" *ngIf="field.prefix">
+                  <span>{{ field.prefix }}</span>
+                  <i class="fas fa-chevron-down" style="font-size: 0.75rem;"></i>
+                  <span class="mx-2">|</span>
+                  <span>{{ field.type }}</span>
+                </div>
+                <span *ngIf="!field.prefix">{{ field.type }}</span>
+              </div>
+              <div class="field-actions" *ngIf="field.id === activeField">
+                <button class="field-action-btn" (click)="editField(field.id, $event)">
+                  <i class="fas fa-cog"></i>
+                </button>
+                <button class="field-action-btn" (click)="deleteField(field.id, $event)">
+                  <i class="fas fa-trash"></i>
                 </button>
               </div>
-
-              <div class="field-body">
-                <div class="field-row">
-                  <label>Field Type</label>
-                  <select [(ngModel)]="field.type" class="form-control">
-                    <option *ngFor="let type of availableFieldTypes" [value]="type.id">
-                      {{ type.name }}
-                    </option>
-                  </select>
-                </div>
-
-                <div class="field-row">
-                  <label>API Name</label>
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    [(ngModel)]="field.name"
-                    placeholder="Field API name"
-                  >
-                </div>
-
-                <div class="field-checkboxes">
-                  <label class="checkbox-item">
-                    <input 
-                      type="checkbox" 
-                      [checked]="field.required"
-                      (change)="toggleFieldRequired(field)"
-                    >
-                    <span>Required</span>
-                  </label>
-                  <label class="checkbox-item">
-                    <input 
-                      type="checkbox" 
-                      [checked]="field.visible"
-                      (change)="toggleFieldVisibility(field)"
-                    >
-                    <span>Visible</span>
-                  </label>
-                </div>
-              </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Settings Tab -->
-      <div class="tab-content" [hidden]="activeTab !== 'settings'">
-        <div class="settings-section">
-          <h3 class="section-title">Module Settings</h3>
           
-          <div class="setting-item">
-            <div class="setting-label">
-              <h4>Enable Advanced Features</h4>
-              <p>Allow advanced search and filtering options</p>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" checked>
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-
-          <div class="setting-item">
-            <div class="setting-label">
-              <h4>Enable Audit Trail</h4>
-              <p>Track all changes made to records in this module</p>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-
-          <div class="setting-item">
-            <div class="setting-label">
-              <h4>Enable Quick Create</h4>
-              <p>Allow quick creation of records from sidebar</p>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" checked>
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-
-          <div class="setting-item">
-            <div class="setting-label">
-              <h4>Enable Attachments</h4>
-              <p>Allow users to attach files to records</p>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" checked>
-              <span class="toggle-slider"></span>
-            </label>
+          <div class="alert-warning-custom" *ngIf="section.warning">
+            <i class="fas fa-info-circle text-warning"></i>
+            <span>{{ section.warning }}</span>
           </div>
         </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-end gap-2 mt-4">
+          <button class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+          <button class="btn btn-primary-custom" (click)="saveLayout()">Save Layout</button>
+        </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Other Tab Contents (Placeholder) -->
+<div class="content-area" *ngIf="activeTab !== 'layouts'">
+  <div class="container-fluid">
+    <div class="alert alert-info">
+      <i class="fas fa-info-circle me-2"></i>
+      {{ activeTab | titlecase }} configuration coming soon...
     </div>
   </div>
 </div>

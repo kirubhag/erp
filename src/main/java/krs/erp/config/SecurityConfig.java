@@ -43,7 +43,7 @@ public class SecurityConfig {
             .securityMatcher("/**")
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/auth/**", "/settings/auth/**", "/webjars/**", "/actuator/**", "/api/import/**", "/api/attachments/**")
+                .ignoringRequestMatchers("/api/auth/**", "/settings/auth/**", "/webjars/**", "/actuator/**", "/api/import/**", "/api/attachments/**", "/api/subscriptions/**")
             )
             .headers(headers -> headers
                 .contentSecurityPolicy(csp -> csp
@@ -65,6 +65,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/users/**").permitAll()  // Allow users endpoints
                 .requestMatchers("/settings/users/**").permitAll()  // Allow settings users endpoints
                 .requestMatchers("/api/attachments/**").permitAll()  // Allow attachment endpoints (avatar upload)
+                .requestMatchers("/api/subscriptions/**").permitAll()  // Allow subscription/pricing endpoints for public access
                 .requestMatchers("/api/**").authenticated()  // Other API endpoints require authentication
                 .requestMatchers("/actuator/health", "/__healthcheck").permitAll()
                 .requestMatchers("/static/**", "/assets/**", "/css/**", "/js/**", "/images/**", "/vendor/**", "/dist/**", "/angular/**").permitAll()

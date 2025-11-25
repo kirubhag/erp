@@ -27,8 +27,8 @@ public class MockPaymentGatewayService {
      * Returns success for amounts < $10,000 (for testing)
      */
     public PaymentResponse processPayment(PaymentRequest request) {
-        log.info("Processing mock payment for user: {}, amount: {} {}", 
-                 request.getUserId(), request.getAmount(), request.getCurrency());
+        log.info("Processing mock payment for user: {}, amount: {} {}",
+                request.getUserId(), request.getAmount(), request.getCurrency());
 
         try {
             // Simulate network delay
@@ -41,9 +41,9 @@ public class MockPaymentGatewayService {
             PaymentResponse response = new PaymentResponse();
             response.setTransactionId(transactionId);
 
-            // Mock logic: Fail if amount > 10000 or card number ends with '0000'
-            boolean shouldFail = request.getAmount().compareTo(new BigDecimal("10000")) > 0 ||
-                               (request.getCardNumber() != null && request.getCardNumber().endsWith("0000"));
+            // Mock logic: Fail if amount > 100,000 or card number ends with '0000'
+            boolean shouldFail = request.getAmount().compareTo(new BigDecimal("100000")) > 0 ||
+                    (request.getCardNumber() != null && request.getCardNumber().endsWith("0000"));
 
             if (shouldFail) {
                 response.setSuccess(false);

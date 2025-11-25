@@ -64,6 +64,151 @@
         </div>
       </div>
 
+      <!-- Available Plans -->
+      <div class="pricing-section" *ngIf="!loading">
+        <h5 class="section-title">Available Plans</h5>
+        
+        <!-- Billing Cycle Toggle -->
+        <div class="billing-toggle">
+          <button 
+            class="toggle-btn" 
+            [class.active]="selectedBillingCycle === 'MONTHLY'"
+            (click)="selectedBillingCycle = 'MONTHLY'"
+          >
+            Monthly
+          </button>
+          <button 
+            class="toggle-btn" 
+            [class.active]="selectedBillingCycle === 'YEARLY'"
+            (click)="selectedBillingCycle = 'YEARLY'"
+          >
+            Yearly <span class="badge-save">Save 20%</span>
+          </button>
+        </div>
+
+        <!-- Plans Grid -->
+        <div class="plans-grid" *ngIf="!loadingPlans">
+          <div class="plan-card" *ngFor="let plan of availablePlans" [class.current]="isCurrentPlan(plan)">
+            <div class="plan-header-card">
+              <div class="plan-icon">
+                <i class="fas fa-trophy" *ngIf="plan.planType === 'PREMIUM'"></i>
+                <i class="fas fa-star" *ngIf="plan.planType === 'STANDARD'"></i>
+                <i class="fas fa-box" *ngIf="plan.planType === 'BASIC'"></i>
+                <i class="fas fa-gift" *ngIf="plan.planType === 'FREE'"></i>
+              </div>
+              <h6 class="plan-name">{{ plan.displayName }}</h6>
+              <p class="plan-description">{{ plan.description }}</p>
+              
+              <div class="plan-price">
+                <span class="currency">₹</span>
+                <span class="amount">{{ getPlanPrice(plan) }}</span>
+                <span class="period">/{{ selectedBillingCycle === 'YEARLY' ? 'year' : 'month' }}</span>
+              </div>
+
+              <span class="current-badge" *ngIf="isCurrentPlan(plan)">Current Plan</span>
+              
+              <button 
+                class="btn-upgrade" 
+                *ngIf="!isCurrentPlan(plan) && canUpgradeTo(plan)"
+                (click)="openUpgradeModal(plan)"
+              >
+                Upgrade
+              </button>
+            </div>
+
+            <div class="plan-features">
+              <h6>Features:</h6>
+              <ul>
+                <li *ngFor="let feature of (plan.features || [])">
+                  <i class="fas fa-check"></i> {{ feature }}
+                </li>
+                <li><i class="fas fa-check"></i> {{ plan.maxUsers }} Users</li>
+                <li><i class="fas fa-check"></i> {{ plan.maxStorageGb }} GB Storage</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading Plans -->
+        <div class="loading-spinner" *ngIf="loadingPlans">
+          <i class="fas fa-spinner fa-spin"></i> Loading plans...
+        </div>
+      </div>
+
+      <!-- History Section -->
+      <div class="history-section" *ngIf="!loading">
+        <div class="section-header">
+          <h5>Transaction History</h5>
+          <button class="btn-link" (click)="loadHistory()">
+            {{ showHistorySection ? 'Hide' : 'View' }} History
+          </button>
+        </div>
+
+        <div class="history-content" *ngIf="showHistorySection">
+          <!-- Subscription History -->
+          <div class="history-subsection" *ngIf="subscriptionHistory.length > 0">
+            <h6>Subscription Changes</h6>
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Change Type</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let history of subscriptionHistory">
+                  <td>{{ formatDate(history.effectiveDate) }}</td>
+                  <td><span class="badge-change">{{ history.changeType }}</span></td>
+                  <td>{{ history.changeReason || 'N/A' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Payment History -->
+          <div class="history-subsection" *ngIf="paymentHistory.length > 0">
+            <h6>Payment Transactions</h6>
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Transaction ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let payment of paymentHistory">
+                  <td>{{ formatDate(payment.processedAt) }}</td>
+                  <td>${{ payment.amount }} {{ payment.currency }}</td>
+                  <td>
+                    <span 
+                      class="badge-status" 
+                      [class.success]="payment.transactionStatus === 'SUCCESS'"
+                      [class.failed]="payment.transactionStatus === 'FAILED'"
+                    >
+                      {{ payment.transactionStatus }}
+                    </span>
+                  </td>
+                  <td class="transaction-id">{{ payment.transactionId }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Loading History -->
+          <div class="loading-spinner" *ngIf="loadingHistory">
+            <i class="fas fa-spinner fa-spin"></i> Loading history...
+          </div>
+
+          <!-- No History -->
+          <p class="text-muted" *ngIf="!loadingHistory && subscriptionHistory.length === 0 && paymentHistory.length === 0">
+            No transaction history available
+          </p>
+        </div>
+      </div>
+
       <!-- Usage Details -->
       <div class="usage-section">
         <h5 class="section-title">Usage Details</h5>
@@ -123,6 +268,112 @@
           <p class="text-muted">Daily usage limits will be displayed here.</p>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upgrade Modal -->
+<div class="modal-overlay" *ngIf="showUpgradeModal" (click)="closeUpgradeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h4>Upgrade to {{ selectedPlan?.displayName }}</h4>
+      <button class="btn-close" (click)="closeUpgradeModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Plan Summary -->
+      <div class="upgrade-summary" *ngIf="selectedPlan">
+        <div class="summary-row">
+          <span>Plan:</span>
+          <strong>{{ selectedPlan.displayName }}</strong>
+        </div>
+        <div class="summary-row">
+          <span>Billing Cycle:</span>
+          <strong>{{ selectedBillingCycle === 'MONTHLY' ? 'Monthly' : 'Yearly' }}</strong>
+        </div>
+        <div class="summary-row">
+          <span>Amount:</span>
+          <strong class="price-highlight">₹{{ getPlanPrice(selectedPlan) }}</strong>
+        </div>
+      </div>
+
+      <!-- Payment Form -->
+      <form class="payment-form" (ngSubmit)="processUpgrade()">
+        <div class="form-group">
+          <label>Card Holder Name</label>
+          <input 
+            type="text" 
+            [(ngModel)]="paymentForm.cardHolderName" 
+            name="cardHolderName"
+            placeholder="John Doe"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Card Number</label>
+          <input 
+            type="text" 
+            [(ngModel)]="paymentForm.cardNumber" 
+            name="cardNumber"
+            (input)="formatCardNumber()"
+            placeholder="1234 5678 9012 3456"
+            maxlength="19"
+            required
+          >
+          <small class="form-hint">Use card ending in 0000 to test failure</small>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Expiry Date</label>
+            <input 
+              type="text" 
+              [(ngModel)]="paymentForm.expiryDate" 
+              name="expiryDate"
+              placeholder="MM/YY"
+              maxlength="5"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label>CVV</label>
+            <input 
+              type="password" 
+              [(ngModel)]="paymentForm.cvv" 
+              name="cvv"
+              placeholder="123"
+              maxlength="4"
+              required
+            >
+          </div>
+        </div>
+
+
+        <!-- Success Message -->
+        <div class="alert-success" *ngIf="successMessage">
+          <i class="fas fa-check-circle"></i> {{ successMessage }}
+        </div>
+
+        <!-- Error Message -->
+        <div class="alert-error" *ngIf="paymentError">
+          <i class="fas fa-exclamation-circle"></i> {{ paymentError }}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" (click)="closeUpgradeModal()" [disabled]="upgrading">
+            Cancel
+          </button>
+          <button type="submit" class="btn-confirm" [disabled]="upgrading">
+            <i class="fas fa-spinner fa-spin" *ngIf="upgrading"></i>
+            {{ upgrading ? 'Processing...' : 'Complete Payment' }}
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

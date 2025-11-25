@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
+import { EntityAvatarComponent } from '../entity-avatar/entity-avatar.component';
 
 @Component({
   selector: 'app-company-settings',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, SettingsSidebarComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, SettingsSidebarComponent, EntityAvatarComponent],
   templateUrl: './company-settings.component.html',
   styleUrls: ['./company-settings.component.css']
 })
@@ -17,10 +18,14 @@ export class CompanySettingsComponent implements OnInit {
   logoPreviewUrl = 'https://via.placeholder.com/100';
   isEditing = false;
 
+  // Company avatar properties
+  companyId: number = 1; // TODO: Get from organization service
+  companyName: string = 'Edu ERP Solutions';
+
   constructor(private formBuilder: FormBuilder) {
     this.companyForm = this.formBuilder.group({
       companyName: ['', Validators.required],
-      companyId: [{value: 'ORG123', disabled: true}, Validators.required],
+      companyId: [{ value: 'ORG123', disabled: true }, Validators.required],
       website: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
@@ -101,15 +106,20 @@ export class CompanySettingsComponent implements OnInit {
     this.disableFormControls();
   }
 
-  onLogoUpload(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.logoPreviewUrl = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
+  /**
+   * Handle company logo update
+   */
+  onCompanyLogoUpdated(url: string) {
+    console.log('Company logo updated:', url);
+    this.logoPreviewUrl = url;
+  }
+
+  /**
+   * Handle company logo deletion
+   */
+  onCompanyLogoDeleted() {
+    console.log('Company logo deleted');
+    this.logoPreviewUrl = 'https://via.placeholder.com/100';
   }
 
   setActiveTab(tab: string) {

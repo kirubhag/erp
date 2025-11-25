@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pricing-plans>
+    <!-- Free Plan -->
+    <plan>
+        <planName>free</planName>
+        <planType>FREE</planType>
+        <displayName>Free Plan</displayName>
+        <description>Perfect for getting started with basic features</description>
+        <priceMonthly>0.00</priceMonthly>
+        <priceYearly>0.00</priceYearly>
+        <maxUsers>5</maxUsers>
+        <maxStorageGb>1</maxStorageGb>
+        <features>
+            <feature>5 Users</feature>
+            <feature>1 GB Storage</feature>
+            <feature>Basic Reports</feature>
+            <feature>Email Support</feature>
+            <feature>Core Modules Access</feature>
+        </features>
+        <isActive>true</isActive>
+        <isTrialEligible>false</isTrialEligible>
+        <trialDays>0</trialDays>
+    </plan>
+
+    <!-- Basic Plan - ₹3,500/month -->
+    <plan>
+        <planName>basic</planName>
+        <planType>BASIC</planType>
+        <displayName>Basic Plan</displayName>
+        <description>Great for small teams looking for more features</description>
+        <priceMonthly>3500.00</priceMonthly>
+        <priceYearly>35000.00</priceYearly>
+        <maxUsers>25</maxUsers>
+        <maxStorageGb>10</maxStorageGb>
+        <features>
+            <feature>25 Users</feature>
+            <feature>10 GB Storage</feature>
+            <feature>Advanced Reports</feature>
+            <feature>Priority Email Support</feature>
+            <feature>All Core Modules</feature>
+            <feature>Custom Fields</feature>
+            <feature>API Access</feature>
+        </features>
+        <isActive>true</isActive>
+        <isTrialEligible>true</isTrialEligible>
+        <trialDays>15</trialDays>
+    </plan>
+
+    <!-- Standard Plan - ₹5,000/month -->
+    <plan>
+        <planName>standard</planName>
+        <planType>STANDARD</planType>
+        <displayName>Standard Plan</displayName>
+        <description>Ideal for growing businesses with advanced needs</description>
+        <priceMonthly>5000.00</priceMonthly>
+        <priceYearly>50000.00</priceYearly>
+        <maxUsers>100</maxUsers>
+        <maxStorageGb>50</maxStorageGb>
+        <features>
+            <feature>100 Users</feature>
+            <feature>50 GB Storage</feature>
+            <feature>Premium Reports &amp; Analytics</feature>
+            <feature>24/7 Support</feature>
+            <feature>All Premium Modules</feature>
+            <feature>Advanced Customization</feature>
+            <feature>API Access</feature>
+            <feature>Webhooks</feature>
+            <feature>SSO Integration</feature>
+            <feature>Data Export</feature>
+        </features>
+        <isActive>true</isActive>
+        <isTrialEligible>true</isTrialEligible>
+        <trialDays>15</trialDays>
+    </plan>
+
+    <!-- Premium Plan - ₹7,500/month -->
+    <plan>
+        <planName>premium</planName>
+        <planType>PREMIUM</planType>
+        <displayName>Premium Plan</displayName>
+        <description>Complete solution for large enterprises</description>
+        <priceMonthly>7500.00</priceMonthly>
+        <priceYearly>75000.00</priceYearly>
+        <maxUsers>-1</maxUsers> <!-- -1 means unlimited -->
+        <maxStorageGb>-1</maxStorageGb> <!-- -1 means unlimited -->
+        <features>
+            <feature>Unlimited Users</feature>
+            <feature>Unlimited Storage</feature>
+            <feature>Enterprise Reports &amp; BI</feature>
+            <feature>Dedicated Account Manager</feature>
+            <feature>All Enterprise Modules</feature>
+            <feature>White Label</feature>
+            <feature>Advanced API Access</feature>
+            <feature>Custom Integrations</feature>
+            <feature>SSO &amp; SAML</feature>
+            <feature>Data Export &amp; Import</feature>
+            <feature>Custom Training</feature>
+            <feature>SLA Guarantee</feature>
+        </features>
+        <isActive>true</isActive>
+        <isTrialEligible>true</isTrialEligible>
+        <trialDays>15</trialDays>
+    </plan>
+</pricing-plans>

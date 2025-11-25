@@ -154,10 +154,11 @@ export class PricingComponent implements OnInit {
       next: (response) => {
         this.isProcessing = false;
         if (response.success) {
-          this.successMessage = response.message;
+          this.successMessage = response.message || 'Subscription upgraded successfully!';
           setTimeout(() => {
             this.closeUpgradeModal();
             this.loadCurrentSubscription();
+            window.location.reload(); // Refresh to update all components
           }, 2000);
         }
       },

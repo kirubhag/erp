@@ -108,21 +108,21 @@ CREATE TABLE IF NOT EXISTS subscription_history (
     INDEX idx_effective_date (effective_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Subscription change history for auditing';
 
--- Insert default pricing plans
+-- Insert default pricing plans (Prices in Indian Rupees)
 INSERT INTO pricing_plans (plan_name, plan_type, display_name, description, price_monthly, price_yearly, max_users, max_storage_gb, features, is_active, is_trial_eligible, trial_days) VALUES
 ('free', 'FREE', 'Free Plan', 'Perfect for getting started with basic features', 0.00, 0.00, 5, 1, 
  JSON_ARRAY('5 Users', '1 GB Storage', 'Basic Reports', 'Email Support', 'Core Modules Access'), 
  TRUE, FALSE, 0),
 
-('basic', 'BASIC', 'Basic Plan', 'Great for small teams looking for more features', 29.99, 299.99, 25, 10, 
+('basic', 'BASIC', 'Basic Plan', 'Great for small teams looking for more features', 3500.00, 35000.00, 25, 10, 
  JSON_ARRAY('25 Users', '10 GB Storage', 'Advanced Reports', 'Priority Email Support', 'All Core Modules', 'Custom Fields', 'API Access'), 
  TRUE, TRUE, 15),
 
-('standard', 'STANDARD', 'Standard Plan', 'Ideal for growing businesses with advanced needs', 79.99, 799.99, 100, 50, 
+('standard', 'STANDARD', 'Standard Plan', 'Ideal for growing businesses with advanced needs', 5000.00, 50000.00, 100, 50, 
  JSON_ARRAY('100 Users', '50 GB Storage', 'Premium Reports & Analytics', '24/7 Support', 'All Premium Modules', 'Advanced Customization', 'API Access', 'Webhooks', 'SSO Integration', 'Data Export'), 
  TRUE, TRUE, 15),
 
-('premium', 'PREMIUM', 'Premium Plan', 'Complete solution for large enterprises', 199.99, 1999.99, NULL, NULL, 
+('premium', 'PREMIUM', 'Premium Plan', 'Complete solution for large enterprises', 7500.00, 75000.00, NULL, NULL, 
  JSON_ARRAY('Unlimited Users', 'Unlimited Storage', 'Enterprise Reports & BI', 'Dedicated Account Manager', 'All Enterprise Modules', 'White Label', 'Advanced API Access', 'Custom Integrations', 'SSO & SAML', 'Data Export & Import', 'Custom Training', 'SLA Guarantee'), 
  TRUE, TRUE, 15);
 

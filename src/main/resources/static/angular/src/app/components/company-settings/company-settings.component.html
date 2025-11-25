@@ -1,6 +1,6 @@
 <div class="setup-layout">
   <app-settings-sidebar></app-settings-sidebar>
-  
+
   <div class="settings-content-container">
     <!-- Header -->
     <div class="content-header">
@@ -12,25 +12,13 @@
     <div class="content-body">
       <!-- Tabs -->
       <div class="tabs-nav">
-        <button 
-          class="tab-link" 
-          [class.active]="activeTab === 'general'"
-          (click)="setActiveTab('general')"
-        >
+        <button class="tab-link" [class.active]="activeTab === 'general'" (click)="setActiveTab('general')">
           <i class="fas fa-info-circle me-2"></i> General
         </button>
-        <button 
-          class="tab-link" 
-          [class.active]="activeTab === 'address'"
-          (click)="setActiveTab('address')"
-        >
+        <button class="tab-link" [class.active]="activeTab === 'address'" (click)="setActiveTab('address')">
           <i class="fas fa-map-marker-alt me-2"></i> Address
         </button>
-        <button 
-          class="tab-link" 
-          [class.active]="activeTab === 'preferences'"
-          (click)="setActiveTab('preferences')"
-        >
+        <button class="tab-link" [class.active]="activeTab === 'preferences'" (click)="setActiveTab('preferences')">
           <i class="fas fa-sliders-h me-2"></i> Preferences
         </button>
       </div>
@@ -39,8 +27,11 @@
       <div class="tab-content" [hidden]="activeTab !== 'general'">
         <!-- Company Logo and Header -->
         <div class="company-header">
-          <div class="company-logo">
-            <img [src]="logoPreviewUrl" alt="Company Logo">
+          <div class="company-logo-wrapper">
+            <app-entity-avatar [entityId]="companyId" [entityType]="'company'" [entityName]="companyName"
+              [organizationId]="companyId" [size]="'large'" [showControls]="true" [clickable]="true"
+              (avatarUpdated)="onCompanyLogoUpdated($event)"
+              (avatarDeleted)="onCompanyLogoDeleted()"></app-entity-avatar>
           </div>
           <div class="company-info">
             <h2>{{ companyForm.get('companyName')?.value || 'Company Name' }}</h2>
@@ -60,49 +51,29 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Company Name</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                formControlName="companyName"
-              >
+              <input type="text" class="form-control" formControlName="companyName">
             </div>
             <div class="form-group">
               <label class="form-label">Organization ID</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                formControlName="companyId"
-              >
+              <input type="text" class="form-control" formControlName="companyId">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Website</label>
-              <input 
-                type="url" 
-                class="form-control" 
-                formControlName="website"
-              >
+              <input type="url" class="form-control" formControlName="website">
             </div>
             <div class="form-group">
               <label class="form-label">Email</label>
-              <input 
-                type="email" 
-                class="form-control" 
-                formControlName="email"
-              >
+              <input type="email" class="form-control" formControlName="email">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Phone</label>
-              <input 
-                type="tel" 
-                class="form-control" 
-                formControlName="phone"
-              >
+              <input type="tel" class="form-control" formControlName="phone">
             </div>
             <div class="form-group">
               <label class="form-label">Industry</label>
@@ -130,12 +101,7 @@
             </div>
             <div class="form-group">
               <label class="form-label">Fiscal Year Start</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                formControlName="fiscalYearStart"
-                placeholder="MM-DD"
-              >
+              <input type="text" class="form-control" formControlName="fiscalYearStart" placeholder="MM-DD">
             </div>
           </div>
 
@@ -192,48 +158,28 @@
 
           <div class="form-group">
             <label class="form-label">Street Address</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              formControlName="address"
-            >
+            <input type="text" class="form-control" formControlName="address">
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">City</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                formControlName="city"
-              >
+              <input type="text" class="form-control" formControlName="city">
             </div>
             <div class="form-group">
               <label class="form-label">State/Province</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                formControlName="state"
-              >
+              <input type="text" class="form-control" formControlName="state">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">ZIP/Postal Code</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                formControlName="zipCode"
-              >
+              <input type="text" class="form-control" formControlName="zipCode">
             </div>
             <div class="form-group">
               <label class="form-label">Country</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                formControlName="country"
-              >
+              <input type="text" class="form-control" formControlName="country">
             </div>
           </div>
 

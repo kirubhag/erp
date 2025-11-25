@@ -15,29 +15,63 @@ import { ImportSession, FieldMapping, FieldMappingTemplate } from '../../../mode
   template: `
     <div class="step-2-container">
       <div class="content-section">
-        <div class="map-fields-header">Map Fields:</div>
+        <div class="map-fields-header">Map Fields</div>
         <p class="instruction-text">
           Map the {{entityName}} field names to the columns of your imported source files.
         </p>
 
-        <!-- Mapped Fields -->
-        <div *ngFor="let mapping of fieldMappings" class="section">
-          <div class="section-title">{{ getSectionTitle(mapping.targetField) }}</div>
-          
-          <div class="field-mapping-row">
-            <div class="field-group">
-              <label class="field-label" [class.required]="mapping.isRequired">
-                {{ mapping.targetFieldLabel }}:
-              </label>
-              <select 
-                class="form-select"
-                [(ngModel)]="mapping.sourceColumn"
-                [compareWith]="compareColumns">
-                <option [value]="null">-- Not Mapped --</option>
-                <option *ngFor="let col of availableColumns" [value]="col">
-                  {{ col }}
-                </option>
-              </select>
+        <!-- 4-Column Grid Layout -->
+        <div class="field-mapping-container">
+          <div class="mapping-grid">
+            <!-- Header Row -->
+            <div class="grid-row header-row">
+              <div class="grid-cell header">Entity Field</div>
+              <div class="grid-cell header">CSV Column</div>
+              <div class="grid-cell header">Entity Field</div>
+              <div class="grid-cell header">CSV Column</div>
+            </div>
+            
+            <!-- Data Rows -->
+            <div *ngFor="let pair of fieldMappingPairs; let pairIndex = index" class="grid-row data-row">
+              <!-- Left Pair -->
+              <div class="grid-cell field-label" [class.required]="fieldMappings[pairIndex * 2].isRequired">
+                {{ fieldMappings[pairIndex * 2].targetFieldLabel }}
+              </div>
+              <div class="grid-cell field-dropdown">
+                <select 
+                  [(ngModel)]="fieldMappings[pairIndex * 2].sourceColumn" 
+                  class="form-select"
+                  [compareWith]="compareColumns">
+                  <option [value]="null">-- Not Mapped --</option>
+                  <option *ngFor="let col of availableColumns" [value]="col">
+                    {{ col }}
+                  </option>
+                </select>
+              </div>
+              
+              <!-- Right Pair (if exists) -->
+              <ng-container *ngIf="fieldMappings[pairIndex * 2 + 1]">
+                <div class="grid-cell field-label" [class.required]="fieldMappings[pairIndex * 2 + 1].isRequired">
+                  {{ fieldMappings[pairIndex * 2 + 1].targetFieldLabel }}
+                </div>
+                <div class="grid-cell field-dropdown">
+                  <select 
+                    [(ngModel)]="fieldMappings[pairIndex * 2 + 1].sourceColumn" 
+                    class="form-select"
+                    [compareWith]="compareColumns">
+                    <option [value]="null">-- Not Mapped --</option>
+                    <option *ngFor="let col of availableColumns" [value]="col">
+                      {{ col }}
+                    </option>
+                  </select>
+                </div>
+              </ng-container>
+              
+              <!-- Empty cells if odd number of fields -->
+              <ng-container *ngIf="!fieldMappings[pairIndex * 2 + 1]">
+                <div class="grid-cell empty"></div>
+                <div class="grid-cell empty"></div>
+              </ng-container>
             </div>
           </div>
         </div>
@@ -81,82 +115,157 @@ import { ImportSession, FieldMapping, FieldMappingTemplate } from '../../../mode
   styles: [`
     .step-2-container {
       position: relative;
+      padding-bottom: 100px;
     }
 
     .content-section {
-      padding-bottom: 2rem;
-      border-bottom: 1px solid #dee2e6;
+      padding: 1.5rem;
     }
 
     .map-fields-header {
       font-weight: 600;
       margin-bottom: 0.5rem;
-      font-size: 1rem;
-      color: #333;
+      font-size: 1.25rem;
+      color: #262626;
     }
 
     .instruction-text {
-      color: #6c757d;
+      color: #8c8c8c;
       font-size: 0.9rem;
       margin-bottom: 2rem;
+      line-height: 1.5;
     }
 
-    .section {
-      margin-bottom: 2rem;
+    /* 4-Column Grid Layout */
+    .field-mapping-container {
+      padding: 1.5rem 0;
     }
 
-    .section-title {
-      font-size: 1rem;
+    .mapping-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .grid-row {
+      display: contents;
+    }
+
+    .grid-cell {
+      padding: 14px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      border-right: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      transition: background-color 0.2s ease;
+    }
+
+    .grid-cell:nth-child(4n) {
+      border-right: none;
+    }
+
+    .header-row .grid-cell {
+      background: #fafafa;
       font-weight: 600;
-      color: #333;
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid #e9ecef;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: #595959;
+      letter-spacing: 0.5px;
+      padding: 12px 16px;
+      border-bottom: 2px solid #e0e0e0;
     }
 
-    .field-mapping-row {
-      display: flex;
-      gap: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    .field-group {
-      flex: 1;
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
+    .data-row:hover .grid-cell:not(.empty) {
+      background: #f8f9fc;
     }
 
     .field-label {
-      min-width: 180px;
-      text-align: right;
       font-size: 0.9rem;
-      color: #333;
-      margin-top: 0.375rem;
+      color: #262626;
+      font-weight: 500;
     }
 
     .field-label.required::before {
       content: "* ";
-      color: #dc3545;
+      color: #ff4d4f;
       font-weight: bold;
+      margin-right: 4px;
+    }
+
+    .field-dropdown {
+      width: 100%;
     }
 
     .form-select {
-      font-size: 0.9rem;
-      flex: 1;
+      width: 100%;
+      font-size: 0.875rem;
+      padding: 8px 12px;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      background-color: white;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .form-select:hover {
+      border-color: #40a9ff;
+    }
+
+    .form-select:focus {
+      outline: none;
+      border-color: #1890ff;
+      box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+    }
+
+    .grid-cell.empty {
+      background: #fafafa;
+      border-color: #f5f5f5;
     }
 
     .auto-detect-section {
       margin-top: 2rem;
-      padding-top: 1rem;
-      border-top: 1px solid #dee2e6;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e8e8e8;
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-outline-primary {
+      background: white;
+      border: 1px solid #1890ff;
+      color: #1890ff;
+    }
+
+    .btn-outline-primary:hover:not(:disabled) {
+      background: #1890ff;
+      color: white;
+    }
+
+    .btn-outline-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .footer-controls {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.75rem;
       padding: 1.5rem;
-      border-top: 1px solid #dee2e6;
+      border-top: 1px solid #e8e8e8;
       justify-content: flex-end;
       background-color: white;
       position: fixed;
@@ -167,24 +276,108 @@ import { ImportSession, FieldMapping, FieldMappingTemplate } from '../../../mode
       box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
     }
 
+    .btn-outline-secondary {
+      background: white;
+      border: 1px solid #d9d9d9;
+      color: #595959;
+    }
+
+    .btn-outline-secondary:hover {
+      border-color: #1890ff;
+      color: #1890ff;
+    }
+
+    .btn-primary {
+      background: #1890ff;
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #096dd9;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .error-banner {
-      margin-top: 1rem;
-      padding: 1rem;
-      background-color: #f8d7da;
-      border: 1px solid #f5c6cb;
+      margin: 1.5rem;
+      padding: 1rem 1.5rem;
+      background-color: #fff1f0;
+      border: 1px solid #ffccc7;
       border-radius: 4px;
-      color: #721c24;
+      color: #ff4d4f;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .btn-close {
       background: none;
       border: none;
-      color: #721c24;
+      color: #ff4d4f;
       cursor: pointer;
       font-size: 1.25rem;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-close::before {
+      content: "×";
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .mapping-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .header-row .grid-cell:nth-child(n+3),
+      .data-row .grid-cell:nth-child(n+3) {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .mapping-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-row .grid-cell:nth-child(even),
+      .data-row .grid-cell:nth-child(even) {
+        display: none;
+      }
+
+      .grid-cell {
+        padding: 12px;
+      }
+
+      .field-label {
+        font-size: 0.85rem;
+      }
+
+      .form-select {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+      }
     }
   `]
 })
@@ -201,19 +394,34 @@ export class ImportStep2Component implements OnInit {
   errorMessage = '';
   entityName = 'Student';
 
-  constructor(private importService: ImportService) {}
+  constructor(private importService: ImportService) { }
 
   ngOnInit() {
     // If session is not provided via @Input, get it from the service
     if (!this.session) {
       this.session = this.importService.getCurrentSession();
     }
-    
+
     if (this.session) {
       this.initializeMapping();
     } else {
       this.errorMessage = 'No import session found. Please start from step 1.';
     }
+  }
+
+  /**
+   * Get field mappings as pairs for 4-column layout
+   */
+  get fieldMappingPairs(): FieldMapping[][] {
+    const pairs: FieldMapping[][] = [];
+    for (let i = 0; i < this.fieldMappings.length; i += 2) {
+      const pair = [
+        this.fieldMappings[i],
+        this.fieldMappings[i + 1] || null
+      ].filter(m => m !== null) as FieldMapping[];
+      pairs.push(pair);
+    }
+    return pairs;
   }
 
   initializeMapping() {
@@ -232,19 +440,6 @@ export class ImportStep2Component implements OnInit {
     } else {
       this.errorMessage = 'No field mappings found in session. Please restart the import process.';
     }
-  }
-
-  getSectionTitle(fieldKey: string): string {
-    const sections: { [key: string]: string } = {
-      'fullName': 'Basic Information',
-      'studentId': 'Basic Information',
-      'email': 'Contact Information',
-      'phone': 'Contact Information',
-      'grade': 'Academic Information',
-      'status': 'Status Information',
-      'enrollmentDate': 'Enrollment Information'
-    };
-    return sections[fieldKey] || 'Other Information';
   }
 
   compareColumns(a: any, b: any): boolean {
