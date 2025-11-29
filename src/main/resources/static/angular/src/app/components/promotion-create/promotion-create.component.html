@@ -1,0 +1,375 @@
+<div class="container-fluid py-4">
+  <h2 class="mb-4">
+    <i class="bi bi-plus-circle"></i> Create Student Promotion
+  </h2>
+
+  <!-- Success Message -->
+  <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="success">
+    <i class="bi bi-check-circle-fill"></i> Promotion batch created successfully! Redirecting...
+  </div>
+
+  <!-- Error Alert -->
+  <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="error">
+    <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+    <button type="button" class="btn-close" (click)="error = null"></button>
+  </div>
+
+  <div class="row">
+    <!-- Left Column: Form -->
+    <div class="col-lg-8">
+      <!-- Batch Information -->
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Batch Information</h5>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Batch Name <span class="text-danger">*</span></label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="batchName"
+                placeholder="e.g., Annual Promotion 2024">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Promotion Date <span class="text-danger">*</span></label>
+              <input 
+                type="date" 
+                class="form-control" 
+                [(ngModel)]="promotionDate">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Academic Year From <span class="text-danger">*</span></label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="academicYearFrom"
+                placeholder="2024-2025">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Academic Year To <span class="text-danger">*</span></label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="academicYearTo"
+                placeholder="2025-2026">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Notes (Optional)</label>
+              <textarea 
+                class="form-control" 
+                rows="2"
+                [(ngModel)]="notes"
+                placeholder="Any special notes or instructions..."></textarea>
+            </div>
+            <div class="col-12">
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="checkbox" 
+                  [(ngModel)]="autoAssignSections"
+                  id="autoAssign">
+                <label class="form-check-label" for="autoAssign">
+                  Automatically assign sections (balanced distribution)
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Selection -->
+      <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">Student Selection</h5>
+        </div>
+        <div class="card-body">
+          <div class="row g-3 mb-3">
+            <div class="col-md-3">
+              <label class="form-label">Filter by Grade</label>
+              <select 
+                class="form-select" 
+                [(ngModel)]="selectedGrade"
+                (change)="loadStudents()">
+                <option value="">All Grades</option>
+                <option *ngFor="let grade of gradeLevels | keyvalue" [value]="grade.key">
+                  {{ grade.value }} ({{ getStudentCount(grade.key) }} students)
+                </option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Filter by Section</label>
+              <select 
+                class="form-select" 
+                [(ngModel)]="selectedSection"
+                (change)="loadStudents()">
+                <option value="">All Sections</option>
+                <option *ngFor="let sec of sections" [value]="sec">Section {{ sec }}</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Search (Name / Admission #)</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="searchTerm"
+                (ngModelChange)="onSearchChange()"
+                placeholder="Search students...">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button 
+                class="btn btn-outline-primary me-2"
+                (click)="toggleSelectAll()"
+                [disabled]="eligibleStudents.length === 0">
+                <i class="bi" [class.bi-check-square]="allSelected" [class.bi-square]="!allSelected"></i>
+                {{ allSelected ? 'Deselect All' : 'Select All' }}
+              </button>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <span class="badge bg-info fs-6">
+              {{ selectedStudents.length }} students selected
+            </span>
+          </div>
+
+          <!-- Loading Students -->
+          <div class="text-center py-4" *ngIf="loadingStudents">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2">Loading students...</p>
+          </div>
+
+          <!-- Students Table -->
+          <div class="table-responsive" *ngIf="!loadingStudents && eligibleStudents.length > 0">
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr>
+                  <th width="50">
+                    <input 
+                      type="checkbox" 
+                      class="form-check-input"
+                      [checked]="allSelected"
+                      (change)="toggleSelectAll()">
+                  </th>
+                  <th>Admission #</th>
+                  <th>Student Name</th>
+                  <th>Current Grade</th>
+                  <th>Section</th>
+                  <th>Target Grade</th>
+                  <th *ngIf="!autoAssignSections">Target Section</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let student of eligibleStudents" [class.table-active]="student.selected">
+                  <td>
+                    <input 
+                      type="checkbox" 
+                      class="form-check-input"
+                      [(ngModel)]="student.selected"
+                      (change)="updateSelectedStudents()">
+                  </td>
+                  <td>{{ student.admissionNumber }}</td>
+                  <td>{{ student.firstName }} {{ student.lastName }}</td>
+                  <td>{{ student.gradeLevel }}</td>
+                  <td>{{ student.section || 'N/A' }}</td>
+                  <td>
+                    <select 
+                      class="form-select form-select-sm" 
+                      [(ngModel)]="student.targetGrade"
+                      [disabled]="!student.selected">
+                      <option *ngFor="let grade of gradeLevels | keyvalue" [value]="grade.key">
+                        {{ grade.value }}
+                      </option>
+                    </select>
+                  </td>
+                  <td *ngIf="!autoAssignSections">
+                    <select 
+                      class="form-select form-select-sm" 
+                      [(ngModel)]="student.targetSection"
+                      [disabled]="!student.selected">
+                      <option *ngFor="let section of sections" [value]="section">
+                        {{ section }}
+                      </option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="text-center text-muted py-4" *ngIf="!loadingStudents && eligibleStudents.length === 0 && selectedGrade">
+            <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+            <p class="mt-2">No eligible students found for {{ gradeLevels[selectedGrade] }}</p>
+          </div>
+
+          <div class="text-center text-muted py-4" *ngIf="!selectedGrade">
+            <i class="bi bi-arrow-up" style="font-size: 3rem;"></i>
+            <p class="mt-2">Please select a grade level above</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bulk Actions -->
+      <div class="card mb-4" *ngIf="selectedStudents.length > 0">
+        <div class="card-header bg-warning">
+          <h6 class="mb-0">Bulk Actions for Selected Students</h6>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-5">
+              <label class="form-label">Apply Grade to All Selected</label>
+              <select class="form-select" [(ngModel)]="targetGrade">
+                <option value="">Choose grade...</option>
+                <option *ngFor="let grade of gradeLevels | keyvalue" [value]="grade.key">
+                  {{ grade.value }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button class="btn btn-warning w-100" (click)="applyBulkGrade()">
+                Apply Grade
+              </button>
+            </div>
+            <div class="col-md-3" *ngIf="!autoAssignSections">
+              <label class="form-label">Apply Section to All</label>
+              <select class="form-select" [(ngModel)]="targetSection">
+                <option value="">Choose section...</option>
+                <option *ngFor="let section of sections" [value]="section">
+                  {{ section }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end" *ngIf="!autoAssignSections">
+              <button class="btn btn-warning w-100" (click)="applyBulkSection()">
+                Apply Section
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-secondary" (click)="cancel()" [disabled]="processing">
+              <i class="bi bi-x-circle"></i> Cancel
+            </button>
+            <button 
+              class="btn btn-primary btn-lg" 
+              (click)="showConfirmation()"
+              [disabled]="processing || selectedStudents.length === 0">
+              <i class="bi bi-arrow-up-circle"></i>
+              Execute Promotion
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Statistics -->
+    <div class="col-lg-4">
+      <div class="card sticky-top" style="top: 20px;">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0">Current Statistics</h5>
+        </div>
+        <div class="card-body">
+          <div class="list-group list-group-flush" *ngIf="statistics">
+            <div 
+              class="list-group-item d-flex justify-content-between align-items-center"
+              *ngFor="let grade of gradeLevels | keyvalue">
+              <span>{{ grade.value }}</span>
+              <span class="badge bg-primary rounded-pill">
+                {{ getStudentCount(grade.key) }}
+              </span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between align-items-center bg-light">
+              <strong>Total Active Students</strong>
+              <span class="badge bg-success rounded-pill">
+                {{ getStudentCount('TOTAL_ACTIVE') }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal fade show d-block" *ngIf="showConfirmModal" style="background: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title">
+          <i class="bi bi-exclamation-triangle"></i> Confirm Promotion
+        </h5>
+        <button type="button" class="btn-close" (click)="closeConfirmModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-3">You are about to promote <strong>{{ selectedStudents.length }} students</strong>.</p>
+        <ul class="list-unstyled">
+          <li><strong>Batch Name:</strong> {{ batchName }}</li>
+          <li><strong>Academic Year:</strong> {{ academicYearFrom }} → {{ academicYearTo }}</li>
+          <li><strong>Promotion Date:</strong> {{ promotionDate }}</li>
+          <li><strong>Auto-assign Sections:</strong> {{ autoAssignSections ? 'Yes' : 'No' }}</li>
+        </ul>
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle"></i> This action will update student records and cannot be easily undone. 
+          Please ensure all information is correct before proceeding.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeConfirmModal()">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-warning" (click)="submitPromotion()">
+          <i class="bi bi-check-circle"></i> Confirm & Execute
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Progress Modal -->
+<div class="modal fade show d-block" *ngIf="showProgressModal" style="background: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">
+          <i class="bi bi-hourglass-split"></i> Processing Promotion
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-3">
+          <div class="spinner-border text-primary mb-3" role="status" *ngIf="processing">
+            <span class="visually-hidden">Processing...</span>
+          </div>
+          <div *ngIf="success" class="text-success mb-3">
+            <i class="bi bi-check-circle" style="font-size: 3rem;"></i>
+          </div>
+          <h6>{{ currentPhase }}</h6>
+        </div>
+        <div class="progress" style="height: 30px;">
+          <div 
+            class="progress-bar progress-bar-striped progress-bar-animated" 
+            [class.bg-success]="progressPercentage === 100"
+            [style.width.%]="progressPercentage"
+            role="progressbar">
+            <strong>{{ progressPercentage | number: '1.0-0' }}%</strong>
+          </div>
+        </div>
+        <div class="mt-3 text-center text-muted">
+          <small *ngIf="processing">Please wait while students are being promoted...</small>
+          <small *ngIf="success" class="text-success">Promotion completed successfully!</small>
+        </div>
+      </div>
+      <div class="modal-footer" *ngIf="!processing">
+        <button type="button" class="btn btn-primary" (click)="showProgressModal = false">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

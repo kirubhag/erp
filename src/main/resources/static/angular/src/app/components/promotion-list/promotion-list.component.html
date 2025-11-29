@@ -1,0 +1,146 @@
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>
+      <i class="bi bi-arrow-up-circle"></i> Student Promotion Management
+    </h2>
+    <button class="btn btn-primary" (click)="createNewPromotion()">
+      <i class="bi bi-plus-circle"></i> Create New Promotion
+    </button>
+  </div>
+
+  <!-- Filters -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Filter by Status</label>
+          <select class="form-select" [(ngModel)]="filterStatus" (change)="filterByStatus()">
+            <option value="">All Status</option>
+            <option value="PENDING">Pending</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="FAILED">Failed</option>
+            <option value="ROLLED_BACK">Rolled Back</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Alert -->
+  <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="error">
+    <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+    <button type="button" class="btn-close" (click)="error = null"></button>
+  </div>
+
+  <!-- Loading -->
+  <div class="text-center py-5" *ngIf="loading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading promotion batches...</p>
+  </div>
+
+  <!-- Batches Table -->
+  <div class="card" *ngIf="!loading">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Batch Name</th>
+              <th>Academic Year</th>
+              <th>Promotion Date</th>
+              <th>Status</th>
+              <th>Students</th>
+              <th>Success Rate</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let batch of batches">
+              <td>
+                <strong>{{ batch.batchName }}</strong>
+              </td>
+              <td>{{ batch.academicYearFrom }} → {{ batch.academicYearTo }}</td>
+              <td>{{ batch.promotionDate | date: 'short' }}</td>
+              <td>
+                <span [class]="getStatusClass(batch.status)">
+                  {{ batch.status.replace('_', ' ') }}
+                </span>
+              </td>
+              <td>
+                <div>
+                  <span class="text-success">✓ {{ batch.successfulPromotions }}</span> /
+                  <span class="text-danger">✗ {{ batch.failedPromotions }}</span> /
+                  <span class="text-muted">Total: {{ batch.totalStudents }}</span>
+                </div>
+              </td>
+              <td>
+                <div class="progress" style="height: 20px;">
+                  <div 
+                    class="progress-bar" 
+                    [class.bg-success]="batch.successRate >= 90"
+                    [class.bg-warning]="batch.successRate >= 70 && batch.successRate < 90"
+                    [class.bg-danger]="batch.successRate < 70"
+                    [style.width.%]="batch.successRate"
+                    role="progressbar">
+                    {{ batch.successRate | number: '1.0-0' }}%
+                  </div>
+                </div>
+              </td>
+              <td>{{ batch.createdAt | date: 'short' }}</td>
+              <td>
+                <div class="btn-group btn-group-sm" role="group">
+                  <button 
+                    class="btn btn-outline-primary" 
+                    (click)="viewDetails(batch.batchId)"
+                    title="View Details">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button 
+                    class="btn btn-outline-warning" 
+                    (click)="rollbackBatch(batch)"
+                    [disabled]="batch.status !== 'COMPLETED'"
+                    title="Rollback">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="batches.length === 0">
+              <td colspan="8" class="text-center py-4">
+                <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc;"></i>
+                <p class="text-muted mt-2">No promotion batches found</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="totalPages > 0">
+        <div>
+          Showing {{ (currentPage * pageSize) + 1 }} to {{ Math.min((currentPage + 1) * pageSize, totalElements) }} of {{ totalElements }} batches
+        </div>
+        <nav>
+          <ul class="pagination mb-0">
+            <li class="page-item" [class.disabled]="currentPage === 0">
+              <button class="page-link" (click)="previousPage()">Previous</button>
+            </li>
+            <li 
+              class="page-item" 
+              *ngFor="let page of pages.slice(Math.max(0, currentPage - 2), Math.min(totalPages, currentPage + 3))"
+              [class.active]="page === currentPage">
+              <button class="page-link" (click)="goToPage(page)">{{ page + 1 }}</button>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+              <button class="page-link" (click)="nextPage()">Next</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

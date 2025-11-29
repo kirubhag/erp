@@ -75,4 +75,25 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Page<Student> findByIsActive(Integer isActive, Pageable pageable);
     
     Long countByIsActive(Integer isActive);
+    
+    // Methods for student promotion filtering
+    Page<Student> findByGradeLevelAndEnrollmentStatus(
+        Student.GradeLevel gradeLevel,
+        Student.EnrollmentStatus enrollmentStatus,
+        Pageable pageable
+    );
+    
+    Page<Student> findByGradeLevelAndSectionAndEnrollmentStatus(
+        Student.GradeLevel gradeLevel,
+        String section,
+        Student.EnrollmentStatus enrollmentStatus,
+        Pageable pageable
+    );
+    
+    Long countByGradeLevelAndEnrollmentStatus(
+        Student.GradeLevel gradeLevel,
+        Student.EnrollmentStatus enrollmentStatus
+    );
+    
+    Long countByEnrollmentStatus(Student.EnrollmentStatus enrollmentStatus);
 }

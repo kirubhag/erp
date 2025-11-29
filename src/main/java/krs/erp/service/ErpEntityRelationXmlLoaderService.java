@@ -132,7 +132,7 @@ public class ErpEntityRelationXmlLoaderService {
      * Check if relationship already exists
      */
     private boolean relationExists(String parentTableName, String childTableName, String foreignKeyColumn) {
-        return relationRepository.relationshipExists(parentTableName, childTableName, foreignKeyColumn);
+        return relationRepository.relationshipExists(parentTableName, childTableName);
     }
 
     /**

@@ -1,0 +1,196 @@
+<div class="container-fluid py-4">
+  <!-- Loading -->
+  <div class="text-center py-5" *ngIf="loading">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2">Loading batch details...</p>
+  </div>
+
+  <!-- Error Alert -->
+  <div class="alert alert-danger" *ngIf="error">
+    <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+  </div>
+
+  <!-- Batch Details -->
+  <div *ngIf="!loading && batch">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <button class="btn btn-outline-secondary mb-2" (click)="goBack()">
+          <i class="bi bi-arrow-left"></i> Back to List
+        </button>
+        <h2>{{ batch.batchName }}</h2>
+        <p class="text-muted mb-0">Batch ID: #{{ batch.batchId }}</p>
+      </div>
+      <div>
+        <button 
+          class="btn btn-warning me-2" 
+          (click)="rollbackBatch()"
+          [disabled]="batch.status !== 'COMPLETED'">
+          <i class="bi bi-arrow-counterclockwise"></i> Rollback Batch
+        </button>
+        <button class="btn btn-success" (click)="exportToCSV()">
+          <i class="bi bi-download"></i> Export CSV
+        </button>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+      <div class="col-md-3">
+        <div class="card text-white bg-primary">
+          <div class="card-body">
+            <h6 class="card-title">Total Students</h6>
+            <h2 class="mb-0">{{ batch.totalStudents }}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-success">
+          <div class="card-body">
+            <h6 class="card-title">Successful</h6>
+            <h2 class="mb-0">{{ batch.successfulPromotions }}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-danger">
+          <div class="card-body">
+            <h6 class="card-title">Failed</h6>
+            <h2 class="mb-0">{{ batch.failedPromotions }}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white" [class.bg-success]="batch.successRate >= 90" [class.bg-warning]="batch.successRate >= 70 && batch.successRate < 90" [class.bg-danger]="batch.successRate < 70">
+          <div class="card-body">
+            <h6 class="card-title">Success Rate</h6>
+            <h2 class="mb-0">{{ batch.successRate | number: '1.0-0' }}%</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Batch Information -->
+    <div class="card mb-4">
+      <div class="card-header bg-light">
+        <h5 class="mb-0">Batch Information</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <table class="table table-borderless">
+              <tr>
+                <th width="180">Status:</th>
+                <td>
+                  <span [class]="getStatusClass(batch.status)">
+                    {{ batch.status.replace('_', ' ') }}
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <th>Academic Year:</th>
+                <td>{{ batch.academicYearFrom }} → {{ batch.academicYearTo }}</td>
+              </tr>
+              <tr>
+                <th>Promotion Date:</th>
+                <td>{{ batch.promotionDate | date: 'fullDate' }}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <table class="table table-borderless">
+              <tr>
+                <th width="180">Created At:</th>
+                <td>{{ batch.createdAt | date: 'medium' }}</td>
+              </tr>
+              <tr>
+                <th>Completed At:</th>
+                <td>{{ batch.completedAt ? (batch.completedAt | date: 'medium') : 'N/A' }}</td>
+              </tr>
+              <tr>
+                <th>Initiated By:</th>
+                <td>User #{{ batch.initiatedBy }}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-12" *ngIf="batch.notes">
+            <hr>
+            <h6>Notes:</h6>
+            <p class="text-muted">{{ batch.notes }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Rate Progress -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="mb-3">Success Rate</h5>
+        <div class="progress" style="height: 30px;">
+          <div 
+            class="progress-bar" 
+            [class]="getProgressBarClass(batch.successRate)"
+            [style.width.%]="batch.successRate"
+            role="progressbar">
+            <strong>{{ batch.successRate | number: '1.1-1' }}%</strong>
+          </div>
+        </div>
+        <div class="mt-2 text-muted small">
+          {{ batch.successfulPromotions }} successful out of {{ batch.totalStudents }} total students
+        </div>
+      </div>
+    </div>
+
+    <!-- Promotion Records -->
+    <div class="card">
+      <div class="card-header bg-light">
+        <h5 class="mb-0">Promotion Records ({{ batch.promotionRecords.length }})</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>From Grade</th>
+                <th>To Grade</th>
+                <th>From Section</th>
+                <th>To Section</th>
+                <th>Status</th>
+                <th>Promoted At</th>
+                <th>Failure Reason</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let record of batch.promotionRecords" [class.table-success]="record.promotionStatus === 'SUCCESS'" [class.table-danger]="record.promotionStatus === 'FAILED'">
+                <td>{{ record.studentId }}</td>
+                <td>{{ record.studentName }}</td>
+                <td>
+                  <span class="badge bg-secondary">{{ record.fromGradeLevel }}</span>
+                </td>
+                <td>
+                  <span class="badge bg-primary">{{ record.toGradeLevel }}</span>
+                </td>
+                <td>{{ record.fromSection || 'N/A' }}</td>
+                <td>{{ record.toSection || 'N/A' }}</td>
+                <td>
+                  <span [class]="getStatusClass(record.promotionStatus)">
+                    {{ record.promotionStatus }}
+                  </span>
+                </td>
+                <td>{{ record.promotedAt ? (record.promotedAt | date: 'short') : 'N/A' }}</td>
+                <td>
+                  <span *ngIf="record.failureReason" class="text-danger" [title]="record.failureReason">
+                    <i class="bi bi-exclamation-circle"></i> {{ record.failureReason }}
+                  </span>
+                  <span *ngIf="!record.failureReason">-</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

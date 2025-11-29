@@ -79,7 +79,7 @@ class RecycleBinRepositoryTest {
         
         RecycleBin saved = recycleBinRepository.save(newRecord);
         
-        assertNotNull(saved.getRecycleBinId());
+        assertNotNull(saved.getId());
         assertEquals("Test Entity", saved.getEntityName());
         assertEquals(EntityType.PARENT, saved.getEntityType());
         assertNotNull(saved.getDeletedTime());

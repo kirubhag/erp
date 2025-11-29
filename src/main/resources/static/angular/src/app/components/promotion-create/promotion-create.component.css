@@ -1,0 +1,21 @@
+.table-responsive {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.sticky-top {
+  position: sticky;
+}
+
+.form-select-sm {
+  font-size: 0.875rem;
+}
+
+.card-header h5,
+.card-header h6 {
+  margin: 0;
+}
+
+.badge {
+  font-size: 0.9rem;
+}
