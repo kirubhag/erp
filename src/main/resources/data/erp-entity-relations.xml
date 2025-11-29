@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-relations>
+    <!-- Student to Guardian relationship -->
+    <relation>
+        <id>1</id>
+        <p_table_name>students</p_table_name>
+        <p_pkid>student_id</p_pkid>
+        <p_display_column>first_name</p_display_column>
+        <c_table_name>student_guardian_info</c_table_name>
+        <c_pkid>student_guardian_info_id</c_pkid>
+        <c_display_column>father_name</c_display_column>
+        <fk_column>student_id</fk_column>
+        <description>Relationship between Student and Guardian information tables</description>
+        <is_active>1</is_active>
+    </relation>
+    
+    <!-- Student to Medical relationship -->
+    <relation>
+        <id>2</id>
+        <p_table_name>students</p_table_name>
+        <p_pkid>student_id</p_pkid>
+        <p_display_column>first_name</p_display_column>
+        <c_table_name>student_medical_info</c_table_name>
+        <c_pkid>student_medical_info_id</c_pkid>
+        <c_display_column>doctor_name</c_display_column>
+        <fk_column>student_id</fk_column>
+        <description>Relationship between Student and Medical information tables</description>
+        <is_active>1</is_active>
+    </relation>
+    
+    <!-- Additional relationship examples -->
+    
+    <!-- Student to Attendance relationship -->
+    <relation>
+        <id>3</id>
+        <p_table_name>students</p_table_name>
+        <p_pkid>student_id</p_pkid>
+        <p_display_column>first_name</p_display_column>
+        <c_table_name>attendance</c_table_name>
+        <c_pkid>attendance_id</c_pkid>
+        <c_display_column>attendance_date</c_display_column>
+        <fk_column>student_id</fk_column>
+        <description>Relationship between Student and Attendance records</description>
+        <is_active>1</is_active>
+    </relation>
+    
+    <!-- Student to Grades relationship -->
+    <relation>
+        <id>4</id>
+        <p_table_name>students</p_table_name>
+        <p_pkid>student_id</p_pkid>
+        <p_display_column>first_name</p_display_column>
+        <c_table_name>grades</c_table_name>
+        <c_pkid>grade_id</c_pkid>
+        <c_display_column>course_name</c_display_column>
+        <fk_column>student_id</fk_column>
+        <description>Relationship between Student and Grade records</description>
+        <is_active>1</is_active>
+    </relation>
+</entity-relations>

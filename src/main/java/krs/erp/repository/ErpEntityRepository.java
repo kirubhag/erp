@@ -73,4 +73,14 @@ public interface ErpEntityRepository extends JpaRepository<ErpEntity, Long> {
            "WHERE r.role.id IN :roleIds AND e.isActive = true AND e.presence = true " +
            "ORDER BY e.sequence ASC")
     List<ErpEntity> findActiveMenuItemsByRoleIds(@Param("roleIds") List<Long> roleIds);
+
+    /**
+     * Find an ERP entity by table name
+     */
+    Optional<ErpEntity> findByTableName(String tableName);
+
+    /**
+     * Find all ERP entities that have related child tables
+     */
+    List<ErpEntity> findByHasRelTableTrue();
 }

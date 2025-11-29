@@ -62,3 +62,18 @@ application-local.properties
 /logs/
 /uploads/
 /data/
+
+# Angular build outputs - keep only production builds in static
+node_modules/
+**/angular/.angular/
+**/angular/dist/
+**/angular/node_modules/
+
+# Database migration backup/disabled files
+**/*.sql.disabled
+**/*.sql.bak
+
+# IDE and temp files
+**/.DS_Store
+**/*.swp
+**/*.swo

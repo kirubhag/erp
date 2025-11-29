@@ -24,6 +24,10 @@
         <presence>true</presence>
         <icon>fas fa-user-graduate</icon>
         <route>#!/students</route>
+        <table_name>students</table_name>
+        <pkid>student_id</pkid>
+        <display_column>first_name</display_column>
+        <has_rel_table>true</has_rel_table>
     </entity>
     
     <entity>
@@ -37,6 +41,10 @@
         <presence>true</presence>
         <icon>fas fa-chalkboard-teacher</icon>
         <route>#!/staff</route>
+        <table_name>staff</table_name>
+        <pkid>staff_id</pkid>
+        <display_column>first_name</display_column>
+        <has_rel_table>false</has_rel_table>
     </entity>
     
     <entity>
@@ -50,6 +58,10 @@
         <presence>true</presence>
         <icon>fas fa-calendar-check</icon>
         <route>#!/attendance</route>
+        <table_name>attendance</table_name>
+        <pkid>attendance_id</pkid>
+        <display_column>attendance_date</display_column>
+        <has_rel_table>false</has_rel_table>
     </entity>
     
     <entity>
@@ -63,6 +75,10 @@
         <presence>true</presence>
         <icon>fas fa-users</icon>
         <route>#!/parents</route>
+        <table_name>parents</table_name>
+        <pkid>parent_id</pkid>
+        <display_column>first_name</display_column>
+        <has_rel_table>false</has_rel_table>
     </entity>
     
     <entity>
@@ -76,5 +92,9 @@
         <presence>true</presence>
         <icon>fas fa-book</icon>
         <route>#!/subjects</route>
+        <table_name>subjects</table_name>
+        <pkid>subject_id</pkid>
+        <display_column>subject_name</display_column>
+        <has_rel_table>false</has_rel_table>
     </entity>
 </entities>

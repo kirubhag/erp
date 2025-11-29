@@ -33,6 +33,7 @@ public class ErpEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "erp_entity_id")
     private Long id;
 
     @Column(name = "singular_name", nullable = false, unique = true, length = 100)
@@ -61,6 +62,19 @@ public class ErpEntity {
 
     @Column(name = "route", length = 255)
     private String route;
+
+    // New columns for dynamic relationship management
+    @Column(name = "table_name", length = 100)
+    private String tableName;
+
+    @Column(name = "pkid", length = 100)
+    private String pkid;
+
+    @Column(name = "display_column", length = 100)
+    private String displayColumn;
+
+    @Column(name = "has_rel_table", nullable = false)
+    private Boolean hasRelTable = false;
 
     @Column(name = "created_date", nullable = false, updatable = false)
     private LocalDateTime createdDate;
@@ -208,6 +222,38 @@ public class ErpEntity {
 
     public void setRoleRelations(Set<ErpEntityRoleRelation> roleRelations) {
         this.roleRelations = roleRelations;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public String getPkid() {
+        return pkid;
+    }
+
+    public void setPkid(String pkid) {
+        this.pkid = pkid;
+    }
+
+    public String getDisplayColumn() {
+        return displayColumn;
+    }
+
+    public void setDisplayColumn(String displayColumn) {
+        this.displayColumn = displayColumn;
+    }
+
+    public Boolean getHasRelTable() {
+        return hasRelTable;
+    }
+
+    public void setHasRelTable(Boolean hasRelTable) {
+        this.hasRelTable = hasRelTable;
     }
 
     /**

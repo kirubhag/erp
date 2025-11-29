@@ -609,12 +609,17 @@ CREATE TABLE IF NOT EXISTS erp_entities (
     presence BOOLEAN NOT NULL DEFAULT true,
     icon VARCHAR(100),
     route VARCHAR(255),
+    table_name VARCHAR(100),
+    pkid VARCHAR(100),
+    display_column VARCHAR(100),
+    has_rel_table BOOLEAN NOT NULL DEFAULT false,
     created_date DATETIME NOT NULL,
     last_modified_date DATETIME,
     created_by VARCHAR(100),
     last_modified_by VARCHAR(100),
     INDEX idx_singular_name (singular_name),
-    INDEX idx_is_active (is_active)
+    INDEX idx_is_active (is_active),
+    INDEX idx_table_name (table_name)
 );
 
 CREATE TABLE IF NOT EXISTS erp_entities_role_relation (
@@ -630,6 +635,28 @@ CREATE TABLE IF NOT EXISTS erp_entities_role_relation (
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
     INDEX idx_entity_id (entity_id),
     INDEX idx_role_id (role_id)
+);
+
+-- ERP Entity Relationship Tracking Table
+CREATE TABLE IF NOT EXISTS erp_entity_relation (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    p_table_name VARCHAR(100) NOT NULL,
+    p_pkid VARCHAR(100) NOT NULL,
+    p_display_column VARCHAR(100),
+    c_table_name VARCHAR(100) NOT NULL,
+    c_pkid VARCHAR(100) NOT NULL,
+    c_display_column VARCHAR(100),
+    fk_column VARCHAR(100) NOT NULL,
+    description TEXT,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    INDEX idx_p_table_name (p_table_name),
+    INDEX idx_c_table_name (c_table_name),
+    INDEX idx_is_active (is_active)
 );
 
 -- =============================================================================
