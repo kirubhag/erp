@@ -50,6 +50,11 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'student-promotion'" (click)="setActiveTab('student-promotion')">
+          <i class="fas fa-user-graduate me-2"></i>Student Promotion
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" [class.active]="activeTab === 'promotion'" (click)="setActiveTab('promotion')">
           <i class="fas fa-graduation-cap me-2"></i>Promotion Rules
         </a>
@@ -312,6 +317,99 @@
           </button>
         </div>
       </form>
+    </div>
+
+    <!-- Student Promotion Tab -->
+    <div *ngIf="activeTab === 'student-promotion'" class="tab-content">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Student Promotion</h3>
+        <a routerLink="/promotions/create" class="btn btn-primary">
+          <i class="fas fa-plus me-2"></i>Create New Promotion
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <p class="text-muted mb-3">
+            <i class="fas fa-info-circle me-2"></i>
+            Manage student promotions from one academic year to another. The promotion process runs asynchronously 
+            with real-time progress tracking.
+          </p>
+
+          <div class="row mt-4">
+            <div class="col-md-4 mb-3">
+              <div class="d-grid">
+                <a routerLink="/promotions/create" class="btn btn-outline-primary">
+                  <i class="fas fa-user-graduate me-2"></i>Promote Students
+                </a>
+              </div>
+              <small class="text-muted d-block mt-2">Create a new promotion batch with filters and bulk selection</small>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="d-grid">
+                <a routerLink="/promotions" class="btn btn-outline-info">
+                  <i class="fas fa-list me-2"></i>View Promotion History
+                </a>
+              </div>
+              <small class="text-muted d-block mt-2">View all promotion batches, status, and results</small>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="d-grid">
+                <button class="btn btn-outline-secondary" disabled>
+                  <i class="fas fa-undo me-2"></i>Rollback Options
+                </button>
+              </div>
+              <small class="text-muted d-block mt-2">Rollback failed promotions (available in promotion details)</small>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <h5 class="mb-3">Features</h5>
+          <div class="row">
+            <div class="col-md-6">
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <strong>Async Processing:</strong> Background execution with progress tracking
+                </li>
+                <li class="mb-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <strong>Real-time Progress:</strong> Live progress bar with percentage updates
+                </li>
+                <li class="mb-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <strong>Advanced Filtering:</strong> Filter by grade, section, and search students
+                </li>
+                <li class="mb-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <strong>Bulk Operations:</strong> Select multiple students for promotion
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <strong>Validation:</strong> Prevents duplicate movements and invalid promotions
+                </li>
+                <li class="mb-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <strong>Activity Logging:</strong> Complete audit trail of all promotions
+                </li>
+                <li class="mb-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <strong>Rollback Support:</strong> Undo promotions if needed
+                </li>
+                <li class="mb-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <strong>Summary Reports:</strong> View success/failure counts and details
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Promotion Rules Tab -->

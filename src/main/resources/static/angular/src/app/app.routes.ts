@@ -123,5 +123,20 @@ export const routes: Routes = [
     loadComponent: () => import('./components/record-storage/record-storage.component').then(m => m.RecordStorageComponent),
     canActivate: [AuthGuard] 
   },
+  { 
+    path: 'promotions', 
+    loadComponent: () => import('./components/promotion-list/promotion-list.component').then(m => m.PromotionListComponent),
+    canActivate: [AuthGuard] 
+  },
+  { 
+    path: 'promotions/create', 
+    loadComponent: () => import('./components/promotion-create/promotion-create.component').then(m => m.PromotionCreateComponent),
+    canActivate: [AuthGuard] 
+  },
+  { 
+    path: 'promotions/:id', 
+    loadComponent: () => import('./components/promotion-details/promotion-details.component').then(m => m.PromotionDetailsComponent),
+    canActivate: [AuthGuard] 
+  },
 ];
 
