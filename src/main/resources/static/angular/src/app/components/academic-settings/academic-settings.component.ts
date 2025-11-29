@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 import { HttpClient } from '@angular/common/http';
 
@@ -48,7 +48,7 @@ interface AttendanceSettings {
 })
 export class AcademicSettingsComponent implements OnInit {
   activeTab = 'academic-year';
-  
+
   // Forms
   academicYearForm: FormGroup;
   termForm: FormGroup;
@@ -56,12 +56,13 @@ export class AcademicSettingsComponent implements OnInit {
   attendanceForm: FormGroup;
   examForm: FormGroup;
   promotionForm: FormGroup;
-  
+
   // Data
   academicYears: AcademicYear[] = [];
   terms: Term[] = [];
   gradingScales: GradingScale[] = [];
-  
+
+  // UI States
   // UI States
   isEditingAcademicYear = false;
   isEditingTerm = false;
@@ -71,14 +72,20 @@ export class AcademicSettingsComponent implements OnInit {
   showGradingModal = false;
   selectedAcademicYear: AcademicYear | null = null;
   selectedTerm: Term | null = null;
-  
+
   successMessage = '';
   errorMessage = '';
 
+  // Header Info
+  // pageTitle and pageDescription removed as we are using static header
+
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
+    // ... (forms initialization)
     // Academic Year Form
     this.academicYearForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -138,6 +145,13 @@ export class AcademicSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Handle tab selection from route params
+    this.route.params.subscribe(params => {
+      if (params['section']) {
+        this.activeTab = params['section'];
+      }
+    });
+
     this.loadAcademicYears();
     this.loadTerms();
     this.loadGradingScales();
@@ -145,6 +159,8 @@ export class AcademicSettingsComponent implements OnInit {
     this.loadExamSettings();
     this.loadPromotionSettings();
   }
+
+  // updateHeaderInfo removed
 
   // Helper method to get academic year name
   getAcademicYearName(yearId?: number): string {

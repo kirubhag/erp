@@ -8,135 +8,140 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { 
-    path: 'dashboard', 
+  {
+    path: 'dashboard',
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'onboarding', 
+  {
+    path: 'onboarding',
     loadComponent: () => import('./components/onboarding/onboarding.component').then(m => m.OnboardingComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'students', 
+  {
+    path: 'students',
     loadComponent: () => import('./components/student-list/student-list.component').then(m => m.StudentListComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'staff', 
+  {
+    path: 'staff',
     loadComponent: () => import('./components/entity-management/entity-management.component').then(m => m.EntityManagementComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'attendance', 
+  {
+    path: 'attendance',
     loadComponent: () => import('./components/entity-management/entity-management.component').then(m => m.EntityManagementComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'parents', 
+  {
+    path: 'parents',
     loadComponent: () => import('./components/entity-management/entity-management.component').then(m => m.EntityManagementComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'subjects', 
+  {
+    path: 'subjects',
     loadComponent: () => import('./components/entity-management/entity-management.component').then(m => m.EntityManagementComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'entity-detail/:entityType/:id', 
+  {
+    path: 'entity-detail/:entityType/:id',
     loadComponent: () => import('./components/entity-detail/entity-detail.component').then(m => m.EntityDetailComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'import-wizard', 
+  {
+    path: 'import-wizard',
     loadComponent: () => import('./components/import-wizard/import-wizard.component').then(m => m.ImportWizardComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup', 
+  {
+    path: 'setup',
     loadComponent: () => import('./components/setup/setup.component').then(m => m.SetupComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/personal-settings', 
+  {
+    path: 'setup/personal-settings',
     loadComponent: () => import('./components/personal-settings/personal-settings.component').then(m => m.PersonalSettingsComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/users', 
+  {
+    path: 'setup/users',
     loadComponent: () => import('./components/user/user.component').then(m => m.UserComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/profiles', 
+  {
+    path: 'setup/profiles',
     loadComponent: () => import('./components/profile/profile.component').then(m => m.ProfileComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/profile-detail/:id', 
+  {
+    path: 'setup/profile-detail/:id',
     loadComponent: () => import('./components/profile-detail/profile-detail.component').then(m => m.ProfileDetailComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/modules-fields', 
+  {
+    path: 'setup/modules-fields',
     loadComponent: () => import('./components/modules/modules.component').then(m => m.ModulesComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/module-builder/:id', 
+  {
+    path: 'setup/module-builder/:id',
     loadComponent: () => import('./components/module-builder/module-builder.component').then(m => m.ModuleBuilderComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/company-settings', 
+  {
+    path: 'setup/company-settings',
     loadComponent: () => import('./components/company-settings/company-settings.component').then(m => m.CompanySettingsComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/academic-settings', 
+  {
+    path: 'setup/academic',
+    redirectTo: 'setup/academic/academic-year',
+    pathMatch: 'full'
+  },
+  {
+    path: 'setup/academic/:section',
     loadComponent: () => import('./components/academic-settings/academic-settings.component').then(m => m.AcademicSettingsComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/import-history', 
+  {
+    path: 'setup/import-history',
     loadComponent: () => import('./components/import-history/import-history.component').then(m => m.ImportHistoryComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/roles-sharing', 
+  {
+    path: 'setup/roles-sharing',
     loadComponent: () => import('./components/roles-sharing/roles-sharing.component').then(m => m.RolesSharingComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/subscription', 
+  {
+    path: 'setup/subscription',
     loadComponent: () => import('./components/subscription/subscription.component').then(m => m.SubscriptionComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/file-storage', 
+  {
+    path: 'setup/file-storage',
     loadComponent: () => import('./components/file-storage/file-storage.component').then(m => m.FileStorageComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'setup/record-storage', 
+  {
+    path: 'setup/record-storage',
     loadComponent: () => import('./components/record-storage/record-storage.component').then(m => m.RecordStorageComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'promotions', 
+  {
+    path: 'promotions',
     loadComponent: () => import('./components/promotion-list/promotion-list.component').then(m => m.PromotionListComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'promotions/create', 
+  {
+    path: 'promotions/create',
     loadComponent: () => import('./components/promotion-create/promotion-create.component').then(m => m.PromotionCreateComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'promotions/:id', 
+  {
+    path: 'promotions/:id',
     loadComponent: () => import('./components/promotion-details/promotion-details.component').then(m => m.PromotionDetailsComponent),
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
 ];
 

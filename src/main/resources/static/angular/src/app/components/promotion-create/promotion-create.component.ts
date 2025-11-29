@@ -32,7 +32,7 @@ export class PromotionCreateComponent implements OnInit, OnDestroy {
   searchTerm = '';
   targetGrade = '';
   targetSection = '';
-  gradeLevels: {[key: string]: string} = {};
+  gradeLevels: { [key: string]: string } = {};
   sections = ['A', 'B', 'C'];
 
   // Student data
@@ -56,14 +56,14 @@ export class PromotionCreateComponent implements OnInit, OnDestroy {
   // Pagination
   currentPage = 0;
   pageSize = 50;
-  
+
   // Progress polling
   private progressInterval: any;
 
   constructor(
     private promotionService: StudentPromotionService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadGradeLevels();
@@ -105,10 +105,10 @@ export class PromotionCreateComponent implements OnInit, OnDestroy {
     this.error = null;
 
     this.promotionService.getEligibleStudents(
-      this.selectedGrade || undefined, 
+      this.selectedGrade || undefined,
       this.selectedSection || undefined,
       this.searchTerm || undefined,
-      this.currentPage, 
+      this.currentPage,
       this.pageSize
     ).subscribe({
       next: (response) => {
@@ -164,8 +164,18 @@ export class PromotionCreateComponent implements OnInit, OnDestroy {
 
   updateSelectedStudents(): void {
     this.selectedStudents = this.eligibleStudents.filter(s => s.selected);
-    this.allSelected = this.eligibleStudents.length > 0 && 
-                      this.selectedStudents.length === this.eligibleStudents.length;
+    this.allSelected = this.eligibleStudents.length > 0 &&
+      this.selectedStudents.length === this.eligibleStudents.length;
+  }
+
+  globalTargetGrade = '';
+
+  applyGlobalTargetGrade(): void {
+    if (!this.globalTargetGrade) return;
+
+    this.eligibleStudents.forEach(student => {
+      student.targetGrade = this.globalTargetGrade;
+    });
   }
 
   applyBulkGrade(): void {
@@ -266,7 +276,7 @@ export class PromotionCreateComponent implements OnInit, OnDestroy {
           if (progress.status === 'COMPLETED' || progress.status === 'FAILED') {
             this.stopProgressPolling();
             this.processing = false;
-            
+
             if (progress.status === 'COMPLETED') {
               this.success = true;
               setTimeout(() => {

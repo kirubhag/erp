@@ -26,8 +26,8 @@ export interface SetupItem {
   styleUrls: ['./setup.component.css']
 })
 export class SetupComponent implements OnInit {
-  
-  constructor(private router: Router) {}
+
+  constructor(private router: Router) { }
 
   setupSections: SetupSection[] = [
     {
@@ -55,11 +55,11 @@ export class SetupComponent implements OnInit {
           route: '/setup/company-settings',
           description: 'Configure company-wide settings and preferences'
         },
-        { 
+        {
           id: 'subscription',
-          label: 'Subscription', 
-          icon: 'fas fa-crown', 
-          route: '/setup/subscription', 
+          label: 'Subscription',
+          icon: 'fas fa-crown',
+          route: '/setup/subscription',
           description: "Displays an overview of your organization's subscription plan and feature usage limits"
         }
       ]
@@ -72,28 +72,28 @@ export class SetupComponent implements OnInit {
           id: 'academic-year',
           label: 'Academic Year',
           icon: 'fas fa-calendar-alt',
-          route: '/settings/academic/academic-year',
+          route: '/setup/academic/academic-year',
           description: 'Configure academic years and terms'
         },
         {
           id: 'grading-scale',
           label: 'Grading Scale',
           icon: 'fas fa-star',
-          route: '/settings/academic/grading',
+          route: '/setup/academic/grading',
           description: 'Set up grading scales and letter grades'
         },
         {
           id: 'attendance-settings',
           label: 'Attendance Settings',
           icon: 'fas fa-user-check',
-          route: '/settings/academic/attendance',
+          route: '/setup/academic/attendance',
           description: 'Configure attendance tracking and calculation'
         },
         {
           id: 'exam-settings',
           label: 'Exam Settings',
           icon: 'fas fa-file-alt',
-          route: '/settings/academic/exam',
+          route: '/setup/academic/exam',
           description: 'Set up exam defaults and grading policies'
         },
         {
@@ -107,7 +107,7 @@ export class SetupComponent implements OnInit {
           id: 'promotion-rules',
           label: 'Promotion Rules',
           icon: 'fas fa-graduation-cap',
-          route: '/settings/academic/promotion',
+          route: '/setup/academic/promotion',
           description: 'Configure promotion criteria and rules'
         }
       ]
@@ -294,7 +294,7 @@ export class SetupComponent implements OnInit {
   onSearch(event: Event) {
     const target = event.target as HTMLInputElement;
     this.searchTerm = target.value.toLowerCase();
-    
+
     if (!this.searchTerm) {
       this.filteredSections = [...this.setupSections];
       return;
@@ -302,7 +302,7 @@ export class SetupComponent implements OnInit {
 
     this.filteredSections = this.setupSections.map(section => ({
       ...section,
-      items: section.items.filter(item => 
+      items: section.items.filter(item =>
         item.label.toLowerCase().includes(this.searchTerm) ||
         item.description?.toLowerCase().includes(this.searchTerm)
       )

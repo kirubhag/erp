@@ -30,13 +30,13 @@ export class SettingsSidebarComponent implements OnInit {
   categories: SettingCategory[] = [];
   filteredCategories: SettingCategory[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.initializeCategories();
     this.filterCategories();
     this.expandActiveCategory();
-    
+
     // Listen to route changes to update expanded category
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -50,7 +50,7 @@ export class SettingsSidebarComponent implements OnInit {
    */
   private expandActiveCategory(): void {
     const currentUrl = this.router.url;
-    
+
     // Find the category that contains the active route
     for (const category of this.categories) {
       if (category.items) {
@@ -85,12 +85,12 @@ export class SettingsSidebarComponent implements OnInit {
         title: 'Academic Settings',
         isExpanded: false,
         items: [
-          { label: 'Academic Year & Terms', icon: 'fas fa-calendar-alt', route: '/settings/academic/academic-year', active: false },
+          { label: 'Academic Year & Terms', icon: 'fas fa-calendar-alt', route: '/setup/academic/academic-year', active: false },
           { label: 'Student Promotion', icon: 'fas fa-user-graduate', route: '/promotions', active: false },
-          { label: 'Promotion Rules', icon: 'fas fa-graduation-cap', route: '/settings/academic/promotion', active: false },
-          { label: 'Grading Scale', icon: 'fas fa-star', route: '/settings/academic/grading', active: false },
-          { label: 'Attendance Settings', icon: 'fas fa-user-check', route: '/settings/academic/attendance', active: false },
-          { label: 'Exam Settings', icon: 'fas fa-file-alt', route: '/settings/academic/exam', active: false }
+          { label: 'Promotion Rules', icon: 'fas fa-graduation-cap', route: '/setup/academic/promotion', active: false },
+          { label: 'Grading Scale', icon: 'fas fa-star', route: '/setup/academic/grading', active: false },
+          { label: 'Attendance Settings', icon: 'fas fa-user-check', route: '/setup/academic/attendance', active: false },
+          { label: 'Exam Settings', icon: 'fas fa-file-alt', route: '/setup/academic/exam', active: false }
         ]
       },
       {

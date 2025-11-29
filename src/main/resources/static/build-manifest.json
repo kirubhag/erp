@@ -1,0 +1,50 @@
+{
+  "buildDate": "2025-11-29T18:16:55.002Z",
+  "files": {
+    "main": [
+      "main-DRVC3QUH.js"
+    ],
+    "polyfills": [
+      "polyfills-FFHMD2TL.js"
+    ],
+    "styles": [
+      "styles-QSDUUJNI.css"
+    ],
+    "chunks": [
+      "erp-app-2WQT2PRQ.js",
+      "erp-app-2ZCIBUNU.js",
+      "erp-app-3IIXRQWZ.js",
+      "erp-app-4I2P2EEM.js",
+      "erp-app-5ETY6UY2.js",
+      "erp-app-5UEFXTN7.js",
+      "erp-app-6FE7QBTU.js",
+      "erp-app-7FKPAYLK.js",
+      "erp-app-BFDZXI46.js",
+      "erp-app-BU5IP2HQ.js",
+      "erp-app-D5SA3L3R.js",
+      "erp-app-EPKJTGBJ.js",
+      "erp-app-ESUJMXL7.js",
+      "erp-app-EXPUMO2F.js",
+      "erp-app-GXJUI5XX.js",
+      "erp-app-HTFTIFZ7.js",
+      "erp-app-IT3U36Z3.js",
+      "erp-app-IT6DHO3Q.js",
+      "erp-app-K3Z7VPN4.js",
+      "erp-app-N775JNR4.js",
+      "erp-app-NWWELG7D.js",
+      "erp-app-O7L64UQB.js",
+      "erp-app-OXAEJMWT.js",
+      "erp-app-PXBKC2TX.js",
+      "erp-app-RHAZ4H7V.js",
+      "erp-app-SGGWBUAT.js",
+      "erp-app-U3XY2LCB.js",
+      "erp-app-VLNK3JBH.js",
+      "erp-app-VM5XVXIC.js",
+      "erp-app-VQ7IWOIM.js",
+      "erp-app-VX3WAWMR.js",
+      "erp-app-WODIXIUW.js",
+      "erp-app-ZCMAJYI7.js"
+    ]
+  },
+  "totalChunks": 33
+}
