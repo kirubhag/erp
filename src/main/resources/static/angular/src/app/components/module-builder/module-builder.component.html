@@ -82,7 +82,10 @@
             <div id="newFieldsCollapse" class="accordion-collapse collapse show" data-bs-parent="#newFieldsAccordion">
               <div class="accordion-body">
                 <div class="fields-grid">
-                  <div class="field-item" *ngFor="let fieldType of newFieldTypes" (click)="addNewField(fieldType)">
+                  <div class="field-item" *ngFor="let fieldType of newFieldTypes" 
+                       draggable="true"
+                       (dragstart)="onDragStart($event, fieldType, 'new')"
+                       (click)="addNewField(fieldType)">
                     <i [class]="fieldType.icon"></i>
                     <span>{{ fieldType.label }}</span>
                   </div>
@@ -106,7 +109,9 @@
             </h2>
             <div id="unusedFieldsCollapse" class="accordion-collapse collapse" data-bs-parent="#unusedFieldsAccordion">
               <div class="accordion-body">
-                <div class="field-item" *ngFor="let field of unusedFields">
+                <div class="field-item" *ngFor="let field of unusedFields"
+                     draggable="true"
+                     (dragstart)="onDragStart($event, field, 'unused')">
                   <i [class]="field.icon"></i>
                   <span>{{ field.label }}</span>
                 </div>
@@ -152,7 +157,9 @@
 
         <!-- Fields Sections -->
         <div class="section-wrapper" *ngFor="let section of sections" [class.active]="section.id === activeSection"
-          (click)="setActiveSection(section.id)">
+          (click)="setActiveSection(section.id)"
+          (dragover)="onDragOver($event)"
+          (drop)="onDrop($event, section)">
           <div class="section-header" contenteditable="true" (blur)="updateSectionName(section, $event)" (keydown.enter)="$event.preventDefault(); $any($event.target).blur()">{{ section.name }}</div>
 
           <div class="form-row" *ngFor="let row of section.rows">

@@ -95,7 +95,7 @@
   margin-bottom: 0.5rem;
   border: 1px solid #e9ecef;
   border-radius: 6px;
-  cursor: pointer;
+  cursor: grab;
   transition: all 0.2s;
   display: flex;
   align-items: center;
@@ -106,6 +106,13 @@
 .field-item:hover {
   background-color: #f8f9fa;
   border-color: var(--app-primary, #0099cc);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.field-item:active {
+  cursor: grabbing;
+  opacity: 0.7;
 }
 
 .field-item i {
@@ -166,6 +173,16 @@
 .section-wrapper.active {
   border-color: var(--app-primary, #0099cc);
   background-color: #f8fbff;
+}
+
+/* Drop zone feedback */
+.section-wrapper[draggable] {
+  transition: all 0.3s ease;
+}
+
+.section-wrapper:has([draggable]:hover) {
+  border: 2px dashed var(--app-primary, #0099cc);
+  background-color: rgba(0, 153, 204, 0.05);
 }
 
 .section-header {

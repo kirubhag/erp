@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FieldService } from '../../services/field.service';
+import { SectionService } from '../../services/section.service';
 import { ErpField, FieldsGroupedBySection } from '../../models/erp-field.model';
 
 export interface LayoutField {
@@ -47,6 +48,10 @@ export class ModuleBuilderComponent implements OnInit {
   isLoadingFields = false;
   fieldsError: string = '';
 
+  // Drag and drop state
+  draggedItem: any = null;
+  draggedItemType: 'new' | 'unused' | null = null;
+
   newFieldTypes: FieldType[] = [
     { id: 'singleLine', label: 'Single Li...', icon: 'fas fa-minus', type: 'Single Line' },
     { id: 'multiLine', label: 'Multi-Line', icon: 'fas fa-align-left', type: 'Multi-Line' },
@@ -80,7 +85,8 @@ export class ModuleBuilderComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private fieldService: FieldService
+    private fieldService: FieldService,
+    private sectionService: SectionService
   ) { }
 
   ngOnInit() {
@@ -151,7 +157,7 @@ export class ModuleBuilderComponent implements OnInit {
 
       sections.push({
         id: category.toLowerCase().replace(/\s+/g, '_'),
-        name: category.toUpperCase(),
+        name: category,
         rows: rows
       });
     });
@@ -182,6 +188,7 @@ export class ModuleBuilderComponent implements OnInit {
       'PHONE': 'Phone',
       'PICKLIST': 'Pick List',
       'MULTISELECT': 'Multi-Select',
+      'ENUM': 'Pick List',
       'DATE': 'Date',
       'DATETIME': 'Date/Time',
       'NUMBER': 'Number',
@@ -258,7 +265,8 @@ export class ModuleBuilderComponent implements OnInit {
   editField(fieldId: string, event: Event) {
     event.stopPropagation();
     console.log('Editing field:', fieldId);
-    // Open field edit modal/panel
+    // TODO: Open field edit modal/panel with field configuration options
+    alert(`Field settings for: ${fieldId}\n\nThis will open a configuration panel to edit field properties like:\n- Display label\n- Required/Optional\n- Validation rules\n- Default values\n- Help text`);
   }
 
   deleteField(fieldId: string, event: Event) {
@@ -274,9 +282,122 @@ export class ModuleBuilderComponent implements OnInit {
     this.activeField = null;
   }
 
+  /**
+   * Drag and Drop Handlers
+   */
+  onDragStart(event: DragEvent, item: any, type: 'new' | 'unused') {
+    this.draggedItem = item;
+    this.draggedItemType = type;
+    
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'copy';
+      event.dataTransfer.setData('text/plain', JSON.stringify(item));
+    }
+    
+    console.log('Drag started:', item, type);
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'copy';
+    }
+  }
+
+  onDrop(event: DragEvent, section: LayoutSection) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (!this.draggedItem) {
+      return;
+    }
+
+    console.log('Dropped item on section:', section.name);
+    
+    // Create a new field from the dragged item
+    let newField: LayoutField;
+    
+    if (this.draggedItemType === 'new') {
+      // Create a new field with unique ID
+      const timestamp = Date.now();
+      newField = {
+        id: `${this.draggedItem.id}_${timestamp}`,
+        label: `New ${this.draggedItem.label}`,
+        type: this.draggedItem.type,
+        required: false
+      };
+    } else {
+      // Reuse unused field
+      newField = this.draggedItem;
+    }
+    
+    // Add field to the section (create new row or add to last row)
+    const lastRow = section.rows[section.rows.length - 1];
+    
+    if (!lastRow || lastRow.length >= 2) {
+      // Create new row if last row doesn't exist or is full
+      section.rows.push([newField]);
+    } else {
+      // Add to existing row
+      lastRow.push(newField);
+    }
+    
+    console.log('Field added to section:', newField);
+    
+    // Clear drag state
+    this.draggedItem = null;
+    this.draggedItemType = null;
+  }
+
   saveLayout() {
-    console.log('Saving layout:', this.sections);
-    alert('Layout saved successfully!');
+    console.log('=== SAVE LAYOUT CALLED ===');
+    console.log('Current Module:', this.currentModule);
+    console.log('Sections count:', this.sections?.length || 0);
+    console.log('Sections data:', this.sections);
+    
+    if (!this.sections || this.sections.length === 0) {
+      alert('No sections to save. Please add some fields first.');
+      return;
+    }
+    
+    const layoutData = {
+      entityType: this.currentModule,
+      sections: this.sections.map((section, index) => ({
+        sectionName: section.id,
+        sectionLabel: section.name,
+        displayOrder: index + 1,
+        fields: section.rows.flatMap((row, rowIndex) => 
+          row.map((field, colIndex) => ({
+            fieldName: field.id,
+            rowPosition: rowIndex,
+            columnPosition: colIndex
+          }))
+        )
+      }))
+    };
+    
+    console.log('Layout data prepared:', JSON.stringify(layoutData, null, 2));
+    
+    // Call backend API to save layout
+    this.sectionService.saveModuleLayout(this.currentModule, layoutData).subscribe({
+      next: (response) => {
+        console.log('Save response:', response);
+        
+        const totalFields = this.sections.reduce((sum, s) => sum + s.rows.flat().length, 0);
+        let message = `Layout saved successfully!\n\n`;
+        message += `Saved ${response.sectionsUpdated || this.sections.length} sections with ${response.fieldsUpdated || totalFields} fields.`;
+        
+        if (response.errors && response.errors.length > 0) {
+          message += `\n\nWarnings:\n` + response.errors.join('\n');
+        }
+        
+        alert(message);
+      },
+      error: (error) => {
+        console.error('Error saving layout:', error);
+        alert(`Error saving layout: ${error.error?.message || error.message || 'Unknown error'}`);
+      }
+    });
   }
 
   cancel() {

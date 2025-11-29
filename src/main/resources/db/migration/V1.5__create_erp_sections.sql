@@ -238,11 +238,9 @@ SELECT DISTINCT
                 '_'
             )
     ) AS section_name,
-    UPPER(
-        COALESCE(
-            ef.field_category COLLATE utf8mb4_unicode_ci,
-            'GENERAL INFORMATION'
-        )
+    COALESCE(
+        ef.field_category COLLATE utf8mb4_unicode_ci,
+        'General Information'
     ) AS section_label,
     'TWO_COLUMN' AS layout_type,
     -- Assign display order based on common category ordering
@@ -334,7 +332,7 @@ INSERT INTO
 SELECT DISTINCT
     ef.entity_type,
     'general' AS section_name,
-    'GENERAL INFORMATION' AS section_label,
+    'General Information' AS section_label,
     'TWO_COLUMN' AS layout_type,
     0 AS display_order,
     0 AS is_collapsible,

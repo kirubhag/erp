@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import krs.erp.dto.LayoutSaveDTO;
 import krs.erp.enums.EntityType;
 import krs.erp.model.ErpSection;
+import krs.erp.repository.ErpFieldRepository;
 import krs.erp.service.ErpSectionService;
 
 /**
@@ -32,6 +34,9 @@ public class ErpSectionController {
 
     @Autowired
     private ErpSectionService sectionService;
+
+    @Autowired
+    private ErpFieldRepository fieldRepository;
 
     /**
      * Get all sections for a specific entity type
@@ -226,6 +231,38 @@ public class ErpSectionController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Save complete module layout including sections and field positions
+     */
+    @PostMapping("/{entityType}/layout")
+    public ResponseEntity<Map<String, Object>> saveModuleLayout(
+            @PathVariable String entityType,
+            @RequestBody LayoutSaveDTO layoutData) {
+        try {
+            // Validate entity type matches
+            if (!entityType.equalsIgnoreCase(layoutData.getEntityType())) {
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "Entity type mismatch");
+                return ResponseEntity.badRequest().body(error);
+            }
+
+            // Save layout
+            Map<String, Object> result = sectionService.saveModuleLayout(layoutData, fieldRepository);
+            
+            if (Boolean.TRUE.equals(result.get("success"))) {
+                return ResponseEntity.ok(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
+            }
+        } catch (Exception e) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "Error saving layout: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
 }

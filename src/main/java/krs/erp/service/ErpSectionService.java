@@ -1,14 +1,20 @@
 package krs.erp.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import krs.erp.dto.LayoutSaveDTO;
 import krs.erp.enums.EntityType;
+import krs.erp.model.ErpField;
 import krs.erp.model.ErpSection;
+import krs.erp.repository.ErpFieldRepository;
 import krs.erp.repository.ErpSectionRepository;
 
 @Service
@@ -169,5 +175,82 @@ public class ErpSectionService {
     public boolean sectionExists(EntityType entityType, String sectionName, Long organizationId) {
         return sectionRepository.existsByEntityTypeAndSectionNameAndOrganizationId(
                 entityType, sectionName, organizationId);
+    }
+
+    /**
+     * Save complete module layout including sections and field positions
+     */
+    @Transactional
+    public Map<String, Object> saveModuleLayout(LayoutSaveDTO layoutData, ErpFieldRepository fieldRepository) {
+        Map<String, Object> result = new HashMap<>();
+        int sectionsUpdated = 0;
+        int fieldsUpdated = 0;
+        List<String> errors = new ArrayList<>();
+
+        try {
+            // Parse entity type
+            EntityType entityType = EntityType.valueOf(layoutData.getEntityType().toUpperCase());
+            
+            // Process each section
+            for (LayoutSaveDTO.SectionLayoutDTO sectionData : layoutData.getSections()) {
+                try {
+                    // Find section by entity type and section name
+                    ErpSection section = null;
+                    List<ErpSection> allSections = sectionRepository.findByEntityTypeAndIsActiveTrue(entityType);
+                    for (ErpSection s : allSections) {
+                        if (s.getSectionName().equals(sectionData.getSectionName())) {
+                            section = s;
+                            break;
+                        }
+                    }
+                    
+                    if (section != null) {
+                        // Update existing section
+                        section.setDisplayOrder(sectionData.getDisplayOrder());
+                        section.setSectionLabel(sectionData.getSectionLabel());
+                        sectionRepository.save(section);
+                        sectionsUpdated++;
+                    } else {
+                        // Create new section if doesn't exist
+                        section = new ErpSection(entityType, sectionData.getSectionName(), sectionData.getSectionLabel());
+                        section.setDisplayOrder(sectionData.getDisplayOrder());
+                        section.setIsActive(1);
+                        sectionRepository.save(section);
+                        sectionsUpdated++;
+                    }
+                    
+                    // Update field positions
+                    for (LayoutSaveDTO.FieldPositionDTO fieldPos : sectionData.getFields()) {
+                        ErpField field = fieldRepository.findByEntityTypeAndFieldNameAndIsActiveTrue(
+                            entityType, fieldPos.getFieldName());
+                        
+                        if (field != null) {
+                            field.setSection(section);
+                            field.setRowPosition(fieldPos.getRowPosition());
+                            field.setColumnPosition(fieldPos.getColumnPosition());
+                            fieldRepository.save(field);
+                            fieldsUpdated++;
+                        } else {
+                            errors.add("Field not found: " + fieldPos.getFieldName());
+                        }
+                    }
+                } catch (Exception e) {
+                    errors.add("Error processing section " + sectionData.getSectionName() + ": " + e.getMessage());
+                }
+            }
+            
+            result.put("success", true);
+            result.put("sectionsUpdated", sectionsUpdated);
+            result.put("fieldsUpdated", fieldsUpdated);
+            result.put("errors", errors);
+            result.put("message", String.format("Successfully updated %d sections and %d fields", sectionsUpdated, fieldsUpdated));
+            
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("message", "Error saving layout: " + e.getMessage());
+            result.put("errors", errors);
+        }
+        
+        return result;
     }
 }

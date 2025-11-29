@@ -110,4 +110,11 @@ export class SectionService {
             { params }
         );
     }
+
+    /**
+     * Save complete module layout including sections and field positions
+     */
+    saveModuleLayout(entityType: string, layoutData: any): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/${entityType}/layout`, layoutData);
+    }
 }
