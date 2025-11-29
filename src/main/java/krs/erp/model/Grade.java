@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMax;
@@ -18,6 +19,7 @@ import jakarta.validation.constraints.Size;
  */
 @Entity
 @Table(name = "grades")
+@AttributeOverride(name = "id", column = @Column(name = "grade_id"))
 public class Grade extends BaseEntity {
 
     @NotNull(message = "Student ID is required")

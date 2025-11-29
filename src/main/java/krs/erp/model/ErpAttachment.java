@@ -1,6 +1,7 @@
 package krs.erp.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,6 +15,7 @@ import jakarta.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "erp_attachments")
+@AttributeOverride(name = "id", column = @Column(name = "erp_attachment_id"))
 public class ErpAttachment extends BaseEntity {
     
     @NotBlank(message = "Original filename is required")

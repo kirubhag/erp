@@ -1,6 +1,7 @@
 package krs.erp.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,6 +15,7 @@ import krs.erp.enums.SectionLayoutType;
  */
 @Entity
 @Table(name = "erp_sections")
+@AttributeOverride(name = "id", column = @Column(name = "erp_section_id"))
 public class ErpSection extends BaseEntity {
 
     @Column(name = "entity_type", nullable = false, length = 50)

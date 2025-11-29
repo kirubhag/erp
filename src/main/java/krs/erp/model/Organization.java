@@ -1,6 +1,7 @@
 package krs.erp.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "organizations")
+@AttributeOverride(name = "id", column = @Column(name = "organization_id"))
 public class Organization extends BaseEntity {
     
     @NotBlank(message = "Organization name is required")

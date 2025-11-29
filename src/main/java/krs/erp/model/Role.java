@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -15,6 +16,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "roles")
+@AttributeOverride(name = "id", column = @Column(name = "role_id"))
 public class Role extends BaseEntity {
     
     @NotBlank(message = "Role name is required")

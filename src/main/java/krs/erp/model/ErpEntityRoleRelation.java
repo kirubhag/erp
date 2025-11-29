@@ -33,6 +33,7 @@ public class ErpEntityRoleRelation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "erp_entity_role_relation_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

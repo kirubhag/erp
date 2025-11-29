@@ -29,7 +29,7 @@ public class ImportResult implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "import_result_id")
     private Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)

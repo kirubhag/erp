@@ -3,6 +3,7 @@ package krs.erp.model;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -17,6 +18,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "health_records")
+@AttributeOverride(name = "id", column = @Column(name = "health_record_id"))
 public class HealthRecord extends BaseEntity {
     
     @NotNull(message = "Student is required")

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CollectionTable;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -24,6 +25,7 @@ import krs.erp.enums.EntityType;
  */
 @Entity
 @Table(name = "custom_views")
+@AttributeOverride(name = "id", column = @Column(name = "custom_view_id"))
 public class CustomView extends BaseEntity {
     
     @NotBlank(message = "View name is required")

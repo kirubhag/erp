@@ -27,7 +27,7 @@ public class RecycleBin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recycle_bin_id")
-    private Long recycleBinId;
+    private Long id;
     
     @NotNull(message = "Entity ID is required")
     @Column(name = "entity_id", nullable = false)
@@ -78,12 +78,12 @@ public class RecycleBin {
     }
     
     // Getters and Setters
-    public Long getRecycleBinId() {
-        return recycleBinId;
+    public Long getId() {
+        return id;
     }
     
-    public void setRecycleBinId(Long recycleBinId) {
-        this.recycleBinId = recycleBinId;
+    public void setId(Long id) {
+        this.id = id;
     }
     
     public Long getEntityId() {
@@ -159,7 +159,7 @@ public class RecycleBin {
     @Override
     public String toString() {
         return "RecycleBin{" +
-                "recycleBinId=" + recycleBinId +
+                "id=" + id +
                 ", entityId=" + entityId +
                 ", entityName='" + entityName + '\'' +
                 ", entityType=" + entityType +

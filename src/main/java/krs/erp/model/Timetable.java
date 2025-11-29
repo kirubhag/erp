@@ -3,6 +3,7 @@ package krs.erp.model;
 import java.time.LocalTime;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,6 +14,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "timetables")
+@AttributeOverride(name = "id", column = @Column(name = "timetable_id"))
 public class Timetable extends BaseEntity {
 
     @NotBlank(message = "Timetable code is required")

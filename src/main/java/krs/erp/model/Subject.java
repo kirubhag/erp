@@ -3,6 +3,7 @@ package krs.erp.model;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "subjects")
+@AttributeOverride(name = "id", column = @Column(name = "subject_id"))
 public class Subject extends BaseEntity {
 
     @NotBlank(message = "Subject code is required")

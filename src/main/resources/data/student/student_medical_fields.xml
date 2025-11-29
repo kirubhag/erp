@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="STUDENT_MEDICAL">
+    <!-- Critical Health Information -->
+    <field>
+        <fieldName>allergies</fieldName>
+        <fieldLabel>Allergies</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>Medical</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <showInList>false</showInList>
+        <fieldDescription>Known allergies (food, medication, environmental)</fieldDescription>
+    </field>
+    <field>
+        <fieldName>medicalConditions</fieldName>
+        <fieldLabel>Medical Conditions</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>Medical</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <showInList>false</showInList>
+        <fieldDescription>Chronic medical conditions or health issues</fieldDescription>
+    </field>
+    <field>
+        <fieldName>medications</fieldName>
+        <fieldLabel>Current Medications</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>Medical</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <showInList>false</showInList>
+        <fieldDescription>Medications currently being taken</fieldDescription>
+    </field>
+    
+    <!-- Medical Contact Information -->
+    <field>
+        <fieldName>doctorName</fieldName>
+        <fieldLabel>Doctor Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Medical</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Family doctor or primary physician name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>doctorPhone</fieldName>
+        <fieldLabel>Doctor Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <fieldCategory>Medical</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>130</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Doctor's contact number</fieldDescription>
+    </field>
+    <field>
+        <fieldName>hospitalPreference</fieldName>
+        <fieldLabel>Preferred Hospital</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Medical</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>180</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Preferred hospital for emergencies</fieldDescription>
+    </field>
+    
+    <!-- Insurance Information -->
+    <field>
+        <fieldName>insuranceProvider</fieldName>
+        <fieldLabel>Insurance Provider</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Medical</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Health insurance provider name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>insurancePolicyNumber</fieldName>
+        <fieldLabel>Insurance Policy Number</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Medical</fieldCategory>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>160</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Health insurance policy number</fieldDescription>
+    </field>
+</entityFields>

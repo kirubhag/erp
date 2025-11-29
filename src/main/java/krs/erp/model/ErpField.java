@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -17,6 +18,7 @@ import krs.erp.enums.UIFieldType;
 
 @Entity
 @Table(name = "erp_fields")
+@AttributeOverride(name = "id", column = @Column(name = "erp_field_id"))
 public class ErpField extends BaseEntity {
 
     @Column(name = "entity_type", nullable = false)

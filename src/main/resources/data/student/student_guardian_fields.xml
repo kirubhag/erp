@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="STUDENT_GUARDIAN">
+    <!-- Father Information -->
+    <field>
+        <fieldName>fatherName</fieldName>
+        <fieldLabel>Father's Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Father's full name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>fatherOccupation</fieldName>
+        <fieldLabel>Father's Occupation</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Father's occupation/profession</fieldDescription>
+    </field>
+    <field>
+        <fieldName>fatherPhone</fieldName>
+        <fieldLabel>Father's Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>130</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Father's contact number</fieldDescription>
+    </field>
+    <field>
+        <fieldName>fatherEmail</fieldName>
+        <fieldLabel>Father's Email</fieldLabel>
+        <fieldType>EMAIL</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>180</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Father's email address</fieldDescription>
+    </field>
+    
+    <!-- Mother Information -->
+    <field>
+        <fieldName>motherName</fieldName>
+        <fieldLabel>Mother's Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Mother's full name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>motherOccupation</fieldName>
+        <fieldLabel>Mother's Occupation</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Mother's occupation/profession</fieldDescription>
+    </field>
+    <field>
+        <fieldName>motherPhone</fieldName>
+        <fieldLabel>Mother's Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>130</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Mother's contact number</fieldDescription>
+    </field>
+    <field>
+        <fieldName>motherEmail</fieldName>
+        <fieldLabel>Mother's Email</fieldLabel>
+        <fieldType>EMAIL</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>180</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Mother's email address</fieldDescription>
+    </field>
+    
+    <!-- Guardian Information -->
+    <field>
+        <fieldName>guardianName</fieldName>
+        <fieldLabel>Guardian's Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>9</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Legal guardian's name (if different from parents)</fieldDescription>
+    </field>
+    <field>
+        <fieldName>guardianRelation</fieldName>
+        <fieldLabel>Guardian Relation</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>10</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Relationship to student</fieldDescription>
+    </field>
+    <field>
+        <fieldName>guardianPhone</fieldName>
+        <fieldLabel>Guardian's Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>11</displayOrder>
+        <defaultWidth>130</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Guardian's contact number</fieldDescription>
+    </field>
+    <field>
+        <fieldName>guardianEmail</fieldName>
+        <fieldLabel>Guardian's Email</fieldLabel>
+        <fieldType>EMAIL</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>12</displayOrder>
+        <defaultWidth>180</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Guardian's email address</fieldDescription>
+    </field>
+    <field>
+        <fieldName>guardianAddress</fieldName>
+        <fieldLabel>Guardian Address</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>Guardian</fieldCategory>
+        <displayOrder>13</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <showInList>false</showInList>
+        <fieldDescription>Guardian's address if different from student</fieldDescription>
+    </field>
+</entityFields>

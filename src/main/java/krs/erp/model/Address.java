@@ -1,6 +1,7 @@
 package krs.erp.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,6 +15,7 @@ import jakarta.validation.constraints.Size;
  */
 @Entity
 @Table(name = "addresses")
+@AttributeOverride(name = "id", column = @Column(name = "address_id"))
 public class Address extends BaseEntity {
     
     @Column(name = "entity_type", nullable = false, length = 50)

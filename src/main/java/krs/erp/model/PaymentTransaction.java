@@ -20,6 +20,7 @@ public class PaymentTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "payment_transaction_id")
     private Long id;
 
     @Column(name = "subscription_id", nullable = false)

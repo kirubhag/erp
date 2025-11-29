@@ -164,7 +164,9 @@
 
           <div class="form-row" *ngFor="let row of section.rows">
             <div class="form-field" *ngFor="let field of row" [class.active]="field.id === activeField"
-              (click)="setActiveField(field.id, $event)">
+              (click)="setActiveField(field.id, $event)"
+              (mouseenter)="hoveredField = field.id"
+              (mouseleave)="hoveredField = null">
               <div class="field-label" [class.required]="field.required">{{ field.label }}</div>
               <div class="field-type">
                 <div class="d-flex align-items-center gap-2" *ngIf="field.prefix">
@@ -175,11 +177,29 @@
                 </div>
                 <span *ngIf="!field.prefix">{{ field.type }}</span>
               </div>
-              <div class="field-actions" *ngIf="field.id === activeField">
-                <button class="field-action-btn" (click)="editField(field.id, $event)">
-                  <i class="fas fa-cog"></i>
-                </button>
-                <button class="field-action-btn" (click)="deleteField(field.id, $event)">
+              <div class="field-actions" *ngIf="hoveredField === field.id || field.id === activeField">
+                <div class="dropdown">
+                  <button class="field-action-btn" 
+                    (mouseenter)="showSettingsMenu = field.id"
+                    (mouseleave)="showSettingsMenu = null"
+                    (click)="toggleSettingsMenu(field.id, $event)">
+                    <i class="fas fa-cog"></i>
+                  </button>
+                  <div class="dropdown-menu" *ngIf="showSettingsMenu === field.id" 
+                    (mouseenter)="showSettingsMenu = field.id"
+                    (mouseleave)="showSettingsMenu = null">
+                    <a class="dropdown-item" (click)="openFieldPropertiesModal(field, $event)">
+                      <i class="fas fa-edit me-2"></i>Edit Properties
+                    </a>
+                    <a class="dropdown-item" (click)="markAsRequired(field, $event)">
+                      <i class="fas fa-asterisk me-2"></i>Mark as required
+                    </a>
+                    <a class="dropdown-item" (click)="createValidationRule(field, $event)">
+                      <i class="fas fa-shield-alt me-2"></i>Create Validation Rule
+                    </a>
+                  </div>
+                </div>
+                <button class="field-action-btn" (click)="deleteField(field.id, section, $event)">
                   <i class="fas fa-trash"></i>
                 </button>
               </div>
@@ -208,6 +228,55 @@
     <div class="alert alert-info">
       <i class="fas fa-info-circle me-2"></i>
       {{ activeTab | titlecase }} configuration coming soon...
+    </div>
+  </div>
+</div>
+
+<!-- Field Properties Modal -->
+<div class="modal fade" [class.show]="showFieldPropertiesModal" [style.display]="showFieldPropertiesModal ? 'block' : 'none'" 
+  tabindex="-1" role="dialog" *ngIf="showFieldPropertiesModal">
+  <div class="modal-backdrop fade" [class.show]="showFieldPropertiesModal" (click)="closeFieldPropertiesModal()"></div>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ selectedFieldForEdit?.label }} Properties</h5>
+        <button type="button" class="btn-close" (click)="closeFieldPropertiesModal()"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedFieldForEdit">
+        <div class="mb-3">
+          <label class="form-label">
+            Field Label <span class="text-danger">*</span>
+          </label>
+          <input type="text" class="form-control" [(ngModel)]="selectedFieldForEdit.label">
+        </div>
+        
+        <div class="mb-3">
+          <label class="form-label">Number of characters allowed</label>
+          <input type="number" class="form-control" value="30">
+        </div>
+        
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" [(ngModel)]="selectedFieldForEdit.required" id="requiredCheck">
+          <label class="form-check-label" for="requiredCheck">Required</label>
+        </div>
+        
+        <div class="form-check mb-3" *ngIf="selectedFieldForEdit.type === 'Phone'">
+          <input class="form-check-input" type="checkbox" id="validateCountryCode" checked>
+          <label class="form-check-label" for="validateCountryCode">Validate based on Country Code</label>
+        </div>
+        
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" id="markPII">
+          <label class="form-check-label" for="markPII">
+            Mark as PII Field
+            <i class="fas fa-question-circle text-muted ms-1" title="Personally Identifiable Information"></i>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeFieldPropertiesModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveFieldProperties()">Done</button>
+      </div>
     </div>
   </div>
 </div>

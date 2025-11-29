@@ -91,7 +91,7 @@ export class ImportService {
   ): Observable<ImportSession> {
     return this.http.put<ImportSession>(
       `${this.apiUrl}/sessions/${sessionId}/mappings`,
-      { mappings }
+      mappings
     );
   }
 

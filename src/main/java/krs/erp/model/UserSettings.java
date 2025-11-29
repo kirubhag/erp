@@ -13,6 +13,7 @@ public class UserSettings {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_settings_id")
     private Long id;
     
     @Column(name = "user_id", nullable = false)

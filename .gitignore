@@ -73,6 +73,13 @@ node_modules/
 **/static/chunk-*.js
 **/static/chunk-*.js.map
 
+# Duplicate Angular build outputs (keep only in angular/dist/)
+**/static/main-*.js
+**/static/polyfills-*.js
+**/static/styles-*.css
+**/static/assets/
+**/static/media/
+
 # Database migration backup/disabled files
 **/*.sql.disabled
 **/*.sql.bak

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sampleData entity="STUDENT_GUARDIAN">
+    <!-- Sample Guardian Info for Grade 1 Students -->
+    <record studentId="STU001">
+        <fatherName>Robert Anderson</fatherName>
+        <fatherOccupation>Software Engineer</fatherOccupation>
+        <fatherPhone>+1-555-0101</fatherPhone>
+        <fatherEmail>robert.anderson@email.com</fatherEmail>
+        <motherName>Sarah Anderson</motherName>
+        <motherOccupation>Teacher</motherOccupation>
+        <motherPhone>+1-555-0102</motherPhone>
+        <motherEmail>sarah.anderson@email.com</motherEmail>
+    </record>
+    
+    <record studentId="STU002">
+        <fatherName>Michael Brown</fatherName>
+        <fatherOccupation>Doctor</fatherOccupation>
+        <fatherPhone>+1-555-0201</fatherPhone>
+        <fatherEmail>michael.brown@email.com</fatherEmail>
+        <motherName>Jennifer Brown</motherName>
+        <motherOccupation>Nurse</motherOccupation>
+        <motherPhone>+1-555-0202</motherPhone>
+        <motherEmail>jennifer.brown@email.com</motherEmail>
+    </record>
+    
+    <record studentId="STU003">
+        <fatherName>David Chen</fatherName>
+        <fatherOccupation>Business Owner</fatherOccupation>
+        <fatherPhone>+1-555-0301</fatherPhone>
+        <fatherEmail>david.chen@email.com</fatherEmail>
+        <motherName>Lisa Chen</motherName>
+        <motherOccupation>Accountant</motherOccupation>
+        <motherPhone>+1-555-0302</motherPhone>
+        <motherEmail>lisa.chen@email.com</motherEmail>
+    </record>
+</sampleData>

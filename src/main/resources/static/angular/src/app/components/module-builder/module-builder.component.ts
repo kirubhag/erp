@@ -52,6 +52,12 @@ export class ModuleBuilderComponent implements OnInit {
   draggedItem: any = null;
   draggedItemType: 'new' | 'unused' | null = null;
 
+  // Hover and modal state
+  hoveredField: string | null = null;
+  showSettingsMenu: string | null = null;
+  showFieldPropertiesModal = false;
+  selectedFieldForEdit: LayoutField | null = null;
+
   newFieldTypes: FieldType[] = [
     { id: 'singleLine', label: 'Single Li...', icon: 'fas fa-minus', type: 'Single Line' },
     { id: 'multiLine', label: 'Multi-Line', icon: 'fas fa-align-left', type: 'Multi-Line' },
@@ -262,24 +268,88 @@ export class ModuleBuilderComponent implements OnInit {
     this.sections.push(newSection);
   }
 
-  editField(fieldId: string, event: Event) {
+  toggleSettingsMenu(fieldId: string, event: Event) {
     event.stopPropagation();
-    console.log('Editing field:', fieldId);
-    // TODO: Open field edit modal/panel with field configuration options
-    alert(`Field settings for: ${fieldId}\n\nThis will open a configuration panel to edit field properties like:\n- Display label\n- Required/Optional\n- Validation rules\n- Default values\n- Help text`);
+    this.showSettingsMenu = this.showSettingsMenu === fieldId ? null : fieldId;
   }
 
-  deleteField(fieldId: string, event: Event) {
+  openFieldPropertiesModal(field: LayoutField, event: Event) {
     event.stopPropagation();
+    this.selectedFieldForEdit = { ...field }; // Clone the field
+    this.showFieldPropertiesModal = true;
+    this.showSettingsMenu = null;
+  }
+
+  closeFieldPropertiesModal() {
+    this.showFieldPropertiesModal = false;
+    this.selectedFieldForEdit = null;
+  }
+
+  saveFieldProperties() {
+    if (this.selectedFieldForEdit) {
+      // Find and update the field in sections
+      for (const section of this.sections) {
+        for (const row of section.rows) {
+          const fieldIndex = row.findIndex(f => f.id === this.selectedFieldForEdit!.id);
+          if (fieldIndex !== -1) {
+            row[fieldIndex] = { ...this.selectedFieldForEdit };
+            break;
+          }
+        }
+      }
+      console.log('Field properties saved:', this.selectedFieldForEdit);
+    }
+    this.closeFieldPropertiesModal();
+  }
+
+  markAsRequired(field: LayoutField, event: Event) {
+    event.stopPropagation();
+    field.required = !field.required;
+    console.log('Mark as required toggled:', field.label, field.required);
+    this.showSettingsMenu = null;
+  }
+
+  createValidationRule(field: LayoutField, event: Event) {
+    event.stopPropagation();
+    console.log('Create validation rule for:', field.label);
+    alert('Validation rule configuration coming soon!');
+    this.showSettingsMenu = null;
+  }
+
+  deleteField(fieldId: string, section: LayoutSection, event: Event) {
+    event.stopPropagation();
+    
+    // Find field label for confirmation
+    let fieldLabel = fieldId;
+    for (const row of section.rows) {
+      const field = row.find(f => f.id === fieldId);
+      if (field) {
+        fieldLabel = field.label;
+        break;
+      }
+    }
+    
+    if (!confirm(`Are you sure you want to remove "${fieldLabel}" from this section?`)) {
+      return;
+    }
+
     console.log('Deleting field:', fieldId);
 
-    // Remove field from sections
-    this.sections = this.sections.map(section => ({
-      ...section,
-      rows: section.rows.map(row => row.filter(field => field.id !== fieldId)).filter(row => row.length > 0)
-    }));
-
-    this.activeField = null;
+    // Remove field from the section
+    for (let i = 0; i < section.rows.length; i++) {
+      const row = section.rows[i];
+      const fieldIndex = row.findIndex(f => f.id === fieldId);
+      if (fieldIndex !== -1) {
+        row.splice(fieldIndex, 1);
+        // Remove empty rows
+        if (row.length === 0) {
+          section.rows.splice(i, 1);
+        }
+        this.showSettingsMenu = null;
+        this.activeField = null;
+        return;
+      }
+    }
   }
 
   /**

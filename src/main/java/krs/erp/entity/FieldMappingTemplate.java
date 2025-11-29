@@ -21,7 +21,7 @@ public class FieldMappingTemplate implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "field_mapping_template_id")
     private Long id;
     
     @Column(name = "entity_type", nullable = false, length = 50)

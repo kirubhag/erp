@@ -173,6 +173,14 @@ CREATE TABLE IF NOT EXISTS students (
     enrollment_date DATE NOT NULL,
     grade_level VARCHAR(50) NOT NULL,
     enrollment_status VARCHAR(50) NOT NULL DEFAULT 'ACTIVE',
+    -- High-priority additional fields
+    nationality VARCHAR(50),
+    blood_group VARCHAR(10),
+    photo_url VARCHAR(500),
+    section VARCHAR(20),
+    admission_number VARCHAR(50) UNIQUE,
+    admission_date DATE,
+    -- Existing fields
     address_id BIGINT,
     emergency_contact_name VARCHAR(100),
     emergency_contact_phone VARCHAR(20),
@@ -191,8 +199,64 @@ CREATE TABLE IF NOT EXISTS students (
     INDEX idx_email (email),
     INDEX idx_grade_level (grade_level),
     INDEX idx_enrollment_status (enrollment_status),
+    INDEX idx_section (section),
+    INDEX idx_admission_number (admission_number),
+    INDEX idx_blood_group (blood_group),
+    INDEX idx_nationality (nationality),
     INDEX idx_is_active (is_active)
 );
+
+-- Student Guardian Information Table
+CREATE TABLE IF NOT EXISTS student_guardian_info (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    student_id BIGINT NOT NULL UNIQUE,
+    father_name VARCHAR(100),
+    father_occupation VARCHAR(100),
+    father_phone VARCHAR(20),
+    father_email VARCHAR(100),
+    mother_name VARCHAR(100),
+    mother_occupation VARCHAR(100),
+    mother_phone VARCHAR(20),
+    mother_email VARCHAR(100),
+    guardian_name VARCHAR(100),
+    guardian_relation VARCHAR(50),
+    guardian_phone VARCHAR(20),
+    guardian_email VARCHAR(100),
+    guardian_address VARCHAR(300),
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    is_active INT DEFAULT 1,
+    CONSTRAINT fk_guardian_student FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE,
+    INDEX idx_student_id (student_id),
+    INDEX idx_father_phone (father_phone),
+    INDEX idx_mother_phone (mother_phone),
+    INDEX idx_guardian_phone (guardian_phone),
+    INDEX idx_is_active (is_active)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+
+-- Student Medical Information Table
+CREATE TABLE IF NOT EXISTS student_medical_info (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    student_id BIGINT NOT NULL UNIQUE,
+    allergies TEXT,
+    medical_conditions TEXT,
+    medications TEXT,
+    doctor_name VARCHAR(100),
+    doctor_phone VARCHAR(20),
+    hospital_preference VARCHAR(200),
+    insurance_provider VARCHAR(100),
+    insurance_policy_number VARCHAR(50),
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    is_active INT DEFAULT 1,
+    CONSTRAINT fk_medical_student FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE,
+    INDEX idx_student_id (student_id),
+    INDEX idx_is_active (is_active)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 -- =============================================================================
 -- Phase 4: Staff Table (Depends on addresses and iam_users)

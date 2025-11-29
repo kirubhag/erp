@@ -22,7 +22,7 @@ public class FieldMapping implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "field_mapping_id")
     private Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)

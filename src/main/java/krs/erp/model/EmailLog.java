@@ -3,6 +3,7 @@ package krs.erp.model;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,6 +19,7 @@ import krs.erp.enums.EntityType;
 
 @Entity
 @Table(name = "email_logs")
+@AttributeOverride(name = "id", column = @Column(name = "email_log_id"))
 public class EmailLog extends BaseEntity {
     
     @ManyToOne(fetch = FetchType.LAZY)

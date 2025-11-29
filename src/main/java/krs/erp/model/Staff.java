@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,6 +23,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "staff")
+@AttributeOverride(name = "id", column = @Column(name = "staff_id"))
 public class Staff extends BaseEntity {
     
     @NotBlank(message = "First name is required")
@@ -38,7 +40,7 @@ public class Staff extends BaseEntity {
     private String middleName;
     
     @NotBlank(message = "Staff ID is required")
-    @Column(name = "staff_id", unique = true, nullable = false, length = 20)
+    @Column(name = "staff_identifier", unique = true, nullable = false, length = 20)
     private String staffId;
     
     @Email(message = "Email should be valid")

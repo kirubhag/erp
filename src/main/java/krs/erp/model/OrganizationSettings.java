@@ -24,6 +24,7 @@ public class OrganizationSettings {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "organization_settings_id")
     private Long id;
 
     @Column(name = "organization_id", nullable = false, unique = true)
@@ -165,7 +166,7 @@ public class OrganizationSettings {
 
     // Relationships
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "organization_id", referencedColumnName = "organization_id", insertable = false, updatable = false)
     private Organization organization;
 
     // Constructors

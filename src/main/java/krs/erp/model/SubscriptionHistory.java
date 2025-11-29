@@ -20,6 +20,7 @@ public class SubscriptionHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "subscription_history_id")
     private Long id;
 
     @Column(name = "subscription_id", nullable = false)

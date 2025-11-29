@@ -3,6 +3,7 @@ package krs.erp.model;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,6 +15,7 @@ import krs.erp.enums.EntityType;
 
 @Entity
 @Table(name = "email_templates")
+@AttributeOverride(name = "id", column = @Column(name = "email_template_id"))
 public class EmailTemplate extends BaseEntity {
     
     @NotBlank(message = "Template name is required")

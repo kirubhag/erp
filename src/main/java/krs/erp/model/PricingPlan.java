@@ -22,6 +22,7 @@ public class PricingPlan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pricing_plan_id")
     private Long id;
 
     @Column(name = "plan_name", nullable = false, unique = true, length = 50)

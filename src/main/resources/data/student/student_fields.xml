@@ -73,6 +73,44 @@
         <fieldDescription>Student's gender</fieldDescription>
     </field>
     <field>
+        <fieldName>nationality</fieldName>
+        <fieldLabel>Nationality</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Student's nationality/citizenship</fieldDescription>
+    </field>
+    <field>
+        <fieldName>bloodGroup</fieldName>
+        <fieldLabel>Blood Group</fieldLabel>
+        <fieldType>PICKLIST</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <picklistOptions>A+,A-,B+,B-,O+,O-,AB+,AB-</picklistOptions>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Student's blood type</fieldDescription>
+    </field>
+    <field>
+        <fieldName>photoUrl</fieldName>
+        <fieldLabel>Photo</fieldLabel>
+        <fieldType>URL</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>9</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <showInList>false</showInList>
+        <fieldDescription>Student's profile photo URL</fieldDescription>
+    </field>
+    <field>
         <fieldName>email</fieldName>
         <fieldLabel>Email</fieldLabel>
         <fieldType>EMAIL</fieldType>
@@ -155,6 +193,42 @@
         <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
         <fieldDescription>Date when student was enrolled</fieldDescription>
+    </field>
+    <field>
+        <fieldName>section</fieldName>
+        <fieldLabel>Section</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>24</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Class section (A, B, C, etc.)</fieldDescription>
+    </field>
+    <field>
+        <fieldName>admissionNumber</fieldName>
+        <fieldLabel>Admission Number</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>25</displayOrder>
+        <defaultWidth>140</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique admission/registration number</fieldDescription>
+    </field>
+    <field>
+        <fieldName>admissionDate</fieldName>
+        <fieldLabel>Admission Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>26</displayOrder>
+        <defaultWidth>140</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Date of admission to school</fieldDescription>
     </field>
     <field>
         <fieldName>isActive</fieldName>

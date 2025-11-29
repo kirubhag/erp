@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sampleData entity="STUDENT_MEDICAL">
+    <!-- Sample Medical Info for Grade 1 Students -->
+    <record studentId="STU001">
+        <allergies>Peanuts, Penicillin</allergies>
+        <medicalConditions>Asthma (mild)</medicalConditions>
+        <medications>Albuterol inhaler as needed</medications>
+        <doctorName>Dr. Emily Watson</doctorName>
+        <doctorPhone>+1-555-9001</doctorPhone>
+        <hospitalPreference>City General Hospital</hospitalPreference>
+        <insuranceProvider>Blue Cross Blue Shield</insuranceProvider>
+        <insurancePolicyNumber>BCBS-12345678</insurancePolicyNumber>
+    </record>
+    
+    <record studentId="STU002">
+        <allergies>None known</allergies>
+        <medicalConditions>None</medicalConditions>
+        <medications>None</medications>
+        <doctorName>Dr. James Miller</doctorName>
+        <doctorPhone>+1-555-9002</doctorPhone>
+        <hospitalPreference>St. Mary's Medical Center</hospitalPreference>
+        <insuranceProvider>United Healthcare</insuranceProvider>
+        <insurancePolicyNumber>UHC-87654321</insurancePolicyNumber>
+    </record>
+    
+    <record studentId="STU003">
+        <allergies>Shellfish</allergies>
+        <medicalConditions>None</medicalConditions>
+        <medications>None</medications>
+        <doctorName>Dr. Susan Lee</doctorName>
+        <doctorPhone>+1-555-9003</doctorPhone>
+        <hospitalPreference>Community Hospital</hospitalPreference>
+        <insuranceProvider>Aetna</insuranceProvider>
+        <insurancePolicyNumber>AET-11223344</insurancePolicyNumber>
+    </record>
+</sampleData>

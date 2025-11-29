@@ -6,6 +6,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,6 +23,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "parents")
+@AttributeOverride(name = "id", column = @Column(name = "parent_id"))
 public class Parent extends BaseEntity {
     
     @NotBlank(message = "First name is required")

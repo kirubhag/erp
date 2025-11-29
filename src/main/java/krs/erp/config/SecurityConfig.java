@@ -43,7 +43,7 @@ public class SecurityConfig {
             .securityMatcher("/**")
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/auth/**", "/settings/auth/**", "/webjars/**", "/actuator/**", "/api/import/**", "/api/attachments/**", "/api/subscriptions/**")
+                .ignoringRequestMatchers("/api/auth/**", "/settings/auth/**", "/webjars/**", "/actuator/**", "/api/import/**", "/api/attachments/**", "/api/subscriptions/**", "/api/sections/**/layout")
             )
             .headers(headers -> headers
                 .contentSecurityPolicy(csp -> csp
@@ -61,6 +61,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/subjects/**").permitAll()  // Allow subjects endpoints for testing
                 .requestMatchers("/api/module/**").permitAll()  // Allow module/menu endpoints for testing
                 .requestMatchers("/api/fields/**").permitAll()  // Allow ERP fields metadata endpoints
+                .requestMatchers("/api/sections/**").permitAll()  // Allow sections endpoints for testing
                 .requestMatchers("/api/academic/**").permitAll()  // Allow academic settings endpoints
                 .requestMatchers("/api/users/**").permitAll()  // Allow users endpoints
                 .requestMatchers("/settings/users/**").permitAll()  // Allow settings users endpoints

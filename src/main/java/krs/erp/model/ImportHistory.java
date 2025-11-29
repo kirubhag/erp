@@ -24,6 +24,7 @@ public class ImportHistory {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "import_history_id")
     private Long id;
     
     @NotBlank(message = "Entity name is required")

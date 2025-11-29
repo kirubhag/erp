@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +35,8 @@ import krs.erp.service.ImportService;
 @RestController
 @RequestMapping("/api/import")
 public class ImportController {
+    
+    private static final Logger log = LoggerFactory.getLogger(ImportController.class);
     
     private final ImportService importService;
     
@@ -172,9 +176,12 @@ public class ImportController {
             @PathVariable String sessionId,
             @RequestBody List<FieldMappingDTO> mappings) {
         try {
+            log.info("Saving {} field mappings for session: {}", mappings.size(), sessionId);
             ImportSessionDTO session = importService.saveFieldMappings(sessionId, mappings);
+            log.info("Successfully saved field mappings for session: {}", sessionId);
             return ResponseEntity.ok(session);
         } catch (Exception e) {
+            log.error("Error saving field mappings for session {}: {}", sessionId, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

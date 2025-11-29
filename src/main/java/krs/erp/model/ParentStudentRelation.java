@@ -1,6 +1,7 @@
 package krs.erp.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,6 +13,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "parent_student_relations")
+@AttributeOverride(name = "id", column = @Column(name = "parent_student_relation_id"))
 public class ParentStudentRelation extends BaseEntity {
     
     @NotNull(message = "Parent is required")
