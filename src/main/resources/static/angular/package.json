@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build && node rename-chunks.js",
+    "build:original": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

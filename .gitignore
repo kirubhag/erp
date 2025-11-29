@@ -69,6 +69,10 @@ node_modules/
 **/angular/dist/
 **/angular/node_modules/
 
+# Old chunk naming pattern (replaced by erp-app-* naming)
+**/static/chunk-*.js
+**/static/chunk-*.js.map
+
 # Database migration backup/disabled files
 **/*.sql.disabled
 **/*.sql.bak
