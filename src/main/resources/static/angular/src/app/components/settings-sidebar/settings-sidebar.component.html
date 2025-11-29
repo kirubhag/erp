@@ -41,6 +41,7 @@
         <a 
           *ngFor="let item of category.items; trackBy: trackItem"
           [routerLink]="item.route"
+          [queryParams]="item.queryParams"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{exact: false}"
           class="nav-item">

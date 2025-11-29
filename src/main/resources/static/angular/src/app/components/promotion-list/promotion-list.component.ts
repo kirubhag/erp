@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StudentPromotionService } from '../../services/student-promotion.service';
 import { StudentPromotionResponse } from '../../models/student-promotion.model';
+import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 
 @Component({
   selector: 'app-promotion-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SettingsSidebarComponent],
   templateUrl: './promotion-list.component.html',
   styleUrls: ['./promotion-list.component.css']
 })

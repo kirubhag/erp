@@ -1,10 +1,17 @@
-<div class="container-fluid py-4">
-  <div class="mt-3 mb-4">
-    <h2 class="mb-0">
-      <i class="bi bi-plus-circle"></i> Create Student Promotion
-    </h2>
-  </div>
+<div class="setup-layout">
+  <app-settings-sidebar></app-settings-sidebar>
+  
+  <div class="settings-content-container">
+    <!-- Header -->
+    <div class="content-header">
+      <div>
+        <h1 class="content-title">Create Student Promotion</h1>
+        <p class="content-description">Create a new promotion batch to move students to the next academic year</p>
+      </div>
+    </div>
 
+    <!-- Content Body -->
+    <div class="content-body">
   <!-- Success Message -->
   <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="success">
     <i class="bi bi-check-circle-fill"></i> Promotion batch created successfully! Redirecting...
@@ -374,4 +381,7 @@
       </div>
     </div>
   </div>
+</div>
+</div>
+</div>
 </div>

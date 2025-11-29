@@ -14,6 +14,7 @@ export interface SetupItem {
   label: string;
   icon?: string;
   route?: string;
+  queryParams?: { [key: string]: string };
   description?: string;
 }
 
@@ -41,13 +42,6 @@ export class SetupComponent implements OnInit {
           description: 'Manage your personal preferences and account settings'
         },
         {
-          id: 'academic-settings',
-          label: 'Academic Settings',
-          icon: 'fas fa-graduation-cap',
-          route: '/setup/academic-settings',
-          description: 'Configure academic year, terms, grading scales, and educational settings'
-        },
-        {
           id: 'users',
           label: 'Users',
           icon: 'fas fa-users',
@@ -67,6 +61,54 @@ export class SetupComponent implements OnInit {
           icon: 'fas fa-crown', 
           route: '/setup/subscription', 
           description: "Displays an overview of your organization's subscription plan and feature usage limits"
+        }
+      ]
+    },
+    {
+      id: 'academic-settings',
+      title: 'Academic Settings',
+      items: [
+        {
+          id: 'academic-year',
+          label: 'Academic Year',
+          icon: 'fas fa-calendar-alt',
+          route: '/settings/academic/academic-year',
+          description: 'Configure academic years and terms'
+        },
+        {
+          id: 'grading-scale',
+          label: 'Grading Scale',
+          icon: 'fas fa-star',
+          route: '/settings/academic/grading',
+          description: 'Set up grading scales and letter grades'
+        },
+        {
+          id: 'attendance-settings',
+          label: 'Attendance Settings',
+          icon: 'fas fa-user-check',
+          route: '/settings/academic/attendance',
+          description: 'Configure attendance tracking and calculation'
+        },
+        {
+          id: 'exam-settings',
+          label: 'Exam Settings',
+          icon: 'fas fa-file-alt',
+          route: '/settings/academic/exam',
+          description: 'Set up exam defaults and grading policies'
+        },
+        {
+          id: 'student-promotion',
+          label: 'Student Promotion',
+          icon: 'fas fa-user-graduate',
+          route: '/promotions',
+          description: 'Manage student promotions between grades'
+        },
+        {
+          id: 'promotion-rules',
+          label: 'Promotion Rules',
+          icon: 'fas fa-graduation-cap',
+          route: '/settings/academic/promotion',
+          description: 'Configure promotion criteria and rules'
         }
       ]
     },
@@ -269,7 +311,11 @@ export class SetupComponent implements OnInit {
 
   onItemClick(item: SetupItem) {
     if (item.route) {
-      this.router.navigate([item.route]);
+      if (item.queryParams) {
+        this.router.navigate([item.route], { queryParams: item.queryParams });
+      } else {
+        this.router.navigate([item.route]);
+      }
     }
   }
 

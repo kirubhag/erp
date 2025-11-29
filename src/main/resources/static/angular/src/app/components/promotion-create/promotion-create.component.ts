@@ -8,11 +8,12 @@ import {
   StudentEligible,
   GradeStatistics
 } from '../../models/student-promotion.model';
+import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 
 @Component({
   selector: 'app-promotion-create',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SettingsSidebarComponent],
   templateUrl: './promotion-create.component.html',
   styleUrls: ['./promotion-create.component.css']
 })

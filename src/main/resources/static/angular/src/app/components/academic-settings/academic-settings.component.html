@@ -22,44 +22,7 @@
       <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
     </div>
 
-    <!-- Tabs Navigation -->
-    <ul class="nav nav-tabs mb-4">
-      <li class="nav-item">
-        <a class="nav-link" [class.active]="activeTab === 'academic-year'" (click)="setActiveTab('academic-year')">
-          <i class="fas fa-calendar-alt me-2"></i>Academic Year
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [class.active]="activeTab === 'terms'" (click)="setActiveTab('terms')">
-          <i class="fas fa-calendar-week me-2"></i>Terms/Semesters
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [class.active]="activeTab === 'grading'" (click)="setActiveTab('grading')">
-          <i class="fas fa-star me-2"></i>Grading Scale
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [class.active]="activeTab === 'attendance'" (click)="setActiveTab('attendance')">
-          <i class="fas fa-user-check me-2"></i>Attendance
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [class.active]="activeTab === 'exam'" (click)="setActiveTab('exam')">
-          <i class="fas fa-file-alt me-2"></i>Exam Settings
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [class.active]="activeTab === 'student-promotion'" (click)="setActiveTab('student-promotion')">
-          <i class="fas fa-user-graduate me-2"></i>Student Promotion
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [class.active]="activeTab === 'promotion'" (click)="setActiveTab('promotion')">
-          <i class="fas fa-graduation-cap me-2"></i>Promotion Rules
-        </a>
-      </li>
-    </ul>
+    <!-- Navigation is now in the sidebar -->
 
     <!-- Academic Year Tab -->
     <div *ngIf="activeTab === 'academic-year'" class="tab-content">
