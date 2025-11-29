@@ -23,6 +23,9 @@ export class PromotionListComponent implements OnInit {
   searchTerm = '';
   loading = false;
   error: string | null = null;
+  
+  // Expose Math to template
+  Math = Math;
 
   constructor(
     private promotionService: StudentPromotionService,

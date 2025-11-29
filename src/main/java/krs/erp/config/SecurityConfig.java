@@ -67,6 +67,7 @@ public class SecurityConfig {
                 .requestMatchers("/settings/users/**").permitAll()  // Allow settings users endpoints
                 .requestMatchers("/api/attachments/**").permitAll()  // Allow attachment endpoints (avatar upload)
                 .requestMatchers("/api/subscriptions/**").permitAll()  // Allow subscription/pricing endpoints for public access
+                .requestMatchers("/api/promotions/**").permitAll()  // Allow student promotion endpoints
                 .requestMatchers("/api/**").authenticated()  // Other API endpoints require authentication
                 .requestMatchers("/actuator/health", "/__healthcheck").permitAll()
                 .requestMatchers("/static/**", "/assets/**", "/css/**", "/js/**", "/images/**", "/vendor/**", "/dist/**", "/angular/**").permitAll()
