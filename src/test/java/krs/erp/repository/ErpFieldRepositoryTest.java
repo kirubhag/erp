@@ -45,7 +45,6 @@ class ErpFieldRepositoryTest {
         field1.setFieldName("firstName");
         field1.setFieldLabel("First Name");
         field1.setFieldType(FieldType.STRING);
-        field1.setFieldCategory("PERSONAL");
         field1.setIsRequired(true);
         field1.setIsSearchable(true);
         field1.setIsSortable(true);
@@ -58,7 +57,6 @@ class ErpFieldRepositoryTest {
         field2.setFieldName("email");
         field2.setFieldLabel("Email Address");
         field2.setFieldType(FieldType.EMAIL);
-        field2.setFieldCategory("CONTACT");
         field2.setIsRequired(true);
         field2.setIsSearchable(true);
         field2.setIsSortable(true);
@@ -71,7 +69,6 @@ class ErpFieldRepositoryTest {
         field3.setFieldName("employeeId");
         field3.setFieldLabel("Employee ID");
         field3.setFieldType(FieldType.STRING);
-        field3.setFieldCategory("PERSONAL");
         field3.setIsRequired(true);
         field3.setIsSearchable(true);
         field3.setIsSortable(false);
@@ -114,14 +111,7 @@ class ErpFieldRepositoryTest {
         assertEquals(2, page.getTotalElements());
     }
 
-    @Test
-    void testFindByEntityTypeAndFieldCategoryAndIsActiveTrue() {
-        List<ErpField> personalFields = erpFieldRepository.findByEntityTypeAndFieldCategoryAndIsActiveTrue(
-            EntityType.STUDENT, "PERSONAL");
-        
-        assertThat(personalFields).hasSize(1);
-        assertEquals("firstName", personalFields.get(0).getFieldName());
-    }
+    // Test removed - field categories are deprecated in favor of sections
 
     @Test
     void testFindSearchableFieldsByEntityType() {
@@ -157,14 +147,7 @@ class ErpFieldRepositoryTest {
             EntityType.STUDENT, "nonexistent"));
     }
 
-    @Test
-    void testFindDistinctFieldCategoriesByEntityType() {
-        List<String> categories = erpFieldRepository.findDistinctFieldCategoriesByEntityType(EntityType.STUDENT);
-        
-        assertThat(categories).hasSize(2);
-        assertTrue(categories.contains("PERSONAL"));
-        assertTrue(categories.contains("CONTACT"));
-    }
+    // Test removed - field categories are deprecated in favor of sections
 
     @Test
     void testCountByEntityTypeAndIsActiveTrue() {

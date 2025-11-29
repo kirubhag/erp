@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="STUDENT">
+    <section>
+        <sectionName>system_info</sectionName>
+        <sectionLabel>System Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>true</isCollapsedByDefault>
+        <showInCreate>false</showInCreate>
+        <showInEdit>false</showInEdit>
+        <showInDetail>true</showInDetail>
+        <sectionIcon>fas fa-info-circle</sectionIcon>
+        <description>System-generated information and identifiers</description>
+    </section>
+    <section>
+        <sectionName>personal_info</sectionName>
+        <sectionLabel>Personal Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <sectionIcon>fas fa-user</sectionIcon>
+        <description>Student's personal details including name and date of birth</description>
+    </section>
+    <section>
+        <sectionName>contact_info</sectionName>
+        <sectionLabel>Contact Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <sectionIcon>fas fa-address-book</sectionIcon>
+        <description>Contact details including email, phone, and address</description>
+    </section>
+    <section>
+        <sectionName>academic_info</sectionName>
+        <sectionLabel>Academic Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>4</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <sectionIcon>fas fa-graduation-cap</sectionIcon>
+        <description>Academic details including grade level and enrollment</description>
+    </section>
+    <section>
+        <sectionName>status_info</sectionName>
+        <sectionLabel>Status Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>5</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>true</isCollapsedByDefault>
+        <showInCreate>false</showInCreate>
+        <showInEdit>false</showInEdit>
+        <showInDetail>true</showInDetail>
+        <sectionIcon>fas fa-clock</sectionIcon>
+        <description>Record status and timestamps</description>
+    </section>
+</entitySections>

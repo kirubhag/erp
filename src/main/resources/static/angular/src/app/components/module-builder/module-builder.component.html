@@ -10,9 +10,18 @@
         {{ currentModule }}
       </button>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" (click)="selectModule('Candidates')">Candidates</a></li>
-        <li><a class="dropdown-item" (click)="selectModule('Jobs')">Jobs</a></li>
-        <li><a class="dropdown-item" (click)="selectModule('Clients')">Clients</a></li>
+        <li><a class="dropdown-item" (click)="selectModule('STUDENT')">Students</a></li>
+        <li><a class="dropdown-item" (click)="selectModule('STAFF')">Staff</a></li>
+        <li><a class="dropdown-item" (click)="selectModule('PARENT')">Parents</a></li>
+        <li><a class="dropdown-item" (click)="selectModule('USER')">Users</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item" (click)="selectModule('ORGANIZATION')">Organization</a></li>
+        <li><a class="dropdown-item" (click)="selectModule('SUBJECT')">Subjects</a></li>
+        <li><a class="dropdown-item" (click)="selectModule('TIMETABLE')">Timetable</a></li>
+        <li><a class="dropdown-item" (click)="selectModule('ATTENDANCE')">Attendance</a></li>
+        <li><a class="dropdown-item" (click)="selectModule('HEALTH')">Health</a></li>
       </ul>
     </div>
   </div>
@@ -31,7 +40,8 @@
       <a class="nav-link" [class.active]="activeTab === 'tabular'" (click)="setActiveTab('tabular')">Tabular</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" [class.active]="activeTab === 'layoutRules'" (click)="setActiveTab('layoutRules')">Layout Rules</a>
+      <a class="nav-link" [class.active]="activeTab === 'layoutRules'" (click)="setActiveTab('layoutRules')">Layout
+        Rules</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" [class.active]="activeTab === 'validationRules'" (click)="setActiveTab('validationRules')">
@@ -48,7 +58,8 @@
       <a class="nav-link" [class.active]="activeTab === 'summary'" (click)="setActiveTab('summary')">Summary</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" [class.active]="activeTab === 'coolingOff'" (click)="setActiveTab('coolingOff')">Cooling-off Period</a>
+      <a class="nav-link" [class.active]="activeTab === 'coolingOff'" (click)="setActiveTab('coolingOff')">Cooling-off
+        Period</a>
     </li>
   </ul>
 </div>
@@ -63,7 +74,8 @@
         <div class="accordion mb-3" id="newFieldsAccordion">
           <div class="accordion-item">
             <h2 class="accordion-header">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#newFieldsCollapse">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                data-bs-target="#newFieldsCollapse">
                 New Fields
               </button>
             </h2>
@@ -79,14 +91,15 @@
             </div>
           </div>
         </div>
-        
+
         <button class="btn btn-sm btn-outline-secondary w-100 mb-3" (click)="addNewSection()">NEW SECTION</button>
-        
+
         <!-- Unused Fields Accordion -->
         <div class="accordion" id="unusedFieldsAccordion">
           <div class="accordion-item">
             <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#unusedFieldsCollapse">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#unusedFieldsCollapse">
                 Unused Fields
                 <span class="badge bg-secondary ms-2">{{ unusedFields.length }}</span>
               </button>
@@ -123,15 +136,28 @@
           </button>
         </div>
 
-        <!-- User Fields Section -->
-        <div class="section-wrapper" *ngFor="let section of sections" [class.active]="section.id === activeSection" (click)="setActiveSection(section.id)">
-          <div class="section-header">{{ section.name }}</div>
-          
+        <!-- Loading State -->
+        <div class="text-center py-5" *ngIf="isLoadingFields">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="text-muted mt-3">Loading fields...</p>
+        </div>
+
+        <!-- Error State -->
+        <div class="alert alert-danger" *ngIf="fieldsError && !isLoadingFields">
+          <i class="fas fa-exclamation-circle me-2"></i>
+          {{ fieldsError }}
+        </div>
+
+        <!-- Fields Sections -->
+        <div class="section-wrapper" *ngFor="let section of sections" [class.active]="section.id === activeSection"
+          (click)="setActiveSection(section.id)">
+          <div class="section-header" contenteditable="true" (blur)="updateSectionName(section, $event)" (keydown.enter)="$event.preventDefault(); $any($event.target).blur()">{{ section.name }}</div>
+
           <div class="form-row" *ngFor="let row of section.rows">
-            <div class="form-field" 
-                 *ngFor="let field of row" 
-                 [class.active]="field.id === activeField"
-                 (click)="setActiveField(field.id, $event)">
+            <div class="form-field" *ngFor="let field of row" [class.active]="field.id === activeField"
+              (click)="setActiveField(field.id, $event)">
               <div class="field-label" [class.required]="field.required">{{ field.label }}</div>
               <div class="field-type">
                 <div class="d-flex align-items-center gap-2" *ngIf="field.prefix">
@@ -152,7 +178,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="alert-warning-custom" *ngIf="section.warning">
             <i class="fas fa-info-circle text-warning"></i>
             <span>{{ section.warning }}</span>

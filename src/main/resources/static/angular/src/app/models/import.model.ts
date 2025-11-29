@@ -27,8 +27,8 @@ export interface ImportColumn {
 }
 
 export interface FieldMapping {
-  sourceColumn: string;
-  sourceIndex: number;
+  sourceColumn: string | null;
+  sourceIndex: number | null;
   targetField: string;
   targetFieldLabel: string;
   isRequired: boolean;
@@ -37,6 +37,7 @@ export interface FieldMapping {
 
 export interface ImportSession {
   id: string;
+  entityType: string;
   fileName: string;
   fileFormat: string;
   totalRecords: number;
@@ -75,14 +76,12 @@ export interface ImportPreview {
 }
 
 export interface FieldMappingTemplate {
-  entityType: string;
-  fields: {
-    key: string;
-    label: string;
-    required: boolean;
-    dataType: string;
-    suggestions?: string[]; // Common column name variations
-  }[];
+  targetField: string;
+  targetFieldLabel: string;
+  isRequired: boolean;
+  dataType: string;
+  displayOrder?: number;
+  suggestions?: string[]; // Common column name variations
 }
 
 export interface ImportStatistics {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="SUBJECT">
+    <section>
+        <sectionName>system_info</sectionName>
+        <sectionLabel>System Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>true</isCollapsedByDefault>
+        <showInCreate>false</showInCreate>
+        <showInEdit>false</showInEdit>
+        <showInDetail>true</showInDetail>
+        <sectionIcon>fas fa-info-circle</sectionIcon>
+        <description>System-generated information</description>
+    </section>
+    <section>
+        <sectionName>academic_info</sectionName>
+        <sectionLabel>Subject Details</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <sectionIcon>fas fa-book</sectionIcon>
+        <description>Subject information including code, name, and description</description>
+    </section>
+    <section>
+        <sectionName>configuration</sectionName>
+        <sectionLabel>Configuration</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <sectionIcon>fas fa-cog</sectionIcon>
+        <description>Subject configuration and settings</description>
+    </section>
+</entitySections>

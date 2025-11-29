@@ -9,6 +9,7 @@ import java.util.List;
 public class ImportSessionDTO {
     
     private String id;
+    private String entityType;
     private String fileName;
     private String fileFormat;
     private Integer totalRecords;
@@ -41,6 +42,14 @@ public class ImportSessionDTO {
     
     public void setId(String id) {
         this.id = id;
+    }
+    
+    public String getEntityType() {
+        return entityType;
+    }
+    
+    public void setEntityType(String entityType) {
+        this.entityType = entityType;
     }
     
     public String getFileName() {

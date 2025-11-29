@@ -76,8 +76,8 @@ export class ImportService {
   /**
    * Get available field mapping template for entity type
    */
-  getFieldMappingTemplate(entityType: string): Observable<FieldMappingTemplate> {
-    return this.http.get<FieldMappingTemplate>(
+  getFieldMappingTemplate(entityType: string): Observable<FieldMappingTemplate[]> {
+    return this.http.get<FieldMappingTemplate[]>(
       `${this.apiUrl}/mapping-templates/${entityType}`
     );
   }

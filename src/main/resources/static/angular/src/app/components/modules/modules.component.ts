@@ -3,17 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
+import { MenuService, MenuItem } from '../../services/menu.service';
 
 export interface Module {
   id: number;
-  name: string;
-  displayName: string;
-  description: string;
+  systemName: string;
+  pluralName: string;
+  singularName: string;
   icon: string;
-  isCustom: boolean;
-  createdDate: string;
-  lastModified: string;
-  status: 'active' | 'inactive';
+  route: string;
+  sequence: number;
+  isActive: boolean;
 }
 
 @Component({
@@ -27,86 +27,49 @@ export class ModulesComponent implements OnInit {
   searchTerm = '';
   modules: Module[] = [];
   activeTab = 'modules';
+  isLoading = false;
+  errorMessage = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private menuService: MenuService
+  ) { }
 
   ngOnInit() {
     this.loadModules();
   }
 
   loadModules() {
-    this.modules = [
-      {
-        id: 1,
-        name: 'Candidates',
-        displayName: 'Candidates',
-        description: 'Manage candidate profiles and applications',
-        icon: 'fas fa-user-tie',
-        isCustom: false,
-        createdDate: '2024-01-10',
-        lastModified: '2024-11-01',
-        status: 'active'
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.menuService.getMenuItems().subscribe({
+      next: (items: MenuItem[]) => {
+        // Transform MenuItem to Module format
+        this.modules = items.map(item => ({
+          id: item.id,
+          systemName: item.systemName,
+          pluralName: item.pluralName,
+          singularName: item.singularName,
+          icon: item.icon,
+          route: item.route,
+          sequence: item.sequence,
+          isActive: item.isActive
+        }));
+        this.isLoading = false;
       },
-      {
-        id: 2,
-        name: 'Jobs',
-        displayName: 'Job Openings',
-        description: 'Create and manage job postings',
-        icon: 'fas fa-briefcase',
-        isCustom: false,
-        createdDate: '2024-01-10',
-        lastModified: '2024-10-25',
-        status: 'active'
-      },
-      {
-        id: 3,
-        name: 'Interviews',
-        displayName: 'Interviews',
-        description: 'Schedule and track interviews',
-        icon: 'fas fa-video',
-        isCustom: false,
-        createdDate: '2024-02-15',
-        lastModified: '2024-11-02',
-        status: 'active'
-      },
-      {
-        id: 4,
-        name: 'Contacts',
-        displayName: 'Contacts',
-        description: 'Manage contact information',
-        icon: 'fas fa-address-book',
-        isCustom: false,
-        createdDate: '2024-01-10',
-        lastModified: '2024-10-20',
-        status: 'active'
-      },
-      {
-        id: 5,
-        name: 'CustomModule',
-        displayName: 'Custom Module',
-        description: 'User-created custom module for tracking',
-        icon: 'fas fa-puzzle-piece',
-        isCustom: true,
-        createdDate: '2024-06-20',
-        lastModified: '2024-11-03',
-        status: 'active'
-      },
-      {
-        id: 6,
-        name: 'Reports',
-        displayName: 'Reports',
-        description: 'Generate and view reports',
-        icon: 'fas fa-chart-bar',
-        isCustom: false,
-        createdDate: '2024-03-01',
-        lastModified: '2024-10-30',
-        status: 'active'
+      error: (error) => {
+        console.error('Error loading modules:', error);
+        this.errorMessage = 'Failed to load modules. Please try again.';
+        this.isLoading = false;
+        // Set empty array on error
+        this.modules = [];
       }
-    ];
+    });
   }
 
   editModule(module: Module) {
-    this.router.navigate(['/setup/module-builder', module.id]);
+    this.router.navigate(['/setup/module-builder', module.systemName]);
   }
 
   createModule() {
@@ -114,13 +77,13 @@ export class ModulesComponent implements OnInit {
   }
 
   deleteModule(module: Module) {
-    if (confirm(`Are you sure you want to delete "${module.displayName}" module?`)) {
+    if (confirm(`Are you sure you want to delete "${module.pluralName}" module?`)) {
       this.modules = this.modules.filter(m => m.id !== module.id);
     }
   }
 
   toggleModuleStatus(module: Module) {
-    module.status = module.status === 'active' ? 'inactive' : 'active';
+    module.isActive = !module.isActive;
   }
 
   get filteredModules(): Module[] {
@@ -128,8 +91,9 @@ export class ModulesComponent implements OnInit {
       return this.modules;
     }
     return this.modules.filter(module =>
-      module.displayName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      module.description.toLowerCase().includes(this.searchTerm.toLowerCase())
+      module.pluralName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      module.singularName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      module.systemName.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 }

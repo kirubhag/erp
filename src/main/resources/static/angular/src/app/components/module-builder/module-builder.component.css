@@ -3,6 +3,13 @@
   background-color: white;
   padding: 1.5rem 2rem;
   border-bottom: 1px solid #dee2e6;
+  position: fixed;
+  top: 60px;
+  /* Below the navbar */
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .page-header h4 {
@@ -25,6 +32,13 @@
   background-color: white;
   border-bottom: 2px solid #dee2e6;
   padding: 0 2rem;
+  position: fixed;
+  top: 140px;
+  /* Below page-header (60px navbar + 83px page-header with padding) */
+  left: 0;
+  right: 0;
+  z-index: 999;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .tabs-nav .nav {
@@ -62,6 +76,8 @@
   padding: 2rem;
   background-color: #f8f9fa;
   min-height: calc(100vh - 200px);
+  margin-top: 203px;
+  /* Account for fixed headers (60px navbar + 83px page-header + 60px tabs) */
 }
 
 /* Field Sidebar */
@@ -157,8 +173,20 @@
   color: #6c757d;
   margin-bottom: 1.5rem;
   font-size: 0.85rem;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
+  cursor: text;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.section-header:hover {
+  background-color: #f8f9fa;
+}
+
+.section-header:focus {
+  outline: 2px solid var(--app-primary, #0099cc);
+  background-color: #fff;
 }
 
 /* Form Row */

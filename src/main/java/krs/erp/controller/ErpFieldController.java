@@ -101,19 +101,15 @@ public class ErpFieldController {
 
     /**
      * Get distinct categories for a specific entity type
+     * @deprecated Use ErpSectionController to get sections instead
+     * This endpoint is kept for backward compatibility but returns empty list
      */
+    @Deprecated
     @GetMapping("/{entityType}/categories")
     public ResponseEntity<List<String>> getFieldCategories(@PathVariable String entityType) {
-        try {
-            EntityType type = EntityType.fromValue(entityType);
-            if (type == null) {
-                return ResponseEntity.badRequest().build();
-            }
-            List<String> categories = erpFieldService.getFieldCategories(type);
-            return ResponseEntity.ok(categories);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        // Field categories are deprecated in favor of sections
+        // Return empty list for backward compatibility
+        return ResponseEntity.ok(List.of());
     }
 
     /**

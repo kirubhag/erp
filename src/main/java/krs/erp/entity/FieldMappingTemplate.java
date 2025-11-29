@@ -24,7 +24,7 @@ public class FieldMappingTemplate implements Serializable {
     @Column(name = "id")
     private Long id;
     
-    @Column(name = "entity_type", nullable = false, unique = true, length = 50)
+    @Column(name = "entity_type", nullable = false, length = 50)
     private String entityType; // students, candidates, contacts, users
     
     @Column(name = "field_name", nullable = false, length = 100)

@@ -162,7 +162,7 @@ public class ErpFieldXmlLoaderService {
             ErpField field = new ErpField(entityType, fieldName, fieldLabel, fieldType);
             
             // Set optional fields with defaults
-            field.setFieldCategory(getElementText(fieldElement, "fieldCategory"));
+            // Note: fieldCategory from XML is now handled by sections
             field.setDisplayOrder(getElementTextAsInt(fieldElement, "displayOrder", 0));
             field.setDefaultWidth(getElementTextAsInt(fieldElement, "defaultWidth", 100));
             field.setIsRequired(getElementTextAsBoolean(fieldElement, "isRequired", false));

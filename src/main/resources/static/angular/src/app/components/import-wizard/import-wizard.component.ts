@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ImportService } from '../../services/import.service';
@@ -31,7 +31,7 @@ import { ImportStep4Component } from './import-step-4/import-step-4.component';
       <!-- Wizard Header -->
       <div class="wizard-header">
         <div class="wizard-title">
-          <h4>Import Wizard</h4>
+          <h4>Import Wizard - {{ entityType | titlecase }}</h4>
           <span class="step-indicator">Step {{ currentStep }} of 4</span>
         </div>
       </div>
@@ -169,13 +169,19 @@ export class ImportWizardComponent implements OnInit, OnDestroy {
 
   constructor(
     private importService: ImportService,
-    private router: Router
-  ) {
-    // Get entity type from route params or use default
-    this.entityType = 'students';
-  }
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
+    // Get entity type from query parameters
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params => {
+        this.entityType = params['entityType'] || 'students';
+        console.log('Import Wizard - Entity Type:', this.entityType);
+      });
+
     this.importService.currentStep$
       .pipe(takeUntil(this.destroy$))
       .subscribe(step => {

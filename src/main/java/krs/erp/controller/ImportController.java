@@ -149,6 +149,21 @@ public class ImportController {
     }
     
     /**
+     * Get field mappings for a session
+     * GET /api/import/sessions/{sessionId}/mappings
+     */
+    @GetMapping("/sessions/{sessionId}/mappings")
+    public ResponseEntity<List<FieldMappingDTO>> getFieldMappings(
+            @PathVariable String sessionId) {
+        try {
+            List<FieldMappingDTO> mappings = importService.getFieldMappings(sessionId);
+            return ResponseEntity.ok(mappings);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+    
+    /**
      * Save field mappings
      * PUT /api/import/sessions/{sessionId}/mappings
      */

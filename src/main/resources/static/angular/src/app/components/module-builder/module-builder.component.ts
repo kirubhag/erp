@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { FieldService } from '../../services/field.service';
+import { ErpField, FieldsGroupedBySection } from '../../models/erp-field.model';
 
 export interface LayoutField {
   id: string;
@@ -35,11 +38,15 @@ export interface FieldType {
 export class ModuleBuilderComponent implements OnInit {
   moduleId: string | null = null;
   activeTab = 'layouts';
-  currentModule = 'Candidates';
+  currentModule = 'STUDENT'; // Changed to EntityType format
   selectedLayout = 'Standard';
   activeSection: string | null = null;
   activeField: string | null = null;
-  
+
+  // Loading and error states
+  isLoadingFields = false;
+  fieldsError: string = '';
+
   newFieldTypes: FieldType[] = [
     { id: 'singleLine', label: 'Single Li...', icon: 'fas fa-minus', type: 'Single Line' },
     { id: 'multiLine', label: 'Multi-Line', icon: 'fas fa-align-left', type: 'Multi-Line' },
@@ -72,11 +79,14 @@ export class ModuleBuilderComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private fieldService: FieldService
+  ) { }
 
   ngOnInit() {
-    this.loadLayoutData();
+    // Load fields for default module
+    this.loadFieldsForModule(this.currentModule);
+
     this.route.paramMap.subscribe(params => {
       this.moduleId = params.get('id');
       if (this.moduleId && this.moduleId !== 'new') {
@@ -90,53 +100,108 @@ export class ModuleBuilderComponent implements OnInit {
     console.log('Loading module:', id);
   }
 
-  loadLayoutData() {
-    this.sections = [
-      {
-        id: 'userFields',
-        name: 'USER FIELDS',
-        rows: [
-          [
-            { id: 'user1', label: 'User 1', type: 'User', required: false },
-            { id: 'user2', label: 'User 2', type: 'User', required: false }
-          ],
-          [
-            { id: 'users', label: 'Users', type: 'Multi User', required: false }
-          ]
-        ]
+  /**
+   * Load fields from backend for the specified module/entity type
+   */
+  loadFieldsForModule(entityType: string) {
+    this.isLoadingFields = true;
+    this.fieldsError = '';
+
+    this.fieldService.getFieldsGroupedBySection(entityType).subscribe({
+      next: (groupedFields: FieldsGroupedBySection) => {
+        this.sections = this.transformFieldsToSections(groupedFields);
+        this.isLoadingFields = false;
       },
-      {
-        id: 'basicInfo',
-        name: 'BASIC INFO',
-        rows: [
-          [
-            { id: 'candidateId', label: 'Candidates ID', type: 'Auto-Number', required: false },
-            { id: 'firstName', label: 'First Name', type: 'Single Line', required: false, prefix: 'Mr.' }
-          ],
-          [
-            { id: 'lastName', label: 'Last Name', type: 'Single Line', required: true },
-            { id: 'email', label: 'Email', type: 'Email (Unique)', required: false }
-          ],
-          [
-            { id: 'secondaryEmail', label: 'Secondary Email', type: 'Email', required: false },
-            { id: 'phone', label: 'Phone', type: 'Phone', required: false }
-          ],
-          [
-            { id: 'mobile', label: 'Mobile', type: 'Phone', required: false },
-            { id: 'fax', label: 'Fax', type: 'Phone', required: false }
-          ],
-          [
-            { id: 'website', label: 'Website', type: 'URL', required: false },
-            { id: 'dontList', label: 'Don\'t List in Client Portal', type: 'Checkbox', required: false }
-          ]
-        ],
-        warning: 'This field will be hidden during creation/editing.'
+      error: (error) => {
+        console.error('Error loading fields:', error);
+        this.fieldsError = 'Failed to load fields. Please try again.';
+        this.isLoadingFields = false;
+        // Fallback to empty sections
+        this.sections = [];
       }
-    ];
+    });
+  }
+
+  /**
+   * Transform grouped ErpField data to LayoutSection format
+   * Fields are now grouped by section labels instead of categories
+   */
+  transformFieldsToSections(groupedFields: FieldsGroupedBySection): LayoutSection[] {
+    const sections: LayoutSection[] = [];
+
+    // Convert each category to a section
+    Object.keys(groupedFields).forEach(category => {
+      const fields = groupedFields[category];
+
+      // Group fields into rows (2 fields per row)
+      const rows: LayoutField[][] = [];
+      for (let i = 0; i < fields.length; i += 2) {
+        const row: LayoutField[] = [];
+
+        // Add first field in row
+        row.push(this.convertErpFieldToLayoutField(fields[i]));
+
+        // Add second field if exists
+        if (i + 1 < fields.length) {
+          row.push(this.convertErpFieldToLayoutField(fields[i + 1]));
+        }
+
+        rows.push(row);
+      }
+
+      sections.push({
+        id: category.toLowerCase().replace(/\s+/g, '_'),
+        name: category.toUpperCase(),
+        rows: rows
+      });
+    });
+
+    return sections;
+  }
+
+  /**
+   * Convert ErpField to LayoutField format
+   */
+  convertErpFieldToLayoutField(field: ErpField): LayoutField {
+    return {
+      id: field.fieldName,
+      label: field.fieldLabel,
+      type: this.getDisplayFieldType(field.fieldType),
+      required: field.isRequired
+    };
+  }
+
+  /**
+   * Get display-friendly field type name
+   */
+  getDisplayFieldType(fieldType: string): string {
+    const typeMap: { [key: string]: string } = {
+      'TEXT': 'Single Line',
+      'TEXTAREA': 'Multi-Line',
+      'EMAIL': 'Email',
+      'PHONE': 'Phone',
+      'PICKLIST': 'Pick List',
+      'MULTISELECT': 'Multi-Select',
+      'DATE': 'Date',
+      'DATETIME': 'Date/Time',
+      'NUMBER': 'Number',
+      'AUTONUMBER': 'Auto-Number',
+      'CURRENCY': 'Currency',
+      'DECIMAL': 'Decimal',
+      'PERCENT': 'Percent',
+      'BOOLEAN': 'Checkbox',
+      'URL': 'URL',
+      'LOOKUP': 'Lookup',
+      'USER': 'User'
+    };
+
+    return typeMap[fieldType] || fieldType;
   }
 
   selectModule(module: string) {
     this.currentModule = module;
+    // Load fields for the newly selected module
+    this.loadFieldsForModule(module);
   }
 
   selectLayout(layout: string) {
@@ -152,10 +217,19 @@ export class ModuleBuilderComponent implements OnInit {
     this.activeField = null;
   }
 
+  updateSectionName(section: LayoutSection, event: Event) {
+    const target = event.target as HTMLElement;
+    const newName = target.textContent?.trim();
+    if (newName && newName !== section.name) {
+      section.name = newName;
+      console.log('Section name updated:', section.name);
+    }
+  }
+
   setActiveField(fieldId: string, event: Event) {
     event.stopPropagation();
     this.activeField = fieldId;
-    
+
     // Find and set active section
     for (const section of this.sections) {
       for (const row of section.rows) {
@@ -190,13 +264,13 @@ export class ModuleBuilderComponent implements OnInit {
   deleteField(fieldId: string, event: Event) {
     event.stopPropagation();
     console.log('Deleting field:', fieldId);
-    
+
     // Remove field from sections
     this.sections = this.sections.map(section => ({
       ...section,
       rows: section.rows.map(row => row.filter(field => field.id !== fieldId)).filter(row => row.length > 0)
     }));
-    
+
     this.activeField = null;
   }
 

@@ -25,7 +25,7 @@ export class PersonalSettingsComponent implements OnInit {
   avatarUrl: string | null = null;
   hasAvatar = false;
   avatarLoadError = false;
-  
+
   // Avatar view and crop
   showViewModal = false;
   showCropModal = false;
@@ -33,7 +33,7 @@ export class PersonalSettingsComponent implements OnInit {
   cropRotation = 0;
   selectedFile: File | null = null;
   imagePreview: string | null = null;
-  
+
   @ViewChild('cropCanvas', { static: false }) cropCanvas!: ElementRef<HTMLCanvasElement>;
 
   // Locale Information
@@ -72,7 +72,7 @@ export class PersonalSettingsComponent implements OnInit {
     private themeService: ThemeService,
     private http: HttpClient,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadCurrentUser();
@@ -85,7 +85,7 @@ export class PersonalSettingsComponent implements OnInit {
    */
   loadThemeFromService(): void {
     this._selectedTheme = this.themeService.getTheme();
-    
+
     // Load from database if user context is available
     if (this.currentUser?.id && this.currentUser?.organizationId) {
       this.themeService.loadThemeFromDatabase(
@@ -286,7 +286,7 @@ export class PersonalSettingsComponent implements OnInit {
     }
 
     const file = input.files[0];
-    
+
     // Validate file type
     if (!file.type.startsWith('image/')) {
       this.errorMessage = 'Please select an image file';
@@ -302,7 +302,7 @@ export class PersonalSettingsComponent implements OnInit {
     // Open crop modal
     this.selectedFile = file;
     this.openCropModal(file);
-    
+
     // Reset input
     input.value = '';
   }
@@ -322,7 +322,8 @@ export class PersonalSettingsComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('userId', this.currentUser.id.toString());
+    formData.append('entityType', 'USER');
+    formData.append('entityId', this.currentUser.id.toString());
     // Use organizationId if available, otherwise default to 1
     const orgId = this.currentUser.organizationId || 1;
     formData.append('organizationId', orgId.toString());
@@ -336,7 +337,7 @@ export class PersonalSettingsComponent implements OnInit {
         this.avatarUrl = response.attachment.url + '?t=' + timestamp;
         this.hasAvatar = true;
         this.avatarLoadError = false;
-        
+
         // Update current user with new avatar URL
         if (this.currentUser) {
           this.currentUser.avatarUrl = response.attachment.url;
@@ -345,7 +346,7 @@ export class PersonalSettingsComponent implements OnInit {
           // Update auth service to trigger navbar refresh
           this.authService.setCurrentUser(this.currentUser);
         }
-        
+
         // Clear success message after 3 seconds
         setTimeout(() => {
           this.successMessage = '';
@@ -366,12 +367,12 @@ export class PersonalSettingsComponent implements OnInit {
     if (this.avatarUrl) {
       return this.avatarUrl;
     }
-    
+
     if (this.currentUser?.id && this.hasAvatar && !this.avatarLoadError) {
       // Use a stable URL without timestamp to avoid change detection errors
       return `/api/attachments/avatar/${this.currentUser.id}`;
     }
-    
+
     // Default placeholder with user initials
     const initials = this.getUserInitials();
     return `https://placehold.co/80x80/E8F0FE/333?text=${initials}`;
@@ -411,7 +412,7 @@ export class PersonalSettingsComponent implements OnInit {
       this.showCropModal = true;
       this.cropScale = 1;
       this.cropRotation = 0;
-      
+
       // Wait for canvas to be available
       setTimeout(() => {
         this.drawImageOnCanvas();
@@ -506,7 +507,7 @@ export class PersonalSettingsComponent implements OnInit {
     if (!this.cropCanvas) return;
 
     const canvas = this.cropCanvas.nativeElement;
-    
+
     // Convert canvas to blob
     canvas.toBlob((blob) => {
       if (!blob) {

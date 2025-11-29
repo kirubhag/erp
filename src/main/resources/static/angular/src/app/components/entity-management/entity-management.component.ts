@@ -33,6 +33,7 @@ interface ApiResponse {
       (pageChange)="onPageChange($event)"
       (searchChange)="onSearch($event)"
       (rowClick)="onRowClick($event)"
+      (actionClick)="onActionClick($event)"
     ></app-entity-list>
   `,
   styles: []
@@ -216,6 +217,34 @@ export class EntityManagementComponent implements OnInit {
     const itemId = item.id;
     if (itemId) {
       this.router.navigate(['/entity-detail', entityType, itemId]);
+    }
+  }
+
+  onActionClick(event: { action: string; item?: any; selectedItems?: any[] }): void {
+    switch (event.action) {
+      case 'import':
+        console.log(`Import ${this.entityType} - navigating to import-wizard route`);
+        this.router.navigate(['/import-wizard'], { 
+          queryParams: { entityType: this.entityType } 
+        }).then(success => {
+          console.log('Navigation:', success ? 'SUCCESS' : 'FAILED');
+        });
+        break;
+      case 'export':
+        console.log(`Export ${this.entityType}`, event.selectedItems || 'all');
+        // Implement export logic if needed
+        break;
+      case 'delete':
+        if (event.item) {
+          console.log(`Delete ${this.entityType}`, event.item);
+          // Implement delete logic for single item
+        } else if (event.selectedItems && event.selectedItems.length > 0) {
+          console.log(`Delete ${event.selectedItems.length} ${this.entityType} items`, event.selectedItems);
+          // Implement bulk delete logic
+        }
+        break;
+      default:
+        console.log('Unhandled action:', event.action);
     }
   }
 }

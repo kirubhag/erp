@@ -43,11 +43,10 @@ public class ErpFieldService {
      * Get fields grouped by category for a specific entity type
      */
     public Map<String, List<ErpField>> getFieldsGroupedByCategory(EntityType entityType) {
-        List<ErpField> fields = getFieldsByEntityType(entityType);
+        List<ErpField> fields = erpFieldRepository.findByEntityTypeAndIsActiveTrue(entityType);
         return fields.stream()
                 .collect(Collectors.groupingBy(
-                    field -> field.getFieldCategory() != null ? field.getFieldCategory() : "General"
-                ));
+                        field -> field.getSection() != null ? field.getSection().getSectionLabel() : "General"));
     }
 
     /**
@@ -62,13 +61,6 @@ public class ErpFieldService {
      */
     public List<ErpField> getSortableFields(EntityType entityType) {
         return erpFieldRepository.findSortableFieldsByEntityType(entityType);
-    }
-
-    /**
-     * Get distinct categories for a specific entity type
-     */
-    public List<String> getFieldCategories(EntityType entityType) {
-        return erpFieldRepository.findDistinctFieldCategoriesByEntityType(entityType);
     }
 
     /**
@@ -174,7 +166,8 @@ public class ErpFieldService {
         // Validate max length for text fields
         if (uiFieldType.getMaxLength() != null && field.getMaxLength() != null) {
             if (field.getMaxLength() > uiFieldType.getMaxLength()) {
-                errors.add("Maximum length cannot exceed " + uiFieldType.getMaxLength() + " for " + uiFieldType.getDisplayName());
+                errors.add("Maximum length cannot exceed " + uiFieldType.getMaxLength() + " for "
+                        + uiFieldType.getDisplayName());
             }
         }
 

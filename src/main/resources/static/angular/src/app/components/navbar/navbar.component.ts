@@ -41,19 +41,19 @@ export class NavbarComponent implements OnInit {
     private authService: AuthService,
     private themeService: ThemeService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Set default menu items immediately (synchronous)
     this.setDefaultMenuItems();
     console.log('Navbar initialized with default menu items');
-    
+
     // Load current user
     this.loadCurrentUser();
-    
+
     // Load theme from service (will load from localStorage + database if available)
     this.loadTheme();
-    
+
     // Load menu items from API
     this.loadMenuItems();
   }
@@ -82,7 +82,7 @@ export class NavbarComponent implements OnInit {
   loadTheme(): void {
     // Get current theme from service
     this.selectedTheme = this.themeService.getTheme();
-    
+
     // Subscribe to theme changes
     this.themeService.getTheme$().subscribe(theme => {
       this.selectedTheme = theme;
@@ -102,13 +102,17 @@ export class NavbarComponent implements OnInit {
           ...item,
           route: this.convertRoute(item.route)
         }));
-        
+
         this.visibleMenuItems = this.menuItems.filter(item => item.isActive);
         console.log('Menu items loaded from API:', items.length);
       },
       error: (error) => {
-        console.error('Error loading menu items:', error);
-        // Default already set in ngOnInit
+        // Silently fail and use default menu items
+        // Only log if it's not a timeout error
+        if (error.name !== 'TimeoutError') {
+          console.warn('Error fetching menu items, using defaults:', error.message);
+        }
+        // Default menu items already set in ngOnInit via setDefaultMenuItems()
       }
     });
   }

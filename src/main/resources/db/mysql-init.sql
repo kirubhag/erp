@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS role_permissions (
     role_id BIGINT NOT NULL,
     permission_id BIGINT NOT NULL,
     PRIMARY KEY (role_id, permission_id),
-    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
-    FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE,
+    FOREIGN KEY (permission_id) REFERENCES permissions (id) ON DELETE CASCADE,
     INDEX idx_permission_id (permission_id)
 );
 
@@ -151,8 +151,8 @@ CREATE TABLE IF NOT EXISTS user_roles (
     user_id BIGINT NOT NULL,
     role_id BIGINT NOT NULL,
     PRIMARY KEY (user_id, role_id),
-    FOREIGN KEY (user_id) REFERENCES iam_users(id) ON DELETE CASCADE,
-    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES iam_users (id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE,
     INDEX idx_role_id (role_id)
 );
 
@@ -185,8 +185,8 @@ CREATE TABLE IF NOT EXISTS students (
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     UNIQUE KEY unique_user_id (user_id),
-    FOREIGN KEY (address_id) REFERENCES addresses(id),
-    FOREIGN KEY (user_id) REFERENCES iam_users(id),
+    FOREIGN KEY (address_id) REFERENCES addresses (id),
+    FOREIGN KEY (user_id) REFERENCES iam_users (id),
     INDEX idx_student_id (student_id),
     INDEX idx_email (email),
     INDEX idx_grade_level (grade_level),
@@ -229,8 +229,8 @@ CREATE TABLE IF NOT EXISTS staff (
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     UNIQUE KEY unique_user_id (user_id),
-    FOREIGN KEY (address_id) REFERENCES addresses(id),
-    FOREIGN KEY (user_id) REFERENCES iam_users(id),
+    FOREIGN KEY (address_id) REFERENCES addresses (id),
+    FOREIGN KEY (user_id) REFERENCES iam_users (id),
     INDEX idx_staff_id (staff_id),
     INDEX idx_email (email),
     INDEX idx_employment_status (employment_status),
@@ -266,8 +266,8 @@ CREATE TABLE IF NOT EXISTS parents (
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     UNIQUE KEY unique_user_id (user_id),
-    FOREIGN KEY (address_id) REFERENCES addresses(id),
-    FOREIGN KEY (user_id) REFERENCES iam_users(id),
+    FOREIGN KEY (address_id) REFERENCES addresses (id),
+    FOREIGN KEY (user_id) REFERENCES iam_users (id),
     INDEX idx_email (email),
     INDEX idx_is_active (is_active)
 );
@@ -290,8 +290,8 @@ CREATE TABLE IF NOT EXISTS parent_student_relations (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
-    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
+    FOREIGN KEY (parent_id) REFERENCES parents (id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE,
     INDEX idx_parent_id (parent_id),
     INDEX idx_student_id (student_id),
     INDEX idx_relationship_type (relationship_type),
@@ -334,11 +334,11 @@ CREATE TABLE IF NOT EXISTS grades (
     course_code VARCHAR(20) NOT NULL,
     course_name VARCHAR(200) NOT NULL,
     exam_type VARCHAR(50) NOT NULL,
-    marks_obtained DECIMAL(5,2) NOT NULL,
-    total_marks DECIMAL(5,2) NOT NULL,
-    percentage DECIMAL(5,2),
+    marks_obtained DECIMAL(5, 2) NOT NULL,
+    total_marks DECIMAL(5, 2) NOT NULL,
+    percentage DECIMAL(5, 2),
     letter_grade VARCHAR(5),
-    grade_point DECIMAL(4,2),
+    grade_point DECIMAL(4, 2),
     exam_date DATE NOT NULL,
     semester VARCHAR(20) NOT NULL,
     academic_year VARCHAR(20) NOT NULL,
@@ -412,9 +412,9 @@ CREATE TABLE IF NOT EXISTS attendance (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE SET NULL,
-    FOREIGN KEY (staff_id) REFERENCES staff(id) ON DELETE SET NULL,
-    FOREIGN KEY (recorded_by) REFERENCES iam_users(id) ON DELETE SET NULL,
+    FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE SET NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff (id) ON DELETE SET NULL,
+    FOREIGN KEY (recorded_by) REFERENCES iam_users (id) ON DELETE SET NULL,
     INDEX idx_attendance_date (attendance_date),
     INDEX idx_student_id (student_id),
     INDEX idx_staff_id (staff_id),
@@ -452,8 +452,8 @@ CREATE TABLE IF NOT EXISTS health_records (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
-    FOREIGN KEY (recorded_by) REFERENCES iam_users(id) ON DELETE SET NULL,
+    FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE,
+    FOREIGN KEY (recorded_by) REFERENCES iam_users (id) ON DELETE SET NULL,
     INDEX idx_student_id (student_id),
     INDEX idx_record_type (record_type),
     INDEX idx_requires_attention (requires_attention),
@@ -471,7 +471,6 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     field_label VARCHAR(200) NOT NULL,
     field_type VARCHAR(50) NOT NULL,
     ui_type INT,
-    field_category VARCHAR(100),
     is_required BOOLEAN DEFAULT false,
     is_searchable BOOLEAN DEFAULT true,
     is_sortable BOOLEAN DEFAULT true,
@@ -486,6 +485,9 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     show_in_list BOOLEAN DEFAULT true,
     show_in_form BOOLEAN DEFAULT true,
     column_width VARCHAR(50) DEFAULT 'medium',
+    section_id BIGINT,
+    row_position INT DEFAULT 0,
+    column_position INT DEFAULT 0,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL,
@@ -494,9 +496,53 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     is_active INT DEFAULT 1,
     INDEX idx_entity_type (entity_type),
     INDEX idx_field_name (field_name),
-    INDEX idx_field_category (field_category),
+    INDEX idx_section (section_id),
+    INDEX idx_position (
+        section_id,
+        row_position,
+        column_position
+    ),
     INDEX idx_is_active (is_active)
 );
+
+-- ERP Sections table - Stores module section configurations
+CREATE TABLE IF NOT EXISTS erp_sections (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    entity_type VARCHAR(50) NOT NULL,
+    section_name VARCHAR(100) NOT NULL,
+    section_label VARCHAR(200) NOT NULL,
+    layout_type VARCHAR(20) NOT NULL DEFAULT 'TWO_COLUMN',
+    display_order INT NOT NULL DEFAULT 0,
+    is_collapsible TINYINT(1) DEFAULT 0,
+    is_collapsed_by_default TINYINT(1) DEFAULT 0,
+    show_in_create TINYINT(1) DEFAULT 1,
+    show_in_edit TINYINT(1) DEFAULT 1,
+    show_in_detail TINYINT(1) DEFAULT 1,
+    section_icon VARCHAR(100),
+    section_color VARCHAR(50),
+    css_class VARCHAR(100),
+    description TEXT,
+    help_text TEXT,
+    is_active TINYINT(1) DEFAULT 1,
+    created_by VARCHAR(255),
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modified_by VARCHAR(255),
+    modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    owner_id BIGINT,
+    organization_id BIGINT,
+    UNIQUE KEY uk_section (
+        entity_type,
+        section_name,
+        organization_id
+    ),
+    INDEX idx_entity_type (entity_type),
+    INDEX idx_display_order (display_order),
+    INDEX idx_is_active (is_active)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+
+-- Add foreign key constraint for section relationship
+ALTER TABLE erp_fields
+ADD CONSTRAINT fk_field_section FOREIGN KEY (section_id) REFERENCES erp_sections (id) ON DELETE SET NULL;
 
 -- =============================================================================
 -- Phase 10: Email Configuration Tables (Depends on nothing directly)
@@ -550,7 +596,7 @@ CREATE TABLE IF NOT EXISTS email_logs (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (template_id) REFERENCES email_templates(id),
+    FOREIGN KEY (template_id) REFERENCES email_templates (id),
     INDEX idx_entity (entity_type, entity_id),
     INDEX idx_recipient_email (recipient_email),
     INDEX idx_status (status),
@@ -590,8 +636,8 @@ CREATE TABLE IF NOT EXISTS erp_entities_role_relation (
     created_by VARCHAR(100),
     last_modified_by VARCHAR(100),
     UNIQUE KEY unique_entity_role (entity_id, role_id),
-    FOREIGN KEY (entity_id) REFERENCES erp_entities(id) ON DELETE CASCADE,
-    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
+    FOREIGN KEY (entity_id) REFERENCES erp_entities (id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE,
     INDEX idx_entity_id (entity_id),
     INDEX idx_role_id (role_id)
 );
@@ -623,7 +669,7 @@ CREATE TABLE IF NOT EXISTS custom_views (
 CREATE TABLE IF NOT EXISTS custom_view_fields (
     custom_view_id BIGINT NOT NULL,
     field_name VARCHAR(100) NOT NULL,
-    FOREIGN KEY (custom_view_id) REFERENCES custom_views(id) ON DELETE CASCADE,
+    FOREIGN KEY (custom_view_id) REFERENCES custom_views (id) ON DELETE CASCADE,
     INDEX idx_custom_view_id (custom_view_id)
 );
 

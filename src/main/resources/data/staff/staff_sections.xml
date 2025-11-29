@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="STAFF">
+    <section>
+        <sectionName>system_info</sectionName>
+        <sectionLabel>System Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>true</isCollapsedByDefault>
+        <showInCreate>false</showInCreate>
+        <showInEdit>false</showInEdit>
+        <showInDetail>true</showInDetail>
+        <sectionIcon>fas fa-info-circle</sectionIcon>
+        <description>System-generated information and identifiers</description>
+    </section>
+    <section>
+        <sectionName>personal_info</sectionName>
+        <sectionLabel>Personal Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <sectionIcon>fas fa-user</sectionIcon>
+        <description>Staff member's personal details</description>
+    </section>
+    <section>
+        <sectionName>employment_info</sectionName>
+        <sectionLabel>Employment Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <sectionIcon>fas fa-briefcase</sectionIcon>
+        <description>Employment details and job information</description>
+    </section>
+    <section>
+        <sectionName>contact_info</sectionName>
+        <sectionLabel>Contact Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>4</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <sectionIcon>fas fa-address-book</sectionIcon>
+        <description>Contact details</description>
+    </section>
+</entitySections>

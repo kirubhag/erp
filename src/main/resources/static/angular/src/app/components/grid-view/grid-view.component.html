@@ -2,16 +2,12 @@
 <div class="grid-view-header" *ngIf="title">
   <h5 class="mb-0">{{title}}</h5>
   <div class="view-mode-toggle">
-    <button class="view-btn" 
-            [class.active]="displayModeInternal === 'list'"
-            (click)="switchMode('list')"
-            title="List view">
+    <button class="view-btn" [class.active]="displayModeInternal === 'list'" (click)="switchMode('list')"
+      title="List view">
       <i class="fas fa-list"></i>
     </button>
-    <button class="view-btn" 
-            [class.active]="displayModeInternal === 'cards'"
-            (click)="switchMode('cards')"
-            title="Card view">
+    <button class="view-btn" [class.active]="displayModeInternal === 'cards'" (click)="switchMode('cards')"
+      title="Card view">
       <i class="fas fa-th"></i>
     </button>
   </div>
@@ -35,33 +31,25 @@
 <div class="grid-cards-container" *ngIf="displayModeInternal === 'cards' && !loading && items.length > 0">
   <div class="row g-3 p-3">
     <div [ngClass]="getGridColClasses()" *ngFor="let item of items; trackBy: trackByFn">
-      <div class="grid-card" 
-           [class.card-hover]="hoverEffect"
-           (click)="onCardClick(item)">
-        
+      <div class="grid-card" [class.card-hover]="hoverEffect" (click)="onCardClick(item)">
+
         <!-- Checkbox -->
         <div class="card-checkbox" *ngIf="showCheckbox && enableSelection">
-          <input type="checkbox" 
-                 [checked]="isSelected(item)"
-                 (change)="toggleItem(item)"
-                 (click)="$event.stopPropagation()">
+          <input type="checkbox" [checked]="isSelected(item)" (change)="toggleItem(item)"
+            (click)="$event.stopPropagation()">
         </div>
 
         <!-- Card Content -->
         <div class="card-content">
           <!-- Avatar and Title -->
           <div class="card-header-section" *ngIf="getFirstColumn() as firstCol">
-            <app-entity-avatar *ngIf="showAvatar && entityType"
-              [entityId]="item.id"
-              [entityType]="entityType"
-              [entityName]="getCellValue(item, firstCol)"
-              [organizationId]="organizationId || 1"
-              [size]="'medium'"
-              [showControls]="true"
-              [clickable]="true"
+            <app-entity-avatar *ngIf="showAvatar && entityType" [entityId]="item.id" [entityType]="entityType"
+              [entityName]="getCellValue(item, firstCol)" [organizationId]="organizationId || 1" [size]="'medium'"
+              [showControls]="false" [clickable]="true" [hasAvatarData]="!!item['avatarUrl']"
               (click)="$event.stopPropagation()">
             </app-entity-avatar>
-            <div class="card-avatar" *ngIf="showAvatar && !entityType" [ngClass]="getAvatarClass(getCellValue(item, firstCol))">
+            <div class="card-avatar" *ngIf="showAvatar && !entityType"
+              [ngClass]="getAvatarClass(getCellValue(item, firstCol))">
               {{getAvatarText(getCellValue(item, firstCol))}}
             </div>
             <div class="card-title-section">
@@ -76,19 +64,16 @@
               <span class="detail-label">{{column.label}}</span>
               <div class="detail-value" [ngSwitch]="column.type">
                 <!-- Email -->
-                <a *ngSwitchCase="'email'" 
-                   [href]="'mailto:' + getCellValue(item, column)"
-                   class="text-primary text-decoration-none"
-                   (click)="$event.stopPropagation()">
+                <a *ngSwitchCase="'email'" [href]="'mailto:' + getCellValue(item, column)"
+                  class="text-primary text-decoration-none" (click)="$event.stopPropagation()">
                   {{getCellValue(item, column)}}
                 </a>
 
                 <!-- Badge -->
-                <span *ngSwitchCase="'badge'" 
-                      class="badge"
-                      [class.badge-success]="getBadgeClass(getCellValue(item, column)) === 'badge-success'"
-                      [class.badge-danger]="getBadgeClass(getCellValue(item, column)) === 'badge-danger'"
-                      [class.badge-secondary]="getBadgeClass(getCellValue(item, column)) === 'badge-secondary'">
+                <span *ngSwitchCase="'badge'" class="badge"
+                  [class.badge-success]="getBadgeClass(getCellValue(item, column)) === 'badge-success'"
+                  [class.badge-danger]="getBadgeClass(getCellValue(item, column)) === 'badge-danger'"
+                  [class.badge-secondary]="getBadgeClass(getCellValue(item, column)) === 'badge-secondary'">
                   {{getBadgeText(getCellValue(item, column))}}
                 </span>
 
@@ -140,27 +125,19 @@
       <thead>
         <tr>
           <th *ngIf="showCheckbox && enableSelection" class="checkbox-col">
-            <input type="checkbox" 
-                   [checked]="allSelected"
-                   (change)="toggleSelectAll()">
+            <input type="checkbox" [checked]="allSelected" (change)="toggleSelectAll()">
           </th>
-          <th *ngFor="let column of columns" 
-              [style.width]="column.width"
-              [class.sortable]="column.sortable">
+          <th *ngFor="let column of columns" [style.width]="column.width" [class.sortable]="column.sortable">
             {{column.label}}
           </th>
           <th *ngIf="showActions" class="actions-col">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of items; trackBy: trackByFn" 
-            class="grid-row"
-            (click)="onCardClick(item)">
+        <tr *ngFor="let item of items; trackBy: trackByFn" class="grid-row" (click)="onCardClick(item)">
           <td *ngIf="showCheckbox && enableSelection" class="checkbox-col">
-            <input type="checkbox" 
-                   [checked]="isSelected(item)"
-                   (change)="toggleItem(item)"
-                   (click)="$event.stopPropagation()">
+            <input type="checkbox" [checked]="isSelected(item)" (change)="toggleItem(item)"
+              (click)="$event.stopPropagation()">
           </td>
           <td *ngFor="let column of columns" [ngSwitch]="column.type">
             <!-- Avatar + Text -->
@@ -172,18 +149,16 @@
             </div>
 
             <!-- Email -->
-            <a *ngSwitchCase="'email'" 
-               [href]="'mailto:' + getCellValue(item, column)"
-               class="text-primary text-decoration-none">
+            <a *ngSwitchCase="'email'" [href]="'mailto:' + getCellValue(item, column)"
+              class="text-primary text-decoration-none">
               {{getCellValue(item, column)}}
             </a>
 
             <!-- Badge -->
-            <span *ngSwitchCase="'badge'" 
-                  class="badge"
-                  [class.badge-success]="getBadgeClass(getCellValue(item, column)) === 'badge-success'"
-                  [class.badge-danger]="getBadgeClass(getCellValue(item, column)) === 'badge-danger'"
-                  [class.badge-secondary]="getBadgeClass(getCellValue(item, column)) === 'badge-secondary'">
+            <span *ngSwitchCase="'badge'" class="badge"
+              [class.badge-success]="getBadgeClass(getCellValue(item, column)) === 'badge-success'"
+              [class.badge-danger]="getBadgeClass(getCellValue(item, column)) === 'badge-danger'"
+              [class.badge-secondary]="getBadgeClass(getCellValue(item, column)) === 'badge-secondary'">
               {{getBadgeText(getCellValue(item, column))}}
             </span>
 

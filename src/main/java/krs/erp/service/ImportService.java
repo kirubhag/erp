@@ -126,6 +126,27 @@ public class ImportService {
     }
     
     /**
+     * Get field mappings for a session
+     */
+    public List<FieldMappingDTO> getFieldMappings(String sessionId) {
+        ImportSession session = importSessionRepository.findById(sessionId)
+                .orElseThrow(() -> new RuntimeException("Session not found: " + sessionId));
+        
+        return session.getFieldMappings().stream()
+                .map(mapping -> {
+                    FieldMappingDTO dto = new FieldMappingDTO();
+                    dto.setSourceColumn(mapping.getSourceColumn());
+                    dto.setSourceIndex(mapping.getSourceIndex());
+                    dto.setTargetField(mapping.getTargetField());
+                    dto.setTargetFieldLabel(mapping.getTargetFieldLabel());
+                    dto.setIsRequired(mapping.getIsRequired());
+                    dto.setDataType(mapping.getDataType());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+    
+    /**
      * Save field mappings
      */
     public ImportSessionDTO saveFieldMappings(String sessionId, List<FieldMappingDTO> mappings) {
@@ -135,18 +156,21 @@ public class ImportService {
         // Clear existing mappings
         fieldMappingRepository.deleteByImportSessionId(sessionId);
         
-        // Save new mappings
+        // Save new mappings (only save mapped fields)
         List<FieldMapping> fieldMappings = new ArrayList<>();
         for (FieldMappingDTO mappingDTO : mappings) {
-            FieldMapping mapping = new FieldMapping();
-            mapping.setSourceColumn(mappingDTO.getSourceColumn());
-            mapping.setSourceIndex(mappingDTO.getSourceIndex());
-            mapping.setTargetField(mappingDTO.getTargetField());
-            mapping.setTargetFieldLabel(mappingDTO.getTargetFieldLabel());
-            mapping.setIsRequired(mappingDTO.getIsRequired());
-            mapping.setDataType(mappingDTO.getDataType());
-            mapping.setImportSession(session);
-            fieldMappings.add(mapping);
+            // Only save mappings that have a source column selected
+            if (mappingDTO.getSourceColumn() != null && !mappingDTO.getSourceColumn().isEmpty()) {
+                FieldMapping mapping = new FieldMapping();
+                mapping.setSourceColumn(mappingDTO.getSourceColumn());
+                mapping.setSourceIndex(mappingDTO.getSourceIndex());
+                mapping.setTargetField(mappingDTO.getTargetField());
+                mapping.setTargetFieldLabel(mappingDTO.getTargetFieldLabel());
+                mapping.setIsRequired(mappingDTO.getIsRequired() != null ? mappingDTO.getIsRequired() : false);
+                mapping.setDataType(mappingDTO.getDataType());
+                mapping.setImportSession(session);
+                fieldMappings.add(mapping);
+            }
         }
         
         session.setFieldMappings(fieldMappings);
@@ -382,6 +406,7 @@ public class ImportService {
     private ImportSessionDTO convertToDTO(ImportSession session) {
         ImportSessionDTO dto = new ImportSessionDTO();
         dto.setId(session.getId());
+        dto.setEntityType(session.getEntityType());
         dto.setFileName(session.getFileName());
         dto.setFileFormat(session.getFileFormat());
         dto.setTotalRecords(session.getTotalRecords());

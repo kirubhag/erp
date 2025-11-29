@@ -461,9 +461,42 @@ CREATE TABLE IF NOT EXISTS health_records (
 );
 
 -- =============================================================================
--- Phase 9: ERP Field Configuration Tables (No FK dependencies)
+-- Phase 9: ERP Section and Field Configuration Tables
 -- =============================================================================
 
+-- ERP Sections table (must be created before erp_fields)
+CREATE TABLE IF NOT EXISTS erp_sections (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    entity_type VARCHAR(50) NOT NULL,
+    section_name VARCHAR(100) NOT NULL,
+    section_label VARCHAR(200) NOT NULL,
+    layout_type VARCHAR(20) NOT NULL DEFAULT 'TWO_COLUMN',
+    display_order INT DEFAULT 0,
+    is_collapsible BOOLEAN DEFAULT false,
+    is_collapsed_by_default BOOLEAN DEFAULT false,
+    show_in_create BOOLEAN DEFAULT true,
+    show_in_edit BOOLEAN DEFAULT true,
+    show_in_detail BOOLEAN DEFAULT true,
+    section_icon VARCHAR(100),
+    section_color VARCHAR(50),
+    css_class VARCHAR(100),
+    description TEXT,
+    help_text TEXT,
+    organization_id BIGINT,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    INDEX idx_entity_type (entity_type),
+    INDEX idx_section_name (section_name),
+    INDEX idx_display_order (display_order),
+    INDEX idx_is_active (is_active),
+    UNIQUE KEY unique_entity_section (entity_type, section_name)
+);
+
+-- ERP Fields table (depends on erp_sections)
 CREATE TABLE IF NOT EXISTS erp_fields (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_type VARCHAR(100) NOT NULL,
@@ -471,7 +504,9 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     field_label VARCHAR(200) NOT NULL,
     field_type VARCHAR(50) NOT NULL,
     ui_type INT,
-    field_category VARCHAR(100),
+    section_id BIGINT,
+    row_position INT DEFAULT 0,
+    column_position INT DEFAULT 0,
     is_required BOOLEAN DEFAULT false,
     is_searchable BOOLEAN DEFAULT true,
     is_sortable BOOLEAN DEFAULT true,
@@ -492,9 +527,10 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
+    FOREIGN KEY (section_id) REFERENCES erp_sections(id) ON DELETE SET NULL,
     INDEX idx_entity_type (entity_type),
     INDEX idx_field_name (field_name),
-    INDEX idx_field_category (field_category),
+    INDEX idx_section_id (section_id),
     INDEX idx_is_active (is_active)
 );
 

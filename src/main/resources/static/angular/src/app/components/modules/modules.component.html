@@ -1,6 +1,6 @@
 <div class="setup-layout">
   <app-settings-sidebar></app-settings-sidebar>
-  
+
   <div class="modules-container">
     <!-- Header -->
     <div class="content-header">
@@ -12,22 +12,13 @@
     <div class="content-body">
       <!-- Tabs -->
       <div class="tabs-nav">
-        <button 
-          class="tab-link active" 
-          (click)="activeTab = 'modules'"
-        >
+        <button class="tab-link active" (click)="activeTab = 'modules'">
           <i class="fas fa-puzzle-piece me-2"></i> Modules
         </button>
-        <button 
-          class="tab-link"
-          (click)="activeTab = 'tab-groups'"
-        >
+        <button class="tab-link" (click)="activeTab = 'tab-groups'">
           <i class="fas fa-layer-group me-2"></i> Tab Groups
         </button>
-        <button 
-          class="tab-link"
-          (click)="activeTab = 'web-tabs'"
-        >
+        <button class="tab-link" (click)="activeTab = 'web-tabs'">
           <i class="fas fa-globe me-2"></i> Web Tabs
         </button>
       </div>
@@ -36,15 +27,10 @@
       <div class="search-bar-container">
         <div class="search-box">
           <i class="fas fa-search"></i>
-          <input 
-            type="text" 
-            placeholder="Search modules..." 
-            [(ngModel)]="searchTerm"
-            class="search-input"
-          >
+          <input type="text" placeholder="Search modules..." [(ngModel)]="searchTerm" class="search-input">
         </div>
         <div class="action-buttons">
-          <button class="btn-secondary" (click)="toggleModuleStatus(filteredModules[0] || {})">
+          <button class="btn-secondary">
             <i class="fas fa-cog me-2"></i> Organize Modules
           </button>
           <button class="btn-primary" (click)="createModule()">
@@ -53,17 +39,30 @@
         </div>
       </div>
 
+      <!-- Loading State -->
+      <div class="text-center py-5" *ngIf="isLoading">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-muted mt-3">Loading modules...</p>
+      </div>
+
+      <!-- Error State -->
+      <div class="alert alert-danger" *ngIf="errorMessage && !isLoading">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        {{ errorMessage }}
+      </div>
+
       <!-- Modules Table -->
-      <div class="table-container">
+      <div class="table-container" *ngIf="!isLoading">
         <table class="modules-table" *ngIf="filteredModules.length > 0; else noModules">
           <thead>
             <tr>
               <th>Module Name</th>
-              <th>Display Name</th>
-              <th>Type</th>
+              <th>Plural Name</th>
+              <th>Singular Name</th>
               <th>Status</th>
-              <th>Created</th>
-              <th>Last Modified</th>
+              <th>Sequence</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -72,22 +71,17 @@
               <td>
                 <div class="module-name-cell">
                   <i [class]="module.icon"></i>
-                  <a class="module-name" (click)="editModule(module)">{{ module.name }}</a>
+                  <a class="module-name" (click)="editModule(module)">{{ module.systemName }}</a>
                 </div>
               </td>
-              <td>{{ module.displayName }}</td>
+              <td>{{ module.pluralName }}</td>
+              <td>{{ module.singularName }}</td>
               <td>
-                <span class="module-type" [class.custom]="module.isCustom">
-                  {{ module.isCustom ? 'Custom' : 'Standard' }}
+                <span class="status-badge" [class.active]="module.isActive" [class.inactive]="!module.isActive">
+                  {{ module.isActive ? 'Active' : 'Inactive' }}
                 </span>
               </td>
-              <td>
-                <span class="status-badge" [class]="module.status">
-                  {{ module.status | titlecase }}
-                </span>
-              </td>
-              <td>{{ module.createdDate }}</td>
-              <td>{{ module.lastModified }}</td>
+              <td>{{ module.sequence }}</td>
               <td class="actions-cell">
                 <button class="action-btn edit-btn" (click)="editModule(module)" title="Edit">
                   <i class="fas fa-edit"></i>

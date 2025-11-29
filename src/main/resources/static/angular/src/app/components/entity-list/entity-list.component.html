@@ -49,30 +49,25 @@
 <!-- Main Container -->
 <div class="main-container">
   <!-- Dynamic Entity Fields Sidebar -->
-  <app-entity-fields-sidebar 
-    *ngIf="sidebarVisible && entityType"
-    [entityType]="entityType"
-    [visible]="sidebarVisible"
+  <app-entity-fields-sidebar *ngIf="sidebarVisible && entityType" [entityType]="entityType" [visible]="sidebarVisible"
     (fieldFilterChange)="onFieldFilterChange($event)">
   </app-entity-fields-sidebar>
-  
+
   <!-- Legacy Sidebar - Fallback when no entityType -->
   <div class="sidebar" *ngIf="sidebarVisible && !entityType && (filters.length > 0 || columns.length > 0)">
     <div class="sidebar-title">
       FILTER {{entityNamePlural | uppercase}} BY
       <i class="fas fa-search" style="font-size: 14px;"></i>
     </div>
-    
+
     <!-- Entity Fields Section -->
     <div class="filter-section" *ngIf="columns.length > 0">
       <div class="filter-section-title">{{entityName}} Fields</div>
       <ul class="filter-list">
         <li *ngFor="let column of columns">
           <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
-          <input type="checkbox" 
-                 [id]="'entity_field_' + column.key"
-                 [(ngModel)]="entityFieldFilters[column.key]"
-                 (ngModelChange)="onEntityFieldFilterChange(column.key)">
+          <input type="checkbox" [id]="'entity_field_' + column.key" [(ngModel)]="entityFieldFilters[column.key]"
+            (ngModelChange)="onEntityFieldFilterChange(column.key)">
           <label [for]="'entity_field_' + column.key">{{column.label}}</label>
         </li>
       </ul>
@@ -84,10 +79,8 @@
       <ul class="filter-list">
         <li *ngFor="let filter of filters">
           <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
-          <input type="checkbox" 
-                 [id]="'filter_' + filter.key"
-                 [(ngModel)]="filter.value"
-                 (ngModelChange)="onFilterChange()">
+          <input type="checkbox" [id]="'filter_' + filter.key" [(ngModel)]="filter.value"
+            (ngModelChange)="onFilterChange()">
           <label [for]="'filter_' + filter.key">{{filter.label}}</label>
         </li>
       </ul>
@@ -115,15 +108,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of data; trackBy: trackByFn" 
-                class="table-row-hover"
-                (click)="onRowClick(item)"
-                style="cursor: pointer;">
+            <tr *ngFor="let item of data; trackBy: trackByFn" class="table-row-hover" (click)="onRowClick(item)"
+              style="cursor: pointer;">
               <td *ngIf="showBulkActions">
-                <input type="checkbox" 
-                       [checked]="isSelected(item)" 
-                       (change)="toggleSelectItem(item)"
-                       (click)="$event.stopPropagation()">
+                <input type="checkbox" [checked]="isSelected(item)" (change)="toggleSelectItem(item)"
+                  (click)="$event.stopPropagation()">
               </td>
               <td *ngIf="showBulkActions">
                 <i class="fas fa-pencil-alt text-muted"></i>
@@ -137,20 +126,14 @@
               <td *ngFor="let column of columns" [ngSwitch]="column.type">
                 <!-- Avatar -->
                 <div *ngSwitchCase="'avatar'" class="d-flex align-items-center gap-2">
-                  <app-entity-avatar
-                    [entityId]="item.id"
-                    [entityType]="entityType"
-                    [entityName]="getCellValue(item, column)"
-                    [organizationId]="organizationId || 1"
-                    [size]="'small'"
-                    [showControls]="true"
-                    [clickable]="true"
+                  <app-entity-avatar [entityId]="item.id" [entityType]="entityType"
+                    [entityName]="getCellValue(item, column)" [organizationId]="organizationId || 1" [size]="'small'"
+                    [showControls]="false" [clickable]="true" [hasAvatarData]="!!item.avatarUrl"
                     (click)="$event.stopPropagation()">
                   </app-entity-avatar>
                   <div>
-                    <a href="#" class="fw-medium text-decoration-none" 
-                       (click)="onRowClick(item); $event.preventDefault()"
-                       style="color: var(--app-primary);">
+                    <a href="#" class="fw-medium text-decoration-none"
+                      (click)="onRowClick(item); $event.preventDefault()" style="color: var(--app-primary);">
                       {{getCellValue(item, column)}}
                     </a>
                     <div>
@@ -160,18 +143,15 @@
                 </div>
 
                 <!-- Email -->
-                <a *ngSwitchCase="'email'" 
-                   [href]="'mailto:' + getCellValue(item, column)"
-                   class="text-decoration-none"
-                   style="color: var(--app-primary);">
+                <a *ngSwitchCase="'email'" [href]="'mailto:' + getCellValue(item, column)" class="text-decoration-none"
+                  style="color: var(--app-primary);">
                   {{getCellValue(item, column)}}
                 </a>
 
                 <!-- Badge -->
-                <span *ngSwitchCase="'badge'" 
-                      class="status-badge"
-                      [class.badge-active]="getCellValue(item, column) === true || getCellValue(item, column) === 'Active' || getCellValue(item, column) === 'In-progress'"
-                      [class.badge-inactive]="getCellValue(item, column) === false || getCellValue(item, column) === 'Inactive'">
+                <span *ngSwitchCase="'badge'" class="status-badge"
+                  [class.badge-active]="getCellValue(item, column) === true || getCellValue(item, column) === 'Active' || getCellValue(item, column) === 'In-progress'"
+                  [class.badge-inactive]="getCellValue(item, column) === false || getCellValue(item, column) === 'Inactive'">
                   {{getCellValue(item, column)}}
                 </span>
 
@@ -181,11 +161,8 @@
                 </span>
 
                 <!-- Link -->
-                <a *ngSwitchCase="'link'" 
-                   href="#"
-                   class="text-decoration-none"
-                   (click)="onRowClick(item); $event.preventDefault()"
-                   style="color: var(--app-primary);">
+                <a *ngSwitchCase="'link'" href="#" class="text-decoration-none"
+                  (click)="onRowClick(item); $event.preventDefault()" style="color: var(--app-primary);">
                   {{getCellValue(item, column)}}
                 </a>
 
@@ -200,19 +177,10 @@
       </div>
 
       <!-- Grid View -->
-      <app-grid-view 
-        *ngIf="isGridView() && !loading && data.length > 0"
-        [items]="data"
-        [columns]="columns"
-        [displayMode]="'cards'"
-        [enableSelection]="showBulkActions"
-        [selectedItems]="selectedItems"
-        [loading]="loading"
-        [entityType]="entityType"
-        [organizationId]="organizationId"
-        (itemClick)="onRowClick($event)"
-        (selectionChange)="onGridSelectionChange($event)"
-        (actionClick)="onActionClick($event)">
+      <app-grid-view *ngIf="isGridView() && !loading && data.length > 0" [items]="data" [columns]="columns"
+        [displayMode]="'cards'" [enableSelection]="showBulkActions" [selectedItems]="selectedItems" [loading]="loading"
+        [entityType]="entityType" [organizationId]="organizationId" (itemClick)="onRowClick($event)"
+        (selectionChange)="onGridSelectionChange($event)" (actionClick)="onActionClick($event)">
       </app-grid-view>
 
       <!-- Empty State -->
@@ -222,16 +190,16 @@
         <p class="text-muted">Try adjusting your search or filter criteria</p>
       </div>
     </div>
-    
+
     <!-- Table Footer -->
     <div class="table-footer" *ngIf="pagination.totalItems > 0 && !loading">
       <div class="pagination-info">
-        <span>Showing {{(pagination.currentPage - 1) * pagination.itemsPerPage + 1}} to {{getEndItem()}} of {{pagination.totalItems}}</span>
+        <span>Showing {{(pagination.currentPage - 1) * pagination.itemsPerPage + 1}} to {{getEndItem()}} of
+          {{pagination.totalItems}}</span>
         <span class="ms-3">|</span>
         <div class="items-per-page-wrapper">
-          <select class="form-select form-select-sm ms-3" 
-                  [(ngModel)]="pagination.itemsPerPage"
-                  (ngModelChange)="onItemsPerPageChange()">
+          <select class="form-select form-select-sm ms-3" [(ngModel)]="pagination.itemsPerPage"
+            (ngModelChange)="onItemsPerPageChange()">
             <option [value]="10">10 per page</option>
             <option [value]="25">25 per page</option>
             <option [value]="50">50 per page</option>
@@ -241,15 +209,13 @@
         </div>
       </div>
       <div class="pagination-controls">
-        <button class="btn btn-sm btn-outline-secondary me-2" 
-                (click)="onPageChange(pagination.currentPage - 1)"
-                [disabled]="pagination.currentPage === 1">
+        <button class="btn btn-sm btn-outline-secondary me-2" (click)="onPageChange(pagination.currentPage - 1)"
+          [disabled]="pagination.currentPage === 1">
           <i class="fas fa-chevron-left"></i>
         </button>
         <span class="text-muted">Page {{pagination.currentPage}} of {{pagination.totalPages}}</span>
-        <button class="btn btn-sm btn-outline-secondary ms-2" 
-                (click)="onPageChange(pagination.currentPage + 1)"
-                [disabled]="pagination.currentPage === pagination.totalPages">
+        <button class="btn btn-sm btn-outline-secondary ms-2" (click)="onPageChange(pagination.currentPage + 1)"
+          [disabled]="pagination.currentPage === pagination.totalPages">
           <i class="fas fa-chevron-right"></i>
         </button>
       </div>

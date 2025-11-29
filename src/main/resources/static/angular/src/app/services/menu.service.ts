@@ -24,10 +24,12 @@ export class MenuService {
 
   getMenuItems(): Observable<MenuItem[]> {
     return this.http.get<MenuItem[]>(`${this.apiUrl}/list`).pipe(
-      timeout(5000), // 5 second timeout
+      timeout(10000), // 10 second timeout (increased from 5)
       catchError(error => {
-        console.error('Error fetching menu items:', error);
-        // Return default menu items as fallback
+        // Silently return default menu items on any error
+        if (error.name === 'TimeoutError') {
+          console.warn('Menu API timeout - using default menu items');
+        }
         return of(this.getDefaultMenuItems());
       })
     );

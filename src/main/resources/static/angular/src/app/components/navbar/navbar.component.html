@@ -15,7 +15,8 @@
         <li class="nav-item" *ngFor="let menuItem of visibleMenuItems; trackBy: trackByMenuItem">
           <a class="nav-link" 
              [routerLink]="[menuItem.route]" 
-             routerLinkActive="active">
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: false}">
             <i [class]="menuItem.icon + ' me-1'"></i>{{menuItem.pluralName}}
           </a>
         </li>

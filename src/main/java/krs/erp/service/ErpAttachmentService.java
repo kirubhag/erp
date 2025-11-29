@@ -27,43 +27,44 @@ import krs.erp.repository.UserRepository;
 @Service
 @Transactional
 public class ErpAttachmentService {
-    
+
     @Autowired
     private ErpAttachmentRepository attachmentRepository;
-    
+
     @Autowired
     private UserRepository userRepository;
-    
+
     @Value("${app.upload.base-dir:uploads}")
     private String baseUploadDir;
-    
+
     private static final String AVATARS_FOLDER = "avatars";
-    
+
     /**
-     * Upload an avatar image for a user
+     * Upload an avatar image for an entity
      */
-    public ErpAttachment uploadAvatar(MultipartFile file, Long userId, Long organizationId, Long uploadedBy) 
+    public ErpAttachment uploadAvatar(MultipartFile file, String entityType, Long entityId, Long organizationId,
+            Long uploadedBy)
             throws IOException {
-        
+
         // Validate file
         validateImageFile(file);
-        
+
         // Delete existing avatar if any
-        deleteExistingAvatar(userId, organizationId);
-        
+        deleteExistingAvatar(entityType, entityId, organizationId);
+
         // Generate unique filename
         String originalFilename = file.getOriginalFilename();
         String fileExtension = getFileExtension(originalFilename);
         String storedFilename = UUID.randomUUID().toString() + fileExtension;
-        
+
         // Create directory structure: uploads/avatars/{organizationId}
         Path organizationDir = Paths.get(baseUploadDir, AVATARS_FOLDER, organizationId.toString());
         Files.createDirectories(organizationDir);
-        
+
         // Save file
         Path filePath = organizationDir.resolve(storedFilename);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-        
+
         // Create attachment record
         ErpAttachment attachment = new ErpAttachment();
         attachment.setOriginalFilename(originalFilename);
@@ -73,91 +74,100 @@ public class ErpAttachmentService {
         attachment.setMimeType(file.getContentType());
         attachment.setAttachmentType(AttachmentType.AVATAR);
         attachment.setOrganizationId(organizationId);
-        attachment.setEntityType("USER");
-        attachment.setEntityId(userId);
+        attachment.setEntityType(entityType);
+        attachment.setEntityId(entityId);
         attachment.setUploadedBy(uploadedBy);
-        attachment.setDescription("User avatar image");
-        
+        attachment.setDescription(entityType + " avatar image");
+
         ErpAttachment savedAttachment = attachmentRepository.save(attachment);
-        
-        // Update user's avatarUrl
-        updateUserAvatarUrl(userId, savedAttachment.getId());
-        
+
+        // Update user's avatarUrl if entity type is USER
+        if ("USER".equals(entityType)) {
+            updateUserAvatarUrl(entityId, savedAttachment.getId());
+        }
+
         return savedAttachment;
     }
-    
+
     /**
-     * Get avatar for a user
+     * Get avatar for an entity
+     */
+    public Optional<ErpAttachment> getEntityAvatar(String entityType, Long entityId) {
+        return attachmentRepository.findFirstByEntityTypeAndEntityIdAndAttachmentType(
+                entityType, entityId, AttachmentType.AVATAR);
+    }
+
+    /**
+     * Get avatar for a user (backward compatibility)
      */
     public Optional<ErpAttachment> getUserAvatar(Long userId) {
-        return attachmentRepository.findFirstByEntityTypeAndEntityIdAndAttachmentType(
-            "USER", userId, AttachmentType.AVATAR);
+        return getEntityAvatar("USER", userId);
     }
-    
+
     /**
-     * Delete existing avatar for a user
+     * Delete existing avatar for an entity
      */
-    public void deleteExistingAvatar(Long userId, Long organizationId) throws IOException {
-        Optional<ErpAttachment> existingAvatar = getUserAvatar(userId);
-        
+    public void deleteExistingAvatar(String entityType, Long entityId, Long organizationId) throws IOException {
+        Optional<ErpAttachment> existingAvatar = getEntityAvatar(entityType, entityId);
+
         if (existingAvatar.isPresent()) {
             ErpAttachment avatar = existingAvatar.get();
-            
+
             // Delete physical file
             Path filePath = Paths.get(avatar.getFilePath(), avatar.getStoredFilename());
             Files.deleteIfExists(filePath);
-            
+
             // Delete database record
             attachmentRepository.delete(avatar);
         }
     }
-    
+
     /**
      * Get attachment by ID
      */
     public Optional<ErpAttachment> getAttachmentById(Long id) {
         return attachmentRepository.findById(id);
     }
-    
+
     /**
      * Get attachment by stored filename
      */
     public Optional<ErpAttachment> getAttachmentByFilename(String storedFilename) {
         return attachmentRepository.findByStoredFilename(storedFilename);
     }
-    
+
     /**
      * Get all attachments for an entity
      */
     public List<ErpAttachment> getEntityAttachments(String entityType, Long entityId) {
         return attachmentRepository.findByEntityTypeAndEntityId(entityType, entityId);
     }
-    
+
     /**
      * Get all attachments for an organization
      */
     public List<ErpAttachment> getOrganizationAttachments(Long organizationId) {
         return attachmentRepository.findByOrganizationId(organizationId);
     }
-    
+
     /**
      * Delete attachment
      */
     public void deleteAttachment(Long attachmentId) throws IOException {
         Optional<ErpAttachment> attachmentOpt = attachmentRepository.findById(attachmentId);
-        
+
         if (attachmentOpt.isPresent()) {
             ErpAttachment attachment = attachmentOpt.get();
-            
+
             // Delete physical file
             Path filePath = Paths.get(attachment.getFilePath(), attachment.getStoredFilename());
             Files.deleteIfExists(filePath);
-            
+
             // Delete database record
             attachmentRepository.delete(attachment);
         }
     }
-    
+
     /**
      * Get file content
      */
@@ -165,7 +175,7 @@ public class ErpAttachmentService {
         Path filePath = Paths.get(attachment.getFilePath(), attachment.getStoredFilename());
         return Files.readAllBytes(filePath);
     }
-    
+
     /**
      * Validate image file
      */
@@ -173,18 +183,18 @@ public class ErpAttachmentService {
         if (file.isEmpty()) {
             throw new IllegalArgumentException("File is empty");
         }
-        
+
         String contentType = file.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
             throw new IllegalArgumentException("File must be an image");
         }
-        
+
         // Check file size (max 5MB)
         if (file.getSize() > 5 * 1024 * 1024) {
             throw new IllegalArgumentException("File size must be less than 5MB");
         }
     }
-    
+
     /**
      * Get file extension from filename
      */
@@ -194,7 +204,7 @@ public class ErpAttachmentService {
         }
         return filename.substring(filename.lastIndexOf('.'));
     }
-    
+
     /**
      * Update user's avatar URL
      */

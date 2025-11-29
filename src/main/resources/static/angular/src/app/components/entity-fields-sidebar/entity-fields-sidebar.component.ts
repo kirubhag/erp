@@ -13,7 +13,7 @@ export interface EntityField {
   displayOrder: number;
   isSearchable?: boolean;
   isSortable?: boolean;
-  fieldCategory?: string;
+  // fieldCategory removed - no longer returned by API (deprecated in favor of sections)
 }
 
 export interface FieldFilter {
