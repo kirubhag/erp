@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // Extract authorities from user roles
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        
+
         if (user.getRoles() != null && !user.getRoles().isEmpty()) {
             for (Role role : user.getRoles()) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
@@ -38,15 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserType().name()));
         }
 
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
-                .password(user.getPasswordHash())
-                .authorities(authorities)
-                .accountExpired(!user.getAccountNonExpired())
-                .accountLocked(!user.getAccountNonLocked())
-                .credentialsExpired(!user.getCredentialsNonExpired())
-                .disabled(!user.getEnabled())
-                .build();
+        return new CustomUserDetails(user, authorities);
     }
 
     /**
