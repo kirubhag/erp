@@ -44,7 +44,7 @@ export class AuthService {
     if (this.isLoggedOut) {
       return;
     }
-    
+
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
       try {
@@ -80,6 +80,13 @@ export class AuthService {
    */
   getAuthenticatedUser(): Observable<UserDetails> {
     return this.http.get<UserDetails>(`${this.apiUrl}/auth/current-user`);
+  }
+
+  /**
+   * Register a new user
+   */
+  register(userData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/register`, userData);
   }
 
   /**
@@ -125,7 +132,7 @@ export class AuthService {
     this.currentUserSubject.next(null);
     localStorage.removeItem('currentUser');
     localStorage.removeItem('authToken');
-    
+
     return this.http.post<any>(`${this.apiUrl}/auth/logout`, {}).pipe(
       tap(() => {
         // Additional cleanup after server confirms logout

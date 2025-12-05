@@ -31,45 +31,45 @@ import krs.erp.repository.UserRepository;
 @RestController
 @RequestMapping("/settings/auth")
 public class AuthController {
-    
+
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
+
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
-    
+
     /**
      * Login endpoint - authenticates user with email and password
      * 
      * @param loginRequest Contains email and password
-     * @param request HttpServletRequest
+     * @param request      HttpServletRequest
      * @return User details if successful
      */
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> loginRequest, 
-                                                      HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> loginRequest,
+            HttpServletRequest request) {
         try {
             String username = loginRequest.get("username");
             String email = loginRequest.get("email");
             String password = loginRequest.get("password");
-            
+
             if ((username == null || username.isEmpty()) && (email == null || email.isEmpty())) {
                 Map<String, Object> response = new HashMap<>();
                 response.put("status", "error");
                 response.put("message", "Username/email and password are required");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
-            
+
             if (password == null || password.isEmpty()) {
                 Map<String, Object> response = new HashMap<>();
                 response.put("status", "error");
                 response.put("message", "Password is required");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
-            
+
             // Find user by username or email
             User user = null;
             if (username != null && !username.isEmpty()) {
@@ -77,14 +77,14 @@ public class AuthController {
             } else if (email != null && !email.isEmpty()) {
                 user = userRepository.findByEmail(email).orElse(null);
             }
-            
+
             if (user == null || !user.getEnabled()) {
                 Map<String, Object> response = new HashMap<>();
                 response.put("status", "error");
                 response.put("message", "Invalid credentials");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
-            
+
             // Verify password
             if (!passwordEncoder.matches(password, user.getPasswordHash())) {
                 Map<String, Object> response = new HashMap<>();
@@ -92,25 +92,25 @@ public class AuthController {
                 response.put("message", "Invalid credentials");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
-            
+
             // Load user details and create authentication token
-            org.springframework.security.core.userdetails.UserDetails userDetails = 
-                    customUserDetailsService.loadUserByUsername(user.getUsername());
-            
+            org.springframework.security.core.userdetails.UserDetails userDetails = customUserDetailsService
+                    .loadUserByUsername(user.getUsername());
+
             Authentication authenticatedToken = new UsernamePasswordAuthenticationToken(
                     userDetails, password, userDetails.getAuthorities());
-            
+
             SecurityContextHolder.getContext().setAuthentication(authenticatedToken);
-            
+
             // Store in session
             HttpSession session = request.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-            
+
             // Build response with user details
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Login successful");
-            
+
             Map<String, Object> userData = new HashMap<>();
             userData.put("id", user.getId());
             userData.put("username", user.getUsername());
@@ -119,11 +119,12 @@ public class AuthController {
             userData.put("lastName", user.getLastName());
             userData.put("userType", user.getUserType());
             userData.put("enabled", user.getEnabled());
-            
+            userData.put("organizationId", user.getOrganizationId());
+
             response.put("user", userData);
-            
+
             return ResponseEntity.ok(response);
-            
+
         } catch (Exception e) {
             Map<String, Object> response = new HashMap<>();
             response.put("status", "error");
@@ -131,7 +132,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
+
     /**
      * Get current authenticated user
      * 
@@ -140,21 +141,36 @@ public class AuthController {
     @GetMapping("/current-user")
     public ResponseEntity<Map<String, Object>> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        
-        if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-            Map<String, Object> user = new HashMap<>();
-            user.put("username", authentication.getName());
-            return ResponseEntity.ok(user);
+
+        if (authentication != null && authentication.isAuthenticated()
+                && !authentication.getPrincipal().equals("anonymousUser")) {
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username).orElse(null);
+
+            if (user != null) {
+                Map<String, Object> userData = new HashMap<>();
+                userData.put("id", user.getId());
+                userData.put("username", user.getUsername());
+                userData.put("email", user.getEmail());
+                userData.put("firstName", user.getFirstName());
+                userData.put("lastName", user.getLastName());
+                userData.put("userType", user.getUserType());
+                userData.put("enabled", user.getEnabled());
+                userData.put("organizationId", user.getOrganizationId());
+                userData.put("avatarUrl", user.getAvatarUrl());
+
+                return ResponseEntity.ok(userData);
+            }
         }
-        
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
-    
+
     /**
      * Logout endpoint
      * Invalidates session and clears security context
      * 
-     * @param request HttpServletRequest
+     * @param request  HttpServletRequest
      * @param response HttpServletResponse
      * @return Success response
      */
@@ -166,16 +182,16 @@ public class AuthController {
             if (session != null) {
                 session.invalidate();
             }
-            
+
             // Clear the security context
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(null);
             SecurityContextHolder.clearContext();
-            
+
             Map<String, String> responseBody = new HashMap<>();
             responseBody.put("message", "Logged out successfully");
             responseBody.put("status", "success");
-            
+
             return ResponseEntity.ok(responseBody);
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
@@ -184,7 +200,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
-    
+
     /**
      * Get CSRF token for use in API requests
      * Required for authenticated API calls (PUT, POST, DELETE)
@@ -196,10 +212,10 @@ public class AuthController {
     @GetMapping("/csrf")
     public ResponseEntity<Map<String, Object>> getCsrfToken(HttpServletRequest request) {
         Map<String, Object> response = new HashMap<>();
-        
+
         // Try to get CSRF token from request
         Object csrfTokenObj = request.getAttribute("_csrf");
-        
+
         if (csrfTokenObj != null) {
             try {
                 // Reflect on the token object to get the token string
@@ -213,14 +229,16 @@ public class AuthController {
             }
         } else {
             // Return a message if token is not available
-            response.put("message", "CSRF token not available in this request context. Use the X-CSRF-TOKEN header from login response.");
+            response.put("message",
+                    "CSRF token not available in this request context. Use the X-CSRF-TOKEN header from login response.");
             response.put("headerName", "X-CSRF-TOKEN");
-            response.put("instruction", "After login, the CSRF token will be automatically managed by the session cookie for same-origin requests");
+            response.put("instruction",
+                    "After login, the CSRF token will be automatically managed by the session cookie for same-origin requests");
         }
-        
+
         return ResponseEntity.ok(response);
     }
-    
+
     /**
      * Health check for authentication service
      * 

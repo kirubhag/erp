@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
   successMessage = '';
   passwordsMatch = true;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     // Redirect to dashboard if already logged in
@@ -57,7 +57,7 @@ export class RegisterComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    // Register user (you'll need to implement this in AuthService)
+    // Register user
     const registrationData = {
       firstName: this.firstName,
       lastName: this.lastName,
@@ -67,13 +67,20 @@ export class RegisterComponent implements OnInit {
       enabled: true
     };
 
-    // For now, we'll assume registration is handled via a backend endpoint
-    console.log('Registration data:', registrationData);
-    this.successMessage = 'Registration successful! Redirecting to login...';
-    this.loading = false;
-    setTimeout(() => {
-      this.router.navigate(['/login']);
-    }, 1500);
+    this.authService.register(registrationData).subscribe({
+      next: () => {
+        this.successMessage = 'Registration successful! Redirecting to login...';
+        this.loading = false;
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 1500);
+      },
+      error: (error) => {
+        this.loading = false;
+        this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
+        console.error('Registration error:', error);
+      }
+    });
   }
 
   onKeyPress(event: KeyboardEvent): void {

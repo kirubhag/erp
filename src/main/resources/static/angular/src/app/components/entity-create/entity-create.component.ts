@@ -37,16 +37,16 @@ export class EntityCreateComponent implements OnInit {
   entityType: string = '';
   entityName: string = '';
   entityNamePlural: string = '';
-  
+
   fieldDefinitions: FieldDefinition[] = [];
   sectionsWithFields: SectionFields[] = [];
-  
-  entityForm!: FormGroup;
+
+  entityForm: FormGroup = new FormGroup({});
   loading = false;
   saving = false;
   error: string | null = null;
   success = false;
-  
+
   // Image upload
   imagePreview: string | null = null;
   selectedImageFile: File | null = null;
@@ -57,7 +57,7 @@ export class EntityCreateComponent implements OnInit {
     private http: HttpClient,
     private fb: FormBuilder,
     private uiFieldTypeService: UIFieldTypeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Get entity type from route params or query params
@@ -90,14 +90,14 @@ export class EntityCreateComponent implements OnInit {
         this.entityNamePlural = metadata.entityNamePlural || this.entityType + 's';
         this.fieldDefinitions = metadata.fields || [];
         console.log('Field definitions:', this.fieldDefinitions);
-        
+
         // Group fields by section
         this.groupFieldsBySection();
         console.log('Sections with fields:', this.sectionsWithFields);
-        
+
         // Build form
         this.buildForm();
-        
+
         this.loading = false;
       },
       error: (err) => {
@@ -113,7 +113,7 @@ export class EntityCreateComponent implements OnInit {
    */
   groupFieldsBySection(): void {
     const sectionsMap = new Map<string, FieldDefinition[]>();
-    
+
     this.fieldDefinitions.forEach(field => {
       const section = field.section || 'General Information';
       if (!sectionsMap.has(section)) {
@@ -136,11 +136,11 @@ export class EntityCreateComponent implements OnInit {
 
     this.fieldDefinitions.forEach(field => {
       const validators = [];
-      
+
       if (field.isRequired) {
         validators.push(Validators.required);
       }
-      
+
       if (field.maxLength) {
         validators.push(Validators.maxLength(field.maxLength));
       }
@@ -299,13 +299,13 @@ export class EntityCreateComponent implements OnInit {
     const file = event.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
       this.selectedImageFile = file;
-      
+
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagePreview = e.target.result;
       };
       reader.readAsDataURL(file);
-      
+
       // Update form value
       this.entityForm.patchValue({
         [fieldName]: file.name
@@ -345,7 +345,7 @@ export class EntityCreateComponent implements OnInit {
       next: (response: any) => {
         this.success = true;
         this.saving = false;
-        
+
         // Navigate to detail page or list page
         setTimeout(() => {
           if (response.id) {
@@ -382,12 +382,12 @@ export class EntityCreateComponent implements OnInit {
       next: () => {
         this.success = true;
         this.saving = false;
-        
+
         // Reset form for new entry
         this.entityForm.reset();
         this.imagePreview = null;
         this.selectedImageFile = null;
-        
+
         // Clear success message after a short delay
         setTimeout(() => {
           this.success = false;

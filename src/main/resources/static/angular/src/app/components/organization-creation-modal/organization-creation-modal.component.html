@@ -1,0 +1,142 @@
+<div class="modal-backdrop">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>Create Your Organization</h2>
+            <p>Please set up your organization to get started</p>
+        </div>
+
+        <div class="modal-body">
+            <!-- Progress Steps -->
+            <div class="progress-steps">
+                <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
+                    <div class="step-number">1</div>
+                    <span class="step-label">Basic Info</span>
+                </div>
+                <div class="step-divider" [class.completed]="currentStep > 1"></div>
+                <div class="step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2">
+                    <div class="step-number">2</div>
+                    <span class="step-label">Location</span>
+                </div>
+            </div>
+
+            <!-- Alerts -->
+            <div *ngIf="errorMessage" class="alert alert-danger">
+                <i class="fas fa-exclamation-circle me-2"></i> {{ errorMessage }}
+            </div>
+            <div *ngIf="successMessage" class="alert alert-success">
+                <i class="fas fa-check-circle me-2"></i> {{ successMessage }}
+            </div>
+
+            <form [formGroup]="registrationForm" (ngSubmit)="onRegister()">
+
+                <!-- Step 1: Basic Information -->
+                <div class="form-step" *ngIf="currentStep === 1">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="required">Organization Name</label>
+                                <input type="text" class="form-control" formControlName="name"
+                                    [class.is-invalid]="isFieldInvalid('name')"
+                                    placeholder="e.g. Springfield High School">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="required">Type</label>
+                                <select class="form-control" formControlName="type"
+                                    [class.is-invalid]="isFieldInvalid('type')">
+                                    <option *ngFor="let type of organizationTypes" [value]="type">{{ type }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="required">Organization Code</label>
+                                <input type="text" class="form-control" formControlName="code"
+                                    [class.is-invalid]="isFieldInvalid('code')" placeholder="e.g. SHS001">
+                                <small class="text-muted">Unique identifier for your organization</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="required">Email</label>
+                                <input type="email" class="form-control" formControlName="email"
+                                    [class.is-invalid]="isFieldInvalid('email')" placeholder="admin@school.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required">Phone</label>
+                        <input type="tel" class="form-control" formControlName="phone"
+                            [class.is-invalid]="isFieldInvalid('phone')" placeholder="+1 234 567 8900">
+                    </div>
+                </div>
+
+                <!-- Step 2: Location & Setup -->
+                <div class="form-step" *ngIf="currentStep === 2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="required">City</label>
+                                <input type="text" class="form-control" formControlName="city"
+                                    [class.is-invalid]="isFieldInvalid('city')">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="required">Country</label>
+                                <select class="form-control" formControlName="country"
+                                    [class.is-invalid]="isFieldInvalid('country')">
+                                    <option value="">Select Country</option>
+                                    <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label>Description</label>
+                        <textarea class="form-control" formControlName="description" rows="3"
+                            placeholder="Brief description..."></textarea>
+                    </div>
+
+                    <div class="sample-data-section mt-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="loadSampleData"
+                                formControlName="loadSampleData">
+                            <label class="form-check-label" for="loadSampleData">
+                                Load Sample Data
+                            </label>
+                        </div>
+                        <p class="text-muted small mt-1">
+                            We'll populate your organization with sample students, teachers, and classes to help you get
+                            started.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" *ngIf="currentStep > 1"
+                        (click)="goToStep(currentStep - 1)">
+                        Back
+                    </button>
+
+                    <button type="button" class="btn btn-primary" *ngIf="currentStep < 2"
+                        (click)="goToStep(currentStep + 1)">
+                        Next Step
+                    </button>
+
+                    <button type="submit" class="btn btn-success" *ngIf="currentStep === 2" [disabled]="loading">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                        Create Organization
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

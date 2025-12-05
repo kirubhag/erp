@@ -36,7 +36,7 @@
   <!-- Main Content -->
   <div class="content-wrapper" *ngIf="!loading">
     <form [formGroup]="entityForm" (ngSubmit)="onSave()">
-      
+
       <!-- Image Upload Section (if there's an image field) -->
       <div class="form-section" *ngIf="hasImageField()">
         <div class="section-title">{{ entityName }} Image</div>
@@ -52,7 +52,7 @@
       <!-- Dynamic Sections -->
       <div class="form-section" *ngFor="let section of sectionsWithFields">
         <div class="section-title">{{ section.sectionName }}</div>
-        
+
         <!-- Fields in rows of 2 -->
         <div class="fields-container">
           <ng-container *ngFor="let field of section.fields; let i = index">
@@ -64,32 +64,20 @@
                 </label>
                 <div class="field-input">
                   <!-- Single Line, Email, Phone, URL, Currency, Decimal, Number, Percent -->
-                  <input 
-                    *ngIf="isInputField(section.fields[i])"
-                    [type]="getInputType(section.fields[i])"
-                    class="form-control"
-                    [class.is-invalid]="hasError(section.fields[i].fieldName)"
-                    [formControlName]="section.fields[i].fieldName"
-                    [placeholder]="section.fields[i].displayLabel"
-                  />
+                  <input *ngIf="isInputField(section.fields[i])" [type]="getInputType(section.fields[i])"
+                    class="form-control" [class.is-invalid]="hasError(section.fields[i].fieldName)"
+                    [formControlName]="section.fields[i].fieldName" [placeholder]="section.fields[i].displayLabel" />
 
                   <!-- Multi Line / Textarea -->
-                  <textarea 
-                    *ngIf="isTextareaField(section.fields[i])"
-                    class="form-control"
+                  <textarea *ngIf="isTextareaField(section.fields[i])" class="form-control"
                     [class.is-invalid]="hasError(section.fields[i].fieldName)"
-                    [formControlName]="section.fields[i].fieldName"
-                    [placeholder]="section.fields[i].displayLabel"
-                    rows="3"
-                  ></textarea>
+                    [formControlName]="section.fields[i].fieldName" [placeholder]="section.fields[i].displayLabel"
+                    rows="3"></textarea>
 
                   <!-- Picklist / Select -->
-                  <select 
-                    *ngIf="isSelectField(section.fields[i])"
-                    class="form-select"
+                  <select *ngIf="isSelectField(section.fields[i])" class="form-select"
                     [class.is-invalid]="hasError(section.fields[i].fieldName)"
-                    [formControlName]="section.fields[i].fieldName"
-                  >
+                    [formControlName]="section.fields[i].fieldName">
                     <option value="">-None-</option>
                     <option *ngFor="let option of section.fields[i].picklistValues" [value]="option">
                       {{ option }}
@@ -98,51 +86,32 @@
 
                   <!-- Checkbox -->
                   <div *ngIf="isCheckboxField(section.fields[i])" class="form-check">
-                    <input 
-                      class="form-check-input" 
-                      type="checkbox"
-                      [formControlName]="section.fields[i].fieldName"
-                      [id]="section.fields[i].fieldName"
-                    />
+                    <input class="form-check-input" type="checkbox" [formControlName]="section.fields[i].fieldName"
+                      [id]="section.fields[i].fieldName" />
                     <label class="form-check-label" [for]="section.fields[i].fieldName"></label>
                   </div>
 
                   <!-- Date -->
-                  <input 
-                    *ngIf="isDateField(section.fields[i])"
-                    type="date"
-                    class="form-control"
+                  <input *ngIf="isDateField(section.fields[i])" type="date" class="form-control"
                     [class.is-invalid]="hasError(section.fields[i].fieldName)"
-                    [formControlName]="section.fields[i].fieldName"
-                  />
+                    [formControlName]="section.fields[i].fieldName" />
 
                   <!-- Date/Time -->
-                  <input 
-                    *ngIf="isDateTimeField(section.fields[i])"
-                    type="datetime-local"
-                    class="form-control"
+                  <input *ngIf="isDateTimeField(section.fields[i])" type="datetime-local" class="form-control"
                     [class.is-invalid]="hasError(section.fields[i].fieldName)"
-                    [formControlName]="section.fields[i].fieldName"
-                  />
+                    [formControlName]="section.fields[i].fieldName" />
 
                   <!-- Lookup / User (simplified as select for now) -->
-                  <select 
-                    *ngIf="isLookupField(section.fields[i])"
-                    class="form-select"
+                  <select *ngIf="isLookupField(section.fields[i])" class="form-select"
                     [class.is-invalid]="hasError(section.fields[i].fieldName)"
-                    [formControlName]="section.fields[i].fieldName"
-                  >
+                    [formControlName]="section.fields[i].fieldName">
                     <option value="">-None-</option>
                   </select>
 
                   <!-- Multi-Select Picklist -->
-                  <select 
-                    *ngIf="isMultiSelectField(section.fields[i])"
-                    class="form-select"
+                  <select *ngIf="isMultiSelectField(section.fields[i])" class="form-select"
                     [class.is-invalid]="hasError(section.fields[i].fieldName)"
-                    [formControlName]="section.fields[i].fieldName"
-                    multiple
-                  >
+                    [formControlName]="section.fields[i].fieldName" multiple>
                     <option *ngFor="let option of section.fields[i].picklistValues" [value]="option">
                       {{ option }}
                     </option>
@@ -162,32 +131,21 @@
                 </label>
                 <div class="field-input">
                   <!-- Single Line, Email, Phone, URL, Currency, Decimal, Number, Percent -->
-                  <input 
-                    *ngIf="isInputField(section.fields[i + 1])"
-                    [type]="getInputType(section.fields[i + 1])"
-                    class="form-control"
-                    [class.is-invalid]="hasError(section.fields[i + 1].fieldName)"
+                  <input *ngIf="isInputField(section.fields[i + 1])" [type]="getInputType(section.fields[i + 1])"
+                    class="form-control" [class.is-invalid]="hasError(section.fields[i + 1].fieldName)"
                     [formControlName]="section.fields[i + 1].fieldName"
-                    [placeholder]="section.fields[i + 1].displayLabel"
-                  />
+                    [placeholder]="section.fields[i + 1].displayLabel" />
 
                   <!-- Multi Line / Textarea -->
-                  <textarea 
-                    *ngIf="isTextareaField(section.fields[i + 1])"
-                    class="form-control"
+                  <textarea *ngIf="isTextareaField(section.fields[i + 1])" class="form-control"
                     [class.is-invalid]="hasError(section.fields[i + 1].fieldName)"
                     [formControlName]="section.fields[i + 1].fieldName"
-                    [placeholder]="section.fields[i + 1].displayLabel"
-                    rows="3"
-                  ></textarea>
+                    [placeholder]="section.fields[i + 1].displayLabel" rows="3"></textarea>
 
                   <!-- Picklist / Select -->
-                  <select 
-                    *ngIf="isSelectField(section.fields[i + 1])"
-                    class="form-select"
+                  <select *ngIf="isSelectField(section.fields[i + 1])" class="form-select"
                     [class.is-invalid]="hasError(section.fields[i + 1].fieldName)"
-                    [formControlName]="section.fields[i + 1].fieldName"
-                  >
+                    [formControlName]="section.fields[i + 1].fieldName">
                     <option value="">-None-</option>
                     <option *ngFor="let option of section.fields[i + 1].picklistValues" [value]="option">
                       {{ option }}
@@ -196,51 +154,32 @@
 
                   <!-- Checkbox -->
                   <div *ngIf="isCheckboxField(section.fields[i + 1])" class="form-check">
-                    <input 
-                      class="form-check-input" 
-                      type="checkbox"
-                      [formControlName]="section.fields[i + 1].fieldName"
-                      [id]="section.fields[i + 1].fieldName"
-                    />
+                    <input class="form-check-input" type="checkbox" [formControlName]="section.fields[i + 1].fieldName"
+                      [id]="section.fields[i + 1].fieldName" />
                     <label class="form-check-label" [for]="section.fields[i + 1].fieldName"></label>
                   </div>
 
                   <!-- Date -->
-                  <input 
-                    *ngIf="isDateField(section.fields[i + 1])"
-                    type="date"
-                    class="form-control"
+                  <input *ngIf="isDateField(section.fields[i + 1])" type="date" class="form-control"
                     [class.is-invalid]="hasError(section.fields[i + 1].fieldName)"
-                    [formControlName]="section.fields[i + 1].fieldName"
-                  />
+                    [formControlName]="section.fields[i + 1].fieldName" />
 
                   <!-- Date/Time -->
-                  <input 
-                    *ngIf="isDateTimeField(section.fields[i + 1])"
-                    type="datetime-local"
-                    class="form-control"
+                  <input *ngIf="isDateTimeField(section.fields[i + 1])" type="datetime-local" class="form-control"
                     [class.is-invalid]="hasError(section.fields[i + 1].fieldName)"
-                    [formControlName]="section.fields[i + 1].fieldName"
-                  />
+                    [formControlName]="section.fields[i + 1].fieldName" />
 
                   <!-- Lookup / User -->
-                  <select 
-                    *ngIf="isLookupField(section.fields[i + 1])"
-                    class="form-select"
+                  <select *ngIf="isLookupField(section.fields[i + 1])" class="form-select"
                     [class.is-invalid]="hasError(section.fields[i + 1].fieldName)"
-                    [formControlName]="section.fields[i + 1].fieldName"
-                  >
+                    [formControlName]="section.fields[i + 1].fieldName">
                     <option value="">-None-</option>
                   </select>
 
                   <!-- Multi-Select Picklist -->
-                  <select 
-                    *ngIf="isMultiSelectField(section.fields[i + 1])"
-                    class="form-select"
+                  <select *ngIf="isMultiSelectField(section.fields[i + 1])" class="form-select"
                     [class.is-invalid]="hasError(section.fields[i + 1].fieldName)"
-                    [formControlName]="section.fields[i + 1].fieldName"
-                    multiple
-                  >
+                    [formControlName]="section.fields[i + 1].fieldName" multiple>
                     <option *ngFor="let option of section.fields[i + 1].picklistValues" [value]="option">
                       {{ option }}
                     </option>
@@ -268,11 +207,13 @@
     <button type="button" class="btn btn-secondary-custom" (click)="onCancel()" [disabled]="saving">
       Cancel
     </button>
-    <button type="button" class="btn btn-secondary-custom" (click)="onSaveAndNew()" [disabled]="saving || entityForm?.invalid">
+    <button type="button" class="btn btn-secondary-custom" (click)="onSaveAndNew()"
+      [disabled]="loading || saving || entityForm.invalid">
       <span *ngIf="saving" class="spinner-border spinner-border-sm me-2"></span>
       Save and New
     </button>
-    <button type="button" class="btn btn-primary-custom" (click)="onSave()" [disabled]="saving || entityForm?.invalid">
+    <button type="button" class="btn btn-primary-custom" (click)="onSave()"
+      [disabled]="loading || saving || entityForm.invalid">
       <span *ngIf="saving" class="spinner-border spinner-border-sm me-2"></span>
       Save
     </button>

@@ -1,8 +1,8 @@
 {
-  "buildDate": "2025-11-29T18:49:53.397Z",
+  "buildDate": "2025-12-05T09:14:37.189Z",
   "files": {
     "main": [
-      "main-DM3VBMEW.js"
+      "main-YUKXNVLF.js"
     ],
     "polyfills": [
       "polyfills-FFHMD2TL.js"
@@ -11,40 +11,43 @@
       "styles-QSDUUJNI.css"
     ],
     "chunks": [
-      "erp-app-2WQT2PRQ.js",
-      "erp-app-3IIXRQWZ.js",
-      "erp-app-4I2P2EEM.js",
-      "erp-app-5ETY6UY2.js",
-      "erp-app-5UEFXTN7.js",
-      "erp-app-6FE7QBTU.js",
-      "erp-app-7FKPAYLK.js",
-      "erp-app-AKQWZQLL.js",
-      "erp-app-BLGMJPQA.js",
-      "erp-app-BU5IP2HQ.js",
-      "erp-app-D5SA3L3R.js",
-      "erp-app-EPKJTGBJ.js",
-      "erp-app-ESUJMXL7.js",
-      "erp-app-EXPUMO2F.js",
-      "erp-app-HTFTIFZ7.js",
-      "erp-app-IT3U36Z3.js",
-      "erp-app-IT6DHO3Q.js",
-      "erp-app-K3Z7VPN4.js",
-      "erp-app-MFV6QKU4.js",
-      "erp-app-N775JNR4.js",
-      "erp-app-NLHQPPP6.js",
-      "erp-app-NWWELG7D.js",
-      "erp-app-O7L64UQB.js",
-      "erp-app-OXAEJMWT.js",
-      "erp-app-PXBKC2TX.js",
-      "erp-app-RHAZ4H7V.js",
-      "erp-app-SGGWBUAT.js",
-      "erp-app-U3XY2LCB.js",
-      "erp-app-VM5XVXIC.js",
-      "erp-app-VQ7IWOIM.js",
-      "erp-app-VX3WAWMR.js",
-      "erp-app-WODIXIUW.js",
-      "erp-app-ZCMAJYI7.js"
+      "erp-app-2ALILG5F.js",
+      "erp-app-4UXTMQYP.js",
+      "erp-app-7K2QXEVR.js",
+      "erp-app-CTTXOLKE.js",
+      "erp-app-CUXL6X25.js",
+      "erp-app-CZH3Z7IN.js",
+      "erp-app-CZXU25IR.js",
+      "erp-app-D642CDB7.js",
+      "erp-app-DVYPOOAC.js",
+      "erp-app-E6JDUPM3.js",
+      "erp-app-F3ZHVLJR.js",
+      "erp-app-FNY7NTFI.js",
+      "erp-app-G5EJWD62.js",
+      "erp-app-GQ4BRXJV.js",
+      "erp-app-HFKNC72P.js",
+      "erp-app-LQP66WOJ.js",
+      "erp-app-LSK7M4CC.js",
+      "erp-app-N7AE4VWP.js",
+      "erp-app-NO6KBPIT.js",
+      "erp-app-OGICC6WT.js",
+      "erp-app-OT4D3Z7M.js",
+      "erp-app-QXAPQXCT.js",
+      "erp-app-QXDA47GZ.js",
+      "erp-app-RB5J24E7.js",
+      "erp-app-RDPZRVRN.js",
+      "erp-app-S24TMWYF.js",
+      "erp-app-SLBY6EOS.js",
+      "erp-app-TZWFNKF5.js",
+      "erp-app-UFZRBECU.js",
+      "erp-app-VLVUGSJV.js",
+      "erp-app-WPD4PNDV.js",
+      "erp-app-WW6XRQVP.js",
+      "erp-app-XAD3YQUL.js",
+      "erp-app-YTLNIMNL.js",
+      "erp-app-YU6DMMVU.js",
+      "erp-app-ZTRAVMAA.js"
     ]
   },
-  "totalChunks": 33
+  "totalChunks": 36
 }
