@@ -60,15 +60,60 @@ export class PromotionCreateComponent implements OnInit, OnDestroy {
   // Progress polling
   private progressInterval: any;
 
+  // Wizard State
+  currentStep = 1;
+  steps = [
+    { number: 1, title: 'Batch Details', icon: 'bi-info-circle' },
+    { number: 2, title: 'Select Students', icon: 'bi-people' },
+    { number: 3, title: 'Configuration', icon: 'bi-sliders' },
+    { number: 4, title: 'Review', icon: 'bi-check-circle' }
+  ];
+
   constructor(
     private promotionService: StudentPromotionService,
     private router: Router
   ) { }
 
+  // Wizard Navigation
+  nextStep(): void {
+    if (this.isStepValid(this.currentStep)) {
+      this.currentStep++;
+      window.scrollTo(0, 0);
+    }
+  }
+
+  prevStep(): void {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+      window.scrollTo(0, 0);
+    }
+  }
+
+  goToStep(step: number): void {
+    if (step < this.currentStep || (step > this.currentStep && this.isStepValid(this.currentStep))) {
+      this.currentStep = step;
+    }
+  }
+
+  isStepValid(step: number): boolean {
+    switch (step) {
+      case 1:
+        return !!(this.batchName && this.academicYearFrom && this.academicYearTo && this.promotionDate);
+      case 2:
+        return this.selectedStudents.length > 0;
+      case 3:
+        return true; // Configuration is optional or has defaults
+      case 4:
+        return true;
+      default:
+        return false;
+    }
+  }
+
   ngOnInit(): void {
+    this.setDefaultDates();
     this.loadGradeLevels();
     this.loadStatistics();
-    this.setDefaultDates();
   }
 
   setDefaultDates(): void {
@@ -90,6 +135,10 @@ export class PromotionCreateComponent implements OnInit, OnDestroy {
   }
 
   loadStatistics(): void {
+    // Pass academicYearFrom if available to filter statistics
+    // Note: The service method might need update to accept params, or we assume it returns all and we filter?
+    // The user said "show the Current Statistics based on the Academic Year From".
+    // I'll check if getStatistics accepts params.
     this.promotionService.getStatistics().subscribe({
       next: (stats) => {
         this.statistics = stats;
@@ -113,7 +162,7 @@ export class PromotionCreateComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: (response) => {
         this.eligibleStudents = (response.students || []).map((student: any) => ({
-          studentId: student.studentId,
+          studentId: student.id, // Backend Student entity uses 'id' not 'studentId'
           firstName: student.firstName,
           lastName: student.lastName,
           gradeLevel: student.gradeLevel,
@@ -234,13 +283,13 @@ export class PromotionCreateComponent implements OnInit, OnDestroy {
       batchName: this.batchName,
       academicYearFrom: this.academicYearFrom,
       academicYearTo: this.academicYearTo,
-      promotionDate: this.promotionDate,
+      promotionDate: this.promotionDate, // Already in YYYY-MM-DD format from date input
       students: this.selectedStudents.map(student => ({
         studentId: student.studentId,
         toGradeLevel: student.targetGrade || this.getNextGrade(student.gradeLevel),
-        toSection: this.autoAssignSections ? undefined : student.targetSection
+        toSection: this.autoAssignSections ? null : student.targetSection
       })),
-      notes: this.notes,
+      notes: this.notes || '',
       autoAssignSections: this.autoAssignSections
     };
 

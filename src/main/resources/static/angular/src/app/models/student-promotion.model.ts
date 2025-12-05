@@ -3,7 +3,7 @@
 export interface StudentPromotionItem {
   studentId: number;
   toGradeLevel: string;
-  toSection?: string;
+  toSection?: string | null;
 }
 
 export interface StudentPromotionRequest {

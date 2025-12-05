@@ -1,0 +1,92 @@
+<div class="field-container" [ngClass]="{'field-error': !isValid, 'field-view-mode': mode === 'view'}">
+    <!-- Field Label -->
+    <label [for]="field.fieldName" class="field-label">
+        {{ field.fieldLabel }}
+        <span *ngIf="field.isRequired && mode !== 'view'" class="required-indicator">*</span>
+    </label>
+
+    <!-- VIEW MODE -->
+    <div *ngIf="mode === 'view'" class="field-value-display">
+        <span *ngIf="field.uiType === UIFieldTypeId.EMAIL" class="email-link">
+            <a [href]="'mailto:' + value">{{ getDisplayValue() }}</a>
+        </span>
+        <span *ngIf="field.uiType === UIFieldTypeId.URL" class="url-link">
+            <a [href]="value" target="_blank" rel="noopener noreferrer">{{ getDisplayValue() }}</a>
+        </span>
+        <span *ngIf="field.uiType !== UIFieldTypeId.EMAIL && field.uiType !== UIFieldTypeId.URL">
+            {{ getDisplayValue() }}
+        </span>
+    </div>
+
+    <!-- EDIT/CREATE MODE -->
+    <div *ngIf="mode !== 'view'" class="field-input-container">
+        <!-- Text Input -->
+        <input *ngIf="!isTextArea() && !isSelect() && !isCheckbox()" [type]="getInputType()" [id]="field.fieldName"
+            [name]="field.fieldName" [(ngModel)]="value" (ngModelChange)="onValueChanged($event)" [disabled]="disabled"
+            [required]="field.isRequired" [maxlength]="field.maxLength || null"
+            [step]="isNumber() ? getNumberStep() : undefined" [min]="getNumberMin()" [max]="getNumberMax()"
+            class="form-control" [placeholder]="field.fieldDescription || ''" />
+
+        <!-- Textarea -->
+        <textarea *ngIf="isTextArea()" [id]="field.fieldName" [name]="field.fieldName" [(ngModel)]="value"
+            (ngModelChange)="onValueChanged($event)" [disabled]="disabled" [required]="field.isRequired"
+            [maxlength]="field.maxLength || null" class="form-control" rows="4"
+            [placeholder]="field.fieldDescription || ''"></textarea>
+
+        <!-- Select/Dropdown -->
+        <select *ngIf="isSelect()" [id]="field.fieldName" [name]="field.fieldName" [(ngModel)]="value"
+            (ngModelChange)="onValueChanged($event)" [disabled]="disabled" [required]="field.isRequired"
+            class="form-control">
+            <option value="">-- Select {{ field.fieldLabel }} --</option>
+            <option *ngFor="let option of picklistOptions" [value]="option">
+                {{ option }}
+            </option>
+        </select>
+
+        <!-- Checkbox -->
+        <div *ngIf="isCheckbox()" class="checkbox-container">
+            <input type="checkbox" [id]="field.fieldName" [name]="field.fieldName" [(ngModel)]="value"
+                (ngModelChange)="onValueChanged($event)" [disabled]="disabled" class="form-check-input" />
+            <label [for]="field.fieldName" class="form-check-label">
+                {{ field.fieldDescription || field.fieldLabel }}
+            </label>
+        </div>
+
+        <!-- Multi-Select Picklist (105) -->
+        <app-multi-select-field *ngIf="field.uiType === UIFieldTypeId.MULTI_SELECT" [field]="field" [value]="value"
+            [mode]="mode" [disabled]="disabled" (valueChange)="onValueChanged($event)">
+        </app-multi-select-field>
+
+        <!-- Lookup/Autocomplete (115) -->
+        <app-lookup-field *ngIf="field.uiType === UIFieldTypeId.LOOKUP" [field]="field" [value]="value" [mode]="mode"
+            [disabled]="disabled" (valueChange)="onValueChanged($event)">
+        </app-lookup-field>
+
+        <!-- File Upload (117) -->
+        <app-file-upload-field *ngIf="field.uiType === UIFieldTypeId.FILE_UPLOAD" [field]="field" [value]="value"
+            [mode]="mode" [disabled]="disabled" (valueChange)="onValueChanged($event)">
+        </app-file-upload-field>
+
+        <!-- Image Upload (118) -->
+        <app-image-upload-field *ngIf="field.uiType === UIFieldTypeId.IMAGE_UPLOAD" [field]="field" [value]="value"
+            [mode]="mode" [disabled]="disabled" (valueChange)="onValueChanged($event)">
+        </app-image-upload-field>
+
+        <!-- Rich Text Editor (120) -->
+        <app-rich-text-field *ngIf="field.uiType === 120" [field]="field" [value]="value" [mode]="mode"
+            [disabled]="disabled" (valueChange)="onValueChanged($event)">
+        </app-rich-text-field>
+
+        <!-- Validation Errors -->
+        <div *ngIf="!isValid && validationErrors.length > 0" class="validation-errors">
+            <div *ngFor="let error of validationErrors" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+            </div>
+        </div>
+
+        <!-- Help Text -->
+        <small *ngIf="field.fieldDescription && !isCheckbox()" class="field-help-text">
+            {{ field.fieldDescription }}
+        </small>
+    </div>
+</div>

@@ -49,6 +49,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'entity-create/:entityType',
+    loadComponent: () => import('./components/entity-create/entity-create.component').then(m => m.EntityCreateComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'import-wizard',
     loadComponent: () => import('./components/import-wizard/import-wizard.component').then(m => m.ImportWizardComponent),
     canActivate: [AuthGuard]

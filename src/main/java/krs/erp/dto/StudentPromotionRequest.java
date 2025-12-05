@@ -3,6 +3,8 @@ package krs.erp.dto;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +21,7 @@ public class StudentPromotionRequest {
     private String academicYearTo;
 
     @NotNull(message = "Promotion date is required")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate promotionDate;
 
     @NotEmpty(message = "At least one student must be selected")

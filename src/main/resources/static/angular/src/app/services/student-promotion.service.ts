@@ -15,7 +15,7 @@ import {
 export class StudentPromotionService {
   private baseUrl = '/api/promotions';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * Execute promotion batch (async - returns immediately with batch ID)
@@ -76,7 +76,7 @@ export class StudentPromotionService {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-    
+
     if (gradeLevel) {
       params = params.set('gradeLevel', gradeLevel);
     }
@@ -86,21 +86,25 @@ export class StudentPromotionService {
     if (search) {
       params = params.set('search', search);
     }
-    
+
     return this.http.get<any>(`${this.baseUrl}/eligible`, { params });
   }
 
   /**
    * Get promotion statistics
    */
-  getStatistics(): Observable<GradeStatistics> {
-    return this.http.get<GradeStatistics>(`${this.baseUrl}/statistics`);
+  getStatistics(academicYear?: string): Observable<GradeStatistics> {
+    let params = new HttpParams();
+    if (academicYear) {
+      params = params.set('academicYear', academicYear);
+    }
+    return this.http.get<GradeStatistics>(`${this.baseUrl}/statistics`, { params });
   }
 
   /**
    * Get available grade levels
    */
-  getGradeLevels(): Observable<{[key: string]: string}> {
-    return this.http.get<{[key: string]: string}>(`${this.baseUrl}/grade-levels`);
+  getGradeLevels(): Observable<{ [key: string]: string }> {
+    return this.http.get<{ [key: string]: string }>(`${this.baseUrl}/grade-levels`);
   }
 }

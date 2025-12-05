@@ -103,6 +103,13 @@ public class ErpFieldService {
     }
 
     /**
+     * Get field by ID
+     */
+    public ErpField getFieldById(Long fieldId) {
+        return erpFieldRepository.findById(fieldId).orElse(null);
+    }
+
+    /**
      * Delete field (soft delete by setting isActive to 0)
      */
     public void deleteField(Long fieldId) {

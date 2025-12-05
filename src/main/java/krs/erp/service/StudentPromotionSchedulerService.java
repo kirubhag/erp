@@ -34,23 +34,27 @@ public class StudentPromotionSchedulerService {
     /**
      * Create batch and return ID immediately, then execute asynchronously
      * 
-     * @param request Promotion request details
+     * @param request       Promotion request details
      * @param currentUserId User who initiated the promotion
-     * @param httpRequest HTTP request for IP/user agent tracking
+     * @param httpRequest   HTTP request for IP/user agent tracking
      * @return Batch ID for polling progress
      */
     @Transactional
     public Long createAndSchedulePromotion(
-            StudentPromotionRequest request, 
-            Long currentUserId, 
+            StudentPromotionRequest request,
+            Long currentUserId,
             HttpServletRequest httpRequest) {
-        
+
+        // Extract request info before async execution
+        String ipAddress = httpRequest != null ? httpRequest.getRemoteAddr() : null;
+        String userAgent = httpRequest != null ? httpRequest.getHeader("User-Agent") : null;
+
         // Create batch record immediately
         Long batchId = promotionService.createPromotionBatch(request, currentUserId, httpRequest);
-        
+
         // Schedule async execution
-        executePromotionAsync(batchId, request, currentUserId, httpRequest);
-        
+        executePromotionAsync(batchId, request, currentUserId, ipAddress, userAgent);
+
         return batchId;
     }
 
@@ -58,29 +62,31 @@ public class StudentPromotionSchedulerService {
      * Execute promotion batch asynchronously in a separate thread
      * Updates progress in database as students are processed
      * 
-     * @param batchId Batch ID to process
-     * @param request Promotion request details
+     * @param batchId       Batch ID to process
+     * @param request       Promotion request details
      * @param currentUserId User who initiated the promotion
-     * @param httpRequest HTTP request for IP/user agent tracking
+     * @param ipAddress     IP address of the user
+     * @param userAgent     User agent of the user
      */
     @Async("promotionTaskExecutor")
     public void executePromotionAsync(
             Long batchId,
-            StudentPromotionRequest request, 
-            Long currentUserId, 
-            HttpServletRequest httpRequest) {
-        
+            StudentPromotionRequest request,
+            Long currentUserId,
+            String ipAddress,
+            String userAgent) {
+
         logger.info("Starting async promotion execution for batch: {}", batchId);
-        
+
         try {
             // Execute promotion in background
-            promotionService.createAndExecutePromotionBatch(request, currentUserId, httpRequest);
-            
+            promotionService.executePromotionBatch(batchId, request, currentUserId, ipAddress, userAgent);
+
             logger.info("Async promotion completed successfully. Batch ID: {}", batchId);
-            
+
         } catch (Exception e) {
             logger.error("Error during async promotion execution", e);
-            
+
             // Mark batch as failed
             try {
                 StudentPromotionBatch batch = batchRepository.findById(batchId).orElse(null);

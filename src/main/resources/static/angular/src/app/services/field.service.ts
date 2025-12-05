@@ -23,6 +23,42 @@ export class FieldService {
     }
 
     /**
+     * Get fields for Create page (exclude show_type=1,2)
+     */
+    getFieldsForCreate(entityType: string): Observable<ErpField[]> {
+        return this.http.get<ErpField[]>(`${this.apiUrl}/${entityType}/create`);
+    }
+
+    /**
+     * Get fields for Edit page (exclude show_type=1,2)
+     */
+    getFieldsForEdit(entityType: string): Observable<ErpField[]> {
+        return this.http.get<ErpField[]>(`${this.apiUrl}/${entityType}/edit`);
+    }
+
+    /**
+     * Get fields for View page (exclude show_type=2 only)
+     */
+    getFieldsForView(entityType: string): Observable<ErpField[]> {
+        return this.http.get<ErpField[]>(`${this.apiUrl}/${entityType}/view`);
+    }
+
+    /**
+     * Filter fields by mode (client-side fallback)
+     */
+    filterFieldsByMode(fields: ErpField[], mode: 'create' | 'edit' | 'view'): ErpField[] {
+        switch (mode) {
+            case 'create':
+            case 'edit':
+                return fields.filter(f => !f.showType || f.showType === 0);
+            case 'view':
+                return fields.filter(f => f.showType !== 2);
+            default:
+                return fields;
+        }
+    }
+
+    /**
      * Get fields grouped by section for a specific entity type
      * Fields are organized by their section labels
      */

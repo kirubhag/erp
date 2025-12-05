@@ -4,18 +4,21 @@
         <fieldName>id</fieldName>
         <fieldLabel>ID</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <fieldCategory>System</fieldCategory>
         <displayOrder>1</displayOrder>
         <defaultWidth>80</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
+        <showType>1</showType>
         <fieldDescription>Unique identifier for the student</fieldDescription>
     </field>
     <field>
         <fieldName>firstName</fieldName>
         <fieldLabel>First Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -28,6 +31,7 @@
         <fieldName>lastName</fieldName>
         <fieldLabel>Last Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -40,6 +44,7 @@
         <fieldName>middleName</fieldName>
         <fieldLabel>Middle Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -52,6 +57,7 @@
         <fieldName>dateOfBirth</fieldName>
         <fieldLabel>Date of Birth</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -64,6 +70,8 @@
         <fieldName>gender</fieldName>
         <fieldLabel>Gender</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
+        <picklistOptions>Male,Female,Other,Prefer not to say</picklistOptions>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -88,6 +96,7 @@
         <fieldName>bloodGroup</fieldName>
         <fieldLabel>Blood Group</fieldLabel>
         <fieldType>PICKLIST</fieldType>
+        <uiType>104</uiType>
         <fieldCategory>Personal</fieldCategory>
         <picklistOptions>A+,A-,B+,B-,O+,O-,AB+,AB-</picklistOptions>
         <displayOrder>8</displayOrder>
@@ -101,6 +110,7 @@
         <fieldName>photoUrl</fieldName>
         <fieldLabel>Photo</fieldLabel>
         <fieldType>URL</fieldType>
+        <uiType>119</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>9</displayOrder>
         <defaultWidth>80</defaultWidth>
@@ -114,6 +124,7 @@
         <fieldName>email</fieldName>
         <fieldLabel>Email</fieldLabel>
         <fieldType>EMAIL</fieldType>
+        <uiType>102</uiType>
         <fieldCategory>Contact</fieldCategory>
         <displayOrder>10</displayOrder>
         <defaultWidth>180</defaultWidth>
@@ -126,6 +137,7 @@
         <fieldName>phone</fieldName>
         <fieldLabel>Phone</fieldLabel>
         <fieldType>PHONE</fieldType>
+        <uiType>103</uiType>
         <fieldCategory>Contact</fieldCategory>
         <displayOrder>11</displayOrder>
         <defaultWidth>130</defaultWidth>
@@ -195,18 +207,6 @@
         <fieldDescription>Date when student was enrolled</fieldDescription>
     </field>
     <field>
-        <fieldName>section</fieldName>
-        <fieldLabel>Section</fieldLabel>
-        <fieldType>STRING</fieldType>
-        <fieldCategory>Academic</fieldCategory>
-        <displayOrder>24</displayOrder>
-        <defaultWidth>80</defaultWidth>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <fieldDescription>Class section (A, B, C, etc.)</fieldDescription>
-    </field>
-    <field>
         <fieldName>admissionNumber</fieldName>
         <fieldLabel>Admission Number</fieldLabel>
         <fieldType>STRING</fieldType>
@@ -252,6 +252,7 @@
         <isRequired>false</isRequired>
         <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
+        <showType>1</showType>
         <fieldDescription>Record creation timestamp</fieldDescription>
     </field>
     <field>
@@ -264,6 +265,7 @@
         <isRequired>false</isRequired>
         <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
+        <showType>1</showType>
         <fieldDescription>Last update timestamp</fieldDescription>
     </field>
 </entityFields>

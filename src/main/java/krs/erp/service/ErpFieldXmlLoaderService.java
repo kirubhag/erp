@@ -44,33 +44,33 @@ public class ErpFieldXmlLoaderService {
     public void loadFieldsFromXml() {
         try {
             logger.info("Loading ERP field definitions from XML pattern: {}", XML_FILE_PATTERN);
-            
+
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
             Resource[] resources = resolver.getResources(XML_FILE_PATTERN);
-            
+
             if (resources.length == 0) {
                 logger.error("No XML files found matching pattern: {}", XML_FILE_PATTERN);
                 return;
             }
-            
+
             logger.info("Found {} field definition XML files", resources.length);
-            
+
             for (Resource resource : resources) {
                 loadFieldsFromResource(resource);
             }
-            
+
         } catch (Exception e) {
             logger.error("Error loading field definitions from XML", e);
         }
     }
-    
+
     /**
      * Load fields from a single XML resource
      */
     private void loadFieldsFromResource(Resource resource) {
         try {
             logger.info("Loading fields from: {}", resource.getFilename());
-            
+
             if (!resource.exists()) {
                 logger.error("XML resource not found: {}", resource.getFilename());
                 return;
@@ -84,16 +84,17 @@ public class ErpFieldXmlLoaderService {
             // Look for entityFields tag (actual XML structure)
             Element rootElement = document.getDocumentElement();
             String entityTypeStr = rootElement.getAttribute("type");
-            
+
             if (entityTypeStr == null || entityTypeStr.isEmpty()) {
                 logger.error("No entity type found in XML root element for: {}", resource.getFilename());
                 return;
             }
-            
+
             try {
                 EntityType entityType = EntityType.valueOf(entityTypeStr);
                 int fieldsLoaded = loadEntityFields(rootElement, entityType);
-                logger.info("✓ Loaded {} fields for entity type: {} from {}", fieldsLoaded, entityType, resource.getFilename());
+                logger.info("✓ Loaded {} fields for entity type: {} from {}", fieldsLoaded, entityType,
+                        resource.getFilename());
             } catch (IllegalArgumentException e) {
                 logger.error("Invalid entity type in XML: {}", entityTypeStr);
             }
@@ -113,9 +114,9 @@ public class ErpFieldXmlLoaderService {
 
         for (int i = 0; i < fieldNodes.getLength(); i++) {
             Element fieldElement = (Element) fieldNodes.item(i);
-            
+
             String fieldName = getElementText(fieldElement, "fieldName");
-            
+
             // Check if field already exists
             if (fieldExists(entityType, fieldName)) {
                 existingFieldsCount++;
@@ -137,10 +138,10 @@ public class ErpFieldXmlLoaderService {
                 field.setModifiedTime(now);
                 field.setIsActive(1);
             });
-            
+
             erpFieldRepository.saveAll(fieldsToSave);
-            logger.info("Saved {} new fields for {}, {} already existed", 
-                       fieldsToSave.size(), entityType, existingFieldsCount);
+            logger.info("Saved {} new fields for {}, {} already existed",
+                    fieldsToSave.size(), entityType, existingFieldsCount);
         } else {
             logger.info("All {} fields for {} already exist", existingFieldsCount, entityType);
         }
@@ -156,11 +157,11 @@ public class ErpFieldXmlLoaderService {
             String fieldName = getElementText(fieldElement, "fieldName");
             String fieldLabel = getElementText(fieldElement, "fieldLabel");
             String fieldTypeStr = getElementText(fieldElement, "fieldType");
-            
+
             FieldType fieldType = FieldType.valueOf(fieldTypeStr);
-            
+
             ErpField field = new ErpField(entityType, fieldName, fieldLabel, fieldType);
-            
+
             // Set optional fields with defaults
             // Note: fieldCategory from XML is now handled by sections
             field.setDisplayOrder(getElementTextAsInt(fieldElement, "displayOrder", 0));
@@ -169,9 +170,10 @@ public class ErpFieldXmlLoaderService {
             field.setIsSearchable(getElementTextAsBoolean(fieldElement, "isSearchable", false));
             field.setIsSortable(getElementTextAsBoolean(fieldElement, "isSortable", false));
             field.setFieldDescription(getElementText(fieldElement, "fieldDescription"));
-            
+            field.setShowType(getElementTextAsInt(fieldElement, "showType", 0));
+
             return field;
-            
+
         } catch (Exception e) {
             logger.error("Error creating field from XML element: {}", e.getMessage());
             return null;

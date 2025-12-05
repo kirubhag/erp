@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { GridViewComponent } from '../grid-view/grid-view.component';
 import { EntityFieldsSidebarComponent, FieldFilter } from '../entity-fields-sidebar/entity-fields-sidebar.component';
 import { EntityAvatarComponent } from '../entity-avatar/entity-avatar.component';
+import { UIFieldTypeService } from '../../services/ui-field-type.service';
 
 export interface EntityColumn {
   key: string;
@@ -14,6 +15,7 @@ export interface EntityColumn {
   sortable?: boolean;
   width?: string;
   customTemplate?: string;
+  uiType?: number; // Add UI type for formatted display
 }
 
 export interface EntityFilter {
@@ -89,7 +91,7 @@ export class EntityListComponent implements OnInit {
   private savingViewMode: boolean = false;
   private savingItemsPerPage: boolean = false;
   private savingSidebarState: boolean = false;
-  
+
   // Helper methods for template
   isTableView(): boolean {
     return this.viewMode === 'table';
@@ -110,18 +112,48 @@ export class EntityListComponent implements OnInit {
     console.log('Switching to grid view, userId:', this.userId, 'orgId:', this.organizationId);
     this.saveViewModePreference();
   }
-  
+
   get totalRecords(): number {
     return this.pagination.totalItems;
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private uiFieldTypeService: UIFieldTypeService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.updatePagination();
     this.loadUserPreferences();
     // Set initial sidebar visibility
     this.sidebarVisible = true;
+  }
+
+  /**
+   * Format cell value based on column type and UI type
+   */
+  formatCellValue(value: any, column: EntityColumn): string {
+    if (value === null || value === undefined) {
+      return '—';
+    }
+
+    // Use UI type for formatting if available
+    if (column.uiType) {
+      return this.uiFieldTypeService.formatValueForDisplay(value, column.uiType);
+    }
+
+    // Fallback to column type
+    switch (column.type) {
+      case 'date':
+        return new Date(value).toLocaleDateString();
+      case 'email':
+        return value;
+      case 'badge':
+        return value;
+      default:
+        return String(value);
+    }
   }
 
   /**
@@ -134,25 +166,25 @@ export class EntityListComponent implements OnInit {
     }
 
     console.log('Loading user preferences for user:', this.userId, 'org:', this.organizationId);
-    
+
     this.http.get(`/api/user-settings/${this.userId}/${this.organizationId}`)
       .subscribe({
         next: (settings: any) => {
           console.log('User preferences loaded:', settings);
-          
+
           // Load default list view from database
           if (settings.defaultListView) {
             this.viewMode = settings.defaultListView === 'card' ? 'grid' : 'table';
             console.log('Loaded viewMode:', this.viewMode);
           }
-          
+
           // Load records per page from database
           if (settings.recordsPerPage && settings.recordsPerPage > 0) {
             this.pagination.itemsPerPage = settings.recordsPerPage;
             this.updatePagination();
             console.log('Loaded itemsPerPage:', this.pagination.itemsPerPage);
           }
-          
+
           // Load sidebar visibility from database
           if (settings.listSidebarExpanded !== null && settings.listSidebarExpanded !== undefined) {
             this.sidebarVisible = settings.listSidebarExpanded === true || settings.listSidebarExpanded === 1;
@@ -171,10 +203,10 @@ export class EntityListComponent implements OnInit {
    */
   private saveViewModePreference() {
     if (!this.userId || !this.organizationId || this.savingViewMode) {
-      console.log('Cannot save view mode - missing context or already saving', { 
-        userId: this.userId, 
-        organizationId: this.organizationId, 
-        saving: this.savingViewMode 
+      console.log('Cannot save view mode - missing context or already saving', {
+        userId: this.userId,
+        organizationId: this.organizationId,
+        saving: this.savingViewMode
       });
       return;
     }
@@ -182,7 +214,7 @@ export class EntityListComponent implements OnInit {
     this.savingViewMode = true;
     const viewModeValue = this.viewMode === 'grid' ? 'card' : 'table';
     console.log('Saving view mode preference:', viewModeValue);
-    
+
     this.http.put(
       `/api/user-settings/${this.userId}/${this.organizationId}`,
       { defaultListView: viewModeValue }
@@ -249,12 +281,12 @@ export class EntityListComponent implements OnInit {
   onEntityFieldFilterChange(fieldKey: string) {
     const activeFields = Object.keys(this.entityFieldFilters)
       .filter(key => this.entityFieldFilters[key]);
-    
+
     console.log('Active entity field filters:', activeFields);
-    
+
     // Emit filter change event with active fields
-    this.filterChange.emit({ 
-      entityFields: activeFields 
+    this.filterChange.emit({
+      entityFields: activeFields
     });
   }
 
@@ -263,29 +295,29 @@ export class EntityListComponent implements OnInit {
    */
   onFieldFilterChange(selectedFilters: FieldFilter[]) {
     console.log('Selected field filters from sidebar:', selectedFilters);
-    
+
     // Update entity field filters for backward compatibility
     this.entityFieldFilters = {};
     selectedFilters.forEach(filter => {
       this.entityFieldFilters[filter.fieldName] = true;
     });
-    
+
     // Emit filter change event
-    this.filterChange.emit({ 
+    this.filterChange.emit({
       entityFields: selectedFilters.map(f => f.fieldName)
     });
   }
 
   onSort(column: EntityColumn) {
     if (!column.sortable) return;
-    
+
     if (this.sortColumn === column.key) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
       this.sortColumn = column.key;
       this.sortDirection = 'asc';
     }
-    
+
     this.sortChange.emit({ column: column.key, direction: this.sortDirection });
   }
 
@@ -331,9 +363,16 @@ export class EntityListComponent implements OnInit {
   }
 
   onAction(action: string, item?: any) {
-    this.actionClick.emit({ 
-      action, 
-      item, 
+    // Handle add action to navigate to entity create page
+    if (action === 'add' && this.entityType) {
+      this.router.navigate(['/entity-create', this.entityType]);
+      return;
+    }
+
+    // Emit action click for other actions
+    this.actionClick.emit({
+      action,
+      item,
       selectedItems: item ? undefined : Array.from(this.selectedItems)
     });
   }
@@ -396,7 +435,7 @@ export class EntityListComponent implements OnInit {
     const pages: number[] = [];
     const current = this.pagination.currentPage;
     const total = this.pagination.totalPages;
-    
+
     // Always show first page
     if (current > 3) {
       pages.push(1);
@@ -404,12 +443,12 @@ export class EntityListComponent implements OnInit {
         pages.push(-1); // Ellipsis
       }
     }
-    
+
     // Show pages around current
     for (let i = Math.max(1, current - 2); i <= Math.min(total, current + 2); i++) {
       pages.push(i);
     }
-    
+
     // Always show last page
     if (current < total - 2) {
       if (current < total - 3) {
@@ -417,7 +456,7 @@ export class EntityListComponent implements OnInit {
       }
       pages.push(total);
     }
-    
+
     return pages;
   }
 

@@ -64,10 +64,10 @@ public class StudentPromotionService {
      */
     @Transactional
     public Long createPromotionBatch(
-            StudentPromotionRequest request, 
+            StudentPromotionRequest request,
             Long currentUserId,
             HttpServletRequest httpRequest) {
-        
+
         logger.info("Creating promotion batch: {}", request.getBatchName());
 
         StudentPromotionBatch batch = new StudentPromotionBatch();
@@ -79,11 +79,14 @@ public class StudentPromotionService {
         batch.setTotalStudents(request.getStudents().size());
         batch.setNotes(request.getNotes());
         batch.setStatus(PromotionBatchStatus.PENDING);
-        
+
         batch = batchRepository.save(batch);
 
+        String ipAddress = httpRequest != null ? httpRequest.getRemoteAddr() : null;
+        String userAgent = httpRequest != null ? httpRequest.getHeader("User-Agent") : null;
+
         logAudit(ActionType.BATCH_CREATED, batch.getBatchId(), null, currentUserId, null,
-                "Batch created with " + request.getStudents().size() + " students", httpRequest);
+                "Batch created with " + request.getStudents().size() + " students", ipAddress, userAgent);
 
         return batch.getBatchId();
     }
@@ -91,18 +94,40 @@ public class StudentPromotionService {
     /**
      * Create and execute a student promotion batch
      */
+    /**
+     * Create and execute a student promotion batch
+     */
     @Transactional
     public StudentPromotionResponse createAndExecutePromotionBatch(
-            StudentPromotionRequest request, 
+            StudentPromotionRequest request,
             Long currentUserId,
             HttpServletRequest httpRequest) {
-        
-        logger.info("Starting promotion batch execution: {}", request.getBatchName());
+
+        String ipAddress = httpRequest != null ? httpRequest.getRemoteAddr() : null;
+        String userAgent = httpRequest != null ? httpRequest.getHeader("User-Agent") : null;
 
         // Create batch
         Long batchId = createPromotionBatch(request, currentUserId, httpRequest);
+
+        // Execute batch
+        return executePromotionBatch(batchId, request, currentUserId, ipAddress, userAgent);
+    }
+
+    /**
+     * Execute an existing promotion batch
+     */
+    @Transactional
+    public StudentPromotionResponse executePromotionBatch(
+            Long batchId,
+            StudentPromotionRequest request,
+            Long currentUserId,
+            String ipAddress,
+            String userAgent) {
+
+        logger.info("Starting promotion batch execution: {}", batchId);
+
         StudentPromotionBatch batch = batchRepository.findById(batchId)
-                .orElseThrow(() -> new RuntimeException("Batch not found after creation"));
+                .orElseThrow(() -> new RuntimeException("Batch not found: " + batchId));
 
         // Process promotions
         batch.setStatus(PromotionBatchStatus.IN_PROGRESS);
@@ -111,8 +136,9 @@ public class StudentPromotionService {
         batch.setProcessedStudents(0);
         batch.setProgressPercentage(0.0);
         batchRepository.save(batch);
+
         logAudit(ActionType.BATCH_STARTED, batch.getBatchId(), null, currentUserId, null,
-                "Batch processing started", httpRequest);
+                "Batch processing started", ipAddress, userAgent);
 
         List<StudentPromotionRecord> records = new ArrayList<>();
         Map<String, Integer> sectionCounters = new HashMap<>();
@@ -123,12 +149,12 @@ public class StudentPromotionService {
         for (StudentPromotionRequest.StudentPromotionItem item : request.getStudents()) {
             batch.setCurrentPhase("Processing student " + (processedCount + 1) + " of " + totalStudents);
             batchRepository.save(batch);
-            
+
             StudentPromotionRecord record = processStudentPromotion(
-                    batch, item, currentUserId, request.getAutoAssignSections(), 
-                    sectionCounters, httpRequest);
+                    batch, item, currentUserId, request.getAutoAssignSections(),
+                    sectionCounters, ipAddress, userAgent);
             records.add(record);
-            
+
             processedCount++;
             batch.setProcessedStudents(processedCount);
             batch.setProgressPercentage((processedCount * 100.0) / totalStudents);
@@ -152,9 +178,10 @@ public class StudentPromotionService {
         batchRepository.save(batch);
 
         logAudit(ActionType.BATCH_COMPLETED, batch.getBatchId(), null, currentUserId, null,
-                String.format("Batch completed: %d successful, %d failed", successCount, failCount), httpRequest);
+                String.format("Batch completed: %d successful, %d failed", successCount, failCount), ipAddress,
+                userAgent);
 
-        logger.info("Promotion batch completed: {} - Success: {}, Failed: {}", 
+        logger.info("Promotion batch completed: {} - Success: {}, Failed: {}",
                 batch.getBatchId(), successCount, failCount);
 
         return buildResponse(batch, records);
@@ -169,7 +196,8 @@ public class StudentPromotionService {
             Long currentUserId,
             Boolean autoAssignSections,
             Map<String, Integer> sectionCounters,
-            HttpServletRequest httpRequest) {
+            String ipAddress,
+            String userAgent) {
 
         StudentPromotionRecord record = new StudentPromotionRecord();
         record.setBatch(batch);
@@ -201,9 +229,9 @@ public class StudentPromotionService {
                 record.setPromotionStatus(PromotionStatus.FAILED);
                 record.setFailureReason(validationError);
                 recordRepository.save(record);
-                
+
                 logAudit(ActionType.VALIDATION_FAILED, batch.getBatchId(), record.getRecordId(),
-                        currentUserId, student.getId(), validationError, httpRequest);
+                        currentUserId, student.getId(), validationError, ipAddress, userAgent);
                 return record;
             }
 
@@ -216,7 +244,7 @@ public class StudentPromotionService {
             // Perform promotion
             GradeLevel targetGrade = GradeLevel.valueOf(item.getToGradeLevel());
             student.setGradeLevel(targetGrade);
-            
+
             if (record.getToSection() != null) {
                 student.setSection(record.getToSection());
             }
@@ -230,7 +258,7 @@ public class StudentPromotionService {
             logAudit(ActionType.PROMOTION_SUCCESS, batch.getBatchId(), record.getRecordId(),
                     currentUserId, student.getId(),
                     String.format("Promoted from %s to %s", record.getFromGradeLevel(), record.getToGradeLevel()),
-                    httpRequest);
+                    ipAddress, userAgent);
 
             logger.debug("Successfully promoted student {} from {} to {}",
                     student.getId(), record.getFromGradeLevel(), record.getToGradeLevel());
@@ -242,7 +270,7 @@ public class StudentPromotionService {
             recordRepository.save(record);
 
             logAudit(ActionType.PROMOTION_FAILED, batch.getBatchId(), record.getRecordId(),
-                    currentUserId, item.getStudentId(), e.getMessage(), httpRequest);
+                    currentUserId, item.getStudentId(), e.getMessage(), ipAddress, userAgent);
         }
 
         return record;
@@ -260,7 +288,7 @@ public class StudentPromotionService {
         // Validate grade progression
         GradeLevel currentGrade = student.getGradeLevel();
         GradeLevel targetGradeLevel;
-        
+
         try {
             targetGradeLevel = GradeLevel.valueOf(targetGrade);
         } catch (IllegalArgumentException e) {
@@ -274,7 +302,7 @@ public class StudentPromotionService {
 
         // Check for logical progression
         if (!isValidProgression(currentGrade, targetGradeLevel)) {
-            return String.format("Invalid grade progression from %s to %s", 
+            return String.format("Invalid grade progression from %s to %s",
                     currentGrade.name(), targetGradeLevel.name());
         }
 
@@ -288,7 +316,7 @@ public class StudentPromotionService {
         List<GradeLevel> progression = Arrays.asList(GradeLevel.values());
         int fromIndex = progression.indexOf(from);
         int toIndex = progression.indexOf(to);
-        
+
         // Allow promotion to next grade or skip one grade maximum
         return toIndex > fromIndex && toIndex <= fromIndex + 2;
     }
@@ -298,7 +326,7 @@ public class StudentPromotionService {
      */
     private String autoAssignSection(String gradeLevel, Map<String, Integer> sectionCounters) {
         String key = gradeLevel;
-        
+
         // Find section with minimum students
         String assignedSection = SECTION_OPTIONS.stream()
                 .min((s1, s2) -> {
@@ -339,6 +367,13 @@ public class StudentPromotionService {
      */
     @Transactional
     public void rollbackPromotionBatch(Long batchId, Long currentUserId, HttpServletRequest httpRequest) {
+        String ipAddress = httpRequest != null ? httpRequest.getRemoteAddr() : null;
+        String userAgent = httpRequest != null ? httpRequest.getHeader("User-Agent") : null;
+        rollbackPromotionBatch(batchId, currentUserId, ipAddress, userAgent);
+    }
+
+    @Transactional
+    public void rollbackPromotionBatch(Long batchId, Long currentUserId, String ipAddress, String userAgent) {
         logger.info("Rolling back promotion batch: {}", batchId);
 
         StudentPromotionBatch batch = batchRepository.findById(batchId)
@@ -357,15 +392,15 @@ public class StudentPromotionService {
                 Optional<Student> studentOpt = studentRepository.findById(record.getStudentId());
                 if (studentOpt.isPresent()) {
                     Student student = studentOpt.get();
-                    
+
                     // Restore previous grade
                     GradeLevel previousGrade = GradeLevel.valueOf(record.getFromGradeLevel());
                     student.setGradeLevel(previousGrade);
-                    
+
                     if (record.getFromSection() != null) {
                         student.setSection(record.getFromSection());
                     }
-                    
+
                     studentRepository.save(student);
 
                     record.setPromotionStatus(PromotionStatus.ROLLED_BACK);
@@ -375,7 +410,7 @@ public class StudentPromotionService {
                     rollbackCount++;
                 }
             } catch (Exception e) {
-                logger.error("Error rolling back student {}: {}", 
+                logger.error("Error rolling back student {}: {}",
                         record.getStudentId(), e.getMessage(), e);
             }
         }
@@ -384,7 +419,7 @@ public class StudentPromotionService {
         batchRepository.save(batch);
 
         logAudit(ActionType.BATCH_ROLLED_BACK, batchId, null, currentUserId, null,
-                "Batch rolled back: " + rollbackCount + " students restored", httpRequest);
+                "Batch rolled back: " + rollbackCount + " students restored", ipAddress, userAgent);
 
         logger.info("Promotion batch rolled back: {} - {} students restored", batchId, rollbackCount);
     }
@@ -398,7 +433,7 @@ public class StudentPromotionService {
                 .orElseThrow(() -> new RuntimeException("Batch not found: " + batchId));
 
         List<StudentPromotionRecord> records = recordRepository.findByBatchBatchId(batchId);
-        
+
         return buildResponse(batch, records);
     }
 
@@ -428,10 +463,9 @@ public class StudentPromotionService {
     @Transactional(readOnly = true)
     public List<StudentPromotionResponse.PromotionRecordSummary> getStudentPromotionHistory(Long studentId) {
         List<StudentPromotionRecord> records = recordRepository.findPromotionHistoryByStudentId(studentId);
-        
+
         return records.stream().map(record -> {
-            StudentPromotionResponse.PromotionRecordSummary summary = 
-                    new StudentPromotionResponse.PromotionRecordSummary();
+            StudentPromotionResponse.PromotionRecordSummary summary = new StudentPromotionResponse.PromotionRecordSummary();
             summary.setRecordId(record.getRecordId());
             summary.setStudentId(record.getStudentId());
             summary.setFromGradeLevel(record.getFromGradeLevel());
@@ -448,8 +482,8 @@ public class StudentPromotionService {
     /**
      * Build response DTO from batch and records
      */
-    private StudentPromotionResponse buildResponse(StudentPromotionBatch batch, 
-                                                    List<StudentPromotionRecord> records) {
+    private StudentPromotionResponse buildResponse(StudentPromotionBatch batch,
+            List<StudentPromotionRecord> records) {
         StudentPromotionResponse response = new StudentPromotionResponse();
         response.setBatchId(batch.getBatchId());
         response.setBatchName(batch.getBatchName());
@@ -473,16 +507,15 @@ public class StudentPromotionService {
         if (records != null) {
             List<StudentPromotionResponse.PromotionRecordSummary> recordSummaries = records.stream()
                     .map(record -> {
-                        StudentPromotionResponse.PromotionRecordSummary summary = 
-                                new StudentPromotionResponse.PromotionRecordSummary();
+                        StudentPromotionResponse.PromotionRecordSummary summary = new StudentPromotionResponse.PromotionRecordSummary();
                         summary.setRecordId(record.getRecordId());
                         summary.setStudentId(record.getStudentId());
-                        
+
                         // Fetch student name
                         studentRepository.findById(record.getStudentId()).ifPresent(student -> {
                             summary.setStudentName(student.getFirstName() + " " + student.getLastName());
                         });
-                        
+
                         summary.setFromGradeLevel(record.getFromGradeLevel());
                         summary.setToGradeLevel(record.getToGradeLevel());
                         summary.setFromSection(record.getFromSection());
@@ -502,9 +535,9 @@ public class StudentPromotionService {
     /**
      * Log audit trail
      */
-    private void logAudit(ActionType actionType, Long batchId, Long recordId, 
-                          Long performedBy, Long targetStudentId, String details, 
-                          HttpServletRequest httpRequest) {
+    private void logAudit(ActionType actionType, Long batchId, Long recordId,
+            Long performedBy, Long targetStudentId, String details,
+            String ipAddress, String userAgent) {
         try {
             StudentPromotionAuditLog log = new StudentPromotionAuditLog();
             log.setActionType(actionType);
@@ -513,12 +546,12 @@ public class StudentPromotionService {
             log.setPerformedBy(performedBy);
             log.setTargetStudentId(targetStudentId);
             log.setDetails(details);
-            
-            if (httpRequest != null) {
-                log.setIpAddress(httpRequest.getRemoteAddr());
-                log.setUserAgent(httpRequest.getHeader("User-Agent"));
+
+            if (ipAddress != null) {
+                log.setIpAddress(ipAddress);
+                log.setUserAgent(userAgent);
             }
-            
+
             auditLogRepository.save(log);
         } catch (Exception e) {
             logger.error("Error logging audit", e);

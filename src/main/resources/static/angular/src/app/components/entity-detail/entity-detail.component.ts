@@ -3,11 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { FieldService } from '../../services/field.service';
+import { ErpField } from '../../models/erp-field.model';
+import { DynamicFieldRendererComponent } from '../dynamic-field-renderer/dynamic-field-renderer.component';
 
 @Component({
   selector: 'app-entity-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DynamicFieldRendererComponent],
   templateUrl: './entity-detail.component.html',
   styleUrls: ['./entity-detail.component.css']
 })
@@ -15,22 +18,25 @@ export class EntityDetailComponent implements OnInit {
   entityType: string = '';
   entityId: string = '';
   entityData: any = {};
+  fields: ErpField[] = [];
   loading: boolean = true;
   error: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
-  ) {}
+    private http: HttpClient,
+    private fieldService: FieldService
+  ) { }
 
   ngOnInit(): void {
     // Get entity type and ID from route params
     this.route.paramMap.subscribe(params => {
       this.entityType = params.get('entityType') || '';
       this.entityId = params.get('id') || '';
-      
+
       if (this.entityType && this.entityId) {
+        this.loadFieldConfiguration();
         this.loadEntityData();
       } else {
         this.error = 'Invalid entity type or ID';
@@ -39,10 +45,22 @@ export class EntityDetailComponent implements OnInit {
     });
   }
 
+  private loadFieldConfiguration(): void {
+    this.fieldService.getFieldsByEntityType(this.entityType.toUpperCase()).subscribe({
+      next: (fields) => {
+        this.fields = fields.filter(f => f.showInForm);
+      },
+      error: (error) => {
+        console.error('Error loading field configuration:', error);
+        // Continue without field configuration - fall back to basic display
+      }
+    });
+  }
+
   private loadEntityData(): void {
     this.loading = true;
     const endpoint = this.getApiEndpoint();
-    
+
     if (!endpoint) {
       this.error = `No API endpoint configured for entity type: ${this.entityType}`;
       this.loading = false;
@@ -85,7 +103,7 @@ export class EntityDetailComponent implements OnInit {
       parents: '/parents',
       subjects: '/subjects'
     };
-    
+
     const route = routeMap[this.entityType] || '/dashboard';
     this.router.navigate([route]);
   }
@@ -102,14 +120,23 @@ export class EntityDetailComponent implements OnInit {
   }
 
   getEntityLabel(key: string): string {
-    // Convert camelCase to Title Case
+    // Find field configuration for this key
+    const field = this.fields.find(f => f.fieldName === key);
+    if (field) {
+      return field.fieldLabel;
+    }
+
+    // Fallback: Convert camelCase to Title Case
     return key
       .replace(/([A-Z])/g, ' $1')
       .replace(/^./, str => str.toUpperCase())
       .trim();
   }
 
-  getDisplayValue(value: any): string {
+  getDisplayValue(key: string, value: any): string {
+    // Find field configuration for this key
+    const field = this.fields.find(f => f.fieldName === key);
+
     if (value === null || value === undefined) return '—';
     if (typeof value === 'boolean') return value ? 'Yes' : 'No';
     if (value instanceof Date) return value.toLocaleDateString();
@@ -118,7 +145,16 @@ export class EntityDetailComponent implements OnInit {
 
   getEntityKeys(): string[] {
     if (!this.entityData) return [];
-    return Object.keys(this.entityData).filter(key => 
+
+    // If we have field configuration, use that order
+    if (this.fields.length > 0) {
+      return this.fields
+        .map(f => f.fieldName)
+        .filter(name => this.entityData.hasOwnProperty(name));
+    }
+
+    // Fallback to all keys
+    return Object.keys(this.entityData).filter(key =>
       !key.startsWith('_') && typeof this.entityData[key] !== 'object'
     );
   }
@@ -148,7 +184,7 @@ export class EntityDetailComponent implements OnInit {
     const header = event.currentTarget;
     const icon = header.querySelector('i');
     const details = header.nextElementSibling;
-    
+
     if (icon.classList.contains('fa-chevron-up')) {
       icon.classList.remove('fa-chevron-up');
       icon.classList.add('fa-chevron-down');
@@ -164,5 +200,9 @@ export class EntityDetailComponent implements OnInit {
         details.style.display = 'block';
       }
     }
+  }
+
+  getFieldForKey(key: string): ErpField | undefined {
+    return this.fields.find(f => f.fieldName === key);
   }
 }

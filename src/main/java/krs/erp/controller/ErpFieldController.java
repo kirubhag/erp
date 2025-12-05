@@ -1,7 +1,9 @@
 package krs.erp.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import krs.erp.dto.UIFieldTypeDTO;
 import krs.erp.enums.EntityType;
 import krs.erp.enums.UIFieldType;
 import krs.erp.model.ErpField;
 import krs.erp.service.ErpFieldService;
+import krs.erp.service.UIFieldValidationService;
 
 /**
  * REST Controller for managing ERP field metadata
@@ -30,6 +34,9 @@ public class ErpFieldController {
 
     @Autowired
     private ErpFieldService erpFieldService;
+
+    @Autowired
+    private UIFieldValidationService validationService;
 
     /**
      * Get all fields for a specific entity type
@@ -101,8 +108,10 @@ public class ErpFieldController {
 
     /**
      * Get distinct categories for a specific entity type
+     * 
      * @deprecated Use ErpSectionController to get sections instead
-     * This endpoint is kept for backward compatibility but returns empty list
+     *             This endpoint is kept for backward compatibility but returns
+     *             empty list
      */
     @Deprecated
     @GetMapping("/{entityType}/categories")
@@ -221,29 +230,56 @@ public class ErpFieldController {
     }
 
     /**
-     * Get all available UI field types
+     * Get all available UI field types as DTOs
      */
     @GetMapping("/ui-types")
-    public ResponseEntity<UIFieldType[]> getUIFieldTypes() {
+    public ResponseEntity<List<UIFieldTypeDTO>> getUIFieldTypes() {
         try {
-            return ResponseEntity.ok(UIFieldType.values());
+            List<UIFieldTypeDTO> dtos = Arrays.stream(UIFieldType.values())
+                    .map(UIFieldTypeDTO::fromEnum)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(dtos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     /**
-     * Get UI field type by ID
+     * Get UI field type by ID as DTO
      */
     @GetMapping("/ui-types/{typeId}")
-    public ResponseEntity<UIFieldType> getUIFieldType(@PathVariable int typeId) {
+    public ResponseEntity<UIFieldTypeDTO> getUIFieldType(@PathVariable int typeId) {
         try {
             UIFieldType uiFieldType = UIFieldType.getById(typeId);
             if (uiFieldType != null) {
-                return ResponseEntity.ok(uiFieldType);
+                return ResponseEntity.ok(UIFieldTypeDTO.fromEnum(uiFieldType));
             } else {
                 return ResponseEntity.notFound().build();
             }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Get complete UI field type metadata including all configuration options
+     */
+    @GetMapping("/ui-types/metadata")
+    public ResponseEntity<Map<String, Object>> getUIFieldTypeMetadata() {
+        try {
+            List<UIFieldTypeDTO> allTypes = Arrays.stream(UIFieldType.values())
+                    .map(UIFieldTypeDTO::fromEnum)
+                    .collect(Collectors.toList());
+
+            Map<String, Object> metadata = Map.of(
+                    "types", allTypes,
+                    "categories", Arrays.stream(UIFieldType.values())
+                            .map(UIFieldType::getCategory)
+                            .distinct()
+                            .collect(Collectors.toList()),
+                    "totalCount", allTypes.size());
+
+            return ResponseEntity.ok(metadata);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -290,6 +326,91 @@ public class ErpFieldController {
     public ResponseEntity<Map<String, Object>> validateField(@RequestBody ErpField field) {
         try {
             Map<String, Object> validation = erpFieldService.validateFieldConfiguration(field);
+            return ResponseEntity.ok(validation);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Get fields for Create page (exclude show_type=1,2)
+     */
+    @GetMapping("/{entityType}/create")
+    public ResponseEntity<List<ErpField>> getFieldsForCreate(@PathVariable String entityType) {
+        try {
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            List<ErpField> fields = erpFieldService.getFieldsByEntityType(type);
+            List<ErpField> filteredFields = fields.stream()
+                    .filter(f -> f.isShowInCreate())
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(filteredFields);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Get fields for Edit page (exclude show_type=1,2)
+     */
+    @GetMapping("/{entityType}/edit")
+    public ResponseEntity<List<ErpField>> getFieldsForEdit(@PathVariable String entityType) {
+        try {
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            List<ErpField> fields = erpFieldService.getFieldsByEntityType(type);
+            List<ErpField> filteredFields = fields.stream()
+                    .filter(f -> f.isShowInEdit())
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(filteredFields);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Get fields for View page (exclude show_type=2 only)
+     */
+    @GetMapping("/{entityType}/view")
+    public ResponseEntity<List<ErpField>> getFieldsForView(@PathVariable String entityType) {
+        try {
+            EntityType type = EntityType.fromValue(entityType);
+            if (type == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            List<ErpField> fields = erpFieldService.getFieldsByEntityType(type);
+            List<ErpField> filteredFields = fields.stream()
+                    .filter(f -> f.isShowInView())
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(filteredFields);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Validate field value based on UI type and field configuration
+     */
+    @PostMapping("/validate-value")
+    public ResponseEntity<Map<String, Object>> validateFieldValue(
+            @RequestBody Map<String, Object> request) {
+        try {
+            // Extract field and value from request
+            Long fieldId = Long.valueOf(request.get("fieldId").toString());
+            Object value = request.get("value");
+
+            // Get field configuration
+            ErpField field = erpFieldService.getFieldById(fieldId);
+            if (field == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            // Validate using validation service
+            Map<String, Object> validation = validationService.validateFieldValue(field, value);
             return ResponseEntity.ok(validation);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

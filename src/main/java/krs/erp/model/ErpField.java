@@ -80,10 +80,13 @@ public class ErpField extends BaseEntity {
     @Column(name = "column_width", length = 50)
     private String columnWidth = "medium";
 
+    @Column(name = "show_type")
+    private Integer showType = 0; // 0=show everywhere, 1=view only, 2=hidden
+
     // Section relationship and positioning
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private ErpSection section;
 
     @Column(name = "row_position")
@@ -308,6 +311,36 @@ public class ErpField extends BaseEntity {
     public ErpField setColumnPosition(Integer columnPosition) {
         this.columnPosition = columnPosition;
         return this;
+    }
+
+    public Integer getShowType() {
+        return showType != null ? showType : 0;
+    }
+
+    public ErpField setShowType(Integer showType) {
+        this.showType = showType;
+        return this;
+    }
+
+    // Helper methods for visibility control
+    public boolean isShowInCreate() {
+        return showType == null || showType == 0;
+    }
+
+    public boolean isShowInEdit() {
+        return showType == null || showType == 0;
+    }
+
+    public boolean isShowInView() {
+        return showType == null || showType == 0 || showType == 1;
+    }
+
+    public boolean isSystemField() {
+        return showType != null && showType == 1;
+    }
+
+    public boolean isHiddenField() {
+        return showType != null && showType == 2;
     }
 
     @Override
