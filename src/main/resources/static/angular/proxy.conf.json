@@ -20,6 +20,10 @@
     "cookieDomainRewrite": "localhost",
     "cookiePathRewrite": "/",
     "bypass": function(req, res, proxyOptions) {
+      // Bypass proxy for Angular routes
+      if (req.url.startsWith('/settings/auth/')) {
+        return '/index.html';
+      }
       if (req.headers['cookie']) {
         return null;
       }
