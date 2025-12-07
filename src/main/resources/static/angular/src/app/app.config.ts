@@ -5,13 +5,14 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { routes } from './app.routes';
 import { credentialsInterceptor } from './interceptors/credentials.interceptor';
 import { loadingInterceptor } from './interceptors/loading.interceptor';
+import { errorInterceptor } from './interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes), 
     provideHttpClient(
       withFetch(),
-      withInterceptors([loadingInterceptor, credentialsInterceptor])
+      withInterceptors([loadingInterceptor, credentialsInterceptor, errorInterceptor])
     )
   ]
 };
