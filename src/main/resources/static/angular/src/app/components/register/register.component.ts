@@ -1,55 +1,232 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  firstName = '';
-  lastName = '';
-  email = '';
-  password = '';
-  confirmPassword = '';
+  registerForm!: FormGroup;
   loading = false;
   errorMessage = '';
   successMessage = '';
-  passwordsMatch = true;
+  showPassword = false;
+  showConfirmPassword = false;
+  passwordStrength = 0;
+  passwordStrengthLabel = '';
+  
+  // Field touched states for better UX
+  fieldTouched = {
+    firstName: false,
+    lastName: false,
+    email: false,
+    password: false,
+    confirmPassword: false
+  };
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+    this.initializeForm();
+    
     // Redirect to dashboard if already logged in
     this.authService.currentUser$.subscribe(user => {
       if (user) {
         this.router.navigate(['/dashboard']);
       }
     });
+
+    // Watch password changes for strength meter
+    this.registerForm.get('password')?.valueChanges.subscribe(password => {
+      this.calculatePasswordStrength(password);
+    });
   }
 
-  checkPasswordMatch(): void {
-    this.passwordsMatch = this.password === this.confirmPassword && this.password.length > 0;
+  initializeForm(): void {
+    this.registerForm = this.formBuilder.group({
+      firstName: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+        Validators.pattern(/^[a-zA-Z\s'-]+$/)
+      ]],
+      lastName: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+        Validators.pattern(/^[a-zA-Z\s'-]+$/)
+      ]],
+      email: ['', [
+        Validators.required,
+        Validators.email,
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+      ]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        this.passwordStrengthValidator()
+      ]],
+      confirmPassword: ['', [Validators.required]]
+    }, {
+      validators: this.passwordMatchValidator()
+    });
+  }
+
+  // Custom validator for password strength
+  passwordStrengthValidator() {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (!value) return null;
+
+      const hasUpperCase = /[A-Z]/.test(value);
+      const hasLowerCase = /[a-z]/.test(value);
+      const hasNumeric = /[0-9]/.test(value);
+      const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
+
+      const strengthChecks = [hasUpperCase, hasLowerCase, hasNumeric, hasSpecialChar];
+      const passedChecks = strengthChecks.filter(check => check).length;
+
+      if (passedChecks < 3) {
+        return { weakPassword: true };
+      }
+
+      return null;
+    };
+  }
+
+  // Custom validator for password match
+  passwordMatchValidator() {
+    return (formGroup: AbstractControl): ValidationErrors | null => {
+      const password = formGroup.get('password')?.value;
+      const confirmPassword = formGroup.get('confirmPassword')?.value;
+
+      if (!password || !confirmPassword) return null;
+
+      return password === confirmPassword ? null : { passwordMismatch: true };
+    };
+  }
+
+  calculatePasswordStrength(password: string): void {
+    if (!password) {
+      this.passwordStrength = 0;
+      this.passwordStrengthLabel = '';
+      return;
+    }
+
+    let strength = 0;
+    
+    // Length check
+    if (password.length >= 8) strength += 20;
+    if (password.length >= 12) strength += 10;
+    
+    // Character variety checks
+    if (/[a-z]/.test(password)) strength += 20;
+    if (/[A-Z]/.test(password)) strength += 20;
+    if (/[0-9]/.test(password)) strength += 15;
+    if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) strength += 15;
+
+    this.passwordStrength = Math.min(strength, 100);
+
+    if (this.passwordStrength < 40) {
+      this.passwordStrengthLabel = 'Weak';
+    } else if (this.passwordStrength < 70) {
+      this.passwordStrengthLabel = 'Medium';
+    } else {
+      this.passwordStrengthLabel = 'Strong';
+    }
+  }
+
+  togglePasswordVisibility(field: 'password' | 'confirmPassword'): void {
+    if (field === 'password') {
+      this.showPassword = !this.showPassword;
+    } else {
+      this.showConfirmPassword = !this.showConfirmPassword;
+    }
+  }
+
+  markFieldTouched(field: keyof typeof this.fieldTouched): void {
+    this.fieldTouched[field] = true;
+  }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.registerForm.get(fieldName);
+    return !!(field && field.invalid && (field.dirty || field.touched || this.fieldTouched[fieldName as keyof typeof this.fieldTouched]));
+  }
+
+  getFieldError(fieldName: string): string {
+    const field = this.registerForm.get(fieldName);
+    if (!field || !field.errors) return '';
+
+    if (field.errors['required']) return `${this.getFieldLabel(fieldName)} is required`;
+    if (field.errors['minlength']) return `${this.getFieldLabel(fieldName)} must be at least ${field.errors['minlength'].requiredLength} characters`;
+    if (field.errors['maxlength']) return `${this.getFieldLabel(fieldName)} cannot exceed ${field.errors['maxlength'].requiredLength} characters`;
+    if (field.errors['email']) return 'Please enter a valid email address';
+    if (field.errors['pattern']) {
+      if (fieldName === 'firstName' || fieldName === 'lastName') {
+        return 'Only letters, spaces, hyphens and apostrophes allowed';
+      }
+      return 'Invalid format';
+    }
+    if (field.errors['weakPassword']) return 'Password must include uppercase, lowercase, number, and special character';
+
+    return 'Invalid input';
+  }
+
+  getFieldLabel(fieldName: string): string {
+    const labels: { [key: string]: string } = {
+      firstName: 'First name',
+      lastName: 'Last name',
+      email: 'Email',
+      password: 'Password',
+      confirmPassword: 'Confirm password'
+    };
+    return labels[fieldName] || fieldName;
+  }
+
+  getPasswordMismatchError(): string {
+    return this.registerForm.errors?.['passwordMismatch'] ? 'Passwords do not match' : '';
+  }
+
+  // Helper methods for password requirements
+  hasMinLength(): boolean {
+    return this.registerForm.get('password')?.value?.length >= 8;
+  }
+
+  hasUpperCase(): boolean {
+    return /[A-Z]/.test(this.registerForm.get('password')?.value || '');
+  }
+
+  hasLowerCase(): boolean {
+    return /[a-z]/.test(this.registerForm.get('password')?.value || '');
+  }
+
+  hasNumber(): boolean {
+    return /[0-9]/.test(this.registerForm.get('password')?.value || '');
+  }
+
+  hasSpecialChar(): boolean {
+    return /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(this.registerForm.get('password')?.value || '');
   }
 
   onRegister(): void {
-    if (!this.firstName || !this.lastName || !this.email || !this.password || !this.confirmPassword) {
-      this.errorMessage = 'Please fill in all fields';
-      return;
-    }
+    // Mark all fields as touched to show validation errors
+    Object.keys(this.fieldTouched).forEach(key => {
+      this.fieldTouched[key as keyof typeof this.fieldTouched] = true;
+    });
+    this.registerForm.markAllAsTouched();
 
-    if (this.password !== this.confirmPassword) {
-      this.errorMessage = 'Passwords do not match';
-      return;
-    }
-
-    if (this.password.length < 6) {
-      this.errorMessage = 'Password must be at least 6 characters long';
+    if (this.registerForm.invalid) {
+      this.errorMessage = 'Please correct the errors in the form';
       return;
     }
 
@@ -57,13 +234,13 @@ export class RegisterComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    // Register user
+    const formValue = this.registerForm.value;
     const registrationData = {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      email: this.email,
-      password: this.password,
-      username: this.email,
+      firstName: formValue.firstName.trim(),
+      lastName: formValue.lastName.trim(),
+      email: formValue.email.trim().toLowerCase(),
+      password: formValue.password,
+      username: formValue.email.trim().toLowerCase(),
       enabled: true
     };
 
@@ -81,11 +258,5 @@ export class RegisterComponent implements OnInit {
         console.error('Registration error:', error);
       }
     });
-  }
-
-  onKeyPress(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
-      this.onRegister();
-    }
   }
 }
