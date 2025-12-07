@@ -73,12 +73,20 @@ node_modules/
 **/static/chunk-*.js
 **/static/chunk-*.js.map
 
+# Angular build artifacts (generated files, should not be in git)
+**/static/erp-app-*.js
+**/static/erp-app-*.js.map
+**/static/build-manifest.json
+
 # Duplicate Angular build outputs (keep only in angular/dist/)
 **/static/main-*.js
 **/static/polyfills-*.js
 **/static/styles-*.css
+**/static/index.html
+**/static/favicon.ico
 **/static/assets/
 **/static/media/
+**/static/vendor/
 
 # Database migration backup/disabled files
 **/*.sql.disabled

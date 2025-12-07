@@ -42,7 +42,7 @@ import krs.erp.repository.StudentRepository;
  *   emergency_contact_relation="Mother" 
  * />
  */
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(5)
 public class StudentDataInitializer implements CommandLineRunner {
 

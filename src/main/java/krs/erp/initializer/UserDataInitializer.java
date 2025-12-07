@@ -21,7 +21,7 @@ import krs.erp.repository.UserRepository;
  * Initializes user data from sample-users.xml on application startup
  * DEPRECATED: Use SampleDataInitializer instead for consolidated data loading
  */
-@Component  // Enabled to load user authentication data
+// @Component - Disabled for multi-tenant system
 // @Order(5)
 public class UserDataInitializer implements CommandLineRunner {
 

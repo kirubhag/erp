@@ -51,7 +51,8 @@ public class SecurityConfig {
                                                                 "/webjars/**", "/actuator/**",
                                                                 "/api/import/**", "/api/attachments/**",
                                                                 "/api/subscriptions/**",
-                                                                "/api/sections/**", "/api/promotions/**"))
+                                                                "/api/sections/**", "/api/promotions/**",
+                                                                "/api/organizations/**"))
                                 .headers(headers -> headers
                                                 .contentSecurityPolicy(csp -> csp
                                                                 .policyDirectives(
@@ -99,12 +100,16 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/promotions/**").permitAll() // Allow student
                                                                                                    // promotion
                                                                                                    // endpoints
+                                                .requestMatchers("/api/organizations/**").authenticated() // Organizations require authentication
                                                 .requestMatchers("/api/**").authenticated() // Other API endpoints
                                                                                             // require authentication
                                                 .requestMatchers("/actuator/health", "/__healthcheck").permitAll()
                                                 .requestMatchers("/static/**", "/assets/**", "/css/**", "/js/**",
                                                                 "/images/**", "/vendor/**",
                                                                 "/dist/**", "/angular/**")
+                                                .permitAll()
+                                                .requestMatchers("/main-*.js", "/polyfills-*.js", "/styles-*.css",
+                                                                "/chunk-*.js", "/*.js.map", "/*.css.map", "/erp-app-*.js")
                                                 .permitAll()
                                                 .anyRequest().authenticated())
                                 .httpBasic(basic -> basic.disable())

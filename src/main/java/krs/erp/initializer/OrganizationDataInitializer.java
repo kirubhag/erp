@@ -22,7 +22,7 @@ import krs.erp.repository.OrganizationRepository;
  * Initializes Organization data from sample-organisations.xml on application startup
  * DEPRECATED: Use SampleDataInitializer instead for consolidated data loading
  */
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(3)
 public class OrganizationDataInitializer implements CommandLineRunner {
 

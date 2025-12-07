@@ -1,11 +1,16 @@
 package krs.erp.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -41,6 +46,10 @@ public class AuthController {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    @Autowired
+    @Qualifier("masterDataSource")
+    private DataSource masterDataSource;
+
     /**
      * Login endpoint - authenticates user with email and password
      * 
@@ -70,20 +79,39 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
 
-            // Find user by username or email
-            User user = null;
-            if (username != null && !username.isEmpty()) {
-                user = userRepository.findByUsername(username).orElse(null);
-            } else if (email != null && !email.isEmpty()) {
-                user = userRepository.findByEmail(email).orElse(null);
-            }
+            // Query IAM_MasterDB directly for user authentication
+            JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
+            String sql = "SELECT user_id, username, password_hash, email, first_name, last_name, " +
+                         "phone, user_type, enabled, tenant_id, organization_id " +
+                         "FROM IAM_MasterDB.iam_users " +
+                         "WHERE (username = ? OR email = ?) AND enabled = 1";
+            
+            String identifier = username != null && !username.isEmpty() ? username : email;
+            
+            List<User> users = jdbcTemplate.query(sql, new Object[]{identifier, identifier}, (rs, rowNum) -> {
+                User user = new User();
+                user.setId(rs.getLong("user_id"));
+                user.setUsername(rs.getString("username"));
+                user.setPasswordHash(rs.getString("password_hash"));
+                user.setEmail(rs.getString("email"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setLastName(rs.getString("last_name"));
+                user.setPhone(rs.getString("phone"));
+                user.setUserType(User.UserType.valueOf(rs.getString("user_type")));
+                user.setEnabled(rs.getBoolean("enabled"));
+                user.setTenantId(rs.getString("tenant_id"));
+                user.setOrganizationId(rs.getLong("organization_id"));
+                return user;
+            });
 
-            if (user == null || !user.getEnabled()) {
+            if (users.isEmpty()) {
                 Map<String, Object> response = new HashMap<>();
                 response.put("status", "error");
                 response.put("message", "Invalid credentials");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
+
+            User user = users.get(0);
 
             // Verify password
             if (!passwordEncoder.matches(password, user.getPasswordHash())) {

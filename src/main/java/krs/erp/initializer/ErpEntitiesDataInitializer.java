@@ -23,7 +23,7 @@ import org.w3c.dom.NodeList;
 import krs.erp.model.ErpEntity;
 import krs.erp.repository.ErpEntityRepository;
 
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(1)
 public class ErpEntitiesDataInitializer implements CommandLineRunner {
 

@@ -22,7 +22,7 @@ import krs.erp.repository.RoleRepository;
  * Initializes Role data from sample-roles.xml on application startup
  * DEPRECATED: Use SampleDataInitializer instead for consolidated data loading
  */
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(2)
 public class RoleDataInitializer implements CommandLineRunner {
 

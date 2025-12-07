@@ -48,7 +48,7 @@ import krs.erp.repository.UserRepository;
  * - data/staff/sample-staff.xml
  * - data/user/sample-users.xml
  */
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(0)
 public class SampleDataInitializer implements CommandLineRunner {
 

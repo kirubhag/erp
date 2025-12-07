@@ -13,7 +13,7 @@ import krs.erp.service.ErpSectionXmlLoaderService;
  * Loads section, field, and relationship definitions from XML configuration files
  * Sections must be loaded before fields since fields reference sections
  */
-@Component
+//@Component
 public class ErpFieldInitializer implements CommandLineRunner {
 
     @Autowired

@@ -22,7 +22,7 @@ import krs.erp.repository.AddressRepository;
 /**
  * Initializes Address data from sample-addresses.xml on application startup
  */
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(10)
 public class AddressDataInitializer implements CommandLineRunner {
 

@@ -31,7 +31,7 @@ import krs.erp.repository.academic.TermRepository;
  * Data initializer for Academic entities
  * Loads academic years, terms, and grading scales from XML files
  */
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(8)
 public class AcademicDataInitializer implements CommandLineRunner {
 

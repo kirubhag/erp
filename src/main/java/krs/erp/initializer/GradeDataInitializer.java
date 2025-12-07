@@ -26,7 +26,7 @@ import krs.erp.repository.GradeRepository;
 /**
  * Initializes Grade data from grade XML files on application startup
  */
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(7)
 public class GradeDataInitializer implements CommandLineRunner {
 

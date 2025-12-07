@@ -23,7 +23,7 @@ import krs.erp.repository.StaffRepository;
  * Initializes staff data from XML files on application startup.
  * DEPRECATED: Use SampleDataInitializer instead for consolidated data loading
  */
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(4)
 public class StaffDataInitializer implements CommandLineRunner {
 

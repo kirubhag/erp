@@ -1,14 +1,23 @@
 package krs.erp.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import krs.erp.config.CustomUserDetails;
 import krs.erp.model.Organization;
 import krs.erp.service.OrganizationService;
 
@@ -29,6 +39,10 @@ public class OrganizationController {
     
     @Autowired
     private OrganizationService organizationService;
+    
+    @Autowired
+    @Qualifier("masterDataSource")
+    private DataSource masterDataSource;
     
     /**
      * Get all organizations with pagination
@@ -190,9 +204,24 @@ public class OrganizationController {
      * POST /api/organizations/register
      */
     @PostMapping("/register")
-    public ResponseEntity<Organization> registerOrganization(
+    public ResponseEntity<?> registerOrganization(
             @Valid @RequestBody krs.erp.dto.OrganizationRegistrationRequest request) {
         try {
+            // Get current authenticated user
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Long currentUserId = null;
+            
+            if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+                CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+                currentUserId = userDetails.getUserId();
+            }
+            
+            if (currentUserId == null) {
+                Map<String, String> error = new HashMap<>();
+                error.put("message", "User must be authenticated to create an organization");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+            }
+            
             // Create organization from registration request
             Organization organization = new Organization();
             organization.setName(request.getName());
@@ -216,15 +245,47 @@ public class OrganizationController {
             // Save organization
             Organization savedOrganization = organizationService.createOrganization(organization);
             
+            // Update user's organization_id in IAM_MasterDB
+            try {
+                JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
+                String updateSql = "UPDATE IAM_MasterDB.iam_users SET organization_id = ? WHERE user_id = ?";
+                int updated = jdbcTemplate.update(updateSql, savedOrganization.getId(), currentUserId);
+                
+                if (updated == 0) {
+                    Map<String, String> error = new HashMap<>();
+                    error.put("message", "Failed to link organization to user. User not found.");
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+                }
+            } catch (Exception e) {
+                Map<String, String> error = new HashMap<>();
+                error.put("message", "Organization created but failed to link to user: " + e.getMessage());
+                return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(error);
+            }
+            
             // TODO: If loadSampleData is true, trigger sample data population
             // This will be handled by a separate async task or by the frontend
             // importHistoryService.populateSampleData(request.getLoadSampleData());
             
             return ResponseEntity.status(HttpStatus.CREATED).body(savedOrganization);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (DataIntegrityViolationException e) {
+            Map<String, String> error = new HashMap<>();
+            String message = e.getMessage();
+            if (message != null && message.contains("code")) {
+                error.put("message", "Organization code already exists. Please use a different code.");
+            } else if (message != null && message.contains("name")) {
+                error.put("message", "Organization name already exists. Please use a different name.");
+            } else {
+                error.put("message", "Duplicate organization data. Please check your inputs.");
+            }
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+        } catch (IllegalArgumentException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("message", "Invalid data: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            Map<String, String> error = new HashMap<>();
+            error.put("message", "Failed to create organization: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
 }

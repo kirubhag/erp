@@ -65,10 +65,10 @@ public class MultiTenantDataSource extends AbstractRoutingDataSource {
                 String dbName = rs.getString("db_name");
 
                 HikariDataSource ds = new HikariDataSource();
-                ds.setJdbcUrl("jdbc:mysql://" + dbHost + ":3306/" + dbName
+                ds.setJdbcUrl("jdbc:mysql://" + dbHost + ":3307/" + dbName
                         + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
                 ds.setUsername("root"); // In prod, fetch from vault or encrypted column
-                ds.setPassword("password"); // In prod, fetch from vault or encrypted column
+                ds.setPassword(""); // In prod, fetch from vault or encrypted column
                 ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
                 ds.setMaximumPoolSize(5); // Conservative pool size per tenant
                 return ds;
@@ -82,6 +82,7 @@ public class MultiTenantDataSource extends AbstractRoutingDataSource {
 
     @Override
     public void afterPropertiesSet() {
-        // Do nothing, we handle targetDataSources dynamically
+        // Call parent to properly initialize the routing mechanism
+        super.afterPropertiesSet();
     }
 }

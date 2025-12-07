@@ -22,7 +22,7 @@ import krs.erp.repository.PermissionRepository;
  * Initializes Permission data from sample-permissions.xml on application startup
  * DEPRECATED: Use SampleDataInitializer instead for consolidated data loading
  */
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(1)
 public class PermissionDataInitializer implements CommandLineRunner {
 

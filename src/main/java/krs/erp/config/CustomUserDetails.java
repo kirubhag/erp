@@ -8,6 +8,7 @@ import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
 
+    private final Long userId;
     private final String username;
     private final String password;
     private final boolean enabled;
@@ -15,13 +16,18 @@ public class CustomUserDetails implements UserDetails {
     private final String tenantId; // Store tenant ID (organizationId)
 
     public CustomUserDetails(User user, Collection<? extends GrantedAuthority> authorities) {
+        this.userId = user.getId();
         this.username = user.getUsername();
         this.password = user.getPasswordHash();
         this.enabled = user.getEnabled();
         this.authorities = authorities;
         // Map organizationId to tenantId. Assuming organizationId is the tenant
         // identifier.
-        this.tenantId = user.getOrganizationId() != null ? user.getOrganizationId().toString() : null;
+        this.tenantId = user.getTenantId();
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
     public String getTenantId() {

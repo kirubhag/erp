@@ -18,7 +18,7 @@ import krs.erp.model.Timetable;
 import krs.erp.model.Timetable.DayOfWeek;
 import krs.erp.repository.TimetableRepository;
 
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(11)
 public class TimetableDataInitializer implements CommandLineRunner {
 

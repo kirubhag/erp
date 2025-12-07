@@ -23,7 +23,7 @@ import krs.erp.repository.SubjectRepository;
 /**
  * Initializes Subject data from subject XML files on application startup
  */
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(6) // Run after StudentDataInitializer
 public class SubjectDataInitializer implements CommandLineRunner {
 

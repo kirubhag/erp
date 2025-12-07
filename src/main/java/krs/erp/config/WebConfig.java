@@ -18,17 +18,17 @@ public class WebConfig implements WebMvcConfigurer {
         // Angular dist resources - serve root-level Angular files (highest priority)
         // These must be served BEFORE the SpaController fallback
         registry.addResourceHandler("/main-*.js", "/polyfills-*.js", "/styles-*.css", 
-                "/favicon.ico", "/*.map")
-                .addResourceLocations("classpath:/static/angular/dist/erp-frontend/browser/")
+                "/erp-app-*.js", "/favicon.ico", "/*.map")
+                .addResourceLocations("classpath:/static/")
                 .setCachePeriod(3600); // Cache for 1 hour
         
         // Angular vendor libraries
         registry.addResourceHandler("/vendor/**")
-                .addResourceLocations("classpath:/static/angular/dist/erp-frontend/browser/vendor/");
+                .addResourceLocations("classpath:/static/vendor/");
         
         // Angular assets
         registry.addResourceHandler("/assets/**")
-                .addResourceLocations("classpath:/static/angular/dist/erp-frontend/browser/assets/");
+                .addResourceLocations("classpath:/static/assets/");
         
         // Static resources
         registry.addResourceHandler("/css/**")

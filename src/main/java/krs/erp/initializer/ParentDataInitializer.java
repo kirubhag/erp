@@ -26,7 +26,7 @@ import krs.erp.repository.ParentRepository;
  * 
  * Data is loaded from: data/parent/sample-parents.xml
  */
-@Component
+// @Component - Disabled for multi-tenant system
 @Order(9)
 public class ParentDataInitializer implements CommandLineRunner {
 
