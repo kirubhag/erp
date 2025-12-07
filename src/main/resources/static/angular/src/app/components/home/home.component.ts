@@ -18,15 +18,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // Check if user is logged in - only redirect if we have a valid user AND not logging out
+    // Check if user is logged in - but don't auto-redirect from home page
+    // Let users explicitly choose to login or register
     this.userSubscription = this.authService.currentUser$.subscribe(user => {
       // Get the isLoggedOut flag state from AuthService
       const isLoggingOut = (this.authService as any)['isLoggedOut'];
       
       if (user && user.id && !isLoggingOut) {
-        // User is logged in and not logging out, redirect to dashboard
+        // User is logged in
         this.isLoggedIn = true;
-        this.router.navigate(['/dashboard']);
+        // Don't auto-redirect - let them navigate manually or use the dashboard link
       } else {
         // User is not logged in or is logging out, stay on home page
         this.isLoggedIn = false;
