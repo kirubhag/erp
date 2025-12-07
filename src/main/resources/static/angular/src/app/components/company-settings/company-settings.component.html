@@ -21,6 +21,10 @@
         <button class="tab-link" [class.active]="activeTab === 'preferences'" (click)="setActiveTab('preferences')">
           <i class="fas fa-sliders-h me-2"></i> Preferences
         </button>
+        <a class="tab-link text-danger" routerLink="/settings/account/close"
+          style="color: #dc3545; text-decoration: none;">
+          <i class="fas fa-times-circle me-2"></i> Close Account
+        </a>
       </div>
 
       <!-- General Tab -->

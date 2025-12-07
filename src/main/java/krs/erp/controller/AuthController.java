@@ -34,7 +34,7 @@ import krs.erp.repository.UserRepository;
  * Provides endpoints for login, logout, and getting current authenticated user
  */
 @RestController
-@RequestMapping("/settings/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
@@ -82,13 +82,13 @@ public class AuthController {
             // Query IAM_MasterDB directly for user authentication
             JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
             String sql = "SELECT user_id, username, password_hash, email, first_name, last_name, " +
-                         "phone, user_type, enabled, tenant_id, organization_id " +
-                         "FROM IAM_MasterDB.iam_users " +
-                         "WHERE (username = ? OR email = ?) AND enabled = 1";
-            
+                    "phone, user_type, enabled, tenant_id, organization_id " +
+                    "FROM IAM_MasterDB.iam_users " +
+                    "WHERE (username = ? OR email = ?) AND enabled = 1";
+
             String identifier = username != null && !username.isEmpty() ? username : email;
-            
-            List<User> users = jdbcTemplate.query(sql, new Object[]{identifier, identifier}, (rs, rowNum) -> {
+
+            List<User> users = jdbcTemplate.query(sql, new Object[] { identifier, identifier }, (rs, rowNum) -> {
                 User user = new User();
                 user.setId(rs.getLong("user_id"));
                 user.setUsername(rs.getString("username"));
@@ -99,7 +99,7 @@ public class AuthController {
                 user.setPhone(rs.getString("phone"));
                 user.setUserType(User.UserType.valueOf(rs.getString("user_type")));
                 user.setEnabled(rs.getBoolean("enabled"));
-                user.setTenantId(rs.getString("tenant_id"));
+                user.setTenantId(rs.getLong("tenant_id"));
                 user.setOrganizationId(rs.getLong("organization_id"));
                 return user;
             });

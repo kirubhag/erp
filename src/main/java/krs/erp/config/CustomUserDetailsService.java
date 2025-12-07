@@ -22,7 +22,8 @@ import krs.erp.repository.UserRepository;
 /**
  * Custom UserDetailsService for multi-tenant authentication.
  * Queries IAM_MasterDB directly during login to get user details and tenant_id.
- * After authentication, TenantFilter sets the tenant context for subsequent requests.
+ * After authentication, TenantFilter sets the tenant context for subsequent
+ * requests.
  */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -36,19 +37,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     /**
      * Load user by username for authentication.
-     * Queries IAM_MasterDB.iam_users directly to avoid tenant routing issues during login.
+     * Queries IAM_MasterDB.iam_users directly to avoid tenant routing issues during
+     * login.
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        
+
         // Query IAM_MasterDB directly for user credentials and tenant_id
         String sql = "SELECT user_id, username, password_hash, email, first_name, last_name, " +
-                     "phone, user_type, enabled, tenant_id, organization_id " +
-                     "FROM IAM_MasterDB.iam_users " +
-                     "WHERE username = ? OR email = ?";
-        
-        List<User> users = jdbcTemplate.query(sql, new Object[]{username, username}, (rs, rowNum) -> {
+                "phone, user_type, enabled, tenant_id, organization_id " +
+                "FROM IAM_MasterDB.iam_users " +
+                "WHERE username = ? OR email = ?";
+
+        List<User> users = jdbcTemplate.query(sql, new Object[] { username, username }, (rs, rowNum) -> {
             User user = new User();
             user.setId(rs.getLong("user_id"));
             user.setUsername(rs.getString("username"));
@@ -59,7 +61,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             user.setPhone(rs.getString("phone"));
             user.setUserType(User.UserType.valueOf(rs.getString("user_type")));
             user.setEnabled(rs.getBoolean("enabled"));
-            user.setTenantId(rs.getString("tenant_id"));
+            user.setTenantId(rs.getLong("tenant_id"));
             user.setOrganizationId(rs.getLong("organization_id"));
             return user;
         });

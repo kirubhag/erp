@@ -23,9 +23,11 @@ export class RegisterComponent implements OnInit {
   
   // Field touched states for better UX
   fieldTouched = {
+    organizationName: false,
     firstName: false,
     lastName: false,
     email: false,
+    phone: false,
     password: false,
     confirmPassword: false
   };
@@ -50,6 +52,11 @@ export class RegisterComponent implements OnInit {
 
   initializeForm(): void {
     this.registerForm = this.formBuilder.group({
+      organizationName: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(100)
+      ]],
       firstName: ['', [
         Validators.required,
         Validators.minLength(2),
@@ -66,6 +73,10 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.email,
         Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+      ]],
+      phone: ['', [
+        Validators.required,
+        Validators.pattern(/^[0-9]{10,15}$/)
       ]],
       password: ['', [
         Validators.required,
@@ -180,9 +191,11 @@ export class RegisterComponent implements OnInit {
 
   getFieldLabel(fieldName: string): string {
     const labels: { [key: string]: string } = {
+      organizationName: 'Organization name',
       firstName: 'First name',
       lastName: 'Last name',
       email: 'Email',
+      phone: 'Phone number',
       password: 'Password',
       confirmPassword: 'Confirm password'
     };
@@ -232,12 +245,12 @@ export class RegisterComponent implements OnInit {
 
     const formValue = this.registerForm.value;
     const registrationData = {
-      firstName: formValue.firstName.trim(),
-      lastName: formValue.lastName.trim(),
-      email: formValue.email.trim().toLowerCase(),
-      password: formValue.password,
-      username: formValue.email.trim().toLowerCase(),
-      enabled: true
+      organizationName: formValue.organizationName.trim(),
+      adminFirstName: formValue.firstName.trim(),
+      adminLastName: formValue.lastName.trim(),
+      adminEmail: formValue.email.trim().toLowerCase(),
+      adminPassword: formValue.password,
+      adminPhone: formValue.phone.trim()
     };
 
     this.authService.register(registrationData).subscribe({

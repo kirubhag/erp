@@ -47,7 +47,7 @@ public class SecurityConfig {
                                 .securityMatcher("/**")
                                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                                 .csrf(csrf -> csrf
-                                                .ignoringRequestMatchers("/api/auth/**", "/settings/auth/**",
+                                                .ignoringRequestMatchers("/api/auth/**",
                                                                 "/webjars/**", "/actuator/**",
                                                                 "/api/import/**", "/api/attachments/**",
                                                                 "/api/subscriptions/**",
@@ -58,37 +58,11 @@ public class SecurityConfig {
                                                                 .policyDirectives(
                                                                                 "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;")))
                                 .authorizeHttpRequests(authz -> authz
-                                                .requestMatchers("/", "/login", "/register", "/error", "/favicon.ico")
+                                                .requestMatchers("/", "/error", "/favicon.ico")
                                                 .permitAll()
-                                                .requestMatchers("/api/auth/**", "/settings/auth/**").permitAll()
+                                                .requestMatchers("/api/auth/**").permitAll()
                                                 .requestMatchers("/api/import/**").permitAll() // Allow import endpoints
                                                                                                // for testing
-                                                .requestMatchers("/api/students/**").permitAll() // Allow students
-                                                                                                 // endpoints for
-                                                                                                 // testing
-                                                .requestMatchers("/api/v1/staff/**").permitAll() // Allow staff
-                                                                                                 // endpoints for
-                                                                                                 // testing
-                                                .requestMatchers("/api/attendance/**").permitAll() // Allow attendance
-                                                                                                   // endpoints for
-                                                                                                   // testing
-                                                .requestMatchers("/api/parents/**").permitAll() // Allow parents
-                                                                                                // endpoints for testing
-                                                .requestMatchers("/api/subjects/**").permitAll() // Allow subjects
-                                                                                                 // endpoints for
-                                                                                                 // testing
-                                                .requestMatchers("/api/module/**").permitAll() // Allow module/menu
-                                                                                               // endpoints for testing
-                                                .requestMatchers("/api/fields/**").permitAll() // Allow ERP fields
-                                                                                               // metadata endpoints
-                                                .requestMatchers("/api/sections/**").permitAll() // Allow sections
-                                                                                                 // endpoints for
-                                                                                                 // testing
-                                                .requestMatchers("/api/academic/**").permitAll() // Allow academic
-                                                                                                 // settings endpoints
-                                                .requestMatchers("/api/users/**").permitAll() // Allow users endpoints
-                                                .requestMatchers("/settings/users/**").permitAll() // Allow settings
-                                                                                                   // users endpoints
                                                 .requestMatchers("/api/attachments/**").permitAll() // Allow attachment
                                                                                                     // endpoints (avatar
                                                                                                     // upload)
@@ -97,10 +71,20 @@ public class SecurityConfig {
                                                                                                       // endpoints
                                                                                                       // for public
                                                                                                       // access
+                                                                                                      // endpoints
+                                                                                                      // (avatar
+                                                                                                      // upload)
+                                                .requestMatchers("/api/subscriptions/**").permitAll() // Allow
+                                                                                                      // subscription/pricing
+                                                                                                      // endpoints
+                                                                                                      // for public
+                                                                                                      // access
                                                 .requestMatchers("/api/promotions/**").permitAll() // Allow student
                                                                                                    // promotion
                                                                                                    // endpoints
-                                                .requestMatchers("/api/organizations/**").authenticated() // Organizations require authentication
+                                                .requestMatchers("/api/organizations/**").authenticated() // Organizations
+                                                                                                          // require
+                                                                                                          // authentication
                                                 .requestMatchers("/api/**").authenticated() // Other API endpoints
                                                                                             // require authentication
                                                 .requestMatchers("/actuator/health", "/__healthcheck").permitAll()
@@ -109,7 +93,8 @@ public class SecurityConfig {
                                                                 "/dist/**", "/angular/**")
                                                 .permitAll()
                                                 .requestMatchers("/main-*.js", "/polyfills-*.js", "/styles-*.css",
-                                                                "/chunk-*.js", "/*.js.map", "/*.css.map", "/erp-app-*.js")
+                                                                "/chunk-*.js", "/*.js.map", "/*.css.map",
+                                                                "/erp-app-*.js")
                                                 .permitAll()
                                                 .anyRequest().authenticated())
                                 .httpBasic(basic -> basic.disable())

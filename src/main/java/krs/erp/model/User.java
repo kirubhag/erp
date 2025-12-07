@@ -82,8 +82,8 @@ public class User extends BaseEntity {
     @Column(name = "organization_id")
     private Long organizationId;
 
-    @Column(name = "tenant_id", length = 36)
-    private String tenantId;
+    @Column(name = "tenant_id")
+    private Long tenantId;
 
     // Relationships
     @JsonIgnore
@@ -243,11 +243,11 @@ public class User extends BaseEntity {
         this.organizationId = organizationId;
     }
 
-    public String getTenantId() {
+    public Long getTenantId() {
         return tenantId;
     }
 
-    public void setTenantId(String tenantId) {
+    public void setTenantId(Long tenantId) {
         this.tenantId = tenantId;
     }
 

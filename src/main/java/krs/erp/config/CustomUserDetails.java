@@ -13,7 +13,7 @@ public class CustomUserDetails implements UserDetails {
     private final String password;
     private final boolean enabled;
     private final Collection<? extends GrantedAuthority> authorities;
-    private final String tenantId; // Store tenant ID (organizationId)
+    private final Long tenantId; // Store tenant ID (organizationId)
 
     public CustomUserDetails(User user, Collection<? extends GrantedAuthority> authorities) {
         this.userId = user.getId();
@@ -30,7 +30,7 @@ public class CustomUserDetails implements UserDetails {
         return userId;
     }
 
-    public String getTenantId() {
+    public Long getTenantId() {
         return tenantId;
     }
 

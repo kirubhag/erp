@@ -10,6 +10,29 @@
       </div>
 
       <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onRegister()">
+        <div class="form-group">
+          <label for="organizationName">
+            Organization Name <span class="required">*</span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="organizationName"
+              class="form-control"
+              [ngClass]="{'is-invalid': isFieldInvalid('organizationName'), 'is-valid': registerForm.get('organizationName')?.valid && registerForm.get('organizationName')?.touched}"
+              placeholder="Your School or Institution"
+              formControlName="organizationName"
+              (blur)="markFieldTouched('organizationName')"
+            >
+            <i class="input-icon fas fa-building"></i>
+            <i class="validation-icon fas fa-check-circle" *ngIf="registerForm.get('organizationName')?.valid && registerForm.get('organizationName')?.touched"></i>
+          </div>
+          <div class="error-message" *ngIf="isFieldInvalid('organizationName')">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ getFieldError('organizationName') }}
+          </div>
+        </div>
+
         <div class="form-row">
           <div class="form-group">
             <label for="firstName">
@@ -79,6 +102,29 @@
           <div class="error-message" *ngIf="isFieldInvalid('email')">
             <i class="fas fa-exclamation-circle"></i>
             {{ getFieldError('email') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">
+            Phone Number <span class="required">*</span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="tel"
+              id="phone"
+              class="form-control"
+              [ngClass]="{'is-invalid': isFieldInvalid('phone'), 'is-valid': registerForm.get('phone')?.valid && registerForm.get('phone')?.touched}"
+              placeholder="1234567890"
+              formControlName="phone"
+              (blur)="markFieldTouched('phone')"
+            >
+            <i class="input-icon fas fa-phone"></i>
+            <i class="validation-icon fas fa-check-circle" *ngIf="registerForm.get('phone')?.valid && registerForm.get('phone')?.touched"></i>
+          </div>
+          <div class="error-message" *ngIf="isFieldInvalid('phone')">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ getFieldError('phone') }}
           </div>
         </div>
 

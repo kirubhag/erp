@@ -43,4 +43,9 @@ public class TenantProvisioningService {
             tenantDataSource.close();
         }
     }
+
+    public void deleteTenantDatabase(String dbName) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
+        jdbcTemplate.execute("DROP DATABASE IF EXISTS " + dbName);
+    }
 }

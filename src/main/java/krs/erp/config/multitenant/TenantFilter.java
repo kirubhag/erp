@@ -31,10 +31,10 @@ public class TenantFilter extends OncePerRequestFilter {
 
                 krs.erp.config.CustomUserDetails userDetails = (krs.erp.config.CustomUserDetails) authentication
                         .getPrincipal();
-                String tenantId = userDetails.getTenantId();
+                Long tenantId = userDetails.getTenantId();
 
                 if (tenantId != null) {
-                    TenantContext.setCurrentTenant(tenantId);
+                    TenantContext.setCurrentTenant(tenantId.toString());
                 } else {
                     // Fallback to header for testing or if user has no tenant
                     String tenantIdHeader = request.getHeader("X-Tenant-ID");

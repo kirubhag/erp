@@ -8,7 +8,6 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'settings/auth/register', component: RegisterComponent },
   {
     path: 'dashboard',
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
@@ -132,6 +131,11 @@ export const routes: Routes = [
   {
     path: 'setup/record-storage',
     loadComponent: () => import('./components/record-storage/record-storage.component').then(m => m.RecordStorageComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'settings/account/close',
+    loadComponent: () => import('./components/account-closure/account-closure.component').then(m => m.AccountClosureComponent),
     canActivate: [AuthGuard]
   },
   {
