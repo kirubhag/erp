@@ -39,13 +39,9 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     
-    // Redirect to dashboard if already logged in
-    this.authService.currentUser$.subscribe(user => {
-      if (user) {
-        this.router.navigate(['/dashboard']);
-      }
-    });
-
+    // Don't auto-redirect - let users complete registration or navigate manually
+    // The route guard will handle protection if needed
+    
     // Watch password changes for strength meter
     this.registerForm.get('password')?.valueChanges.subscribe(password => {
       this.calculatePasswordStrength(password);

@@ -21,12 +21,8 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // Redirect to dashboard if already logged in
-    this.authService.currentUser$.subscribe(user => {
-      if (user) {
-        this.router.navigate(['/dashboard']);
-      }
-    });
+    // Don't auto-redirect - allow users to access login page
+    // Successful login will redirect via onLogin method
   }
 
   onLogin(): void {
