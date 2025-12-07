@@ -101,6 +101,8 @@ public class RegistrationService {
 
     @Transactional
     protected Long initializeTenantData(RegistrationRequest request) {
+        System.out.println("Initializing tenant data for organization: " + request.getOrganizationName());
+
         // Create Organization
         Organization org = new Organization();
         org.setName(request.getOrganizationName());
@@ -110,6 +112,8 @@ public class RegistrationService {
         org.setCreatedTime(LocalDateTime.now());
         org.setIsActive(1);
         organizationRepository.save(org);
+
+        System.out.println("Organization saved with ID: " + org.getId() + ", Name: " + org.getName());
 
         // Create Admin User
         User admin = new User();

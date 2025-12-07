@@ -255,11 +255,25 @@ export class RegisterComponent implements OnInit {
 
     this.authService.register(registrationData).subscribe({
       next: () => {
-        this.successMessage = 'Registration successful! Redirecting to login...';
+        this.successMessage = 'Registration successful! Logging you in...';
         this.loading = false;
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 1500);
+        
+        // Auto-login with the new credentials
+        this.authService.login(formValue.email.trim().toLowerCase(), formValue.password).subscribe({
+          next: () => {
+            setTimeout(() => {
+              this.router.navigate(['/dashboard']);
+            }, 500);
+          },
+          error: (loginError) => {
+            // If auto-login fails, redirect to login page
+            console.error('Auto-login error:', loginError);
+            this.successMessage = 'Registration successful! Please login.';
+            setTimeout(() => {
+              this.router.navigate(['/login']);
+            }, 1500);
+          }
+        });
       },
       error: (error) => {
         this.loading = false;

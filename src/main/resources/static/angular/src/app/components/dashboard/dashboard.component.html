@@ -1,5 +1,6 @@
 <div class="dashboard-container">
-  <app-organization-creation-modal *ngIf="showOrganizationModal" (organizationCreated)="onOrganizationCreated($event)">
+  <app-organization-creation-modal *ngIf="showOrganizationModal" [existingOrganization]="currentOrganization"
+    (organizationCreated)="onOrganizationCreated($event)">
   </app-organization-creation-modal>
   <!-- Page Header -->
   <div class="page-header">

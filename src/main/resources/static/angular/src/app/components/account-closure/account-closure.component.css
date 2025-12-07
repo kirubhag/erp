@@ -1,0 +1,261 @@
+/* Wizard Step Styling */
+.wizard-step {
+  position: relative;
+  padding: 0 10px;
+}
+
+.wizard-step-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  border: 3px solid #e9ecef;
+}
+
+.wizard-step.active .wizard-step-circle {
+  background-color: #dc3545;
+  color: white;
+  border-color: #dc3545;
+  box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.2);
+  transform: scale(1.1);
+}
+
+.wizard-step.completed .wizard-step-circle {
+  background-color: #198754;
+  color: white;
+  border-color: #198754;
+}
+
+.wizard-step-label {
+  font-size: 0.875rem;
+  color: #6c757d;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.wizard-step.active .wizard-step-label {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.wizard-step.completed .wizard-step-label {
+  color: #198754;
+  font-weight: 600;
+}
+
+/* Wizard Content Animation */
+.wizard-content {
+  animation: fadeIn 0.5s ease-in;
+  min-height: 500px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card Styling Enhancements */
+.card {
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.card-header {
+  border-bottom: none;
+}
+
+/* Button Hover Effects */
+.btn {
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  border: none;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+}
+
+/* Form Control Enhancements */
+.form-control:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.15);
+}
+
+.form-control.is-valid {
+  border-color: #198754;
+}
+
+.form-control.is-invalid {
+  border-color: #dc3545;
+}
+
+/* Alert Enhancements */
+.alert {
+  border-radius: 0.75rem;
+  border-width: 2px;
+}
+
+.alert-danger {
+  background-color: #fff5f5;
+}
+
+.alert-warning {
+  background-color: #fffbf0;
+}
+
+/* Progress Bar */
+.progress {
+  border-radius: 10px;
+  background-color: #e9ecef;
+}
+
+.progress-bar {
+  transition: width 0.6s ease;
+  border-radius: 10px;
+}
+
+/* Icon Animations */
+.display-1, .display-3 {
+  animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Custom Checkbox */
+.form-check-input:checked {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.form-check-input:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.15);
+}
+
+/* Input Group Enhancements */
+.input-group-text {
+  border: 2px solid;
+  font-weight: 600;
+}
+
+/* Card Hover Effect */
+.card {
+  transition: transform 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .wizard-step-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .wizard-step-label {
+    font-size: 0.75rem;
+  }
+  
+  .wizard-content {
+    min-height: 400px;
+  }
+  
+  .display-1 {
+    font-size: 3rem;
+  }
+  
+  .display-3 {
+    font-size: 2rem;
+  }
+}
+
+/* Smooth Transitions */
+* {
+  transition: all 0.2s ease;
+}
+
+/* Text Selection Color */
+::selection {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: #212529;
+}
+
+/* Loading Spinner */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Quick Select Buttons */
+.btn-outline-secondary {
+  border-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Card Body Padding Responsive */
+@media (max-width: 576px) {
+  .card-body {
+    padding: 1.5rem !important;
+  }
+}
+
+/* Glassmorphism Effect for Backgrounds */
+.bg-light {
+  background-color: rgba(248, 249, 250, 0.95) !important;
+}
+
+/* Focus Visible for Accessibility */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(220, 53, 69, 0.5);
+  outline-offset: 2px;
+}

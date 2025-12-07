@@ -5,6 +5,7 @@ import { DashboardService, DashboardStats } from '../../services/dashboard.servi
 import { SampleDataModalComponent } from '../sample-data-modal/sample-data-modal.component';
 import { OrganizationCreationModalComponent } from '../organization-creation-modal/organization-creation-modal.component';
 import { AuthService } from '../../services/auth.service';
+import { OrganizationService } from '../../services/organization.service';
 
 interface QuickAction {
   icon: string;
@@ -82,7 +83,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private organizationService: OrganizationService
   ) { }
 
   ngOnInit() {
@@ -104,20 +106,38 @@ export class DashboardComponent implements OnInit {
     // setTimeout(() => this.loadDashboardStats(), 100);
   }
 
+  currentOrganization: any = null;
+
   checkOrganizationStatus() {
     const user = this.authService.getCurrentUser();
-    // If user exists but has no organization ID, show the creation modal.
-    // If organizationId is present (i.e., organization table entry exists for this user), the modal remains hidden.
-    if (user && !user.organizationId) {
+
+    if (user && user.organizationId) {
+      // User has an organization ID, fetch details to check if it's complete
+      this.organizationService.getOrganizationById(user.organizationId).subscribe({
+        next: (org) => {
+          this.currentOrganization = org;
+          // Check if organization has minimal required details (e.g. city, country)
+          // If not, show modal to complete setup
+          if (!org.city || !org.country) {
+            console.log('Organization details incomplete, showing setup modal');
+            this.showOrganizationModal = true;
+          }
+        },
+        error: (err) => {
+          console.error('Failed to fetch organization details', err);
+        }
+      });
+    } else if (user && !user.organizationId) {
+      // No organization linked at all
       this.showOrganizationModal = true;
     }
   }
 
   onOrganizationCreated(organization: any) {
     this.showOrganizationModal = false;
-    // Update user with new organization ID
+    // Update user with new organization ID if needed
     const user = this.authService.getCurrentUser();
-    if (user) {
+    if (user && !user.organizationId) {
       user.organizationId = organization.id;
       this.authService.setCurrentUser(user);
     }

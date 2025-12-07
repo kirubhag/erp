@@ -1,7 +1,8 @@
 package krs.erp.controller;
 
-import krs.erp.config.CustomUserDetails;
-import krs.erp.service.AccountClosureService;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
+import krs.erp.config.CustomUserDetails;
+import krs.erp.service.AccountClosureService;
 
 @RestController
 @RequestMapping("/api/account")
@@ -70,14 +71,14 @@ public class AccountController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
             }
 
-            String tenantId = userDetails.getTenantId();
+            Long tenantId = userDetails.getTenantId();
             if (tenantId == null) {
                 response.put("status", "error");
                 response.put("message", "Tenant ID not found for user");
                 return ResponseEntity.badRequest().body(response);
             }
 
-            accountClosureService.closeAccount(tenantId, reason);
+            accountClosureService.closeAccount(String.valueOf(tenantId), reason);
 
             response.put("status", "success");
             response.put("message", "Account closed successfully");

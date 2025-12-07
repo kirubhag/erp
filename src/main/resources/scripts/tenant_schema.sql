@@ -168,6 +168,7 @@ CREATE TABLE IF NOT EXISTS students (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     middle_name VARCHAR(50),
+    student_identifier VARCHAR(20) NOT NULL UNIQUE,
     student_id VARCHAR(20) NOT NULL UNIQUE,
     email VARCHAR(100) UNIQUE,
     phone VARCHAR(20),
@@ -176,6 +177,12 @@ CREATE TABLE IF NOT EXISTS students (
     enrollment_date DATE NOT NULL,
     grade_level VARCHAR(50) NOT NULL,
     enrollment_status VARCHAR(50) NOT NULL DEFAULT 'ACTIVE',
+    nationality VARCHAR(50),
+    blood_group VARCHAR(10),
+    photo_url VARCHAR(500),
+    section VARCHAR(20),
+    admission_number VARCHAR(50) UNIQUE,
+    admission_date DATE,
     address_id BIGINT,
     emergency_contact_name VARCHAR(100),
     emergency_contact_phone VARCHAR(20),
@@ -191,6 +198,7 @@ CREATE TABLE IF NOT EXISTS students (
     FOREIGN KEY (address_id) REFERENCES addresses (id),
     FOREIGN KEY (user_id) REFERENCES iam_users (id),
     INDEX idx_student_id (student_id),
+    INDEX idx_student_identifier (student_identifier),
     INDEX idx_email (email),
     INDEX idx_grade_level (grade_level),
     INDEX idx_enrollment_status (enrollment_status),
@@ -469,7 +477,7 @@ CREATE TABLE IF NOT EXISTS health_records (
 
 -- ERP Sections table (must be created before erp_fields)
 CREATE TABLE IF NOT EXISTS erp_sections (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    erp_section_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_type VARCHAR(50) NOT NULL,
     section_name VARCHAR(100) NOT NULL,
     section_label VARCHAR(200) NOT NULL,
@@ -501,7 +509,7 @@ CREATE TABLE IF NOT EXISTS erp_sections (
 
 -- ERP Fields table (depends on erp_sections)
 CREATE TABLE IF NOT EXISTS erp_fields (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    erp_field_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_type VARCHAR(100) NOT NULL,
     field_name VARCHAR(100) NOT NULL,
     field_label VARCHAR(200) NOT NULL,
@@ -530,7 +538,7 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (section_id) REFERENCES erp_sections (id) ON DELETE SET NULL,
+    FOREIGN KEY (section_id) REFERENCES erp_sections (erp_section_id) ON DELETE SET NULL,
     INDEX idx_entity_type (entity_type),
     INDEX idx_field_name (field_name),
     INDEX idx_section_id (section_id),
@@ -602,7 +610,7 @@ CREATE TABLE IF NOT EXISTS email_logs (
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS erp_entities (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    erp_entity_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     singular_name VARCHAR(100) NOT NULL UNIQUE,
     plural_name VARCHAR(100) NOT NULL,
     description TEXT,
@@ -634,7 +642,7 @@ CREATE TABLE IF NOT EXISTS erp_entities_role_relation (
     created_by VARCHAR(100),
     last_modified_by VARCHAR(100),
     UNIQUE KEY unique_entity_role (entity_id, role_id),
-    FOREIGN KEY (entity_id) REFERENCES erp_entities (id) ON DELETE CASCADE,
+    FOREIGN KEY (entity_id) REFERENCES erp_entities (erp_entity_id) ON DELETE CASCADE,
     FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE,
     INDEX idx_entity_id (entity_id),
     INDEX idx_role_id (role_id)
@@ -796,6 +804,7 @@ enable_api_documentation BOOLEAN DEFAULT true,
 enable_webhooks BOOLEAN DEFAULT false,
 
 -- Metadata
+
 created_by VARCHAR(100) NOT NULL,
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -892,6 +901,7 @@ remember_me_enabled BOOLEAN DEFAULT false,
 last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
 -- Metadata
+
 created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -1069,6 +1079,7 @@ auto_calculate_grades BOOLEAN DEFAULT true,
 publish_results_immediately BOOLEAN DEFAULT false,
 
 -- Promotion Rules
+
 auto_promote_students BOOLEAN DEFAULT false,
     minimum_attendance_for_promotion DOUBLE DEFAULT 75.0,
     minimum_grade_for_promotion DOUBLE DEFAULT 40.0,

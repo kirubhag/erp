@@ -102,6 +102,25 @@ export class OrganizationService {
   }
 
   /**
+   * Get organization by ID
+   */
+  getOrganizationById(id: number): Observable<Organization> {
+    return this.http.get<Organization>(`${this.apiUrl}/api/organizations/${id}`);
+  }
+
+  /**
+   * Update organization
+   */
+  updateOrganization(id: number, organization: Organization): Observable<Organization> {
+    return this.http.put<Organization>(`${this.apiUrl}/api/organizations/${id}`, organization).pipe(
+      tap(updatedOrg => {
+        this.currentOrganization.next(updatedOrg);
+        localStorage.setItem('currentOrganization', JSON.stringify(updatedOrg));
+      })
+    );
+  }
+
+  /**
    * Set current organization
    */
   setCurrentOrganization(organization: Organization): void {
