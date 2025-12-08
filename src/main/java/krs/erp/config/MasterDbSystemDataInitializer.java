@@ -547,6 +547,28 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
         try {
             logger.info("Loading ERP entity relations into IAM_MasterDB...");
 
+            // Create table if it doesn't exist
+            masterJdbcTemplate.execute(
+                "CREATE TABLE IF NOT EXISTS IAM_MasterDB.erp_entity_relations (" +
+                "relation_id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
+                "parent_entity_id BIGINT NOT NULL, " +
+                "child_entity_id BIGINT NOT NULL, " +
+                "relation_type VARCHAR(50) NOT NULL, " +
+                "relation_name VARCHAR(255), " +
+                "foreign_key_column VARCHAR(100), " +
+                "is_mandatory TINYINT(1) DEFAULT 0, " +
+                "cascade_delete TINYINT(1) DEFAULT 0, " +
+                "display_order INT DEFAULT 0, " +
+                "is_active TINYINT(1) DEFAULT 1, " +
+                "created_time DATETIME DEFAULT CURRENT_TIMESTAMP, " +
+                "modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
+                "UNIQUE KEY unique_relation (parent_entity_id, child_entity_id, relation_type), " +
+                "FOREIGN KEY (parent_entity_id) REFERENCES IAM_MasterDB.erp_entities(erp_entity_id), " +
+                "FOREIGN KEY (child_entity_id) REFERENCES IAM_MasterDB.erp_entities(erp_entity_id)" +
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+            );
+            logger.info("✓ Table IAM_MasterDB.erp_entity_relations ensured");
+
             // Check if relations already exist
             // Integer count = masterJdbcTemplate.queryForObject(
             // "SELECT COUNT(*) FROM IAM_MasterDB.erp_entity_relations", Integer.class);
