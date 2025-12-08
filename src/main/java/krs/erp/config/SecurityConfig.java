@@ -52,7 +52,8 @@ public class SecurityConfig {
                                                                 "/api/import/**", "/api/attachments/**",
                                                                 "/api/subscriptions/**",
                                                                 "/api/sections/**", "/api/promotions/**",
-                                                                "/api/organizations/**", "/api/account/**"))
+                                                                "/api/organizations/**", "/api/account/**",
+                                                                "/api/v1/sample-data/**"))
                                 .headers(headers -> headers
                                                 .contentSecurityPolicy(csp -> csp
                                                                 .policyDirectives(

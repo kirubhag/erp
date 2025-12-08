@@ -10,7 +10,7 @@
 
 -- Organizations table - Created first as it's referenced by other tables
 CREATE TABLE IF NOT EXISTS organizations (
-    organization_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     type VARCHAR(50) NOT NULL,
     code VARCHAR(20) UNIQUE,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS organizations (
 
 -- Permissions table - Created before Roles
 CREATE TABLE IF NOT EXISTS permissions (
-    permission_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(255),
     resource VARCHAR(50),
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS permissions (
 
 -- Roles table - Created before Users
 CREATE TABLE IF NOT EXISTS roles (
-    role_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     description VARCHAR(255),
     system_role BOOLEAN NOT NULL DEFAULT false,
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS role_permissions (
 
 -- Address table - Created early as it's used polymorphically
 CREATE TABLE IF NOT EXISTS addresses (
-    address_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_type VARCHAR(50) NOT NULL,
     entity_id BIGINT NOT NULL,
     address_line1 VARCHAR(100),
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS addresses (
 
 -- Users table - Base for all user types
 CREATE TABLE IF NOT EXISTS iam_users (
-    user_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS user_roles (
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS students (
-    student_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     middle_name VARCHAR(50),
@@ -202,7 +202,7 @@ CREATE TABLE IF NOT EXISTS students (
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS staff (
-    staff_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     middle_name VARCHAR(50),
@@ -246,7 +246,7 @@ CREATE TABLE IF NOT EXISTS staff (
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS parents (
-    parent_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     middle_name VARCHAR(50),
@@ -277,7 +277,7 @@ CREATE TABLE IF NOT EXISTS parents (
 
 -- Parent-Student relationship (Depends on parents and students)
 CREATE TABLE IF NOT EXISTS parent_student_relations (
-    parent_student_relation_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     parent_id BIGINT NOT NULL,
     student_id BIGINT NOT NULL,
     relationship_type VARCHAR(50) NOT NULL,
@@ -306,7 +306,7 @@ CREATE TABLE IF NOT EXISTS parent_student_relations (
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS subjects (
-    subject_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     subject_code VARCHAR(20) NOT NULL UNIQUE,
     subject_name VARCHAR(100) NOT NULL,
     description TEXT,
@@ -330,7 +330,7 @@ CREATE TABLE IF NOT EXISTS subjects (
 );
 
 CREATE TABLE IF NOT EXISTS grades (
-    grade_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     student_id BIGINT NOT NULL,
     student_name VARCHAR(200) NOT NULL,
     grade_level VARCHAR(50) NOT NULL,
@@ -362,7 +362,7 @@ CREATE TABLE IF NOT EXISTS grades (
 );
 
 CREATE TABLE IF NOT EXISTS timetables (
-    timetable_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     timetable_code VARCHAR(50) NOT NULL UNIQUE,
     class_name VARCHAR(100) NOT NULL,
     grade_level VARCHAR(50) NOT NULL,
@@ -398,7 +398,7 @@ CREATE TABLE IF NOT EXISTS timetables (
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS attendance (
-    attendance_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     attendance_date DATE NOT NULL,
     check_in_time TIME,
     check_out_time TIME,
@@ -431,7 +431,7 @@ CREATE TABLE IF NOT EXISTS attendance (
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS health_records (
-    health_record_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     student_id BIGINT NOT NULL,
     record_type VARCHAR(50) NOT NULL,
     title VARCHAR(100) NOT NULL,
@@ -462,118 +462,14 @@ CREATE TABLE IF NOT EXISTS health_records (
     INDEX idx_requires_attention (requires_attention),
     INDEX idx_is_active (is_active)
 );
--- =============================================================================
--- Phase 8.5: Student Extended Information Tables (Depends on students)
--- =============================================================================
 
--- Student Guardian Information Table
-CREATE TABLE IF NOT EXISTS student_guardian_info (
-    student_guardian_info_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    student_id BIGINT NOT NULL UNIQUE,
-
--- Father Information
-father_name VARCHAR(100),
-father_occupation VARCHAR(100),
-father_phone VARCHAR(20),
-father_email VARCHAR(100),
-
--- Mother Information
-mother_name VARCHAR(100),
-mother_occupation VARCHAR(100),
-mother_phone VARCHAR(20),
-mother_email VARCHAR(100),
-
--- Guardian Information (if different from parents)
-guardian_name VARCHAR(100),
-guardian_relation VARCHAR(50),
-guardian_phone VARCHAR(20),
-guardian_email VARCHAR(100),
-guardian_address VARCHAR(300),
-
--- Audit fields from BaseEntity
-created_by VARCHAR(100),
-    modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
-    modified_time DATETIME,
-    owner_id BIGINT,
-    is_active INT DEFAULT 1,
-    
-    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
-    INDEX idx_student_id (student_id),
-    INDEX idx_is_active (is_active)
-);
-
--- Student Medical Information Table
-CREATE TABLE IF NOT EXISTS student_medical_info (
-    student_medical_info_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    student_id BIGINT NOT NULL UNIQUE,
-
--- Critical Health Information
-allergies TEXT, medical_conditions TEXT, medications TEXT,
-
--- Medical Contact Information
-doctor_name VARCHAR(100),
-doctor_phone VARCHAR(20),
-hospital_preference VARCHAR(200),
-
--- Insurance Information
-insurance_provider VARCHAR(100),
-insurance_policy_number VARCHAR(50),
-
--- Audit fields from BaseEntity
-created_by VARCHAR(100),
-    modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
-    modified_time DATETIME,
-    owner_id BIGINT,
-    is_active INT DEFAULT 1,
-    
-    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
-    INDEX idx_student_id (student_id),
-    INDEX idx_is_active (is_active)
-);
-
--- ERP Attachments Table (For file uploads - avatars, documents, etc.)
-CREATE TABLE IF NOT EXISTS erp_attachments (
-    erp_attachment_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-
--- File Information
-original_filename VARCHAR(255) NOT NULL,
-stored_filename VARCHAR(255) NOT NULL UNIQUE,
-file_path VARCHAR(500) NOT NULL,
-file_size BIGINT,
-mime_type VARCHAR(100),
-
--- Attachment Type and Context
-attachment_type VARCHAR(50) NOT NULL, -- AVATAR, DOCUMENT, IMAGE, VIDEO, AUDIO, OTHER
-organization_id BIGINT NOT NULL,
-entity_type VARCHAR(100), -- e.g., "USER", "STUDENT", "STAFF"
-entity_id BIGINT, -- ID of the related entity
-description VARCHAR(500),
-uploaded_by BIGINT,
-
--- Audit fields from BaseEntity
-created_by VARCHAR(100),
-    modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
-    modified_time DATETIME,
-    owner_id BIGINT,
-    is_active INT DEFAULT 1,
-    
-    INDEX idx_stored_filename (stored_filename),
-    INDEX idx_entity_type_id (entity_type, entity_id),
-    INDEX idx_organization_id (organization_id),
-    INDEX idx_uploaded_by (uploaded_by),
-    INDEX idx_attachment_type (attachment_type),
-    INDEX idx_is_active (is_active)
-);
 -- =============================================================================
 -- Phase 9: ERP Section and Field Configuration Tables
 -- =============================================================================
 
 -- ERP Sections table (must be created before erp_fields)
 CREATE TABLE IF NOT EXISTS erp_sections (
-    erp_section_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_type VARCHAR(50) NOT NULL,
     section_name VARCHAR(100) NOT NULL,
     section_label VARCHAR(200) NOT NULL,
@@ -605,7 +501,7 @@ CREATE TABLE IF NOT EXISTS erp_sections (
 
 -- ERP Fields table (depends on erp_sections)
 CREATE TABLE IF NOT EXISTS erp_fields (
-    erp_field_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_type VARCHAR(100) NOT NULL,
     field_name VARCHAR(100) NOT NULL,
     field_label VARCHAR(200) NOT NULL,
@@ -646,7 +542,7 @@ CREATE TABLE IF NOT EXISTS erp_fields (
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS email_templates (
-    email_template_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     template_name VARCHAR(100) NOT NULL,
     subject VARCHAR(200) NOT NULL,
     body TEXT NOT NULL,
@@ -667,7 +563,7 @@ CREATE TABLE IF NOT EXISTS email_templates (
 );
 
 CREATE TABLE IF NOT EXISTS email_logs (
-    email_log_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     template_id BIGINT,
     entity_type VARCHAR(100) NOT NULL,
     entity_id BIGINT NOT NULL,
@@ -706,7 +602,7 @@ CREATE TABLE IF NOT EXISTS email_logs (
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS erp_entities (
-    erp_entity_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     singular_name VARCHAR(100) NOT NULL UNIQUE,
     plural_name VARCHAR(100) NOT NULL,
     description TEXT,
@@ -746,7 +642,7 @@ CREATE TABLE IF NOT EXISTS erp_entities_role_relation (
 
 -- ERP Entity Relationship Tracking Table
 CREATE TABLE IF NOT EXISTS erp_entity_relation (
-    erp_entity_relation_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     p_table_name VARCHAR(100) NOT NULL,
     p_pkid VARCHAR(100) NOT NULL,
     p_display_column VARCHAR(100),
@@ -771,7 +667,7 @@ CREATE TABLE IF NOT EXISTS erp_entity_relation (
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS custom_views (
-    custom_view_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     view_name VARCHAR(100) NOT NULL,
     description VARCHAR(500),
     entity_type VARCHAR(50) NOT NULL,
