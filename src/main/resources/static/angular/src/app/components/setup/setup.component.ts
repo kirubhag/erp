@@ -111,11 +111,10 @@ export class SetupComponent implements OnInit {
           description: 'Configure promotion criteria and rules'
         }
       ]
-      ]
-},
-{
-  id: 'timetable-scheduling',
-    title: 'Timetable & Scheduling',
+    },
+    {
+      id: 'timetable-scheduling',
+      title: 'Timetable & Scheduling',
       items: [
         {
           id: 'rooms',
@@ -302,63 +301,63 @@ export class SetupComponent implements OnInit {
           description: 'Copy customizations between environments'
         }
       ]
-}
+    }
   ];
 
-searchTerm: string = '';
-filteredSections: SetupSection[] = [];
+  searchTerm: string = '';
+  filteredSections: SetupSection[] = [];
 
-ngOnInit() {
-  this.filteredSections = [...this.setupSections];
-}
-
-onSearch(event: Event) {
-  const target = event.target as HTMLInputElement;
-  this.searchTerm = target.value.toLowerCase();
-
-  if (!this.searchTerm) {
+  ngOnInit() {
     this.filteredSections = [...this.setupSections];
-    return;
   }
 
-  this.filteredSections = this.setupSections.map(section => ({
-    ...section,
-    items: section.items.filter(item =>
-      item.label.toLowerCase().includes(this.searchTerm) ||
-      item.description?.toLowerCase().includes(this.searchTerm)
-    )
-  })).filter(section => section.items.length > 0);
-}
+  onSearch(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.searchTerm = target.value.toLowerCase();
 
-onItemClick(item: SetupItem) {
-  if (item.route) {
-    if (item.queryParams) {
-      this.router.navigate([item.route], { queryParams: item.queryParams });
-    } else {
-      this.router.navigate([item.route]);
+    if (!this.searchTerm) {
+      this.filteredSections = [...this.setupSections];
+      return;
+    }
+
+    this.filteredSections = this.setupSections.map(section => ({
+      ...section,
+      items: section.items.filter(item =>
+        item.label.toLowerCase().includes(this.searchTerm) ||
+        item.description?.toLowerCase().includes(this.searchTerm)
+      )
+    })).filter(section => section.items.length > 0);
+  }
+
+  onItemClick(item: SetupItem) {
+    if (item.route) {
+      if (item.queryParams) {
+        this.router.navigate([item.route], { queryParams: item.queryParams });
+      } else {
+        this.router.navigate([item.route]);
+      }
     }
   }
-}
 
-// Handle clicks on whole section cards (template uses this)
-onSectionClick(section: SetupSection) {
-  // Find first item in section and navigate
-  if (section.items.length > 0) {
-    const firstItem = section.items[0];
-    this.onItemClick(firstItem);
+  // Handle clicks on whole section cards (template uses this)
+  onSectionClick(section: SetupSection) {
+    // Find first item in section and navigate
+    if (section.items.length > 0) {
+      const firstItem = section.items[0];
+      this.onItemClick(firstItem);
+    }
   }
-}
 
-clearSearch() {
-  this.searchTerm = '';
-  this.filteredSections = [...this.setupSections];
-}
+  clearSearch() {
+    this.searchTerm = '';
+    this.filteredSections = [...this.setupSections];
+  }
 
-trackSection(index: number, section: SetupSection): string {
-  return section.id;
-}
+  trackSection(index: number, section: SetupSection): string {
+    return section.id;
+  }
 
-trackItem(index: number, item: SetupItem): string {
-  return item.id;
-}
+  trackItem(index: number, item: SetupItem): string {
+    return item.id;
+  }
 }
