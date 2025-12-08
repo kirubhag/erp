@@ -656,6 +656,26 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     INDEX idx_is_active (is_active)
 );
 
+-- ERP Entity Relations Table (Inter-entity relationships)
+CREATE TABLE IF NOT EXISTS erp_entity_relations (
+    erp_entity_relation_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    parent_entity_id BIGINT NOT NULL,
+    child_entity_id BIGINT NOT NULL,
+    relation_type VARCHAR(50) NOT NULL,
+    relation_name VARCHAR(100),
+    foreign_key_column VARCHAR(100),
+    is_mandatory BOOLEAN DEFAULT false,
+    cascade_delete BOOLEAN DEFAULT false,
+    display_order INT DEFAULT 0,
+    is_active BOOLEAN DEFAULT true,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    INDEX idx_parent_entity (parent_entity_id),
+    INDEX idx_child_entity (child_entity_id),
+    INDEX idx_relation_type (relation_type),
+    INDEX idx_is_active (is_active)
+);
+
 -- =============================================================================
 -- Phase 10: Email Configuration Tables (Depends on nothing directly)
 -- =============================================================================
