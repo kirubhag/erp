@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 
 @Component({
     selector: 'app-account-closure',
     standalone: true,
-    imports: [CommonModule, FormsModule, RouterModule],
+    imports: [CommonModule, FormsModule, RouterModule, SettingsSidebarComponent],
     templateUrl: './account-closure.component.html',
     styleUrls: ['./account-closure.component.css']
 })
