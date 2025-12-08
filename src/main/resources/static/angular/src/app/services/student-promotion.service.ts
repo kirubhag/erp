@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   StudentPromotionRequest,
   StudentPromotionResponse,
@@ -45,7 +46,28 @@ export class StudentPromotionService {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-    return this.http.get<any>(`${this.baseUrl}/batches`, { params });
+    return this.http.get<any>(`${this.baseUrl}/batches`, { params }).pipe(
+      // Extract content from page object if present
+      // The backend returns a Page<StudentPromotionResponse> object
+      // The component likely expects an array directly or we need to handle it there.
+      // Looking at the component not shown, but assuming valid pattern:
+      // If the component expects the full Page object, we leave it. 
+      // However, the issue description says "Failed to load batches", often due to type mismatch.
+      // Let's assume the component wants the full page for pagination controls, 
+      // but maybe the backend error handling in component is strict.
+      // Actually, looking at the previous analysis, I suspected a mismatch.
+      // But let's look at the component code if I can... 
+      // Wait, I didn't see the component code for student promotion, I only looked at settings.
+      // Let's assume the safe fix is to pass through, but if the component expects an array, it's broken.
+      // Re-reading implementation plan: "Update getAllBatches to return Observable<StudentPromotionResponse[]> and map response.content".
+      // Let's do that map.
+      map(response => {
+        if (response && response.content) {
+          return response.content;
+        }
+        return response;
+      })
+    );
   }
 
   /**

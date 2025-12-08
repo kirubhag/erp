@@ -50,11 +50,12 @@ public class UserSettingsCompatController {
         UserSettingsDTO currentSettings = userSettingsService.getSettingsByUserId(userId);
         
         // Apply partial updates
+        // Note: defaultListView is stored in preferences map
         if (partialSettings.containsKey("defaultListView")) {
-            currentSettings.setDefaultListView((String) partialSettings.get("defaultListView"));
+            currentSettings.getPreferences().put("defaultListView", (String) partialSettings.get("defaultListView"));
         }
         if (partialSettings.containsKey("recordsPerPage")) {
-            currentSettings.setRecordsPerPage(((Number) partialSettings.get("recordsPerPage")).intValue());
+            currentSettings.setListItemsPerPage(((Number) partialSettings.get("recordsPerPage")).intValue());
         }
         if (partialSettings.containsKey("listSidebarExpanded")) {
             currentSettings.setListSidebarExpanded((Boolean) partialSettings.get("listSidebarExpanded"));
