@@ -10,6 +10,23 @@
 
     <!-- Content Body -->
     <div class="content-body">
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="alert alert-info">
+        <i class="fas fa-spinner fa-spin me-2"></i>Loading organization data...
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>{{ errorMessage }}
+        <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+      </div>
+
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>{{ successMessage }}
+        <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+      </div>
+
       <!-- Tabs -->
       <div class="tabs-nav">
         <button class="tab-link" [class.active]="activeTab === 'general'" (click)="setActiveTab('general')">

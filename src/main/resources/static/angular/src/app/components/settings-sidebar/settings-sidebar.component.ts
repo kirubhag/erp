@@ -77,7 +77,7 @@ export class SettingsSidebarComponent implements OnInit {
         items: [
           { label: 'Personal Settings', icon: 'fas fa-user-cog', route: '/setup/personal-settings', active: true },
           { label: 'Users', icon: 'fas fa-users', route: '/setup/users', active: false },
-          { label: 'Company Settings', icon: 'fas fa-building', route: '/setup/company-settings', active: false },
+          { label: 'Company Settings', icon: 'fas fa-building', route: '/setup/organisation-settings', active: false },
           { label: 'Subscription', icon: 'fas fa-crown', route: '/setup/subscription', active: false }
         ]
       },

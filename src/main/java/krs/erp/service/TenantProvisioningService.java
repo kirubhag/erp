@@ -61,7 +61,7 @@ public class TenantProvisioningService {
             try {
                 System.out.println("Copying ERP Entities...");
                 masterJdbc.query("SELECT * FROM erp_entities", rs -> {
-                    String sql = "INSERT INTO erp_entities (erp_entity_id, singular_name, plural_name, description, is_active, sequence, system_name, presence, icon, route, table_name, pkid, display_column, has_rel_table, created_date, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT IGNORE INTO erp_entities (erp_entity_id, singular_name, plural_name, description, is_active, sequence, system_name, presence, icon, route, table_name, pkid, display_column, has_rel_table, created_date, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_entity_id"),
                             rs.getString("singular_name"),
@@ -89,7 +89,7 @@ public class TenantProvisioningService {
             try {
                 System.out.println("Copying ERP Sections...");
                 masterJdbc.query("SELECT * FROM erp_sections", rs -> {
-                    String sql = "INSERT INTO erp_sections (erp_section_id, entity_type, section_name, section_label, layout_type, display_order, is_collapsible, is_collapsed_by_default, show_in_create, show_in_edit, show_in_detail, section_icon, section_color, css_class, description, help_text, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT IGNORE INTO erp_sections (erp_section_id, entity_type, section_name, section_label, layout_type, display_order, is_collapsible, is_collapsed_by_default, show_in_create, show_in_edit, show_in_detail, section_icon, section_color, css_class, description, help_text, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_section_id"),
                             rs.getString("entity_type"),
@@ -119,7 +119,7 @@ public class TenantProvisioningService {
             try {
                 System.out.println("Copying ERP Fields...");
                 masterJdbc.query("SELECT * FROM erp_fields", rs -> {
-                    String sql = "INSERT INTO erp_fields (erp_field_id, entity_type, field_name, field_label, field_type, ui_type, section_id, row_position, column_position, is_required, is_searchable, is_sortable, display_order, field_description, default_width, max_length, validation_pattern, picklist_options, decimal_places, is_unique, show_in_list, show_in_form, column_width, show_type, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT IGNORE INTO erp_fields (erp_field_id, entity_type, field_name, field_label, field_type, ui_type, section_id, row_position, column_position, is_required, is_searchable, is_sortable, display_order, field_description, default_width, max_length, validation_pattern, picklist_options, decimal_places, is_unique, show_in_list, show_in_form, column_width, show_type, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_field_id"),
                             rs.getString("entity_type"),
@@ -157,7 +157,7 @@ public class TenantProvisioningService {
             try {
                 System.out.println("Copying Roles...");
                 masterJdbc.query("SELECT * FROM roles WHERE system_role = 1", rs -> {
-                    String sql = "INSERT INTO roles (role_id, name, description, system_role, created_time, created_by) VALUES (?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT IGNORE INTO roles (role_id, name, description, system_role, created_time, created_by) VALUES (?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
                             rs.getLong("role_id"),
                             rs.getString("name"),
@@ -175,7 +175,7 @@ public class TenantProvisioningService {
             try {
                 System.out.println("Copying Permissions...");
                 masterJdbc.query("SELECT * FROM permissions WHERE system_permission = 1", rs -> {
-                    String sql = "INSERT INTO permissions (permission_id, name, description, resource, action, system_permission, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT IGNORE INTO permissions (permission_id, name, description, resource, action, system_permission, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
                             rs.getLong("permission_id"),
                             rs.getString("name"),
@@ -202,7 +202,7 @@ public class TenantProvisioningService {
                         "JOIN roles r ON rp.role_id = r.role_id " +
                         "JOIN permissions p ON rp.permission_id = p.permission_id " +
                         "WHERE r.system_role = 1 AND p.system_permission = 1", rs -> {
-                            String sql = "INSERT INTO role_permissions (role_id, permission_id) VALUES (?, ?)";
+                            String sql = "INSERT IGNORE INTO role_permissions (role_id, permission_id) VALUES (?, ?)";
                             tenantJdbc.update(sql,
                                     rs.getLong("role_id"),
                                     rs.getLong("permission_id"));

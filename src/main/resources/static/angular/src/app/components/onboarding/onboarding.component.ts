@@ -41,7 +41,7 @@ export class OnboardingComponent implements OnInit {
           icon: 'fas fa-building',
           iconColor: 'success',
           completed: true,
-          route: '/setup/company-settings'
+          route: '/setup/organisation-settings'
         },
         {
           title: 'User Management',

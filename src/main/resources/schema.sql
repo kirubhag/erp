@@ -835,7 +835,7 @@ CREATE TABLE IF NOT EXISTS recycle_bin (
 
 -- Import History Table - Tracks data population events for audit and idempotency
 CREATE TABLE IF NOT EXISTS import_history (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    import_history_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_name VARCHAR(100) NOT NULL,
     import_type VARCHAR(50) NOT NULL,
     record_count INT NOT NULL DEFAULT 0,

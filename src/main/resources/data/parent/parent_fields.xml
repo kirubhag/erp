@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="PARENT">
+    <!-- Personal Information -->
+    <field>
+        <fieldName>firstName</fieldName>
+        <fieldLabel>First Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <sectionName>personal_info</sectionName>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <maxLength>50</maxLength>
+    </field>
+    <field>
+        <fieldName>lastName</fieldName>
+        <fieldLabel>Last Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <sectionName>personal_info</sectionName>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <maxLength>50</maxLength>
+    </field>
+    <field>
+        <fieldName>middleName</fieldName>
+        <fieldLabel>Middle Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <sectionName>personal_info</sectionName>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <maxLength>50</maxLength>
+    </field>
+    <field>
+        <fieldName>gender</fieldName>
+        <fieldLabel>Gender</fieldLabel>
+        <fieldType>PICKLIST</fieldType>
+        <sectionName>personal_info</sectionName>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <picklistOptions>MALE,FEMALE,OTHER,PREFER_NOT_TO_SAY</picklistOptions>
+    </field>
+    <field>
+        <fieldName>email</fieldName>
+        <fieldLabel>Email</fieldLabel>
+        <fieldType>EMAIL</fieldType>
+        <sectionName>personal_info</sectionName>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <maxLength>100</maxLength>
+    </field>
+    <field>
+        <fieldName>phone</fieldName>
+        <fieldLabel>Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <sectionName>personal_info</sectionName>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <maxLength>20</maxLength>
+    </field>
+    <field>
+        <fieldName>alternatePhone</fieldName>
+        <fieldLabel>Alternate Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <sectionName>personal_info</sectionName>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <maxLength>20</maxLength>
+    </field>
+
+    <!-- Work Information -->
+    <field>
+        <fieldName>occupation</fieldName>
+        <fieldLabel>Occupation</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <sectionName>work_info</sectionName>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <maxLength>100</maxLength>
+    </field>
+    <field>
+        <fieldName>workplace</fieldName>
+        <fieldLabel>Workplace</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <sectionName>work_info</sectionName>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <maxLength>100</maxLength>
+    </field>
+    <field>
+        <fieldName>workPhone</fieldName>
+        <fieldLabel>Work Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <sectionName>work_info</sectionName>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <maxLength>20</maxLength>
+    </field>
+
+    <!-- Settings -->
+    <field>
+        <fieldName>emergencyContact</fieldName>
+        <fieldLabel>Is Emergency Contact?</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <sectionName>settings</sectionName>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <fieldDescription>Is this parent an emergency contact?</fieldDescription>
+    </field>
+    <field>
+        <fieldName>authorizedPickup</fieldName>
+        <fieldLabel>Authorized for Pickup?</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <sectionName>settings</sectionName>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <fieldDescription>Is this parent authorized to pick up the student?</fieldDescription>
+    </field>
+    <field>
+        <fieldName>receiveNotifications</fieldName>
+        <fieldLabel>Receive Notifications?</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <sectionName>settings</sectionName>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+        <fieldDescription>Should this parent receive system notifications?</fieldDescription>
+    </field>
+
+    <!-- System Info -->
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <sectionName>system_info</sectionName>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+    </field>
+    <field>
+        <fieldName>createdTime</fieldName>
+        <fieldLabel>Created Time</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <sectionName>system_info</sectionName>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+    </field>
+    <field>
+        <fieldName>modifiedTime</fieldName>
+        <fieldLabel>Modified Time</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <sectionName>system_info</sectionName>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+    </field>
+</entityFields>

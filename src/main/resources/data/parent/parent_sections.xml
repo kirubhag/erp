@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="PARENT">
+    <section>
+        <sectionName>personal_info</sectionName>
+        <sectionLabel>Personal Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Basic personal details of the parent</description>
+    </section>
+    <section>
+        <sectionName>work_info</sectionName>
+        <sectionLabel>Work Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Employment details</description>
+    </section>
+    <section>
+        <sectionName>settings</sectionName>
+        <sectionLabel>Settings &amp; Permissions</sectionLabel>
+        <layoutType>THREE_COLUMN</layoutType>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Notification and authorization settings</description>
+    </section>
+    <section>
+        <sectionName>system_info</sectionName>
+        <sectionLabel>System Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>10</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>true</isCollapsedByDefault>
+        <showInCreate>false</showInCreate>
+        <showInEdit>false</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>System generated fields</description>
+    </section>
+</entitySections>

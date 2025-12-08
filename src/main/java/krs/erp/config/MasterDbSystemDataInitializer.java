@@ -121,13 +121,14 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
             logger.info("Loading system permissions into IAM_MasterDB...");
 
             // Check if permissions already exist
-            Integer count = masterJdbcTemplate.queryForObject(
-                    "SELECT COUNT(*) FROM IAM_MasterDB.permissions", Integer.class);
+            // Integer count = masterJdbcTemplate.queryForObject(
+            // "SELECT COUNT(*) FROM IAM_MasterDB.permissions", Integer.class);
 
-            if (count != null && count > 0) {
-                logger.info("Permissions already exist in IAM_MasterDB ({}). Skipping.", count);
-                return;
-            }
+            // if (count != null && count > 0) {
+            // logger.info("Permissions already exist in IAM_MasterDB ({}). Skipping.",
+            // count);
+            // return;
+            // }
 
             // Load from XML
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -181,13 +182,13 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
             logger.info("Loading system roles into IAM_MasterDB...");
 
             // Check if roles already exist
-            Integer count = masterJdbcTemplate.queryForObject(
-                    "SELECT COUNT(*) FROM IAM_MasterDB.roles", Integer.class);
+            // Integer count = masterJdbcTemplate.queryForObject(
+            // "SELECT COUNT(*) FROM IAM_MasterDB.roles", Integer.class);
 
-            if (count != null && count > 0) {
-                logger.info("Roles already exist in IAM_MasterDB ({}). Skipping.", count);
-                return;
-            }
+            // if (count != null && count > 0) {
+            // logger.info("Roles already exist in IAM_MasterDB ({}). Skipping.", count);
+            // return;
+            // }
 
             // Load from XML
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -239,13 +240,14 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
             logger.info("Loading role-permission mappings into IAM_MasterDB...");
 
             // Check if mappings already exist
-            Integer count = masterJdbcTemplate.queryForObject(
-                    "SELECT COUNT(*) FROM IAM_MasterDB.role_permissions", Integer.class);
+            // Integer count = masterJdbcTemplate.queryForObject(
+            // "SELECT COUNT(*) FROM IAM_MasterDB.role_permissions", Integer.class);
 
-            if (count != null && count > 0) {
-                logger.info("Role-permission mappings already exist in IAM_MasterDB ({}). Skipping.", count);
-                return;
-            }
+            // if (count != null && count > 0) {
+            // logger.info("Role-permission mappings already exist in IAM_MasterDB ({}).
+            // Skipping.", count);
+            // return;
+            // }
 
             // Load from XML if it contains role_permissions nodes
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -294,13 +296,14 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
             logger.info("Loading ERP sections into IAM_MasterDB...");
 
             // Check if sections already exist
-            Integer count = masterJdbcTemplate.queryForObject(
-                    "SELECT COUNT(*) FROM IAM_MasterDB.erp_sections", Integer.class);
+            // Integer count = masterJdbcTemplate.queryForObject(
+            // "SELECT COUNT(*) FROM IAM_MasterDB.erp_sections", Integer.class);
 
-            if (count != null && count > 0) {
-                logger.info("ERP sections already exist in IAM_MasterDB ({}). Skipping.", count);
-                return;
-            }
+            // if (count != null && count > 0) {
+            // logger.info("ERP sections already exist in IAM_MasterDB ({}). Skipping.",
+            // count);
+            // return;
+            // }
 
             // Load all *_sections.xml files
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -365,13 +368,14 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
             logger.info("Loading ERP fields into IAM_MasterDB...");
 
             // Check if fields already exist
-            Integer count = masterJdbcTemplate.queryForObject(
-                    "SELECT COUNT(*) FROM IAM_MasterDB.erp_fields", Integer.class);
+            // Integer count = masterJdbcTemplate.queryForObject(
+            // "SELECT COUNT(*) FROM IAM_MasterDB.erp_fields", Integer.class);
 
-            if (count != null && count > 0) {
-                logger.info("ERP fields already exist in IAM_MasterDB ({}). Skipping.", count);
-                return;
-            }
+            // if (count != null && count > 0) {
+            // logger.info("ERP fields already exist in IAM_MasterDB ({}). Skipping.",
+            // count);
+            // return;
+            // }
 
             // Load all *_fields.xml files
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -458,13 +462,14 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
             logger.info("Loading ERP entities into IAM_MasterDB...");
 
             // Check if entities already exist
-            Integer count = masterJdbcTemplate.queryForObject(
-                    "SELECT COUNT(*) FROM IAM_MasterDB.erp_entities", Integer.class);
+            // Integer count = masterJdbcTemplate.queryForObject(
+            // "SELECT COUNT(*) FROM IAM_MasterDB.erp_entities", Integer.class);
 
-            if (count != null && count > 0) {
-                logger.info("ERP entities already exist in IAM_MasterDB ({}). Skipping.", count);
-                return;
-            }
+            // if (count != null && count > 0) {
+            // logger.info("ERP entities already exist in IAM_MasterDB ({}). Skipping.",
+            // count);
+            // return;
+            // }
 
             // Load from XML
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -529,13 +534,14 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
             logger.info("Loading ERP entity relations into IAM_MasterDB...");
 
             // Check if relations already exist
-            Integer count = masterJdbcTemplate.queryForObject(
-                    "SELECT COUNT(*) FROM IAM_MasterDB.erp_entity_relations", Integer.class);
+            // Integer count = masterJdbcTemplate.queryForObject(
+            // "SELECT COUNT(*) FROM IAM_MasterDB.erp_entity_relations", Integer.class);
 
-            if (count != null && count > 0) {
-                logger.info("ERP entity relations already exist in IAM_MasterDB ({}). Skipping.", count);
-                return;
-            }
+            // if (count != null && count > 0) {
+            // logger.info("ERP entity relations already exist in IAM_MasterDB ({}).
+            // Skipping.", count);
+            // return;
+            // }
 
             // Load from XML
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

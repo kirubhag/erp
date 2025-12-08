@@ -49,11 +49,11 @@ export class SetupComponent implements OnInit {
           description: 'Manage system users and their access'
         },
         {
-          id: 'company-settings',
+          id: 'organisation-settings',
           label: 'Company Settings',
           icon: 'fas fa-building',
-          route: '/setup/company-settings',
-          description: 'Configure company-wide settings and preferences'
+          route: '/setup/organisation-settings',
+          description: 'Configure company details'
         },
         {
           id: 'subscription',

@@ -94,7 +94,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/company-settings',
+    path: 'setup/organisation-settings',
     loadComponent: () => import('./components/company-settings/company-settings.component').then(m => m.CompanySettingsComponent),
     canActivate: [AuthGuard]
   },
