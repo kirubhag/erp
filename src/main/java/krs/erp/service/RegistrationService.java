@@ -81,9 +81,9 @@ public class RegistrationService {
 
     private void createUserInMasterDb(RegistrationRequest request, Long tenantId, Long organizationId) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        String sql = "INSERT INTO IAM_MasterDB.iam_users (username, password_hash, email, first_name, last_name, phone, user_type, enabled, tenant_id, organization_id, created_time, is_active) "
+        String sql = "INSERT INTO IAM_MasterDB.iam_users (username, password_hash, email, first_name, last_name, phone, user_type, enabled, tenant_id, organization_id, created_time, is_active, account_non_expired, credentials_non_expired, account_non_locked) "
                 +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1, 1)";
 
         jdbcTemplate.update(sql,
                 request.getAdminEmail(), // username is email

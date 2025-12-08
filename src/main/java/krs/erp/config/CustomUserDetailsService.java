@@ -42,7 +42,7 @@ public class CustomUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(java.util.Objects.requireNonNull(masterDataSource));
 
         // Query IAM_MasterDB directly for user credentials and tenant_id
         String sql = "SELECT user_id, username, password_hash, email, first_name, last_name, " +

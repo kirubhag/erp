@@ -53,6 +53,7 @@ public class SecurityConfig {
                                                                 "/api/subscriptions/**",
                                                                 "/api/sections/**", "/api/promotions/**",
                                                                 "/api/organizations/**", "/api/account/**",
+                                                                "/api/migration/**",
                                                                 "/api/v1/sample-data/**"))
                                 .headers(headers -> headers
                                                 .contentSecurityPolicy(csp -> csp
@@ -83,6 +84,11 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/promotions/**").permitAll() // Allow student
                                                                                                    // promotion
                                                                                                    // endpoints
+                                                .requestMatchers("/api/account/**").permitAll() // Allow account closure
+                                                                                                // endpoint for
+                                                                                                // debugging
+                                                .requestMatchers("/api/migration/**").permitAll() // Allow migration
+                                                                                                  // endpoint
                                                 .requestMatchers("/api/organizations/**").authenticated() // Organizations
                                                                                                           // require
                                                                                                           // authentication

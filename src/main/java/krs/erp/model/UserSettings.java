@@ -1,7 +1,13 @@
 package krs.erp.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * UserSettings Entity - Maps to user_settings table
@@ -13,7 +19,7 @@ public class UserSettings {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_settings_id")
+    @Column(name = "id")
     private Long id;
     
     @Column(name = "user_id", nullable = false)

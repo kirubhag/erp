@@ -153,6 +153,60 @@ public class DataImportService {
         }
     }
     
+    @Transactional
+    public void importStaffDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting staff data import from XML file: {}", xmlFilePath);
+            
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+            
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+            
+            // Import only staff from this file
+            importStaff(document);
+            
+            logger.info("Staff data import completed successfully for: {}", xmlFilePath);
+            
+        } catch (Exception e) {
+            logger.error("Error importing staff data from XML file: {}", xmlFilePath, e);
+            throw new RuntimeException("Failed to import staff data from XML: " + xmlFilePath, e);
+        }
+    }
+    
+    @Transactional
+    public void importParentsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting parents data import from XML file: {}", xmlFilePath);
+            
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+            
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+            
+            // Import only parents from this file
+            importParents(document);
+            
+            logger.info("Parents data import completed successfully for: {}", xmlFilePath);
+            
+        } catch (Exception e) {
+            logger.error("Error importing parents data from XML file: {}", xmlFilePath, e);
+            throw new RuntimeException("Failed to import parents data from XML: " + xmlFilePath, e);
+        }
+    }
+    
     private void clearCaches() {
         permissions.clear();
         roles.clear();

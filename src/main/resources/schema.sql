@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS organizations (
     logo_url VARCHAR(500),
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -43,6 +43,18 @@ CREATE TABLE IF NOT EXISTS organizations (
     INDEX idx_name (name),
     INDEX idx_type (type),
     INDEX idx_is_active (is_active)
+);
+
+-- ERP Tenants Table - Registry of all tenants
+CREATE TABLE IF NOT EXISTS erp_tenants (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tenant_id BIGINT NOT NULL UNIQUE,
+    tenant_name VARCHAR(100) NOT NULL,
+    db_host VARCHAR(100) NOT NULL,
+    db_name VARCHAR(100) NOT NULL UNIQUE,
+    status VARCHAR(20) NOT NULL DEFAULT 'Active',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Permissions table - Created before Roles
@@ -55,7 +67,7 @@ CREATE TABLE IF NOT EXISTS permissions (
     system_permission BOOLEAN NOT NULL DEFAULT false,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -72,7 +84,7 @@ CREATE TABLE IF NOT EXISTS roles (
     system_role BOOLEAN NOT NULL DEFAULT false,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -85,8 +97,8 @@ CREATE TABLE IF NOT EXISTS role_permissions (
     role_id BIGINT NOT NULL,
     permission_id BIGINT NOT NULL,
     PRIMARY KEY (role_id, permission_id),
-    FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE,
-    FOREIGN KEY (permission_id) REFERENCES permissions (id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles (role_id) ON DELETE CASCADE,
+    FOREIGN KEY (permission_id) REFERENCES permissions (permission_id) ON DELETE CASCADE,
     INDEX idx_permission_id (permission_id)
 );
 
@@ -105,7 +117,7 @@ CREATE TABLE IF NOT EXISTS addresses (
     address_type VARCHAR(20),
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -139,7 +151,7 @@ CREATE TABLE IF NOT EXISTS iam_users (
     avatar_url VARCHAR(500),
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -154,8 +166,8 @@ CREATE TABLE IF NOT EXISTS user_roles (
     user_id BIGINT NOT NULL,
     role_id BIGINT NOT NULL,
     PRIMARY KEY (user_id, role_id),
-    FOREIGN KEY (user_id) REFERENCES iam_users (id) ON DELETE CASCADE,
-    FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES iam_users (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles (role_id) ON DELETE CASCADE,
     INDEX idx_role_id (role_id)
 );
 
@@ -168,7 +180,7 @@ CREATE TABLE IF NOT EXISTS students (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     middle_name VARCHAR(50),
-    student_id VARCHAR(20) NOT NULL UNIQUE,
+    student_identifier VARCHAR(20) NOT NULL UNIQUE,
     email VARCHAR(100) UNIQUE,
     phone VARCHAR(20),
     date_of_birth DATE NOT NULL,
@@ -183,13 +195,13 @@ CREATE TABLE IF NOT EXISTS students (
     user_id BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     UNIQUE KEY unique_user_id (user_id),
-    FOREIGN KEY (address_id) REFERENCES addresses (id),
-    FOREIGN KEY (user_id) REFERENCES iam_users (id),
+    FOREIGN KEY (address_id) REFERENCES addresses (address_id),
+    FOREIGN KEY (user_id) REFERENCES iam_users (user_id),
     INDEX idx_student_id (student_id),
     INDEX idx_email (email),
     INDEX idx_grade_level (grade_level),
@@ -206,7 +218,7 @@ CREATE TABLE IF NOT EXISTS staff (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     middle_name VARCHAR(50),
-    staff_id VARCHAR(20) NOT NULL UNIQUE,
+    staff_identifier VARCHAR(20) NOT NULL UNIQUE,
     email VARCHAR(100) UNIQUE,
     phone VARCHAR(20),
     date_of_birth DATE NOT NULL,
@@ -227,13 +239,13 @@ CREATE TABLE IF NOT EXISTS staff (
     user_id BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     UNIQUE KEY unique_user_id (user_id),
-    FOREIGN KEY (address_id) REFERENCES addresses (id),
-    FOREIGN KEY (user_id) REFERENCES iam_users (id),
+    FOREIGN KEY (address_id) REFERENCES addresses (address_id),
+    FOREIGN KEY (user_id) REFERENCES iam_users (user_id),
     INDEX idx_staff_id (staff_id),
     INDEX idx_email (email),
     INDEX idx_employment_status (employment_status),
@@ -264,13 +276,13 @@ CREATE TABLE IF NOT EXISTS parents (
     user_id BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     UNIQUE KEY unique_user_id (user_id),
-    FOREIGN KEY (address_id) REFERENCES addresses (id),
-    FOREIGN KEY (user_id) REFERENCES iam_users (id),
+    FOREIGN KEY (address_id) REFERENCES addresses (address_id),
+    FOREIGN KEY (user_id) REFERENCES iam_users (user_id),
     INDEX idx_email (email),
     INDEX idx_is_active (is_active)
 );
@@ -289,12 +301,12 @@ CREATE TABLE IF NOT EXISTS parent_student_relations (
     notes VARCHAR(500),
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (parent_id) REFERENCES parents (id) ON DELETE CASCADE,
-    FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE,
+    FOREIGN KEY (parent_id) REFERENCES parents (parent_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
     INDEX idx_parent_id (parent_id),
     INDEX idx_student_id (student_id),
     INDEX idx_relationship_type (relationship_type),
@@ -319,7 +331,7 @@ CREATE TABLE IF NOT EXISTS subjects (
     is_mandatory BOOLEAN DEFAULT true,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -351,7 +363,7 @@ CREATE TABLE IF NOT EXISTS grades (
     organization_id BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -382,7 +394,7 @@ CREATE TABLE IF NOT EXISTS timetables (
     is_lab_session BOOLEAN DEFAULT false,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -411,13 +423,13 @@ CREATE TABLE IF NOT EXISTS attendance (
     recorded_by BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE SET NULL,
-    FOREIGN KEY (staff_id) REFERENCES staff (id) ON DELETE SET NULL,
-    FOREIGN KEY (recorded_by) REFERENCES iam_users (id) ON DELETE SET NULL,
+    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE SET NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff (staff_id) ON DELETE SET NULL,
+    FOREIGN KEY (recorded_by) REFERENCES iam_users (user_id) ON DELETE SET NULL,
     INDEX idx_attendance_date (attendance_date),
     INDEX idx_student_id (student_id),
     INDEX idx_staff_id (staff_id),
@@ -451,12 +463,12 @@ CREATE TABLE IF NOT EXISTS health_records (
     recorded_by BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE,
-    FOREIGN KEY (recorded_by) REFERENCES iam_users (id) ON DELETE SET NULL,
+    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
+    FOREIGN KEY (recorded_by) REFERENCES iam_users (user_id) ON DELETE SET NULL,
     INDEX idx_student_id (student_id),
     INDEX idx_record_type (record_type),
     INDEX idx_requires_attention (requires_attention),
@@ -491,9 +503,11 @@ guardian_email VARCHAR(100),
 guardian_address VARCHAR(300),
 
 -- Audit fields from BaseEntity
+
+
 created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -517,13 +531,14 @@ doctor_phone VARCHAR(20),
 hospital_preference VARCHAR(200),
 
 -- Insurance Information
-insurance_provider VARCHAR(100),
-insurance_policy_number VARCHAR(50),
+insurance_provider VARCHAR(100), insurance_policy_number VARCHAR(50),
 
 -- Audit fields from BaseEntity
+
+
 created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -553,9 +568,11 @@ description VARCHAR(500),
 uploaded_by BIGINT,
 
 -- Audit fields from BaseEntity
+
+
 created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -592,7 +609,7 @@ CREATE TABLE IF NOT EXISTS erp_sections (
     organization_id BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -630,11 +647,11 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     column_width VARCHAR(50) DEFAULT 'medium',
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (section_id) REFERENCES erp_sections (id) ON DELETE SET NULL,
+    FOREIGN KEY (section_id) REFERENCES erp_sections (erp_section_id) ON DELETE SET NULL,
     INDEX idx_entity_type (entity_type),
     INDEX idx_field_name (field_name),
     INDEX idx_section_id (section_id),
@@ -657,7 +674,7 @@ CREATE TABLE IF NOT EXISTS email_templates (
     available_variables TEXT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -689,11 +706,11 @@ CREATE TABLE IF NOT EXISTS email_logs (
     metadata TEXT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (template_id) REFERENCES email_templates (id),
+    FOREIGN KEY (template_id) REFERENCES email_templates (email_template_id),
     INDEX idx_entity (entity_type, entity_id),
     INDEX idx_recipient_email (recipient_email),
     INDEX idx_status (status),
@@ -720,7 +737,7 @@ CREATE TABLE IF NOT EXISTS erp_entities (
     pkid VARCHAR(100),
     display_column VARCHAR(100),
     has_rel_table BOOLEAN NOT NULL DEFAULT false,
-    created_date DATETIME NOT NULL,
+    created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_modified_date DATETIME,
     created_by VARCHAR(100),
     last_modified_by VARCHAR(100),
@@ -733,13 +750,13 @@ CREATE TABLE IF NOT EXISTS erp_entities_role_relation (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_id BIGINT NOT NULL,
     role_id BIGINT NOT NULL,
-    created_date DATETIME NOT NULL,
+    created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_modified_date DATETIME,
     created_by VARCHAR(100),
     last_modified_by VARCHAR(100),
     UNIQUE KEY unique_entity_role (entity_id, role_id),
-    FOREIGN KEY (entity_id) REFERENCES erp_entities (id) ON DELETE CASCADE,
-    FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE,
+    FOREIGN KEY (entity_id) REFERENCES erp_entities (erp_entity_id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles (role_id) ON DELETE CASCADE,
     INDEX idx_entity_id (entity_id),
     INDEX idx_role_id (role_id)
 );
@@ -757,7 +774,7 @@ CREATE TABLE IF NOT EXISTS erp_entity_relation (
     description TEXT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -780,7 +797,7 @@ CREATE TABLE IF NOT EXISTS custom_views (
     is_public BOOLEAN DEFAULT false,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
@@ -793,7 +810,7 @@ CREATE TABLE IF NOT EXISTS custom_views (
 CREATE TABLE IF NOT EXISTS custom_view_fields (
     custom_view_id BIGINT NOT NULL,
     field_name VARCHAR(100) NOT NULL,
-    FOREIGN KEY (custom_view_id) REFERENCES custom_views (id) ON DELETE CASCADE,
+    FOREIGN KEY (custom_view_id) REFERENCES custom_views (custom_view_id) ON DELETE CASCADE,
     INDEX idx_custom_view_id (custom_view_id)
 );
 
@@ -807,7 +824,7 @@ CREATE TABLE IF NOT EXISTS recycle_bin (
     entity_name VARCHAR(100) NOT NULL,
     entity_type VARCHAR(100) NOT NULL,
     deleted_by VARCHAR(100) NOT NULL,
-    deleted_time DATETIME NOT NULL,
+    deleted_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deletion_reason VARCHAR(500),
     entity_data TEXT,
     related_entity_count INT DEFAULT 0,
@@ -824,12 +841,12 @@ CREATE TABLE IF NOT EXISTS import_history (
     record_count INT NOT NULL DEFAULT 0,
     source VARCHAR(255),
     imported_by VARCHAR(100) NOT NULL,
-    import_start_time DATETIME NOT NULL,
+    import_start_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     import_end_time DATETIME,
     import_status VARCHAR(20) NOT NULL,
     error_message VARCHAR(1000),
     notes VARCHAR(500),
-    created_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT true,
     INDEX idx_entity_name (entity_name),
     INDEX idx_import_type (import_type),
@@ -900,6 +917,8 @@ enable_api_documentation BOOLEAN DEFAULT true,
 enable_webhooks BOOLEAN DEFAULT false,
 
 -- Metadata
+
+
 created_by VARCHAR(100) NOT NULL,
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -907,7 +926,7 @@ created_by VARCHAR(100) NOT NULL,
     is_active BOOLEAN DEFAULT true,
     
     UNIQUE KEY uq_organization (organization_id),
-    FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE,
+    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
     INDEX idx_organization_id (organization_id),
     INDEX idx_is_active (is_active),
     INDEX idx_created_time (created_time)
@@ -996,6 +1015,8 @@ remember_me_enabled BOOLEAN DEFAULT false,
 last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
 -- Metadata
+
+
 created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -1003,8 +1024,8 @@ created_by VARCHAR(100),
     is_active BOOLEAN DEFAULT true,
     
     UNIQUE KEY uq_user_organization (user_id, organization_id),
-    FOREIGN KEY (user_id) REFERENCES iam_users(id) ON DELETE CASCADE,
-    FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES iam_users (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
     INDEX idx_user_id (user_id),
     INDEX idx_organization_id (organization_id),
     INDEX idx_is_active (is_active),
@@ -1040,8 +1061,8 @@ CREATE TABLE IF NOT EXISTS import_sessions (
     skipped_records INT DEFAULT 0,
     failed_records INT DEFAULT 0,
     success_rate DOUBLE DEFAULT 0.0,
-    FOREIGN KEY (user_id) REFERENCES iam_users (id) ON DELETE CASCADE,
-    FOREIGN KEY (organization_id) REFERENCES organizations (id) ON DELETE SET NULL,
+    FOREIGN KEY (user_id) REFERENCES iam_users (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE SET NULL,
     INDEX idx_user_id (user_id),
     INDEX idx_organization_id (organization_id),
     INDEX idx_entity_type (entity_type),
@@ -1111,7 +1132,7 @@ CREATE TABLE IF NOT EXISTS academic_years (
     organization_id BIGINT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (organization_id) REFERENCES organizations (id) ON DELETE CASCADE,
+    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
     INDEX idx_org_active (organization_id, is_active),
     INDEX idx_dates (start_date, end_date)
 ) COMMENT = 'Academic/School years for the organization';
@@ -1127,7 +1148,7 @@ CREATE TABLE IF NOT EXISTS academic_terms (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (academic_year_id) REFERENCES academic_years (id) ON DELETE CASCADE,
-    FOREIGN KEY (organization_id) REFERENCES organizations (id) ON DELETE CASCADE,
+    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
     INDEX idx_academic_year (academic_year_id),
     INDEX idx_org_dates (organization_id, start_date)
 ) COMMENT = 'Terms/Semesters within academic years';
@@ -1143,7 +1164,7 @@ CREATE TABLE IF NOT EXISTS grading_scales (
     organization_id BIGINT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (organization_id) REFERENCES organizations (id) ON DELETE CASCADE,
+    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
     INDEX idx_org_percentage (
         organization_id,
         min_percentage
@@ -1173,6 +1194,8 @@ auto_calculate_grades BOOLEAN DEFAULT true,
 publish_results_immediately BOOLEAN DEFAULT false,
 
 -- Promotion Rules
+
+
 auto_promote_students BOOLEAN DEFAULT false,
     minimum_attendance_for_promotion DOUBLE DEFAULT 75.0,
     minimum_grade_for_promotion DOUBLE DEFAULT 40.0,
@@ -1183,7 +1206,7 @@ auto_promote_students BOOLEAN DEFAULT false,
     
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
+    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE
 ) COMMENT='Academic settings for attendance, exams, and promotion rules';
 
 -- ============================================================================

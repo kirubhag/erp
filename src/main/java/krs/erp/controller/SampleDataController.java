@@ -60,12 +60,21 @@ public class SampleDataController {
                 try {
                     logger.info("Importing sample data for entity: {}", entityName);
                     
-                    // Map entity names to XML file paths
+                    // Map entity names to XML file paths and use appropriate import method
                     String xmlFilePath = getXmlFilePathForEntity(entityName);
                     
                     if (xmlFilePath != null) {
-                        // Import data using existing DataImportService
-                        dataImportService.importDataFromXml(xmlFilePath);
+                        // Use entity-specific import method based on entity type
+                        if (isStudentEntity(entityName)) {
+                            dataImportService.importStudentDataFromXml(xmlFilePath);
+                        } else if (isStaffEntity(entityName)) {
+                            dataImportService.importStaffDataFromXml(xmlFilePath);
+                        } else if (isParentEntity(entityName)) {
+                            dataImportService.importParentsDataFromXml(xmlFilePath);
+                        } else {
+                            // For other entities, use the generic import
+                            dataImportService.importDataFromXml(xmlFilePath);
+                        }
                         successfulImports++;
                         logger.info("Successfully imported sample data for: {}", entityName);
                     } else {
@@ -106,33 +115,61 @@ public class SampleDataController {
         Map<String, String> entityToXmlMap = new HashMap<>();
         
         // Core entities
-        entityToXmlMap.put("students", "data/sample-data.xml");
-        entityToXmlMap.put("staff", "data/sample-data.xml");
-        entityToXmlMap.put("parents", "data/sample-data.xml");
-        entityToXmlMap.put("users", "data/sample-data.xml");
+        entityToXmlMap.put("students", "data/student/student_grade_1.xml");
+        entityToXmlMap.put("staff", "data/staff/sample-staff.xml");
+        entityToXmlMap.put("parents", "data/parent/sample-parents.xml");
+        entityToXmlMap.put("users", "data/user/sample-users.xml");
         
-        // Academic data
-        entityToXmlMap.put("grades", "data/grades.xml");
-        entityToXmlMap.put("grade_1", "data/grade_1.xml");
-        entityToXmlMap.put("grade_2", "data/grade_2.xml");
-        entityToXmlMap.put("grade_3", "data/grade_3.xml");
-        entityToXmlMap.put("grade_4", "data/grade_4.xml");
-        entityToXmlMap.put("grade_5", "data/grade_5.xml");
-        entityToXmlMap.put("grade_6", "data/grade_6.xml");
-        entityToXmlMap.put("grade_7", "data/grade_7.xml");
-        entityToXmlMap.put("grade_8", "data/grade_8.xml");
-        entityToXmlMap.put("grade_9", "data/grade_9.xml");
-        entityToXmlMap.put("grade_10", "data/grade_10.xml");
-        entityToXmlMap.put("grade_11", "data/grade_11.xml");
-        entityToXmlMap.put("grade_12", "data/grade_12.xml");
-        entityToXmlMap.put("kindergarten", "data/kindergarten.xml");
+        // Academic data - Grade files
+        entityToXmlMap.put("grades", "data/grade/grades.xml");
+        entityToXmlMap.put("grade_1", "data/student/student_grade_1.xml");
+        entityToXmlMap.put("grade_2", "data/student/student_grade_2.xml");
+        entityToXmlMap.put("grade_3", "data/student/student_grade_3.xml");
+        entityToXmlMap.put("grade_4", "data/student/student_grade_4.xml");
+        entityToXmlMap.put("grade_5", "data/student/student_grade_5.xml");
+        entityToXmlMap.put("grade_6", "data/student/student_grade_6.xml");
+        entityToXmlMap.put("grade_7", "data/student/student_grade_7.xml");
+        entityToXmlMap.put("grade_8", "data/student/student_grade_8.xml");
+        entityToXmlMap.put("grade_9", "data/student/student_grade_9.xml");
+        entityToXmlMap.put("grade_10", "data/student/student_grade_10.xml");
+        entityToXmlMap.put("grade_11", "data/student/student_grade_11.xml");
+        entityToXmlMap.put("grade_12", "data/student/student_grade_12.xml");
+        entityToXmlMap.put("kindergarten", "data/student/student_kindergarten.xml");
         
-        entityToXmlMap.put("subjects", "data/subjects.xml");
-        entityToXmlMap.put("timetables", "data/timetables.xml");
+        entityToXmlMap.put("subjects", "data/subject/subjects.xml");
+        entityToXmlMap.put("timetables", "data/timetable/timetables.xml");
         
         // Address data
         entityToXmlMap.put("addresses", "data/address/sample-addresses.xml");
         
+        // Medical and Guardian data
+        entityToXmlMap.put("medical", "data/student/sample_medical_data.xml");
+        entityToXmlMap.put("guardians", "data/student/sample_guardian_data.xml");
+        
         return entityToXmlMap.get(entityName.toLowerCase());
+    }
+    
+    /**
+     * Check if the entity name represents student data
+     */
+    private boolean isStudentEntity(String entityName) {
+        String lowerName = entityName.toLowerCase();
+        return lowerName.equals("students") || 
+               lowerName.startsWith("grade_") || 
+               lowerName.equals("kindergarten");
+    }
+    
+    /**
+     * Check if the entity name represents staff data
+     */
+    private boolean isStaffEntity(String entityName) {
+        return entityName.equalsIgnoreCase("staff");
+    }
+    
+    /**
+     * Check if the entity name represents parent data
+     */
+    private boolean isParentEntity(String entityName) {
+        return entityName.equalsIgnoreCase("parents");
     }
 }
