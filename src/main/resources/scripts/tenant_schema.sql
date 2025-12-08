@@ -1343,6 +1343,143 @@ auto_promote_students BOOLEAN DEFAULT false,
 ) COMMENT='Academic settings for attendance, exams, and promotion rules';
 
 -- ============================================================================
+-- Additional Tables for Tenant Database
+-- ============================================================================
+
+-- Login History Table
+CREATE TABLE IF NOT EXISTS login_history (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    username VARCHAR(100) NOT NULL,
+    login_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    ip_address VARCHAR(50),
+    browser VARCHAR(200),
+    status VARCHAR(20) DEFAULT 'SUCCESS',
+    failure_reason VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES iam_users (user_id) ON DELETE CASCADE,
+    INDEX idx_user_history (user_id, login_time),
+    INDEX idx_login_time (login_time)
+) COMMENT = 'Tracks user login history and attempts';
+
+-- Student Promotion Tables
+CREATE TABLE IF NOT EXISTS student_promotion_batch (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    batch_name VARCHAR(255) NOT NULL,
+    from_academic_year VARCHAR(50) NOT NULL,
+    to_academic_year VARCHAR(50) NOT NULL,
+    from_grade_level VARCHAR(50) NOT NULL,
+    to_grade_level VARCHAR(50) NOT NULL,
+    promotion_date DATE NOT NULL,
+    status VARCHAR(50) DEFAULT 'PENDING',
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    organization_id BIGINT,
+    is_active BOOLEAN DEFAULT true,
+    INDEX idx_org_year (organization_id, from_academic_year),
+    INDEX idx_status (status)
+) COMMENT = 'Student promotion batches';
+
+CREATE TABLE IF NOT EXISTS student_promotion_record (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    batch_id BIGINT NOT NULL,
+    student_id BIGINT NOT NULL,
+    from_class_id BIGINT,
+    to_class_id BIGINT,
+    promotion_status VARCHAR(50) DEFAULT 'PENDING',
+    remarks TEXT,
+    promoted_by VARCHAR(100),
+    promoted_time DATETIME,
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (batch_id) REFERENCES student_promotion_batch (id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
+    INDEX idx_batch (batch_id),
+    INDEX idx_student (student_id),
+    INDEX idx_status (promotion_status)
+) COMMENT = 'Individual student promotion records';
+
+CREATE TABLE IF NOT EXISTS student_promotion_audit_log (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    promotion_record_id BIGINT NOT NULL,
+    action VARCHAR(100) NOT NULL,
+    action_by VARCHAR(100) NOT NULL,
+    action_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    old_value TEXT,
+    new_value TEXT,
+    remarks TEXT,
+    FOREIGN KEY (promotion_record_id) REFERENCES student_promotion_record (id) ON DELETE CASCADE,
+    INDEX idx_record (promotion_record_id),
+    INDEX idx_time (action_time)
+) COMMENT = 'Audit log for promotion changes';
+
+-- Courses Table
+CREATE TABLE IF NOT EXISTS courses (
+    course_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    course_code VARCHAR(50) NOT NULL UNIQUE,
+    course_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    credits INT,
+    duration_weeks INT,
+    department VARCHAR(100),
+    level VARCHAR(50),
+    prerequisites TEXT,
+    organization_id BIGINT,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT true,
+    INDEX idx_code (course_code),
+    INDEX idx_org (organization_id)
+) COMMENT = 'Course catalog';
+
+-- Exams Table
+CREATE TABLE IF NOT EXISTS exams (
+    exam_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    exam_name VARCHAR(255) NOT NULL,
+    exam_code VARCHAR(50),
+    exam_type VARCHAR(50),
+    exam_date DATE,
+    start_time TIME,
+    end_time TIME,
+    duration_minutes INT,
+    total_marks DECIMAL(10,2),
+    passing_marks DECIMAL(10,2),
+    subject_id BIGINT,
+    class_id BIGINT,
+    academic_year VARCHAR(50),
+    semester VARCHAR(50),
+    instructions TEXT,
+    organization_id BIGINT,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT true,
+    INDEX idx_date (exam_date),
+    INDEX idx_subject (subject_id),
+    INDEX idx_class (class_id),
+    INDEX idx_org (organization_id)
+) COMMENT = 'Exam schedule and details';
+
+-- Grading Scales table
+CREATE TABLE IF NOT EXISTS grading_scales (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    letter_grade VARCHAR(10) NOT NULL,
+    min_percentage DOUBLE NOT NULL,
+    max_percentage DOUBLE NOT NULL,
+    grade_point DOUBLE NOT NULL,
+    organization_id BIGINT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
+    INDEX idx_org_percentage (organization_id, min_percentage)
+) COMMENT = 'Grading scales and grade points for the organization';
+
+-- ============================================================================
 -- Data Population Note
 -- ============================================================================
 -- All entity data including entities, sections, and fields are populated from

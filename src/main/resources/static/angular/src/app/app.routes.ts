@@ -104,6 +104,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'setup/login-history',
+    redirectTo: 'setup/users',
+    pathMatch: 'full'
+  },
+  {
     path: 'setup/profiles',
     loadComponent: () => import('./components/profile/profile.component').then(m => m.ProfileComponent),
     canActivate: [AuthGuard]
