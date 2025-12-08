@@ -50,10 +50,28 @@
   font-weight: 600;
 }
 
+/* Wizard Steps Container */
+.wizard-steps-container {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Wizard Content Container */
+.wizard-content-container {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
 /* Wizard Content Animation */
 .wizard-content {
   animation: fadeIn 0.5s ease-in;
-  min-height: 500px;
+  min-height: 400px;
 }
 
 @keyframes fadeIn {
@@ -67,14 +85,12 @@
   }
 }
 
-/* Card Styling Enhancements */
-.card {
-  border-radius: 1rem;
-  overflow: hidden;
-}
-
-.card-header {
-  border-bottom: none;
+/* Help Text */
+.help-text {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* Button Hover Effects */

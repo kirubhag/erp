@@ -1230,5 +1230,26 @@ auto_promote_students BOOLEAN DEFAULT false,
 ) COMMENT='Academic settings for attendance, exams, and promotion rules';
 
 -- ============================================================================
+-- Seed Data
+-- ============================================================================
+
+-- Default Organization (Required for Academic Settings)
+INSERT IGNORE INTO
+    organizations (
+        organization_id,
+        name,
+        type,
+        is_active,
+        subscription_status
+    )
+VALUES (
+        1,
+        'Default Organization',
+        'Enterprise',
+        true,
+        'ACTIVE'
+    );
+
+-- ============================================================================
 -- End of Schema - All tables created with proper FK ordering
 -- ============================================================================

@@ -12,24 +12,8 @@
 
     <!-- Content Body -->
     <div class="content-body">
-      <div class="container py-3">
-        <div class="row justify-content-center">
-          <div class="col-lg-10 col-xl-9">
-      <!-- Wizard Card -->
-      <div class="card shadow-lg border-0">
-        <!-- Card Header with Danger Theme -->
-        <div class="card-header bg-danger text-white py-4">
-          <div class="d-flex align-items-center">
-            <i class="bi bi-exclamation-triangle-fill fs-3 me-3"></i>
-            <div>
-              <h3 class="mb-0 fw-bold">Close Account</h3>
-              <p class="mb-0 small opacity-90">Permanently delete your account and all associated data</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Progress Steps -->
-        <div class="card-body bg-light border-bottom">
+      <!-- Progress Steps -->
+      <div class="wizard-steps-container">
           <div class="row text-center">
             <div class="col-4">
               <div class="wizard-step" [class.active]="step === 1" [class.completed]="step > 1">
@@ -70,8 +54,8 @@
           </div>
         </div>
 
-        <!-- Wizard Content -->
-        <div class="card-body p-4 p-md-5">
+      <!-- Wizard Content -->
+      <div class="wizard-content-container">
 
           <!-- Step 1: Warning -->
           <div *ngIf="step === 1" class="wizard-content fade-in">
@@ -314,24 +298,16 @@
 
         </div>
 
-        <!-- Card Footer -->
-        <div class="card-footer bg-light text-center py-3">
-          <small class="text-muted">
-            <i class="bi bi-question-circle me-1"></i>
-            Need help? <a href="#" class="text-decoration-none">Contact Support</a>
-          </small>
-        </div>
-      </div>
-
-      <!-- Help Text Below Card -->
-      <div class="text-center mt-4">
-        <p class="text-muted small">
-          <i class="bi bi-shield-check me-1"></i>
+      <!-- Help Text -->
+      <div class="help-text">
+        <p class="text-muted small text-center">
+          <i class="bi bi-question-circle me-2"></i>
+          Need help? <a href="#" class="text-decoration-none">Contact Support</a>
+        </p>
+        <p class="text-muted small text-center">
+          <i class="bi bi-shield-check me-2"></i>
           Your data is protected by enterprise-grade encryption and security measures
         </p>
-      </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
