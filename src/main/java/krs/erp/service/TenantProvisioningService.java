@@ -157,7 +157,7 @@ public class TenantProvisioningService {
             try {
                 System.out.println("Copying Roles...");
                 masterJdbc.query("SELECT * FROM roles WHERE system_role = 1", rs -> {
-                    String sql = "INSERT INTO roles (id, name, description, system_role, created_time, created_by) VALUES (?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT INTO roles (role_id, name, description, system_role, created_time, created_by) VALUES (?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
                             rs.getLong("role_id"),
                             rs.getString("name"),
@@ -175,9 +175,9 @@ public class TenantProvisioningService {
             try {
                 System.out.println("Copying Permissions...");
                 masterJdbc.query("SELECT * FROM permissions WHERE system_permission = 1", rs -> {
-                    String sql = "INSERT INTO permissions (id, name, description, resource, action, system_permission, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT INTO permissions (permission_id, name, description, resource, action, system_permission, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
-                            rs.getLong("id"),
+                            rs.getLong("permission_id"),
                             rs.getString("name"),
                             rs.getString("description"),
                             rs.getString("resource"),
@@ -200,7 +200,7 @@ public class TenantProvisioningService {
                 System.out.println("Copying Role Permissions...");
                 masterJdbc.query("SELECT rp.* FROM role_permissions rp " +
                         "JOIN roles r ON rp.role_id = r.role_id " +
-                        "JOIN permissions p ON rp.permission_id = p.id " +
+                        "JOIN permissions p ON rp.permission_id = p.permission_id " +
                         "WHERE r.system_role = 1 AND p.system_permission = 1", rs -> {
                             String sql = "INSERT INTO role_permissions (role_id, permission_id) VALUES (?, ?)";
                             tenantJdbc.update(sql,
