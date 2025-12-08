@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { SampleDataModalComponent } from '../sample-data-modal/sample-data-modal.component';
 
 export interface SetupItem {
   title: string;
@@ -20,13 +21,14 @@ export interface SetupSection {
 @Component({
   selector: 'app-onboarding',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SampleDataModalComponent],
   templateUrl: './onboarding.component.html',
   styleUrls: ['./onboarding.component.css']
 })
 export class OnboardingComponent implements OnInit {
   activeTab = 'system-setup';
   progressPercentage = 30;
+  showSampleDataModal = false;
   
   setupSections: SetupSection[] = [
     {
@@ -138,5 +140,19 @@ export class OnboardingComponent implements OnInit {
 
   setActiveTab(tab: string): void {
     this.activeTab = tab;
+  }
+
+  openSampleDataModal(): void {
+    this.showSampleDataModal = true;
+  }
+
+  closeSampleDataModal(): void {
+    this.showSampleDataModal = false;
+  }
+
+  onSampleDataImported(): void {
+    this.showSampleDataModal = false;
+    // Optionally refresh the page or show success message
+    console.log('Sample data imported successfully');
   }
 }
