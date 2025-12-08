@@ -88,7 +88,8 @@ export class EntityDetailComponent implements OnInit {
       staff: `/api/v1/staff/${this.entityId}`,
       attendance: `/api/attendance/${this.entityId}`,
       parents: `/api/parents/${this.entityId}`,
-      subjects: `/api/subjects/${this.entityId}`
+      subjects: `/api/subjects/${this.entityId}`,
+      classes: `/api/classes/${this.entityId}`
     };
 
     return endpoints[this.entityType] || '';
@@ -101,7 +102,8 @@ export class EntityDetailComponent implements OnInit {
       staff: '/staff',
       attendance: '/attendance',
       parents: '/parents',
-      subjects: '/subjects'
+      subjects: '/subjects',
+      classes: '/classes'
     };
 
     const route = routeMap[this.entityType] || '/dashboard';
@@ -114,7 +116,8 @@ export class EntityDetailComponent implements OnInit {
       staff: 'Staff Member',
       attendance: 'Attendance Record',
       parents: 'Parent',
-      subjects: 'Subject'
+      subjects: 'Subject',
+      classes: 'Class Details'
     };
     return titles[this.entityType] || 'Entity Details';
   }
@@ -165,7 +168,8 @@ export class EntityDetailComponent implements OnInit {
       staff: 'fas fa-users-cog',
       attendance: 'fas fa-clipboard-check',
       parents: 'fas fa-home',
-      subjects: 'fas fa-book'
+      subjects: 'fas fa-book',
+      classes: 'fas fa-building'
     };
     return icons[this.entityType] || 'fas fa-file';
   }

@@ -6,6 +6,9 @@ import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -16,35 +19,27 @@ import jakarta.validation.constraints.Size;
 
 /**
  * Grade entity representing student academic grades/marks
+ * Normalized design using JPA relationships to Student, Subject, and Staff
+ * entities
  */
 @Entity
-@Table(name = "grades")
+@Table(name = "erp_grade")
 @AttributeOverride(name = "id", column = @Column(name = "grade_id"))
 public class Grade extends BaseEntity {
 
-    @NotNull(message = "Student ID is required")
-    @Column(name = "student_id", nullable = false)
-    private Long studentId;
+    @NotNull(message = "Student is required")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
 
-    @NotBlank(message = "Student name is required")
-    @Size(min = 2, max = 200, message = "Student name must be between 2 and 200 characters")
-    @Column(name = "student_name", nullable = false, length = 200)
-    private String studentName;
+    @NotNull(message = "Subject is required")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id", nullable = false)
+    private Subject subject;
 
-    @NotBlank(message = "Grade level is required")
-    @Size(max = 50, message = "Grade level must not exceed 50 characters")
-    @Column(name = "grade_level", nullable = false, length = 50)
-    private String gradeLevel;
-
-    @NotBlank(message = "Course code is required")
-    @Size(max = 20, message = "Course code must not exceed 20 characters")
-    @Column(name = "course_code", nullable = false, length = 20)
-    private String courseCode;
-
-    @NotBlank(message = "Course name is required")
-    @Size(max = 200, message = "Course name must not exceed 200 characters")
-    @Column(name = "course_name", nullable = false, length = 200)
-    private String courseName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id")
+    private Staff teacher;
 
     @NotBlank(message = "Exam type is required")
     @Size(max = 50, message = "Exam type must not exceed 50 characters")
@@ -90,13 +85,6 @@ public class Grade extends BaseEntity {
     @Column(name = "remarks", columnDefinition = "TEXT")
     private String remarks;
 
-    @Column(name = "teacher_id", length = 50)
-    private String teacherId;
-
-    @Size(max = 200, message = "Teacher name must not exceed 200 characters")
-    @Column(name = "teacher_name", length = 200)
-    private String teacherName;
-
     @Column(name = "organization_id")
     private Long organizationId;
 
@@ -106,44 +94,28 @@ public class Grade extends BaseEntity {
     }
 
     // Getters and Setters
-    public Long getStudentId() {
-        return studentId;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public String getStudentName() {
-        return studentName;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
-    public String getGradeLevel() {
-        return gradeLevel;
+    public Staff getTeacher() {
+        return teacher;
     }
 
-    public void setGradeLevel(String gradeLevel) {
-        this.gradeLevel = gradeLevel;
-    }
-
-    public String getCourseCode() {
-        return courseCode;
-    }
-
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setTeacher(Staff teacher) {
+        this.teacher = teacher;
     }
 
     public String getExamType() {
@@ -232,22 +204,6 @@ public class Grade extends BaseEntity {
         this.remarks = remarks;
     }
 
-    public String getTeacherId() {
-        return teacherId;
-    }
-
-    public void setTeacherId(String teacherId) {
-        this.teacherId = teacherId;
-    }
-
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
-    }
-
     public Long getOrganizationId() {
         return organizationId;
     }
@@ -260,8 +216,8 @@ public class Grade extends BaseEntity {
     private void calculatePercentage() {
         if (marksObtained != null && totalMarks != null && totalMarks.compareTo(BigDecimal.ZERO) > 0) {
             this.percentage = marksObtained
-                .multiply(BigDecimal.valueOf(100))
-                .divide(totalMarks, 2, java.math.RoundingMode.HALF_UP);
+                    .multiply(BigDecimal.valueOf(100))
+                    .divide(totalMarks, 2, java.math.RoundingMode.HALF_UP);
         }
     }
 
@@ -305,15 +261,54 @@ public class Grade extends BaseEntity {
         }
     }
 
+    // Convenience methods for accessing related entity data
+    public Long getStudentId() {
+        return student != null ? student.getId() : null;
+    }
+
+    public String getStudentName() {
+        if (student != null) {
+            return student.getFirstName() + " " + student.getLastName();
+        }
+        return null;
+    }
+
+    public String getGradeLevel() {
+        return student != null && student.getGradeLevel() != null
+                ? student.getGradeLevel().name()
+                : null;
+    }
+
+    public Long getSubjectId() {
+        return subject != null ? subject.getId() : null;
+    }
+
+    public String getSubjectCode() {
+        return subject != null ? subject.getSubjectCode() : null;
+    }
+
+    public String getSubjectName() {
+        return subject != null ? subject.getSubjectName() : null;
+    }
+
+    public Long getTeacherId() {
+        return teacher != null ? teacher.getId() : null;
+    }
+
+    public String getTeacherName() {
+        if (teacher != null) {
+            return teacher.getFirstName() + " " + teacher.getLastName();
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return "Grade{" +
                 "id=" + getId() +
-                ", studentId=" + studentId +
-                ", studentName='" + studentName + '\'' +
-                ", gradeLevel='" + gradeLevel + '\'' +
-                ", courseCode='" + courseCode + '\'' +
-                ", courseName='" + courseName + '\'' +
+                ", studentId=" + getStudentId() +
+                ", subjectId=" + getSubjectId() +
+                ", teacherId=" + getTeacherId() +
                 ", examType='" + examType + '\'' +
                 ", marksObtained=" + marksObtained +
                 ", totalMarks=" + totalMarks +

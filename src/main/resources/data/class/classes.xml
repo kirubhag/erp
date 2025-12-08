@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classes>
+    <!-- Kindergarten -->
+    <class>
+        <classCode>KG-A</classCode>
+        <className>Kindergarten Section A</className>
+        <gradeLevel>KINDERGARTEN</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>30</capacity>
+        <roomNumber>101</roomNumber>
+        <description>Morning session kindergarten class</description>
+        <isActive>true</isActive>
+    </class>
+
+    <!-- Grade 1 -->
+    <class>
+        <classCode>G1-A</classCode>
+        <className>Grade 1 Section A</className>
+        <gradeLevel>GRADE_1</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>35</capacity>
+        <roomNumber>201</roomNumber>
+        <description>Grade 1 primary section</description>
+        <isActive>true</isActive>
+    </class>
+
+    <!-- Grade 2 -->
+    <class>
+        <classCode>G2-A</classCode>
+        <className>Grade 2 Section A</className>
+        <gradeLevel>GRADE_2</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>35</capacity>
+        <roomNumber>202</roomNumber>
+        <description>Grade 2 primary section</description>
+        <isActive>true</isActive>
+    </class>
+
+    <!-- Grade 3 -->
+    <class>
+        <classCode>G3-A</classCode>
+        <className>Grade 3 Section A</className>
+        <gradeLevel>GRADE_3</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>301</roomNumber>
+        <description>Grade 3 primary section</description>
+        <isActive>true</isActive>
+    </class>
+    <class>
+        <classCode>G3-B</classCode>
+        <className>Grade 3 Section B</className>
+        <gradeLevel>GRADE_3</gradeLevel>
+        <section>B</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>302</roomNumber>
+        <description>Grade 3 secondary section</description>
+        <isActive>true</isActive>
+    </class>
+
+    <!-- Grade 4 -->
+    <class>
+        <classCode>G4-A</classCode>
+        <className>Grade 4 Section A</className>
+        <gradeLevel>GRADE_4</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>303</roomNumber>
+        <description>Grade 4 primary section</description>
+        <isActive>true</isActive>
+    </class>
+
+    <!-- Grade 5 -->
+    <class>
+        <classCode>G5-A</classCode>
+        <className>Grade 5 Section A</className>
+        <gradeLevel>GRADE_5</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>401</roomNumber>
+        <description>Grade 5 primary section</description>
+        <isActive>true</isActive>
+    </class>
+    <class>
+        <classCode>G5-B</classCode>
+        <className>Grade 5 Section B</className>
+        <gradeLevel>GRADE_5</gradeLevel>
+        <section>B</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>402</roomNumber>
+        <description>Grade 5 secondary section</description>
+        <isActive>true</isActive>
+    </class>
+
+    <!-- Grade 6 -->
+    <class>
+        <classCode>G6-A</classCode>
+        <className>Grade 6 Section A</className>
+        <gradeLevel>GRADE_6</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>403</roomNumber>
+        <description>Grade 6 primary section</description>
+        <isActive>true</isActive>
+    </class>
+
+    <!-- Grade 7 -->
+    <class>
+        <classCode>G7-A</classCode>
+        <className>Grade 7 Section A</className>
+        <gradeLevel>GRADE_7</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>501</roomNumber>
+        <description>Grade 7 primary section</description>
+        <isActive>true</isActive>
+    </class>
+
+    <!-- Grade 8 -->
+    <class>
+        <classCode>G8-A</classCode>
+        <className>Grade 8 Section A</className>
+        <gradeLevel>GRADE_8</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>502</roomNumber>
+        <description>Grade 8 primary section</description>
+        <isActive>true</isActive>
+    </class>
+
+    <!-- Grade 9 -->
+    <class>
+        <classCode>G9-A</classCode>
+        <className>Grade 9 Section A</className>
+        <gradeLevel>GRADE_9</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>601</roomNumber>
+        <description>Grade 9 primary section</description>
+        <isActive>true</isActive>
+    </class>
+    <class>
+        <classCode>G9-B</classCode>
+        <className>Grade 9 Section B</className>
+        <gradeLevel>GRADE_9</gradeLevel>
+        <section>B</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>602</roomNumber>
+        <description>Grade 9 secondary section</description>
+        <isActive>true</isActive>
+    </class>
+
+    <!-- Grade 10 -->
+    <class>
+        <classCode>G10-A</classCode>
+        <className>Grade 10 Section A</className>
+        <gradeLevel>GRADE_10</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>603</roomNumber>
+        <description>Grade 10 primary section</description>
+        <isActive>true</isActive>
+    </class>
+
+    <!-- Grade 11 -->
+    <class>
+        <classCode>G11-A</classCode>
+        <className>Grade 11 Section A</className>
+        <gradeLevel>GRADE_11</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>701</roomNumber>
+        <description>Grade 11 primary section</description>
+        <isActive>true</isActive>
+    </class>
+
+    <!-- Grade 12 -->
+    <class>
+        <classCode>G12-A</classCode>
+        <className>Grade 12 Section A</className>
+        <gradeLevel>GRADE_12</gradeLevel>
+        <section>A</section>
+        <academicYear>2023-2024</academicYear>
+        <capacity>40</capacity>
+        <roomNumber>702</roomNumber>
+        <description>Grade 12 primary section</description>
+        <isActive>true</isActive>
+    </class>
+</classes>

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Management - ERP System</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #0dcaf0;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0a58ca 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .class-info-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .class-info-card h2 {
+            margin-bottom: 0.5rem;
+            color: #212529;
+        }
+
+        .class-meta {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        .class-meta .badge {
+            margin-right: 0.5rem;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 0;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #6c757d;
+            font-weight: 500;
+            padding: 1rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: var(--primary-color);
+            background-color: #f8f9fa;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            background-color: white;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .tab-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .provisioning-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .provisioning-section h4 {
+            margin-bottom: 1rem;
+            color: #212529;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .select2-container--bootstrap-5 .select2-selection {
+            min-height: 45px;
+            border-radius: 8px;
+        }
+
+        .btn-provision {
+            background: linear-gradient(135deg, var(--success-color) 0%, #146c43 100%);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-provision:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);
+        }
+
+        .association-list {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .association-list h4 {
+            background: #f8f9fa;
+            padding: 1rem 1.5rem;
+            margin: 0;
+            border-bottom: 2px solid #dee2e6;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .table-container {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .table-hover tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.01);
+        }
+
+        .btn-remove {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .stats-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #e7f3ff;
+            border-radius: 20px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .alert-custom {
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .alert-custom.alert-success {
+            border-left-color: var(--success-color);
+        }
+
+        .alert-custom.alert-danger {
+            border-left-color: var(--danger-color);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="mb-0"><i class="bi bi-building"></i> Class Management</h1>
+                    <p class="mb-0 mt-2 opacity-75">Manage class associations and provisioning</p>
+                </div>
+                <a href="/classes" class="btn btn-light">
+                    <i class="bi bi-arrow-left"></i> Back to Classes
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <!-- Class Information Card -->
+        <div class="class-info-card">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 id="className">Grade 5 Section A</h2>
+                    <div class="class-meta">
+                        <span class="badge bg-success">Active</span>
+                        <span><i class="bi bi-calendar"></i> Academic Year: <strong
+                                id="academicYear">2023-2024</strong></span>
+                        <span class="ms-3"><i class="bi bi-door-open"></i> Room: <strong
+                                id="roomNumber">205</strong></span>
+                        <span class="ms-3"><i class="bi bi-person-badge"></i> Class Teacher: <strong
+                                id="classTeacher">John Doe</strong></span>
+                    </div>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="stats-badge">
+                        <i class="bi bi-people-fill"></i>
+                        <span><span id="studentCount">35</span> / <span id="capacity">40</span> Students</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Container -->
+        <div id="alertContainer"></div>
+
+        <!-- Tabbed Interface -->
+        <ul class="nav nav-tabs" id="classTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="teachers-tab" data-bs-toggle="tab" data-bs-target="#teachers"
+                    type="button">
+                    <i class="bi bi-person-badge"></i> Teachers <span class="badge bg-primary ms-2"
+                        id="teacherCountBadge">0</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="students-tab" data-bs-toggle="tab" data-bs-target="#students"
+                    type="button">
+                    <i class="bi bi-people"></i> Students <span class="badge bg-primary ms-2"
+                        id="studentCountBadge">0</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="subjects-tab" data-bs-toggle="tab" data-bs-target="#subjects"
+                    type="button">
+                    <i class="bi bi-book"></i> Subjects <span class="badge bg-primary ms-2"
+                        id="subjectCountBadge">0</span>
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="classTabContent">
+            <!-- Teachers Tab -->
+            <div class="tab-pane fade show active" id="teachers" role="tabpanel">
+                <!-- Provisioning Section -->
+                <div class="provisioning-section">
+                    <h4><i class="bi bi-plus-circle"></i> Add Teachers to Class</h4>
+                    <div class="row g-3">
+                        <div class="col-md-9">
+                            <label for="teacherSelect" class="form-label">Select Teachers</label>
+                            <select id="teacherSelect" class="form-select" multiple="multiple" style="width: 100%">
+                                <!-- Options will be loaded dynamically -->
+                            </select>
+                            <small class="text-muted">Search and select multiple teachers to add to this class</small>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button class="btn btn-success btn-provision w-100" onclick="addTeachers()">
+                                <i class="bi bi-plus-lg"></i> Add Selected
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading Spinner -->
+                <div class="loading-spinner" id="teachersLoading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading teachers...</p>
+                </div>
+
+                <!-- Currently Associated Teachers -->
+                <div class="association-list">
+                    <h4><i class="bi bi-list-check"></i> Associated Teachers (<span id="teacherListCount">0</span>)</h4>
+                    <div class="table-container">
+                        <table class="table table-hover mb-0" id="teachersTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 5%">#</th>
+                                    <th style="width: 25%">Name</th>
+                                    <th style="width: 20%">Staff ID</th>
+                                    <th style="width: 20%">Email</th>
+                                    <th style="width: 20%">Department</th>
+                                    <th style="width: 10%" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="teachersTableBody">
+                                <!-- Will be populated dynamically -->
+                            </tbody>
+                        </table>
+                        <div id="teachersEmptyState" class="empty-state" style="display: none;">
+                            <i class="bi bi-person-x"></i>
+                            <p>No teachers assigned to this class yet.</p>
+                            <small class="text-muted">Use the form above to add teachers</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Students Tab -->
+            <div class="tab-pane fade" id="students" role="tabpanel">
+                <!-- Similar structure to Teachers tab -->
+                <div class="provisioning-section">
+                    <h4><i class="bi bi-plus-circle"></i> Add Students to Class</h4>
+                    <div class="row g-3">
+                        <div class="col-md-9">
+                            <label for="studentSelect" class="form-label">Select Students</label>
+                            <select id="studentSelect" class="form-select" multiple="multiple" style="width: 100%">
+                                <!-- Options will be loaded dynamically -->
+                            </select>
+                            <small class="text-muted">Search and select multiple students to add to this class</small>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button class="btn btn-success btn-provision w-100" onclick="addStudents()">
+                                <i class="bi bi-plus-lg"></i> Add Selected
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loading-spinner" id="studentsLoading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading students...</p>
+                </div>
+
+                <div class="association-list">
+                    <h4><i class="bi bi-list-check"></i> Associated Students (<span id="studentListCount">0</span>)</h4>
+                    <div class="table-container">
+                        <table class="table table-hover mb-0" id="studentsTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 5%">#</th>
+                                    <th style="width: 25%">Name</th>
+                                    <th style="width: 15%">Student ID</th>
+                                    <th style="width: 20%">Email</th>
+                                    <th style="width: 15%">Grade Level</th>
+                                    <th style="width: 10%" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsTableBody">
+                                <!-- Will be populated dynamically -->
+                            </tbody>
+                        </table>
+                        <div id="studentsEmptyState" class="empty-state" style="display: none;">
+                            <i class="bi bi-people"></i>
+                            <p>No students enrolled in this class yet.</p>
+                            <small class="text-muted">Use the form above to add students</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subjects Tab -->
+            <div class="tab-pane fade" id="subjects" role="tabpanel">
+                <!-- Similar structure to Teachers tab -->
+                <div class="provisioning-section">
+                    <h4><i class="bi bi-plus-circle"></i> Add Subjects to Class</h4>
+                    <div class="row g-3">
+                        <div class="col-md-9">
+                            <label for="subjectSelect" class="form-label">Select Subjects</label>
+                            <select id="subjectSelect" class="form-select" multiple="multiple" style="width: 100%">
+                                <!-- Options will be loaded dynamically -->
+                            </select>
+                            <small class="text-muted">Search and select multiple subjects to add to this class</small>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button class="btn btn-success btn-provision w-100" onclick="addSubjects()">
+                                <i class="bi bi-plus-lg"></i> Add Selected
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loading-spinner" id="subjectsLoading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading subjects...</p>
+                </div>
+
+                <div class="association-list">
+                    <h4><i class="bi bi-list-check"></i> Associated Subjects (<span id="subjectListCount">0</span>)</h4>
+                    <div class="table-container">
+                        <table class="table table-hover mb-0" id="subjectsTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 5%">#</th>
+                                    <th style="width: 30%">Subject Name</th>
+                                    <th style="width: 15%">Subject Code</th>
+                                    <th style="width: 20%">Category</th>
+                                    <th style="width: 15%">Credits</th>
+                                    <th style="width: 10%" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="subjectsTableBody">
+                                <!-- Will be populated dynamically -->
+                            </tbody>
+                        </table>
+                        <div id="subjectsEmptyState" class="empty-state" style="display: none;">
+                            <i class="bi bi-book"></i>
+                            <p>No subjects assigned to this class yet.</p>
+                            <small class="text-muted">Use the form above to add subjects</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery (required for Select2) -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = '/api';
+        const CLASS_ID = 1; // This would be dynamic in production
+
+        // Initialize on page load
+        $(document).ready(function () {
+            initializeSelect2();
+            loadClassDetails();
+            loadTeachers();
+            loadStudents();
+            loadSubjects();
+            loadAssociatedTeachers();
+            loadAssociatedStudents();
+            loadAssociatedSubjects();
+        });
+
+        // Initialize Select2 for all select elements
+        function initializeSelect2() {
+            $('#teacherSelect').select2({
+                theme: 'bootstrap-5',
+                placeholder: 'Search and select teachers...',
+                allowClear: true,
+                width: '100%'
+            });
+
+            $('#studentSelect').select2({
+                theme: 'bootstrap-5',
+                placeholder: 'Search and select students...',
+                allowClear: true,
+                width: '100%'
+            });
+
+            $('#subjectSelect').select2({
+                theme: 'bootstrap-5',
+                placeholder: 'Search and select subjects...',
+                allowClear: true,
+                width: '100%'
+            });
+        }
+
+        // Load class details
+        function loadClassDetails() {
+            fetch(`${API_BASE_URL}/classes/${CLASS_ID}`)
+                .then(response => response.json())
+                .then(data => {
+                    $('#className').text(data.className);
+                    $('#academicYear').text(data.academicYear);
+                    $('#roomNumber').text(data.roomNumber || 'N/A');
+                    $('#classTeacher').text(data.classTeacherName || 'Not assigned');
+                    $('#capacity').text(data.capacity);
+                })
+                .catch(error => showAlert('Error loading class details', 'danger'));
+        }
+
+        // Load available teachers for selection
+        function loadTeachers() {
+            fetch(`${API_BASE_URL}/staff?page=0&size=1000`)
+                .then(response => response.json())
+                .then(data => {
+                    const teachers = data.content || data;
+                    const select = $('#teacherSelect');
+                    select.empty();
+
+                    teachers.forEach(teacher => {
+                        select.append(new Option(
+                            `${teacher.firstName} ${teacher.lastName} (${teacher.staffIdentifier})`,
+                            teacher.id
+                        ));
+                    });
+                })
+                .catch(error => showAlert('Error loading teachers', 'danger'));
+        }
+
+        // Load available students for selection
+        function loadStudents() {
+            fetch(`${API_BASE_URL}/students?page=0&size=1000`)
+                .then(response => response.json())
+                .then(data => {
+                    const students = data.content || data;
+                    const select = $('#studentSelect');
+                    select.empty();
+
+                    students.forEach(student => {
+                        select.append(new Option(
+                            `${student.firstName} ${student.lastName} (${student.studentIdentifier})`,
+                            student.id
+                        ));
+                    });
+                })
+                .catch(error => showAlert('Error loading students', 'danger'));
+        }
+
+        // Load available subjects for selection
+        function loadSubjects() {
+            fetch(`${API_BASE_URL}/subjects?page=0&size=1000`)
+                .then(response => response.json())
+                .then(data => {
+                    const subjects = data.content || data;
+                    const select = $('#subjectSelect');
+                    select.empty();
+
+                    subjects.forEach(subject => {
+                        select.append(new Option(
+                            `${subject.subjectName} (${subject.subjectCode})`,
+                            subject.id
+                        ));
+                    });
+                })
+                .catch(error => showAlert('Error loading subjects', 'danger'));
+        }
+
+        // Load associated teachers
+        function loadAssociatedTeachers() {
+            $('#teachersLoading').show();
+            fetch(`${API_BASE_URL}/classes/${CLASS_ID}/teachers`)
+                .then(response => response.json())
+                .then(teachers => {
+                    $('#teachersLoading').hide();
+                    const tbody = $('#teachersTableBody');
+                    tbody.empty();
+
+                    if (teachers.length === 0) {
+                        $('#teachersEmptyState').show();
+                        $('#teachersTable').hide();
+                    } else {
+                        $('#teachersEmptyState').hide();
+                        $('#teachersTable').show();
+
+                        teachers.forEach((teacher, index) => {
+                            tbody.append(`
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td><strong>${teacher.firstName} ${teacher.lastName}</strong></td>
+                                    <td>${teacher.staffIdentifier}</td>
+                                    <td>${teacher.email || 'N/A'}</td>
+                                    <td>${teacher.department || 'N/A'}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-danger btn-remove" onclick="removeTeacher(${teacher.id})">
+                                            <i class="bi bi-trash"></i> Remove
+                                        </button>
+                                    </td>
+                                </tr>
+                            `);
+                        });
+                    }
+
+                    $('#teacherListCount').text(teachers.length);
+                    $('#teacherCountBadge').text(teachers.length);
+                })
+                .catch(error => {
+                    $('#teachersLoading').hide();
+                    showAlert('Error loading associated teachers', 'danger');
+                });
+        }
+
+        // Load associated students
+        function loadAssociatedStudents() {
+            $('#studentsLoading').show();
+            fetch(`${API_BASE_URL}/classes/${CLASS_ID}/students`)
+                .then(response => response.json())
+                .then(students => {
+                    $('#studentsLoading').hide();
+                    const tbody = $('#studentsTableBody');
+                    tbody.empty();
+
+                    if (students.length === 0) {
+                        $('#studentsEmptyState').show();
+                        $('#studentsTable').hide();
+                    } else {
+                        $('#studentsEmptyState').hide();
+                        $('#studentsTable').show();
+
+                        students.forEach((student, index) => {
+                            tbody.append(`
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td><strong>${student.firstName} ${student.lastName}</strong></td>
+                                    <td>${student.studentIdentifier}</td>
+                                    <td>${student.email || 'N/A'}</td>
+                                    <td>${student.gradeLevel}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-danger btn-remove" onclick="removeStudent(${student.id})">
+                                            <i class="bi bi-trash"></i> Remove
+                                        </button>
+                                    </td>
+                                </tr>
+                            `);
+                        });
+                    }
+
+                    $('#studentListCount').text(students.length);
+                    $('#studentCountBadge').text(students.length);
+                    $('#studentCount').text(students.length);
+                })
+                .catch(error => {
+                    $('#studentsLoading').hide();
+                    showAlert('Error loading associated students', 'danger');
+                });
+        }
+
+        // Load associated subjects
+        function loadAssociatedSubjects() {
+            $('#subjectsLoading').show();
+            fetch(`${API_BASE_URL}/classes/${CLASS_ID}/subjects`)
+                .then(response => response.json())
+                .then(subjects => {
+                    $('#subjectsLoading').hide();
+                    const tbody = $('#subjectsTableBody');
+                    tbody.empty();
+
+                    if (subjects.length === 0) {
+                        $('#subjectsEmptyState').show();
+                        $('#subjectsTable').hide();
+                    } else {
+                        $('#subjectsEmptyState').hide();
+                        $('#subjectsTable').show();
+
+                        subjects.forEach((subject, index) => {
+                            tbody.append(`
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td><strong>${subject.subjectName}</strong></td>
+                                    <td>${subject.subjectCode}</td>
+                                    <td>${subject.category || 'N/A'}</td>
+                                    <td>${subject.credits || 'N/A'}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-danger btn-remove" onclick="removeSubject(${subject.id})">
+                                            <i class="bi bi-trash"></i> Remove
+                                        </button>
+                                    </td>
+                                </tr>
+                            `);
+                        });
+                    }
+
+                    $('#subjectListCount').text(subjects.length);
+                    $('#subjectCountBadge').text(subjects.length);
+                })
+                .catch(error => {
+                    $('#subjectsLoading').hide();
+                    showAlert('Error loading associated subjects', 'danger');
+                });
+        }
+
+        // Add teachers to class
+        function addTeachers() {
+            const selectedTeachers = $('#teacherSelect').val();
+
+            if (!selectedTeachers || selectedTeachers.length === 0) {
+                showAlert('Please select at least one teacher', 'warning');
+                return;
+            }
+
+            fetch(`${API_BASE_URL}/classes/${CLASS_ID}/teachers`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(selectedTeachers.map(id => parseInt(id)))
+            })
+                .then(response => response.json())
+                .then(data => {
+                    showAlert(`Successfully added ${data.added} teacher(s)`, 'success');
+                    $('#teacherSelect').val(null).trigger('change');
+                    loadAssociatedTeachers();
+                })
+                .catch(error => showAlert('Error adding teachers', 'danger'));
+        }
+
+        // Add students to class
+        function addStudents() {
+            const selectedStudents = $('#studentSelect').val();
+
+            if (!selectedStudents || selectedStudents.length === 0) {
+                showAlert('Please select at least one student', 'warning');
+                return;
+            }
+
+            fetch(`${API_BASE_URL}/classes/${CLASS_ID}/students`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(selectedStudents.map(id => parseInt(id)))
+            })
+                .then(response => response.json())
+                .then(data => {
+                    showAlert(`Successfully added ${data.added} student(s)`, 'success');
+                    $('#studentSelect').val(null).trigger('change');
+                    loadAssociatedStudents();
+                })
+                .catch(error => showAlert('Error adding students', 'danger'));
+        }
+
+        // Add subjects to class
+        function addSubjects() {
+            const selectedSubjects = $('#subjectSelect').val();
+
+            if (!selectedSubjects || selectedSubjects.length === 0) {
+                showAlert('Please select at least one subject', 'warning');
+                return;
+            }
+
+            fetch(`${API_BASE_URL}/classes/${CLASS_ID}/subjects`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(selectedSubjects.map(id => parseInt(id)))
+            })
+                .then(response => response.json())
+                .then(data => {
+                    showAlert(`Successfully added ${data.added} subject(s)`, 'success');
+                    $('#subjectSelect').val(null).trigger('change');
+                    loadAssociatedSubjects();
+                })
+                .catch(error => showAlert('Error adding subjects', 'danger'));
+        }
+
+        // Remove teacher from class
+        function removeTeacher(teacherId) {
+            if (!confirm('Are you sure you want to remove this teacher?')) return;
+
+            fetch(`${API_BASE_URL}/classes/${CLASS_ID}/teachers/${teacherId}`, {
+                method: 'DELETE'
+            })
+                .then(() => {
+                    showAlert('Teacher removed successfully', 'success');
+                    loadAssociatedTeachers();
+                })
+                .catch(error => showAlert('Error removing teacher', 'danger'));
+        }
+
+        // Remove student from class
+        function removeStudent(studentId) {
+            if (!confirm('Are you sure you want to remove this student?')) return;
+
+            fetch(`${API_BASE_URL}/classes/${CLASS_ID}/students/${studentId}`, {
+                method: 'DELETE'
+            })
+                .then(() => {
+                    showAlert('Student removed successfully', 'success');
+                    loadAssociatedStudents();
+                })
+                .catch(error => showAlert('Error removing student', 'danger'));
+        }
+
+        // Remove subject from class
+        function removeSubject(subjectId) {
+            if (!confirm('Are you sure you want to remove this subject?')) return;
+
+            fetch(`${API_BASE_URL}/classes/${CLASS_ID}/subjects/${subjectId}`, {
+                method: 'DELETE'
+            })
+                .then(() => {
+                    showAlert('Subject removed successfully', 'success');
+                    loadAssociatedSubjects();
+                })
+                .catch(error => showAlert('Error removing subject', 'danger'));
+        }
+
+        // Show alert message
+        function showAlert(message, type) {
+            const alertHtml = `
+                <div class="alert alert-${type} alert-custom alert-dismissible fade show" role="alert">
+                    <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+
+            $('#alertContainer').html(alertHtml);
+
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                $('.alert').alert('close');
+            }, 5000);
+        }
+    </script>
+</body>
+
+</html>

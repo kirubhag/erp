@@ -336,13 +336,11 @@ CREATE TABLE IF NOT EXISTS subjects (
     INDEX idx_is_active (is_active)
 );
 
-CREATE TABLE IF NOT EXISTS grades (
+CREATE TABLE IF NOT EXISTS erp_grade (
     grade_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     student_id BIGINT NOT NULL,
-    student_name VARCHAR(200) NOT NULL,
-    grade_level VARCHAR(50) NOT NULL,
-    course_code VARCHAR(20) NOT NULL,
-    course_name VARCHAR(200) NOT NULL,
+    subject_id BIGINT NOT NULL,
+    teacher_id BIGINT,
     exam_type VARCHAR(50) NOT NULL,
     marks_obtained DECIMAL(5, 2) NOT NULL,
     total_marks DECIMAL(5, 2) NOT NULL,
@@ -353,8 +351,6 @@ CREATE TABLE IF NOT EXISTS grades (
     semester VARCHAR(20) NOT NULL,
     academic_year VARCHAR(20) NOT NULL,
     remarks TEXT,
-    teacher_id VARCHAR(50),
-    teacher_name VARCHAR(200),
     organization_id BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -362,10 +358,112 @@ CREATE TABLE IF NOT EXISTS grades (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
+    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES subjects (subject_id) ON DELETE CASCADE,
+    FOREIGN KEY (teacher_id) REFERENCES staff (staff_id) ON DELETE SET NULL,
+    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
     INDEX idx_student_id (student_id),
+    INDEX idx_subject_id (subject_id),
+    INDEX idx_teacher_id (teacher_id),
     INDEX idx_exam_date (exam_date),
     INDEX idx_academic_year (academic_year),
-    INDEX idx_is_active (is_active)
+    INDEX idx_semester (semester),
+    INDEX idx_is_active (is_active),
+    UNIQUE KEY unique_grade (
+        student_id,
+        subject_id,
+        exam_type,
+        semester,
+        academic_year
+    )
+);
+
+-- =============================================================================
+-- Class/Section Management Tables
+-- =============================================================================
+
+CREATE TABLE IF NOT EXISTS erp_class (
+    class_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    class_code VARCHAR(50) NOT NULL UNIQUE,
+    class_name VARCHAR(100) NOT NULL,
+    grade_level VARCHAR(50) NOT NULL,
+    section VARCHAR(20),
+    academic_year VARCHAR(20) NOT NULL,
+    capacity INT DEFAULT 40,
+    room_number VARCHAR(20),
+    class_teacher_id BIGINT,
+    description TEXT,
+    organization_id BIGINT,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    FOREIGN KEY (class_teacher_id) REFERENCES staff (staff_id) ON DELETE SET NULL,
+    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
+    INDEX idx_class_code (class_code),
+    INDEX idx_grade_level (grade_level),
+    INDEX idx_academic_year (academic_year),
+    INDEX idx_is_active (is_active),
+    UNIQUE KEY unique_class (
+        grade_level,
+        section,
+        academic_year
+    )
+);
+
+CREATE TABLE IF NOT EXISTS erp_class_student (
+    class_student_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    class_id BIGINT NOT NULL,
+    student_id BIGINT NOT NULL,
+    enrollment_date DATE,
+    status VARCHAR(20) DEFAULT 'ACTIVE',
+    roll_number VARCHAR(20),
+    created_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (class_id) REFERENCES erp_class (class_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
+    UNIQUE KEY unique_class_student (class_id, student_id),
+    INDEX idx_class_id (class_id),
+    INDEX idx_student_id (student_id),
+    INDEX idx_status (status)
+);
+
+CREATE TABLE IF NOT EXISTS erp_class_teacher (
+    class_teacher_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    class_id BIGINT NOT NULL,
+    teacher_id BIGINT NOT NULL,
+    subject_id BIGINT,
+    assignment_date DATE,
+    is_primary BOOLEAN DEFAULT FALSE,
+    created_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (class_id) REFERENCES erp_class (class_id) ON DELETE CASCADE,
+    FOREIGN KEY (teacher_id) REFERENCES staff (staff_id) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES subjects (subject_id) ON DELETE SET NULL,
+    UNIQUE KEY unique_class_teacher_subject (
+        class_id,
+        teacher_id,
+        subject_id
+    ),
+    INDEX idx_class_id (class_id),
+    INDEX idx_teacher_id (teacher_id),
+    INDEX idx_subject_id (subject_id)
+);
+
+CREATE TABLE IF NOT EXISTS erp_class_subject (
+    class_subject_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    class_id BIGINT NOT NULL,
+    subject_id BIGINT NOT NULL,
+    hours_per_week INT,
+    created_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (class_id) REFERENCES erp_class (class_id) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES subjects (subject_id) ON DELETE CASCADE,
+    UNIQUE KEY unique_class_subject (class_id, subject_id),
+    INDEX idx_class_id (class_id),
+    INDEX idx_subject_id (subject_id)
 );
 
 CREATE TABLE IF NOT EXISTS timetables (

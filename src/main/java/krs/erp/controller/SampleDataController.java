@@ -72,7 +72,8 @@ public class SampleDataController {
                                 dataImportService.importStudentDataFromXml("data/student/student_kindergarten.xml");
                                 // Load all 12 grades
                                 for (int i = 1; i <= 12; i++) {
-                                    dataImportService.importStudentDataFromXml("data/student/student_grade_" + i + ".xml");
+                                    dataImportService
+                                            .importStudentDataFromXml("data/student/student_grade_" + i + ".xml");
                                 }
                             } else {
                                 // Load specific grade file
@@ -86,6 +87,8 @@ public class SampleDataController {
                             dataImportService.importParentsDataFromXml(xmlFilePath);
                         } else if (isSubjectEntity(entityName)) {
                             dataImportService.importSubjectsDataFromXml(xmlFilePath);
+                        } else if (isClassEntity(entityName)) {
+                            dataImportService.importClassesDataFromXml(xmlFilePath);
                         } else {
                             // For other entities, use the generic import
                             dataImportService.importDataFromXml(xmlFilePath);
@@ -152,6 +155,7 @@ public class SampleDataController {
         entityToXmlMap.put("kindergarten", "data/student/student_kindergarten.xml");
 
         entityToXmlMap.put("subjects", "data/subject/subjects.xml");
+        entityToXmlMap.put("classes", "data/class/classes.xml");
         entityToXmlMap.put("timetables", "data/timetable/timetables.xml");
 
         // Address data
@@ -200,5 +204,12 @@ public class SampleDataController {
      */
     private boolean isGradeEntity(String entityName) {
         return entityName.equalsIgnoreCase("grades");
+    }
+
+    /**
+     * Check if the entity name represents class data
+     */
+    private boolean isClassEntity(String entityName) {
+        return entityName.equalsIgnoreCase("classes");
     }
 }

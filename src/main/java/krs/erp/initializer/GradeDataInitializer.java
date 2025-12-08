@@ -20,7 +20,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import krs.erp.model.Grade;
+import krs.erp.model.Staff;
+import krs.erp.model.Student;
+import krs.erp.model.Subject;
 import krs.erp.repository.GradeRepository;
+import krs.erp.repository.StaffRepository;
+import krs.erp.repository.StudentRepository;
+import krs.erp.repository.SubjectRepository;
 
 /**
  * Initializes Grade data from grade XML files on application startup
@@ -33,6 +39,15 @@ public class GradeDataInitializer implements CommandLineRunner {
 
     @Autowired
     private GradeRepository gradeRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private SubjectRepository subjectRepository;
+
+    @Autowired
+    private StaffRepository staffRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -76,13 +91,28 @@ public class GradeDataInitializer implements CommandLineRunner {
                         String examType = getTextContent(gradeElement, "examType");
                         String semester = getTextContent(gradeElement, "semester");
 
+                        // Look up Student and Subject entities
+                        Student student = studentRepository.findById(studentId).orElse(null);
+                        if (student == null) {
+                            logger.warn("Student not found with ID: {}. Skipping grade.", studentId);
+                            skippedGrades++;
+                            continue;
+                        }
+
+                        Subject subject = subjectRepository.findBySubjectCode(courseCode).orElse(null);
+                        if (subject == null) {
+                            logger.warn("Subject not found with code: {}. Skipping grade.", courseCode);
+                            skippedGrades++;
+                            continue;
+                        }
+
                         // Create unique key for duplicate checking
                         String uniqueKey = studentId + "_" + courseCode + "_" + examType + "_" + semester;
 
-                        // Check if this grade already exists (either in DB or already processed)
+                        // Check if this grade already exists
                         if (processedKeys.contains(uniqueKey) ||
-                                gradeRepository.existsByStudentIdAndCourseCodeAndExamTypeAndSemester(
-                                        studentId, courseCode, examType, semester)) {
+                                gradeRepository.existsByStudentAndSubjectAndExamTypeAndSemester(
+                                        student, subject, examType, semester)) {
                             logger.debug("Grade already exists: Student {}, Course {}, Exam {}, Semester {}. Skipping.",
                                     studentId, courseCode, examType, semester);
                             skippedGrades++;
@@ -91,12 +121,23 @@ public class GradeDataInitializer implements CommandLineRunner {
 
                         // Create new Grade entity
                         Grade grade = new Grade();
-                        grade.setStudentId(studentId);
-                        grade.setStudentName(getTextContent(gradeElement, "studentName"));
-                        grade.setGradeLevel(getTextContent(gradeElement, "gradeLevel"));
-                        grade.setCourseCode(courseCode);
-                        grade.setCourseName(getTextContent(gradeElement, "courseName"));
+                        grade.setStudent(student);
+                        grade.setSubject(subject);
                         grade.setExamType(examType);
+
+                        // Look up teacher if provided
+                        String teacherIdStr = getTextContent(gradeElement, "teacherId");
+                        if (teacherIdStr != null && !teacherIdStr.isEmpty()) {
+                            try {
+                                Long teacherId = Long.parseLong(teacherIdStr);
+                                Staff teacher = staffRepository.findById(teacherId).orElse(null);
+                                if (teacher != null) {
+                                    grade.setTeacher(teacher);
+                                }
+                            } catch (NumberFormatException e) {
+                                logger.debug("Invalid teacher ID: {}", teacherIdStr);
+                            }
+                        }
 
                         // Parse marks (BigDecimal)
                         String marksObtained = getTextContent(gradeElement, "marksObtained");
@@ -117,8 +158,6 @@ public class GradeDataInitializer implements CommandLineRunner {
                         grade.setSemester(semester);
                         grade.setAcademicYear(getTextContent(gradeElement, "academicYear"));
                         grade.setRemarks(getTextContent(gradeElement, "remarks"));
-                        grade.setTeacherId(getTextContent(gradeElement, "teacherId"));
-                        grade.setTeacherName(getTextContent(gradeElement, "teacherName"));
 
                         // Parse organization ID
                         String organizationId = getTextContent(gradeElement, "organizationId");

@@ -22,6 +22,7 @@ import org.w3c.dom.NodeList;
 
 import krs.erp.model.Address;
 import krs.erp.model.Attendance;
+import krs.erp.model.ErpClass;
 import krs.erp.model.Grade;
 import krs.erp.model.HealthRecord;
 import krs.erp.model.Parent;
@@ -34,6 +35,7 @@ import krs.erp.model.Subject;
 import krs.erp.model.User;
 import krs.erp.repository.AddressRepository;
 import krs.erp.repository.AttendanceRepository;
+import krs.erp.repository.ErpClassRepository;
 import krs.erp.repository.GradeRepository;
 import krs.erp.repository.HealthRecordRepository;
 import krs.erp.repository.ParentRepository;
@@ -85,6 +87,9 @@ public class DataImportService {
 
     @Autowired
     private GradeRepository gradeRepository;
+
+    @Autowired
+    private ErpClassRepository classRepository;
 
     // Cache for loaded entities
     private final Map<Long, Permission> permissions = new HashMap<>();
@@ -273,6 +278,91 @@ public class DataImportService {
         }
     }
 
+    @Transactional
+    public void importClassesDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting classes data import from XML file: {}", xmlFilePath);
+
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            // Import classes from this file
+            importClasses(document);
+
+            logger.info("Classes data import completed successfully for: {}", xmlFilePath);
+
+        } catch (Exception e) {
+            logger.error("Error importing classes data from XML file: {}", xmlFilePath, e);
+            throw new RuntimeException("Failed to import classes data from XML: " + xmlFilePath, e);
+        }
+    }
+
+    private void importClasses(Document document) {
+        NodeList classNodes = document.getElementsByTagName("class");
+        int totalClasses = classNodes.getLength();
+        int loadedClasses = 0;
+        int skippedClasses = 0;
+
+        logger.info("Found {} classes in XML file", totalClasses);
+
+        for (int i = 0; i < totalClasses; i++) {
+            Element classElement = (Element) classNodes.item(i);
+
+            try {
+                String classCode = getElementText(classElement, "classCode");
+                String gradeLevel = getElementText(classElement, "gradeLevel");
+                String section = getElementText(classElement, "section");
+                String academicYear = getElementText(classElement, "academicYear");
+
+                // Check if class already exists
+                if (classRepository.existsByGradeLevelAndSectionAndAcademicYear(
+                        gradeLevel, section, academicYear)) {
+                    skippedClasses++;
+                    continue;
+                }
+
+                ErpClass erpClass = new ErpClass();
+                erpClass.setClassCode(classCode);
+                erpClass.setClassName(getElementText(classElement, "className"));
+                erpClass.setGradeLevel(gradeLevel);
+                erpClass.setSection(section);
+                erpClass.setAcademicYear(academicYear);
+
+                String capacityStr = getElementText(classElement, "capacity");
+                if (capacityStr != null && !capacityStr.isEmpty()) {
+                    erpClass.setCapacity(Integer.parseInt(capacityStr));
+                }
+
+                erpClass.setRoomNumber(getElementText(classElement, "roomNumber"));
+                erpClass.setDescription(getElementText(classElement, "description"));
+
+                String isActiveStr = getElementText(classElement, "isActive");
+                if ("true".equalsIgnoreCase(isActiveStr)) {
+                    erpClass.markAsActive();
+                } else {
+                    erpClass.markAsDeleted();
+                }
+
+                classRepository.save(erpClass);
+                loadedClasses++;
+
+            } catch (Exception e) {
+                logger.error("Error processing class at index {}: {}", i, e.getMessage());
+            }
+        }
+
+        logger.info("Class import completed. Loaded: {}, Skipped: {}, Total: {}",
+                loadedClasses, skippedClasses, totalClasses);
+    }
+
     private void importGrades(Document document) {
         NodeList gradeNodes = document.getElementsByTagName("grade");
         int totalGrades = gradeNodes.getLength();
@@ -290,19 +380,41 @@ public class DataImportService {
                 String examType = getElementText(gradeElement, "examType");
                 String semester = getElementText(gradeElement, "semester");
 
+                // Look up Student entity from cache or repository
+                Student student = students.get(studentId);
+                if (student == null) {
+                    student = studentRepository.findById(studentId).orElse(null);
+                    if (student != null) {
+                        students.put(studentId, student);
+                    }
+                }
+
+                // Look up Subject entity from cache or repository
+                Subject subject = subjects.get(courseCode);
+                if (subject == null) {
+                    subject = subjectRepository.findBySubjectCode(courseCode).orElse(null);
+                    if (subject != null) {
+                        subjects.put(courseCode, subject);
+                    }
+                }
+
+                // Skip if student or subject not found
+                if (student == null || subject == null) {
+                    logger.warn("Skipping grade - student {} or subject {} not found", studentId, courseCode);
+                    skippedGrades++;
+                    continue;
+                }
+
                 // Check if grade already exists
-                if (gradeRepository.existsByStudentIdAndCourseCodeAndExamTypeAndSemester(
-                        studentId, courseCode, examType, semester)) {
+                if (gradeRepository.existsByStudentAndSubjectAndExamTypeAndSemester(
+                        student, subject, examType, semester)) {
                     skippedGrades++;
                     continue;
                 }
 
                 Grade grade = new Grade();
-                grade.setStudentId(studentId);
-                grade.setStudentName(getElementText(gradeElement, "studentName"));
-                grade.setGradeLevel(getElementText(gradeElement, "gradeLevel"));
-                grade.setCourseCode(courseCode);
-                grade.setCourseName(getElementText(gradeElement, "courseName"));
+                grade.setStudent(student);
+                grade.setSubject(subject);
                 grade.setExamType(examType);
 
                 String marksObtained = getElementText(gradeElement, "marksObtained");
@@ -323,8 +435,20 @@ public class DataImportService {
                 grade.setSemester(semester);
                 grade.setAcademicYear(getElementText(gradeElement, "academicYear"));
                 grade.setRemarks(getElementText(gradeElement, "remarks"));
-                grade.setTeacherId(getElementText(gradeElement, "teacherId"));
-                grade.setTeacherName(getElementText(gradeElement, "teacherName"));
+
+                // Look up Teacher (Staff) entity
+                String teacherIdStr = getElementText(gradeElement, "teacherId");
+                if (teacherIdStr != null && !teacherIdStr.isEmpty()) {
+                    Long teacherId = Long.parseLong(teacherIdStr);
+                    Staff teacher = staffMembers.get(teacherId);
+                    if (teacher == null) {
+                        teacher = staffRepository.findById(teacherId).orElse(null);
+                        if (teacher != null) {
+                            staffMembers.put(teacherId, teacher);
+                        }
+                    }
+                    grade.setTeacher(teacher);
+                }
 
                 String organizationId = getElementText(gradeElement, "organizationId");
                 if (organizationId != null && !organizationId.isEmpty()) {
