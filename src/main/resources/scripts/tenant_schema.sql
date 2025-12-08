@@ -532,6 +532,7 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     show_in_list BOOLEAN DEFAULT true,
     show_in_form BOOLEAN DEFAULT true,
     column_width VARCHAR(50) DEFAULT 'medium',
+    show_type INT DEFAULT 0,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL,
@@ -805,6 +806,7 @@ enable_webhooks BOOLEAN DEFAULT false,
 
 -- Metadata
 
+
 created_by VARCHAR(100) NOT NULL,
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -901,6 +903,7 @@ remember_me_enabled BOOLEAN DEFAULT false,
 last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
 -- Metadata
+
 
 created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1079,6 +1082,7 @@ auto_calculate_grades BOOLEAN DEFAULT true,
 publish_results_immediately BOOLEAN DEFAULT false,
 
 -- Promotion Rules
+
 
 auto_promote_students BOOLEAN DEFAULT false,
     minimum_attendance_for_promotion DOUBLE DEFAULT 75.0,

@@ -119,7 +119,7 @@ public class TenantProvisioningService {
             try {
                 System.out.println("Copying ERP Fields...");
                 masterJdbc.query("SELECT * FROM erp_fields", rs -> {
-                    String sql = "INSERT INTO erp_fields (erp_field_id, entity_type, field_name, field_label, field_type, ui_type, section_id, row_position, column_position, is_required, is_searchable, is_sortable, display_order, field_description, default_width, max_length, validation_pattern, picklist_options, decimal_places, is_unique, show_in_list, show_in_form, column_width, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT INTO erp_fields (erp_field_id, entity_type, field_name, field_label, field_type, ui_type, section_id, row_position, column_position, is_required, is_searchable, is_sortable, display_order, field_description, default_width, max_length, validation_pattern, picklist_options, decimal_places, is_unique, show_in_list, show_in_form, column_width, show_type, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_field_id"),
                             rs.getString("entity_type"),
@@ -143,7 +143,8 @@ public class TenantProvisioningService {
                             rs.getBoolean("is_unique"),
                             rs.getBoolean("show_in_list"),
                             rs.getBoolean("show_in_form"),
-                            rs.getString("column_width"));
+                            rs.getString("column_width"),
+                            rs.getObject("show_type"));
                 });
                 System.out.println("ERP Fields copied.");
             } catch (Exception e) {
