@@ -1,5 +1,10 @@
 package krs.erp.config;
 
+import java.sql.Connection;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.sql.DataSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,12 +25,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.zaxxer.hikari.HikariDataSource;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Initializes system-wide data in IAM_MasterDB that should be shared across all
@@ -392,6 +391,14 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                 Element root = doc.getDocumentElement();
                 String entityType = root.getAttribute("type");
+                
+                // Validate entity type
+                if (entityType == null || entityType.trim().isEmpty()) {
+                    logger.warn("Skipping file {} - no entity type specified", resource.getFilename());
+                    continue;
+                }
+                
+                logger.debug("Processing fields for entity type: {}", entityType);
 
                 NodeList fieldNodes = root.getElementsByTagName("field");
 
@@ -442,7 +449,14 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                                 LocalDateTime.now());
                         totalLoaded++;
                     } catch (Exception e) {
-                        logger.error("Error loading individual field", e);
+                        String fieldName = "unknown";
+                        try {
+                            fieldName = getElementText((Element) fieldNodes.item(i), "fieldName");
+                        } catch (Exception ex) {
+                            // ignore
+                        }
+                        logger.error("Error loading field '{}' for entity type '{}' from {}: {}", 
+                            fieldName, entityType, resource.getFilename(), e.getMessage());
                     }
                 }
             }

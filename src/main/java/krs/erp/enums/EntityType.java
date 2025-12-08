@@ -29,7 +29,11 @@ public enum EntityType {
     COURSE("Course"),
     GRADE("Grade"),
     ASSIGNMENT("Assignment"),
-    EXAM("Exam");
+    EXAM("Exam"),
+    // Additional entity types
+    ADDRESS("Address"),
+    STUDENT_GUARDIAN("StudentGuardian"),
+    STUDENT_MEDICAL("StudentMedical");
     
     private final String displayName;
     
