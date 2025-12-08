@@ -44,6 +44,16 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'rooms',
+    loadComponent: () => import('./components/entity-management/entity-management.component').then(m => m.EntityManagementComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'timetables',
+    loadComponent: () => import('./components/timetable-manager/timetable-manager.component').then(m => m.TimetableManagerComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'entity-detail/:entityType/:id',
     loadComponent: () => import('./components/entity-detail/entity-detail.component').then(m => m.EntityDetailComponent),
     canActivate: [AuthGuard]

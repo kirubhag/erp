@@ -2,45 +2,55 @@ package krs.erp.model;
 
 import java.time.LocalTime;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "timetables")
+@Table(name = "erp_timetables")
 @AttributeOverride(name = "id", column = @Column(name = "timetable_id"))
 public class Timetable extends BaseEntity {
 
-    @NotBlank(message = "Timetable code is required")
-    @Column(name = "timetable_code", unique = true, nullable = false, length = 50)
-    private String timetableCode;
+    @NotNull(message = "Class is required")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_id", nullable = false)
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    private ErpClass erpClass;
 
-    @NotBlank(message = "Class name is required")
-    @Size(min = 2, max = 100, message = "Class name must be between 2 and 100 characters")
-    @Column(name = "class_name", nullable = false, length = 100)
-    private String className;
+    @NotNull(message = "Subject is required")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id", nullable = false)
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    private Subject subject;
 
-    @NotBlank(message = "Grade level is required")
-    @Column(name = "grade_level", nullable = false, length = 50)
-    private String gradeLevel;
+    @NotNull(message = "Teacher is required")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id", nullable = false)
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    private Staff teacher;
 
-    @NotBlank(message = "Academic year is required")
-    @Column(name = "academic_year", nullable = false, length = 20)
-    private String academicYear;
-
-    @Column(name = "semester", length = 20)
-    private String semester;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    private Room room;
 
     @NotNull(message = "Day of week is required")
     @Enumerated(EnumType.STRING)
-    @Column(name = "day_of_week", nullable = false)
+    @Column(name = "day_of_week", nullable = false, length = 20)
     private DayOfWeek dayOfWeek;
+
+    @NotNull(message = "Period number is required")
+    @Column(name = "period_number", nullable = false)
+    private Integer periodNumber;
 
     @NotNull(message = "Start time is required")
     @Column(name = "start_time", nullable = false)
@@ -50,33 +60,12 @@ public class Timetable extends BaseEntity {
     @Column(name = "end_time", nullable = false)
     private LocalTime endTime;
 
-    @NotBlank(message = "Subject is required")
-    @Column(name = "subject_name", nullable = false, length = 100)
-    private String subjectName;
+    @NotNull(message = "Academic year is required")
+    @Column(name = "academic_year", nullable = false, length = 20)
+    private String academicYear;
 
-    @Column(name = "subject_code", length = 50)
-    private String subjectCode;
-
-    @Column(name = "teacher_name", length = 100)
-    private String teacherName;
-
-    @Column(name = "teacher_id", length = 50)
-    private String teacherId;
-
-    @Column(name = "room_number", length = 20)
-    private String roomNumber;
-
-    @Column(name = "building", length = 50)
-    private String building;
-
-    @Column(name = "period_number")
-    private Integer periodNumber;
-
-    @Column(name = "notes", length = 500)
-    private String notes;
-
-    @Column(name = "is_lab_session")
-    private Boolean isLabSession = false;
+    @Column(name = "description", length = 500)
+    private String description;
 
     // Enums
     public enum DayOfWeek {
@@ -87,57 +76,38 @@ public class Timetable extends BaseEntity {
     public Timetable() {
     }
 
-    public Timetable(String timetableCode, String className, String gradeLevel, String academicYear, 
-                     DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime, String subjectName) {
-        this.timetableCode = timetableCode;
-        this.className = className;
-        this.gradeLevel = gradeLevel;
-        this.academicYear = academicYear;
-        this.dayOfWeek = dayOfWeek;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.subjectName = subjectName;
-    }
-
     // Getters and Setters
-    public String getTimetableCode() {
-        return timetableCode;
+
+    public ErpClass getErpClass() {
+        return erpClass;
     }
 
-    public void setTimetableCode(String timetableCode) {
-        this.timetableCode = timetableCode;
+    public void setErpClass(ErpClass erpClass) {
+        this.erpClass = erpClass;
     }
 
-    public String getClassName() {
-        return className;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
-    public String getGradeLevel() {
-        return gradeLevel;
+    public Staff getTeacher() {
+        return teacher;
     }
 
-    public void setGradeLevel(String gradeLevel) {
-        this.gradeLevel = gradeLevel;
+    public void setTeacher(Staff teacher) {
+        this.teacher = teacher;
     }
 
-    public String getAcademicYear() {
-        return academicYear;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setAcademicYear(String academicYear) {
-        this.academicYear = academicYear;
-    }
-
-    public String getSemester() {
-        return semester;
-    }
-
-    public void setSemester(String semester) {
-        this.semester = semester;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public DayOfWeek getDayOfWeek() {
@@ -146,6 +116,14 @@ public class Timetable extends BaseEntity {
 
     public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
+    }
+
+    public Integer getPeriodNumber() {
+        return periodNumber;
+    }
+
+    public void setPeriodNumber(Integer periodNumber) {
+        this.periodNumber = periodNumber;
     }
 
     public LocalTime getStartTime() {
@@ -164,88 +142,19 @@ public class Timetable extends BaseEntity {
         this.endTime = endTime;
     }
 
-    public String getSubjectName() {
-        return subjectName;
+    public String getAcademicYear() {
+        return academicYear;
     }
 
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
+    public void setAcademicYear(String academicYear) {
+        this.academicYear = academicYear;
     }
 
-    public String getSubjectCode() {
-        return subjectCode;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSubjectCode(String subjectCode) {
-        this.subjectCode = subjectCode;
-    }
-
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
-    }
-
-    public String getTeacherId() {
-        return teacherId;
-    }
-
-    public void setTeacherId(String teacherId) {
-        this.teacherId = teacherId;
-    }
-
-    public String getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
-    public String getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(String building) {
-        this.building = building;
-    }
-
-    public Integer getPeriodNumber() {
-        return periodNumber;
-    }
-
-    public void setPeriodNumber(Integer periodNumber) {
-        this.periodNumber = periodNumber;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    public Boolean getIsLabSession() {
-        return isLabSession;
-    }
-
-    public void setIsLabSession(Boolean isLabSession) {
-        this.isLabSession = isLabSession;
-    }
-
-    @Override
-    public String toString() {
-        return "Timetable{" +
-                "id=" + getId() +
-                ", timetableCode='" + timetableCode + '\'' +
-                ", className='" + className + '\'' +
-                ", gradeLevel='" + gradeLevel + '\'' +
-                ", dayOfWeek=" + dayOfWeek +
-                ", startTime=" + startTime +
-                ", subjectName='" + subjectName + '\'' +
-                '}';
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

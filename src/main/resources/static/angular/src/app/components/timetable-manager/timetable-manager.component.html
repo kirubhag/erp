@@ -1,0 +1,101 @@
+<div class="container-fluid p-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Create New Class Timetable</h3>
+        <div class="d-flex gap-2 align-items-center">
+            <select class="form-select" [(ngModel)]="selectedClassId" (change)="onClassChange()" style="width: 200px;">
+                <option value="" disabled>Select Class</option>
+                <option *ngFor="let cls of classes" [value]="cls.id">{{ cls.name }}</option>
+            </select>
+            <button class="btn btn-primary" (click)="saveTimetable()">
+                <i class="bi bi-save me-1"></i> Save Timetable
+            </button>
+            <button class="btn btn-danger" (click)="clearGrid()">
+                <i class="bi bi-trash me-1"></i> Clear Grid
+            </button>
+        </div>
+    </div>
+
+    <!-- Timetable Grid -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-bordered mb-0 timetable-grid">
+                    <thead class="table-light text-center">
+                        <tr>
+                            <th style="width: 80px;">Period</th>
+                            <th *ngFor="let day of days">{{ day }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of periods">
+                            <td class="text-center align-middle fw-bold bg-light">P{{p}}</td>
+                            <td *ngFor="let day of days" (click)="openSlot(day, p)"
+                                class="timetable-cell position-relative" [class.filled]="isSlotFilled(day, p)">
+
+                                <div *ngIf="getSlotData(day, p) as slot" class="slot-content">
+                                    <div class="fw-bold">{{ slot.subject }}</div>
+                                    <div class="small text-muted">{{ slot.teacher }}</div>
+                                    <div class="badge bg-secondary position-absolute bottom-0 end-0 m-1"
+                                        style="font-size: 0.6em;">
+                                        {{ slot.room }}
+                                    </div>
+                                </div>
+                                <div *ngIf="!getSlotData(day, p)" class="empty-slot-placeholder text-muted opacity-25">
+                                    <i class="bi bi-plus-lg"></i>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Modal Overlay (Simplified for SPA) -->
+<div class="modal d-block" tabindex="-1" *ngIf="showModal" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Schedule Slot: {{currentSlot.day}} - Period {{currentSlot.period}}</h5>
+                <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Subject <span class="text-danger">*</span></label>
+                    <select class="form-select" [(ngModel)]="currentSlot.subjectId">
+                        <option value="" disabled>Select Subject</option>
+                        <option *ngFor="let subj of subjects" [value]="subj.id">{{ subj.name }}</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Teacher <span class="text-danger">*</span></label>
+                    <select class="form-select" [(ngModel)]="currentSlot.teacherId">
+                        <option value="" disabled>Select Teacher</option>
+                        <option *ngFor="let teacher of teachers" [value]="teacher.id">
+                            {{ teacher.name }} ({{ teacher.specialization }})
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Room <span class="text-danger">*</span></label>
+                    <select class="form-select" [(ngModel)]="currentSlot.roomId">
+                        <option value="" disabled>Select Room</option>
+                        <option *ngFor="let room of rooms" [value]="room.id">
+                            {{ room.name }} ({{ room.type }})
+                        </option>
+                    </select>
+                </div>
+                <div class="alert alert-info small">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Teachers and Rooms will be checked for conflicts upon saving.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="saveSlot()">Add Slot</button>
+            </div>
+        </div>
+    </div>
+</div>

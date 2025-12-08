@@ -25,6 +25,7 @@ import jakarta.validation.Valid;
 import krs.erp.model.Timetable;
 import krs.erp.model.Timetable.DayOfWeek;
 import krs.erp.repository.TimetableRepository;
+import krs.erp.service.SchedulingService;
 
 @RestController
 @RequestMapping("/api/timetables")
@@ -32,6 +33,9 @@ public class TimetableController {
 
     @Autowired
     private TimetableRepository timetableRepository;
+
+    @Autowired
+    private SchedulingService schedulingService;
 
     // Get all timetables with pagination and filtering
     @GetMapping
@@ -51,18 +55,30 @@ public class TimetableController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort.split(",")));
         List<Timetable> timetables;
 
+        DayOfWeek dayOfWeekEnum = null;
+        if (dayOfWeek != null && !dayOfWeek.isEmpty()) {
+            try {
+                dayOfWeekEnum = DayOfWeek.valueOf(dayOfWeek);
+            } catch (IllegalArgumentException e) {
+                // Return empty list or bad request? For list filtering, ignoring invalid enum
+                // is safer or returning empty.
+                // Let's return empty page if invalid enum is passed to avoid crash
+                return ResponseEntity.ok(new PageImpl<>(List.of(), pageable, 0));
+            }
+        }
+
         if (search != null && !search.isEmpty()) {
             timetables = timetableRepository.searchTimetables(search);
-        } else if (gradeLevel != null && !gradeLevel.isEmpty() && dayOfWeek != null && !dayOfWeek.isEmpty()) {
-            timetables = timetableRepository.findByGradeLevelAndDay(gradeLevel, DayOfWeek.valueOf(dayOfWeek));
-        } else if (className != null && !className.isEmpty() && dayOfWeek != null && !dayOfWeek.isEmpty()) {
-            timetables = timetableRepository.findByClassAndDay(className, DayOfWeek.valueOf(dayOfWeek));
+        } else if (gradeLevel != null && !gradeLevel.isEmpty() && dayOfWeekEnum != null) {
+            timetables = timetableRepository.findByGradeLevelAndDay(gradeLevel, dayOfWeekEnum);
+        } else if (className != null && !className.isEmpty() && dayOfWeekEnum != null) {
+            timetables = timetableRepository.findByClassAndDay(className, dayOfWeekEnum);
         } else if (gradeLevel != null && !gradeLevel.isEmpty()) {
             timetables = timetableRepository.findByGradeLevelAndIsActive(gradeLevel, 1);
         } else if (className != null && !className.isEmpty()) {
             timetables = timetableRepository.findByClassNameAndIsActive(className, 1);
-        } else if (dayOfWeek != null && !dayOfWeek.isEmpty()) {
-            timetables = timetableRepository.findByDayOfWeekAndIsActive(DayOfWeek.valueOf(dayOfWeek), 1);
+        } else if (dayOfWeekEnum != null) {
+            timetables = timetableRepository.findByDayOfWeekAndIsActive(dayOfWeekEnum, 1);
         } else if (academicYear != null && !academicYear.isEmpty()) {
             timetables = timetableRepository.findByAcademicYearAndIsActive(academicYear, 1);
         } else if (subjectCode != null && !subjectCode.isEmpty()) {
@@ -78,11 +94,15 @@ public class TimetableController {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), timetables.size());
 
+        // Handle case where start index is out of bounds
+        if (start > timetables.size()) {
+            return ResponseEntity.ok(new PageImpl<>(List.of(), pageable, timetables.size()));
+        }
+
         Page<Timetable> timetablePage = new PageImpl<>(
                 timetables.subList(start, end),
                 pageable,
-                timetables.size()
-        );
+                timetables.size());
 
         return ResponseEntity.ok(timetablePage);
     }
@@ -98,24 +118,27 @@ public class TimetableController {
     // Create new timetable
     @PostMapping
     public ResponseEntity<?> createTimetable(@Valid @RequestBody Timetable timetable) {
-        // Check for existing timetable code
-        if (timetableRepository.existsByTimetableCode(timetable.getTimetableCode())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Timetable with code " + timetable.getTimetableCode() + " already exists");
-        }
+
+        // Check for room type constraints could govern basic collision detection
+        // Assuming the entity relationships (Room, Class, etc.) are populated by
+        // Jackson
+        // from the JSON request (e.g., "room": {"id": 1}).
+
+        String roomName = (timetable.getRoom() != null) ? timetable.getRoom().getRoomName() : null;
 
         // Check for room conflicts
-        List<Timetable> conflicts = timetableRepository.findConflictingTimetables(
-                timetable.getRoomNumber(),
-                timetable.getDayOfWeek(),
-                timetable.getStartTime(),
-                timetable.getEndTime()
-        );
+        if (roomName != null) {
+            List<Timetable> conflicts = timetableRepository.findConflictingTimetables(
+                    roomName,
+                    timetable.getDayOfWeek(),
+                    timetable.getStartTime(),
+                    timetable.getEndTime());
 
-        if (!conflicts.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Room " + timetable.getRoomNumber() + " is already scheduled on " +
-                            timetable.getDayOfWeek() + " during this time");
+            if (!conflicts.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("Room " + roomName + " is already scheduled on " +
+                                timetable.getDayOfWeek() + " during this time");
+            }
         }
 
         timetable.markAsActive();
@@ -133,47 +156,45 @@ public class TimetableController {
         }
 
         Timetable timetable = timetableOptional.get();
-
-        // Check for timetable code conflicts (excluding current record)
-        if (!timetable.getTimetableCode().equals(timetableDetails.getTimetableCode()) &&
-                timetableRepository.existsByTimetableCode(timetableDetails.getTimetableCode())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Timetable with code " + timetableDetails.getTimetableCode() + " already exists");
-        }
+        String roomName = (timetableDetails.getRoom() != null) ? timetableDetails.getRoom().getRoomName() : null;
 
         // Check for room conflicts (excluding current record)
-        List<Timetable> conflicts = timetableRepository.findConflictingTimetables(
-                timetableDetails.getRoomNumber(),
-                timetableDetails.getDayOfWeek(),
-                timetableDetails.getStartTime(),
-                timetableDetails.getEndTime()
-        );
+        if (roomName != null) {
+            List<Timetable> conflicts = timetableRepository.findConflictingTimetables(
+                    roomName,
+                    timetableDetails.getDayOfWeek(),
+                    timetableDetails.getStartTime(),
+                    timetableDetails.getEndTime());
 
-        conflicts.removeIf(t -> t.getId().equals(id));
+            conflicts.removeIf(t -> t.getId().equals(id));
 
-        if (!conflicts.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Room " + timetableDetails.getRoomNumber() + " is already scheduled on " +
-                            timetableDetails.getDayOfWeek() + " during this time");
+            if (!conflicts.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("Room " + roomName + " is already scheduled on " +
+                                timetableDetails.getDayOfWeek() + " during this time");
+            }
         }
 
-        timetable.setTimetableCode(timetableDetails.getTimetableCode());
-        timetable.setClassName(timetableDetails.getClassName());
-        timetable.setGradeLevel(timetableDetails.getGradeLevel());
+        timetable.setErpClass(timetableDetails.getErpClass());
+        // timetable.setGradeLevel(timetableDetails.getGradeLevel()); // Keeping field
+        // if it represents a cached/denormalized value or removing?
+        // Wait, Timetable model no longer has gradeLevel field? It was removed in
+        // refactor.
+        // Need to check Timetable.java again. The refactor REPLACED the String fields
+        // with Relationships.
+        // So I must NOT set gradeLevel directly.
+
         timetable.setAcademicYear(timetableDetails.getAcademicYear());
-        timetable.setSemester(timetableDetails.getSemester());
+        // timetable.setSemester(timetableDetails.getSemester()); // Removed/Missing in
+        // new model?
         timetable.setDayOfWeek(timetableDetails.getDayOfWeek());
         timetable.setStartTime(timetableDetails.getStartTime());
         timetable.setEndTime(timetableDetails.getEndTime());
-        timetable.setSubjectName(timetableDetails.getSubjectName());
-        timetable.setSubjectCode(timetableDetails.getSubjectCode());
-        timetable.setTeacherName(timetableDetails.getTeacherName());
-        timetable.setTeacherId(timetableDetails.getTeacherId());
-        timetable.setRoomNumber(timetableDetails.getRoomNumber());
-        timetable.setBuilding(timetableDetails.getBuilding());
+        timetable.setSubject(timetableDetails.getSubject());
+        timetable.setTeacher(timetableDetails.getTeacher());
+        timetable.setRoom(timetableDetails.getRoom());
         timetable.setPeriodNumber(timetableDetails.getPeriodNumber());
-        timetable.setNotes(timetableDetails.getNotes());
-        timetable.setIsLabSession(timetableDetails.getIsLabSession());
+        timetable.setDescription(timetableDetails.getDescription());
 
         Timetable updatedTimetable = timetableRepository.save(timetable);
         return ResponseEntity.ok(updatedTimetable);
@@ -256,18 +277,28 @@ public class TimetableController {
         return ResponseEntity.ok(count);
     }
 
-    // Get timetable for class and academic period
+    // Generate Timetables
+    @PostMapping("/generate")
+    public ResponseEntity<?> generateTimetable(@RequestParam String academicYear) {
+        try {
+            int count = schedulingService.generateSchedule(academicYear);
+            return ResponseEntity
+                    .ok("Successfully generated " + count + " timetable entries for academic year " + academicYear);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to generate schedule: " + e.getMessage());
+        }
+    }
+
+    // Get timetable by class and academic year
     @GetMapping("/schedule")
     public ResponseEntity<List<Timetable>> getClassSchedule(
             @RequestParam String className,
-            @RequestParam String academicYear,
-            @RequestParam(required = false) String semester) {
+            @RequestParam String academicYear) {
 
         List<Timetable> timetables = timetableRepository.findByClassAndAcademicPeriod(
                 className,
-                academicYear,
-                semester
-        );
+                academicYear);
         return ResponseEntity.ok(timetables);
     }
 }

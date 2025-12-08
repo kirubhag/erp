@@ -45,7 +45,14 @@ import krs.erp.repository.RoleRepository;
 import krs.erp.repository.StaffRepository;
 import krs.erp.repository.StudentRepository;
 import krs.erp.repository.SubjectRepository;
+
 import krs.erp.repository.UserRepository;
+import krs.erp.model.Room;
+import krs.erp.model.Room.RoomType;
+import krs.erp.model.Timetable;
+import krs.erp.model.Timetable.DayOfWeek;
+import krs.erp.repository.RoomRepository;
+import krs.erp.repository.TimetableRepository;
 
 @Service
 public class DataImportService {
@@ -90,6 +97,12 @@ public class DataImportService {
 
     @Autowired
     private ErpClassRepository classRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private TimetableRepository timetableRepository;
 
     // Cache for loaded entities
     private final Map<Long, Permission> permissions = new HashMap<>();
@@ -305,6 +318,60 @@ public class DataImportService {
         }
     }
 
+    @Transactional
+    public void importRoomsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting rooms data import from XML file: {}", xmlFilePath);
+
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            // Import rooms from this file
+            importRooms(document);
+
+            logger.info("Rooms data import completed successfully for: {}", xmlFilePath);
+
+        } catch (Exception e) {
+            logger.error("Error importing rooms data from XML file: {}", xmlFilePath, e);
+            throw new RuntimeException("Failed to import rooms data from XML: " + xmlFilePath, e);
+        }
+    }
+
+    @Transactional
+    public void importTimetablesDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting timetables data import from XML file: {}", xmlFilePath);
+
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            // Import timetables from this file
+            importTimetables(document);
+
+            logger.info("Timetables data import completed successfully for: {}", xmlFilePath);
+
+        } catch (Exception e) {
+            logger.error("Error importing timetables data from XML file: {}", xmlFilePath, e);
+            throw new RuntimeException("Failed to import timetables data from XML: " + xmlFilePath, e);
+        }
+    }
+
     private void importClasses(Document document) {
         NodeList classNodes = document.getElementsByTagName("class");
         int totalClasses = classNodes.getLength();
@@ -466,6 +533,113 @@ public class DataImportService {
 
         logger.info("Grade import completed. Loaded: {}, Skipped: {}, Total: {}",
                 loadedGrades, skippedGrades, totalGrades);
+    }
+
+    private void importRooms(Document document) {
+        NodeList roomNodes = document.getElementsByTagName("room");
+        logger.info("Importing {} rooms", roomNodes.getLength());
+
+        for (int i = 0; i < roomNodes.getLength(); i++) {
+            Element element = (Element) roomNodes.item(i);
+
+            String roomName = getElementText(element, "roomName");
+            if (roomRepository.findByRoomName(roomName) != null) {
+                continue; // Skip existing
+            }
+
+            Room room = new Room();
+            room.setRoomName(roomName);
+
+            String capacityStr = getElementText(element, "capacity");
+            if (capacityStr != null) {
+                room.setCapacity(Integer.parseInt(capacityStr));
+            }
+
+            String roomTypeStr = getElementText(element, "roomType");
+            if (roomTypeStr != null) {
+                try {
+                    room.setRoomType(RoomType.valueOf(roomTypeStr));
+                } catch (Exception e) {
+                    logger.warn("Invalid room type: {}", roomTypeStr);
+                }
+            }
+
+            room.setBuilding(getElementText(element, "building"));
+            room.setDescription(getElementText(element, "description"));
+
+            String isActive = getElementText(element, "isActive");
+            if ("true".equalsIgnoreCase(isActive)) {
+                room.markAsActive();
+            } else {
+                room.markAsDeleted();
+            }
+
+            roomRepository.save(room);
+        }
+    }
+
+    private void importTimetables(Document document) {
+        NodeList timetableNodes = document.getElementsByTagName("timetable");
+        logger.info("Importing {} timetables", timetableNodes.getLength());
+
+        for (int i = 0; i < timetableNodes.getLength(); i++) {
+            Element tElement = (Element) timetableNodes.item(i);
+
+            try {
+                String classCode = getElementText(tElement, "classCode");
+                String subjectCode = getElementText(tElement, "subjectCode");
+                String teacherId = getElementText(tElement, "teacherId");
+                String roomName = getElementText(tElement, "roomName");
+
+                // Validate required lookups
+                ErpClass erpClass = classRepository.findByClassCodeAndIsActive(classCode, 1).orElse(null);
+                Subject subject = subjectRepository.findBySubjectCode(subjectCode).orElse(null);
+                Staff teacher = staffRepository.findByStaffId(teacherId).orElse(null);
+                Room room = roomRepository.findByRoomName(roomName);
+
+                if (erpClass == null || subject == null || teacher == null || room == null) {
+                    logger.warn(
+                            "Skipping timetable entry due to missing dependencies: Class={}, Subject={}, Teacher={}, Room={}",
+                            classCode, subjectCode, teacherId, roomName);
+                    continue;
+                }
+
+                Timetable timetable = new Timetable();
+                timetable.setAcademicYear(getElementText(tElement, "academicYear"));
+
+                String dayOfWeekStr = getElementText(tElement, "dayOfWeek");
+                if (dayOfWeekStr != null) {
+                    timetable.setDayOfWeek(DayOfWeek.valueOf(dayOfWeekStr));
+                }
+
+                String startTimeStr = getElementText(tElement, "startTime");
+                if (startTimeStr != null) {
+                    timetable.setStartTime(LocalTime.parse(startTimeStr));
+                }
+
+                String endTimeStr = getElementText(tElement, "endTime");
+                if (endTimeStr != null) {
+                    timetable.setEndTime(LocalTime.parse(endTimeStr));
+                }
+
+                timetable.setDescription(getElementText(tElement, "description"));
+                timetable.setErpClass(erpClass);
+                timetable.setSubject(subject);
+                timetable.setTeacher(teacher);
+                timetable.setRoom(room);
+
+                String periodNumStr = getElementText(tElement, "periodNumber");
+                if (periodNumStr != null && !periodNumStr.isEmpty()) {
+                    timetable.setPeriodNumber(Integer.parseInt(periodNumStr));
+                }
+
+                timetable.markAsActive();
+                timetableRepository.save(timetable);
+
+            } catch (Exception e) {
+                logger.error("Error importing timetable entry", e);
+            }
+        }
     }
 
     private void clearCaches() {

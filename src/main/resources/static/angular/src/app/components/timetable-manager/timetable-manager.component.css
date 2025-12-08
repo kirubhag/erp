@@ -1,0 +1,35 @@
+.timetable-grid th,
+.timetable-grid td {
+    height: 100px;
+    vertical-align: middle;
+}
+
+.timetable-cell {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.timetable-cell:hover {
+    background-color: #f8f9fa;
+}
+
+.timetable-cell.filled {
+    background-color: #e3f2fd;
+    /* Light Blue */
+    border-left: 3px solid #0d6efd;
+}
+
+.slot-content {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.empty-slot-placeholder {
+    display: none;
+    text-align: center;
+}
+
+.timetable-cell:hover .empty-slot-placeholder {
+    display: block;
+}

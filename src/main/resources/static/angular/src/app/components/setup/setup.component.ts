@@ -111,10 +111,31 @@ export class SetupComponent implements OnInit {
           description: 'Configure promotion criteria and rules'
         }
       ]
-    },
-    {
-      id: 'security',
-      title: 'Security Control',
+      ]
+},
+{
+  id: 'timetable-scheduling',
+    title: 'Timetable & Scheduling',
+      items: [
+        {
+          id: 'rooms',
+          label: 'Rooms',
+          icon: 'fas fa-door-open',
+          route: '/rooms',
+          description: 'Manage school rooms and labs'
+        },
+        {
+          id: 'timetables',
+          label: 'Timetables',
+          icon: 'fas fa-calendar-week',
+          route: '/timetables',
+          description: 'Create and view class schedules'
+        }
+      ]
+},
+{
+  id: 'security',
+    title: 'Security Control',
       items: [
         {
           id: 'profiles',
@@ -145,10 +166,10 @@ export class SetupComponent implements OnInit {
           description: 'Track system changes and user activities'
         }
       ]
-    },
-    {
-      id: 'customization',
-      title: 'Customization',
+},
+{
+  id: 'customization',
+    title: 'Customization',
       items: [
         {
           id: 'modules-fields',
@@ -186,10 +207,10 @@ export class SetupComponent implements OnInit {
           description: 'View record storage usage across modules'
         }
       ]
-    },
-    {
-      id: 'automation',
-      title: 'Automation',
+},
+{
+  id: 'automation',
+    title: 'Automation',
       items: [
         {
           id: 'workflow-rules',
@@ -213,10 +234,10 @@ export class SetupComponent implements OnInit {
           description: 'Manage scheduled tasks and recurring events'
         }
       ]
-    },
-    {
-      id: 'process-management',
-      title: 'Process Management',
+},
+{
+  id: 'process-management',
+    title: 'Process Management',
       items: [
         {
           id: 'blueprint',
@@ -240,10 +261,10 @@ export class SetupComponent implements OnInit {
           description: 'Configure review and validation processes'
         }
       ]
-    },
-    {
-      id: 'data-administration',
-      title: 'Data Administration',
+},
+{
+  id: 'data-administration',
+    title: 'Data Administration',
       items: [
         {
           id: 'import',
@@ -281,63 +302,63 @@ export class SetupComponent implements OnInit {
           description: 'Copy customizations between environments'
         }
       ]
-    }
+}
   ];
 
-  searchTerm: string = '';
-  filteredSections: SetupSection[] = [];
+searchTerm: string = '';
+filteredSections: SetupSection[] = [];
 
-  ngOnInit() {
+ngOnInit() {
+  this.filteredSections = [...this.setupSections];
+}
+
+onSearch(event: Event) {
+  const target = event.target as HTMLInputElement;
+  this.searchTerm = target.value.toLowerCase();
+
+  if (!this.searchTerm) {
     this.filteredSections = [...this.setupSections];
+    return;
   }
 
-  onSearch(event: Event) {
-    const target = event.target as HTMLInputElement;
-    this.searchTerm = target.value.toLowerCase();
+  this.filteredSections = this.setupSections.map(section => ({
+    ...section,
+    items: section.items.filter(item =>
+      item.label.toLowerCase().includes(this.searchTerm) ||
+      item.description?.toLowerCase().includes(this.searchTerm)
+    )
+  })).filter(section => section.items.length > 0);
+}
 
-    if (!this.searchTerm) {
-      this.filteredSections = [...this.setupSections];
-      return;
-    }
-
-    this.filteredSections = this.setupSections.map(section => ({
-      ...section,
-      items: section.items.filter(item =>
-        item.label.toLowerCase().includes(this.searchTerm) ||
-        item.description?.toLowerCase().includes(this.searchTerm)
-      )
-    })).filter(section => section.items.length > 0);
-  }
-
-  onItemClick(item: SetupItem) {
-    if (item.route) {
-      if (item.queryParams) {
-        this.router.navigate([item.route], { queryParams: item.queryParams });
-      } else {
-        this.router.navigate([item.route]);
-      }
+onItemClick(item: SetupItem) {
+  if (item.route) {
+    if (item.queryParams) {
+      this.router.navigate([item.route], { queryParams: item.queryParams });
+    } else {
+      this.router.navigate([item.route]);
     }
   }
+}
 
-  // Handle clicks on whole section cards (template uses this)
-  onSectionClick(section: SetupSection) {
-    // Find first item in section and navigate
-    if (section.items.length > 0) {
-      const firstItem = section.items[0];
-      this.onItemClick(firstItem);
-    }
+// Handle clicks on whole section cards (template uses this)
+onSectionClick(section: SetupSection) {
+  // Find first item in section and navigate
+  if (section.items.length > 0) {
+    const firstItem = section.items[0];
+    this.onItemClick(firstItem);
   }
+}
 
-  clearSearch() {
-    this.searchTerm = '';
-    this.filteredSections = [...this.setupSections];
-  }
+clearSearch() {
+  this.searchTerm = '';
+  this.filteredSections = [...this.setupSections];
+}
 
-  trackSection(index: number, section: SetupSection): string {
-    return section.id;
-  }
+trackSection(index: number, section: SetupSection): string {
+  return section.id;
+}
 
-  trackItem(index: number, item: SetupItem): string {
-    return item.id;
-  }
+trackItem(index: number, item: SetupItem): string {
+  return item.id;
+}
 }

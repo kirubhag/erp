@@ -466,34 +466,51 @@ CREATE TABLE IF NOT EXISTS erp_class_subject (
     INDEX idx_subject_id (subject_id)
 );
 
-CREATE TABLE IF NOT EXISTS timetables (
-    timetable_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    timetable_code VARCHAR(50) NOT NULL UNIQUE,
-    class_name VARCHAR(100) NOT NULL,
-    grade_level VARCHAR(50) NOT NULL,
-    academic_year VARCHAR(20) NOT NULL,
-    semester VARCHAR(20),
-    day_of_week VARCHAR(20) NOT NULL,
-    start_time TIME NOT NULL,
-    end_time TIME NOT NULL,
-    subject_name VARCHAR(100) NOT NULL,
-    subject_code VARCHAR(50),
-    teacher_name VARCHAR(100),
-    teacher_id VARCHAR(50),
-    room_number VARCHAR(20),
-    building VARCHAR(50),
-    period_number INT,
-    notes VARCHAR(500),
-    is_lab_session BOOLEAN DEFAULT false,
+CREATE TABLE IF NOT EXISTS erp_rooms (
+    room_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    room_name VARCHAR(100) NOT NULL,
+    capacity INT NOT NULL,
+    room_type VARCHAR(50) NOT NULL, -- CLASSROOM, LAB, COMPUTER_LAB, HALL
+    building VARCHAR(100),
+    description TEXT,
+    organization_id BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    INDEX idx_timetable_code (timetable_code),
+    INDEX idx_room_name (room_name),
+    INDEX idx_room_type (room_type),
+    INDEX idx_is_active (is_active)
+);
+
+CREATE TABLE IF NOT EXISTS erp_timetables (
+    timetable_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    class_id BIGINT NOT NULL,
+    teacher_id BIGINT NOT NULL,
+    subject_id BIGINT NOT NULL,
+    room_id BIGINT,
+    day_of_week VARCHAR(20) NOT NULL,
+    period_number INT NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    academic_year VARCHAR(20) NOT NULL,
+    description VARCHAR(500),
+    organization_id BIGINT,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    FOREIGN KEY (class_id) REFERENCES erp_class (class_id) ON DELETE CASCADE,
+    FOREIGN KEY (teacher_id) REFERENCES staff (staff_id) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES subjects (subject_id) ON DELETE CASCADE,
+    FOREIGN KEY (room_id) REFERENCES erp_rooms (room_id) ON DELETE SET NULL,
+    INDEX idx_class_id (class_id),
+    INDEX idx_teacher_id (teacher_id),
     INDEX idx_day_of_week (day_of_week),
-    INDEX idx_grade_level (grade_level),
     INDEX idx_academic_year (academic_year),
     INDEX idx_is_active (is_active)
 );
@@ -1324,6 +1341,288 @@ auto_promote_students BOOLEAN DEFAULT false,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE
 ) COMMENT='Academic settings for attendance, exams, and promotion rules';
+
+-- ============================================================================
+-- Seed Data for Time Table Module Entities
+-- ============================================================================
+
+-- 1. Rooms Entity
+INSERT INTO
+    erp_entities (
+        singular_name,
+        plural_name,
+        table_name,
+        pkid,
+        display_column,
+        is_active,
+        sequence,
+        system_name,
+        presence,
+        icon,
+        route
+    )
+VALUES (
+        'Room',
+        'Rooms',
+        'erp_rooms',
+        'room_id',
+        'room_name',
+        true,
+        50,
+        'Rooms',
+        true,
+        'meeting_room',
+        '/rooms'
+    );
+
+SET @room_entity_id = LAST_INSERT_ID();
+
+-- Sections for Room
+INSERT INTO
+    erp_sections (
+        entity_type,
+        section_name,
+        section_label,
+        display_order
+    )
+VALUES (
+        'Room',
+        'Basic Info',
+        'Basic Information',
+        1
+    );
+
+SET @room_basic_section = LAST_INSERT_ID();
+
+INSERT INTO
+    erp_sections (
+        entity_type,
+        section_name,
+        section_label,
+        display_order
+    )
+VALUES (
+        'Room',
+        'Details',
+        'Details',
+        2
+    );
+
+SET @room_details_section = LAST_INSERT_ID();
+
+-- Fields for Room
+INSERT INTO
+    erp_fields (
+        entity_type,
+        field_name,
+        field_label,
+        field_type,
+        section_id,
+        is_required,
+        show_in_list,
+        show_in_form
+    )
+VALUES (
+        'Room',
+        'room_name',
+        'Room Name',
+        'TEXT',
+        @room_basic_section,
+        true,
+        true,
+        true
+    ),
+    (
+        'Room',
+        'capacity',
+        'Capacity',
+        'NUMBER',
+        @room_basic_section,
+        true,
+        true,
+        true
+    ),
+    (
+        'Room',
+        'room_type',
+        'Room Type',
+        'SELECT',
+        @room_basic_section,
+        true,
+        true,
+        true
+    ),
+    (
+        'Room',
+        'building',
+        'Building',
+        'TEXT',
+        @room_basic_section,
+        false,
+        true,
+        true
+    ),
+    (
+        'Room',
+        'description',
+        'Description',
+        'TEXTAREA',
+        @room_details_section,
+        false,
+        false,
+        true
+    );
+
+-- 2. Timetable Entity
+INSERT INTO
+    erp_entities (
+        singular_name,
+        plural_name,
+        table_name,
+        pkid,
+        display_column,
+        is_active,
+        sequence,
+        system_name,
+        presence,
+        icon,
+        route
+    )
+VALUES (
+        'Timetable',
+        'Timetables',
+        'erp_timetables',
+        'timetable_id',
+        'timetable_id',
+        true,
+        51,
+        'Timetables',
+        true,
+        'calendar_today',
+        '/timetables'
+    );
+
+SET @timetable_entity_id = LAST_INSERT_ID();
+
+-- Sections for Timetable
+INSERT INTO
+    erp_sections (
+        entity_type,
+        section_name,
+        section_label,
+        display_order
+    )
+VALUES (
+        'Timetable',
+        'Schedule Info',
+        'Schedule Information',
+        1
+    );
+
+SET @timetable_section = LAST_INSERT_ID();
+
+-- Fields for Timetable
+INSERT INTO
+    erp_fields (
+        entity_type,
+        field_name,
+        field_label,
+        field_type,
+        section_id,
+        is_required,
+        show_in_list,
+        show_in_form
+    )
+VALUES (
+        'Timetable',
+        'class_id',
+        'Class',
+        'LOOKUP',
+        @timetable_section,
+        true,
+        true,
+        true
+    ),
+    (
+        'Timetable',
+        'subject_id',
+        'Subject',
+        'LOOKUP',
+        @timetable_section,
+        true,
+        true,
+        true
+    ),
+    (
+        'Timetable',
+        'teacher_id',
+        'Teacher',
+        'LOOKUP',
+        @timetable_section,
+        true,
+        true,
+        true
+    ),
+    (
+        'Timetable',
+        'room_id',
+        'Room',
+        'LOOKUP',
+        @timetable_section,
+        false,
+        true,
+        true
+    ),
+    (
+        'Timetable',
+        'day_of_week',
+        'Day',
+        'SELECT',
+        @timetable_section,
+        true,
+        true,
+        true
+    ),
+    (
+        'Timetable',
+        'start_time',
+        'Start Time',
+        'TIME',
+        @timetable_section,
+        true,
+        true,
+        true
+    ),
+    (
+        'Timetable',
+        'end_time',
+        'End Time',
+        'TIME',
+        @timetable_section,
+        true,
+        true,
+        true
+    ),
+    (
+        'Timetable',
+        'period_number',
+        'Period',
+        'NUMBER',
+        @timetable_section,
+        true,
+        true,
+        true
+    ),
+    (
+        'Timetable',
+        'academic_year',
+        'Academic Year',
+        'TEXT',
+        @timetable_section,
+        true,
+        true,
+        true
+    );
 
 -- ============================================================================
 -- End of Schema - All tables created with proper FK ordering

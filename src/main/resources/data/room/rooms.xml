@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rooms>
+    <room>
+        <roomName>101</roomName>
+        <capacity>40</capacity>
+        <roomType>CLASSROOM</roomType>
+        <building>Main Block</building>
+        <description>General Purpose Classroom</description>
+        <isActive>true</isActive>
+    </room>
+    <room>
+        <roomName>102</roomName>
+        <capacity>40</capacity>
+        <roomType>CLASSROOM</roomType>
+        <building>Main Block</building>
+        <description>General Purpose Classroom</description>
+        <isActive>true</isActive>
+    </room>
+    <room>
+        <roomName>201</roomName>
+        <capacity>30</capacity>
+        <roomType>LAB</roomType>
+        <building>Science Block</building>
+        <description>Physics Laboratory</description>
+        <isActive>true</isActive>
+    </room>
+    <room>
+        <roomName>202</roomName>
+        <capacity>30</capacity>
+        <roomType>LAB</roomType>
+        <building>Science Block</building>
+        <description>Chemistry Laboratory</description>
+        <isActive>true</isActive>
+    </room>
+    <room>
+        <roomName>203</roomName>
+        <capacity>50</capacity>
+        <roomType>COMPUTER_LAB</roomType>
+        <building>Tech Block</building>
+        <description>Computer Lab A</description>
+        <isActive>true</isActive>
+    </room>
+    <room>
+        <roomName>301</roomName>
+        <capacity>100</capacity>
+        <roomType>HALL</roomType>
+        <building>Auditorium</building>
+        <description>Lecture Hall 1</description>
+        <isActive>true</isActive>
+    </room>
+</rooms>

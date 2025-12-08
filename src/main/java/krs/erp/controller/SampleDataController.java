@@ -89,6 +89,10 @@ public class SampleDataController {
                             dataImportService.importSubjectsDataFromXml(xmlFilePath);
                         } else if (isClassEntity(entityName)) {
                             dataImportService.importClassesDataFromXml(xmlFilePath);
+                        } else if (isTimetableEntity(entityName)) {
+                            dataImportService.importTimetablesDataFromXml(xmlFilePath);
+                        } else if (isRoomEntity(entityName)) {
+                            dataImportService.importRoomsDataFromXml(xmlFilePath);
                         } else {
                             // For other entities, use the generic import
                             dataImportService.importDataFromXml(xmlFilePath);
@@ -165,6 +169,8 @@ public class SampleDataController {
         entityToXmlMap.put("medical", "data/student/sample_medical_data.xml");
         entityToXmlMap.put("guardians", "data/student/sample_guardian_data.xml");
 
+        entityToXmlMap.put("rooms", "data/room/rooms.xml");
+
         return entityToXmlMap.get(entityName.toLowerCase());
     }
 
@@ -211,5 +217,19 @@ public class SampleDataController {
      */
     private boolean isClassEntity(String entityName) {
         return entityName.equalsIgnoreCase("classes");
+    }
+
+    /**
+     * Check if the entity name represents timetable data
+     */
+    private boolean isTimetableEntity(String entityName) {
+        return entityName.equalsIgnoreCase("timetables");
+    }
+
+    /**
+     * Check if the entity name represents room data
+     */
+    private boolean isRoomEntity(String entityName) {
+        return entityName.equalsIgnoreCase("rooms");
     }
 }
