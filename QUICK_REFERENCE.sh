@@ -83,7 +83,7 @@ mysql -u root -e "CREATE DATABASE erp_database CHARACTER SET utf8mb4 COLLATE utf
 # - src/main/java/krs/erp/
 
 # Database schema:
-# - src/main/resources/schema.sql
+# - src/main/resources/master_schema.sql
 
 # ============================================
 # COMMON WORKFLOWS
