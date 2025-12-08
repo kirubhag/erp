@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="ASSIGNMENT">
+    <section>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>Basic Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Assignment title and basic details</description>
+    </section>
+
+    <section>
+        <sectionName>assignment_details</sectionName>
+        <sectionLabel>Assignment Details</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Subject, grade, and due date information</description>
+    </section>
+
+    <section>
+        <sectionName>description_info</sectionName>
+        <sectionLabel>Description</sectionLabel>
+        <layoutType>SINGLE_COLUMN</layoutType>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Assignment description and instructions</description>
+    </section>
+</entitySections>

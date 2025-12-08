@@ -533,6 +533,38 @@ export class SampleDataModalComponent implements OnInit {
       description: 'Parent/guardian contact information'
     },
     {
+      name: 'ROOMS',
+      label: 'Rooms',
+      icon: 'fas fa-door-open',
+      isImported: false,
+      isSelected: true,
+      description: 'Classrooms and facility details'
+    },
+    {
+      name: 'COURSES',
+      label: 'Courses',
+      icon: 'fas fa-graduation-cap',
+      isImported: false,
+      isSelected: true,
+      description: 'Educational courses and curriculum'
+    },
+    {
+      name: 'EXAMS',
+      label: 'Exams',
+      icon: 'fas fa-file-alt',
+      isImported: false,
+      isSelected: true,
+      description: 'Examination schedules and records'
+    },
+    {
+      name: 'ATTENDANCE',
+      label: 'Attendance',
+      icon: 'fas fa-clipboard-check',
+      isImported: false,
+      isSelected: true,
+      description: 'Student attendance records'
+    },
+    {
       name: 'ADDRESSES',
       label: 'Addresses',
       icon: 'fas fa-map-marker-alt',
@@ -548,7 +580,7 @@ export class SampleDataModalComponent implements OnInit {
     private organizationService: OrganizationService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const org = this.organizationService.getCurrentOrganization();

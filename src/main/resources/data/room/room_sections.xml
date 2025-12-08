@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="ROOM">
+    <section>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>Basic Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Basic room details including name, capacity, and type</description>
+    </section>
+
+    <section>
+        <sectionName>location_info</sectionName>
+        <sectionLabel>Location Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Room location details including building information</description>
+    </section>
+
+    <section>
+        <sectionName>additional_info</sectionName>
+        <sectionLabel>Additional Information</sectionLabel>
+        <layoutType>SINGLE_COLUMN</layoutType>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Additional room details and notes</description>
+    </section>
+</entitySections>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="USER">
+    <section>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>Basic Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Username and email information</description>
+    </section>
+
+    <section>
+        <sectionName>role_info</sectionName>
+        <sectionLabel>Role Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>User roles and permissions</description>
+    </section>
+
+    <section>
+        <sectionName>status_info</sectionName>
+        <sectionLabel>Status Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Active status and last login details</description>
+    </section>
+</entitySections>

@@ -214,6 +214,48 @@ public class TenantProvisioningService {
                 throw e;
             }
 
+            // 7. Copy Custom Views (System custom views)
+            try {
+                System.out.println("Copying Custom Views...");
+                masterJdbc.query("SELECT * FROM custom_views WHERE created_by = 'system'", rs -> {
+                    String sql = "INSERT IGNORE INTO custom_views (custom_view_id, view_name, description, entity_type, is_default, is_public, created_by, created_time, modified_time, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    tenantJdbc.update(sql,
+                            rs.getLong("custom_view_id"),
+                            rs.getString("view_name"),
+                            rs.getString("description"),
+                            rs.getString("entity_type"),
+                            rs.getBoolean("is_default"),
+                            rs.getBoolean("is_public"),
+                            rs.getString("created_by"),
+                            rs.getTimestamp("created_time"),
+                            rs.getTimestamp("modified_time"),
+                            rs.getInt("is_active"));
+                });
+                System.out.println("Custom Views copied.");
+            } catch (Exception e) {
+                System.err.println("Failed to copy Custom Views: " + e.getMessage());
+                e.printStackTrace();
+                throw e;
+            }
+
+            // 8. Copy Custom View Fields
+            try {
+                System.out.println("Copying Custom View Fields...");
+                masterJdbc.query("SELECT cvf.* FROM custom_view_fields cvf " +
+                        "JOIN custom_views cv ON cvf.custom_view_id = cv.custom_view_id " +
+                        "WHERE cv.created_by = 'system'", rs -> {
+                            String sql = "INSERT IGNORE INTO custom_view_fields (custom_view_id, field_name) VALUES (?, ?)";
+                            tenantJdbc.update(sql,
+                                    rs.getLong("custom_view_id"),
+                                    rs.getString("field_name"));
+                        });
+                System.out.println("Custom View Fields copied.");
+            } catch (Exception e) {
+                System.err.println("Failed to copy Custom View Fields: " + e.getMessage());
+                e.printStackTrace();
+                throw e;
+            }
+
             System.out.println("System data copied successfully to tenant DB: " + dbName);
 
         } catch (Exception e) {

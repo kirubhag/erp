@@ -134,7 +134,7 @@ class TimetableRepositoryTest {
 
     @Test
     void testFindByGradeLevelAndIsActive() {
-        List<Timetable> activeGrade10 = timetableRepository.findByGradeLevelAndIsActive("Grade 10", true);
+        List<Timetable> activeGrade10 = timetableRepository.findByGradeLevelAndIsActive("Grade 10", 1);
         assertThat(activeGrade10).hasSize(2);
     }
 
@@ -146,7 +146,7 @@ class TimetableRepositoryTest {
 
     @Test
     void testFindByClassNameAndIsActive() {
-        List<Timetable> activeClass10A = timetableRepository.findByClassNameAndIsActive("Class 10-A", true);
+        List<Timetable> activeClass10A = timetableRepository.findByClassNameAndIsActive("Class 10-A", 1);
         assertThat(activeClass10A).hasSize(2);
     }
 
@@ -159,7 +159,7 @@ class TimetableRepositoryTest {
     @Test
     void testFindByDayOfWeekAndIsActive() {
         List<Timetable> activeMondayClasses = timetableRepository.findByDayOfWeekAndIsActive(
-                Timetable.DayOfWeek.MONDAY, true);
+                Timetable.DayOfWeek.MONDAY, 1);
         assertThat(activeMondayClasses).hasSize(1);
     }
 

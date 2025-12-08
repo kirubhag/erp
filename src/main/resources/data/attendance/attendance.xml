@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <attendance>
+        <student_id lookup="true">S1001</student_id>
+        <class_id lookup="true">C001</class_id>
+        <date>2023-10-01</date>
+        <status>PRESENT</status>
+        <remarks>On time</remarks>
+    </attendance>
+    <attendance>
+        <student_id lookup="true">S1002</student_id>
+        <class_id lookup="true">C001</class_id>
+        <date>2023-10-01</date>
+        <status>ABSENT</status>
+        <remarks>Sick Leave</remarks>
+    </attendance>
+</root>

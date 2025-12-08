@@ -33,7 +33,9 @@ public enum EntityType {
     // Additional entity types
     ADDRESS("Address"),
     STUDENT_GUARDIAN("StudentGuardian"),
-    STUDENT_MEDICAL("StudentMedical");
+    STUDENT_MEDICAL("StudentMedical"),
+    ROOM("Room"),
+    DASHBOARD("Dashboard");
     
     private final String displayName;
     

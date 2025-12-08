@@ -93,6 +93,12 @@ public class SampleDataController {
                             dataImportService.importTimetablesDataFromXml(xmlFilePath);
                         } else if (isRoomEntity(entityName)) {
                             dataImportService.importRoomsDataFromXml(xmlFilePath);
+                        } else if (isAttendanceEntity(entityName)) {
+                            dataImportService.importAttendanceDataFromXml(xmlFilePath);
+                        } else if (isCourseEntity(entityName)) {
+                            dataImportService.importCoursesDataFromXml(xmlFilePath);
+                        } else if (isExamEntity(entityName)) {
+                            dataImportService.importExamsDataFromXml(xmlFilePath);
                         } else {
                             // For other entities, use the generic import
                             dataImportService.importDataFromXml(xmlFilePath);
@@ -170,6 +176,9 @@ public class SampleDataController {
         entityToXmlMap.put("guardians", "data/student/sample_guardian_data.xml");
 
         entityToXmlMap.put("rooms", "data/room/rooms.xml");
+        entityToXmlMap.put("attendance", "data/attendance/attendance.xml");
+        entityToXmlMap.put("courses", "data/course/courses.xml");
+        entityToXmlMap.put("exams", "data/exam/exams.xml");
 
         return entityToXmlMap.get(entityName.toLowerCase());
     }
@@ -231,5 +240,17 @@ public class SampleDataController {
      */
     private boolean isRoomEntity(String entityName) {
         return entityName.equalsIgnoreCase("rooms");
+    }
+
+    private boolean isAttendanceEntity(String entityName) {
+        return entityName.equalsIgnoreCase("attendance");
+    }
+
+    private boolean isCourseEntity(String entityName) {
+        return entityName.equalsIgnoreCase("courses");
+    }
+
+    private boolean isExamEntity(String entityName) {
+        return entityName.equalsIgnoreCase("exams");
     }
 }

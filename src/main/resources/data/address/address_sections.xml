@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="ADDRESS">
+    <section>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>Basic Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Basic address details including entity type and ID</description>
+    </section>
+
+    <section>
+        <sectionName>address_details</sectionName>
+        <sectionLabel>Address Details</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Complete address information</description>
+    </section>
+
+    <section>
+        <sectionName>additional_info</sectionName>
+        <sectionLabel>Additional Information</sectionLabel>
+        <layoutType>SINGLE_COLUMN</layoutType>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Address type and additional notes</description>
+    </section>
+</entitySections>

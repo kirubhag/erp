@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="GRADE">
+    <section>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>Basic Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Student and subject information</description>
+    </section>
+
+    <section>
+        <sectionName>exam_info</sectionName>
+        <sectionLabel>Exam Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Exam and term details</description>
+    </section>
+
+    <section>
+        <sectionName>marks_info</sectionName>
+        <sectionLabel>Marks &amp; Grades</sectionLabel>
+        <layoutType>THREE_COLUMN</layoutType>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Marks obtained, total marks, and grade details</description>
+    </section>
+
+    <section>
+        <sectionName>additional_info</sectionName>
+        <sectionLabel>Additional Information</sectionLabel>
+        <layoutType>SINGLE_COLUMN</layoutType>
+        <displayOrder>4</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>true</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Remarks and additional notes</description>
+    </section>
+</entitySections>

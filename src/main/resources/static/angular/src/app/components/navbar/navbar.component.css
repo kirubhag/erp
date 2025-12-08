@@ -11,6 +11,51 @@
   color: white !important;
 }
 
+/* Menu container - responsive width management */
+.navbar-nav.me-auto {
+  overflow: visible;
+  flex-wrap: nowrap;
+  flex-grow: 1;
+}
+
+/* Responsive menu behavior */
+@media (min-width: 1600px) {
+  .navbar-nav.me-auto {
+    max-width: none; /* Allow expansion on large screens */
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1599px) {
+  .navbar-nav.me-auto {
+    max-width: 70%; /* Limit to 70% on standard desktops */
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .navbar-nav.me-auto {
+    max-width: 65%; /* Limit to 65% on small laptops */
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .navbar-nav.me-auto {
+    max-width: 60%; /* Limit to 60% on tablets */
+  }
+  
+  .nav-link {
+    padding: 0.5rem 0.75rem; /* Reduce padding on smaller screens */
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile: Bootstrap collapse handles this */
+@media (max-width: 767px) {
+  .navbar-nav.me-auto {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
 .nav-link {
   padding: 0.5rem 1rem;
   font-weight: 500;

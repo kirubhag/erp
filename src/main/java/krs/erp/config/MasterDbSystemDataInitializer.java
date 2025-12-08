@@ -72,6 +72,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
         loadErpFields();
         loadErpEntities();
         loadErpEntityRelations();
+        loadCustomViews();
 
         logger.info("=== IAM_MasterDB System Data Initialization Completed ===");
     }
@@ -343,7 +344,18 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                                     +
                                     "description, created_time, modified_time, is_active) " +
                                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
-                                    "ON DUPLICATE KEY UPDATE modified_time = ?",
+                                    "ON DUPLICATE KEY UPDATE " +
+                                    "section_label = VALUES(section_label), " +
+                                    "layout_type = VALUES(layout_type), " +
+                                    "display_order = VALUES(display_order), " +
+                                    "is_collapsible = VALUES(is_collapsible), " +
+                                    "is_collapsed_by_default = VALUES(is_collapsed_by_default), " +
+                                    "show_in_create = VALUES(show_in_create), " +
+                                    "show_in_edit = VALUES(show_in_edit), " +
+                                    "show_in_detail = VALUES(show_in_detail), " +
+                                    "description = VALUES(description), " +
+                                    "is_active = VALUES(is_active), " +
+                                    "modified_time = ?",
                             entityType, sectionName, sectionLabel, layoutType, displayOrder,
                             isCollapsible, isCollapsedByDefault, showInCreate, showInEdit, showInDetail,
                             description, LocalDateTime.now(), LocalDateTime.now(), 1,
@@ -391,13 +403,13 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                 Element root = doc.getDocumentElement();
                 String entityType = root.getAttribute("type");
-                
+
                 // Validate entity type
                 if (entityType == null || entityType.trim().isEmpty()) {
                     logger.warn("Skipping file {} - no entity type specified", resource.getFilename());
                     continue;
                 }
-                
+
                 logger.debug("Processing fields for entity type: {}", entityType);
 
                 NodeList fieldNodes = root.getElementsByTagName("field");
@@ -442,7 +454,21 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                                         "field_description, max_length, validation_pattern, created_time, modified_time, is_active) "
                                         +
                                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
-                                        "ON DUPLICATE KEY UPDATE modified_time = ?",
+                                        "ON DUPLICATE KEY UPDATE " +
+                                        "field_label = VALUES(field_label), " +
+                                        "field_type = VALUES(field_type), " +
+                                        "section_id = VALUES(section_id), " +
+                                        "display_order = VALUES(display_order), " +
+                                        "is_required = VALUES(is_required), " +
+                                        "is_searchable = VALUES(is_searchable), " +
+                                        "is_sortable = VALUES(is_sortable), " +
+                                        "show_in_list = VALUES(show_in_list), " +
+                                        "show_in_form = VALUES(show_in_form), " +
+                                        "field_description = VALUES(field_description), " +
+                                        "max_length = VALUES(max_length), " +
+                                        "validation_pattern = VALUES(validation_pattern), " +
+                                        "is_active = VALUES(is_active), " +
+                                        "modified_time = ?",
                                 entityType, fieldName, fieldLabel, fieldType, sectionId, displayOrder,
                                 isRequired, isSearchable, isSortable, showInList, showInForm,
                                 description, maxLength, validationPattern, LocalDateTime.now(), LocalDateTime.now(), 1,
@@ -455,8 +481,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         } catch (Exception ex) {
                             // ignore
                         }
-                        logger.error("Error loading field '{}' for entity type '{}' from {}: {}", 
-                            fieldName, entityType, resource.getFilename(), e.getMessage());
+                        logger.error("Error loading field '{}' for entity type '{}' from {}: {}",
+                                fieldName, entityType, resource.getFilename(), e.getMessage());
                     }
                 }
             }
@@ -525,7 +551,20 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                                 "has_rel_table, icon, route, sequence, presence, is_active, created_date, last_modified_date, created_by, last_modified_by) "
                                 +
                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
-                                "ON DUPLICATE KEY UPDATE last_modified_date = ?, last_modified_by = ?",
+                                "ON DUPLICATE KEY UPDATE " +
+                                "singular_name = VALUES(singular_name), " +
+                                "plural_name = VALUES(plural_name), " +
+                                "description = VALUES(description), " +
+                                "table_name = VALUES(table_name), " +
+                                "pkid = VALUES(pkid), " +
+                                "display_column = VALUES(display_column), " +
+                                "has_rel_table = VALUES(has_rel_table), " +
+                                "icon = VALUES(icon), " +
+                                "route = VALUES(route), " +
+                                "sequence = VALUES(sequence), " +
+                                "presence = VALUES(presence), " +
+                                "is_active = VALUES(is_active), " +
+                                "last_modified_date = ?, last_modified_by = ?",
                         singularName, pluralName, systemName, description, tableName, pkid, displayColumn,
                         hasRelTable, icon, route, sequence, presence, isActive, LocalDateTime.now(),
                         LocalDateTime.now(), "SYSTEM", "SYSTEM",
@@ -547,27 +586,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
         try {
             logger.info("Loading ERP entity relations into IAM_MasterDB...");
 
-            // Create table if it doesn't exist
-            masterJdbcTemplate.execute(
-                "CREATE TABLE IF NOT EXISTS IAM_MasterDB.erp_entity_relations (" +
-                "relation_id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
-                "parent_entity_id BIGINT NOT NULL, " +
-                "child_entity_id BIGINT NOT NULL, " +
-                "relation_type VARCHAR(50) NOT NULL, " +
-                "relation_name VARCHAR(255), " +
-                "foreign_key_column VARCHAR(100), " +
-                "is_mandatory TINYINT(1) DEFAULT 0, " +
-                "cascade_delete TINYINT(1) DEFAULT 0, " +
-                "display_order INT DEFAULT 0, " +
-                "is_active TINYINT(1) DEFAULT 1, " +
-                "created_time DATETIME DEFAULT CURRENT_TIMESTAMP, " +
-                "modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
-                "UNIQUE KEY unique_relation (parent_entity_id, child_entity_id, relation_type), " +
-                "FOREIGN KEY (parent_entity_id) REFERENCES IAM_MasterDB.erp_entities(erp_entity_id), " +
-                "FOREIGN KEY (child_entity_id) REFERENCES IAM_MasterDB.erp_entities(erp_entity_id)" +
-                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
-            );
-            logger.info("✓ Table IAM_MasterDB.erp_entity_relations ensured");
+            // Table will be created automatically by JPA from ErpEntityRelationMapping
+            // entity
 
             // Check if relations already exist
             // Integer count = masterJdbcTemplate.queryForObject(
@@ -683,5 +703,109 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
             return "true".equalsIgnoreCase(text) || "1".equals(text);
         }
         return defaultValue;
+    }
+
+    /**
+     * Load custom views from custom_views.xml file
+     */
+    private void loadCustomViews() {
+        try {
+            logger.info("Loading custom views into IAM_MasterDB...");
+
+            // Load custom_views.xml file
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            Resource resource = resolver.getResource("classpath:data/custom_views.xml");
+
+            if (!resource.exists()) {
+                logger.warn("custom_views.xml not found. Skipping custom views initialization.");
+                return;
+            }
+
+            int totalLoaded = 0;
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(resource.getInputStream());
+
+            Element root = doc.getDocumentElement();
+            NodeList customViewNodes = root.getElementsByTagName("customView");
+
+            for (int i = 0; i < customViewNodes.getLength(); i++) {
+                Element customViewElement = (Element) customViewNodes.item(i);
+
+                String viewName = getElementText(customViewElement, "viewName");
+                String description = getElementText(customViewElement, "description", null);
+                String entityType = getElementText(customViewElement, "entityType");
+                Boolean isDefault = getElementBoolean(customViewElement, "isDefault", false);
+                Boolean isPublic = getElementBoolean(customViewElement, "isPublic", false);
+
+                // Get selected fields
+                NodeList selectedFieldsNodes = customViewElement.getElementsByTagName("selectedFields");
+                if (selectedFieldsNodes.getLength() == 0) {
+                    logger.warn("No selectedFields found for custom view: {}", viewName);
+                    continue;
+                }
+
+                Element selectedFieldsElement = (Element) selectedFieldsNodes.item(0);
+                NodeList fieldNodes = selectedFieldsElement.getElementsByTagName("field");
+
+                // Check if view already exists
+                Integer existingCount = masterJdbcTemplate.queryForObject(
+                        "SELECT COUNT(*) FROM IAM_MasterDB.custom_views WHERE view_name = ? AND entity_type = ?",
+                        Integer.class, viewName, entityType);
+
+                Long customViewId;
+
+                if (existingCount != null && existingCount > 0) {
+                    // Update existing view
+                    masterJdbcTemplate.update(
+                            "UPDATE IAM_MasterDB.custom_views " +
+                                    "SET description = ?, is_default = ?, is_public = ?, modified_time = ? " +
+                                    "WHERE view_name = ? AND entity_type = ?",
+                            description, isDefault, isPublic, LocalDateTime.now(),
+                            viewName, entityType);
+
+                    // Get existing view ID
+                    customViewId = masterJdbcTemplate.queryForObject(
+                            "SELECT custom_view_id FROM IAM_MasterDB.custom_views WHERE view_name = ? AND entity_type = ?",
+                            Long.class, viewName, entityType);
+
+                    // Delete existing fields
+                    masterJdbcTemplate.update(
+                            "DELETE FROM IAM_MasterDB.custom_view_fields WHERE custom_view_id = ?",
+                            customViewId);
+                } else {
+                    // Insert new view
+                    masterJdbcTemplate.update(
+                            "INSERT INTO IAM_MasterDB.custom_views " +
+                                    "(view_name, description, entity_type, is_default, is_public, " +
+                                    "created_by, created_time, modified_time, is_active) " +
+                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                            viewName, description, entityType, isDefault, isPublic,
+                            "system", LocalDateTime.now(), LocalDateTime.now(), 1);
+
+                    // Get generated view ID
+                    customViewId = masterJdbcTemplate.queryForObject(
+                            "SELECT LAST_INSERT_ID()", Long.class);
+                }
+
+                // Insert selected fields
+                for (int j = 0; j < fieldNodes.getLength(); j++) {
+                    Element fieldElement = (Element) fieldNodes.item(j);
+                    String fieldName = fieldElement.getTextContent().trim();
+
+                    masterJdbcTemplate.update(
+                            "INSERT INTO IAM_MasterDB.custom_view_fields (custom_view_id, field_name) VALUES (?, ?)",
+                            customViewId, fieldName);
+                }
+
+                totalLoaded++;
+            }
+
+            logger.info("✓ Loaded {} custom views into IAM_MasterDB", totalLoaded);
+
+        } catch (Exception e) {
+            logger.error("Error loading custom views", e);
+        }
     }
 }

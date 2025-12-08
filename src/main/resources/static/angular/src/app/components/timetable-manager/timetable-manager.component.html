@@ -1,53 +1,59 @@
-<div class="container-fluid p-4">
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3>Create New Class Timetable</h3>
-        <div class="d-flex gap-2 align-items-center">
-            <select class="form-select" [(ngModel)]="selectedClassId" (change)="onClassChange()" style="width: 200px;">
-                <option value="" disabled>Select Class</option>
-                <option *ngFor="let cls of classes" [value]="cls.id">{{ cls.name }}</option>
-            </select>
-            <button class="btn btn-primary" (click)="saveTimetable()">
-                <i class="bi bi-save me-1"></i> Save Timetable
-            </button>
-            <button class="btn btn-danger" (click)="clearGrid()">
-                <i class="bi bi-trash me-1"></i> Clear Grid
-            </button>
+<div class="setup-wrapper">
+    <div class="setup-container">
+        <!-- Header -->
+        <div class="setup-header">
+            <h1 class="setup-title">Create New Class Timetable</h1>
+
+            <div class="d-flex gap-2 align-items-center">
+                <select class="form-select" [(ngModel)]="selectedClassId" (change)="onClassChange()"
+                    style="width: 200px;">
+                    <option value="" disabled>Select Class</option>
+                    <option *ngFor="let cls of classes" [value]="cls.id">{{ cls.name }}</option>
+                </select>
+                <button class="btn btn-primary" (click)="saveTimetable()">
+                    <i class="bi bi-save me-1"></i> Save
+                </button>
+                <button class="btn btn-danger" (click)="clearGrid()">
+                    <i class="bi bi-trash me-1"></i> Clear
+                </button>
+            </div>
         </div>
-    </div>
 
-    <!-- Timetable Grid -->
-    <div class="card shadow-sm">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-bordered mb-0 timetable-grid">
-                    <thead class="table-light text-center">
-                        <tr>
-                            <th style="width: 80px;">Period</th>
-                            <th *ngFor="let day of days">{{ day }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let p of periods">
-                            <td class="text-center align-middle fw-bold bg-light">P{{p}}</td>
-                            <td *ngFor="let day of days" (click)="openSlot(day, p)"
-                                class="timetable-cell position-relative" [class.filled]="isSlotFilled(day, p)">
+        <!-- Timetable Grid -->
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-bordered mb-0 timetable-grid">
+                        <thead class="table-light text-center">
+                            <tr>
+                                <th style="width: 80px;" class="bg-light text-muted text-uppercase small">Period</th>
+                                <th *ngFor="let day of days" class="bg-light text-muted text-uppercase small">{{ day }}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of periods">
+                                <td class="text-center align-middle fw-bold text-muted bg-light">P{{p}}</td>
+                                <td *ngFor="let day of days" (click)="openSlot(day, p)"
+                                    class="timetable-cell position-relative" [class.filled]="isSlotFilled(day, p)">
 
-                                <div *ngIf="getSlotData(day, p) as slot" class="slot-content">
-                                    <div class="fw-bold">{{ slot.subject }}</div>
-                                    <div class="small text-muted">{{ slot.teacher }}</div>
-                                    <div class="badge bg-secondary position-absolute bottom-0 end-0 m-1"
-                                        style="font-size: 0.6em;">
-                                        {{ slot.room }}
+                                    <div *ngIf="getSlotData(day, p) as slot" class="slot-content">
+                                        <div class="fw-bold text-dark">{{ slot.subject }}</div>
+                                        <div class="small text-muted">{{ slot.teacher }}</div>
+                                        <div class="badge bg-light text-dark border position-absolute bottom-0 end-0 m-1"
+                                            style="font-size: 0.6em;">
+                                            {{ slot.room }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div *ngIf="!getSlotData(day, p)" class="empty-slot-placeholder text-muted opacity-25">
-                                    <i class="bi bi-plus-lg"></i>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    <div *ngIf="!getSlotData(day, p)"
+                                        class="empty-slot-placeholder text-muted opacity-25">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

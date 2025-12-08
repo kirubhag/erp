@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="TIMETABLE">
+    <section>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>Basic Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Grade, section, and day information</description>
+    </section>
+
+    <section>
+        <sectionName>period_info</sectionName>
+        <sectionLabel>Period Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Period number and timing</description>
+    </section>
+
+    <section>
+        <sectionName>class_details</sectionName>
+        <sectionLabel>Class Details</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Subject, teacher, and room information</description>
+    </section>
+
+    <section>
+        <sectionName>additional_info</sectionName>
+        <sectionLabel>Additional Information</sectionLabel>
+        <layoutType>SINGLE_COLUMN</layoutType>
+        <displayOrder>4</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>true</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Additional notes and remarks</description>
+    </section>
+</entitySections>

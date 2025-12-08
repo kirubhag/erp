@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <exams>
+        <exam_name>Midterm Exam 2023</exam_name>
+        <academic_year>2023-2024</academic_year>
+        <term>Term 1</term>
+        <start_date>2023-10-15</start_date>
+        <end_date>2023-10-25</end_date>
+        <status>SCHEDULED</status>
+    </exams>
+    <exams>
+        <exam_name>Final Exam 2023</exam_name>
+        <academic_year>2023-2024</academic_year>
+        <term>Term 2</term>
+        <start_date>2024-03-15</start_date>
+        <end_date>2024-03-25</end_date>
+        <status>PLANNED</status>
+    </exams>
+</root>

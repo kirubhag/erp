@@ -53,6 +53,10 @@ import krs.erp.model.Timetable;
 import krs.erp.model.Timetable.DayOfWeek;
 import krs.erp.repository.RoomRepository;
 import krs.erp.repository.TimetableRepository;
+import krs.erp.model.Course;
+import krs.erp.model.Exam;
+import krs.erp.repository.CourseRepository;
+import krs.erp.repository.ExamRepository;
 
 @Service
 public class DataImportService {
@@ -97,6 +101,14 @@ public class DataImportService {
 
     @Autowired
     private ErpClassRepository classRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private ExamRepository examRepository;
+
+    // Cache for entities to avoid repeated lookups
 
     @Autowired
     private RoomRepository roomRepository;
@@ -146,6 +158,8 @@ public class DataImportService {
             importParentStudentRelations(document);
             importSubjects(document);
             importAttendance(document);
+            importCourses(document);
+            importExams(document);
             importHealthRecords(document);
 
             logger.info("Data import completed successfully");
@@ -1195,6 +1209,69 @@ public class DataImportService {
             }
         } catch (Exception e) {
             // Ignore if fields don't exist or can't be set
+        }
+    }
+
+    public void importAttendanceDataFromXml(String filePath) {
+        importDataFromXml(filePath);
+    }
+
+    public void importCoursesDataFromXml(String filePath) {
+        importDataFromXml(filePath);
+    }
+
+    private void importCourses(Document document) {
+        NodeList courseNodes = document.getElementsByTagName("course");
+        logger.info("Importing {} courses", courseNodes.getLength());
+
+        for (int i = 0; i < courseNodes.getLength(); i++) {
+            Element element = (Element) courseNodes.item(i);
+
+            Course course = new Course();
+            course.setCourseCode(element.getAttribute("course_code"));
+            course.setCourseName(element.getAttribute("course_name"));
+            course.setDescription(getAttributeOrNull(element, "description"));
+
+            String credits = getAttributeOrNull(element, "credits");
+            if (credits != null) {
+                course.setCredits(Integer.valueOf(credits));
+            }
+
+            course.setDepartment(getAttributeOrNull(element, "department"));
+
+            setBaseEntityFields(course, element);
+
+            if (course.getCourseCode() != null && !courseRepository.existsByCourseCode(course.getCourseCode())) {
+                courseRepository.save(course);
+            } else {
+                logger.warn("Skipping or updating existing course: {}", course.getCourseCode());
+            }
+        }
+    }
+
+    public void importExamsDataFromXml(String filePath) {
+        importDataFromXml(filePath);
+    }
+
+    private void importExams(Document document) {
+        NodeList examNodes = document.getElementsByTagName("exam");
+        logger.info("Importing {} exams", examNodes.getLength());
+
+        for (int i = 0; i < examNodes.getLength(); i++) {
+            Element element = (Element) examNodes.item(i);
+
+            Exam exam = new Exam();
+            exam.setExamName(element.getAttribute("exam_name"));
+            exam.setAcademicYear(getAttributeOrNull(element, "academic_year"));
+            exam.setTerm(getAttributeOrNull(element, "term"));
+
+            exam.setStartDate(parseLocalDate(getAttributeOrNull(element, "start_date")));
+            exam.setEndDate(parseLocalDate(getAttributeOrNull(element, "end_date")));
+            exam.setStatus(getAttributeOrNull(element, "status"));
+
+            setBaseEntityFields(exam, element);
+
+            examRepository.save(exam);
         }
     }
 }

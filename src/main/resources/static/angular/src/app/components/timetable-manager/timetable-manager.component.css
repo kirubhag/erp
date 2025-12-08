@@ -30,6 +30,62 @@
     text-align: center;
 }
 
-.timetable-cell:hover .empty-slot-placeholder {
-    display: block;
+
+/* Setup Layout Implementation */
+.setup-wrapper {
+    display: flex;
+    min-height: calc(100vh - 60px);
+    background-color: #f8f9fa;
+}
+
+.setup-container {
+    flex: 1;
+    max-width: 100%;
+    padding: 2rem 1rem;
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: calc(100vh - 120px);
+    overflow-y: auto;
+    margin-top: 56px;
+}
+
+/* Header Section */
+.setup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Adjusted for Timetable controls */
+    margin-bottom: 2rem;
+    gap: 2rem;
+}
+
+.setup-title {
+    font-size: 2rem;
+    font-weight: 300;
+    color: #333;
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Setup Items/Controls */
+.btn-primary {
+    background-color: var(--app-primary, #2196F3);
+    border-color: var(--app-primary, #2196F3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: var(--app-primary-dark, #1976D2);
+    border-color: var(--app-primary-dark, #1976D2);
+}
+
+.btn-danger {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 14px;
 }

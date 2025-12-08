@@ -4,41 +4,38 @@
       <i class="fas fa-graduation-cap me-2"></i>
       {{organizationName}}
     </a>
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
         <!-- Dynamic menu items -->
         <li class="nav-item" *ngFor="let menuItem of visibleMenuItems; trackBy: trackByMenuItem">
-          <a class="nav-link" 
-             [routerLink]="[menuItem.route]" 
-             routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: false}">
-            <i [class]="menuItem.icon + ' me-1'"></i>{{menuItem.pluralName}}
+          <a class="nav-link" [routerLink]="[menuItem.route]" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: false}">
+            <i [class]="(menuItem.icon || 'fas fa-circle') + ' me-1'"></i>{{menuItem.pluralName}}
           </a>
         </li>
-        
+
         <!-- More dropdown for overflow items -->
-        <li class="nav-item dropdown" *ngIf="hasOverflow">
-          <a class="nav-link dropdown-toggle" href="#" role="button" 
-             data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="nav-item dropdown" *ngIf="hasOverflow" clickOutside (clickOutside)="closeOverflowDropdown()">
+          <a class="nav-link dropdown-toggle" href="javascript:void(0);" role="button"
+            (click)="toggleOverflowDropdown($event)" [attr.aria-expanded]="isOverflowDropdownOpen">
             <i class="fas fa-ellipsis-h"></i>
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu" [class.show]="isOverflowDropdownOpen">
             <li *ngFor="let menuItem of overflowMenuItems">
-              <a class="dropdown-item" [routerLink]="[menuItem.route]"
-                 routerLinkActive="active"
-                 [routerLinkActiveOptions]="{exact: false}">
-                <i [class]="menuItem.icon + ' me-2'"></i>{{menuItem.pluralName}}
+              <a class="dropdown-item" [routerLink]="[menuItem.route]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: false}">
+                <i [class]="(menuItem.icon || 'fas fa-circle') + ' me-2'"></i>{{menuItem.pluralName}}
               </a>
             </li>
           </ul>
         </li>
       </ul>
-      
+
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/onboarding']" title="Get Started" routerLinkActive="active">
@@ -50,106 +47,103 @@
             <i class="fas fa-cog"></i>
           </a>
         </li>
-        
+
         <!-- Profile Dropdown -->
         <li class="nav-item profile-dropdown" (clickOutside)="closeProfileDropdown()">
-          <a class="nav-link profile-icon" 
-             (click)="toggleProfileDropdown($event)" 
-             [class.active]="isProfileDropdownOpen">
+          <a class="nav-link profile-icon" (click)="toggleProfileDropdown($event)"
+            [class.active]="isProfileDropdownOpen">
             <div class="user-avatar">
-              <img *ngIf="hasAvatar && !avatarLoadError" 
-                   [src]="getAvatarUrl()" 
-                   alt="User Avatar"
-                   class="avatar-image"
-                   (error)="onAvatarError()">
+              <img *ngIf="hasAvatar && !avatarLoadError" [src]="getAvatarUrl()" alt="User Avatar" class="avatar-image"
+                (error)="onAvatarError()">
               <div *ngIf="!hasAvatar || avatarLoadError" class="avatar-initials">
                 {{ getUserInitials() }}
               </div>
             </div>
           </a>
-          
+
           <!-- Custom Dropdown Menu -->
           <div class="profile-dropdown-menu" [class.show]="isProfileDropdownOpen">
             <!-- User Info Section -->
             <div class="dropdown-header">
               <div class="user-info">
-                <div class="user-name">{{ currentUser?.name || 'User' }}</div>
-                <div class="user-id">User Id: {{ currentUser?.id || '96430261' }}</div>
+                <div class="user-name">{{ currentUser?.firstName && currentUser?.lastName ? currentUser?.firstName + ' '
+                  + currentUser?.lastName : (currentUser?.name || currentUser?.username || 'User') }}</div>
+                <div class="user-id">User Id: {{ currentUser?.id || '-' }}</div>
               </div>
             </div>
-            
+
             <div class="dropdown-divider"></div>
-            
+
             <!-- My Account -->
             <a class="dropdown-item" (click)="navigateAndClose('/setup/personal-settings')">
               <i class="fas fa-user-circle"></i>
               <span>My Account</span>
             </a>
-            
+
             <div class="dropdown-divider"></div>
-            
+
             <!-- Subscriptions Section -->
             <div class="dropdown-section-title">SUBSCRIPTIONS</div>
             <div class="subscription-badge">Enterprise</div>
-            
+
             <a class="dropdown-item" (click)="navigateAndClose('/setup/subscription')">
               <i class="fas fa-crown"></i>
               <span>Manage Subscription</span>
             </a>
-            
+
             <div class="dropdown-divider"></div>
-            
+
             <!-- Need Help Section -->
             <div class="dropdown-section-title">NEED HELP?</div>
-            
+
             <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
               <i class="fas fa-book"></i>
               <span>Resources</span>
               <i class="fas fa-chevron-right ms-auto"></i>
             </a>
-            
+
             <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
               <i class="fas fa-users"></i>
               <span>User Community</span>
             </a>
-            
+
             <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
               <i class="fas fa-envelope"></i>
               <span>Write to us</span>
             </a>
-            
+
             <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
               <i class="fas fa-comments"></i>
               <span>Chat with us</span>
             </a>
-            
+
             <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
               <i class="fas fa-phone"></i>
               <span>Call us</span>
             </a>
-            
+
             <div class="dropdown-divider"></div>
-            
+
             <!-- News Room Section -->
             <div class="dropdown-section-title">NEWS ROOM</div>
-            
+
             <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
               <i class="fas fa-newspaper"></i>
               <span>What's New?</span>
             </a>
-            
+
             <div class="dropdown-divider"></div>
-            
+
             <!-- Privacy Section -->
             <div class="dropdown-section-title">PRIVACY</div>
-            
+
             <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
               <i class="fas fa-shield-alt"></i>
               <span>GDPR Desk</span>
             </a>
-            
+
             <div class="dropdown-divider"></div>
-            
+
             <!-- Sign Out -->
             <a class="dropdown-item sign-out" (click)="logout(); $event.preventDefault()">
               <i class="fas fa-sign-out-alt"></i>

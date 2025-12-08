@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <courses>
+        <course_name>Mathematics 101</course_name>
+        <course_code>MATH101</course_code>
+        <description>Introduction to Mathematics</description>
+        <credits>3</credits>
+        <department>Mathematics</department>
+    </courses>
+    <courses>
+        <course_name>Physics 101</course_name>
+        <course_code>PHY101</course_code>
+        <description>Introduction to Physics</description>
+        <credits>4</credits>
+        <department>Science</department>
+    </courses>
+</root>

@@ -4,7 +4,7 @@
         <id>1</id>
         <singular_name>Dashboard</singular_name>
         <plural_name>Dashboard</plural_name>
-        <system_name>dashboard</system_name>
+        <system_name>DASHBOARD</system_name>
         <description>Main dashboard for overview and analytics</description>
         <is_active>true</is_active>
         <sequence>1</sequence>
@@ -17,7 +17,7 @@
         <id>2</id>
         <singular_name>Student</singular_name>
         <plural_name>Students</plural_name>
-        <system_name>students</system_name>
+        <system_name>STUDENT</system_name>
         <description>Student management module</description>
         <is_active>true</is_active>
         <sequence>2</sequence>
@@ -34,7 +34,7 @@
         <id>3</id>
         <singular_name>Staff</singular_name>
         <plural_name>Staff</plural_name>
-        <system_name>staff</system_name>
+        <system_name>STAFF</system_name>
         <description>Staff and teacher management module</description>
         <is_active>true</is_active>
         <sequence>3</sequence>
@@ -51,7 +51,7 @@
         <id>4</id>
         <singular_name>Attendance</singular_name>
         <plural_name>Attendance</plural_name>
-        <system_name>attendance</system_name>
+        <system_name>ATTENDANCE</system_name>
         <description>Student and staff attendance tracking</description>
         <is_active>true</is_active>
         <sequence>4</sequence>
@@ -68,7 +68,7 @@
         <id>5</id>
         <singular_name>Parent</singular_name>
         <plural_name>Parents</plural_name>
-        <system_name>parents</system_name>
+        <system_name>PARENT</system_name>
         <description>Parent and guardian management module</description>
         <is_active>true</is_active>
         <sequence>5</sequence>
@@ -85,7 +85,7 @@
         <id>6</id>
         <singular_name>Subject</singular_name>
         <plural_name>Subjects</plural_name>
-        <system_name>subjects</system_name>
+        <system_name>SUBJECT</system_name>
         <description>Subject and course management module</description>
         <is_active>true</is_active>
         <sequence>6</sequence>
@@ -95,6 +95,159 @@
         <table_name>subjects</table_name>
         <pkid>subject_id</pkid>
         <display_column>subject_name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>7</id>
+        <singular_name>Grade</singular_name>
+        <plural_name>Grades</plural_name>
+        <system_name>GRADE</system_name>
+        <description>Student grades and academic performance management</description>
+        <is_active>true</is_active>
+        <sequence>7</sequence>
+        <presence>true</presence>
+        <icon>fas fa-graduation-cap</icon>
+        <route>#!/grades</route>
+        <table_name>erp_grade</table_name>
+        <pkid>grade_id</pkid>
+        <display_column>exam_type</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>8</id>
+        <singular_name>Timetable</singular_name>
+        <plural_name>Timetables</plural_name>
+        <system_name>TIMETABLE</system_name>
+        <description>Class schedule and timetable management</description>
+        <is_active>true</is_active>
+        <sequence>8</sequence>
+        <presence>true</presence>
+        <icon>fas fa-calendar-alt</icon>
+        <route>#!/timetables</route>
+        <table_name>erp_timetables</table_name>
+        <pkid>timetable_id</pkid>
+        <display_column>class_name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>9</id>
+        <singular_name>Room</singular_name>
+        <plural_name>Rooms</plural_name>
+        <system_name>ROOM</system_name>
+        <description>Classroom and facility management</description>
+        <is_active>true</is_active>
+        <sequence>9</sequence>
+        <presence>true</presence>
+        <icon>fas fa-door-open</icon>
+        <route>#!/rooms</route>
+        <table_name>erp_rooms</table_name>
+        <pkid>room_id</pkid>
+        <display_column>room_name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>10</id>
+        <singular_name>User</singular_name>
+        <plural_name>Users</plural_name>
+        <system_name>USER</system_name>
+        <description>System user management</description>
+        <is_active>true</is_active>
+        <sequence>10</sequence>
+        <presence>false</presence>
+        <icon>fas fa-user</icon>
+        <route>#!/users</route>
+        <table_name>users</table_name>
+        <pkid>user_id</pkid>
+        <display_column>username</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>11</id>
+        <singular_name>Address</singular_name>
+        <plural_name>Addresses</plural_name>
+        <system_name>ADDRESS</system_name>
+        <description>Address management for students, staff, and parents</description>
+        <is_active>true</is_active>
+        <sequence>11</sequence>
+        <presence>false</presence>
+        <icon>fas fa-map-marker-alt</icon>
+        <route>#!/addresses</route>
+        <table_name>addresses</table_name>
+        <pkid>address_id</pkid>
+        <display_column>address_line1</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>12</id>
+        <singular_name>Assignment</singular_name>
+        <plural_name>Assignments</plural_name>
+        <system_name>ASSIGNMENT</system_name>
+        <description>Student assignment and homework management</description>
+        <is_active>true</is_active>
+        <sequence>12</sequence>
+        <presence>true</presence>
+        <icon>fas fa-tasks</icon>
+        <route>#!/assignments</route>
+        <table_name>assignments</table_name>
+        <pkid>assignment_id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>13</id>
+        <singular_name>Exam</singular_name>
+        <plural_name>Exams</plural_name>
+        <system_name>EXAM</system_name>
+        <description>Examination management and scheduling</description>
+        <is_active>true</is_active>
+        <sequence>13</sequence>
+        <presence>true</presence>
+        <icon>fas fa-file-alt</icon>
+        <route>#!/exams</route>
+        <table_name>exams</table_name>
+        <pkid>exam_id</pkid>
+        <display_column>exam_name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>14</id>
+        <singular_name>Course</singular_name>
+        <plural_name>Courses</plural_name>
+        <system_name>COURSE</system_name>
+        <description>Course and curriculum management</description>
+        <is_active>true</is_active>
+        <sequence>14</sequence>
+        <presence>true</presence>
+        <icon>fas fa-book-open</icon>
+        <route>#!/courses</route>
+        <table_name>courses</table_name>
+        <pkid>course_id</pkid>
+        <display_column>course_name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>15</id>
+        <singular_name>Health Record</singular_name>
+        <plural_name>Health Records</plural_name>
+        <system_name>HEALTH</system_name>
+        <description>Student health records management</description>
+        <is_active>true</is_active>
+        <sequence>15</sequence>
+        <presence>false</presence>
+        <icon>fas fa-heartbeat</icon>
+        <route>#!/health-records</route>
+        <table_name>health_records</table_name>
+        <pkid>health_record_id</pkid>
+        <display_column>record_date</display_column>
         <has_rel_table>false</has_rel_table>
     </entity>
 </entities>

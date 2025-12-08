@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<customViews>
+    <!-- STUDENT Views -->
+    <customView>
+        <viewName>All Students</viewName>
+        <description>All students in the system</description>
+        <entityType>STUDENT</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>studentId</field>
+            <field>firstName</field>
+            <field>lastName</field>
+            <field>gradeLevel</field>
+            <field>section</field>
+            <field>isActive</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Students</viewName>
+        <description>Recently added students</description>
+        <entityType>STUDENT</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>studentId</field>
+            <field>firstName</field>
+            <field>lastName</field>
+            <field>gradeLevel</field>
+            <field>enrollmentDate</field>
+            <field>createdAt</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Active Students</viewName>
+        <description>Currently active students</description>
+        <entityType>STUDENT</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>studentId</field>
+            <field>firstName</field>
+            <field>lastName</field>
+            <field>gradeLevel</field>
+            <field>email</field>
+            <field>phone</field>
+        </selectedFields>
+    </customView>
+
+    <!-- PARENT Views -->
+    <customView>
+        <viewName>All Parents</viewName>
+        <description>All parents in the system</description>
+        <entityType>PARENT</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>firstName</field>
+            <field>lastName</field>
+            <field>email</field>
+            <field>phone</field>
+            <field>occupation</field>
+            <field>isActive</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Parents</viewName>
+        <description>Recently added parents</description>
+        <entityType>PARENT</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>firstName</field>
+            <field>lastName</field>
+            <field>email</field>
+            <field>phone</field>
+            <field>relationship</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+
+    <!-- STAFF Views -->
+    <customView>
+        <viewName>All Staff</viewName>
+        <description>All staff members in the system</description>
+        <entityType>STAFF</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>firstName</field>
+            <field>lastName</field>
+            <field>email</field>
+            <field>phone</field>
+            <field>staffType</field>
+            <field>isActive</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Staff</viewName>
+        <description>Recently added staff members</description>
+        <entityType>STAFF</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>firstName</field>
+            <field>lastName</field>
+            <field>email</field>
+            <field>staffType</field>
+            <field>hireDate</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+
+    <!-- SUBJECT Views -->
+    <customView>
+        <viewName>All Subjects</viewName>
+        <description>All subjects in the system</description>
+        <entityType>SUBJECT</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>subjectName</field>
+            <field>subjectCode</field>
+            <field>gradeLevel</field>
+            <field>subjectType</field>
+            <field>credits</field>
+            <field>isActive</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Subjects</viewName>
+        <description>Recently added subjects</description>
+        <entityType>SUBJECT</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>subjectName</field>
+            <field>subjectCode</field>
+            <field>gradeLevel</field>
+            <field>subjectType</field>
+            <field>credits</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+
+    <!-- ATTENDANCE Views -->
+    <customView>
+        <viewName>All Attendance</viewName>
+        <description>All attendance records</description>
+        <entityType>ATTENDANCE</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>attendanceDate</field>
+            <field>student</field>
+            <field>status</field>
+            <field>gradeLevel</field>
+            <field>section</field>
+            <field>remarks</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Attendance</viewName>
+        <description>Recent attendance records</description>
+        <entityType>ATTENDANCE</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>attendanceDate</field>
+            <field>student</field>
+            <field>status</field>
+            <field>gradeLevel</field>
+            <field>section</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+
+    <!-- ASSIGNMENT Views -->
+    <customView>
+        <viewName>All Assignments</viewName>
+        <description>All assignments in the system</description>
+        <entityType>ASSIGNMENT</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>title</field>
+            <field>subject</field>
+            <field>gradeLevel</field>
+            <field>dueDate</field>
+            <field>totalMarks</field>
+            <field>isActive</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Assignments</viewName>
+        <description>Recently created assignments</description>
+        <entityType>ASSIGNMENT</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>title</field>
+            <field>subject</field>
+            <field>gradeLevel</field>
+            <field>dueDate</field>
+            <field>totalMarks</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+
+    <!-- EXAM Views -->
+    <customView>
+        <viewName>All Exams</viewName>
+        <description>All exams in the system</description>
+        <entityType>EXAM</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>examName</field>
+            <field>subject</field>
+            <field>gradeLevel</field>
+            <field>examDate</field>
+            <field>totalMarks</field>
+            <field>duration</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Exams</viewName>
+        <description>Recently scheduled exams</description>
+        <entityType>EXAM</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>examName</field>
+            <field>subject</field>
+            <field>gradeLevel</field>
+            <field>examDate</field>
+            <field>totalMarks</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+
+    <!-- GRADE Views -->
+    <customView>
+        <viewName>All Grades</viewName>
+        <description>All grade records</description>
+        <entityType>GRADE</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>student</field>
+            <field>subject</field>
+            <field>exam</field>
+            <field>marksObtained</field>
+            <field>totalMarks</field>
+            <field>grade</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Grades</viewName>
+        <description>Recently added grade records</description>
+        <entityType>GRADE</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>student</field>
+            <field>subject</field>
+            <field>exam</field>
+            <field>marksObtained</field>
+            <field>grade</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+
+    <!-- HEALTH Views -->
+    <customView>
+        <viewName>All Health Records</viewName>
+        <description>All student health records</description>
+        <entityType>HEALTH</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>student</field>
+            <field>recordDate</field>
+            <field>height</field>
+            <field>weight</field>
+            <field>bmi</field>
+            <field>bloodGroup</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Health Records</viewName>
+        <description>Recently added health records</description>
+        <entityType>HEALTH</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>student</field>
+            <field>recordDate</field>
+            <field>height</field>
+            <field>weight</field>
+            <field>bmi</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+
+    <!-- ROOM Views -->
+    <customView>
+        <viewName>All Rooms</viewName>
+        <description>All rooms in the system</description>
+        <entityType>ROOM</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>roomName</field>
+            <field>capacity</field>
+            <field>roomType</field>
+            <field>building</field>
+            <field>isActive</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Rooms</viewName>
+        <description>Recently added rooms</description>
+        <entityType>ROOM</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>roomName</field>
+            <field>capacity</field>
+            <field>roomType</field>
+            <field>building</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+
+    <!-- TIMETABLE Views -->
+    <customView>
+        <viewName>All Timetables</viewName>
+        <description>All timetable entries</description>
+        <entityType>TIMETABLE</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>gradeLevel</field>
+            <field>section</field>
+            <field>dayOfWeek</field>
+            <field>periodNumber</field>
+            <field>subject</field>
+            <field>teacher</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Timetables</viewName>
+        <description>Recently created timetable entries</description>
+        <entityType>TIMETABLE</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>gradeLevel</field>
+            <field>section</field>
+            <field>dayOfWeek</field>
+            <field>periodNumber</field>
+            <field>subject</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+
+    <!-- ADDRESS Views -->
+    <customView>
+        <viewName>All Addresses</viewName>
+        <description>All addresses in the system</description>
+        <entityType>ADDRESS</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>entityType</field>
+            <field>entityId</field>
+            <field>addressType</field>
+            <field>streetAddress</field>
+            <field>city</field>
+            <field>state</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Addresses</viewName>
+        <description>Recently added addresses</description>
+        <entityType>ADDRESS</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>entityType</field>
+            <field>entityId</field>
+            <field>addressType</field>
+            <field>city</field>
+            <field>state</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+
+    <!-- COURSE Views -->
+    <customView>
+        <viewName>All Courses</viewName>
+        <description>All courses in the system</description>
+        <entityType>COURSE</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>courseName</field>
+            <field>courseCode</field>
+            <field>subject</field>
+            <field>gradeLevel</field>
+            <field>credits</field>
+            <field>isActive</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Courses</viewName>
+        <description>Recently created courses</description>
+        <entityType>COURSE</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>courseName</field>
+            <field>courseCode</field>
+            <field>subject</field>
+            <field>gradeLevel</field>
+            <field>credits</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+
+    <!-- USER Views -->
+    <customView>
+        <viewName>All Users</viewName>
+        <description>All users in the system</description>
+        <entityType>USER</entityType>
+        <isDefault>true</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>username</field>
+            <field>email</field>
+            <field>firstName</field>
+            <field>lastName</field>
+            <field>role</field>
+            <field>isActive</field>
+        </selectedFields>
+    </customView>
+    
+    <customView>
+        <viewName>Recent Users</viewName>
+        <description>Recently added users</description>
+        <entityType>USER</entityType>
+        <isDefault>false</isDefault>
+        <isPublic>true</isPublic>
+        <selectedFields>
+            <field>username</field>
+            <field>email</field>
+            <field>firstName</field>
+            <field>lastName</field>
+            <field>role</field>
+            <field>createdTime</field>
+        </selectedFields>
+    </customView>
+</customViews>

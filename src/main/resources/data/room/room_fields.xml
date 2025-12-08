@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="ROOM">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>Room ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>false</showInList>
+        <showInForm>false</showInForm>
+    </field>
+
+    <field>
+        <fieldName>roomName</fieldName>
+        <fieldLabel>Room Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <sectionName>basic_info</sectionName>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+        <maxLength>100</maxLength>
+        <description>Name or number of the room</description>
+    </field>
+
+    <field>
+        <fieldName>capacity</fieldName>
+        <fieldLabel>Capacity</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <sectionName>basic_info</sectionName>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+        <description>Maximum number of people the room can accommodate</description>
+    </field>
+
+    <field>
+        <fieldName>roomType</fieldName>
+        <fieldLabel>Room Type</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <sectionName>basic_info</sectionName>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+        <description>Type of room (CLASSROOM, LAB, COMPUTER_LAB, HALL, LIBRARY, AUDITORIUM, OTHER)</description>
+    </field>
+
+    <field>
+        <fieldName>building</fieldName>
+        <fieldLabel>Building</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <sectionName>location_info</sectionName>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+        <maxLength>100</maxLength>
+        <description>Building name or block where the room is located</description>
+    </field>
+
+    <field>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <sectionName>additional_info</sectionName>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showInList>false</showInList>
+        <showInForm>true</showInForm>
+        <description>Additional details about the room facilities and equipment</description>
+    </field>
+
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active Status</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+        <description>Whether the room is currently active (1) or inactive (0)</description>
+    </field>
+
+    <field>
+        <fieldName>createdTime</fieldName>
+        <fieldLabel>Created Date</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>false</showInList>
+        <showInForm>false</showInForm>
+    </field>
+
+    <field>
+        <fieldName>modifiedTime</fieldName>
+        <fieldLabel>Modified Date</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>9</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>false</showInList>
+        <showInForm>false</showInForm>
+    </field>
+</entityFields>

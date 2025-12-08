@@ -54,6 +54,26 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'grades',
+    loadComponent: () => import('./components/entity-management/entity-management.component').then(m => m.EntityManagementComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'assignments',
+    loadComponent: () => import('./components/entity-management/entity-management.component').then(m => m.EntityManagementComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'exams',
+    loadComponent: () => import('./components/entity-management/entity-management.component').then(m => m.EntityManagementComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'courses',
+    loadComponent: () => import('./components/entity-management/entity-management.component').then(m => m.EntityManagementComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'entity-detail/:entityType/:id',
     loadComponent: () => import('./components/entity-detail/entity-detail.component').then(m => m.EntityDetailComponent),
     canActivate: [AuthGuard]

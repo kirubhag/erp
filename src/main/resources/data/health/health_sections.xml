@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="HEALTH">
+    <section>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>Basic Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Student and date information</description>
+    </section>
+
+    <section>
+        <sectionName>physical_info</sectionName>
+        <sectionLabel>Physical Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Height, weight, and BMI</description>
+    </section>
+
+    <section>
+        <sectionName>medical_info</sectionName>
+        <sectionLabel>Medical Information</sectionLabel>
+        <layoutType>SINGLE_COLUMN</layoutType>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Medical conditions, allergies, and medications</description>
+    </section>
+
+    <section>
+        <sectionName>additional_info</sectionName>
+        <sectionLabel>Additional Information</sectionLabel>
+        <layoutType>SINGLE_COLUMN</layoutType>
+        <displayOrder>4</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isCollapsedByDefault>true</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Additional health notes and remarks</description>
+    </section>
+</entitySections>
