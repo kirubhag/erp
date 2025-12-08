@@ -200,22 +200,22 @@ export class EntityCreateComponent implements OnInit {
    */
   getInputType(field: FieldDefinition): string {
     switch (field.uiType) {
-      case 100: // Single Line
+      case 1: // Single Line
         return 'text';
-      case 102: // Email
+      case 2: // Email
         return 'email';
-      case 103: // Phone
+      case 3: // Phone
         return 'tel';
-      case 106: // Date
+      case 5: // Date
         return 'date';
-      case 107: // Date/Time
+      case 6: // Date/Time
         return 'datetime-local';
-      case 119: // URL
+      case 7: // URL
         return 'url';
-      case 110: // Currency
-      case 111: // Decimal
-      case 108: // Number
-      case 112: // Percent
+      case 9: // Currency
+      case 10: // Decimal
+      case 11: // Number
+      case 12: // Percent
         return 'number';
       default:
         return 'text';
@@ -226,49 +226,49 @@ export class EntityCreateComponent implements OnInit {
    * Check if field should be rendered as input
    */
   isInputField(field: FieldDefinition): boolean {
-    return [100, 102, 103, 119, 110, 111, 108, 112].includes(field.uiType); // Single Line, Email, Phone, URL, Currency, Decimal, Number, Percent
+    return [1, 2, 3, 7, 9, 10, 11, 12].includes(field.uiType); // Single Line, Email, Phone, URL, Currency, Decimal, Number, Percent
   }
 
   /**
    * Check if field should be rendered as textarea
    */
   isTextareaField(field: FieldDefinition): boolean {
-    return field.uiType === 101; // Multi Line Text
+    return field.uiType === 19; // Multi Line Text
   }
 
   /**
    * Check if field should be rendered as select
    */
   isSelectField(field: FieldDefinition): boolean {
-    return field.uiType === 104; // Picklist
+    return field.uiType === 4; // Picklist
   }
 
   /**
    * Check if field should be rendered as checkbox
    */
   isCheckboxField(field: FieldDefinition): boolean {
-    return field.uiType === 114; // Checkbox
+    return field.uiType === 8; // Checkbox
   }
 
   /**
    * Check if field should be rendered as date picker
    */
   isDateField(field: FieldDefinition): boolean {
-    return field.uiType === 106; // Date
+    return field.uiType === 5; // Date
   }
 
   /**
    * Check if field should be rendered as datetime picker
    */
   isDateTimeField(field: FieldDefinition): boolean {
-    return field.uiType === 107; // Date/Time
+    return field.uiType === 6; // Date/Time
   }
 
   /**
    * Check if field should be rendered as image upload
    */
   isImageField(field: FieldDefinition): boolean {
-    return field.uiType === 118; // Image Upload
+    return field.uiType === 18; // Image Upload
   }
 
   /**
@@ -282,14 +282,14 @@ export class EntityCreateComponent implements OnInit {
    * Check if field should be rendered as lookup
    */
   isLookupField(field: FieldDefinition): boolean {
-    return field.uiType === 115; // Lookup
+    return field.uiType === 13; // Lookup
   }
 
   /**
    * Check if field should be rendered as multi-select
    */
   isMultiSelectField(field: FieldDefinition): boolean {
-    return field.uiType === 105; // Multi-Select Picklist
+    return field.uiType === 16; // Multi-Select Picklist
   }
 
   /**

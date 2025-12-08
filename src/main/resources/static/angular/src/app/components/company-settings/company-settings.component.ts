@@ -54,8 +54,11 @@ export class CompanySettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadCompanyData();
-    this.disableFormControls();
+    // Wait for organization service to be ready
+    setTimeout(() => {
+      this.loadCompanyData();
+      this.disableFormControls();
+    }, 100);
   }
 
   disableFormControls() {
