@@ -285,10 +285,10 @@ public class DataImportService {
             Element gradeElement = (Element) gradeNodes.item(i);
 
             try {
-                Long studentId = Long.parseLong(getTextContent(gradeElement, "studentId"));
-                String courseCode = getTextContent(gradeElement, "courseCode");
-                String examType = getTextContent(gradeElement, "examType");
-                String semester = getTextContent(gradeElement, "semester");
+                Long studentId = Long.parseLong(getElementText(gradeElement, "studentId"));
+                String courseCode = getElementText(gradeElement, "courseCode");
+                String examType = getElementText(gradeElement, "examType");
+                String semester = getElementText(gradeElement, "semester");
 
                 // Check if grade already exists
                 if (gradeRepository.existsByStudentIdAndCourseCodeAndExamTypeAndSemester(
@@ -299,34 +299,34 @@ public class DataImportService {
 
                 Grade grade = new Grade();
                 grade.setStudentId(studentId);
-                grade.setStudentName(getTextContent(gradeElement, "studentName"));
-                grade.setGradeLevel(getTextContent(gradeElement, "gradeLevel"));
+                grade.setStudentName(getElementText(gradeElement, "studentName"));
+                grade.setGradeLevel(getElementText(gradeElement, "gradeLevel"));
                 grade.setCourseCode(courseCode);
-                grade.setCourseName(getTextContent(gradeElement, "courseName"));
+                grade.setCourseName(getElementText(gradeElement, "courseName"));
                 grade.setExamType(examType);
 
-                String marksObtained = getTextContent(gradeElement, "marksObtained");
+                String marksObtained = getElementText(gradeElement, "marksObtained");
                 if (marksObtained != null && !marksObtained.isEmpty()) {
                     grade.setMarksObtained(new java.math.BigDecimal(marksObtained));
                 }
 
-                String totalMarks = getTextContent(gradeElement, "totalMarks");
+                String totalMarks = getElementText(gradeElement, "totalMarks");
                 if (totalMarks != null && !totalMarks.isEmpty()) {
                     grade.setTotalMarks(new java.math.BigDecimal(totalMarks));
                 }
 
-                String examDate = getTextContent(gradeElement, "examDate");
+                String examDate = getElementText(gradeElement, "examDate");
                 if (examDate != null && !examDate.isEmpty()) {
                     grade.setExamDate(LocalDate.parse(examDate));
                 }
 
                 grade.setSemester(semester);
-                grade.setAcademicYear(getTextContent(gradeElement, "academicYear"));
-                grade.setRemarks(getTextContent(gradeElement, "remarks"));
-                grade.setTeacherId(getTextContent(gradeElement, "teacherId"));
-                grade.setTeacherName(getTextContent(gradeElement, "teacherName"));
+                grade.setAcademicYear(getElementText(gradeElement, "academicYear"));
+                grade.setRemarks(getElementText(gradeElement, "remarks"));
+                grade.setTeacherId(getElementText(gradeElement, "teacherId"));
+                grade.setTeacherName(getElementText(gradeElement, "teacherName"));
 
-                String organizationId = getTextContent(gradeElement, "organizationId");
+                String organizationId = getElementText(gradeElement, "organizationId");
                 if (organizationId != null && !organizationId.isEmpty()) {
                     grade.setOrganizationId(Long.parseLong(organizationId));
                 }
