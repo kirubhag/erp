@@ -40,7 +40,7 @@ public class SampleDataController {
     @PostMapping("/populate")
     public ResponseEntity<Map<String, Object>> populateSampleData(@RequestBody Map<String, List<String>> request) {
         logger.info("Received sample data population request");
-        
+
         List<String> entityNames = request.get("entityNames");
         if (entityNames == null || entityNames.isEmpty()) {
             Map<String, Object> errorResponse = new HashMap<>();
@@ -59,10 +59,10 @@ public class SampleDataController {
             for (String entityName : entityNames) {
                 try {
                     logger.info("Importing sample data for entity: {}", entityName);
-                    
+
                     // Map entity names to XML file paths and use appropriate import method
                     String xmlFilePath = getXmlFilePathForEntity(entityName);
-                    
+
                     if (xmlFilePath != null) {
                         // Use entity-specific import method based on entity type
                         if (isStudentEntity(entityName)) {
@@ -71,6 +71,8 @@ public class SampleDataController {
                             dataImportService.importStaffDataFromXml(xmlFilePath);
                         } else if (isParentEntity(entityName)) {
                             dataImportService.importParentsDataFromXml(xmlFilePath);
+                        } else if (isSubjectEntity(entityName)) {
+                            dataImportService.importSubjectsDataFromXml(xmlFilePath);
                         } else {
                             // For other entities, use the generic import
                             dataImportService.importDataFromXml(xmlFilePath);
@@ -95,8 +97,8 @@ public class SampleDataController {
             response.put("skippedImports", skippedImports);
             response.put("importHistoryIds", importHistoryIds);
             response.put("errors", errors);
-            response.put("summary", String.format("Imported %d/%d entities successfully", 
-                successfulImports, entityNames.size()));
+            response.put("summary", String.format("Imported %d/%d entities successfully",
+                    successfulImports, entityNames.size()));
 
             return ResponseEntity.ok(response);
 
@@ -113,13 +115,13 @@ public class SampleDataController {
      */
     private String getXmlFilePathForEntity(String entityName) {
         Map<String, String> entityToXmlMap = new HashMap<>();
-        
+
         // Core entities
         entityToXmlMap.put("students", "data/student/student_grade_1.xml");
         entityToXmlMap.put("staff", "data/staff/sample-staff.xml");
         entityToXmlMap.put("parents", "data/parent/sample-parents.xml");
         entityToXmlMap.put("users", "data/user/sample-users.xml");
-        
+
         // Academic data - Grade files
         entityToXmlMap.put("grades", "data/grade/grades.xml");
         entityToXmlMap.put("grade_1", "data/student/student_grade_1.xml");
@@ -135,41 +137,48 @@ public class SampleDataController {
         entityToXmlMap.put("grade_11", "data/student/student_grade_11.xml");
         entityToXmlMap.put("grade_12", "data/student/student_grade_12.xml");
         entityToXmlMap.put("kindergarten", "data/student/student_kindergarten.xml");
-        
+
         entityToXmlMap.put("subjects", "data/subject/subjects.xml");
         entityToXmlMap.put("timetables", "data/timetable/timetables.xml");
-        
+
         // Address data
         entityToXmlMap.put("addresses", "data/address/sample-addresses.xml");
-        
+
         // Medical and Guardian data
         entityToXmlMap.put("medical", "data/student/sample_medical_data.xml");
         entityToXmlMap.put("guardians", "data/student/sample_guardian_data.xml");
-        
+
         return entityToXmlMap.get(entityName.toLowerCase());
     }
-    
+
     /**
      * Check if the entity name represents student data
      */
     private boolean isStudentEntity(String entityName) {
         String lowerName = entityName.toLowerCase();
-        return lowerName.equals("students") || 
-               lowerName.startsWith("grade_") || 
-               lowerName.equals("kindergarten");
+        return lowerName.equals("students") ||
+                lowerName.startsWith("grade_") ||
+                lowerName.equals("kindergarten");
     }
-    
+
     /**
      * Check if the entity name represents staff data
      */
     private boolean isStaffEntity(String entityName) {
         return entityName.equalsIgnoreCase("staff");
     }
-    
+
     /**
      * Check if the entity name represents parent data
      */
     private boolean isParentEntity(String entityName) {
         return entityName.equalsIgnoreCase("parents");
+    }
+
+    /**
+     * Check if the entity name represents subject data
+     */
+    private boolean isSubjectEntity(String entityName) {
+        return entityName.equalsIgnoreCase("subjects");
     }
 }

@@ -29,14 +29,14 @@ export class OnboardingComponent implements OnInit {
   activeTab = 'system-setup';
   progressPercentage = 30;
   showSampleDataModal = false;
-  
+
   setupSections: SetupSection[] = [
     {
       title: 'Basic Configuration',
       description: 'Configure essential settings to align the ERP system with your business operations.',
       items: [
         {
-          title: 'Company Information',
+          title: 'Organisation Information',
           description: 'Set up your company profile, logo, and tax details.',
           icon: 'fas fa-building',
           iconColor: 'success',
@@ -120,7 +120,7 @@ export class OnboardingComponent implements OnInit {
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.calculateProgress();

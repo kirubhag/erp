@@ -50,10 +50,10 @@ export class SetupComponent implements OnInit {
         },
         {
           id: 'organisation-settings',
-          label: 'Company Settings',
+          label: 'Organisation Settings',
           icon: 'fas fa-building',
           route: '/setup/organisation-settings',
-          description: 'Configure company details'
+          description: 'Configure organisation details'
         },
         {
           id: 'subscription',

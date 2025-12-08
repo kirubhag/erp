@@ -4,8 +4,8 @@
   <div class="settings-content-container">
     <!-- Header -->
     <div class="content-header">
-      <h1 class="content-title">Company Settings</h1>
-      <p class="content-description">Manage your company information and global preferences</p>
+      <h1 class="content-title">Organisation Settings</h1>
+      <p class="content-description">Manage your organisation information and global preferences</p>
     </div>
 
     <!-- Content Body -->
@@ -63,7 +63,7 @@
           </div>
         </div>
 
-        <!-- Company Information Form -->
+        <!-- Organisation Information Form -->
         <form [formGroup]="companyForm" *ngIf="isEditing" class="company-form">
           <div class="section-header">
             <h3>Basic Information</h3>
@@ -135,7 +135,7 @@
         <!-- Company Info Display (when not editing) -->
         <div *ngIf="!isEditing" class="info-display">
           <div class="section-header">
-            <h3>Company Information</h3>
+            <h3>Organisation Information</h3>
             <button class="btn-edit" (click)="editCompanyInfo()">
               <i class="fas fa-edit me-2"></i> Edit
             </button>

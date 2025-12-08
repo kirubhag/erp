@@ -48,20 +48,17 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Progress Bar -->
           <div class="progress mt-3" style="height: 4px;">
-            <div class="progress-bar bg-danger" role="progressbar" 
-                 [style.width]="(step / 3 * 100) + '%'" 
-                 [attr.aria-valuenow]="step" 
-                 aria-valuemin="0" 
-                 aria-valuemax="3"></div>
+            <div class="progress-bar bg-danger" role="progressbar" [style.width]="(step / 3 * 100) + '%'"
+              [attr.aria-valuenow]="step" aria-valuemin="0" aria-valuemax="3"></div>
           </div>
         </div>
 
         <!-- Wizard Content -->
         <div class="card-body p-4 p-md-5">
-          
+
           <!-- Step 1: Warning -->
           <div *ngIf="step === 1" class="wizard-content fade-in">
             <div class="text-center mb-4">
@@ -79,15 +76,16 @@
                 </div>
                 <div class="flex-grow-1 ms-3">
                   <h5 class="alert-heading fw-bold mb-3">Permanent Data Deletion</h5>
-                  <p class="mb-3">Closing your account will result in the <strong>immediate and irreversible deletion</strong> of:</p>
-                  
+                  <p class="mb-3">Closing your account will result in the <strong>immediate and irreversible
+                      deletion</strong> of:</p>
+
                   <div class="row g-3">
                     <div class="col-md-6">
                       <div class="d-flex align-items-start">
                         <i class="bi bi-x-circle-fill text-danger me-2 mt-1"></i>
                         <div>
                           <strong>Organization Data</strong>
-                          <p class="small mb-0 text-muted">All company information and settings</p>
+                          <p class="small mb-0 text-muted">All organisation information and settings</p>
                         </div>
                       </div>
                     </div>
@@ -119,12 +117,12 @@
                       </div>
                     </div>
                   </div>
-                  
+
                   <hr class="my-3">
-                  
+
                   <div class="bg-white rounded p-3 border border-danger">
                     <i class="bi bi-info-circle-fill text-danger me-2"></i>
-                    <strong>Important:</strong> There is <u>no way to recover</u> your data after account closure. 
+                    <strong>Important:</strong> There is <u>no way to recover</u> your data after account closure.
                     Please ensure you have backed up any important information before proceeding.
                   </div>
                 </div>
@@ -156,14 +154,9 @@
               <label for="reason" class="form-label fw-semibold">
                 <i class="bi bi-chat-left-text me-2"></i>Why are you closing your account?
               </label>
-              <textarea 
-                [(ngModel)]="reason" 
-                id="reason" 
-                rows="6" 
-                class="form-control form-control-lg"
+              <textarea [(ngModel)]="reason" id="reason" rows="6" class="form-control form-control-lg"
                 placeholder="Please share your reason for leaving. Your feedback helps us improve our service for everyone..."
-                [class.is-valid]="reason.length >= 10"
-                [class.is-invalid]="reason && reason.length < 10"></textarea>
+                [class.is-valid]="reason.length >= 10" [class.is-invalid]="reason && reason.length < 10"></textarea>
               <div class="form-text">
                 <i class="bi bi-info-circle me-1"></i>
                 Please provide at least a brief explanation (minimum 10 characters)
@@ -177,38 +170,38 @@
                 </h6>
                 <div class="row g-2">
                   <div class="col-md-6">
-                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 text-start" 
-                            (click)="selectReason('No longer need the service')">
+                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 text-start"
+                      (click)="selectReason('No longer need the service')">
                       <i class="bi bi-check2 me-2"></i>No longer need the service
                     </button>
                   </div>
                   <div class="col-md-6">
-                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 text-start" 
-                            (click)="selectReason('Found a better alternative')">
+                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 text-start"
+                      (click)="selectReason('Found a better alternative')">
                       <i class="bi bi-check2 me-2"></i>Found a better alternative
                     </button>
                   </div>
                   <div class="col-md-6">
-                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 text-start" 
-                            (click)="selectReason('Too expensive')">
+                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 text-start"
+                      (click)="selectReason('Too expensive')">
                       <i class="bi bi-check2 me-2"></i>Too expensive
                     </button>
                   </div>
                   <div class="col-md-6">
-                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 text-start" 
-                            (click)="selectReason('Missing features I need')">
+                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 text-start"
+                      (click)="selectReason('Missing features I need')">
                       <i class="bi bi-check2 me-2"></i>Missing features I need
                     </button>
                   </div>
                   <div class="col-md-6">
-                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 text-start" 
-                            (click)="selectReason('Technical issues')">
+                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 text-start"
+                      (click)="selectReason('Technical issues')">
                       <i class="bi bi-check2 me-2"></i>Technical issues
                     </button>
                   </div>
                   <div class="col-md-6">
-                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 text-start" 
-                            (click)="selectReason('Privacy concerns')">
+                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 text-start"
+                      (click)="selectReason('Privacy concerns')">
                       <i class="bi bi-check2 me-2"></i>Privacy concerns
                     </button>
                   </div>
@@ -220,7 +213,8 @@
               <button type="button" class="btn btn-outline-secondary btn-lg" (click)="prevStep()">
                 <i class="bi bi-arrow-left me-2"></i>Back
               </button>
-              <button type="button" class="btn btn-primary btn-lg px-4" (click)="nextStep()" [disabled]="!reason || reason.length < 10">
+              <button type="button" class="btn btn-primary btn-lg px-4" (click)="nextStep()"
+                [disabled]="!reason || reason.length < 10">
                 Continue
                 <i class="bi bi-arrow-right ms-2"></i>
               </button>
@@ -242,8 +236,9 @@
                 <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
                 <div>
                   <h6 class="alert-heading fw-bold mb-2">Last Chance to Change Your Mind</h6>
-                  <p class="mb-0">Once you confirm, your account and all data will be permanently deleted within 24 hours. 
-                  This process cannot be stopped or reversed.</p>
+                  <p class="mb-0">Once you confirm, your account and all data will be permanently deleted within 24
+                    hours.
+                    This process cannot be stopped or reversed.</p>
                 </div>
               </div>
             </div>
@@ -267,13 +262,8 @@
                 <span class="input-group-text bg-danger text-white border-danger">
                   <i class="bi bi-key-fill"></i>
                 </span>
-                <input 
-                  [(ngModel)]="password" 
-                  [type]="showPassword ? 'text' : 'password'"
-                  id="password" 
-                  class="form-control border-danger"
-                  placeholder="Enter your password"
-                  [class.is-invalid]="errorMessage"
+                <input [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'" id="password"
+                  class="form-control border-danger" placeholder="Enter your password" [class.is-invalid]="errorMessage"
                   (keyup.enter)="password ? closeAccount() : null">
                 <button class="btn btn-outline-danger" type="button" (click)="showPassword = !showPassword">
                   <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
@@ -297,10 +287,7 @@
               <button type="button" class="btn btn-outline-secondary btn-lg" (click)="prevStep()" [disabled]="loading">
                 <i class="bi bi-arrow-left me-2"></i>Back
               </button>
-              <button 
-                type="button" 
-                class="btn btn-danger btn-lg px-5" 
-                (click)="closeAccount()" 
+              <button type="button" class="btn btn-danger btn-lg px-5" (click)="closeAccount()"
                 [disabled]="!password || !confirmDelete || loading">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status">
                   <span class="visually-hidden">Loading...</span>
