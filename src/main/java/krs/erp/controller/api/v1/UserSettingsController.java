@@ -69,6 +69,23 @@ public class UserSettingsController {
     }
 
     /**
+     * Backward compatibility endpoint for update (old API path)
+     * PUT /api/v1/user-settings/{userId}/{organizationId}
+     */
+    @PutMapping("/{userId}/{organizationId}")
+    public ResponseEntity<UserSettingsDTO> updateSettingsCompat(
+            @PathVariable Long userId,
+            @PathVariable Long organizationId,
+            @RequestBody UserSettingsDTO settingsDTO,
+            Authentication authentication) {
+        // Redirect to main update method logic
+        Long currentUserId = getCurrentUserId(authentication);
+        settingsDTO.setUserId(currentUserId); // Enforce security
+        UserSettingsDTO updated = userSettingsService.saveSettings(settingsDTO);
+        return ResponseEntity.ok(updated);
+    }
+
+    /**
      * Update entire user settings
      * 
      * @param settingsDTO    Settings to update

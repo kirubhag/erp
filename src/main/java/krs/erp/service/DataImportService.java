@@ -22,6 +22,7 @@ import org.w3c.dom.NodeList;
 
 import krs.erp.model.Address;
 import krs.erp.model.Attendance;
+import krs.erp.model.Grade;
 import krs.erp.model.HealthRecord;
 import krs.erp.model.Parent;
 import krs.erp.model.ParentStudentRelation;
@@ -33,6 +34,7 @@ import krs.erp.model.Subject;
 import krs.erp.model.User;
 import krs.erp.repository.AddressRepository;
 import krs.erp.repository.AttendanceRepository;
+import krs.erp.repository.GradeRepository;
 import krs.erp.repository.HealthRecordRepository;
 import krs.erp.repository.ParentRepository;
 import krs.erp.repository.ParentStudentRelationRepository;
@@ -80,6 +82,9 @@ public class DataImportService {
 
     @Autowired
     private SubjectRepository subjectRepository;
+
+    @Autowired
+    private GradeRepository gradeRepository;
 
     // Cache for loaded entities
     private final Map<Long, Permission> permissions = new HashMap<>();
@@ -239,6 +244,104 @@ public class DataImportService {
             logger.error("Error importing subjects data from XML file: {}", xmlFilePath, e);
             throw new RuntimeException("Failed to import subjects data from XML: " + xmlFilePath, e);
         }
+    }
+
+    @Transactional
+    public void importGradesDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting grades data import from XML file: {}", xmlFilePath);
+
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            // Import grades from this file
+            importGrades(document);
+
+            logger.info("Grades data import completed successfully for: {}", xmlFilePath);
+
+        } catch (Exception e) {
+            logger.error("Error importing grades data from XML file: {}", xmlFilePath, e);
+            throw new RuntimeException("Failed to import grades data from XML: " + xmlFilePath, e);
+        }
+    }
+
+    private void importGrades(Document document) {
+        NodeList gradeNodes = document.getElementsByTagName("grade");
+        int totalGrades = gradeNodes.getLength();
+        int loadedGrades = 0;
+        int skippedGrades = 0;
+
+        logger.info("Found {} grades in XML file", totalGrades);
+
+        for (int i = 0; i < totalGrades; i++) {
+            Element gradeElement = (Element) gradeNodes.item(i);
+
+            try {
+                Long studentId = Long.parseLong(getTextContent(gradeElement, "studentId"));
+                String courseCode = getTextContent(gradeElement, "courseCode");
+                String examType = getTextContent(gradeElement, "examType");
+                String semester = getTextContent(gradeElement, "semester");
+
+                // Check if grade already exists
+                if (gradeRepository.existsByStudentIdAndCourseCodeAndExamTypeAndSemester(
+                        studentId, courseCode, examType, semester)) {
+                    skippedGrades++;
+                    continue;
+                }
+
+                Grade grade = new Grade();
+                grade.setStudentId(studentId);
+                grade.setStudentName(getTextContent(gradeElement, "studentName"));
+                grade.setGradeLevel(getTextContent(gradeElement, "gradeLevel"));
+                grade.setCourseCode(courseCode);
+                grade.setCourseName(getTextContent(gradeElement, "courseName"));
+                grade.setExamType(examType);
+
+                String marksObtained = getTextContent(gradeElement, "marksObtained");
+                if (marksObtained != null && !marksObtained.isEmpty()) {
+                    grade.setMarksObtained(new java.math.BigDecimal(marksObtained));
+                }
+
+                String totalMarks = getTextContent(gradeElement, "totalMarks");
+                if (totalMarks != null && !totalMarks.isEmpty()) {
+                    grade.setTotalMarks(new java.math.BigDecimal(totalMarks));
+                }
+
+                String examDate = getTextContent(gradeElement, "examDate");
+                if (examDate != null && !examDate.isEmpty()) {
+                    grade.setExamDate(LocalDate.parse(examDate));
+                }
+
+                grade.setSemester(semester);
+                grade.setAcademicYear(getTextContent(gradeElement, "academicYear"));
+                grade.setRemarks(getTextContent(gradeElement, "remarks"));
+                grade.setTeacherId(getTextContent(gradeElement, "teacherId"));
+                grade.setTeacherName(getTextContent(gradeElement, "teacherName"));
+
+                String organizationId = getTextContent(gradeElement, "organizationId");
+                if (organizationId != null && !organizationId.isEmpty()) {
+                    grade.setOrganizationId(Long.parseLong(organizationId));
+                }
+
+                grade.markAsActive();
+                gradeRepository.save(grade);
+                loadedGrades++;
+
+            } catch (Exception e) {
+                logger.error("Error processing grade at index {}: {}", i, e.getMessage());
+            }
+        }
+
+        logger.info("Grade import completed. Loaded: {}, Skipped: {}, Total: {}",
+                loadedGrades, skippedGrades, totalGrades);
     }
 
     private void clearCaches() {

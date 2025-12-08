@@ -225,50 +225,53 @@ export class EntityCreateComponent implements OnInit {
   /**
    * Check if field should be rendered as input
    */
+  /**
+   * Check if field should be rendered as input
+   */
   isInputField(field: FieldDefinition): boolean {
-    return [1, 2, 3, 7, 9, 10, 11, 12].includes(field.uiType); // Single Line, Email, Phone, URL, Currency, Decimal, Number, Percent
+    return [1, 2, 3, 7, 9, 10, 11, 12].includes(Number(field.uiType)); // Single Line, Email, Phone, URL, Currency, Decimal, Number, Percent
   }
 
   /**
    * Check if field should be rendered as textarea
    */
   isTextareaField(field: FieldDefinition): boolean {
-    return field.uiType === 19; // Multi Line Text
+    return Number(field.uiType) === 19; // Multi Line Text
   }
 
   /**
    * Check if field should be rendered as select
    */
   isSelectField(field: FieldDefinition): boolean {
-    return field.uiType === 4; // Picklist
+    return Number(field.uiType) === 4; // Picklist
   }
 
   /**
    * Check if field should be rendered as checkbox
    */
   isCheckboxField(field: FieldDefinition): boolean {
-    return field.uiType === 8; // Checkbox
+    return Number(field.uiType) === 8; // Checkbox
   }
 
   /**
    * Check if field should be rendered as date picker
    */
   isDateField(field: FieldDefinition): boolean {
-    return field.uiType === 5; // Date
+    return Number(field.uiType) === 5; // Date
   }
 
   /**
    * Check if field should be rendered as datetime picker
    */
   isDateTimeField(field: FieldDefinition): boolean {
-    return field.uiType === 6; // Date/Time
+    return Number(field.uiType) === 6; // Date/Time
   }
 
   /**
    * Check if field should be rendered as image upload
    */
   isImageField(field: FieldDefinition): boolean {
-    return field.uiType === 18; // Image Upload
+    return Number(field.uiType) === 18; // Image Upload
   }
 
   /**
@@ -282,14 +285,14 @@ export class EntityCreateComponent implements OnInit {
    * Check if field should be rendered as lookup
    */
   isLookupField(field: FieldDefinition): boolean {
-    return field.uiType === 13; // Lookup
+    return Number(field.uiType) === 13; // Lookup
   }
 
   /**
    * Check if field should be rendered as multi-select
    */
   isMultiSelectField(field: FieldDefinition): boolean {
-    return field.uiType === 16; // Multi-Select Picklist
+    return Number(field.uiType) === 16; // Multi-Select Picklist
   }
 
   /**

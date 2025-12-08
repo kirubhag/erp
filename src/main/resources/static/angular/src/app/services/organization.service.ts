@@ -74,7 +74,7 @@ export interface SampleDataPopulationResponse {
   providedIn: 'root'
 })
 export class OrganizationService {
-  private apiUrl = 'http://localhost:8081';
+  private apiUrl = '';
   private currentOrganization = new BehaviorSubject<Organization | null>(null);
   public currentOrganization$ = this.currentOrganization.asObservable();
 

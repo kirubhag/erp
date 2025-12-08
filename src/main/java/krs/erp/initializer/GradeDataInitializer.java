@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -26,7 +25,7 @@ import krs.erp.repository.GradeRepository;
 /**
  * Initializes Grade data from grade XML files on application startup
  */
-// @Component - Disabled for multi-tenant system
+// @Component - Disabled: Data will be populated via sample data import
 @Order(7)
 public class GradeDataInitializer implements CommandLineRunner {
 
@@ -82,8 +81,8 @@ public class GradeDataInitializer implements CommandLineRunner {
 
                         // Check if this grade already exists (either in DB or already processed)
                         if (processedKeys.contains(uniqueKey) ||
-                            gradeRepository.existsByStudentIdAndCourseCodeAndExamTypeAndSemester(
-                                    studentId, courseCode, examType, semester)) {
+                                gradeRepository.existsByStudentIdAndCourseCodeAndExamTypeAndSemester(
+                                        studentId, courseCode, examType, semester)) {
                             logger.debug("Grade already exists: Student {}, Course {}, Exam {}, Semester {}. Skipping.",
                                     studentId, courseCode, examType, semester);
                             skippedGrades++;

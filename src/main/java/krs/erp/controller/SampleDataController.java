@@ -66,7 +66,20 @@ public class SampleDataController {
                     if (xmlFilePath != null) {
                         // Use entity-specific import method based on entity type
                         if (isStudentEntity(entityName)) {
-                            dataImportService.importStudentDataFromXml(xmlFilePath);
+                            // Load all student files if "STUDENTS" is selected
+                            if (entityName.equalsIgnoreCase("STUDENTS")) {
+                                // Load kindergarten
+                                dataImportService.importStudentDataFromXml("data/student/student_kindergarten.xml");
+                                // Load all 12 grades
+                                for (int i = 1; i <= 12; i++) {
+                                    dataImportService.importStudentDataFromXml("data/student/student_grade_" + i + ".xml");
+                                }
+                            } else {
+                                // Load specific grade file
+                                dataImportService.importStudentDataFromXml(xmlFilePath);
+                            }
+                        } else if (isGradeEntity(entityName)) {
+                            dataImportService.importGradesDataFromXml(xmlFilePath);
                         } else if (isStaffEntity(entityName)) {
                             dataImportService.importStaffDataFromXml(xmlFilePath);
                         } else if (isParentEntity(entityName)) {
@@ -180,5 +193,12 @@ public class SampleDataController {
      */
     private boolean isSubjectEntity(String entityName) {
         return entityName.equalsIgnoreCase("subjects");
+    }
+
+    /**
+     * Check if the entity name represents grade data
+     */
+    private boolean isGradeEntity(String entityName) {
+        return entityName.equalsIgnoreCase("grades");
     }
 }
