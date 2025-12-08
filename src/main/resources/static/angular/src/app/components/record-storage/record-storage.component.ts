@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 
@@ -30,7 +30,7 @@ export class RecordStorageComponent implements OnInit {
   filteredModuleData: ModuleRecord[] = [];
   searchTerm = '';
 
-  constructor(private http: import('@angular/common/http').HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.loadRecordData();
