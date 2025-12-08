@@ -12,10 +12,23 @@
 
     <!-- Content Body -->
     <div class="content-body">
+      <!-- Tabs -->
+      <div class="tabs-nav">
+        <a class="tab-link" routerLink="/settings/personal">
+          <i class="fas fa-user me-2"></i> Personal
+        </a>
+        <a class="tab-link" routerLink="/settings/company">
+          <i class="fas fa-building me-2"></i> Organisation
+        </a>
+        <button class="tab-link active">
+          <i class="fas fa-times-circle me-2"></i> Close Account
+        </button>
+      </div>
+
       <!-- Progress Steps -->
       <div class="wizard-steps-container">
           <div class="row text-center">
-            <div class="col-4">
+            <div class="col-3">
               <div class="wizard-step" [class.active]="step === 1" [class.completed]="step > 1">
                 <div class="wizard-step-circle">
                   <i class="bi" [class.bi-exclamation-circle]="step === 1" [class.bi-check-circle-fill]="step > 1"></i>
@@ -25,7 +38,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-3">
               <div class="wizard-step" [class.active]="step === 2" [class.completed]="step > 2">
                 <div class="wizard-step-circle">
                   <i class="bi" [class.bi-chat-left-text]="step <= 2" [class.bi-check-circle-fill]="step > 2"></i>
@@ -35,7 +48,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-3">
               <div class="wizard-step" [class.active]="step === 3">
                 <div class="wizard-step-circle">
                   <i class="bi bi-shield-lock"></i>

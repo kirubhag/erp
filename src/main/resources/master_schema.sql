@@ -1053,6 +1053,21 @@ created_by VARCHAR(100),
     INDEX idx_last_activity (last_activity)
 ) COMMENT='Stores user-specific settings, preferences, and customizations';
 
+-- Login History Table
+CREATE TABLE IF NOT EXISTS login_history (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    username VARCHAR(100) NOT NULL,
+    login_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    ip_address VARCHAR(50),
+    browser VARCHAR(200),
+    status VARCHAR(20) DEFAULT 'SUCCESS',
+    failure_reason VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES iam_users (user_id) ON DELETE CASCADE,
+    INDEX idx_user_history (user_id, login_time),
+    INDEX idx_login_time (login_time)
+) COMMENT = 'Tracks user login history and attempts';
+
 -- ============================================================================
 -- Import System Tables (Added for bulk entity import functionality)
 -- ============================================================================

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 
@@ -11,7 +12,7 @@ interface ModuleRecord {
 @Component({
   selector: 'app-record-storage',
   standalone: true,
-  imports: [CommonModule, RouterModule, SettingsSidebarComponent],
+  imports: [CommonModule, RouterModule, SettingsSidebarComponent, HttpClientModule],
   templateUrl: './record-storage.component.html',
   styleUrls: ['./record-storage.component.css']
 })
@@ -24,28 +25,30 @@ export class RecordStorageComponent implements OnInit {
   lastUpdated = new Date();
 
   // Module record data
-  moduleRecordData: ModuleRecord[] = [
-    { module: 'Candidates', recordCount: 457 },
-    { module: 'Emails', recordCount: 110 },
-    { module: 'Job Openings', recordCount: 36 },
-    { module: 'Contacts', recordCount: 34 },
-    { module: 'Onboarding', recordCount: 17 },
-    { module: 'Clients', recordCount: 6 },
-    { module: 'Assessments', recordCount: 4 },
-    { module: 'Attachments', recordCount: 2 },
-    { module: 'Interviews', recordCount: 2 },
-    { module: 'To-Dos', recordCount: 1 },
-    { module: 'Notes', recordCount: 0 },
-    { module: 'Vendors', recordCount: 0 }
-  ];
+  moduleRecordData: ModuleRecord[] = [];
 
   filteredModuleData: ModuleRecord[] = [];
   searchTerm = '';
 
-  constructor() { }
+  constructor(private http: import('@angular/common/http').HttpClient) { }
 
   ngOnInit(): void {
-    this.filteredModuleData = [...this.moduleRecordData];
+    this.loadRecordData();
+  }
+
+  loadRecordData() {
+    this.http.get<ModuleRecord[]>('/api/storage/records').subscribe({
+      next: (data) => {
+        this.moduleRecordData = data;
+        this.filteredModuleData = [...this.moduleRecordData];
+        this.recordsUsed = this.moduleRecordData.reduce((sum, item) => sum + item.recordCount, 0);
+        this.lastUpdated = new Date();
+      },
+      error: (err) => {
+        console.error('Failed to load storage records', err);
+        // Fallback or empty state could be handled here
+      }
+    });
   }
 
   setActiveTab(tab: 'file' | 'record'): void {
