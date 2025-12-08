@@ -1479,6 +1479,117 @@ CREATE TABLE IF NOT EXISTS grading_scales (
     INDEX idx_org_percentage (organization_id, min_percentage)
 ) COMMENT = 'Grading scales and grade points for the organization';
 
+-- Pricing Plans Table
+CREATE TABLE IF NOT EXISTS pricing_plans (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    plan_name VARCHAR(50) NOT NULL UNIQUE,
+    plan_type VARCHAR(20) NOT NULL COMMENT 'FREE, BASIC, STANDARD, PREMIUM',
+    display_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price_monthly DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    price_yearly DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    max_users INT DEFAULT NULL COMMENT 'NULL means unlimited',
+    max_storage_gb INT DEFAULT NULL COMMENT 'NULL means unlimited',
+    features JSON COMMENT 'List of features included in this plan',
+    is_active BOOLEAN DEFAULT TRUE,
+    is_trial_eligible BOOLEAN DEFAULT FALSE,
+    trial_days INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_plan_type (plan_type),
+    INDEX idx_is_active (is_active)
+) COMMENT='Master table for pricing plans';
+
+-- User Subscriptions Table
+CREATE TABLE IF NOT EXISTS user_subscriptions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    organization_id BIGINT NOT NULL,
+    plan_id BIGINT NOT NULL,
+    subscription_status VARCHAR(20) NOT NULL COMMENT 'ACTIVE, TRIAL, EXPIRED, CANCELLED, SUSPENDED',
+    billing_cycle VARCHAR(20) COMMENT 'MONTHLY, YEARLY, LIFETIME',
+    trial_start_date DATE,
+    trial_end_date DATE,
+    subscription_start_date DATE NOT NULL,
+    subscription_end_date DATE,
+    next_billing_date DATE,
+    is_auto_renew BOOLEAN DEFAULT TRUE,
+    payment_status VARCHAR(20) COMMENT 'PENDING, PAID, FAILED, REFUNDED',
+    amount_paid DECIMAL(10, 2) DEFAULT 0.00,
+    currency VARCHAR(3) DEFAULT 'USD',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_by BIGINT,
+    updated_by BIGINT,
+    FOREIGN KEY (plan_id) REFERENCES pricing_plans(id),
+    INDEX idx_user_id (user_id),
+    INDEX idx_organization_id (organization_id),
+    INDEX idx_subscription_status (subscription_status),
+    INDEX idx_trial_end_date (trial_end_date),
+    INDEX idx_next_billing_date (next_billing_date)
+) COMMENT='User subscription records';
+
+-- Payment Transactions Table
+CREATE TABLE IF NOT EXISTS payment_transactions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    subscription_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    organization_id BIGINT NOT NULL,
+    transaction_id VARCHAR(100) UNIQUE NOT NULL COMMENT 'External payment gateway transaction ID',
+    transaction_type VARCHAR(20) NOT NULL COMMENT 'SUBSCRIPTION, UPGRADE, DOWNGRADE, REFUND',
+    payment_method VARCHAR(50) COMMENT 'CREDIT_CARD, DEBIT_CARD, PAYPAL, STRIPE, etc',
+    amount DECIMAL(10, 2) NOT NULL,
+    currency VARCHAR(3) DEFAULT 'USD',
+    transaction_status VARCHAR(20) NOT NULL COMMENT 'PENDING, SUCCESS, FAILED, CANCELLED, REFUNDED',
+    payment_gateway VARCHAR(50) COMMENT 'STRIPE, PAYPAL, RAZORPAY, etc',
+    gateway_response JSON COMMENT 'Full response from payment gateway',
+    error_message TEXT,
+    transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    processed_at TIMESTAMP NULL,
+    refunded_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (subscription_id) REFERENCES user_subscriptions(id) ON DELETE CASCADE,
+    INDEX idx_subscription_id (subscription_id),
+    INDEX idx_transaction_status (transaction_status),
+    INDEX idx_transaction_date (transaction_date),
+    INDEX idx_user_id (user_id)
+) COMMENT='Payment transaction records';
+
+-- Subscription History Table
+CREATE TABLE IF NOT EXISTS subscription_history (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    subscription_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    organization_id BIGINT NOT NULL,
+    previous_plan_id BIGINT,
+    new_plan_id BIGINT NOT NULL,
+    change_type VARCHAR(20) NOT NULL COMMENT 'UPGRADE, DOWNGRADE, TRIAL_START, TRIAL_END, CANCELLATION, RENEWAL',
+    change_reason TEXT,
+    effective_date DATE NOT NULL,
+    changed_by BIGINT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (subscription_id) REFERENCES user_subscriptions(id) ON DELETE CASCADE,
+    FOREIGN KEY (previous_plan_id) REFERENCES pricing_plans(id),
+    FOREIGN KEY (new_plan_id) REFERENCES pricing_plans(id),
+    INDEX idx_subscription_id (subscription_id),
+    INDEX idx_user_id (user_id),
+    INDEX idx_change_type (change_type),
+    INDEX idx_effective_date (effective_date)
+) COMMENT='Subscription change history for auditing';
+
+-- ERP Tenants Registry Table
+CREATE TABLE IF NOT EXISTS erp_tenants (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tenant_id BIGINT NOT NULL UNIQUE,
+    tenant_name VARCHAR(100) NOT NULL,
+    db_host VARCHAR(100) NOT NULL,
+    db_name VARCHAR(100) NOT NULL UNIQUE,
+    status VARCHAR(20) NOT NULL DEFAULT 'Active',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) COMMENT='Registry of all ERP tenants';
+
 -- ============================================================================
 -- Data Population Note
 -- ============================================================================
