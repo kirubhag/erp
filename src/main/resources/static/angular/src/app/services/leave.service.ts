@@ -43,7 +43,7 @@ export class LeaveService {
         return this.http.get<LeaveRequest[]>(`${this.apiUrl}/pending`);
     }
 
-    applyForLeave(data: any): Observable<LeaveRequest> {
+    applyForLeave(data: Partial<LeaveRequest>): Observable<LeaveRequest> {
         return this.http.post<LeaveRequest>(`${this.apiUrl}/apply`, data);
     }
 

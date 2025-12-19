@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="STUDENT_REGISTRATION">
+    <section>
+        <sectionName>RegistrationDetails</sectionName>
+        <sectionLabel>Registration Details</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+    </section>
+</entitySections>

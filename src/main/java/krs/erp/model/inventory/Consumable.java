@@ -1,6 +1,6 @@
 package krs.erp.model.inventory;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import krs.erp.model.BaseEntity;
 import lombok.Data;

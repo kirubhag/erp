@@ -1,6 +1,6 @@
 package krs.erp.model.communication;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import krs.erp.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

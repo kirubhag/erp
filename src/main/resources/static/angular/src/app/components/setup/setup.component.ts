@@ -79,14 +79,14 @@ export class SetupComponent implements OnInit {
           id: 'hr-management',
           label: 'HR Management',
           icon: 'fas fa-users-cog',
-          route: '/setup/administrative/hr',
+          route: '/setup/hr/dashboard',
           description: 'Staff recruitment, payroll, and performance evaluation'
         },
         {
           id: 'inventory-assets',
           label: 'Inventory & Assets',
           icon: 'fas fa-boxes',
-          route: '/setup/administrative/inventory',
+          route: '/setup/inventory',
           description: 'Track physical assets and manage consumables'
         },
         {
@@ -100,14 +100,14 @@ export class SetupComponent implements OnInit {
           id: 'reporting-mis',
           label: 'Reporting & Analytics',
           icon: 'fas fa-chart-line',
-          route: '/setup/administrative/reports',
+          route: '/setup/reporting',
           description: 'Centralized dashboard for reports and analytics'
         },
         {
           id: 'document-management',
           label: 'Document Management',
           icon: 'fas fa-file-contract',
-          route: '/setup/administrative/documents',
+          route: '/setup/documents',
           description: 'Secure storage for official documents and policies'
         }
       ]

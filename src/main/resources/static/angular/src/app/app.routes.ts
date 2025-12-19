@@ -154,6 +154,21 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'setup/inventory',
+    loadChildren: () => import('./components/inventory/inventory.routes').then(m => m.INVENTORY_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/reporting',
+    loadChildren: () => import('./components/reporting/reporting.routes').then(m => m.REPORTING_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/documents',
+    loadChildren: () => import('./components/documents/documents.routes').then(m => m.DOCUMENT_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'setup/administrative/:section',
     loadComponent: () => import('./components/common/under-construction/under-construction.component').then(m => m.UnderConstructionComponent),
     canActivate: [AuthGuard]

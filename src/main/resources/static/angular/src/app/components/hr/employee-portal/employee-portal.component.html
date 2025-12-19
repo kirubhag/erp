@@ -1,0 +1,137 @@
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="display-6"><i class="fas fa-user-tie me-2"></i>Employee Self-Service</h2>
+            <p class="text-muted">Welcome back, {{ currentUser?.firstName }}! Here's an overview of your profile and
+                activities.</p>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-primary text-white h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h6 class="text-uppercase mb-2 opacity-75">Pending Leaves</h6>
+                        <h2 class="mb-0">{{ stats.pendingLeaves }}</h2>
+                    </div>
+                    <div class="display-4 opacity-50">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-success text-white h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h6 class="text-uppercase mb-2 opacity-75">Attendance Rate</h6>
+                        <h2 class="mb-0">{{ stats.attendanceRate }}%</h2>
+                    </div>
+                    <div class="display-4 opacity-50">
+                        <i class="fas fa-user-clock"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-info text-white h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h6 class="text-uppercase mb-2 opacity-75">Hours Logged (MTD)</h6>
+                        <h2 class="mb-0">{{ stats.totalHours }}</h2>
+                    </div>
+                    <div class="display-4 opacity-50">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- My Recent Leaves -->
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">My Recent Leaves</h5>
+                    <button class="btn btn-sm btn-outline-primary" [routerLink]="['/setup/hr/leaves']">View All</button>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Dates</th>
+                                    <th>Reason</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let leave of myLeaves | slice:0:5">
+                                    <td>
+                                        <div class="small fw-bold">{{ leave.startDate }}</div>
+                                        <div class="small text-muted">to {{ leave.endDate }}</div>
+                                    </td>
+                                    <td>{{ leave.reason }}</td>
+                                    <td><span [class]="getStatusClass(leave.status)">{{ leave.status }}</span></td>
+                                </tr>
+                                <tr *ngIf="myLeaves.length === 0">
+                                    <td colspan="3" class="text-center py-4 text-muted">No leave requests found.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions & Info -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary text-start px-3 py-2" [routerLink]="['/setup/hr/leaves']">
+                            <i class="fas fa-plus-circle me-2"></i> Apply for Leave
+                        </button>
+                        <button class="btn btn-outline-info text-start px-3 py-2">
+                            <i class="fas fa-file-invoice-dollar me-2"></i> My Payslips
+                        </button>
+                        <button class="btn btn-outline-secondary text-start px-3 py-2"
+                            [routerLink]="['/setup/personal-settings']">
+                            <i class="fas fa-id-card me-2"></i> Update Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0">My Profile</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                            style="width: 50px; height: 50px;">
+                            <i class="fas fa-user-tie fa-lg"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">{{ currentUser?.firstName }} {{ currentUser?.lastName }}</h6>
+                            <small class="text-muted">{{ currentUser?.userType }}</small>
+                        </div>
+                    </div>
+                    <ul class="list-unstyled small mb-0">
+                        <li class="mb-2"><i class="fas fa-envelope me-2 text-muted"></i>{{ currentUser?.email }}</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2 text-muted"></i>{{ currentUser?.phone || '-' }}
+                        </li>
+                        <li><i class="fas fa-id-badge me-2 text-muted"></i>ID: {{ currentUser?.staffId || '-' }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -89,6 +89,8 @@ import krs.erp.repository.alumni.*;
 import krs.erp.repository.library.*;
 import krs.erp.repository.lms.*;
 import krs.erp.repository.tpd.*;
+import krs.erp.repository.admission.StudentRegistrationRepository;
+import krs.erp.model.admission.StudentRegistration;
 
 @Service
 public class DataImportService {
@@ -277,6 +279,9 @@ public class DataImportService {
     @Autowired
     private TicketCommentRepository ticketCommentRepository;
 
+    @Autowired
+    private StudentRegistrationRepository studentRegistrationRepository;
+
     // Cache for loaded entities
     private final Map<Long, Permission> permissions = new HashMap<>();
     private final Map<Long, Role> roles = new HashMap<>();
@@ -322,6 +327,7 @@ public class DataImportService {
             importCourses(document);
             importExams(document);
             importHealthRecords(document);
+            importStudentRegistrations(document);
 
             logger.info("Data import completed successfully");
 
@@ -1312,6 +1318,50 @@ public class DataImportService {
             setBaseEntityFields(healthRecord, element);
 
             healthRecordRepository.save(healthRecord);
+        }
+    }
+
+    private void importStudentRegistrations(Document document) {
+        NodeList registrationNodes = document.getElementsByTagName("student_registration");
+        logger.info("Importing {} student registrations", registrationNodes.getLength());
+
+        for (int i = 0; i < registrationNodes.getLength(); i++) {
+            Element element = (Element) registrationNodes.item(i);
+            try {
+                String studentIdStr = getElementText(element, "studentId");
+                String academicYearIdStr = getElementText(element, "academicYearId");
+                String classIdStr = getElementText(element, "classId");
+
+                Student student = studentRepository.findById(Long.parseLong(studentIdStr)).orElse(null);
+                AcademicYear academicYear = academicYearRepository.findById(Long.parseLong(academicYearIdStr))
+                        .orElse(null);
+                ErpClass erpClass = classRepository.findById(Long.parseLong(classIdStr)).orElse(null);
+
+                if (student != null && academicYear != null && erpClass != null) {
+                    StudentRegistration registration = new StudentRegistration();
+                    registration.setStudent(student);
+                    registration.setAcademicYear(academicYear);
+                    registration.setErpClass(erpClass);
+
+                    String regDateStr = getElementText(element, "registrationDate");
+                    if (regDateStr != null && !regDateStr.isEmpty()) {
+                        registration.setRegistrationDate(LocalDate.parse(regDateStr));
+                    } else {
+                        registration.setRegistrationDate(LocalDate.now());
+                    }
+
+                    String statusStr = getElementText(element, "status");
+                    if (statusStr != null && !statusStr.isEmpty()) {
+                        registration.setStatus(StudentRegistration.RegistrationStatus.valueOf(statusStr));
+                    }
+
+                    registration.setRemarks(getElementText(element, "remarks"));
+                    registration.markAsActive();
+                    studentRegistrationRepository.save(registration);
+                }
+            } catch (Exception e) {
+                logger.error("Error importing student registration", e);
+            }
         }
     }
 
@@ -2876,7 +2926,7 @@ public class DataImportService {
             LmsPeerReview review = new LmsPeerReview();
             review.setSubmission(submissions.get(0));
             review.setReviewer(users.size() > 1 ? users.get(1) : users.get(0));
-            review.setScore(90.0);
+            review.setScore(90);
             review.setFeedback("Very thorough analysis of the data.");
             review.setAnonymous(true);
             lmsPeerReviewRepository.save(review);
@@ -2944,5 +2994,38 @@ public class DataImportService {
         professionalPortfolioRepository.save(portfolio);
 
         logger.info("TPD sample data generated successfully.");
+    }
+
+    @Transactional
+    public void generateStudentRegistrationSampleData() {
+        logger.info("Generating sample student registration data...");
+        List<Student> activeStudents = studentRepository.findAll();
+        List<AcademicYear> academicYears = academicYearRepository.findAll();
+        List<ErpClass> classes = classRepository.findAll();
+
+        if (activeStudents.isEmpty() || academicYears.isEmpty() || classes.isEmpty()) {
+            logger.warn("Cannot generate registrations: Missing students, years, or classes.");
+            return;
+        }
+
+        AcademicYear currentYear = academicYears.get(0);
+        int count = 0;
+        for (int i = 0; i < Math.min(activeStudents.size(), 20); i++) {
+            Student student = activeStudents.get(i);
+            ErpClass erpClass = classes.get(i % classes.size());
+
+            StudentRegistration reg = new StudentRegistration();
+            reg.setStudent(student);
+            reg.setAcademicYear(currentYear);
+            reg.setErpClass(erpClass);
+            reg.setRegistrationDate(LocalDate.now().minusDays(i));
+            reg.setStatus(i % 5 == 0 ? StudentRegistration.RegistrationStatus.PENDING
+                    : StudentRegistration.RegistrationStatus.COMPLETED);
+            reg.setRemarks("Auto-generated sample registration");
+            reg.markAsActive();
+            studentRegistrationRepository.save(reg);
+            count++;
+        }
+        logger.info("✓ Generated {} sample student registrations", count);
     }
 }

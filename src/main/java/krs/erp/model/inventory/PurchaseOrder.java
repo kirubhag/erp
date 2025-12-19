@@ -1,7 +1,7 @@
 package krs.erp.model.inventory;
 
 import java.time.LocalDate;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
 import krs.erp.model.BaseEntity;

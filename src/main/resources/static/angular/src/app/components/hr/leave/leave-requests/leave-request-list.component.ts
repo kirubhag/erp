@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LeaveService, LeaveRequest, LeaveType } from '../../../../services/leave.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
     selector: 'app-leave-request-list',
@@ -16,17 +17,27 @@ export class LeaveRequestListComponent implements OnInit {
     leaveTypes: LeaveType[] = [];
 
     showApplyModal = false;
-    newRequest: any = { staffId: 1 }; // Default staff 1 for demo
+    newRequest: Partial<LeaveRequest> = { staffId: 0, leaveTypeId: 0, reason: '', status: 'PENDING' };
 
-    constructor(private leaveService: LeaveService) { }
+    constructor(
+        private leaveService: LeaveService,
+        private authService: AuthService
+    ) { }
 
     ngOnInit() {
-        this.loadMyLeaves();
+        const user = this.authService.getCurrentUser();
+        if (user && user.staffId) {
+            this.newRequest.staffId = user.staffId;
+            this.loadMyLeaves(user.staffId);
+        }
         this.loadTypes();
     }
 
-    loadMyLeaves() {
-        this.leaveService.getMyLeaves(1).subscribe(data => this.myLeaves = data); // Hardcoded staff 1
+    loadMyLeaves(staffId?: number) {
+        const id = staffId || this.authService.getCurrentUser()?.staffId;
+        if (id) {
+            this.leaveService.getMyLeaves(id).subscribe(data => this.myLeaves = data);
+        }
     }
 
     loadPending() {
@@ -47,8 +58,11 @@ export class LeaveRequestListComponent implements OnInit {
         this.leaveService.applyForLeave(this.newRequest).subscribe({
             next: () => {
                 this.showApplyModal = false;
-                this.loadMyLeaves();
-                this.newRequest = { staffId: 1 };
+                const user = this.authService.getCurrentUser();
+                if (user && user.staffId) {
+                    this.loadMyLeaves(user.staffId);
+                    this.newRequest = { staffId: user.staffId };
+                }
             },
             error: (err) => alert('Error: ' + (err.error?.error || err.message))
         });

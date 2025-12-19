@@ -41,7 +41,14 @@ public enum EntityType {
     SCHOLARSHIP_DISBURSEMENT("ScholarshipDisbursement"),
     CHART_OF_ACCOUNT("ChartOfAccount"),
     JOURNAL_ENTRY("JournalEntry"),
-    ACCOUNTING_PERIOD("AccountingPeriod");
+    ACCOUNTING_PERIOD("AccountingPeriod"),
+    STUDENT_REGISTRATION("StudentRegistration"),
+    PERFORMANCE_CYCLE("PerformanceCycle"),
+    PERFORMANCE_CRITERIA("PerformanceCriteria"),
+    PERFORMANCE_REVIEW("PerformanceReview"),
+    LEAVE_TYPE("LeaveType"),
+    LEAVE_REQUEST("LeaveRequest"),
+    PAYROLL_RUN("PayrollRun");
 
     private final String displayName;
 

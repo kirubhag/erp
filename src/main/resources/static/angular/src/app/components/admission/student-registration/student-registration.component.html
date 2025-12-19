@@ -1,0 +1,153 @@
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-0">Student Registrations</h2>
+            <p class="text-muted">Manage student registration for new academic terms and years</p>
+        </div>
+        <button class="btn btn-primary" (click)="openModal()">
+            <i class="fas fa-plus me-2"></i>New Registration
+        </button>
+    </div>
+
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ successMessage }}
+        <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ errorMessage }}
+        <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+    </div>
+
+    <!-- Registration Table -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Student</th>
+                            <th>Academic Year</th>
+                            <th>Class/Section</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reg of registrations">
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <div
+                                        class="avatar-sm me-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center">
+                                        {{ (reg.student?.firstName?.[0] || '') + (reg.student?.lastName?.[0] || '') }}
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">{{ reg.student?.firstName }} {{ reg.student?.lastName }}</h6>
+                                        <small class="text-muted">{{ reg.student?.studentId }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ reg.academicYear?.name }}</td>
+                            <td>{{ reg.erpClass?.className }} ({{ reg.erpClass?.section }})</td>
+                            <td>{{ reg.registrationDate | date }}</td>
+                            <td>
+                                <span class="badge" [ngClass]="{
+                                    'bg-warning text-dark': reg.status === 'PENDING',
+                                    'bg-success': reg.status === 'APPROVED',
+                                    'bg-danger': reg.status === 'REJECTED' || reg.status === 'CANCELLED',
+                                    'bg-info': reg.status === 'COMPLETED'
+                                }">
+                                    {{ reg.status }}
+                                </span>
+                            </td>
+                            <td class="text-end pe-4">
+                                <button class="btn btn-sm btn-outline-primary me-2" (click)="openModal(reg)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" (click)="deleteRegistration(reg.id)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="registrations.length === 0">
+                            <td colspan="6" class="text-center py-5">
+                                <div class="text-muted">
+                                    <i class="fas fa-folder-open fa-3x mb-3"></i>
+                                    <p>No registrations found</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Registration Modal -->
+<div class="modal fade" [ngClass]="{'show d-block': showModal}" tabindex="-1" *ngIf="showModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">{{ isEditing ? 'Edit' : 'New' }} Student Registration</h5>
+                <button type="button" class="btn-close btn-close-white" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form [formGroup]="registrationForm" (ngSubmit)="saveRegistration()">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Select Student</label>
+                            <select class="form-select" formControlName="studentId">
+                                <option value="">Choose student...</option>
+                                <option *ngFor="let s of students" [value]="s.id">{{ s.firstName }} {{ s.lastName }} ({{
+                                    s.studentId }})</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Academic Year</label>
+                            <select class="form-select" formControlName="academicYearId">
+                                <option value="">Choose year...</option>
+                                <option *ngFor="let ay of academicYears" [value]="ay.id">{{ ay.name }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Assign to Class</label>
+                            <select class="form-select" formControlName="classId">
+                                <option value="">Choose class...</option>
+                                <option *ngFor="let c of classes" [value]="c.id">{{ c.className }} ({{ c.section }})
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Registration Date</label>
+                            <input type="date" class="form-control" formControlName="registrationDate">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Status</label>
+                            <select class="form-select" formControlName="status">
+                                <option value="PENDING">Pending</option>
+                                <option value="APPROVED">Approved</option>
+                                <option value="REJECTED">Rejected</option>
+                                <option value="CANCELLED">Cancelled</option>
+                                <option value="COMPLETED">Completed</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Remarks</label>
+                            <textarea class="form-control" formControlName="remarks" rows="3"
+                                placeholder="Additional information..."></textarea>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <button type="button" class="btn btn-secondary me-2" (click)="closeModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="registrationForm.invalid">
+                            {{ isEditing ? 'Update' : 'Register' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showModal" (click)="closeModal()"></div>

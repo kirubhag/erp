@@ -62,6 +62,7 @@ public class SampleDataController {
             "attendance", // Attendance data
             "grades", // Grades depend on students and subjects
             "exams", // Exam data
+            "registrations", // Student registrations for new academic year
             "payroll", // Depends on Staff
             "leaves", // Depends on Staff
             "performance", // Depends on Staff
@@ -239,6 +240,8 @@ public class SampleDataController {
                             dataImportService.importCoursesDataFromXml(xmlFilePath);
                         } else if (isExamEntity(entityName)) {
                             dataImportService.importExamsDataFromXml(xmlFilePath);
+                        } else if (entityName.equalsIgnoreCase("registrations")) {
+                            dataImportService.generateStudentRegistrationSampleData();
                         } else if (isAddressEntity(entityName)) {
                             dataImportService.importDataFromXml(xmlFilePath);
                         } else if (entityName.equalsIgnoreCase("payroll")) {
@@ -351,6 +354,8 @@ public class SampleDataController {
         entityToXmlMap.put("subject", "data/subject/subjects.xml");
         entityToXmlMap.put("classes", "data/class/classes.xml");
         entityToXmlMap.put("class", "data/class/classes.xml");
+        entityToXmlMap.put("registrations", "data/admission/student_registration_fields.xml"); // Dummy mapping, using
+                                                                                               // generate method
         entityToXmlMap.put("timetables", "data/timetable/timetables.xml");
 
         // Address data

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Repository
 public interface SupportTicketRepository extends JpaRepository<SupportTicket, Long> {
-    List<SupportTicket> findByCreatedByIdOrderByCreatedAtDesc(Long userId);
+    List<SupportTicket> findByAuthorIdOrderByCreatedTimeDesc(Long userId);
 
-    List<SupportTicket> findByAssignedToIdOrderByCreatedAtDesc(Long userId);
+    List<SupportTicket> findByAssignedToIdOrderByCreatedTimeDesc(Long userId);
 }

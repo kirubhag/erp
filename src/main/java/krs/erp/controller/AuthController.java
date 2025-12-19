@@ -186,6 +186,7 @@ public class AuthController {
                 userData.put("enabled", user.getEnabled());
                 userData.put("organizationId", user.getOrganizationId());
                 userData.put("avatarUrl", user.getAvatarUrl());
+                userData.put("staffId", user.getStaff() != null ? user.getStaff().getId() : null);
 
                 return ResponseEntity.ok(userData);
             }

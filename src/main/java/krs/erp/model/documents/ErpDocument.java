@@ -1,6 +1,6 @@
 package krs.erp.model.documents;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import krs.erp.model.BaseEntity;
 import lombok.Data;

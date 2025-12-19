@@ -20,6 +20,7 @@ export interface UserDetails {
   lastLoginDate?: string;
   passwordChangeDate?: string;
   avatarUrl?: string;
+  staffId?: number;
   roles?: any[];
 }
 

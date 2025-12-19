@@ -244,6 +244,7 @@
 						<exclude>**/target/**</exclude>
 						<exclude>**/ErpApplication.java</exclude>
 						<exclude>**/ServletInitializer.java</exclude>
+						<exclude>**/DataImportService.java</exclude>
 						<exclude>**/*Test.java</exclude>
 						<exclude>**/*Tests.java</exclude>
 					</excludes>

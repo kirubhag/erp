@@ -2,6 +2,14 @@ import { Routes } from '@angular/router';
 
 export const HR_ROUTES: Routes = [
     {
+        path: 'dashboard',
+        loadComponent: () => import('./hr-dashboard/hr-dashboard.component').then(m => m.HrDashboardComponent)
+    },
+    {
+        path: 'self-service',
+        loadComponent: () => import('./employee-portal/employee-portal.component').then(m => m.EmployeePortalComponent)
+    },
+    {
         path: 'job-postings',
         loadComponent: () => import('./recruitment/job-posting-list/job-posting-list.component').then(m => m.JobPostingListComponent)
     },
@@ -39,5 +47,10 @@ export const HR_ROUTES: Routes = [
         path: 'performance-reviews',
         loadComponent: () => import('../entity-list/entity-list.component').then(m => m.EntityListComponent),
         data: { entityName: 'PERFORMANCE_REVIEW' }
+    },
+    {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
     }
 ];

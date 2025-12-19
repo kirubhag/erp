@@ -1,0 +1,82 @@
+<div class="container-fluid py-4">
+    <div class="mb-4">
+        <h2 class="mb-0">HR Management Dashboard</h2>
+        <p class="text-muted">Overview of staff, recruitment, and payroll</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="avatar-sm bg-primary-soft text-primary rounded-circle me-3">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h6 class="card-subtitle text-muted mb-0">Total Staff</h6>
+                    </div>
+                    <h3 class="card-title mb-0">{{ stats.totalEmployees }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 border-start border-4 border-info">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="avatar-sm bg-info-soft text-info rounded-circle me-3">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h6 class="card-subtitle text-muted mb-0">Active Postings</h6>
+                    </div>
+                    <h3 class="card-title mb-0">{{ stats.activeRecruitments }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 border-start border-4 border-warning">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="avatar-sm bg-warning-soft text-warning rounded-circle me-3">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h6 class="card-subtitle text-muted mb-0">Pending Leaves</h6>
+                    </div>
+                    <h3 class="card-title mb-0">{{ stats.pendingLeaves }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 border-start border-4 border-success">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="avatar-sm bg-success-soft text-success rounded-circle me-3">
+                            <i class="fas fa-money-check-alt"></i>
+                        </div>
+                        <h6 class="card-subtitle text-muted mb-0">Payroll Status</h6>
+                    </div>
+                    <h3 class="card-title mb-0">Awaiting</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="row g-4">
+        <div class="col-md-6" *ngFor="let link of quickLinks">
+            <a [routerLink]="link.route" class="card border-0 shadow-sm text-decoration-none h-100 hover-lift">
+                <div class="card-body d-flex align-items-center p-4">
+                    <div class="flex-shrink-0 avatar-md rounded-3 d-flex align-items-center justify-content-center text-white me-4"
+                        [ngClass]="link.color">
+                        <i [class]="link.icon + ' fa-2x'"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-1 text-dark">{{ link.label }}</h4>
+                        <p class="mb-0 text-muted">Manage all {{ link.label.toLowerCase() }} and related configurations
+                        </p>
+                    </div>
+                    <i class="fas fa-chevron-right ms-auto text-muted"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

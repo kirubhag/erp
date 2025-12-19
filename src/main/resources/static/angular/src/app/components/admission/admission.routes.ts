@@ -24,6 +24,11 @@ export const ADMISSION_ROUTES: Routes = [
                 path: 'cycles',
                 loadComponent: () => import('./admission-cycle/admission-cycle.component').then(m => m.AdmissionCycleComponent),
                 canActivate: [AuthGuard]
+            },
+            {
+                path: 'registrations',
+                loadComponent: () => import('./student-registration/student-registration.component').then(m => m.StudentRegistrationComponent),
+                canActivate: [AuthGuard]
             }
         ]
     }
