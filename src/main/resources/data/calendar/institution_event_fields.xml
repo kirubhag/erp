@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>title</name>
+        <label>Event Title</label>
+        <type>text</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>category</name>
+        <label>Category</label>
+        <type>select</type>
+        <options>SPORTS,CULTURAL,ACADEMIC,MEETING</options>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>startDate</name>
+        <label>Start Date &amp; Time</label>
+        <type>datetime</type>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>endDate</name>
+        <label>End Date &amp; Time</label>
+        <type>datetime</type>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>location</name>
+        <label>Location</label>
+        <type>text</type>
+        <show_in_list>true</show_in_list>
+        <sequence>5</sequence>
+    </field>
+    <field>
+        <name>status</name>
+        <label>Status</label>
+        <type>select</type>
+        <options>SCHEDULED,IN_PROGRESS,COMPLETED,CANCELLED</options>
+        <show_in_list>true</show_in_list>
+        <sequence>6</sequence>
+    </field>
+    <field>
+        <name>description</name>
+        <label>Description</label>
+        <type>textarea</type>
+        <sequence>7</sequence>
+    </field>
+</fields>

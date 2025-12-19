@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections type="SCHOLARSHIP_APPLICATION">
+    <section>
+        <name>Application Details</name>
+        <fields>
+            <field>student</field>
+            <field>category</field>
+            <field>academicYear</field>
+            <field>applicationDate</field>
+        </fields>
+    </section>
+    <section>
+        <name>Review &amp; Status</name>
+        <fields>
+            <field>status</field>
+            <field>remarks</field>
+        </fields>
+    </section>
+</sections>

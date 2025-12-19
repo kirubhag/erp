@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>fullName</name>
+        <label>Full Name</label>
+        <type>text</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>graduationYear</name>
+        <label>Graduation Year</label>
+        <type>number</type>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>degree</name>
+        <label>Degree/Course</label>
+        <type>text</type>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>email</name>
+        <label>Email</label>
+        <type>text</type>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>phoneNumber</name>
+        <label>Phone Number</label>
+        <type>text</type>
+        <sequence>5</sequence>
+    </field>
+    <field>
+        <name>occupation</name>
+        <label>Occupation</label>
+        <type>text</type>
+        <show_in_list>true</show_in_list>
+        <sequence>6</sequence>
+    </field>
+    <field>
+        <name>company</name>
+        <label>Company/Institution</label>
+        <type>text</type>
+        <sequence>7</sequence>
+    </field>
+    <field>
+        <name>linkedinProfile</name>
+        <label>LinkedIn Profile</label>
+        <type>text</type>
+        <sequence>8</sequence>
+    </field>
+    <field>
+        <name>status</name>
+        <label>Status</label>
+        <type>select</type>
+        <options>ACTIVE,INACTIVE</options>
+        <show_in_list>true</show_in_list>
+        <sequence>9</sequence>
+    </field>
+</fields>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>transactionIdExt</name>
+        <display_name>Txn ID</display_name>
+        <type>text</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>invoiceId</name>
+        <display_name>Invoice</display_name>
+        <type>select</type>
+        <entity_ref>INVOICE</entity_ref>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>paymentDate</name>
+        <display_name>Payment Date</display_name>
+        <type>datetime</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>amountPaid</name>
+        <display_name>Amount Paid</display_name>
+        <type>number</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>paymentMode</name>
+        <display_name>Mode</display_name>
+        <type>enum</type>
+        <options>CASH,ONLINE,CHEQUE,BANK_TRANSFER</options>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>referenceNumber</name>
+        <display_name>Ref #</display_name>
+        <type>text</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>status</name>
+        <display_name>Status</display_name>
+        <type>enum</type>
+        <options>SUCCESS,PENDING,FAILED</options>
+        <grid_visible>true</grid_visible>
+    </field>
+</fields>

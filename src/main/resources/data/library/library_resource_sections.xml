@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>General Information</title>
+        <fields>title,format,isbnIssn,category</fields>
+    </section>
+    <section>
+        <title>Cataloging Details</title>
+        <fields>author,publisher,edition,year</fields>
+    </section>
+    <section>
+        <title>Resources &amp; Description</title>
+        <fields>digitalPath,description</fields>
+    </section>
+</sections>

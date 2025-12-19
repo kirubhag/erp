@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <system_name>staff</system_name>
+        <display_name>Staff Member</display_name>
+        <show_type>lookup</show_type>
+        <lookup_entity>USER</lookup_entity>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>competency</system_name>
+        <display_name>Competency</display_name>
+        <show_type>lookup</show_type>
+        <lookup_entity>COMPETENCY</lookup_entity>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>selfRating</system_name>
+        <display_name>Self Rating (1-5)</display_name>
+        <show_type>select</show_type>
+        <options>1:Novice,2:Beginner,3:Intermediate,4:Advanced,5:Expert</options>
+    </field>
+    <field>
+        <system_name>managerRating</system_name>
+        <display_name>Supervisor Rating</display_name>
+        <show_type>select</show_type>
+        <options>1:Novice,2:Beginner,3:Intermediate,4:Advanced,5:Expert</options>
+    </field>
+    <field>
+        <system_name>manager</system_name>
+        <display_name>Supervisor</display_name>
+        <show_type>lookup</show_type>
+        <lookup_entity>USER</lookup_entity>
+    </field>
+    <field>
+        <system_name>assessmentDate</system_name>
+        <display_name>Assessment Date</display_name>
+        <show_type>datetime</show_type>
+        <is_readonly>true</is_readonly>
+    </field>
+</fields>

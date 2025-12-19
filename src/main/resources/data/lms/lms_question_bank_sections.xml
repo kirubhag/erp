@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Question Details</title>
+        <fields>subject,questionText,type,difficulty,tags</fields>
+    </section>
+</sections>

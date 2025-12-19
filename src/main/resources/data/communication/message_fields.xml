@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <fieldName>sender</fieldName>
+        <displayLabel>Sender</displayLabel>
+        <uiType>13</uiType>
+        <dataType>Lookup</dataType>
+        <isRequired>true</isRequired>
+        <lookupEntity>USER</lookupEntity>
+    </field>
+    <field>
+        <fieldName>recipient</fieldName>
+        <displayLabel>Recipient</displayLabel>
+        <uiType>13</uiType>
+        <dataType>Lookup</dataType>
+        <isRequired>true</isRequired>
+        <lookupEntity>USER</lookupEntity>
+    </field>
+    <field>
+        <fieldName>subject</fieldName>
+        <displayLabel>Subject</displayLabel>
+        <uiType>1</uiType>
+        <dataType>String</dataType>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>body</fieldName>
+        <displayLabel>Message Body</displayLabel>
+        <uiType>19</uiType>
+        <dataType>String</dataType>
+    </field>
+    <field>
+        <fieldName>sentAt</fieldName>
+        <displayLabel>Sent At</displayLabel>
+        <uiType>14</uiType>
+        <dataType>LocalDateTime</dataType>
+        <isReadonly>true</isReadonly>
+    </field>
+    <field>
+        <fieldName>read</fieldName>
+        <displayLabel>Is Read</displayLabel>
+        <uiType>8</uiType>
+        <dataType>Boolean</dataType>
+    </field>
+</fields>

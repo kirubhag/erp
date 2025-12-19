@@ -5,7 +5,7 @@ package krs.erp.enums;
  */
 public enum EntityType {
     STUDENT("Student"),
-    PARENT("Parent"), 
+    PARENT("Parent"),
     ATTENDANCE("Attendance"),
     HEALTH("Health"),
     SUBJECT("Subject"),
@@ -35,22 +35,28 @@ public enum EntityType {
     STUDENT_GUARDIAN("StudentGuardian"),
     STUDENT_MEDICAL("StudentMedical"),
     ROOM("Room"),
-    DASHBOARD("Dashboard");
-    
+    DASHBOARD("Dashboard"),
+    SCHOLARSHIP_CATEGORY("ScholarshipCategory"),
+    SCHOLARSHIP_APPLICATION("ScholarshipApplication"),
+    SCHOLARSHIP_DISBURSEMENT("ScholarshipDisbursement"),
+    CHART_OF_ACCOUNT("ChartOfAccount"),
+    JOURNAL_ENTRY("JournalEntry"),
+    ACCOUNTING_PERIOD("AccountingPeriod");
+
     private final String displayName;
-    
+
     EntityType(String displayName) {
         this.displayName = displayName;
     }
-    
+
     public String getDisplayName() {
         return displayName;
     }
-    
+
     public String getValue() {
         return this.name();
     }
-    
+
     /**
      * Get EntityType from string value
      * Handles both singular and plural forms (e.g., "student" or "students")
@@ -59,9 +65,9 @@ public enum EntityType {
         if (value == null) {
             return null;
         }
-        
+
         String upperValue = value.toUpperCase();
-        
+
         try {
             // Try exact match first
             return EntityType.valueOf(upperValue);
@@ -77,7 +83,7 @@ public enum EntityType {
             return null;
         }
     }
-    
+
     /**
      * Check if the given string is a valid entity type
      */

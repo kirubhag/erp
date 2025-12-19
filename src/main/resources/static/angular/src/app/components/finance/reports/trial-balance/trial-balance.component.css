@@ -1,0 +1,11 @@
+.card {
+  border-radius: 10px;
+}
+
+.table th {
+  font-weight: 600;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}

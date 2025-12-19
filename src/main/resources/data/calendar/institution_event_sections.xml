@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>basic_info</name>
+        <label>Event Details</label>
+        <sequence>1</sequence>
+        <fields>title,category,status,location</fields>
+    </section>
+    <section>
+        <name>timing_info</name>
+        <label>Schedule &amp; Description</label>
+        <sequence>2</sequence>
+        <fields>startDate,endDate,description</fields>
+    </section>
+</sections>

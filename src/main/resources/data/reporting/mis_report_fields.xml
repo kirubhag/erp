@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>name</name>
+        <label>Report Name</label>
+        <type>text</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>type</name>
+        <label>Report Type</label>
+        <type>select</type>
+        <options>ADMISSION,HR,FINANCE,INVENTORY,MAINTENANCE</options>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>description</name>
+        <label>Description</label>
+        <type>textarea</type>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>lastRunDate</name>
+        <label>Last Run Date</label>
+        <type>datetime</type>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>reportData</name>
+        <label>Report Data / Config</label>
+        <type>textarea</type>
+        <sequence>5</sequence>
+    </field>
+</fields>

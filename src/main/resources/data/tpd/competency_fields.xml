@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <system_name>name</system_name>
+        <display_name>Competency Name</display_name>
+        <show_type>text</show_type>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>targetRole</system_name>
+        <display_name>Target Role</display_name>
+        <show_type>select</show_type>
+        <options>TEACHER:Teacher,HOD:Head of Department,ADMIN:Administrator,PRINCIPAL:Principal</options>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>requiredLevel</system_name>
+        <display_name>Required Proficiency (1-5)</display_name>
+        <show_type>number</show_type>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>description</system_name>
+        <display_name>Competency Description</display_name>
+        <show_type>textarea</show_type>
+    </field>
+</fields>

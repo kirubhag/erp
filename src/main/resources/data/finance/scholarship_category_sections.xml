@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections type="SCHOLARSHIP_CATEGORY">
+    <section>
+        <name>General Information</name>
+        <fields>
+            <field>name</field>
+            <field>description</field>
+        </fields>
+    </section>
+    <section>
+        <name>Aid Configuration</name>
+        <fields>
+            <field>type</field>
+            <field>amount</field>
+            <field>percentage</field>
+        </fields>
+    </section>
+    <section>
+        <name>Eligibility Rules</name>
+        <fields>
+            <field>isNeedBased</field>
+            <field>isMeritBased</field>
+        </fields>
+    </section>
+</sections>

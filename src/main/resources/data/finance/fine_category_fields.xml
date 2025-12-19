@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>name</name>
+        <display_name>Category Name</display_name>
+        <type>text</type>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>description</name>
+        <display_name>Description</display_name>
+        <type>textarea</type>
+        <grid_visible>false</grid_visible>
+    </field>
+</fields>

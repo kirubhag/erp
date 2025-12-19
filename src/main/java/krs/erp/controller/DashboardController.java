@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import krs.erp.service.reporting.DashboardService;
+
 /**
  * REST Controller for dashboard.
  * Provides endpoints for dashboard statistics and widgets.
@@ -16,22 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/dashboard")
 public class DashboardController {
 
+    @Autowired
+    private DashboardService dashboardService;
+
     /**
      * Get dashboard statistics
      * GET /api/dashboard/stats
      */
     @GetMapping("/stats")
     public ResponseEntity<Map<String, Object>> getDashboardStats() {
-        Map<String, Object> stats = new HashMap<>();
-        
-        // TODO: Replace with actual data from services
-        stats.put("totalStudents", 378);
-        stats.put("presentToday", 0);
-        stats.put("absentToday", 0);
-        stats.put("registeredParents", 0);
-        stats.put("attendanceRate", 0.0);
-        stats.put("totalAttendance", 0);
-        
-        return ResponseEntity.ok(stats);
+        return ResponseEntity.ok(dashboardService.getDashboardStats());
     }
 }

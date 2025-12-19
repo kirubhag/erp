@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>External Credit Approval</title>
+        <fields>staff,title,provider,certificateUrl,requestedCredits,status,approvedCredits</fields>
+    </section>
+</sections>

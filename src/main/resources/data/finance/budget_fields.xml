@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <fieldName>name</fieldName>
+        <displayLabel>Budget Name</displayLabel>
+        <uiType>1</uiType>
+        <dataType>String</dataType>
+        <isRequired>true</isRequired>
+        <section>General Information</section>
+    </field>
+    <field>
+        <fieldName>accountingPeriod</fieldName>
+        <displayLabel>Accounting Period</displayLabel>
+        <uiType>13</uiType>
+        <dataType>Lookup</dataType>
+        <isRequired>true</isRequired>
+        <section>General Information</section>
+        <lookupEntity>ACCOUNTING_PERIOD</lookupEntity>
+    </field>
+    <field>
+        <fieldName>totalAmount</fieldName>
+        <displayLabel>Total Amount</displayLabel>
+        <uiType>9</uiType>
+        <dataType>BigDecimal</dataType>
+        <isRequired>true</isRequired>
+        <isReadonly>true</isReadonly>
+        <section>Financial Details</section>
+    </field>
+    <field>
+        <fieldName>status</fieldName>
+        <displayLabel>Status</displayLabel>
+        <uiType>4</uiType>
+        <dataType>String</dataType>
+        <isRequired>true</isRequired>
+        <section>General Information</section>
+        <picklistValues>DRAFT,APPROVED,CLOSED</picklistValues>
+    </field>
+    <field>
+        <fieldName>description</fieldName>
+        <displayLabel>Description</displayLabel>
+        <uiType>19</uiType>
+        <dataType>String</dataType>
+        <section>General Information</section>
+    </field>
+</fields>

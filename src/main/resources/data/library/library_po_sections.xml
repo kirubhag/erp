@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Purchase Order Details</title>
+        <fields>vendor,orderDate,totalAmount,status</fields>
+    </section>
+</sections>

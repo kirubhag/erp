@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields type="SCHOLARSHIP_APPLICATION">
+    <field>
+        <name>student</name>
+        <display_name>Student</display_name>
+        <type>relation</type>
+        <entity>Student</entity>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>category</name>
+        <display_name>Scholarship Category</display_name>
+        <type>relation</type>
+        <entity>ScholarshipCategory</entity>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>academicYear</name>
+        <display_name>Academic Year</display_name>
+        <type>relation</type>
+        <entity>AcademicYear</entity>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>applicationDate</name>
+        <display_name>Application Date</display_name>
+        <type>date</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>status</name>
+        <display_name>Status</display_name>
+        <type>select</type>
+        <options>SUBMITTED,UNDER_REVIEW,APPROVED,REJECTED</options>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>remarks</name>
+        <display_name>Remarks</display_name>
+        <type>textarea</type>
+        <grid_visible>false</grid_visible>
+    </field>
+</fields>

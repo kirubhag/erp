@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>Student & Fee Context</name>
+        <fields>
+            <field>studentId</field>
+            <field>feeStructureId</field>
+        </fields>
+    </section>
+    <section>
+        <name>Net Calculation</name>
+        <fields>
+            <field>baseAmount</field>
+            <field>discountAmount</field>
+            <field>fineAmount</field>
+            <field>netAmount</field>
+        </fields>
+    </section>
+    <section>
+        <name>Payment Details</name>
+        <fields>
+            <field>paymentMode</field>
+            <field>receiptNumber</field>
+            <field>paymentDate</field>
+            <field>remarks</field>
+        </fields>
+    </section>
+</sections>

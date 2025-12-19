@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <fieldName>account</fieldName>
+        <displayLabel>Account</displayLabel>
+        <uiType>13</uiType>
+        <dataType>Lookup</dataType>
+        <isRequired>true</isRequired>
+        <lookupEntity>CHART_OF_ACCOUNT</lookupEntity>
+    </field>
+    <field>
+        <fieldName>allocatedAmount</fieldName>
+        <displayLabel>Allocated Amount</displayLabel>
+        <uiType>9</uiType>
+        <dataType>BigDecimal</dataType>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>actualAmount</fieldName>
+        <displayLabel>Actual Amount</displayLabel>
+        <uiType>9</uiType>
+        <dataType>BigDecimal</dataType>
+        <isReadonly>true</isReadonly>
+    </field>
+    <field>
+        <fieldName>description</fieldName>
+        <displayLabel>Description</displayLabel>
+        <uiType>1</uiType>
+        <dataType>String</dataType>
+    </field>
+</fields>

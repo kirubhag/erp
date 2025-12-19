@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <fieldName>author</fieldName>
+        <displayLabel>Author</displayLabel>
+        <uiType>13</uiType>
+        <dataType>Lookup</dataType>
+        <isRequired>true</isRequired>
+        <lookupEntity>USER</lookupEntity>
+    </field>
+    <field>
+        <fieldName>comment</fieldName>
+        <displayLabel>Comment</displayLabel>
+        <uiType>19</uiType>
+        <dataType>String</dataType>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>createdAt</fieldName>
+        <displayLabel>Date</displayLabel>
+        <uiType>14</uiType>
+        <dataType>LocalDateTime</dataType>
+        <isReadonly>true</isReadonly>
+    </field>
+</fields>

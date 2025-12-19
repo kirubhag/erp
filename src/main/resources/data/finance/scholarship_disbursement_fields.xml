@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields type="SCHOLARSHIP_DISBURSEMENT">
+    <field>
+        <name>application</name>
+        <display_name>Application</display_name>
+        <type>relation</type>
+        <entity>ScholarshipApplication</entity>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>invoice</name>
+        <display_name>Invoice</display_name>
+        <type>relation</type>
+        <entity>Invoice</entity>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>disbursementAmount</name>
+        <display_name>Disbursed Amount</display_name>
+        <type>number</type>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>disbursementDate</name>
+        <display_name>Disbursement Date</display_name>
+        <type>date</type>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>status</name>
+        <display_name>Status</display_name>
+        <type>text</type>
+        <grid_visible>true</grid_visible>
+    </field>
+</fields>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <system_name>forum</system_name>
+        <display_name>Forum</display_name>
+        <show_type>lookup</show_type>
+        <lookup_entity>LMS_FORUM</lookup_entity>
+        <is_readonly>true</is_readonly>
+    </field>
+    <field>
+        <system_name>author</system_name>
+        <display_name>Posted By</display_name>
+        <show_type>lookup</show_type>
+        <lookup_entity>USER</lookup_entity>
+        <is_readonly>true</is_readonly>
+    </field>
+    <field>
+        <system_name>content</system_name>
+        <display_name>Comment</display_name>
+        <show_type>textarea</show_type>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>parentPost</system_name>
+        <display_name>Replying To</display_name>
+        <show_type>lookup</show_type>
+        <lookup_entity>LMS_FORUM_POST</lookup_entity>
+    </field>
+    <field>
+        <system_name>likes</system_name>
+        <display_name>Likes</display_name>
+        <show_type>number</show_type>
+        <is_readonly>true</is_readonly>
+    </field>
+</fields>

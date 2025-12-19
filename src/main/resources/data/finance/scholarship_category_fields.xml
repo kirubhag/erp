@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields type="SCHOLARSHIP_CATEGORY">
+    <field>
+        <name>name</name>
+        <display_name>Category Name</display_name>
+        <type>text</type>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>description</name>
+        <display_name>Description</display_name>
+        <type>textarea</type>
+        <grid_visible>false</grid_visible>
+    </field>
+    <field>
+        <name>type</name>
+        <display_name>Aid Type</display_name>
+        <type>select</type>
+        <options>FIXED,PERCENTAGE</options>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>amount</name>
+        <display_name>Fixed Amount</display_name>
+        <type>number</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>percentage</name>
+        <display_name>Percentage (%)</display_name>
+        <type>number</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>isNeedBased</name>
+        <display_name>Need Based?</display_name>
+        <type>boolean</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>isMeritBased</name>
+        <display_name>Merit Based?</display_name>
+        <type>boolean</type>
+        <grid_visible>true</grid_visible>
+    </field>
+</fields>

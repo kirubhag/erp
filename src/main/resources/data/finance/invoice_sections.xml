@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>Invoice Details</name>
+        <fields>
+            <field>invoiceNumber</field>
+            <field>studentId</field>
+            <field>status</field>
+        </fields>
+    </section>
+    <section>
+        <name>Dates</name>
+        <fields>
+            <field>issueDate</field>
+            <field>dueDate</field>
+        </fields>
+    </section>
+    <section>
+        <name>Financial Summary</name>
+        <fields>
+            <field>totalAmount</field>
+            <field>discountAmount</field>
+            <field>taxAmount</field>
+            <field>netAmount</field>
+        </fields>
+    </section>
+</sections>

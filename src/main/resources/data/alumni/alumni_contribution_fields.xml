@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>alumniId</name>
+        <label>Alumni ID</label>
+        <type>number</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>type</name>
+        <label>Contribution Type</label>
+        <type>select</type>
+        <options>DONATION,VOLUNTEER,MENTORSHIP</options>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>amount</name>
+        <label>Amount (if financial)</label>
+        <type>number</type>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>contributionDate</name>
+        <label>Date</label>
+        <type>date</type>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>description</name>
+        <label>Description</label>
+        <type>textarea</type>
+        <show_in_list>true</show_in_list>
+        <sequence>5</sequence>
+    </field>
+</fields>

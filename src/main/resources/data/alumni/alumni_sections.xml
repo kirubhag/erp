@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>personal_info</name>
+        <label>Personal &amp; Contact Information</label>
+        <sequence>1</sequence>
+        <fields>fullName,email,phoneNumber,linkedinProfile</fields>
+    </section>
+    <section>
+        <name>academic_info</name>
+        <label>Academic History</label>
+        <sequence>2</sequence>
+        <fields>graduationYear,degree</fields>
+    </section>
+    <section>
+        <name>professional_info</name>
+        <label>Professional Status</label>
+        <sequence>3</sequence>
+        <fields>occupation,company,status</fields>
+    </section>
+</sections>

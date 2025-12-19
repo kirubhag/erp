@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Growth & Career Roadmap</title>
+        <fields>staff,currentRole,targetTrack,totalCPDCredits,yearsOfService,promotionReady,professionalSummary</fields>
+    </section>
+</sections>

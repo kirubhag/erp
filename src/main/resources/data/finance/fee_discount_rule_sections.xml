@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>Rule Definition</name>
+        <fields>
+            <field>name</field>
+            <field>conditionType</field>
+        </fields>
+    </section>
+    <section>
+        <name>Discount Logic</name>
+        <fields>
+            <field>type</field>
+            <field>value</field>
+        </fields>
+    </section>
+</sections>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>Basic Information</name>
+        <fields>
+            <field>name</field>
+            <field>code</field>
+            <field>isRecurring</field>
+        </fields>
+    </section>
+    <section>
+        <name>Details</name>
+        <fields>
+            <field>description</field>
+        </fields>
+    </section>
+</sections>

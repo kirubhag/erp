@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>Fine Logic</name>
+        <fields>
+            <field>categoryId</field>
+            <field>calcLogic</field>
+            <field>baseAmount</field>
+        </fields>
+    </section>
+    <section>
+        <name>Automation Rules</name>
+        <fields>
+            <field>frequency</field>
+            <field>gracePeriodDays</field>
+            <field>isAutoPost</field>
+        </fields>
+    </section>
+</sections>

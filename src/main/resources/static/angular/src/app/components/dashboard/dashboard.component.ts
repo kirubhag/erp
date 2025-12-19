@@ -35,7 +35,12 @@ export class DashboardComponent implements OnInit {
     absentToday: 0,
     registeredParents: 0,
     attendanceRate: 0,
-    totalAttendance: 0
+    totalAttendance: 0,
+    totalStaff: 0,
+    totalAssets: 0,
+    pendingWorkOrders: 0,
+    monthlyRevenue: 0,
+    monthlyExpense: 0
   };
 
   showSampleDataModal = false;

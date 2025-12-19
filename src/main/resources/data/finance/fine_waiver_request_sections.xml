@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>Request Context</name>
+        <fields>
+            <field>fineLedgerId</field>
+            <field>requestedById</field>
+            <field>requestDate</field>
+        </fields>
+    </section>
+    <section>
+        <name>Justification</name>
+        <fields>
+            <field>reason</field>
+        </fields>
+    </section>
+    <section>
+        <name>Decision</name>
+        <fields>
+            <field>status</field>
+            <field>adjustmentAmount</field>
+            <field>approvedById</field>
+        </fields>
+    </section>
+</sections>

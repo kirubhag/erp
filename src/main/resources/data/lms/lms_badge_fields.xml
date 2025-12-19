@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <system_name>name</system_name>
+        <display_name>Badge Name</display_name>
+        <show_type>text</show_type>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>tier</system_name>
+        <display_name>Tier</display_name>
+        <show_type>select</show_type>
+        <options>BRONZE:Bronze,SILVER:Silver,GOLD:Gold,PLATINUM:Platinum</options>
+    </field>
+    <field>
+        <system_name>pointsRequired</system_name>
+        <display_name>Unlock Points</display_name>
+        <show_type>number</show_type>
+    </field>
+    <field>
+        <system_name>iconUrl</system_name>
+        <display_name>Icon (CSS/URL)</display_name>
+        <show_type>text</show_type>
+    </field>
+    <field>
+        <system_name>description</system_name>
+        <display_name>Badge Description</display_name>
+        <show_type>textarea</show_type>
+    </field>
+</fields>

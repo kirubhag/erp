@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-sections type="CHART_OF_ACCOUNT">
+    <section title="Basic Information">
+        <field-ref name="code"/>
+        <field-ref name="name"/>
+        <field-ref name="type"/>
+        <field-ref name="parentAccount"/>
+        <field-ref name="isActive"/>
+    </section>
+</entity-sections>

@@ -1,12 +1,16 @@
 package krs.erp.service;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import krs.erp.enums.AccountType;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -39,6 +43,20 @@ import krs.erp.model.Subject;
 import krs.erp.model.Timetable;
 import krs.erp.model.Timetable.DayOfWeek;
 import krs.erp.model.User;
+import krs.erp.model.finance.*;
+import krs.erp.model.hr.*;
+import krs.erp.model.inventory.*;
+import krs.erp.model.maintenance.*;
+import krs.erp.model.reporting.*;
+import krs.erp.model.calendar.*;
+import krs.erp.model.communication.*;
+import krs.erp.model.alumni.*;
+import krs.erp.model.library.*;
+import krs.erp.model.lms.*;
+import krs.erp.model.tpd.*;
+import krs.erp.model.lms.VirtualClassSession;
+import krs.erp.repository.lms.VirtualClassSessionRepository;
+
 import krs.erp.repository.AddressRepository;
 import krs.erp.repository.AttendanceRepository;
 import krs.erp.repository.CourseRepository;
@@ -58,8 +76,19 @@ import krs.erp.repository.TimetableRepository;
 import krs.erp.repository.UserRepository;
 import krs.erp.repository.OrganizationRepository;
 import krs.erp.repository.academic.AcademicYearRepository;
-import krs.erp.model.Organization;
 import krs.erp.model.academic.AcademicYear;
+import krs.erp.model.Organization;
+import krs.erp.repository.finance.*;
+import krs.erp.repository.hr.*;
+import krs.erp.repository.inventory.*;
+import krs.erp.repository.maintenance.*;
+import krs.erp.repository.reporting.*;
+import krs.erp.repository.calendar.*;
+import krs.erp.repository.communication.*;
+import krs.erp.repository.alumni.*;
+import krs.erp.repository.library.*;
+import krs.erp.repository.lms.*;
+import krs.erp.repository.tpd.*;
 
 @Service
 public class DataImportService {
@@ -124,6 +153,129 @@ public class DataImportService {
 
     @Autowired
     private AcademicYearRepository academicYearRepository;
+
+    @Autowired
+    private MessageRepository messageRepository;
+
+    @Autowired
+    private AuthorRepository authorRepository;
+
+    @Autowired
+    private PublisherRepository publisherRepository;
+
+    @Autowired
+    private LibraryResourceRepository resourceRepository;
+
+    @Autowired
+    private ResourceItemRepository itemRepository;
+
+    @Autowired
+    private LibraryLoanRepository loanRepository;
+
+    @Autowired
+    private LibraryHoldRepository holdRepository;
+
+    @Autowired
+    private LibraryPolicyRepository policyRepository;
+
+    @Autowired
+    private LibraryPurchaseRequestRepository purchaseRequestRepository;
+
+    @Autowired
+    private LibraryPORepository poRepository;
+
+    @Autowired
+    private LmsModuleRepository lmsModuleRepository;
+
+    @Autowired
+    private LessonRepository lessonRepository;
+
+    @Autowired
+    private LmsTopicRepository lmsTopicRepository;
+
+    @Autowired
+    private LmsContentRepository lmsContentRepository;
+
+    @Autowired
+    private LmsQuizRepository lmsQuizRepository;
+
+    @Autowired
+    private LmsQuestionRepository lmsQuestionRepository;
+
+    @Autowired
+    private LmsAnswerRepository lmsAnswerRepository;
+
+    @Autowired
+    private LmsSubmissionRepository lmsSubmissionRepository;
+
+    @Autowired
+    private LmsQuestionBankRepository lmsQuestionBankRepository;
+
+    @Autowired
+    private LmsRubricRepository lmsRubricRepository;
+
+    @Autowired
+    private VirtualClassSessionRepository virtualClassSessionRepository;
+
+    @Autowired
+    private VirtualAttendanceRecordRepository virtualAttendanceRecordRepository;
+
+    @Autowired
+    private CompetencyRepository competencyRepository;
+
+    @Autowired
+    private SkillAssessmentRepository skillAssessmentRepository;
+
+    @Autowired
+    private TrainingEventRepository trainingEventRepository;
+
+    @Autowired
+    private TrainingAttendanceRepository trainingAttendanceRepository;
+
+    @Autowired
+    private CpdLedgerRepository cpdLedgerRepository;
+
+    @Autowired
+    private EvidenceRepository evidenceRepository;
+
+    @Autowired
+    private TrainingEvaluationRepository trainingEvaluationRepository;
+
+    @Autowired
+    private ProfessionalPortfolioRepository professionalPortfolioRepository;
+
+    @Autowired
+    private LmsStudentProgressRepository lmsStudentProgressRepository;
+
+    @Autowired
+    private LmsBadgeRepository lmsBadgeRepository;
+
+    @Autowired
+    private LmsPointLogRepository lmsPointLogRepository;
+
+    @Autowired
+    private LmsForumRepository lmsForumRepository;
+
+    @Autowired
+    private LmsForumPostRepository lmsForumPostRepository;
+
+    @Autowired
+    private LmsPeerReviewRepository lmsPeerReviewRepository;
+
+    @Autowired
+    private BudgetRepository budgetRepository;
+
+    @Autowired
+    private BankStatementRepository bankStatementRepository;
+
+    @Autowired
+    private AnnouncementRepository announcementRepository;
+
+    @Autowired
+    private SupportTicketRepository supportTicketRepository;
+
+    @Autowired
+    private TicketCommentRepository ticketCommentRepository;
 
     // Cache for loaded entities
     private final Map<Long, Permission> permissions = new HashMap<>();
@@ -1633,6 +1785,7 @@ public class DataImportService {
             t.setDescription(desc);
             leaveTypeRepository.save(t);
         }
+    }
 
     @Autowired
     private krs.erp.repository.hr.PerformanceCycleRepository performanceCycleRepository;
@@ -1789,6 +1942,7 @@ public class DataImportService {
         po.setTotalAmount(amount);
         po.setStatus(status);
         purchaseOrderRepository.save(po);
+    }
 
     @Autowired
     private krs.erp.repository.maintenance.WorkOrderRepository workOrderRepository;
@@ -1861,5 +2015,934 @@ public class DataImportService {
         wo.setAssignedTechnicianId(technicianId);
         wo.setAssetId(assetId);
         workOrderRepository.save(wo);
+    }
+
+    @Autowired
+    private krs.erp.repository.reporting.MISReportRepository misReportRepository;
+
+    @Transactional
+    public void generateReportingSampleData() {
+        try {
+            logger.info("Starting Reporting Sample Data Generation...");
+
+            createMISReport("Student Enrollment Summary 2025", "ADMISSION", "Overview of new student intakes by grade.",
+                    "{\"total\": 378, \"new\": 45}");
+            createMISReport("Staff Distribution by Dept", "HR",
+                    "Staff count per department including teaching and admin.", "{\"Teaching\": 18, \"Admin\": 7}");
+            createMISReport("Financial Quarterly Review", "FINANCE", "Revenue and Expenditure for Q1 2025.",
+                    "{\"Revenue\": 1250000, \"Expense\": 850000}");
+            createMISReport("Asset Inventory Audit", "INVENTORY", "Full audit report of institutional physical assets.",
+                    "{\"IT\": 80, \"Furniture\": 70}");
+
+            logger.info("Reporting Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating reporting sample data", e);
+            throw new RuntimeException("Failed to generate reporting data", e);
+        }
+    }
+
+    private void createMISReport(String name, String type, String desc, String data) {
+        MISReport r = new MISReport();
+        r.setName(name);
+        r.setType(type);
+        r.setDescription(desc);
+        r.setLastRunDate(LocalDateTime.now());
+        r.setReportData(data);
+        misReportRepository.save(r);
+    }
+
+    @Autowired
+    private krs.erp.repository.documents.DocumentRepository documentRepository;
+
+    @Transactional
+    public void generateDocumentSampleData() {
+        try {
+            logger.info("Starting Document Sample Data Generation...");
+
+            createDocument("School Leave Policy 2025", "POLICY", "PDF", "docs/policies/leave_2025.pdf", null);
+            createDocument("Admission Guidelines", "POLICY", "PDF", "docs/policies/admission.pdf", null);
+            createDocument("Staff Recruitment Contract", "CONTRACT", "DOC", "docs/contracts/staff_template.docx", null);
+            createDocument("Student ID Card - John Doe", "STUDENT", "IMG", "docs/students/id_1.jpg", 1L);
+            createDocument("Salary Increment Circular", "CIRCULAR", "PDF", "docs/circulars/increment_q1.pdf", null);
+
+            logger.info("Document Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating document sample data", e);
+            throw new RuntimeException("Failed to generate document data", e);
+        }
+    }
+
+    private void createDocument(String title, String category, String type, String url, Long ownerId) {
+        krs.erp.model.documents.ErpDocument d = new krs.erp.model.documents.ErpDocument();
+        d.setTitle(title);
+        d.setCategory(category);
+        d.setFileType(type);
+        d.setFileUrl(url);
+        d.setOwnerId(ownerId);
+        d.setUploadDate(LocalDateTime.now());
+        d.setStatus(krs.erp.model.documents.ErpDocument.DocumentStatus.ACTIVE);
+        documentRepository.save(d);
+    }
+
+    @Autowired
+    private krs.erp.repository.calendar.CalendarDayRepository calendarDayRepository;
+
+    @Autowired
+    private krs.erp.repository.calendar.InstitutionEventRepository institutionEventRepository;
+
+    @Transactional
+    public void generateCalendarSampleData() {
+        try {
+            logger.info("Starting Event & Calendar Sample Data Generation...");
+
+            // Holidays
+            createCalendarDay(java.time.LocalDate.of(2025, 1, 1), "HOLIDAY", "New Year Day", true);
+            createCalendarDay(java.time.LocalDate.of(2025, 1, 26), "HOLIDAY", "Republic Day", true);
+            createCalendarDay(java.time.LocalDate.of(2025, 8, 15), "HOLIDAY", "Independence Day", true);
+            createCalendarDay(java.time.LocalDate.of(2025, 10, 2), "HOLIDAY", "Gandhi Jayanti", true);
+
+            // Events
+            createInstitutionEvent("Annual Sports Meet", "School sports day with various competitions.",
+                    java.time.LocalDateTime.of(2025, 2, 15, 9, 0), java.time.LocalDateTime.of(2025, 2, 15, 17, 0),
+                    "Main Ground", "SPORTS");
+
+            createInstitutionEvent("Science Exhibition", "Inter-school science project display.",
+                    java.time.LocalDateTime.of(2025, 3, 10, 10, 0), java.time.LocalDateTime.of(2025, 3, 10, 16, 0),
+                    "Auditorium", "ACADEMIC");
+
+            createInstitutionEvent("Annual Day Celebration", "Cultural program and award ceremony.",
+                    java.time.LocalDateTime.of(2025, 12, 20, 16, 0), java.time.LocalDateTime.of(2025, 12, 20, 21, 0),
+                    "Auditorium", "CULTURAL");
+
+            logger.info("Event & Calendar Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating calendar data", e);
+            throw new RuntimeException("Failed to generate calendar data", e);
+        }
+    }
+
+    private void createCalendarDay(java.time.LocalDate date, String type, String desc, boolean isHoliday) {
+        krs.erp.model.calendar.CalendarDay d = new krs.erp.model.calendar.CalendarDay();
+        d.setDate(date);
+        d.setType(type);
+        d.setDescription(desc);
+        d.setHoliday(isHoliday);
+        calendarDayRepository.save(d);
+    }
+
+    @Autowired
+    private krs.erp.repository.communication.NotificationLogRepository logRepository;
+
+    @Autowired
+    private krs.erp.repository.communication.NotificationTemplateRepository templateRepository;
+
+    @Transactional
+    public void generateCommunicationSampleData() {
+        generateNotificationSampleData();
+        generateMessagingSampleData();
+    }
+
+    private void generateNotificationSampleData() {
+        try {
+            logger.info("Starting Communication & Alerts Sample Data Generation...");
+
+            // Templates
+            createTemplate("Admission Welcome", "EMAIL", "Welcome to our Institution!",
+                    "Dear {{name}}, Welcome to the 2025 academic year. Your admission id is {{id}}.", "name,id");
+
+            createTemplate("Fee Reminder", "SMS", "Fee Payment Due",
+                    "Dear Parent, fee for {{month}} is due. Amount: {{amount}}. Please pay before {{date}}.",
+                    "month,amount,date");
+
+            // Logs
+            createLog("john.doe@example.com", "STUDENT", "EMAIL", "Welcome to our Institution!",
+                    "Dear John Doe, Welcome to the 2025 academic year. Your admission id is ADM001.", "SENT");
+
+            createLog("+1234567890", "PARENT", "SMS", "Fee Payment Due",
+                    "Dear Parent, fee for January is due. Amount: 5000. Please pay before 2025-01-15.", "SENT");
+
+            logger.info("Communication & Alerts Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating communication data", e);
+            throw new RuntimeException("Failed to generate communication data", e);
+        }
+    }
+
+    private void createTemplate(String name, String channel, String subject, String content, String placeholders) {
+        krs.erp.model.communication.NotificationTemplate t = new krs.erp.model.communication.NotificationTemplate();
+        t.setName(name);
+        t.setChannel(channel);
+        t.setSubject(subject);
+        t.setContent(content);
+        t.setPlaceholders(placeholders);
+        templateRepository.save(t);
+    }
+
+    private void createLog(String recipient, String type, String channel, String subject, String content,
+            String status) {
+        krs.erp.model.communication.NotificationLog l = new krs.erp.model.communication.NotificationLog();
+        l.setRecipient(recipient);
+        l.setRecipientType(type);
+        l.setChannel(channel);
+        l.setSubject(subject);
+        l.setContent(content);
+        l.setStatus(status);
+        l.setSentAt(LocalDateTime.now());
+        logRepository.save(l);
+    }
+
+    @Autowired
+
+    private krs.erp.repository.alumni.AlumniRepository alumniRepository;
+
+    @Autowired
+    private krs.erp.repository.alumni.AlumniContributionRepository alumniContributionRepository;
+
+    @Transactional
+    public void generateAlumniSampleData() {
+        try {
+            logger.info("Starting Alumni Management Sample Data Generation...");
+
+            // Alumni Profiles
+            krs.erp.model.alumni.Alumni a1 = createAlumni("Jane Smith", 2018, "B.Sc Computer Science",
+                    "jane@example.com", "Senior Dev", "Google");
+            krs.erp.model.alumni.Alumni a2 = createAlumni("Robert Brown", 2020, "B.Tech Electronics",
+                    "robert@example.com", "Product Manager", "Apple");
+
+            // Contributions
+            createContribution(a1.getId(), 10000.0, krs.erp.model.alumni.AlumniContribution.ContributionType.DONATION,
+                    "Library fund donation");
+            createContribution(a2.getId(), 0.0, krs.erp.model.alumni.AlumniContribution.ContributionType.MENTORSHIP,
+                    "Career guidance for juniors");
+
+            logger.info("Alumni Management Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating alumni data", e);
+            throw new RuntimeException("Failed to generate alumni data", e);
+        }
+    }
+
+    private krs.erp.model.alumni.Alumni createAlumni(String name, Integer year, String degree, String email, String job,
+            String company) {
+        krs.erp.model.alumni.Alumni a = new krs.erp.model.alumni.Alumni();
+        a.setFullName(name);
+        a.setGraduationYear(year);
+        a.setDegree(degree);
+        a.setEmail(email);
+        a.setOccupation(job);
+        a.setCompany(company);
+        a.setStatus(krs.erp.model.alumni.Alumni.AlumniStatus.ACTIVE);
+        return alumniRepository.save(a);
+    }
+
+    private void createContribution(Long alumniId, Double amount,
+            krs.erp.model.alumni.AlumniContribution.ContributionType type, String desc) {
+        krs.erp.model.alumni.AlumniContribution c = new krs.erp.model.alumni.AlumniContribution();
+        c.setAlumniId(alumniId);
+        c.setAmount(amount);
+        c.setType(type);
+        c.setDescription(desc);
+        c.setContributionDate(LocalDate.now());
+        alumniContributionRepository.save(c);
+    }
+
+    private void createInstitutionEvent(String title, String desc, java.time.LocalDateTime start,
+            java.time.LocalDateTime end, String loc, String cat) {
+        krs.erp.model.calendar.InstitutionEvent e = new krs.erp.model.calendar.InstitutionEvent();
+        e.setTitle(title);
+        e.setDescription(desc);
+        e.setStartDate(start);
+        e.setEndDate(end);
+        e.setLocation(loc);
+        e.setCategory(cat);
+        e.setStatus(krs.erp.model.calendar.InstitutionEvent.EventStatus.SCHEDULED);
+        institutionEventRepository.save(e);
+
+        // Sync to calendar
+        createCalendarDay(start.toLocalDate(), "EVENT", title, false);
+    }
+
+    @Autowired
+    private krs.erp.repository.finance.FeeTypeRepository feeTypeRepository;
+    @Autowired
+    private krs.erp.repository.finance.FeeStructureRepository feeStructureRepository;
+    @Autowired
+    private krs.erp.repository.finance.FeeDiscountRuleRepository feeDiscountRuleRepository;
+    @Autowired
+    private krs.erp.repository.finance.FineCategoryRepository fineCategoryRepository;
+    @Autowired
+    private krs.erp.repository.finance.FineConfigurationRepository fineConfigurationRepository;
+    @Autowired
+    private krs.erp.repository.finance.FeePaymentRepository feePaymentRepository;
+    @Autowired
+    private krs.erp.repository.finance.StudentFineLedgerRepository fineLedgerRepository;
+    @Autowired
+    private krs.erp.repository.finance.DisciplinaryIncidentRepository disciplinaryIncidentRepository;
+    @Autowired
+    private krs.erp.repository.finance.FineWaiverRequestRepository fineWaiverRequestRepository;
+    @Autowired
+    private krs.erp.repository.finance.InvoiceRepository invoiceRepository;
+    @Autowired
+    private krs.erp.repository.finance.InvoiceItemRepository invoiceItemRepository;
+    @Autowired
+    private krs.erp.repository.finance.TransactionRepository transactionRepository;
+    @Autowired
+    private krs.erp.repository.finance.ScholarshipCategoryRepository scholarshipCategoryRepository;
+    @Autowired
+    private krs.erp.repository.finance.ScholarshipApplicationRepository scholarshipApplicationRepository;
+    @Autowired
+    private krs.erp.repository.finance.ScholarshipDisbursementRepository scholarshipDisbursementRepository;
+    @Autowired
+    private krs.erp.repository.finance.ChartOfAccountRepository chartOfAccountRepository;
+    @Autowired
+    private krs.erp.repository.finance.JournalEntryRepository journalEntryRepository;
+    @Autowired
+    private krs.erp.repository.finance.JournalItemRepository journalItemRepository;
+    @Autowired
+    private krs.erp.repository.finance.AccountingPeriodRepository accountingPeriodRepository;
+
+    @Transactional
+    public void generateFinanceSampleData() {
+        try {
+            logger.info("Starting Fee & Fine Management Sample Data Generation...");
+
+            // 1. Fee Types
+            krs.erp.model.finance.FeeType tuition = createFeeType("Tuition Fee", "TF001");
+            krs.erp.model.finance.FeeType transport = createFeeType("Transport Fee", "TR001");
+
+            // 2. Fee Structures
+            createFeeStructure(tuition.getId(), 25000.0, LocalDate.of(2025, 1, 15));
+            createFeeStructure(transport.getId(), 5000.0, LocalDate.of(2025, 1, 15));
+
+            // 3. Discount Rules
+            createDiscountRule("SIBLING DISCOUNT", krs.erp.model.finance.FeeDiscountRule.DiscountType.PERCENTAGE, 10.0,
+                    "SIBLING");
+
+            // 4. Fine Categories
+            krs.erp.model.finance.FineCategory lateFeeCat = createFineCategory("Late Fee",
+                    "Penalty for delayed payments");
+            krs.erp.model.finance.FineCategory disciplineCat = createFineCategory("Discipline", "Fines for misconduct");
+
+            // 5. Fine Configurations
+            createFineConfig(lateFeeCat.getId(), krs.erp.model.finance.FineConfiguration.CalculationLogic.FLAT, 50.0,
+                    krs.erp.model.finance.FineConfiguration.FineFrequency.DAILY, 3);
+
+            logger.info("Fee & Fine Management Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating finance data", e);
+            throw new RuntimeException("Failed to generate finance data", e);
+        }
+    }
+
+    private krs.erp.model.finance.FeeType createFeeType(String name, String code) {
+        krs.erp.model.finance.FeeType t = new krs.erp.model.finance.FeeType();
+        t.setName(name);
+        t.setCode(code);
+        return feeTypeRepository.save(t);
+    }
+
+    private void createFeeStructure(Long typeId, Double amount, LocalDate due) {
+        krs.erp.model.finance.FeeStructure s = new krs.erp.model.finance.FeeStructure();
+        s.setFeeTypeId(typeId);
+        s.setAcademicYearId(1L); // Default
+        s.setAmount(amount);
+        s.setDueDate(due);
+        feeStructureRepository.save(s);
+    }
+
+    private void createDiscountRule(String name, krs.erp.model.finance.FeeDiscountRule.DiscountType type, Double val,
+            String cond) {
+        krs.erp.model.finance.FeeDiscountRule r = new krs.erp.model.finance.FeeDiscountRule();
+        r.setName(name);
+        r.setType(type);
+        r.setValue(val);
+        r.setConditionType(cond);
+        feeDiscountRuleRepository.save(r);
+    }
+
+    private krs.erp.model.finance.FineCategory createFineCategory(String name, String desc) {
+        krs.erp.model.finance.FineCategory c = new krs.erp.model.finance.FineCategory();
+        c.setName(name);
+        c.setDescription(desc);
+        return fineCategoryRepository.save(c);
+    }
+
+    private void createFineConfig(Long catId, krs.erp.model.finance.FineConfiguration.CalculationLogic logic, Double b,
+            krs.erp.model.finance.FineConfiguration.FineFrequency freq, Integer grace) {
+        krs.erp.model.finance.FineConfiguration c = new krs.erp.model.finance.FineConfiguration();
+        c.setCategoryId(catId);
+        c.setCalcLogic(logic);
+        c.setBaseAmount(b);
+        c.setFrequency(freq);
+        c.setGracePeriodDays(grace);
+        fineConfigurationRepository.save(c);
+    }
+
+    private void createSampleInvoices() {
+        krs.erp.model.finance.Invoice inv = new krs.erp.model.finance.Invoice();
+        inv.setInvoiceNumber("INV-2025-001");
+        inv.setStudentId(1L);
+        inv.setIssueDate(LocalDate.now());
+        inv.setDueDate(LocalDate.now().plusDays(15));
+        inv.setTotalAmount(5000.0);
+        inv.setNetAmount(5000.0);
+        inv.setStatus(krs.erp.model.finance.Invoice.InvoiceStatus.PARTIALLY_PAID);
+        krs.erp.model.finance.Invoice savedInv = invoiceRepository.save(inv);
+
+        krs.erp.model.finance.InvoiceItem item = new krs.erp.model.finance.InvoiceItem();
+        item.setInvoiceId(savedInv.getId());
+        item.setDescription("Late Fee - Previous Month");
+        item.setAmount(5000.0);
+        item.setItemType(krs.erp.model.finance.InvoiceItem.ItemType.FINE);
+        invoiceItemRepository.save(item);
+
+        krs.erp.model.finance.Transaction txn = new krs.erp.model.finance.Transaction();
+        txn.setInvoiceId(savedInv.getId());
+        txn.setAmountPaid(2000.0);
+        txn.setPaymentDate(LocalDateTime.now());
+        txn.setPaymentMode(krs.erp.model.finance.Transaction.PaymentMode.ONLINE);
+        txn.setStatus(krs.erp.model.finance.Transaction.TransactionStatus.SUCCESS);
+        transactionRepository.save(txn);
+    }
+
+    @Transactional
+    public void generateScholarshipSampleData() {
+        try {
+            logger.info("Starting Scholarships Sample Data Generation...");
+
+            // 1. Scholarship Categories
+            ScholarshipCategory merit = new ScholarshipCategory();
+            merit.setName("Academic Merit Scholarship");
+            merit.setDescription("Awarded for students with GPA > 3.8");
+            merit.setType(ScholarshipCategory.AidType.PERCENTAGE);
+            merit.setPercentage(new java.math.BigDecimal("50.00"));
+            merit.setMeritBased(true);
+            merit.setNeedBased(false);
+            scholarshipCategoryRepository.save(merit);
+
+            ScholarshipCategory need = new ScholarshipCategory();
+            need.setName("Institutional Need-Based Grant");
+            need.setDescription("Financial aid for underprivileged backgrounds");
+            need.setType(ScholarshipCategory.AidType.FIXED);
+            need.setAmount(new java.math.BigDecimal("10000.00"));
+            need.setMeritBased(false);
+            need.setNeedBased(true);
+            scholarshipCategoryRepository.save(need);
+
+            // 2. Applications
+            ScholarshipApplication app1 = new ScholarshipApplication();
+            app1.setStudent(studentRepository.findById(1L).orElse(null));
+            app1.setCategory(merit);
+            app1.setAcademicYear(academicYearRepository.findById(1L).orElse(null));
+            app1.setApplicationDate(LocalDate.now());
+            app1.setStatus(ScholarshipApplication.ApplicationStatus.APPROVED);
+            app1.setRemarks("GPA 3.9 verified");
+            app1.setApprovedBy("Admin");
+            app1.setApprovalDate(LocalDate.now());
+            scholarshipApplicationRepository.save(app1);
+
+            logger.info("Scholarships Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating scholarship data", e);
+            throw new RuntimeException("Failed to generate scholarship data", e);
+        }
+    }
+
+    @Transactional
+    public void generateAccountingSampleData() {
+        try {
+            logger.info("Starting Accounting Sample Data Generation...");
+
+            // 1. Accounting Period
+            AccountingPeriod fy2024 = new AccountingPeriod();
+            fy2024.setName("FY 2024-25");
+            fy2024.setStartDate(LocalDate.of(2024, 4, 1));
+            fy2024.setEndDate(LocalDate.of(2025, 3, 31));
+            fy2024.setIsClosed(false);
+            accountingPeriodRepository.save(fy2024);
+
+            // 2. Chart of Accounts
+            ChartOfAccount cash = new ChartOfAccount();
+            cash.setCode("1001");
+            cash.setName("Cash in Hand");
+            cash.setType(AccountType.ASSET);
+            chartOfAccountRepository.save(cash);
+
+            ChartOfAccount bank = new ChartOfAccount();
+            bank.setCode("1002");
+            bank.setName("Main Bank Account");
+            bank.setType(AccountType.ASSET);
+            chartOfAccountRepository.save(bank);
+
+            ChartOfAccount tuitionIncome = new ChartOfAccount();
+            tuitionIncome.setCode("4001");
+            tuitionIncome.setName("Tuition Fee Income");
+            tuitionIncome.setType(AccountType.REVENUE);
+            chartOfAccountRepository.save(tuitionIncome);
+
+            ChartOfAccount salaryExpense = new ChartOfAccount();
+            salaryExpense.setCode("5001");
+            salaryExpense.setName("Staff Salary Expense");
+            salaryExpense.setType(AccountType.EXPENSE);
+            chartOfAccountRepository.save(salaryExpense);
+
+            // 3. Initial Journal Entry (Opening Balance)
+            JournalEntry je = new JournalEntry();
+            je.setEntryNumber("OP-001");
+            je.setDate(LocalDate.of(2024, 4, 1));
+            je.setDescription("Opening Balances");
+            je.setStatus(JournalEntry.EntryStatus.POSTED);
+
+            JournalItem item1 = new JournalItem();
+            item1.setJournalEntry(je);
+            item1.setAccount(cash);
+            item1.setDebit(new BigDecimal("50000.00"));
+            item1.setCredit(BigDecimal.ZERO);
+            item1.setLabel("Opening Cash");
+
+            JournalItem item2 = new JournalItem();
+            item2.setJournalEntry(je);
+            item2.setAccount(bank);
+            item2.setCredit(new BigDecimal("50000.00")); // Balanced for demo
+            item2.setDebit(BigDecimal.ZERO);
+            item2.setLabel("Initial Capital (Demo)");
+
+            je.getItems().add(item2);
+            journalEntryRepository.save(je);
+
+            // 4. Budget
+            Budget b = new Budget();
+            b.setName("Administration Budget 2024");
+            b.setAccountingPeriod(fy2024);
+            b.setTotalAmount(new BigDecimal("1000000.00"));
+            b.setStatus(Budget.BudgetStatus.APPROVED);
+            b.setDescription("Annual administrative budget");
+
+            BudgetLine bl1 = new BudgetLine();
+            bl1.setBudget(b);
+            bl1.setAccount(salaryExpense);
+            bl1.setAllocatedAmount(new BigDecimal("800000.00"));
+            bl1.setActualAmount(BigDecimal.ZERO);
+            bl1.setDescription("Staff salaries");
+
+            BudgetLine bl2 = new BudgetLine();
+            bl2.setBudget(b);
+            bl2.setAccount(tuitionIncome); // Just for demo
+            bl2.setAllocatedAmount(new BigDecimal("50000.00"));
+            bl2.setActualAmount(BigDecimal.ZERO);
+
+            b.setLines(java.util.Arrays.asList(bl1, bl2));
+            budgetRepository.save(b);
+
+            // 5. Bank Statement
+            BankStatement bs = new BankStatement();
+            bs.setBankName("Global Bank");
+            bs.setAccountNumber("6543210987");
+            bs.setStatementDate(LocalDate.now());
+            bs.setOpeningBalance(new BigDecimal("50000.00"));
+            bs.setClosingBalance(new BigDecimal("45000.00"));
+            bs.setStatus("COMPLETED");
+
+            BankStatementLine bsl1 = new BankStatementLine();
+            bsl1.setBankStatement(bs);
+            bsl1.setDate(LocalDate.now().minusDays(2));
+            bsl1.setDescription("ATM Withdrawal");
+            bsl1.setAmount(new BigDecimal("-5000.00"));
+            bsl1.setReconciled(false);
+
+            bs.setLines(java.util.Collections.singletonList(bsl1));
+            bankStatementRepository.save(bs);
+
+            logger.info("Accounting & Budgeting Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating accounting data", e);
+            throw new RuntimeException("Failed to generate accounting data", e);
+        }
+    }
+
+    private PerformanceCriteria createCriteria(String name, String desc) {
+        PerformanceCriteria c = new PerformanceCriteria();
+        c.setName(name);
+        c.setDescription(desc);
+        return performanceCriteriaRepository.save(c);
+    }
+
+    private void generateMessagingSampleData() {
+        try {
+            logger.info("Starting Communication & Engagement Sample Data Generation...");
+
+            List<User> allUsers = userRepository.findAll();
+            if (allUsers.size() < 2) {
+                logger.warn("Not enough users to generate communication sample data");
+                return;
+            }
+
+            User sender = allUsers.get(0);
+            User recipient = allUsers.get(1);
+
+            // 1. Messages
+            Message msg = new Message();
+            msg.setSender(sender);
+            msg.setRecipient(recipient);
+            msg.setSubject("Welcome to the ERP");
+            msg.setBody("Hello! I hope you are enjoying the new Communication module.");
+            msg.setSentAt(LocalDateTime.now().minusHours(2));
+            msg.setRead(false);
+            messageRepository.save(msg);
+
+            // 2. Announcements
+            Announcement ann = new Announcement();
+            ann.setTitle("Annual Day Celebration");
+            ann.setContent("The annual day celebration will be held on December 25th.");
+            ann.setTargetAudience(Announcement.AudienceType.ALL);
+            ann.setPublishedAt(LocalDateTime.now().minusDays(1));
+            ann.setExpiresAt(LocalDateTime.now().plusDays(30));
+            ann.setAuthor(sender);
+            announcementRepository.save(ann);
+
+            // 3. Support Tickets
+            SupportTicket ticket = new SupportTicket();
+            ticket.setTitle("Cannot access Fee Payment");
+            ticket.setDescription("I am unable to see the fee payment button on my dashboard.");
+            ticket.setCategory(SupportTicket.TicketCategory.FINANCE);
+            ticket.setPriority(SupportTicket.TicketPriority.HIGH);
+            ticket.setStatus(SupportTicket.TicketStatus.OPEN);
+            ticket.setAuthor(recipient);
+            ticket.setAssignedTo(sender);
+            SupportTicket savedTicket = supportTicketRepository.save(ticket);
+
+            // 4. Ticket Comment
+            TicketComment comment = new TicketComment();
+            comment.setTicket(savedTicket);
+            comment.setAuthor(sender);
+            comment.setComment("I am looking into this issue right now.");
+            comment.setCreatedAt(LocalDateTime.now());
+            ticketCommentRepository.save(comment);
+
+            logger.info("Communication & Engagement Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating communication sample data", e);
+            throw new RuntimeException("Failed to generate communication data", e);
+        }
+    }
+
+    @Transactional
+    public void generateLibrarySampleData() {
+        try {
+            logger.info("Starting Library Management Sample Data Generation...");
+
+            List<User> allUsers = userRepository.findAll();
+            if (allUsers.isEmpty()) {
+                logger.warn("No users found to generate library sample data");
+                return;
+            }
+            User admin = allUsers.get(0);
+            User student = allUsers.size() > 1 ? allUsers.get(1) : admin;
+
+            // 1. Authors & Publishers
+            Author author = new Author();
+            author.setName("Robert C. Martin");
+            author.setBiography("Uncle Bob is a software engineer and author.");
+            author = authorRepository.save(author);
+
+            Publisher publisher = new Publisher();
+            publisher.setName("Prentice Hall");
+            publisher.setContactInfo("contact@prenticehall.com");
+            publisher = publisherRepository.save(publisher);
+
+            // 2. Resources & Items
+            LibraryResource book = new LibraryResource();
+            book.setTitle("Clean Code");
+            book.setAuthor(author);
+            book.setPublisher(publisher);
+            book.setIsbnIssn("9780132350884");
+            book.setFormat(LibraryResource.ResourceFormat.BOOK);
+            book.setCategory("Software Engineering");
+            book.setYear(2008);
+            book = resourceRepository.save(book);
+
+            ResourceItem item = new ResourceItem();
+            item.setResource(book);
+            item.setAccessionNumber("ACC-001");
+            item.setBarcode("9780132350884-001");
+            item.setLocation("Shelf A1");
+            item.setStatus(ResourceItem.ItemStatus.AVAILABLE);
+            itemRepository.save(item);
+
+            // 3. Policies
+            LibraryPolicy studentPolicy = new LibraryPolicy();
+            studentPolicy.setRole(student.getRoles().iterator().next());
+            studentPolicy.setMaxBooks(5);
+            studentPolicy.setLoanPeriodDays(14);
+            studentPolicy.setMaxRenewals(2);
+            studentPolicy.setFinePerDay(new BigDecimal("5.00"));
+            policyRepository.save(studentPolicy);
+
+            // 4. Procurement
+            LibraryPurchaseRequest request = new LibraryPurchaseRequest();
+            request.setTitle("The Pragmatic Programmer");
+            request.setAuthor("Andrew Hunt");
+            request.setRequestedBy(student);
+            request.setStatus(LibraryPurchaseRequest.RequestStatus.PENDING);
+            request.setReason("Highly recommended for developers.");
+            purchaseRequestRepository.save(request);
+
+            logger.info("Library Management Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating library sample data", e);
+            throw new RuntimeException("Failed to generate library data", e);
+        }
+    }
+
+    @Transactional
+    public void generateLmsSampleData() {
+        logger.info("Generating LMS sample data...");
+
+        List<Subject> subjects = subjectRepository.findAll();
+        if (subjects.isEmpty())
+            return;
+
+        Subject science = subjects.stream()
+                .filter(s -> s.getSubjectName().toLowerCase().contains("science"))
+                .findFirst().orElse(subjects.get(0));
+
+        // 1. Create Module
+        LmsModule introModule = new LmsModule();
+        introModule.setSubject(science);
+        introModule.setTitle("Introduction to General Science");
+        introModule.setDescription("The fundamental concepts of scientific inquiry.");
+        introModule.setOrderIndex(1);
+        introModule.setPublished(true);
+        introModule = lmsModuleRepository.save(introModule);
+
+        // 2. Create Lesson
+        Lesson lesson1 = new Lesson();
+        lesson1.setModule(introModule);
+        lesson1.setTitle("The Scientific Method");
+        lesson1.setDescription("Steps of scientific investigation.");
+        lesson1.setOrderIndex(1);
+        lesson1.setPublished(true);
+        lesson1 = lessonRepository.save(lesson1);
+
+        // 3. Create Topic
+        LmsTopic topic1 = new LmsTopic();
+        topic1.setLesson(lesson1);
+        topic1.setTitle("What is a Hypothesis?");
+        topic1.setContent("A hypothesis is an educated guess...");
+        topic1.setOrderIndex(1);
+        lmsTopicRepository.save(topic1);
+
+        // 4. Create Content
+        LmsContent videoContent = new LmsContent();
+        videoContent.setLesson(lesson1);
+        videoContent.setTitle("Scientific Method Overview");
+        videoContent.setType(LmsContent.ContentType.VIDEO);
+        videoContent.setContentUrl("https://www.youtube.com/watch?v=qAJ8if4ZSrQ");
+        lmsContentRepository.save(videoContent);
+
+        // 5. Create Quiz
+        LmsQuiz quiz = new LmsQuiz();
+        quiz.setLesson(lesson1);
+        quiz.setSubject(science);
+        quiz.setTitle("Scientific Method Baseline");
+        quiz.setDescription("Test your knowledge of the steps.");
+        quiz.setTimeLimitMinutes(10);
+        quiz.setPassingScore(70.0);
+        quiz.setPublished(true);
+        quiz = lmsQuizRepository.save(quiz);
+
+        // 6. Create Questions & Answers
+        LmsQuestion q1 = new LmsQuestion();
+        q1.setQuiz(quiz);
+        q1.setQuestionText("Identify the first step of the scientific method.");
+        q1.setType(LmsQuestion.QuestionType.MULTIPLE_CHOICE);
+        q1.setPoints(10.0);
+        q1 = lmsQuestionRepository.save(q1);
+
+        LmsAnswer a1 = new LmsAnswer();
+        a1.setQuestion(q1);
+        a1.setAnswerText("Observation");
+        a1.setCorrect(true);
+        lmsAnswerRepository.save(a1);
+
+        LmsAnswer a2 = new LmsAnswer();
+        a2.setQuestion(q1);
+        a2.setAnswerText("Analysis");
+        a2.setCorrect(false);
+        lmsAnswerRepository.save(a2);
+
+        // 7. Create Question Bank entries
+        LmsQuestionBank qbEntry = new LmsQuestionBank();
+        qbEntry.setSubject(science);
+        qbEntry.setQuestionText("What is control in an experiment?");
+        qbEntry.setType(LmsQuestion.QuestionType.MULTIPLE_CHOICE);
+        qbEntry.setDifficulty("Medium");
+        qbEntry.setTags("Science, Experiment");
+        lmsQuestionBankRepository.save(qbEntry);
+
+        // 8. Create Rubric
+        LmsRubric rubric = new LmsRubric();
+        rubric.setName("Experiment Report Rubric");
+        rubric.setCriteria("Organization: 40%, Accuracy: 40%, Presentation: 20%");
+        rubric.setMaxPoints(100.0);
+        lmsRubricRepository.save(rubric);
+
+        // 9. Virtual Sessions
+        VirtualClassSession session = new VirtualClassSession();
+        session.setLesson(lesson1);
+        session.setTitle("Live Science Experiment - Volcanos");
+        session.setProvider(VirtualClassSession.Provider.GOOGLE_MEET);
+        session.setMeetingUrl("https://meet.google.com/abc-defg-hij");
+        session.setStartTime(LocalDateTime.now().plusDays(1).withHour(10).withMinute(0));
+        session.setEndTime(LocalDateTime.now().plusDays(1).withHour(11).withMinute(0));
+        session = virtualClassSessionRepository.save(session);
+
+        // 10. Virtual Attendance
+        List<User> users = userRepository.findAll();
+        if (!users.isEmpty()) {
+            VirtualAttendanceRecord att = new VirtualAttendanceRecord();
+            att.setSession(session);
+            att.setUser(users.get(0));
+            att.setJoinTime(session.getStartTime().plusMinutes(2));
+            att.setLeaveTime(session.getEndTime().minusMinutes(5));
+            att.setDurationMinutes(53);
+            att.setAttended(true);
+            virtualAttendanceRecordRepository.save(att);
+        }
+
+        // 11. Student Progress
+        if (!users.isEmpty()) {
+            LmsStudentProgress progress = new LmsStudentProgress();
+            progress.setStudent(users.get(0));
+            progress.setLesson(lesson1);
+            progress.setCompletionPercentage(75.0);
+            progress.setCompleted(false);
+            progress.setTimeSpentMinutes(45);
+            lmsStudentProgressRepository.save(progress);
+        }
+
+        // 12. Badges & Points
+        LmsBadge badge = new LmsBadge();
+        badge.setName("Science Explorer");
+        badge.setDescription("Completed all lessons in the first module.");
+        badge.setTier(LmsBadge.BadgeTier.SILVER);
+        badge.setPointsRequired(100);
+        badge = lmsBadgeRepository.save(badge);
+
+        if (!users.isEmpty()) {
+            LmsPointLog log = new LmsPointLog();
+            log.setStudent(users.get(0));
+            log.setPoints(50);
+            log.setReason("Completed 'Introduction to Volcanos'");
+            log.setBadgeAwarded(badge);
+            lmsPointLogRepository.save(log);
+        }
+
+        // 13. Collaborative Learning (Forums & Peer Reviews)
+        LmsForum forum = new LmsForum();
+        forum.setCourse(introModule);
+        forum.setTitle("General Discussion - Scientific Method");
+        forum.setDescription("Discuss the first module here.");
+        forum = lmsForumRepository.save(forum);
+
+        if (!users.isEmpty()) {
+            LmsForumPost post1 = new LmsForumPost();
+            post1.setForum(forum);
+            post1.setAuthor(users.get(0));
+            post1.setContent("I find the step of 'Observation' fascinating!");
+            post1.setLikes(5);
+            post1 = lmsForumPostRepository.save(post1);
+
+            LmsForumPost reply = new LmsForumPost();
+            reply.setForum(forum);
+            reply.setAuthor(users.size() > 1 ? users.get(1) : users.get(0));
+            reply.setContent("Yes, it's the foundation of everything else.");
+            reply.setParentPost(post1);
+            lmsForumPostRepository.save(reply);
+        }
+
+        List<LmsSubmission> submissions = lmsSubmissionRepository.findAll();
+        if (!submissions.isEmpty() && !users.isEmpty()) {
+            LmsPeerReview review = new LmsPeerReview();
+            review.setSubmission(submissions.get(0));
+            review.setReviewer(users.size() > 1 ? users.get(1) : users.get(0));
+            review.setScore(90.0);
+            review.setFeedback("Very thorough analysis of the data.");
+            review.setAnonymous(true);
+            lmsPeerReviewRepository.save(review);
+        }
+
+        logger.info("LMS sample data generated successfully.");
+    }
+
+    @Transactional
+    public void generateTpdSampleData() {
+        logger.info("Generating TPD sample data...");
+
+        List<User> staffList = userRepository.findAll();
+        if (staffList.isEmpty())
+            return;
+
+        User staff = staffList.get(0);
+        User manager = staffList.size() > 1 ? staffList.get(1) : staff;
+
+        // 1. Create Competencies
+        Competency techComp = new Competency();
+        techComp.setName("Digital Classroom Mastery");
+        techComp.setDescription("Ability to use LMS and interactive tools effectively.");
+        techComp.setTargetRole("TEACHER");
+        techComp.setRequiredLevel(4);
+        techComp = competencyRepository.save(techComp);
+
+        // 2. Skill Assessment
+        SkillAssessment assessment = new SkillAssessment();
+        assessment.setStaff(staff);
+        assessment.setCompetency(techComp);
+        assessment.setSelfRating(3);
+        assessment.setManagerRating(4);
+        assessment.setManager(manager);
+        assessment.setFeedback("Good progress, needs more practice with H5P tools.");
+        skillAssessmentRepository.save(assessment);
+
+        // 3. Training Event
+        TrainingEvent workshop = new TrainingEvent();
+        workshop.setTitle("Summer Tech Intensive 2024");
+        workshop.setType(TrainingEvent.EventType.INTERNAL);
+        workshop.setStartDateTime(LocalDateTime.now().plusDays(5));
+        workshop.setEndDateTime(LocalDateTime.now().plusDays(5).plusHours(4));
+        workshop.setResourcePerson("Dr. Satish Kumar");
+        workshop.setCost(500.0);
+        workshop = trainingEventRepository.save(workshop);
+
+        // 4. CPD Ledger
+        CpdLedger ledger = new CpdLedger();
+        ledger.setStaff(staff);
+        ledger.setAcademicYear(2024);
+        ledger.setCreditsEarned(12.5);
+        ledger.setCreditsRequired(30.0);
+        cpdLedgerRepository.save(ledger);
+
+        // 5. Portfolio
+        ProfessionalPortfolio portfolio = new ProfessionalPortfolio();
+        portfolio.setStaff(staff);
+        portfolio.setCurrentRole("Junior Teacher");
+        portfolio.setTargetTrack("Senior Teacher");
+        portfolio.setTotalCPDCredits(12.5);
+        portfolio.setYearsOfService(3);
+        portfolio.setPromotionReady(false);
+        portfolio.setProfessionalSummary("Passionate educator focusing on STEM subjects.");
+        professionalPortfolioRepository.save(portfolio);
+
+        logger.info("TPD sample data generated successfully.");
     }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-fields type="JOURNAL_ENTRY">
+    <field name="id" label="ID" type="number" readOnly="true" hidden="true"/>
+    <field name="entryNumber" label="Entry Number" type="text" required="true" searchable="true"/>
+    <field name="date" label="Entry Date" type="date" required="true"/>
+    <field name="reference" label="Reference" type="text" searchable="true"/>
+    <field name="description" label="Description" type="text"/>
+    <field name="status" label="Status" type="select" readOnly="true">
+        <option value="DRAFT" label="Draft"/>
+        <option value="POSTED" label="Posted"/>
+        <option value="CANCELLED" label="Cancelled"/>
+    </field>
+    <field name="items" label="Journal Items" type="list" relationType="ONE_TO_MANY" relatedEntity="JOURNAL_ITEM"/>
+    <field name="createdAt" label="Created At" type="datetime" readOnly="true"/>
+    <field name="updatedAt" label="Updated At" type="datetime" readOnly="true"/>
+</entity-fields>

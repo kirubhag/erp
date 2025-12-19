@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Post Content</title>
+        <fields>forum,author,content,parentPost,likes</fields>
+    </section>
+</sections>

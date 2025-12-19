@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Lesson Details</title>
+        <fields>module,title,description,orderIndex,published</fields>
+    </section>
+</sections>

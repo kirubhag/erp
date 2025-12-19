@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <fieldName>title</fieldName>
+        <displayLabel>Title</displayLabel>
+        <uiType>1</uiType>
+        <dataType>String</dataType>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>content</fieldName>
+        <displayLabel>Content</displayLabel>
+        <uiType>19</uiType>
+        <dataType>String</dataType>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>targetAudience</fieldName>
+        <displayLabel>Target Audience</displayLabel>
+        <uiType>4</uiType>
+        <dataType>String</dataType>
+        <isRequired>true</isRequired>
+        <picklistValues>ALL,STUDENTS,STAFF,PARENTS</picklistValues>
+    </field>
+    <field>
+        <fieldName>publishedAt</fieldName>
+        <displayLabel>Published At</displayLabel>
+        <uiType>14</uiType>
+        <dataType>LocalDateTime</dataType>
+    </field>
+    <field>
+        <fieldName>expiresAt</fieldName>
+        <displayLabel>Expires At</displayLabel>
+        <uiType>14</uiType>
+        <dataType>LocalDateTime</dataType>
+    </field>
+    <field>
+        <fieldName>author</fieldName>
+        <displayLabel>Author</displayLabel>
+        <uiType>13</uiType>
+        <dataType>Lookup</dataType>
+        <lookupEntity>USER</lookupEntity>
+    </field>
+</fields>

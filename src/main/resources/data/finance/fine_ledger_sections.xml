@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>Tracking</name>
+        <fields>
+            <field>studentId</field>
+            <field>fineConfigId</field>
+            <field>issuedAt</field>
+        </fields>
+    </section>
+    <section>
+        <name>Balance</name>
+        <fields>
+            <field>accruedAmount</field>
+            <field>status</field>
+        </fields>
+    </section>
+</sections>

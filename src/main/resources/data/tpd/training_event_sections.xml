@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Training Logistics</title>
+        <fields>title,type,venue,startDateTime,endDateTime,resourcePerson,cost</fields>
+    </section>
+</sections>

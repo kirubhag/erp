@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <system_name>session</system_name>
+        <display_name>Virtual Session</display_name>
+        <show_type>lookup</show_type>
+        <lookup_entity>VIRTUAL_SESSION</lookup_entity>
+        <is_readonly>true</is_readonly>
+    </field>
+    <field>
+        <system_name>user</system_name>
+        <display_name>Attendee</display_name>
+        <show_type>lookup</show_type>
+        <lookup_entity>USER</lookup_entity>
+        <is_readonly>true</is_readonly>
+    </field>
+    <field>
+        <system_name>joinTime</system_name>
+        <display_name>Joined At</display_name>
+        <show_type>datetime</show_type>
+        <is_readonly>true</is_readonly>
+    </field>
+    <field>
+        <system_name>leaveTime</system_name>
+        <display_name>Left At</display_name>
+        <show_type>datetime</show_type>
+        <is_readonly>true</is_readonly>
+    </field>
+    <field>
+        <system_name>durationMinutes</system_name>
+        <display_name>Duration (Mins)</display_name>
+        <show_type>number</show_type>
+        <is_readonly>true</is_readonly>
+    </field>
+    <field>
+        <system_name>attended</system_name>
+        <display_name>Attended</display_name>
+        <show_type>checkbox</show_type>
+    </field>
+</fields>

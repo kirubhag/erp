@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>Transaction Info</name>
+        <fields>
+            <field>transactionIdExt</field>
+            <field>invoiceId</field>
+            <field>status</field>
+        </fields>
+    </section>
+    <section>
+        <name>Payment Details</name>
+        <fields>
+            <field>amountPaid</field>
+            <field>paymentMode</field>
+            <field>paymentDate</field>
+            <field>referenceNumber</field>
+        </fields>
+    </section>
+</sections>

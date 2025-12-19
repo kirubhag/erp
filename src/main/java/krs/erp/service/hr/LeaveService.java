@@ -61,7 +61,7 @@ public class LeaveService {
         request.setEndDate(end);
         request.setReason(reason);
         request.setStatus(LeaveRequest.LeaveStatus.PENDING);
-        request.setCreatedAt(LocalDateTime.now());
+        request.setCreatedTime(LocalDateTime.now());
 
         return leaveRequestRepository.save(request);
     }
@@ -88,7 +88,7 @@ public class LeaveService {
         leaveBalanceRepository.save(balance);
 
         request.setStatus(LeaveRequest.LeaveStatus.APPROVED);
-        request.setUpdatedAt(LocalDateTime.now());
+        request.setModifiedTime(LocalDateTime.now());
         return leaveRequestRepository.save(request);
     }
 
@@ -102,7 +102,7 @@ public class LeaveService {
 
         request.setStatus(LeaveRequest.LeaveStatus.REJECTED);
         request.setRejectionReason(reason);
-        request.setUpdatedAt(LocalDateTime.now());
+        request.setModifiedTime(LocalDateTime.now());
         return leaveRequestRepository.save(request);
     }
 

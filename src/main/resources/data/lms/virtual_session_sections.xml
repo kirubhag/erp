@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Session Configuration</title>
+        <fields>lesson,title,provider,meetingUrl,meetingId,meetingPassword,startTime,endTime,recordingUrl</fields>
+    </section>
+</sections>

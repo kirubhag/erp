@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <system_name>lesson</system_name>
+        <display_name>Lesson</display_name>
+        <show_type>lookup</show_type>
+        <lookup_entity>LESSON</lookup_entity>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>title</system_name>
+        <display_name>Content Title</display_name>
+        <show_type>text</show_type>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>type</system_name>
+        <display_name>Content Type</display_name>
+        <show_type>select</show_type>
+        <options>VIDEO:Video,PDF:PDF Document,DOCUMENT:Office Document,LINK:External Link,SCORM:SCORM Package</options>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>contentUrl</system_name>
+        <display_name>Resource URL/Path</display_name>
+        <show_type>text</show_type>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>fileSizeInBytes</system_name>
+        <display_name>File Size (Bytes)</display_name>
+        <show_type>number</show_type>
+        <is_readonly>true</is_readonly>
+    </field>
+</fields>

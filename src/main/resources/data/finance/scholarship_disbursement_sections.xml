@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections type="SCHOLARSHIP_DISBURSEMENT">
+    <section>
+        <name>Disbursement Details</name>
+        <fields>
+            <field>application</field>
+            <field>invoice</field>
+            <field>disbursementAmount</field>
+            <field>disbursementDate</field>
+            <field>status</field>
+        </fields>
+    </section>
+</sections>

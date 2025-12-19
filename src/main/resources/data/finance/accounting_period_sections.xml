@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-sections type="ACCOUNTING_PERIOD">
+    <section title="Period Details">
+        <field-ref name="name"/>
+        <field-ref name="startDate"/>
+        <field-ref name="endDate"/>
+        <field-ref name="isClosed"/>
+    </section>
+</entity-sections>

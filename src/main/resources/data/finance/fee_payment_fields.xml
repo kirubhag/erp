@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>studentId</name>
+        <display_name>Student</display_name>
+        <type>select</type>
+        <entity_ref>STUDENT</entity_ref>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>feeStructureId</name>
+        <display_name>Fee Structure</display_name>
+        <type>select</type>
+        <entity_ref>FEE_STRUCTURE</entity_ref>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>baseAmount</name>
+        <display_name>Base Amount</display_name>
+        <type>number</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>discountAmount</name>
+        <display_name>Discount</display_name>
+        <type>number</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>fineAmount</name>
+        <display_name>Fine Applied</display_name>
+        <type>number</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>netAmount</name>
+        <display_name>Net Amount Paid</display_name>
+        <type>number</type>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>paymentMode</name>
+        <display_name>Mode</display_name>
+        <type>enum</type>
+        <options>CASH,ONLINE,CHEQUE</options>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>receiptNumber</name>
+        <display_name>Receipt #</display_name>
+        <type>text</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>paymentDate</name>
+        <display_name>Payment Date</display_name>
+        <type>datetime</type>
+        <grid_visible>true</grid_visible>
+    </field>
+</fields>

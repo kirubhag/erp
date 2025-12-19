@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <system_name>subject</system_name>
+        <display_name>Subject</display_name>
+        <show_type>lookup</show_type>
+        <lookup_entity>SUBJECT</lookup_entity>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>title</system_name>
+        <display_name>Module Title</display_name>
+        <show_type>text</show_type>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>description</system_name>
+        <display_name>Description</display_name>
+        <show_type>textarea</show_type>
+        <is_required>false</is_required>
+    </field>
+    <field>
+        <system_name>orderIndex</system_name>
+        <display_name>Order Index</display_name>
+        <show_type>number</show_type>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>published</system_name>
+        <display_name>Is Published</display_name>
+        <show_type>checkbox</show_type>
+        <is_required>false</is_required>
+    </field>
+</fields>

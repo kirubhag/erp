@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>recipient</name>
+        <label>Recipient</label>
+        <type>text</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>recipientType</name>
+        <label>Recipient Type</label>
+        <type>select</type>
+        <options>STUDENT,STAFF,PARENT</options>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>channel</name>
+        <label>Channel</label>
+        <type>select</type>
+        <options>SMS,EMAIL,PUSH</options>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>subject</name>
+        <label>Subject</label>
+        <type>text</type>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>content</name>
+        <label>Content</label>
+        <type>textarea</type>
+        <sequence>5</sequence>
+    </field>
+    <field>
+        <name>status</name>
+        <label>Status</label>
+        <type>select</type>
+        <options>SENT,FAILED,PENDING</options>
+        <show_in_list>true</show_in_list>
+        <sequence>6</sequence>
+    </field>
+    <field>
+        <name>sentAt</name>
+        <label>Sent At</label>
+        <type>datetime</type>
+        <show_in_list>true</show_in_list>
+        <sequence>7</sequence>
+    </field>
+</fields>

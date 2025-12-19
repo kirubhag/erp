@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-fields type="ACCOUNTING_PERIOD">
+    <field name="id" label="ID" type="number" readOnly="true" hidden="true"/>
+    <field name="name" label="Period Name" type="text" required="true" searchable="true"/>
+    <field name="startDate" label="Start Date" type="date" required="true"/>
+    <field name="endDate" label="End Date" type="date" required="true"/>
+    <field name="isClosed" label="Is Closed" type="boolean" defaultValue="false"/>
+    <field name="createdAt" label="Created At" type="datetime" readOnly="true"/>
+    <field name="updatedAt" label="Updated At" type="datetime" readOnly="true"/>
+</entity-fields>

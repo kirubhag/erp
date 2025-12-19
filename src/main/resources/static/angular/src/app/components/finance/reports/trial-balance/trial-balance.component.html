@@ -1,0 +1,45 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Trial Balance</h2>
+        <button class="btn btn-outline-primary" (click)="loadTrialBalance()">
+            <i class="fas fa-sync-alt me-1"></i> Refresh
+        </button>
+    </div>
+
+    <div *ngIf="loading" class="text-center my-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+
+    <div *ngIf="!loading && !error" class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Account Name</th>
+                        <th class="text-end">Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let account of accounts">
+                        <td>{{ account }}</td>
+                        <td class="text-end" [class.text-danger]="trialBalance[account] < 0">
+                            {{ trialBalance[account] | currency:'INR':'symbol':'1.2-2' }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot class="table-group-divider fw-bold">
+                    <tr>
+                        <td>Total</td>
+                        <td class="text-end">{{ getTotal() | currency:'INR':'symbol':'1.2-2' }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

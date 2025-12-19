@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <system_name>name</system_name>
+        <display_name>Publisher Name</display_name>
+        <show_type>text</show_type>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>address</system_name>
+        <display_name>Address</display_name>
+        <show_type>text</show_type>
+        <is_required>false</is_required>
+    </field>
+    <field>
+        <system_name>contactInfo</system_name>
+        <display_name>Contact Information</display_name>
+        <show_type>text</show_type>
+        <is_required>false</is_required>
+    </field>
+</fields>

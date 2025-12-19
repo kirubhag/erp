@@ -1,11 +1,9 @@
 package krs.erp.model.inventory;
 
 import java.time.LocalDate;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDate;
+
 import krs.erp.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

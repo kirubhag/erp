@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>basic_info</name>
+        <label>Document Information</label>
+        <sequence>1</sequence>
+        <fields>title,category,fileType,status,description</fields>
+    </section>
+    <section>
+        <name>storage_info</name>
+        <label>Storage &amp; Assignment</label>
+        <sequence>2</sequence>
+        <fields>fileUrl,ownerId,uploadDate</fields>
+    </section>
+</sections>

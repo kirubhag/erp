@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>title</name>
+        <label>Document Title</label>
+        <type>text</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>category</name>
+        <label>Category</label>
+        <type>select</type>
+        <options>STUDENT,STAFF,POLICY,CONTRACT,CIRCULAR</options>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>fileType</name>
+        <label>File Type</label>
+        <type>select</type>
+        <options>PDF,DOC,IMG</options>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>status</name>
+        <label>Status</label>
+        <type>select</type>
+        <options>ACTIVE,ARCHIVED,DELETED</options>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>description</name>
+        <label>Description</label>
+        <type>textarea</type>
+        <sequence>5</sequence>
+    </field>
+    <field>
+        <name>fileUrl</name>
+        <label>File URL/Path</label>
+        <type>text</type>
+        <sequence>6</sequence>
+    </field>
+    <field>
+        <name>ownerId</name>
+        <label>Owner ID (Student/Staff)</label>
+        <type>number</type>
+        <sequence>7</sequence>
+    </field>
+    <field>
+        <name>uploadDate</name>
+        <label>Upload Date</label>
+        <type>datetime</type>
+        <readonly>true</readonly>
+        <show_in_list>true</show_in_list>
+        <sequence>8</sequence>
+    </field>
+</fields>

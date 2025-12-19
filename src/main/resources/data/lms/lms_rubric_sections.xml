@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Rubric Config</title>
+        <fields>name,criteria,maxPoints</fields>
+    </section>
+</sections>

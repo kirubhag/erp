@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Item Information</title>
+        <fields>resource,accessionNumber,barcode,location,status</fields>
+    </section>
+</sections>

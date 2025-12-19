@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Policy Constraints</title>
+        <fields>role,gradeLevel,maxBooks,loanPeriodDays,maxRenewals,finePerDay</fields>
+    </section>
+</sections>

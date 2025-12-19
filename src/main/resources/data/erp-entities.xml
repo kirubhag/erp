@@ -598,5 +598,998 @@
         <pkid>id</pkid>
         <display_column>purpose</display_column>
         <has_rel_table>false</has_rel_table>
+    <entity>
+        <id>60</id>
+        <singular_name>MIS Report</singular_name>
+        <plural_name>MIS Reports</plural_name>
+        <system_name>MIS_REPORT</system_name>
+        <description>Saved management information system reports and summaries</description>
+        <is_active>true</is_active>
+        <sequence>50</sequence>
+        <presence>true</presence>
+        <icon>fas fa-chart-bar</icon>
+        <route>#!/setup/reporting/reports</route>
+        <table_name>erp_reporting_mis_reports</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    <entity>
+        <id>70</id>
+        <singular_name>Document</singular_name>
+        <plural_name>Documents</plural_name>
+        <system_name>ERP_DOCUMENT</system_name>
+        <description>Institutional and individual document repository</description>
+        <is_active>true</is_active>
+        <sequence>60</sequence>
+        <presence>true</presence>
+        <icon>fas fa-file-alt</icon>
+        <route>#!/setup/documents/list</route>
+        <table_name>erp_docs_documents</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    <entity>
+        <id>80</id>
+        <singular_name>Calendar Day</singular_name>
+        <plural_name>Calendar Days</plural_name>
+        <system_name>CALENDAR_DAY</system_name>
+        <description>Institutional calendar days and holidays</description>
+        <is_active>true</is_active>
+        <sequence>70</sequence>
+        <presence>true</presence>
+        <icon>fas fa-calendar-alt</icon>
+        <route>#!/setup/calendar/days</route>
+        <table_name>erp_cal_calendar_days</table_name>
+        <pkid>id</pkid>
+        <display_column>description</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>81</id>
+        <singular_name>Institution Event</singular_name>
+        <plural_name>Institution Events</plural_name>
+        <system_name>INSTITUTION_EVENT</system_name>
+        <description>Scheduled school events and programs</description>
+        <is_active>true</is_active>
+        <sequence>71</sequence>
+        <presence>true</presence>
+        <icon>fas fa-bullhorn</icon>
+        <route>#!/setup/calendar/events</route>
+        <table_name>erp_cal_events</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    <entity>
+        <id>90</id>
+        <singular_name>Notification Log</singular_name>
+        <plural_name>Notification Logs</plural_name>
+        <system_name>NOTIFICATION_LOG</system_name>
+        <description>Audit trail of sent SMS, Email, and Push notifications</description>
+        <is_active>true</is_active>
+        <sequence>80</sequence>
+        <presence>true</presence>
+        <icon>fas fa-history</icon>
+        <route>#!/setup/communication/logs</route>
+        <table_name>erp_comm_logs</table_name>
+        <pkid>id</pkid>
+        <display_column>recipient</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>91</id>
+        <singular_name>Notification Template</singular_name>
+        <plural_name>Notification Templates</plural_name>
+        <system_name>NOTIFICATION_TEMPLATE</system_name>
+        <description>Reusable templates for standardized communications</description>
+        <is_active>true</is_active>
+        <sequence>81</sequence>
+        <presence>true</presence>
+        <icon>fas fa-envelope-open-text</icon>
+        <route>#!/setup/communication/templates</route>
+        <table_name>erp_comm_templates</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    <entity>
+        <id>100</id>
+        <singular_name>Alumni Profile</singular_name>
+        <plural_name>Alumni Profiles</plural_name>
+        <system_name>ALUMNI_PROFILE</system_name>
+        <description>Profiles of former students</description>
+        <is_active>true</is_active>
+        <sequence>90</sequence>
+        <presence>true</presence>
+        <icon>fas fa-user-graduate</icon>
+        <route>#!/setup/alumni/directory</route>
+        <table_name>erp_alumni_profiles</table_name>
+        <pkid>id</pkid>
+        <display_column>full_name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>101</id>
+        <singular_name>Alumni Contribution</singular_name>
+        <plural_name>Alumni Contributions</plural_name>
+        <system_name>ALUMNI_CONTRIBUTION</system_name>
+        <description>Donations, volunteering and mentorship by alumni</description>
+        <is_active>true</is_active>
+        <sequence>91</sequence>
+        <presence>true</presence>
+        <icon>fas fa-hand-holding-heart</icon>
+        <route>#!/setup/alumni/contributions</route>
+        <table_name>erp_alumni_contributions</table_name>
+        <pkid>id</pkid>
+        <display_column>description</display_column>
+        <has_rel_table>false</has_rel_table>
+    <entity>
+        <id>110</id>
+        <singular_name>Fee Type</singular_name>
+        <plural_name>Fee Types</plural_name>
+        <system_name>FEE_TYPE</system_name>
+        <description>Categories of institutional fees</description>
+        <is_active>true</is_active>
+        <sequence>100</sequence>
+        <presence>true</presence>
+        <icon>fas fa-money-bill-wave</icon>
+        <route>#!/setup/finance/fee-types</route>
+        <table_name>erp_fee_types</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>111</id>
+        <singular_name>Fee Structure</singular_name>
+        <plural_name>Fee Structures</plural_name>
+        <system_name>FEE_STRUCTURE</system_name>
+        <description>Fee amounts by grade/year</description>
+        <is_active>true</is_active>
+        <sequence>101</sequence>
+        <presence>true</presence>
+        <icon>fas fa-receipt</icon>
+        <route>#!/setup/finance/fee-structures</route>
+        <table_name>erp_fee_structures</table_name>
+        <pkid>id</pkid>
+        <display_column>amount</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>112</id>
+        <singular_name>Fee Discount Rule</singular_name>
+        <plural_name>Fee Discount Rules</plural_name>
+        <system_name>FEE_DISCOUNT_RULE</system_name>
+        <description>Rules for sibling or merit discounts</description>
+        <is_active>true</is_active>
+        <sequence>102</sequence>
+        <presence>true</presence>
+        <icon>fas fa-tags</icon>
+        <route>#!/setup/finance/discounts</route>
+        <table_name>erp_fee_discount_rules</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>113</id>
+        <singular_name>Fine Category</singular_name>
+        <plural_name>Fine Categories</plural_name>
+        <system_name>FINE_CATEGORY</system_name>
+        <description>Law engine categories (Late fee, Discipline, etc)</description>
+        <is_active>true</is_active>
+        <sequence>103</sequence>
+        <presence>true</presence>
+        <icon>fas fa-gavel</icon>
+        <route>#!/setup/finance/fine-categories</route>
+        <table_name>erp_fee_fine_categories</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>114</id>
+        <singular_name>Fine Configuration</singular_name>
+        <plural_name>Fine Configurations</plural_name>
+        <system_name>FINE_CONFIGURATION</system_name>
+        <description>Specific fine rules and calculations</description>
+        <is_active>true</is_active>
+        <sequence>104</sequence>
+        <presence>true</presence>
+        <icon>fas fa-cogs</icon>
+        <route>#!/setup/finance/fine-management</route>
+        <table_name>erp_fee_fine_configs</table_name>
+        <pkid>id</pkid>
+        <display_column>base_amount</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>115</id>
+        <singular_name>Fee Payment</singular_name>
+        <plural_name>Fee Payments</plural_name>
+        <system_name>FEE_PAYMENT</system_name>
+        <description>Records of student fee payments</description>
+        <is_active>true</is_active>
+        <sequence>105</sequence>
+        <presence>true</presence>
+        <icon>fas fa-file-invoice-dollar</icon>
+        <route>#!/setup/finance/payments</route>
+        <table_name>erp_fee_payments</table_name>
+        <pkid>id</pkid>
+        <display_column>net_amount</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>116</id>
+        <singular_name>Fine Ledger</singular_name>
+        <plural_name>Fine Ledgers</plural_name>
+        <system_name>FINE_LEDGER</system_name>
+        <description>Accrued student fines</description>
+        <is_active>true</is_active>
+        <sequence>106</sequence>
+        <presence>true</presence>
+        <icon>fas fa-balance-scale</icon>
+        <route>#!/setup/finance/fine-ledger</route>
+        <table_name>erp_fee_fine_ledger</table_name>
+        <pkid>id</pkid>
+        <display_column>accrued_amount</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>117</id>
+        <singular_name>Disciplinary Incident</singular_name>
+        <plural_name>Disciplinary Incidents</plural_name>
+        <system_name>DISCIPLINARY_INCIDENT</system_name>
+        <description>Misconduct reports with fine triggers</description>
+        <is_active>true</is_active>
+        <sequence>107</sequence>
+        <presence>true</presence>
+        <icon>fas fa-user-shield</icon>
+        <route>#!/setup/finance/incidents</route>
+        <table_name>erp_fee_disciplinary_incidents</table_name>
+        <pkid>id</pkid>
+        <display_column>description</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>118</id>
+        <singular_name>Fine Waiver Request</singular_name>
+        <plural_name>Fine Waiver Requests</plural_name>
+        <system_name>FINE_WAIVER_REQUEST</system_name>
+        <description>Requests for fine leniency or discount</description>
+        <is_active>true</is_active>
+        <sequence>108</sequence>
+        <presence>true</presence>
+        <icon>fas fa-hand-holding-usd</icon>
+        <route>#!/setup/finance/waivers</route>
+        <table_name>erp_fee_fine_waivers</table_name>
+        <pkid>id</pkid>
+        <display_column>reason</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>120</id>
+        <singular_name>Invoice</singular_name>
+        <plural_name>Invoices</plural_name>
+        <system_name>INVOICE</system_name>
+        <description>Billing invoices for fees and fines</description>
+        <is_active>true</is_active>
+        <sequence>110</sequence>
+        <presence>true</presence>
+        <icon>fas fa-file-invoice</icon>
+        <route>#!/setup/finance/invoices</route>
+        <table_name>erp_fin_invoices</table_name>
+        <pkid>id</pkid>
+        <display_column>invoice_number</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>121</id>
+        <singular_name>Transaction</singular_name>
+        <plural_name>Transactions</plural_name>
+        <system_name>TRANSACTION</system_name>
+        <description>Financial transaction records for invoice payments</description>
+        <is_active>true</is_active>
+        <sequence>111</sequence>
+        <presence>true</presence>
+        <icon>fas fa-exchange-alt</icon>
+        <route>#!/setup/finance/transactions</route>
+        <table_name>erp_fin_transactions</table_name>
+        <pkid>id</pkid>
+        <display_column>transaction_id_ext</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>122</id>
+        <singular_name>Invoice Item</singular_name>
+        <plural_name>Invoice Items</plural_name>
+        <system_name>INVOICE_ITEM</system_name>
+        <description>Individual line items within an invoice</description>
+        <is_active>true</is_active>
+        <sequence>112</sequence>
+        <presence>true</presence>
+        <icon>fas fa-list-ul</icon>
+        <route>#!/setup/finance/invoice-items</route>
+        <table_name>erp_fin_invoice_items</table_name>
+        <pkid>id</pkid>
+        <display_column>description</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>130</id>
+        <singular_name>Scholarship Category</singular_name>
+        <plural_name>Scholarship Categories</plural_name>
+        <system_name>SCHOLARSHIP_CATEGORY</system_name>
+        <description>Types and rules for scholarship aid</description>
+        <is_active>true</is_active>
+        <sequence>120</sequence>
+        <presence>true</presence>
+        <icon>fas fa-award</icon>
+        <route>#!/setup/finance/scholarships/categories</route>
+        <table_name>erp_scholarship_categories</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>131</id>
+        <singular_name>Scholarship Application</singular_name>
+        <plural_name>Scholarship Applications</plural_name>
+        <system_name>SCHOLARSHIP_APPLICATION</system_name>
+        <description>Student applications for scholarships</description>
+        <is_active>true</is_active>
+        <sequence>121</sequence>
+        <presence>true</presence>
+        <icon>fas fa-file-signature</icon>
+        <route>#!/setup/finance/scholarships/applications</route>
+        <table_name>erp_scholarship_applications</table_name>
+        <pkid>id</pkid>
+        <display_column>application_date</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>140</id>
+        <singular_name>Chart of Account</singular_name>
+        <plural_name>Chart of Accounts</plural_name>
+        <system_name>CHART_OF_ACCOUNT</system_name>
+        <description>Institution's financial accounts</description>
+        <is_active>true</is_active>
+        <sequence>130</sequence>
+        <presence>true</presence>
+        <icon>fas fa-atlas</icon>
+        <route>#!/setup/finance/accounting/coa</route>
+        <table_name>erp_chart_of_accounts</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>141</id>
+        <singular_name>Journal Entry</singular_name>
+        <plural_name>Journal Entries</plural_name>
+        <system_name>JOURNAL_ENTRY</system_name>
+        <description>Double-entry bookkeeping journal records</description>
+        <is_active>true</is_active>
+        <sequence>131</sequence>
+        <presence>true</presence>
+        <icon>fas fa-book</icon>
+        <route>#!/setup/finance/accounting/journals</route>
+        <table_name>erp_journal_entries</table_name>
+        <pkid>id</pkid>
+        <display_column>entry_number</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>143</id>
+        <singular_name>Accounting Period</singular_name>
+        <plural_name>Accounting Periods</plural_name>
+        <system_name>ACCOUNTING_PERIOD</system_name>
+        <description>Fiscal years and reporting periods</description>
+        <is_active>true</is_active>
+        <sequence>133</sequence>
+        <presence>true</presence>
+        <icon>fas fa-calendar</icon>
+        <route>#!/setup/finance/accounting/periods</route>
+        <table_name>erp_accounting_periods</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>150</id>
+        <singular_name>Budget</singular_name>
+        <plural_name>Budgets</plural_name>
+        <system_name>BUDGET</system_name>
+        <description>Institutional/Departmental budgets</description>
+        <is_active>true</is_active>
+        <sequence>140</sequence>
+        <presence>true</presence>
+        <icon>fas fa-money-check-alt</icon>
+        <route>#!/setup/finance/accounting/budgets</route>
+        <table_name>erp_budgets</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>160</id>
+        <singular_name>Bank Statement</singular_name>
+        <plural_name>Bank Statements</plural_name>
+        <system_name>BANK_STATEMENT</system_name>
+        <description>Bank statements for reconciliation</description>
+        <is_active>true</is_active>
+        <sequence>150</sequence>
+        <presence>true</presence>
+        <icon>fas fa-university</icon>
+        <route>#!/setup/finance/accounting/bank-statements</route>
+        <table_name>erp_bank_statements</table_name>
+        <pkid>id</pkid>
+        <display_column>account_number</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>170</id>
+        <singular_name>Message</singular_name>
+        <plural_name>Messages</plural_name>
+        <system_name>MESSAGE</system_name>
+        <description>Internal peer-to-peer messages</description>
+        <is_active>true</is_active>
+        <sequence>160</sequence>
+        <presence>true</presence>
+        <icon>fas fa-envelope</icon>
+        <route>#!/setup/communication/messages</route>
+        <table_name>erp_messages</table_name>
+        <pkid>id</pkid>
+        <display_column>subject</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>171</id>
+        <singular_name>Announcement</singular_name>
+        <plural_name>Announcements</plural_name>
+        <system_name>ANNOUNCEMENT</system_name>
+        <description>Targeted broadcasts and circulars</description>
+        <is_active>true</is_active>
+        <sequence>161</sequence>
+        <presence>true</presence>
+        <icon>fas fa-bullhorn</icon>
+        <route>#!/setup/communication/announcements</route>
+        <table_name>erp_announcements</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>180</id>
+        <singular_name>Support Ticket</singular_name>
+        <plural_name>Support Tickets</plural_name>
+        <system_name>SUPPORT_TICKET</system_name>
+        <description>Helpdesk and support tracking</description>
+        <is_active>true</is_active>
+        <sequence>170</sequence>
+        <presence>true</presence>
+        <icon>fas fa-ticket-alt</icon>
+        <route>#!/setup/communication/tickets</route>
+        <table_name>erp_support_tickets</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    <entity>
+        <id>181</id>
+        <singular_name>Ticket Comment</singular_name>
+        <plural_name>Ticket Comments</plural_name>
+        <system_name>TICKET_COMMENT</system_name>
+        <description>Comments on support tickets</description>
+        <is_active>true</is_active>
+        <sequence>171</sequence>
+        <presence>false</presence>
+        <table_name>erp_ticket_comments</table_name>
+        <pkid>id</pkid>
+        <display_column>comment</display_column>
+        <has_rel_table>false</has_rel_table>
+    <entity>
+        <id>190</id>
+        <singular_name>Author</singular_name>
+        <plural_name>Authors</plural_name>
+        <system_name>AUTHOR</system_name>
+        <description>Resource authors</description>
+        <is_active>true</is_active>
+        <sequence>180</sequence>
+        <presence>true</presence>
+        <icon>fas fa-pen-nib</icon>
+        <route>#!/setup/library/authors</route>
+        <table_name>erp_library_authors</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>191</id>
+        <singular_name>Publisher</singular_name>
+        <plural_name>Publishers</plural_name>
+        <system_name>PUBLISHER</system_name>
+        <description>Resource publishers</description>
+        <is_active>true</is_active>
+        <sequence>181</sequence>
+        <presence>true</presence>
+        <icon>fas fa-building</icon>
+        <route>#!/setup/library/publishers</route>
+        <table_name>erp_library_publishers</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>200</id>
+        <singular_name>Library Resource</singular_name>
+        <plural_name>Library Resources</plural_name>
+        <system_name>LIBRARY_RESOURCE</system_name>
+        <description>Cataloged books, journals, etc.</description>
+        <is_active>true</is_active>
+        <sequence>190</sequence>
+        <presence>true</presence>
+        <icon>fas fa-book</icon>
+        <route>#!/setup/library/resources</route>
+        <table_name>erp_library_resources</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>201</id>
+        <singular_name>Resource Item</singular_name>
+        <plural_name>Resource Items</plural_name>
+        <system_name>RESOURCE_ITEM</system_name>
+        <description>Physical copies for circulation</description>
+        <is_active>true</is_active>
+        <sequence>191</sequence>
+        <presence>true</presence>
+        <icon>fas fa-barcode</icon>
+        <route>#!/setup/library/items</route>
+        <table_name>erp_library_items</table_name>
+        <pkid>id</pkid>
+        <display_column>accession_number</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>210</id>
+        <singular_name>Library Loan</singular_name>
+        <plural_name>Library Loans</plural_name>
+        <system_name>LIBRARY_LOAN</system_name>
+        <description>Tracking of borrowed items</description>
+        <is_active>true</is_active>
+        <sequence>200</sequence>
+        <presence>true</presence>
+        <icon>fas fa-exchange-alt</icon>
+        <route>#!/setup/library/loans</route>
+        <table_name>erp_library_loans</table_name>
+        <pkid>id</pkid>
+        <display_column>loan_date</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>211</id>
+        <singular_name>Library Hold</singular_name>
+        <plural_name>Library Holds</plural_name>
+        <system_name>LIBRARY_HOLD</system_name>
+        <description>Reservations for resources</description>
+        <is_active>true</is_active>
+        <sequence>201</sequence>
+        <presence>true</presence>
+        <icon>fas fa-hand-paper</icon>
+        <route>#!/setup/library/holds</route>
+        <table_name>erp_library_holds</table_name>
+        <pkid>id</pkid>
+        <display_column>request_date</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>220</id>
+        <singular_name>Library Policy</singular_name>
+        <plural_name>Library Policies</plural_name>
+        <system_name>LIBRARY_POLICY</system_name>
+        <description>Borrowing rules and limits</description>
+        <is_active>true</is_active>
+        <sequence>210</sequence>
+        <presence>true</presence>
+        <icon>fas fa-gavel</icon>
+        <route>#!/setup/library/policies</route>
+        <table_name>erp_library_policies</table_name>
+        <pkid>id</pkid>
+        <display_column>max_books</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>230</id>
+        <singular_name>Library Purchase Request</singular_name>
+        <plural_name>Library Purchase Requests</plural_name>
+        <system_name>LIBRARY_PURCHASE_REQUEST</system_name>
+        <description>Staff/Student purchase requests</description>
+        <is_active>true</is_active>
+        <sequence>220</sequence>
+        <presence>true</presence>
+        <icon>fas fa-shopping-cart</icon>
+        <route>#!/setup/library/purchase-requests</route>
+        <table_name>erp_library_purchase_requests</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>231</id>
+        <singular_name>Library PO</singular_name>
+        <plural_name>Library POs</plural_name>
+        <system_name>LIBRARY_PO</system_name>
+        <description>Library purchase orders</description>
+        <is_active>true</is_active>
+        <sequence>221</sequence>
+        <presence>true</presence>
+        <icon>fas fa-file-invoice</icon>
+        <route>#!/setup/library/pos</route>
+        <table_name>erp_library_pos</table_name>
+        <pkid>id</pkid>
+        <display_column>order_date</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>300</id>
+        <singular_name>LMS Module</singular_name>
+        <plural_name>LMS Modules</plural_name>
+        <system_name>LMS_MODULE</system_name>
+        <description>Lesson groups within a subject</description>
+        <is_active>true</is_active>
+        <sequence>300</sequence>
+        <presence>true</presence>
+        <icon>fas fa-layer-group</icon>
+        <route>#!/setup/lms/modules</route>
+        <table_name>erp_lms_modules</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>301</id>
+        <singular_name>Lesson</singular_name>
+        <plural_name>Lessons</plural_name>
+        <system_name>LESSON</system_name>
+        <description>Instructional units</description>
+        <is_active>true</is_active>
+        <sequence>301</sequence>
+        <presence>true</presence>
+        <icon>fas fa-chalkboard-teacher</icon>
+        <route>#!/setup/lms/lessons</route>
+        <table_name>erp_lms_lessons</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>302</id>
+        <singular_name>LMS Topic</singular_name>
+        <plural_name>LMS Topics</plural_name>
+        <system_name>LMS_TOPIC</system_name>
+        <description>Granular lesson sections</description>
+        <is_active>true</is_active>
+        <sequence>302</sequence>
+        <presence>true</presence>
+        <icon>fas fa-heading</icon>
+        <route>#!/setup/lms/topics</route>
+        <table_name>erp_lms_topics</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>303</id>
+        <singular_name>LMS Content</singular_name>
+        <plural_name>LMS Contents</plural_name>
+        <system_name>LMS_CONTENT</system_name>
+        <description>Multimedia learning materials</description>
+        <is_active>true</is_active>
+        <sequence>303</sequence>
+        <presence>true</presence>
+        <icon>fas fa-file-video</icon>
+        <route>#!/setup/lms/contents</route>
+        <table_name>erp_lms_content</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>310</id>
+        <singular_name>LMS Quiz</singular_name>
+        <plural_name>LMS Quizzes</plural_name>
+        <system_name>LMS_QUIZ</system_name>
+        <description>Online assessments</description>
+        <is_active>true</is_active>
+        <sequence>310</sequence>
+        <presence>true</presence>
+        <icon>fas fa-question-circle</icon>
+        <route>#!/setup/lms/quizzes</route>
+        <table_name>erp_lms_quizzes</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>311</id>
+        <singular_name>LMS Question Bank</singular_name>
+        <plural_name>LMS Question Banks</plural_name>
+        <system_name>LMS_QUESTION_BANK</system_name>
+        <description>Reusable question repository</description>
+        <is_active>true</is_active>
+        <sequence>311</sequence>
+        <presence>true</presence>
+        <icon>fas fa-university</icon>
+        <route>#!/setup/lms/question-bank</route>
+        <table_name>erp_lms_question_bank</table_name>
+        <pkid>id</pkid>
+        <display_column>question_text</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>312</id>
+        <singular_name>LMS Submission</singular_name>
+        <plural_name>LMS Submissions</plural_name>
+        <system_name>LMS_SUBMISSION</system_name>
+        <description>Student quiz results</description>
+        <is_active>true</is_active>
+        <sequence>312</sequence>
+        <presence>true</presence>
+        <icon>fas fa-user-check</icon>
+        <route>#!/setup/lms/submissions</route>
+        <table_name>erp_lms_submissions</table_name>
+        <pkid>id</pkid>
+        <display_column>score</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>313</id>
+        <singular_name>LMS Rubric</singular_name>
+        <plural_name>LMS Rubrics</plural_name>
+        <system_name>LMS_RUBRIC</system_name>
+        <description>Grading guidelines</description>
+        <is_active>true</is_active>
+        <sequence>313</sequence>
+        <presence>true</presence>
+        <icon>fas fa-tasks</icon>
+        <route>#!/setup/lms/rubrics</route>
+        <table_name>erp_lms_rubrics</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>320</id>
+        <singular_name>Virtual Session</singular_name>
+        <plural_name>Virtual Sessions</plural_name>
+        <system_name>VIRTUAL_SESSION</system_name>
+        <description>Live classroom sessions (Zoom/Meet)</description>
+        <is_active>true</is_active>
+        <sequence>320</sequence>
+        <presence>true</presence>
+        <icon>fas fa-video</icon>
+        <route>#!/setup/lms/virtual-sessions</route>
+        <table_name>erp_lms_virtual_sessions</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>321</id>
+        <singular_name>Virtual Attendance</singular_name>
+        <plural_name>Virtual Attendance Logs</plural_name>
+        <system_name>VIRTUAL_ATTENDANCE</system_name>
+        <description>Automated virtual class attendance</description>
+        <is_active>true</is_active>
+        <sequence>321</sequence>
+        <presence>true</presence>
+        <icon>fas fa-user-clock</icon>
+        <route>#!/setup/lms/virtual-attendance</route>
+        <table_name>erp_lms_virtual_attendance</table_name>
+        <pkid>id</pkid>
+        <display_column>join_time</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>340</id>
+        <singular_name>Competency</singular_name>
+        <plural_name>Competencies</plural_name>
+        <system_name>COMPETENCY</system_name>
+        <description>Skill framework definitions</description>
+        <is_active>true</is_active>
+        <sequence>340</sequence>
+        <presence>true</presence>
+        <icon>fas fa-graduation-cap</icon>
+        <route>#!/setup/tpd/competencies</route>
+        <table_name>erp_tpd_competencies</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>341</id>
+        <singular_name>Skill Assessment</singular_name>
+        <plural_name>Skill Assessments</plural_name>
+        <system_name>SKILL_ASSESSMENT</system_name>
+        <description>Self and Manager skill reviews</description>
+        <is_active>true</is_active>
+        <sequence>341</sequence>
+        <presence>true</presence>
+        <icon>fas fa-user-check</icon>
+        <route>#!/setup/tpd/assessments</route>
+        <table_name>erp_tpd_skill_assessments</table_name>
+        <pkid>id</pkid>
+        <display_column>assessment_date</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>342</id>
+        <singular_name>Training Event</singular_name>
+        <plural_name>Training Events</plural_name>
+        <system_name>TRAINING_EVENT</system_name>
+        <description>Workshops and seminars</description>
+        <is_active>true</is_active>
+        <sequence>342</sequence>
+        <presence>true</presence>
+        <icon>fas fa-calendar-alt</icon>
+        <route>#!/setup/tpd/events</route>
+        <table_name>erp_tpd_training_events</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>343</id>
+        <singular_name>Credit Ledger</singular_name>
+        <plural_name>CPD Credit Ledgers</plural_name>
+        <system_name>CPD_LEDGER</system_name>
+        <description>Staff credit passport</description>
+        <is_active>true</is_active>
+        <sequence>343</sequence>
+        <presence>true</presence>
+        <icon>fas fa-passport</icon>
+        <route>#!/setup/tpd/ledger</route>
+        <table_name>erp_tpd_cpd_ledger</table_name>
+        <pkid>id</pkid>
+        <display_column>credits_earned</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>344</id>
+        <singular_name>Professional Portfolio</singular_name>
+        <plural_name>Professional Portfolios</plural_name>
+        <system_name>PROFESSIONAL_PORTFOLIO</system_name>
+        <description>Staff growth and promotion track</description>
+        <is_active>true</is_active>
+        <sequence>344</sequence>
+        <presence>true</presence>
+        <icon>fas fa-briefcase</icon>
+        <route>#!/setup/tpd/portfolios</route>
+        <table_name>erp_tpd_portfolios</table_name>
+        <pkid>id</pkid>
+        <display_column>current_role</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>330</id>
+        <singular_name>Student Progress</singular_name>
+        <plural_name>Student Progress Logs</plural_name>
+        <system_name>STUDENT_PROGRESS</system_name>
+        <description>Lesson completion and time tracking</description>
+        <is_active>true</is_active>
+        <sequence>330</sequence>
+        <presence>true</presence>
+        <icon>fas fa-chart-line</icon>
+        <route>#!/setup/lms/progress</route>
+        <table_name>erp_lms_student_progress</table_name>
+        <pkid>id</pkid>
+        <display_column>completion_percentage</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>331</id>
+        <singular_name>Badge</singular_name>
+        <plural_name>Gamification Badges</plural_name>
+        <system_name>LMS_BADGE</system_name>
+        <description>Reward achievement icons</description>
+        <is_active>true</is_active>
+        <sequence>331</sequence>
+        <presence>true</presence>
+        <icon>fas fa-medal</icon>
+        <route>#!/setup/lms/badges</route>
+        <table_name>erp_lms_badges</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>332</id>
+        <singular_name>Point Log</singular_name>
+        <plural_name>Point Achievement Logs</plural_name>
+        <system_name>LMS_POINT_LOG</system_name>
+        <description>Student reward point history</description>
+        <is_active>true</is_active>
+        <sequence>332</sequence>
+        <presence>true</presence>
+        <icon>fas fa-trophy</icon>
+        <route>#!/setup/lms/points</route>
+        <table_name>erp_lms_point_logs</table_name>
+        <pkid>id</pkid>
+        <display_column>points</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>350</id>
+        <singular_name>LMS Forum</singular_name>
+        <plural_name>LMS Forums</plural_name>
+        <system_name>LMS_FORUM</system_name>
+        <description>Course discussion boards</description>
+        <is_active>true</is_active>
+        <sequence>350</sequence>
+        <presence>true</presence>
+        <icon>fas fa-comments</icon>
+        <route>#!/setup/lms/forums</route>
+        <table_name>erp_lms_forums</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>351</id>
+        <singular_name>Forum Post</singular_name>
+        <plural_name>Forum Posts</plural_name>
+        <system_name>LMS_FORUM_POST</system_name>
+        <description>Threaded discussion replies</description>
+        <is_active>true</is_active>
+        <sequence>351</sequence>
+        <presence>true</presence>
+        <icon>fas fa-comment-dots</icon>
+        <route>#!/setup/lms/posts</route>
+        <table_name>erp_lms_forum_posts</table_name>
+        <pkid>id</pkid>
+        <display_column>content</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>352</id>
+        <singular_name>Peer Review</singular_name>
+        <plural_name>Peer Reviews</plural_name>
+        <system_name>LMS_PEER_REVIEW</system_name>
+        <description>Student-to-student anonymous feedback</description>
+        <is_active>true</is_active>
+        <sequence>352</sequence>
+        <presence>true</presence>
+        <icon>fas fa-user-friends</icon>
+        <route>#!/setup/lms/peer-reviews</route>
+        <table_name>erp_lms_peer_reviews</table_name>
+        <pkid>id</pkid>
+        <display_column>score</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>360</id>
+        <singular_name>Student Registration</singular_name>
+        <plural_name>Student Registrations</plural_name>
+        <system_name>STUDENT_REGISTRATION</system_name>
+        <description>Yearly enrollment for students</description>
+        <is_active>true</is_active>
+        <sequence>360</sequence>
+        <presence>true</presence>
+        <icon>fas fa-user-plus</icon>
+        <route>#!/setup/admission/registrations</route>
+        <table_name>erp_student_registrations</table_name>
+        <pkid>registration_id</pkid>
+        <display_column>registration_date</display_column>
+        <has_rel_table>false</has_rel_table>
     </entity>
 </entities>
+
+
+

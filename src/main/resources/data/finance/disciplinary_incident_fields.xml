@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>studentId</name>
+        <display_name>Student</display_name>
+        <type>select</type>
+        <entity_ref>STUDENT</entity_ref>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>description</name>
+        <display_name>Misconduct Details</display_name>
+        <type>textarea</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>fineAmount</name>
+        <display_name>Fine Amount</display_name>
+        <type>number</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>approvalStatus</name>
+        <display_name>Status</display_name>
+        <type>enum</type>
+        <options>PENDING,APPROVED,REJECTED</options>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>evidenceUrl</name>
+        <display_name>Evidence Link (Photo/Doc)</display_name>
+        <type>text</type>
+    </field>
+    <field>
+        <name>reportedById</name>
+        <display_name>Reported By</display_name>
+        <type>select</type>
+        <entity_ref>STAFF</entity_ref>
+    </field>
+</fields>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Badge configuration</title>
+        <fields>name,tier,pointsRequired,iconUrl,description</fields>
+    </section>
+</sections>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <system_name>quiz</system_name>
+        <display_name>Quiz</display_name>
+        <show_type>lookup</show_type>
+        <lookup_entity>LMS_QUIZ</lookup_entity>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>questionText</system_name>
+        <display_name>Question Text</display_name>
+        <show_type>textarea</show_type>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>type</system_name>
+        <display_name>Type</display_name>
+        <show_type>select</show_type>
+        <options>MULTIPLE_CHOICE:MCQ,TRUE_FALSE:True/False,SHORT_ANSWER:Short Answer</options>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>points</system_name>
+        <display_name>Points/Weight</display_name>
+        <show_type>number</show_type>
+        <is_required>true</is_required>
+    </field>
+</fields>

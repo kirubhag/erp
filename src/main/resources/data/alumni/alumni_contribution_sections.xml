@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>basic_info</name>
+        <label>Contribution Details</label>
+        <sequence>1</sequence>
+        <fields>alumniId,type,amount,contributionDate</fields>
+    </section>
+    <section>
+        <name>content_info</name>
+        <label>Description</label>
+        <sequence>2</sequence>
+        <fields>description</fields>
+    </section>
+</sections>

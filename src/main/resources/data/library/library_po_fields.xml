@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <system_name>vendor</system_name>
+        <display_name>Vendor</display_name>
+        <show_type>lookup</show_type>
+        <lookup_entity>VENDOR</lookup_entity>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>orderDate</system_name>
+        <display_name>Order Date</display_name>
+        <show_type>date</show_type>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>totalAmount</system_name>
+        <display_name>Total Amount</display_name>
+        <show_type>number</show_type>
+        <is_required>true</is_required>
+    </field>
+    <field>
+        <system_name>status</system_name>
+        <display_name>PO Status</display_name>
+        <show_type>select</show_type>
+        <options>DRAFT,SENT,PARTIAL,COMPLETED</options>
+        <is_required>true</is_required>
+    </field>
+</fields>

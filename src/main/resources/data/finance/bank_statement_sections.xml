@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <sectionName>General Information</sectionName>
+        <sequence>1</sequence>
+    </section>
+    <section>
+        <sectionName>Financial Summary</sectionName>
+        <sequence>2</sequence>
+    </section>
+    <section>
+        <sectionName>Statement Lines</sectionName>
+        <sequence>3</sequence>
+        <isRelatedList>true</isRelatedList>
+        <relatedEntity>BANK_STATEMENT_LINE</relatedEntity>
+    </section>
+</sections>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>name</name>
+        <display_name>Discount Name</display_name>
+        <type>text</type>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>type</name>
+        <display_name>Discount Type</display_name>
+        <type>enum</type>
+        <options>PERCENTAGE,FIXED</options>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>value</name>
+        <display_name>Discount Value</display_name>
+        <type>number</type>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>conditionType</name>
+        <display_name>Applicable Condition</display_name>
+        <type>text</type>
+        <placeholder>e.g. SIBLING, MERIT</placeholder>
+        <grid_visible>true</grid_visible>
+    </field>
+</fields>

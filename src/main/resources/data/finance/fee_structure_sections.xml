@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>Mapping</name>
+        <fields>
+            <field>feeTypeId</field>
+            <field>academicYearId</field>
+            <field>gradeId</field>
+        </fields>
+    </section>
+    <section>
+        <name>Financials</name>
+        <fields>
+            <field>amount</field>
+            <field>dueDate</field>
+        </fields>
+    </section>
+</sections>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Loan Details</title>
+        <fields>item,user,loanDate,dueDate,status</fields>
+    </section>
+    <section>
+        <title>Return &amp; Renewals</title>
+        <fields>returnDate,renewalCount</fields>
+    </section>
+</sections>

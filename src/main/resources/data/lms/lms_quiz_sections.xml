@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Quiz Configuration</title>
+        <fields>lesson,subject,title,description,timeLimitMinutes,passingScore</fields>
+    </section>
+</sections>

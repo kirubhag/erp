@@ -1,8 +1,7 @@
 package krs.erp.model.inventory;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import krs.erp.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>basic_info</name>
+        <label>Template Details</label>
+        <sequence>1</sequence>
+        <fields>name,channel,subject,placeholders</fields>
+    </section>
+    <section>
+        <name>content_info</name>
+        <label>Template Content</label>
+        <sequence>2</sequence>
+        <fields>content</fields>
+    </section>
+</sections>

@@ -159,16 +159,6 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/finance/:section',
-    loadComponent: () => import('./components/common/under-construction/under-construction.component').then(m => m.UnderConstructionComponent),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'setup/communication/:section',
-    loadComponent: () => import('./components/common/under-construction/under-construction.component').then(m => m.UnderConstructionComponent),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'setup/resource/:section',
     loadComponent: () => import('./components/common/under-construction/under-construction.component').then(m => m.UnderConstructionComponent),
     canActivate: [AuthGuard]
@@ -228,5 +218,54 @@ export const routes: Routes = [
     loadChildren: () => import('./components/maintenance/maintenance.routes').then(m => m.MAINTENANCE_ROUTES),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'setup/reporting',
+    loadChildren: () => import('./components/reporting/reporting.routes').then(m => m.REPORTING_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/documents',
+    loadChildren: () => import('./components/documents/documents.routes').then(m => m.DOCUMENT_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/calendar',
+    loadChildren: () => import('./components/calendar/calendar.routes').then(m => m.CALENDAR_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/communication',
+    loadChildren: () => import('./components/communication/communication.routes').then(m => m.COMMUNICATION_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/library',
+    loadChildren: () => import('./components/library/library.routes').then(m => m.LIBRARY_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/lms',
+    loadChildren: () => import('./components/lms/lms.routes').then(m => m.LMS_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/tpd',
+    loadChildren: () => import('./components/tpd/tpd.routes').then(m => m.TPD_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/alumni',
+    loadChildren: () => import('./components/alumni/alumni.routes').then(m => m.ALUMNI_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/finance',
+    loadChildren: () => import('./components/finance/finance.routes').then(m => m.FINANCE_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: '',
+    redirectTo: '/dashboard',
+    pathMatch: 'full'
+  }
 ];
-

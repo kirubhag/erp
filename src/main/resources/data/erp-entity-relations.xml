@@ -57,4 +57,472 @@
         <description>Relationship between Student and Grade records</description>
         <is_active>1</is_active>
     </relation>
+    <!-- Journal Entry to Journal Item relationship -->
+    <relation>
+        <id>10</id>
+        <p_table_name>erp_journal_entries</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>entry_number</p_display_column>
+        <c_table_name>erp_journal_items</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>label</c_display_column>
+        <fk_column>journal_entry_id</fk_column>
+        <description>Relationship between Journal Entry and its items</description>
+        <is_active>1</is_active>
+    </relation>
+    <!-- Budget to Budget Line relationship -->
+    <relation>
+        <id>11</id>
+        <p_table_name>erp_budgets</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>name</p_display_column>
+        <c_table_name>erp_budget_lines</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>description</c_display_column>
+        <fk_column>budget_id</fk_column>
+        <description>Relationship between Budget and its lines</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Bank Statement to Bank Statement Line relationship -->
+    <relation>
+        <id>12</id>
+        <p_table_name>erp_bank_statements</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>account_number</p_display_column>
+        <c_table_name>erp_bank_statement_lines</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>description</c_display_column>
+        <fk_column>bank_statement_id</fk_column>
+        <description>Relationship between Bank Statement and its lines</description>
+        <is_active>1</is_active>
+    </relation>
+    <!-- Support Ticket to Ticket Comment relationship -->
+    <relation>
+        <id>13</id>
+        <p_table_name>erp_support_tickets</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_ticket_comments</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>comment</c_display_column>
+        <fk_column>ticket_id</fk_column>
+        <description>Relationship between Support Ticket and its comments</description>
+        <is_active>1</is_active>
+    </relation>
+    <!-- Library Resource to Author relationship -->
+    <relation>
+        <id>20</id>
+        <p_table_name>erp_library_authors</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>name</p_display_column>
+        <c_table_name>erp_library_resources</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>title</c_display_column>
+        <fk_column>author_id</fk_column>
+        <description>Relationship between Library Resource and its Author</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Library Resource to Publisher relationship -->
+    <relation>
+        <id>21</id>
+        <p_table_name>erp_library_publishers</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>name</p_display_column>
+        <c_table_name>erp_library_resources</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>title</c_display_column>
+        <fk_column>publisher_id</fk_column>
+        <description>Relationship between Library Resource and its Publisher</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Resource Item to Library Resource relationship -->
+    <relation>
+        <id>22</id>
+        <p_table_name>erp_library_resources</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_library_items</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>accession_number</c_display_column>
+        <fk_column>resource_id</fk_column>
+        <description>Relationship between Individual Item and its Resource Type</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Library Loan to Resource Item relationship -->
+    <relation>
+        <id>23</id>
+        <p_table_name>erp_library_items</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>accession_number</p_display_column>
+        <c_table_name>erp_library_loans</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>loan_date</c_display_column>
+        <fk_column>item_id</fk_column>
+        <description>Relationship between Loan and the specific Resource Item</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Library Hold to Library Resource relationship -->
+    <relation>
+        <id>24</id>
+        <p_table_name>erp_library_resources</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_library_holds</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>request_date</c_display_column>
+        <fk_column>resource_id</fk_column>
+        <description>Relationship between Hold and the Resource being requested</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Library Policy to Role relationship -->
+    <relation>
+        <id>25</id>
+        <p_table_name>iam_roles</p_table_name>
+        <p_pkid>role_id</p_pkid>
+        <p_display_column>name</p_display_column>
+        <c_table_name>erp_library_policies</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>max_books</c_display_column>
+        <fk_column>role_id</fk_column>
+        <description>Relationship between Library Policy and User Role</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Library PO to Vendor relationship -->
+    <relation>
+        <id>26</id>
+        <p_table_name>erp_inventory_vendors</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>name</p_display_column>
+        <c_table_name>erp_library_pos</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>order_date</c_display_column>
+        <fk_column>vendor_id</fk_column>
+        <description>Relationship between Library PO and Vendor</description>
+        <is_active>1</is_active>
+    </relation>
+    <!-- LMS Module to Subject relationship -->
+    <relation>
+        <id>300</id>
+        <p_table_name>subjects</p_table_name>
+        <p_pkid>subject_id</p_pkid>
+        <p_display_column>subject_name</p_display_column>
+        <c_table_name>erp_lms_modules</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>title</c_display_column>
+        <fk_column>subject_id</fk_column>
+        <description>Relationship between LMS Module and its Subject</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Lesson to LMS Module relationship -->
+    <relation>
+        <id>301</id>
+        <p_table_name>erp_lms_modules</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_lms_lessons</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>title</c_display_column>
+        <fk_column>module_id</fk_column>
+        <description>Relationship between Lesson and its Module</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- LMS Topic to Lesson relationship -->
+    <relation>
+        <id>302</id>
+        <p_table_name>erp_lms_lessons</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_lms_topics</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>title</c_display_column>
+        <fk_column>lesson_id</fk_column>
+        <description>Relationship between Topic and its Lesson</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- LMS Content to Lesson relationship -->
+    <relation>
+        <id>303</id>
+        <p_table_name>erp_lms_lessons</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_lms_content</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>title</c_display_column>
+        <fk_column>lesson_id</fk_column>
+        <description>Relationship between Content and its Lesson</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- LMS Quiz to Lesson/Module relationship -->
+    <relation>
+        <id>310</id>
+        <p_table_name>erp_lms_lessons</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_lms_quizzes</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>title</c_display_column>
+        <fk_column>lesson_id</fk_column>
+        <description>Relationship between Quiz and its Lesson</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- LMS Question to Quiz relationship -->
+    <relation>
+        <id>311</id>
+        <p_table_name>erp_lms_quizzes</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_lms_questions</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>question_text</c_display_column>
+        <fk_column>quiz_id</fk_column>
+        <description>Relationship between Question and its Quiz</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- LMS Answer to Question relationship -->
+    <relation>
+        <id>312</id>
+        <p_table_name>erp_lms_questions</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>question_text</p_display_column>
+        <c_table_name>erp_lms_answers</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>answer_text</c_display_column>
+        <fk_column>question_id</fk_column>
+        <description>Relationship between Answer and its Question</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- LMS Submission to Quiz relationship -->
+    <relation>
+        <id>313</id>
+        <p_table_name>erp_lms_quizzes</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_lms_submissions</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>score</c_display_column>
+        <fk_column>quiz_id</fk_column>
+        <description>Relationship between Submission and its Quiz</description>
+        <is_active>1</is_active>
+    </relation>
+    <!-- Virtual Session to Lesson relationship -->
+    <relation>
+        <id>320</id>
+        <p_table_name>erp_lms_lessons</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_lms_virtual_sessions</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>title</c_display_column>
+        <fk_column>lesson_id</fk_column>
+        <description>Relationship between Virtual Session and its Lesson</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Virtual Attendance to Session relationship -->
+    <relation>
+        <id>321</id>
+        <p_table_name>erp_lms_virtual_sessions</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_lms_virtual_attendance</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>join_time</c_display_column>
+        <fk_column>session_id</fk_column>
+        <description>Relationship between Virtual Attendance and the Session</description>
+        <is_active>1</is_active>
+    </relation>
+    <!-- Skill Assessment to Competency -->
+    <relation>
+        <id>340</id>
+        <p_table_name>erp_tpd_competencies</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>name</p_display_column>
+        <c_table_name>erp_tpd_skill_assessments</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>assessment_date</c_display_column>
+        <fk_column>competency_id</fk_column>
+        <description>Relationship between Skill Assessment and its Competency</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Training Event to Venue (Room) -->
+    <relation>
+        <id>341</id>
+        <p_table_name>rooms</p_table_name>
+        <p_pkid>room_id</p_pkid>
+        <p_display_column>room_name</p_display_column>
+        <c_table_name>erp_tpd_training_events</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>title</c_display_column>
+        <fk_column>venue_id</fk_column>
+        <description>Relationship between Training Event and its Physical Room</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Training Attendance to Event -->
+    <relation>
+        <id>342</id>
+        <p_table_name>erp_tpd_training_events</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_tpd_training_attendance</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>check_in_time</c_display_column>
+        <fk_column>event_id</fk_column>
+        <description>Relationship between Training Attendance and the specific Event</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Training Evaluation to Event -->
+    <relation>
+        <id>343</id>
+        <p_table_name>erp_tpd_training_events</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_tpd_evaluations</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>reaction_score</c_display_column>
+        <fk_column>event_id</fk_column>
+        <description>Relationship between Evaluation and its Training Event</description>
+        <is_active>1</is_active>
+    </relation>
+    <!-- Student Progress to Lesson relationship -->
+    <relation>
+        <id>330</id>
+        <p_table_name>erp_lms_lessons</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_lms_student_progress</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>id</c_display_column>
+        <fk_column>lesson_id</fk_column>
+        <description>Relationship between Progress Log and its Lesson</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Point Log to Student (User) -->
+    <relation>
+        <id>331</id>
+        <p_table_name>users</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>username</p_display_column>
+        <c_table_name>erp_lms_point_logs</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>points</c_display_column>
+        <fk_column>student_id</fk_column>
+        <description>Relationship between Achievement points and the Student</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Point Log to Badge relationship -->
+    <relation>
+        <id>332</id>
+        <p_table_name>erp_lms_badges</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>name</p_display_column>
+        <c_table_name>erp_lms_point_logs</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>points</c_display_column>
+        <fk_column>badge_id</fk_column>
+        <description>Relationship between Awarded Badge and the point log</description>
+        <is_active>1</is_active>
+    </relation>
+    <!-- Forum to Module relationship -->
+    <relation>
+        <id>350</id>
+        <p_table_name>erp_lms_modules</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>name</p_display_column>
+        <c_table_name>erp_lms_forums</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>title</c_display_column>
+        <fk_column>course_id</fk_column>
+        <description>Relationship between Forum and its Module/Course</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Forum Post to Forum relationship -->
+    <relation>
+        <id>351</id>
+        <p_table_name>erp_lms_forums</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>title</p_display_column>
+        <c_table_name>erp_lms_forum_posts</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>content</c_display_column>
+        <fk_column>forum_id</fk_column>
+        <description>Relationship between Post and its Forum</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Peer Review to Submission relationship -->
+    <relation>
+        <id>352</id>
+        <p_table_name>erp_lms_submissions</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>id</p_display_column>
+        <c_table_name>erp_lms_peer_reviews</c_table_name>
+        <c_pkid>id</c_pkid>
+        <c_display_column>score</c_display_column>
+        <fk_column>submission_id</fk_column>
+        <description>Relationship between Peer Review and the Submission being reviewed</description>
+        <is_active>1</is_active>
+    </relation>
+    <!-- Student Registration to Student -->
+    <relation>
+        <id>360</id>
+        <p_table_name>students</p_table_name>
+        <p_pkid>student_id</p_pkid>
+        <p_display_column>first_name</p_display_column>
+        <c_table_name>erp_student_registrations</c_table_name>
+        <c_pkid>registration_id</c_pkid>
+        <c_display_column>registration_date</c_display_column>
+        <fk_column>student_id</fk_column>
+        <description>Relationship between Registration and Student</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Student Registration to Academic Year -->
+    <relation>
+        <id>361</id>
+        <p_table_name>academic_years</p_table_name>
+        <p_pkid>id</p_pkid>
+        <p_display_column>name</p_display_column>
+        <c_table_name>erp_student_registrations</c_table_name>
+        <c_pkid>registration_id</c_pkid>
+        <c_display_column>registration_date</c_display_column>
+        <fk_column>academic_year_id</fk_column>
+        <description>Relationship between Registration and Academic Year</description>
+        <is_active>1</is_active>
+    </relation>
+
+    <!-- Student Registration to Class -->
+    <relation>
+        <id>362</id>
+        <p_table_name>erp_class</p_table_name>
+        <p_pkid>class_id</p_pkid>
+        <p_display_column>class_name</p_display_column>
+        <c_table_name>erp_student_registrations</c_table_name>
+        <c_pkid>registration_id</c_pkid>
+        <c_display_column>registration_date</c_display_column>
+        <fk_column>class_id</fk_column>
+        <description>Relationship between Registration and Class</description>
+        <is_active>1</is_active>
+    </relation>
 </entity-relations>
+
+

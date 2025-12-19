@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>basic_info</name>
+        <label>Log Details</label>
+        <sequence>1</sequence>
+        <fields>recipient,recipientType,channel,subject,status,sentAt</fields>
+    </section>
+    <section>
+        <name>content_info</name>
+        <label>Message Content</label>
+        <sequence>2</sequence>
+        <fields>content</fields>
+    </section>
+</sections>

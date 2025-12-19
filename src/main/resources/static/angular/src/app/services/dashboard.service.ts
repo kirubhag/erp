@@ -10,6 +10,11 @@ export interface DashboardStats {
   registeredParents: number;
   attendanceRate: number;
   totalAttendance: number;
+  totalStaff?: number;
+  totalAssets?: number;
+  pendingWorkOrders?: number;
+  monthlyRevenue?: number;
+  monthlyExpense?: number;
 }
 
 @Injectable({

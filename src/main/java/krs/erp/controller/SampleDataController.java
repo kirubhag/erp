@@ -66,7 +66,15 @@ public class SampleDataController {
             "leaves", // Depends on Staff
             "performance", // Depends on Staff
             "inventory", // Depends on Staff
-            "maintenance" // Depends on Staff
+            "maintenance", // Depends on Staff
+            "reporting", // Reporting & Analytics / MIS
+            "documents", // Document Management
+            "finance", // Fee & Fine Management
+            "scholarships", // Scholarships & Financial Aid
+            "accounting", // General Ledger
+            "library", // Library Management
+            "lms", // Learning Management System
+            "tpd" // Training & Professional Development
     );
 
     /**
@@ -128,7 +136,18 @@ public class SampleDataController {
         entities.add(createEntityInfo("leaves", "Leave Management (Types & Balances)"));
         entities.add(createEntityInfo("performance", "Performance Evaluation (Cycles & Reviews)"));
         entities.add(createEntityInfo("inventory", "Inventory & Asset Management (Assets, Stock, Vendors)"));
-        entities.add(createEntityInfo("maintenance", "Maintenance & Facility Management (Work Orders, Bookings)"));
+        entities.add(createEntityInfo("maintenance", "Maintenance & Facility Management"));
+        entities.add(createEntityInfo("reporting", "Reporting & Analytics / MIS"));
+        entities.add(createEntityInfo("documents", "Document Management"));
+        entities.add(createEntityInfo("calendar", "Event & Calendar Management"));
+        entities.add(createEntityInfo("communication", "Communication & Alerts"));
+        entities.add(createEntityInfo("alumni", "Alumni Management"));
+        entities.add(createEntityInfo("finance", "Fee & Fine Management"));
+        entities.add(createEntityInfo("scholarships", "Scholarships & Financial Aid"));
+        entities.add(createEntityInfo("accounting", "General Ledger (Accounting)"));
+        entities.add(createEntityInfo("library", "Library Management"));
+        entities.add(createEntityInfo("lms", "Learning Management System (LMS)"));
+        entities.add(createEntityInfo("tpd", "Staff Training & Growth (TPD)"));
 
         response.put("entities", entities);
         response.put("recommendedOrder", DEPENDENCY_ORDER);
@@ -232,6 +251,28 @@ public class SampleDataController {
                             dataImportService.generateInventorySampleData();
                         } else if (entityName.equalsIgnoreCase("maintenance")) {
                             dataImportService.generateMaintenanceSampleData();
+                        } else if (entityName.equalsIgnoreCase("reporting")) {
+                            dataImportService.generateReportingSampleData();
+                        } else if (entityName.equalsIgnoreCase("documents")) {
+                            dataImportService.generateDocumentSampleData();
+                        } else if (entityName.equalsIgnoreCase("calendar")) {
+                            dataImportService.generateCalendarSampleData();
+                        } else if (entityName.equalsIgnoreCase("communication")) {
+                            dataImportService.generateCommunicationSampleData();
+                        } else if (entityName.equalsIgnoreCase("alumni")) {
+                            dataImportService.generateAlumniSampleData();
+                        } else if (entityName.equalsIgnoreCase("finance")) {
+                            dataImportService.generateFinanceSampleData();
+                        } else if (entityName.equalsIgnoreCase("scholarships")) {
+                            dataImportService.generateScholarshipSampleData();
+                        } else if (entityName.equalsIgnoreCase("accounting")) {
+                            dataImportService.generateAccountingSampleData();
+                        } else if (entityName.equalsIgnoreCase("library")) {
+                            dataImportService.generateLibrarySampleData();
+                        } else if (entityName.equalsIgnoreCase("lms")) {
+                            dataImportService.generateLmsSampleData();
+                        } else if (entityName.equalsIgnoreCase("tpd")) {
+                            dataImportService.generateTpdSampleData();
                         } else {
                             // For other entities, use the generic import
                             dataImportService.importDataFromXml(xmlFilePath);

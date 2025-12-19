@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>Incident Information</name>
+        <fields>
+            <field>studentId</field>
+            <field>incidentDate</field>
+            <field>description</field>
+        </fields>
+    </section>
+    <section>
+        <name>Disciplinary Fine & Approval</name>
+        <fields>
+            <field>fineAmount</field>
+            <field>approvalStatus</field>
+            <field>reportedById</field>
+            <field>evidenceUrl</field>
+        </fields>
+    </section>
+</sections>

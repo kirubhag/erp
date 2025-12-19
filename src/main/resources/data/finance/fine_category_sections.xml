@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>Category Info</name>
+        <fields>
+            <field>name</field>
+            <field>description</field>
+        </fields>
+    </section>
+</sections>

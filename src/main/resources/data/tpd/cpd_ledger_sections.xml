@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Credit Passport</title>
+        <fields>staff,academicYear,creditsEarned,creditsRequired</fields>
+    </section>
+</sections>

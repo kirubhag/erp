@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scholarships>
+    <category>
+        <name>Merit Scholarship</name>
+        <description>For students with GPA > 3.8</description>
+        <type>PERCENTAGE</type>
+        <percentage>50.00</percentage>
+        <isMeritBased>true</isMeritBased>
+        <isNeedBased>false</isNeedBased>
+    </category>
+    <category>
+        <name>Need-Based Aid</name>
+        <description>For students with family income below threshold</description>
+        <type>FIXED</type>
+        <amount>1000.00</amount>
+        <isMeritBased>false</isMeritBased>
+        <isNeedBased>true</isNeedBased>
+    </category>
+    <application>
+        <student_id>1</student_id>
+        <category_name>Merit Scholarship</category_name>
+        <academic_year_id>1</academic_year_id>
+        <status>APPROVED</status>
+        <remarks>GPA 3.9 confirmed</remarks>
+    </application>
+</scholarships>

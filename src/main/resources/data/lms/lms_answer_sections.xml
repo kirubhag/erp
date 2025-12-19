@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Answer Option</title>
+        <fields>question,answerText,correct</fields>
+    </section>
+</sections>

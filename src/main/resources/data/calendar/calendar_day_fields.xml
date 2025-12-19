@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>date</name>
+        <label>Date</label>
+        <type>date</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>type</name>
+        <label>Day Type</label>
+        <type>select</type>
+        <options>HOLIDAY,EXAM,WORKING_DAY,EVENT</options>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>description</name>
+        <label>Description</label>
+        <type>text</type>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>isHoliday</name>
+        <label>Is Holiday</label>
+        <type>boolean</type>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>eventId</name>
+        <label>Linked Event ID</label>
+        <type>number</type>
+        <readonly>true</readonly>
+        <sequence>5</sequence>
+    </field>
+</fields>

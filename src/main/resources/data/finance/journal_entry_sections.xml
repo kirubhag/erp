@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-sections type="JOURNAL_ENTRY">
+    <section title="Header Information">
+        <field-ref name="entryNumber"/>
+        <field-ref name="date"/>
+        <field-ref name="reference"/>
+        <field-ref name="status"/>
+    </section>
+    <section title="Description">
+        <field-ref name="description"/>
+    </section>
+</entity-sections>

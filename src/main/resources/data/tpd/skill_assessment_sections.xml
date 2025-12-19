@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Skill Gap Analysis</title>
+        <fields>staff,competency,selfRating,managerRating,manager,assessmentDate</fields>
+    </section>
+</sections>

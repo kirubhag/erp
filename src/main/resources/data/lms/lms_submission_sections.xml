@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <title>Submission Results</title>
+        <fields>quiz,student,score,submissionDate,status</fields>
+    </section>
+</sections>

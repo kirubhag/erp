@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>invoiceNumber</name>
+        <display_name>Invoice #</display_name>
+        <type>text</type>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>studentId</name>
+        <display_name>Student</display_name>
+        <type>select</type>
+        <entity_ref>STUDENT</entity_ref>
+        <required>true</required>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>issueDate</name>
+        <display_name>Issue Date</display_name>
+        <type>date</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>dueDate</name>
+        <display_name>Due Date</display_name>
+        <type>date</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>totalAmount</name>
+        <display_name>Total Amount</display_name>
+        <type>number</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>netAmount</name>
+        <display_name>Net Amount</display_name>
+        <type>number</type>
+        <grid_visible>true</grid_visible>
+    </field>
+    <field>
+        <name>status</name>
+        <display_name>Status</display_name>
+        <type>enum</type>
+        <options>DRAFT,ISSUED,PAID,PARTIALLY_PAID,OVERDUE,CANCELLED</options>
+        <grid_visible>true</grid_visible>
+    </field>
+</fields>

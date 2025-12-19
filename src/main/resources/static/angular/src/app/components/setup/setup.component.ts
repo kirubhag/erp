@@ -117,46 +117,123 @@ export class SetupComponent implements OnInit {
       title: 'Financial & Accounting',
       items: [
         {
-          id: 'fee-management',
-          label: 'Fee Management',
+          id: 'fee-types',
+          label: 'Fee Types',
           icon: 'fas fa-money-bill-wave',
-          route: '/setup/finance/fees',
-          description: 'Define fee structures and manage collections'
+          route: '/setup/finance/fee-types',
+          description: 'Define institutional fee categories'
         },
         {
-          id: 'invoicing-payments',
-          label: 'Invoicing & Payments',
+          id: 'fee-structures',
+          label: 'Fee Structures',
+          icon: 'fas fa-receipt',
+          route: '/setup/finance/fee-structures',
+          description: 'Set fee amounts by grade and year'
+        },
+        {
+          id: 'fine-management',
+          label: 'Fine Management',
+          icon: 'fas fa-gavel',
+          route: '/setup/finance/fine-management',
+          description: 'Configure automated fine rules and categories'
+        },
+        {
+          id: 'fee-payments',
+          label: 'Fee Collection',
           icon: 'fas fa-file-invoice-dollar',
-          route: '/setup/finance/invoices',
-          description: 'Generate invoices and track payments'
+          route: '/setup/finance/payments',
+          description: 'Record and track student fee payments'
         },
         {
-          id: 'financial-aid',
-          label: 'Financial Aid',
+          id: 'fine-ledger',
+          label: 'Fine Ledger',
+          icon: 'fas fa-balance-scale',
+          route: '/setup/finance/fine-ledger',
+          description: 'View and manage student fine records'
+        },
+        {
+          id: 'disciplinary-incidents',
+          label: 'Behavioral Fines',
+          icon: 'fas fa-user-shield',
+          route: '/setup/finance/incidents',
+          description: 'Report incidents and issue disciplinary fines'
+        },
+        {
+          id: 'fine-waivers',
+          label: 'Fine Waivers',
           icon: 'fas fa-hand-holding-usd',
-          route: '/setup/finance/aid',
-          description: 'Manage scholarships and financial aid disbursements'
+          route: '/setup/finance/waivers',
+          description: 'Process waiver requests and adjustments'
         },
         {
-          id: 'general-ledger',
-          label: 'General Ledger',
+          id: 'invoices',
+          label: 'Invoices',
+          icon: 'fas fa-file-invoice',
+          route: '/setup/finance/invoices',
+          description: 'Manage billing invoices for fees and fines'
+        },
+        {
+          id: 'transactions',
+          label: 'Transactions',
+          icon: 'fas fa-exchange-alt',
+          route: '/setup/finance/transactions',
+          description: 'View and track payment transactions'
+        },
+        {
+          id: 'chart-of-accounts',
+          label: 'Chart of Accounts',
+          icon: 'fas fa-sitemap',
+          route: '/setup/finance/accounts',
+          description: 'Manage the hierarchy of accounting codes'
+        },
+        {
+          id: 'journal-entries',
+          label: 'Journal Entries',
           icon: 'fas fa-book',
-          route: '/setup/finance/ledger',
-          description: 'Record financial transactions and accounting'
+          route: '/setup/finance/journal-entries',
+          description: 'Record accounting transactions and adjustments'
         },
         {
-          id: 'budgeting',
-          label: 'Budgeting',
-          icon: 'fas fa-wallet',
-          route: '/setup/finance/budget',
-          description: 'Create and monitor departmental budgets'
+          id: 'accounting-periods',
+          label: 'Accounting Periods',
+          icon: 'fas fa-calendar-check',
+          route: '/setup/finance/accounting-periods',
+          description: 'Manage fiscal years and reporting durations'
         },
         {
-          id: 'bank-reconciliation',
-          label: 'Bank Reconciliation',
+          id: 'trial-balance',
+          label: 'Trial Balance',
+          icon: 'fas fa-balance-scale-left',
+          route: '/setup/finance/trial-balance',
+          description: 'View the summary of all account balances'
+        },
+        {
+          id: 'profit-loss',
+          label: 'Profit & Loss',
+          icon: 'fas fa-chart-pie',
+          route: '/setup/finance/profit-loss',
+          description: 'Analyze institutional revenue and expenses'
+        },
+        {
+          id: 'scholarships',
+          label: 'Scholarships',
+          icon: 'fas fa-graduation-cap',
+          route: '/setup/finance/scholarship-categories',
+          description: 'Define aid types and manage applications'
+        },
+        {
+          id: 'budgets',
+          label: 'Budgets',
+          icon: 'fas fa-money-check-alt',
+          route: '/setup/finance/budgets',
+          description: 'Manage departmental and institutional budgets'
+        },
+        {
+          id: 'bank-statements',
+          label: 'Bank Statements',
           icon: 'fas fa-university',
-          route: '/setup/finance/reconciliation',
-          description: 'Match internal records with bank statements'
+          route: '/setup/finance/bank-statements',
+          description: 'Reconcile ledger entries with bank records'
         }
       ]
     },
@@ -456,6 +533,240 @@ export class SetupComponent implements OnInit {
           icon: 'fas fa-copy',
           route: '/setup/copy-customization',
           description: 'Copy customizations between environments'
+        }
+      ]
+    },
+    {
+      id: 'communication',
+      title: 'Communication & Engagement',
+      items: [
+        {
+          id: 'messages',
+          label: 'Messages',
+          icon: 'fas fa-envelope',
+          route: '/setup/communication/messages',
+          description: 'Internal peer-to-peer messaging'
+        },
+        {
+          id: 'announcements',
+          label: 'Announcements',
+          icon: 'fas fa-bullhorn',
+          route: '/setup/communication/announcements',
+          description: 'Targeted broadcasts and circulars'
+        },
+        {
+          id: 'tickets',
+          label: 'Support Tickets',
+          icon: 'fas fa-ticket-alt',
+          route: '/setup/communication/tickets',
+          description: 'Helpdesk and issue tracking'
+        }
+      ]
+    },
+    {
+      id: 'library',
+      title: 'Library Management',
+      items: [
+        {
+          id: 'resources',
+          label: 'Resource Catalog',
+          icon: 'fas fa-book',
+          route: '/setup/library/resources',
+          description: 'Cataloged books, journals, and e-resources'
+        },
+        {
+          id: 'items',
+          label: 'Physical Items',
+          icon: 'fas fa-barcode',
+          route: '/setup/library/items',
+          description: 'Individual physical copies and stock tracking'
+        },
+        {
+          id: 'loans',
+          label: 'Circulation (Loans)',
+          icon: 'fas fa-exchange-alt',
+          route: '/setup/library/loans',
+          description: 'Manage check-outs, returns, and renewals'
+        },
+        {
+          id: 'holds',
+          label: 'Reservations (Holds)',
+          icon: 'fas fa-hand-paper',
+          route: '/setup/library/holds',
+          description: 'Manage book reservations'
+        },
+        {
+          id: 'policies',
+          label: 'Library Policies',
+          icon: 'fas fa-gavel',
+          route: '/setup/library/policies',
+          description: 'Define borrowing rules and fine rates'
+        },
+        {
+          id: 'procurement',
+          label: 'Acquisitions & POs',
+          icon: 'fas fa-shopping-cart',
+          route: '/setup/library/purchase-requests',
+          description: 'Manage purchase requests and orders'
+        },
+        {
+          id: 'authors',
+          label: 'Authors',
+          icon: 'fas fa-pen-nib',
+          route: '/setup/library/authors',
+          description: 'Manage book authors'
+        },
+        {
+          id: 'publishers',
+          label: 'Publishers',
+          icon: 'fas fa-building',
+          route: '/setup/library/publishers',
+          description: 'Manage resource publishers'
+        }
+      ]
+    },
+    {
+      id: 'lms',
+      title: 'Learning Management (LMS)',
+      items: [
+        {
+          id: 'lms-modules',
+          label: 'LMS Modules',
+          icon: 'fas fa-layer-group',
+          route: '/setup/lms/modules',
+          description: 'Organize course modules'
+        },
+        {
+          id: 'lessons',
+          label: 'Lessons',
+          icon: 'fas fa-chalkboard-teacher',
+          route: '/setup/lms/lessons',
+          description: 'Manage instructional lessons'
+        },
+        {
+          id: 'lms-topics',
+          label: 'Lesson Topics',
+          icon: 'fas fa-heading',
+          route: '/setup/lms/topics',
+          description: 'Granular topic sections'
+        },
+        {
+          id: 'lms-content',
+          label: 'Learning Content',
+          icon: 'fas fa-file-video',
+          route: '/setup/lms/contents',
+          description: 'Multimedia materials and resources'
+        },
+        {
+          id: 'lms-quizzes',
+          label: 'Quizzes & Exams',
+          icon: 'fas fa-question-circle',
+          route: '/setup/lms/quizzes',
+          description: 'Create and manage online tests'
+        },
+        {
+          id: 'question-bank',
+          label: 'Question Bank',
+          icon: 'fas fa-university',
+          route: '/setup/lms/question-bank',
+          description: 'Reusable question repository'
+        },
+        {
+          id: 'lms-submissions',
+          label: 'Student Submissions',
+          icon: 'fas fa-user-check',
+          route: '/setup/lms/submissions',
+          description: 'View and grade student attempts'
+        },
+        {
+          id: 'lms-rubrics',
+          label: 'Grading Rubrics',
+          icon: 'fas fa-tasks',
+          route: '/setup/lms/rubrics',
+          description: 'Define evaluation criteria'
+        },
+        {
+          id: 'virtual-sessions',
+          label: 'Virtual Classrooms',
+          icon: 'fas fa-video',
+          route: '/setup/lms/virtual-sessions',
+          description: 'Schedule live Zoom/Meet sessions'
+        },
+        {
+          id: 'virtual-attendance',
+          label: 'Virtual Attendance',
+          icon: 'fas fa-user-clock',
+          route: '/setup/lms/virtual-attendance',
+          description: 'Synchronized live session participation'
+        },
+        {
+          id: 'lms-progress',
+          label: 'Student Progress',
+          icon: 'fas fa-chart-line',
+          route: '/setup/lms/progress',
+          description: 'Track lesson completion and time'
+        },
+        {
+          id: 'lms-badges',
+          label: 'Achievement Badges',
+          icon: 'fas fa-medal',
+          route: '/setup/lms/badges',
+          description: 'Gamification reward management'
+        },
+        {
+          id: 'lms-forums',
+          label: 'Discussion Forums',
+          icon: 'fas fa-comments',
+          route: '/setup/lms/forums',
+          description: 'Social learning and course discussions'
+        },
+        {
+          id: 'lms-peer-reviews',
+          label: 'Peer Feedback',
+          icon: 'fas fa-user-friends',
+          route: '/setup/lms/peer-reviews',
+          description: 'Anonymous student feedback workflow'
+        }
+      ]
+    },
+    {
+      id: 'tpd',
+      title: 'Staff Training & Growth (TPD)',
+      items: [
+        {
+          id: 'competencies',
+          label: 'Competency Framework',
+          icon: 'fas fa-graduation-cap',
+          route: '/setup/tpd/competencies',
+          description: 'Define and map required staff skills'
+        },
+        {
+          id: 'skill-assessments',
+          label: 'Skill Gap Analysis',
+          icon: 'fas fa-user-check',
+          route: '/setup/tpd/assessments',
+          description: 'Self-evaluations and manager reviews'
+        },
+        {
+          id: 'training-events',
+          label: 'Workshop Manager',
+          icon: 'fas fa-chalkboard',
+          route: '/setup/tpd/events',
+          description: 'Schedule internal and external trainings'
+        },
+        {
+          id: 'cpd-ledger',
+          label: 'CPD Credit Passport',
+          icon: 'fas fa-passport',
+          route: '/setup/tpd/ledger',
+          description: 'Track professional development credits'
+        },
+        {
+          id: 'professional-portfolios',
+          label: 'Staff Portfolios',
+          icon: 'fas fa-id-card',
+          route: '/setup/tpd/portfolios',
+          description: 'Career pathing and promotion readiness'
         }
       ]
     }

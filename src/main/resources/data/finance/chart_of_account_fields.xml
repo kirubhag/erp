@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-fields type="CHART_OF_ACCOUNT">
+    <field name="id" label="ID" type="number" readOnly="true" hidden="true"/>
+    <field name="code" label="Account Code" type="text" required="true" searchable="true"/>
+    <field name="name" label="Account Name" type="text" required="true" searchable="true"/>
+    <field name="type" label="Account Type" type="select" required="true">
+        <option value="ASSET" label="Asset"/>
+        <option value="LIABILITY" label="Liability"/>
+        <option value="EQUITY" label="Equity"/>
+        <option value="REVENUE" label="Revenue"/>
+        <option value="EXPENSE" label="Expense"/>
+    </field>
+    <field name="parentAccount" label="Parent Account" type="relation" relationType="MANY_TO_ONE" relatedEntity="CHART_OF_ACCOUNT"/>
+    <field name="isActive" label="Is Active" type="boolean" defaultValue="true"/>
+    <field name="createdAt" label="Created At" type="datetime" readOnly="true"/>
+    <field name="updatedAt" label="Updated At" type="datetime" readOnly="true"/>
+</entity-fields>
