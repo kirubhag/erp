@@ -65,7 +65,7 @@
                                 <button class="btn btn-sm btn-outline-primary me-2" (click)="openModal(reg)">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-danger" (click)="deleteRegistration(reg.id)">
+                                <button class="btn btn-sm btn-outline-danger" (click)="reg.id && deleteRegistration(reg.id)">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>

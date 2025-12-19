@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AdmissionService, AdmissionCycle, AdmissionSeatAllocation } from '../../services/admission.service';
+import { AdmissionService, AdmissionCycle, AdmissionSeatAllocation } from '../../../services/admission.service';
 
 @Component({
     selector: 'app-admission-cycle',
@@ -20,7 +20,7 @@ export class AdmissionCycleComponent implements OnInit {
     };
 
     gradeLevels = ['GRADE_1', 'GRADE_2', 'GRADE_3', 'GRADE_4', 'GRADE_5']; // Sample grades
-    selectedCycleId: number | null = null;
+    selectedCycleId: number | undefined = undefined;
     newAllocation: AdmissionSeatAllocation = {
         admissionCycleId: 0,
         gradeLevel: 'GRADE_1',

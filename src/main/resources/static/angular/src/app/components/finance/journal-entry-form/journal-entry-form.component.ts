@@ -22,7 +22,7 @@ export class JournalEntryFormComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private http: HttpClient,
-        private router: Router,
+        public router: Router,
         private route: ActivatedRoute
     ) {
         this.entryForm = this.fb.group({

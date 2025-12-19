@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { EntityListComponent } from '../shared/entity-list/entity-list.component';
+import { EntityListComponent } from '../entity-list/entity-list.component';
 
 export const DOCUMENT_ROUTES: Routes = [
   {
