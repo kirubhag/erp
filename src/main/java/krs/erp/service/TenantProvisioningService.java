@@ -55,6 +55,14 @@ public class TenantProvisioningService {
         JdbcTemplate tenantJdbc = new JdbcTemplate(tenantDataSource);
 
         try {
+            // Check if system data already exists to prevent duplicates
+            Integer existingCount = tenantJdbc.queryForObject(
+                "SELECT COUNT(*) FROM erp_entities", Integer.class);
+            if (existingCount != null && existingCount > 0) {
+                System.out.println("System data already exists in tenant DB: " + dbName + " (found " + existingCount + " entities). Skipping copy.");
+                return;
+            }
+
             System.out.println("Starting system data copy for tenant: " + dbName);
 
             // 1. Copy ERP Entities

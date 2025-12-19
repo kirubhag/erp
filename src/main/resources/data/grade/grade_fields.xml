@@ -25,6 +25,18 @@
         <fieldDescription>Reference to student</fieldDescription>
     </field>
     <field>
+        <fieldName>studentCode</fieldName>
+        <fieldLabel>Student Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique Student ID Code (e.g. KGSTU001)</fieldDescription>
+    </field>
+    <field>
         <fieldName>studentName</fieldName>
         <fieldLabel>Student Name</fieldLabel>
         <fieldType>STRING</fieldType>

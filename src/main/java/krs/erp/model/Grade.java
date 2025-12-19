@@ -3,6 +3,8 @@ package krs.erp.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
@@ -25,20 +27,24 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "erp_grade")
 @AttributeOverride(name = "id", column = @Column(name = "grade_id"))
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Grade extends BaseEntity {
 
     @NotNull(message = "Student is required")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Student student;
 
     @NotNull(message = "Subject is required")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Subject subject;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Staff teacher;
 
     @NotBlank(message = "Exam type is required")

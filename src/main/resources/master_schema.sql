@@ -1359,6 +1359,224 @@ auto_promote_students BOOLEAN DEFAULT false,
     FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE
 ) COMMENT='Academic settings for attendance, exams, and promotion rules';
 
+-- =============================================================================
+-- Student Promotion Tables
+-- =============================================================================
+
+-- Student Promotion Batch Table
+CREATE TABLE IF NOT EXISTS student_promotion_batch (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    batch_name VARCHAR(255) NOT NULL,
+    from_academic_year VARCHAR(50) NOT NULL,
+    to_academic_year VARCHAR(50) NOT NULL,
+    from_grade_level VARCHAR(50) NOT NULL,
+    to_grade_level VARCHAR(50) NOT NULL,
+    promotion_date DATE NOT NULL,
+    status VARCHAR(50) DEFAULT 'PENDING',
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    organization_id BIGINT,
+    is_active BOOLEAN DEFAULT true,
+    INDEX idx_org_year (organization_id, from_academic_year),
+    INDEX idx_status (status)
+) COMMENT = 'Student promotion batches';
+
+-- Student Promotion Record Table
+CREATE TABLE IF NOT EXISTS student_promotion_record (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    batch_id BIGINT NOT NULL,
+    student_id BIGINT NOT NULL,
+    from_class_id BIGINT,
+    to_class_id BIGINT,
+    promotion_status VARCHAR(50) DEFAULT 'PENDING',
+    remarks TEXT,
+    promoted_by VARCHAR(100),
+    promoted_time DATETIME,
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (batch_id) REFERENCES student_promotion_batch (id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
+    INDEX idx_batch (batch_id),
+    INDEX idx_student (student_id),
+    INDEX idx_status (promotion_status)
+) COMMENT = 'Individual student promotion records';
+
+-- Student Promotion Audit Log Table
+CREATE TABLE IF NOT EXISTS student_promotion_audit_log (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    promotion_record_id BIGINT NOT NULL,
+    action VARCHAR(100) NOT NULL,
+    action_by VARCHAR(100) NOT NULL,
+    action_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    old_value TEXT,
+    new_value TEXT,
+    remarks TEXT,
+    FOREIGN KEY (promotion_record_id) REFERENCES student_promotion_record (id) ON DELETE CASCADE,
+    INDEX idx_record (promotion_record_id),
+    INDEX idx_time (action_time)
+) COMMENT = 'Audit log for promotion changes';
+
+-- =============================================================================
+-- Courses and Exams Tables
+-- =============================================================================
+
+-- Courses Table
+CREATE TABLE IF NOT EXISTS courses (
+    course_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    course_code VARCHAR(50) NOT NULL UNIQUE,
+    course_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    credits INT,
+    duration_weeks INT,
+    department VARCHAR(100),
+    level VARCHAR(50),
+    prerequisites TEXT,
+    organization_id BIGINT,
+    owner_id BIGINT,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT true,
+    INDEX idx_code (course_code),
+    INDEX idx_org (organization_id)
+) COMMENT = 'Course catalog';
+
+-- Exams Table
+CREATE TABLE IF NOT EXISTS exams (
+    exam_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    exam_name VARCHAR(255) NOT NULL,
+    exam_code VARCHAR(50),
+    exam_type VARCHAR(50),
+    exam_date DATE,
+    start_time TIME,
+    end_time TIME,
+    duration_minutes INT,
+    total_marks DECIMAL(10,2),
+    passing_marks DECIMAL(10,2),
+    subject_id BIGINT,
+    class_id BIGINT,
+    academic_year VARCHAR(50),
+    semester VARCHAR(50),
+    instructions TEXT,
+    organization_id BIGINT,
+    owner_id BIGINT,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT true,
+    INDEX idx_date (exam_date),
+    INDEX idx_subject (subject_id),
+    INDEX idx_class (class_id),
+    INDEX idx_org (organization_id)
+) COMMENT = 'Exam schedule and details';
+
+-- =============================================================================
+-- Subscription and Payment Tables
+-- =============================================================================
+
+-- Pricing Plans Table
+CREATE TABLE IF NOT EXISTS pricing_plans (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    plan_name VARCHAR(50) NOT NULL UNIQUE,
+    plan_type VARCHAR(20) NOT NULL COMMENT 'FREE, BASIC, STANDARD, PREMIUM',
+    display_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price_monthly DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    price_yearly DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    max_users INT DEFAULT NULL COMMENT 'NULL means unlimited',
+    max_storage_gb INT DEFAULT NULL COMMENT 'NULL means unlimited',
+    features JSON COMMENT 'List of features included in this plan',
+    is_active BOOLEAN DEFAULT TRUE,
+    is_trial_eligible BOOLEAN DEFAULT FALSE,
+    trial_days INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_plan_type (plan_type),
+    INDEX idx_is_active (is_active)
+) COMMENT='Master table for pricing plans';
+
+-- User Subscriptions Table
+CREATE TABLE IF NOT EXISTS user_subscriptions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    organization_id BIGINT NOT NULL,
+    plan_id BIGINT NOT NULL,
+    subscription_status VARCHAR(20) NOT NULL COMMENT 'ACTIVE, TRIAL, EXPIRED, CANCELLED, SUSPENDED',
+    billing_cycle VARCHAR(20) COMMENT 'MONTHLY, YEARLY, LIFETIME',
+    trial_start_date DATE,
+    trial_end_date DATE,
+    subscription_start_date DATE NOT NULL,
+    subscription_end_date DATE,
+    next_billing_date DATE,
+    is_auto_renew BOOLEAN DEFAULT TRUE,
+    payment_status VARCHAR(20) COMMENT 'PENDING, PAID, FAILED, REFUNDED',
+    amount_paid DECIMAL(10, 2) DEFAULT 0.00,
+    currency VARCHAR(3) DEFAULT 'USD',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_by BIGINT,
+    updated_by BIGINT,
+    FOREIGN KEY (plan_id) REFERENCES pricing_plans(id),
+    INDEX idx_user_id (user_id),
+    INDEX idx_organization_id (organization_id),
+    INDEX idx_subscription_status (subscription_status),
+    INDEX idx_trial_end_date (trial_end_date),
+    INDEX idx_next_billing_date (next_billing_date)
+) COMMENT='User subscription records';
+
+-- Payment Transactions Table
+CREATE TABLE IF NOT EXISTS payment_transactions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    subscription_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    organization_id BIGINT NOT NULL,
+    transaction_id VARCHAR(100) UNIQUE NOT NULL COMMENT 'External payment gateway transaction ID',
+    transaction_type VARCHAR(20) NOT NULL COMMENT 'SUBSCRIPTION, UPGRADE, DOWNGRADE, REFUND',
+    payment_method VARCHAR(50) COMMENT 'CREDIT_CARD, DEBIT_CARD, PAYPAL, STRIPE, etc',
+    amount DECIMAL(10, 2) NOT NULL,
+    currency VARCHAR(3) DEFAULT 'USD',
+    transaction_status VARCHAR(20) NOT NULL COMMENT 'PENDING, SUCCESS, FAILED, CANCELLED, REFUNDED',
+    payment_gateway VARCHAR(50) COMMENT 'STRIPE, PAYPAL, RAZORPAY, etc',
+    gateway_response JSON COMMENT 'Full response from payment gateway',
+    error_message TEXT,
+    transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    processed_at TIMESTAMP NULL,
+    refunded_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (subscription_id) REFERENCES user_subscriptions(id) ON DELETE CASCADE,
+    INDEX idx_subscription_id (subscription_id),
+    INDEX idx_transaction_status (transaction_status),
+    INDEX idx_transaction_date (transaction_date),
+    INDEX idx_user_id (user_id)
+) COMMENT='Payment transaction records';
+
+-- Subscription History Table
+CREATE TABLE IF NOT EXISTS subscription_history (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    subscription_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    organization_id BIGINT NOT NULL,
+    previous_plan_id BIGINT,
+    new_plan_id BIGINT NOT NULL,
+    change_type VARCHAR(20) NOT NULL COMMENT 'UPGRADE, DOWNGRADE, TRIAL_START, TRIAL_END, CANCELLATION, RENEWAL',
+    change_reason TEXT,
+    effective_date DATE NOT NULL,
+    changed_by BIGINT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (subscription_id) REFERENCES user_subscriptions(id) ON DELETE CASCADE,
+    FOREIGN KEY (previous_plan_id) REFERENCES pricing_plans(id),
+    FOREIGN KEY (new_plan_id) REFERENCES pricing_plans(id),
+    INDEX idx_subscription_id (subscription_id),
+    INDEX idx_user_id (user_id),
+    INDEX idx_change_type (change_type),
+    INDEX idx_effective_date (effective_date)
+) COMMENT='Subscription change history for auditing';
+
 -- ============================================================================
 -- Data Population Note
 -- ============================================================================

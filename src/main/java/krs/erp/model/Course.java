@@ -1,5 +1,7 @@
 package krs.erp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,6 +13,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "courses")
 @AttributeOverride(name = "id", column = @Column(name = "course_id"))
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Course extends BaseEntity {
 
     @NotBlank(message = "Course name is required")

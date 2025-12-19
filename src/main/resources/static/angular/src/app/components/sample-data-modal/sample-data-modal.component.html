@@ -166,12 +166,22 @@
       </button>
       <button
         type="button"
+        class="btn btn-success"
+        (click)="populateAllData()"
+        [disabled]="loading || populating"
+      >
+        <i class="fas fa-spinner fa-spin me-2" *ngIf="populating"></i>
+        <i class="fas fa-magic me-2" *ngIf="!populating"></i>
+        {{populating ? 'Populating...' : 'Load All Data'}}
+      </button>
+      <button
+        type="button"
         class="btn btn-primary"
         (click)="populateSelectedData()"
         [disabled]="!isAnySelected() || loading || populating"
       >
         <i class="fas fa-spinner fa-spin me-2" *ngIf="populating"></i>
-        {{populating ? 'Populating...' : 'Load Sample Data'}}
+        {{populating ? 'Populating...' : 'Load Selected'}}
       </button>
     </div>
   </div>

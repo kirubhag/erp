@@ -22,7 +22,12 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
     Optional<Organization> findByCodeAndIsActiveTrue(@Param("code") String code);
     
     /**
-     * Find organization by name
+     * Find organization by name (any status)
+     */
+    Optional<Organization> findByName(String name);
+    
+    /**
+     * Find organization by name (active only)
      */
     @Query("SELECT o FROM Organization o WHERE o.name = :name AND o.isActive = 1")
     Optional<Organization> findByNameAndIsActiveTrue(@Param("name") String name);

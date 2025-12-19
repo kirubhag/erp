@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +16,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "exams")
 @AttributeOverride(name = "id", column = @Column(name = "exam_id"))
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Exam extends BaseEntity {
 
     @NotBlank(message = "Exam name is required")

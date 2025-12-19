@@ -1,5 +1,17 @@
 package krs.erp.service;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import krs.erp.config.multitenant.TenantContext;
 import krs.erp.dto.RegistrationRequest;
 import krs.erp.model.Organization;
@@ -7,15 +19,6 @@ import krs.erp.model.User;
 import krs.erp.model.User.UserType;
 import krs.erp.repository.OrganizationRepository;
 import krs.erp.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.sql.DataSource;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 public class RegistrationService {
@@ -24,6 +27,7 @@ public class RegistrationService {
     private TenantProvisioningService tenantProvisioningService;
 
     @Autowired
+    @Qualifier("masterDataSource")
     private DataSource masterDataSource;
 
     @Autowired
@@ -37,6 +41,11 @@ public class RegistrationService {
     private OrganizationRepository organizationRepository;
 
     public void registerTenant(RegistrationRequest request) {
+        // 0. Check if email already exists in Master DB
+        if (emailExistsInMasterDb(request.getAdminEmail())) {
+            throw new IllegalArgumentException("Email address '" + request.getAdminEmail() + "' is already registered. Please use a different email or login to your existing account.");
+        }
+
         // 1. Generate Tenant ID and DB Name
         // Generate a random Long tenant ID (using current time + random digits)
         Long tenantId = System.currentTimeMillis() + (long) (Math.random() * 100000);
@@ -131,5 +140,12 @@ public class RegistrationService {
         userRepository.save(admin);
 
         return org.getId();
+    }
+
+    private boolean emailExistsInMasterDb(String email) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
+        String sql = "SELECT COUNT(*) FROM IAM_MasterDB.iam_users WHERE email = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
     }
 }

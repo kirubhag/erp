@@ -685,6 +685,66 @@ Summary: ${response.summary}`;
     });
   }
 
+  /**
+   * Populate ALL sample data with correct dependency order.
+   * This uses the backend's /populate-all endpoint which ensures
+   * proper order: Students -> Subjects -> Grades, etc.
+   */
+  populateAllData(): void {
+    this.populating = true;
+    this.populationStarted = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.populationProgress = 0;
+
+    // Select all entities visually
+    this.entities.forEach(entity => {
+      if (!entity.isImported) {
+        entity.isSelected = true;
+      }
+    });
+
+    // Simulate progress updates
+    const progressInterval = setInterval(() => {
+      if (this.populationProgress < 90) {
+        this.populationProgress += Math.random() * 15;
+      }
+    }, 600);
+
+    this.organizationService.populateAllSampleData().subscribe({
+      next: (response) => {
+        clearInterval(progressInterval);
+        this.populationProgress = 100;
+        this.populating = false;
+        this.populationCompleted = true;
+
+        this.successMessage = `Successfully populated ALL sample data!
+        
+Total Entities Processed: ${response.totalEntities}
+Successful Imports: ${response.successfulImports}
+Skipped (Already Imported): ${response.skippedImports}
+Failed: ${response.failedImports}
+
+Summary: ${response.summary}
+
+Note: Data was loaded in correct dependency order (Students → Subjects → Grades, etc.)`;
+
+        // Redirect to dashboard after 3 seconds
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+        }, 3000);
+      },
+      error: (error) => {
+        clearInterval(progressInterval);
+        this.populating = false;
+        this.populationStarted = false;
+        const errorMsg = error.error?.message || error.message || 'Failed to populate sample data';
+        this.errorMessage = errorMsg;
+        console.error('Population error:', error);
+      }
+    });
+  }
+
   skipPopulation(): void {
     // Navigate to dashboard immediately
     this.router.navigate(['/dashboard']);

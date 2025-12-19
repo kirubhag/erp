@@ -16,6 +16,8 @@ import krs.erp.model.academic.AcademicYear;
 @Repository
 public interface AcademicYearRepository extends JpaRepository<AcademicYear, Long> {
     
+    Optional<AcademicYear> findByName(String name);
+    
     List<AcademicYear> findByOrganizationIdOrderByStartDateDesc(Long organizationId);
     
     Optional<AcademicYear> findByOrganizationIdAndIsActive(Long organizationId, Boolean isActive);

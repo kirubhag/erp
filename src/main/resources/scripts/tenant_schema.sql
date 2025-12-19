@@ -768,7 +768,8 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     INDEX idx_entity_type (entity_type),
     INDEX idx_field_name (field_name),
     INDEX idx_section_id (section_id),
-    INDEX idx_is_active (is_active)
+    INDEX idx_is_active (is_active),
+    UNIQUE KEY unique_entity_field (entity_type, field_name)
 );
 
 -- ERP Entity Relations Table (Inter-entity relationships)
@@ -1426,6 +1427,7 @@ CREATE TABLE IF NOT EXISTS courses (
     level VARCHAR(50),
     prerequisites TEXT,
     organization_id BIGINT,
+    owner_id BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -1453,6 +1455,7 @@ CREATE TABLE IF NOT EXISTS exams (
     semester VARCHAR(50),
     instructions TEXT,
     organization_id BIGINT,
+    owner_id BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -1463,21 +1466,6 @@ CREATE TABLE IF NOT EXISTS exams (
     INDEX idx_class (class_id),
     INDEX idx_org (organization_id)
 ) COMMENT = 'Exam schedule and details';
-
--- Grading Scales table
-CREATE TABLE IF NOT EXISTS grading_scales (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    letter_grade VARCHAR(10) NOT NULL,
-    min_percentage DOUBLE NOT NULL,
-    max_percentage DOUBLE NOT NULL,
-    grade_point DOUBLE NOT NULL,
-    organization_id BIGINT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
-    INDEX idx_org_percentage (organization_id, min_percentage)
-) COMMENT = 'Grading scales and grade points for the organization';
 
 -- Pricing Plans Table
 CREATE TABLE IF NOT EXISTS pricing_plans (

@@ -56,6 +56,10 @@ import krs.erp.repository.StudentRepository;
 import krs.erp.repository.SubjectRepository;
 import krs.erp.repository.TimetableRepository;
 import krs.erp.repository.UserRepository;
+import krs.erp.repository.OrganizationRepository;
+import krs.erp.repository.academic.AcademicYearRepository;
+import krs.erp.model.Organization;
+import krs.erp.model.academic.AcademicYear;
 
 @Service
 public class DataImportService {
@@ -114,6 +118,12 @@ public class DataImportService {
 
     @Autowired
     private TimetableRepository timetableRepository;
+
+    @Autowired
+    private OrganizationRepository organizationRepository;
+
+    @Autowired
+    private AcademicYearRepository academicYearRepository;
 
     // Cache for loaded entities
     private final Map<Long, Permission> permissions = new HashMap<>();
@@ -464,9 +474,18 @@ public class DataImportService {
                 Student student = students.get(studentId);
                 if (student == null) {
                     student = studentRepository.findById(studentId).orElse(null);
-                    if (student != null) {
-                        students.put(studentId, student);
+                }
+
+                // Fallback: Try looking up by student code (string ID) if provided
+                if (student == null) {
+                    String studentCode = getElementText(gradeElement, "studentCode");
+                    if (studentCode != null && !studentCode.isEmpty()) {
+                        student = studentRepository.findByStudentId(studentCode).orElse(null);
                     }
+                }
+
+                if (student != null) { // Cache found student
+                    students.put(studentId, student);
                 }
 
                 // Look up Subject entity from cache or repository
@@ -1261,8 +1280,8 @@ public class DataImportService {
             course.setIsActive(1);
             course.setCreatedTime(LocalDateTime.now());
 
-            if (course.getCourseCode() != null && !course.getCourseCode().isEmpty() 
-                && !courseRepository.existsByCourseCode(course.getCourseCode())) {
+            if (course.getCourseCode() != null && !course.getCourseCode().isEmpty()
+                    && !courseRepository.existsByCourseCode(course.getCourseCode())) {
                 courseRepository.save(course);
                 logger.info("Imported course: {}", course.getCourseCode());
             } else {
@@ -1309,7 +1328,7 @@ public class DataImportService {
                 logger.warn("Skipping exam with no name");
                 continue;
             }
-            
+
             exam.setExamName(examName);
             exam.setExamCode(getChildElementText(element, "exam_code"));
             exam.setExamType(getChildElementText(element, "exam_type"));
@@ -1317,17 +1336,17 @@ public class DataImportService {
             exam.setSemester(getChildElementText(element, "semester"));
             exam.setExamDate(parseLocalDate(getChildElementText(element, "exam_date")));
             exam.setInstructions(getChildElementText(element, "instructions"));
-            
+
             String totalMarks = getChildElementText(element, "total_marks");
             if (totalMarks != null && !totalMarks.isEmpty()) {
                 exam.setTotalMarks(new java.math.BigDecimal(totalMarks));
             }
-            
+
             String passingMarks = getChildElementText(element, "passing_marks");
             if (passingMarks != null && !passingMarks.isEmpty()) {
                 exam.setPassingMarks(new java.math.BigDecimal(passingMarks));
             }
-            
+
             String durationMinutes = getChildElementText(element, "duration_minutes");
             if (durationMinutes != null && !durationMinutes.isEmpty()) {
                 exam.setDurationMinutes(Integer.valueOf(durationMinutes));
@@ -1356,5 +1375,126 @@ public class DataImportService {
             return (text != null && !text.trim().isEmpty()) ? text.trim() : null;
         }
         return null;
+    }
+
+    /**
+     * Import organizations from XML file
+     */
+    @Transactional
+    public void importOrganizationsDataFromXml(String filePath) {
+        try {
+            logger.info("Importing organizations from: {}", filePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+            if (inputStream == null) {
+                throw new RuntimeException("XML file not found: " + filePath);
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList orgList = document.getElementsByTagName("organizations");
+            for (int i = 0; i < orgList.getLength(); i++) {
+                Element orgElement = (Element) orgList.item(i);
+                
+                String name = orgElement.getAttribute("name");
+                if (name == null || name.isEmpty()) continue;
+
+                // Check if organization already exists
+                if (organizationRepository.findByName(name).isPresent()) {
+                    logger.info("Skipping existing organization: {}", name);
+                    continue;
+                }
+
+                Organization org = new Organization();
+                org.setName(name);
+                org.setType(orgElement.getAttribute("type"));
+                org.setCode(orgElement.getAttribute("code"));
+                org.setDescription(orgElement.getAttribute("description"));
+                org.setEmail(orgElement.getAttribute("email"));
+                org.setPhone(orgElement.getAttribute("phone"));
+                org.setFax(orgElement.getAttribute("fax"));
+                org.setWebsite(orgElement.getAttribute("website"));
+                org.setStreetAddress(orgElement.getAttribute("street_address"));
+                org.setCity(orgElement.getAttribute("city"));
+                org.setState(orgElement.getAttribute("state"));
+                org.setPostalCode(orgElement.getAttribute("postal_code"));
+                org.setCountry(orgElement.getAttribute("country"));
+                org.setRegistrationNumber(orgElement.getAttribute("registration_number"));
+                org.setTaxId(orgElement.getAttribute("tax_id"));
+                
+                String establishedYear = orgElement.getAttribute("established_year");
+                if (establishedYear != null && !establishedYear.isEmpty()) {
+                    org.setEstablishedYear(Integer.parseInt(establishedYear));
+                }
+                
+                org.setIsActive("1".equals(orgElement.getAttribute("is_active")));
+                org.setCreatedTime(LocalDateTime.now());
+
+                organizationRepository.save(org);
+                logger.info("Imported organization: {}", name);
+            }
+        } catch (Exception e) {
+            logger.error("Error importing organizations from XML", e);
+            throw new RuntimeException("Failed to import organizations: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Import academic years from XML file
+     */
+    @Transactional
+    public void importAcademicYearsDataFromXml(String filePath) {
+        try {
+            logger.info("Importing academic years from: {}", filePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+            if (inputStream == null) {
+                throw new RuntimeException("XML file not found: " + filePath);
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList yearList = document.getElementsByTagName("academicYear");
+            for (int i = 0; i < yearList.getLength(); i++) {
+                Element yearElement = (Element) yearList.item(i);
+                
+                String name = getChildElementText(yearElement, "name");
+                if (name == null || name.isEmpty()) continue;
+
+                // Check if academic year already exists
+                if (academicYearRepository.findByName(name).isPresent()) {
+                    logger.info("Skipping existing academic year: {}", name);
+                    continue;
+                }
+
+                AcademicYear academicYear = new AcademicYear();
+                academicYear.setName(name);
+                
+                String startDateStr = getChildElementText(yearElement, "startDate");
+                if (startDateStr != null) {
+                    academicYear.setStartDate(LocalDate.parse(startDateStr));
+                }
+                
+                String endDateStr = getChildElementText(yearElement, "endDate");
+                if (endDateStr != null) {
+                    academicYear.setEndDate(LocalDate.parse(endDateStr));
+                }
+                
+                String isActive = getChildElementText(yearElement, "isActive");
+                academicYear.setIsActive("true".equalsIgnoreCase(isActive));
+                
+                academicYear.setCreatedTime(LocalDateTime.now());
+
+                academicYearRepository.save(academicYear);
+                logger.info("Imported academic year: {}", name);
+            }
+        } catch (Exception e) {
+            logger.error("Error importing academic years from XML", e);
+            throw new RuntimeException("Failed to import academic years: " + e.getMessage(), e);
+        }
     }
 }

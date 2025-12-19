@@ -115,8 +115,8 @@ export class EntityManagementComponent implements OnInit {
     ],
     assignments: [
       { key: 'id', label: 'ID', type: 'text' },
-      { key: 'student', label: 'Student', type: 'text', sortable: true },
-      { key: 'subject', label: 'Subject', type: 'text', sortable: true },
+      { key: 'studentName', label: 'Student', type: 'text', sortable: true },
+      { key: 'subjectName', label: 'Subject', type: 'text', sortable: true },
       { key: 'examType', label: 'Exam Type', type: 'text', sortable: true },
       { key: 'marksObtained', label: 'Marks', type: 'number', sortable: true },
       { key: 'totalMarks', label: 'Total', type: 'number' },
@@ -125,8 +125,8 @@ export class EntityManagementComponent implements OnInit {
     ],
     grades: [
       { key: 'id', label: 'ID', type: 'text' },
-      { key: 'student', label: 'Student', type: 'text', sortable: true },
-      { key: 'subject', label: 'Subject', type: 'text', sortable: true },
+      { key: 'studentName', label: 'Student', type: 'text', sortable: true },
+      { key: 'subjectName', label: 'Subject', type: 'text', sortable: true },
       { key: 'examType', label: 'Exam Type', type: 'text', sortable: true },
       { key: 'marksObtained', label: 'Marks', type: 'number', sortable: true },
       { key: 'totalMarks', label: 'Total', type: 'number' },

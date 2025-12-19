@@ -2,6 +2,8 @@ package krs.erp.model;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Entity;
@@ -12,6 +14,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "subjects")
 @AttributeOverride(name = "id", column = @Column(name = "subject_id"))
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Subject extends BaseEntity {
 
     @NotBlank(message = "Subject code is required")

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -24,6 +26,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "staff")
 @AttributeOverride(name = "id", column = @Column(name = "staff_id"))
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Staff extends BaseEntity {
     
     @NotBlank(message = "First name is required")

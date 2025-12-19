@@ -175,6 +175,25 @@ export class OrganizationService {
   }
 
   /**
+   * Populate ALL sample data with correct dependency order.
+   * This is the recommended method for the "Add Sample Data" button.
+   * The backend handles the correct order: Students -> Subjects -> Grades, etc.
+   */
+  populateAllSampleData(): Observable<SampleDataPopulationResponse> {
+    return this.http.post<SampleDataPopulationResponse>(
+      `${this.apiUrl}/api/v1/sample-data/populate-all`,
+      {}
+    );
+  }
+
+  /**
+   * Get available sample data entities with recommended order
+   */
+  getAvailableEntities(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/api/v1/sample-data/available-entities`);
+  }
+
+  /**
    * Get import history for an entity
    */
   getEntityImportHistory(entityName: string): Observable<ImportHistory[]> {
