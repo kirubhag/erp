@@ -122,7 +122,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
             // Check if permissions already exist
             // Integer count = masterJdbcTemplate.queryForObject(
-            // "SELECT COUNT(*) FROM IAM_MasterDB.permissions", Integer.class);
+            // "SELECT COUNT(*) FROM permissions", Integer.class);
 
             // if (count != null && count > 0) {
             // logger.info("Permissions already exist in IAM_MasterDB ({}). Skipping.",
@@ -157,7 +157,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 String createdTime = permElement.getAttribute("created_time");
 
                 masterJdbcTemplate.update(
-                        "INSERT INTO IAM_MasterDB.permissions (name, description, resource, action, system_permission, created_time, modified_time) "
+                        "INSERT INTO permissions (name, description, resource, action, system_permission, created_time, modified_time) "
                                 +
                                 "VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE modified_time = ?",
                         name, description, resource_name, action, systemPermission,
@@ -183,7 +183,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
             // Check if roles already exist
             // Integer count = masterJdbcTemplate.queryForObject(
-            // "SELECT COUNT(*) FROM IAM_MasterDB.roles", Integer.class);
+            // "SELECT COUNT(*) FROM roles", Integer.class);
 
             // if (count != null && count > 0) {
             // logger.info("Roles already exist in IAM_MasterDB ({}). Skipping.", count);
@@ -215,7 +215,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 String createdTime = roleElement.getAttribute("created_time");
 
                 masterJdbcTemplate.update(
-                        "INSERT INTO IAM_MasterDB.roles (name, description, system_role, created_time, modified_time) "
+                        "INSERT INTO roles (name, description, system_role, created_time, modified_time) "
                                 +
                                 "VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE modified_time = ?",
                         name, description, systemRole,
@@ -241,7 +241,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
             // Check if mappings already exist
             // Integer count = masterJdbcTemplate.queryForObject(
-            // "SELECT COUNT(*) FROM IAM_MasterDB.role_permissions", Integer.class);
+            // "SELECT COUNT(*) FROM role_permissions", Integer.class);
 
             // if (count != null && count > 0) {
             // logger.info("Role-permission mappings already exist in IAM_MasterDB ({}).
@@ -275,7 +275,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         permissionIdStr != null && !permissionIdStr.isEmpty()) {
 
                     masterJdbcTemplate.update(
-                            "INSERT IGNORE INTO IAM_MasterDB.role_permissions (role_id, permission_id) VALUES (?, ?)",
+                            "INSERT IGNORE INTO role_permissions (role_id, permission_id) VALUES (?, ?)",
                             Long.parseLong(roleIdStr), Long.parseLong(permissionIdStr));
                     loaded++;
                 }
@@ -297,7 +297,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
             // Check if sections already exist
             // Integer count = masterJdbcTemplate.queryForObject(
-            // "SELECT COUNT(*) FROM IAM_MasterDB.erp_sections", Integer.class);
+            // "SELECT COUNT(*) FROM erp_sections", Integer.class);
 
             // if (count != null && count > 0) {
             // logger.info("ERP sections already exist in IAM_MasterDB ({}). Skipping.",
@@ -338,7 +338,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                     String description = getElementText(sectionElement, "description", null);
 
                     masterJdbcTemplate.update(
-                            "INSERT INTO IAM_MasterDB.erp_sections " +
+                            "INSERT INTO erp_sections " +
                                     "(entity_type, section_name, section_label, layout_type, display_order, " +
                                     "is_collapsible, is_collapsed_by_default, show_in_create, show_in_edit, show_in_detail, "
                                     +
@@ -380,7 +380,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
             // Check if fields already exist
             // Integer count = masterJdbcTemplate.queryForObject(
-            // "SELECT COUNT(*) FROM IAM_MasterDB.erp_fields", Integer.class);
+            // "SELECT COUNT(*) FROM erp_fields", Integer.class);
 
             // if (count != null && count > 0) {
             // logger.info("ERP fields already exist in IAM_MasterDB ({}). Skipping.",
@@ -437,7 +437,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         if (sectionName != null && !sectionName.isEmpty()) {
                             try {
                                 sectionId = masterJdbcTemplate.queryForObject(
-                                        "SELECT erp_section_id FROM IAM_MasterDB.erp_sections WHERE entity_type = ? AND section_name = ?",
+                                        "SELECT erp_section_id FROM erp_sections WHERE entity_type = ? AND section_name = ?",
                                         Long.class, entityType, sectionName);
                             } catch (Exception e) {
                                 logger.warn(
@@ -447,7 +447,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         }
 
                         masterJdbcTemplate.update(
-                                "INSERT INTO IAM_MasterDB.erp_fields " +
+                                "INSERT INTO erp_fields " +
                                         "(entity_type, field_name, field_label, field_type, section_id, display_order, "
                                         +
                                         "is_required, is_searchable, is_sortable, show_in_list, show_in_form, " +
@@ -503,7 +503,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
             // Check if entities already exist
             // Integer count = masterJdbcTemplate.queryForObject(
-            // "SELECT COUNT(*) FROM IAM_MasterDB.erp_entities", Integer.class);
+            // "SELECT COUNT(*) FROM erp_entities", Integer.class);
 
             // if (count != null && count > 0) {
             // logger.info("ERP entities already exist in IAM_MasterDB ({}). Skipping.",
@@ -545,7 +545,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 Boolean isActive = getElementBoolean(entityElement, "is_active", true);
 
                 masterJdbcTemplate.update(
-                        "INSERT INTO IAM_MasterDB.erp_entities " +
+                        "INSERT INTO erp_entities " +
                                 "(singular_name, plural_name, system_name, description, table_name, pkid, display_column, "
                                 +
                                 "has_rel_table, icon, route, sequence, presence, is_active, created_date, last_modified_date, created_by, last_modified_by) "
@@ -591,7 +591,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
             // Check if relations already exist
             // Integer count = masterJdbcTemplate.queryForObject(
-            // "SELECT COUNT(*) FROM IAM_MasterDB.erp_entity_relations", Integer.class);
+            // "SELECT COUNT(*) FROM erp_entity_relations", Integer.class);
 
             // if (count != null && count > 0) {
             // logger.info("ERP entity relations already exist in IAM_MasterDB ({}).
@@ -632,7 +632,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                 try {
                     parentEntityId = masterJdbcTemplate.queryForObject(
-                            "SELECT erp_entity_id FROM IAM_MasterDB.erp_entities WHERE system_name = ? OR table_name = ?",
+                            "SELECT erp_entity_id FROM erp_entities WHERE system_name = ? OR table_name = ?",
                             Long.class, parentTableName, parentTableName);
                 } catch (Exception e) {
                     logger.warn("Parent entity not found for table: {}. Skipping relation.", parentTableName);
@@ -641,7 +641,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                 try {
                     childEntityId = masterJdbcTemplate.queryForObject(
-                            "SELECT erp_entity_id FROM IAM_MasterDB.erp_entities WHERE system_name = ? OR table_name = ?",
+                            "SELECT erp_entity_id FROM erp_entities WHERE system_name = ? OR table_name = ?",
                             Long.class, childTableName, childTableName);
                 } catch (Exception e) {
                     logger.warn("Child entity not found for table: {}. Skipping relation.", childTableName);
@@ -649,7 +649,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 }
 
                 masterJdbcTemplate.update(
-                        "INSERT INTO IAM_MasterDB.erp_entity_relations " +
+                        "INSERT INTO erp_entity_relations " +
                                 "(parent_entity_id, child_entity_id, relation_type, relation_name, foreign_key_column, "
                                 +
                                 "is_mandatory, cascade_delete, display_order, is_active, created_time, modified_time) "
@@ -751,7 +751,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                 // Check if view already exists
                 Integer existingCount = masterJdbcTemplate.queryForObject(
-                        "SELECT COUNT(*) FROM IAM_MasterDB.custom_views WHERE view_name = ? AND entity_type = ?",
+                        "SELECT COUNT(*) FROM custom_views WHERE view_name = ? AND entity_type = ?",
                         Integer.class, viewName, entityType);
 
                 Long customViewId;
@@ -759,7 +759,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 if (existingCount != null && existingCount > 0) {
                     // Update existing view
                     masterJdbcTemplate.update(
-                            "UPDATE IAM_MasterDB.custom_views " +
+                            "UPDATE custom_views " +
                                     "SET description = ?, is_default = ?, is_public = ?, modified_time = ? " +
                                     "WHERE view_name = ? AND entity_type = ?",
                             description, isDefault, isPublic, LocalDateTime.now(),
@@ -767,17 +767,17 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                     // Get existing view ID
                     customViewId = masterJdbcTemplate.queryForObject(
-                            "SELECT custom_view_id FROM IAM_MasterDB.custom_views WHERE view_name = ? AND entity_type = ?",
+                            "SELECT custom_view_id FROM custom_views WHERE view_name = ? AND entity_type = ?",
                             Long.class, viewName, entityType);
 
                     // Delete existing fields
                     masterJdbcTemplate.update(
-                            "DELETE FROM IAM_MasterDB.custom_view_fields WHERE custom_view_id = ?",
+                            "DELETE FROM custom_view_fields WHERE custom_view_id = ?",
                             customViewId);
                 } else {
                     // Insert new view
                     masterJdbcTemplate.update(
-                            "INSERT INTO IAM_MasterDB.custom_views " +
+                            "INSERT INTO custom_views " +
                                     "(view_name, description, entity_type, is_default, is_public, " +
                                     "created_by, created_time, modified_time, is_active) " +
                                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -795,7 +795,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                     String fieldName = fieldElement.getTextContent().trim();
 
                     masterJdbcTemplate.update(
-                            "INSERT INTO IAM_MasterDB.custom_view_fields (custom_view_id, field_name) VALUES (?, ?)",
+                            "INSERT INTO custom_view_fields (custom_view_id, field_name) VALUES (?, ?)",
                             customViewId, fieldName);
                 }
 

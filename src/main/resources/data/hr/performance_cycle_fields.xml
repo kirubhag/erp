@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>name</name>
+        <label>Cycle Name</label>
+        <type>text</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>startDate</name>
+        <label>Start Date</label>
+        <type>date</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>endDate</name>
+        <label>End Date</label>
+        <type>date</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>status</name>
+        <label>Status</label>
+        <type>select</type>
+        <options>ACTIVE,CLOSED</options>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+</fields>

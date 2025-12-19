@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>basic_info</name>
+        <label>Vendor Information</label>
+        <sequence>1</sequence>
+        <fields>name,contactPerson,tinGstin</fields>
+    </section>
+    <section>
+        <name>contact_info</name>
+        <label>Contact Details</label>
+        <sequence>2</sequence>
+        <fields>email,phone,address</fields>
+    </section>
+</sections>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>po_info</name>
+        <label>Order Information</label>
+        <sequence>1</sequence>
+        <fields>poNumber,vendorId,orderDate,totalAmount,status</fields>
+    </section>
+</sections>

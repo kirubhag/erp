@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="ADMISSION_APPLICATION">
+    <section>
+        <name>Application Details</name>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>applicationNumber</field>
+            <field>status</field>
+            <field>applicationDate</field>
+            <field>gradeApplied</field>
+        </fields>
+    </section>
+    <section>
+        <name>Personal Information</name>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>firstName</field>
+            <field>lastName</field>
+        </fields>
+    </section>
+    <section>
+        <name>Parent Info</name>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>parentName</field>
+        </fields>
+    </section>
+     <section>
+        <name>Education Info</name>
+        <displayOrder>4</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>previousSchool</field>
+        </fields>
+    </section>
+</entitySections>

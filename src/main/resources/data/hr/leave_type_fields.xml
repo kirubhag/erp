@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <fieldName>name</fieldName>
+        <fieldLabel>Leave Name</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>BASIC_INFO</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+    </field>
+    <field>
+        <fieldName>code</fieldName>
+        <fieldLabel>Code</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>BASIC_INFO</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+    </field>
+    <field>
+        <fieldName>daysAllowed</fieldName>
+        <fieldLabel>Days Allowed (Annual)</fieldLabel>
+        <fieldType>NUMBER</fieldType>
+        <fieldCategory>POLICY</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>isCarryForward</fieldName>
+        <fieldLabel>Carry Forward?</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <fieldCategory>POLICY</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+    </field>
+    <field>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXTAREA</fieldType>
+        <fieldCategory>BASIC_INFO</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+    </field>
+</fields>

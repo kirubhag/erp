@@ -51,17 +51,22 @@ public class SampleDataController {
      * 11. Exams (depends on courses/subjects)
      */
     private static final List<String> DEPENDENCY_ORDER = Arrays.asList(
-            "STUDENTS",      // Load all students first
-            "staff",         // Staff data
-            "parents",       // Parent data
-            "subjects",      // Subjects must be loaded before grades
-            "rooms",         // Room data
-            "classes",       // Class data
-            "courses",       // Course data
-            "timetables",    // Timetable data
-            "attendance",    // Attendance data
-            "grades",        // Grades depend on students and subjects
-            "exams"          // Exam data
+            "STUDENTS", // Load all students first
+            "staff", // Staff data
+            "parents", // Parent data
+            "subjects", // Subjects must be loaded before grades
+            "rooms", // Room data
+            "classes", // Class data
+            "courses", // Course data
+            "timetables", // Timetable data
+            "attendance", // Attendance data
+            "grades", // Grades depend on students and subjects
+            "exams", // Exam data
+            "payroll", // Depends on Staff
+            "leaves", // Depends on Staff
+            "performance", // Depends on Staff
+            "inventory", // Depends on Staff
+            "maintenance" // Depends on Staff
     );
 
     /**
@@ -76,10 +81,10 @@ public class SampleDataController {
 
         // Use all entities in dependency order
         List<String> allEntities = new ArrayList<>(DEPENDENCY_ORDER);
-        
+
         Map<String, List<String>> request = new HashMap<>();
         request.put("entityNames", allEntities);
-        
+
         return populateSampleData(request);
     }
 
@@ -91,9 +96,9 @@ public class SampleDataController {
     @GetMapping("/available-entities")
     public ResponseEntity<Map<String, Object>> getAvailableEntities() {
         Map<String, Object> response = new HashMap<>();
-        
+
         List<Map<String, String>> entities = new ArrayList<>();
-        
+
         // Add entity information with descriptions
         entities.add(createEntityInfo("STUDENTS", "All Students (Kindergarten to Grade 12)"));
         entities.add(createEntityInfo("kindergarten", "Kindergarten Students Only"));
@@ -119,10 +124,15 @@ public class SampleDataController {
         entities.add(createEntityInfo("attendance", "Attendance Records"));
         entities.add(createEntityInfo("grades", "Student Grades"));
         entities.add(createEntityInfo("exams", "Exams"));
-        
+        entities.add(createEntityInfo("payroll", "Payroll Data (Generated)"));
+        entities.add(createEntityInfo("leaves", "Leave Management (Types & Balances)"));
+        entities.add(createEntityInfo("performance", "Performance Evaluation (Cycles & Reviews)"));
+        entities.add(createEntityInfo("inventory", "Inventory & Asset Management (Assets, Stock, Vendors)"));
+        entities.add(createEntityInfo("maintenance", "Maintenance & Facility Management (Work Orders, Bookings)"));
+
         response.put("entities", entities);
         response.put("recommendedOrder", DEPENDENCY_ORDER);
-        
+
         return ResponseEntity.ok(response);
     }
 
@@ -212,6 +222,16 @@ public class SampleDataController {
                             dataImportService.importExamsDataFromXml(xmlFilePath);
                         } else if (isAddressEntity(entityName)) {
                             dataImportService.importDataFromXml(xmlFilePath);
+                        } else if (entityName.equalsIgnoreCase("payroll")) {
+                            dataImportService.generatePayrollSampleData();
+                        } else if (entityName.equalsIgnoreCase("leaves")) {
+                            dataImportService.generateLeaveSampleData();
+                        } else if (entityName.equalsIgnoreCase("performance")) {
+                            dataImportService.generatePerformanceSampleData();
+                        } else if (entityName.equalsIgnoreCase("inventory")) {
+                            dataImportService.generateInventorySampleData();
+                        } else if (entityName.equalsIgnoreCase("maintenance")) {
+                            dataImportService.generateMaintenanceSampleData();
                         } else {
                             // For other entities, use the generic import
                             dataImportService.importDataFromXml(xmlFilePath);
@@ -345,7 +365,8 @@ public class SampleDataController {
      */
     private boolean isOrganizationEntity(String entityName) {
         String lowerName = entityName.toLowerCase();
-        return lowerName.equals("organization") || lowerName.equals("organisations") || lowerName.equals("organizations");
+        return lowerName.equals("organization") || lowerName.equals("organisations")
+                || lowerName.equals("organizations");
     }
 
     /**
@@ -353,7 +374,8 @@ public class SampleDataController {
      */
     private boolean isAcademicYearEntity(String entityName) {
         String lowerName = entityName.toLowerCase();
-        return lowerName.equals("academic_year") || lowerName.equals("academic_years") || lowerName.equals("academicyear");
+        return lowerName.equals("academic_year") || lowerName.equals("academic_years")
+                || lowerName.equals("academicyear");
     }
 
     /**
@@ -406,7 +428,8 @@ public class SampleDataController {
 
     /**
      * Reorder the requested entities based on dependency order.
-     * This ensures that entities with dependencies are loaded after their dependencies.
+     * This ensures that entities with dependencies are loaded after their
+     * dependencies.
      * For example, "grades" will always be loaded after "students" and "subjects".
      * 
      * @param requestedEntities The list of entities requested by the user
@@ -415,21 +438,22 @@ public class SampleDataController {
     private List<String> reorderByDependencies(List<String> requestedEntities) {
         // Use LinkedHashSet to maintain insertion order and avoid duplicates
         Set<String> orderedSet = new LinkedHashSet<>();
-        
+
         // Convert requested entities to lowercase for comparison
         Set<String> requestedLower = new LinkedHashSet<>();
         for (String entity : requestedEntities) {
             requestedLower.add(entity.toLowerCase());
         }
-        
-        // Check if grades is requested - if so, ensure students and subjects are loaded first
+
+        // Check if grades is requested - if so, ensure students and subjects are loaded
+        // first
         boolean gradesRequested = requestedLower.contains("grades");
-        
+
         // Add entities in dependency order, but only if they were requested
         // OR if they are required dependencies for requested entities
         for (String dependencyEntity : DEPENDENCY_ORDER) {
             String lowerDep = dependencyEntity.toLowerCase();
-            
+
             // Check if this entity was directly requested
             boolean directlyRequested = false;
             for (String requested : requestedEntities) {
@@ -439,7 +463,7 @@ public class SampleDataController {
                     break;
                 }
             }
-            
+
             // If grades is requested, auto-include STUDENTS and subjects as dependencies
             if (!directlyRequested && gradesRequested) {
                 if (lowerDep.equals("students") || lowerDep.equals("subjects")) {
@@ -448,7 +472,7 @@ public class SampleDataController {
                 }
             }
         }
-        
+
         // Add any remaining entities that weren't in the dependency order
         // (e.g., individual grade files like grade_1, grade_2, etc.)
         for (String entity : requestedEntities) {
@@ -472,7 +496,7 @@ public class SampleDataController {
                 }
             }
         }
-        
+
         return new ArrayList<>(orderedSet);
     }
 }

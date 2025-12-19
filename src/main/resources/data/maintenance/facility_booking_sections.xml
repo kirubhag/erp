@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>booking_info</name>
+        <label>Booking Details</label>
+        <sequence>1</sequence>
+        <fields>facilityId,bookedById,startTime,endTime,purpose,status</fields>
+    </section>
+</sections>

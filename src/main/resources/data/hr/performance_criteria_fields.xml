@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>name</name>
+        <label>Criteria Name</label>
+        <type>text</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>description</name>
+        <label>Description</label>
+        <type>textarea</type>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+</fields>

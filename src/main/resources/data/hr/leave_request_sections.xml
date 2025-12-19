@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <id>1</id>
+        <name>Request Details</name>
+        <codeName>REQUEST_DETAILS</codeName>
+        <sequence>1</sequence>
+    </section>
+    <section>
+        <id>2</id>
+        <name>Status &amp; Approval</name>
+        <codeName>STATUS</codeName>
+        <sequence>2</sequence>
+    </section>
+</sections>

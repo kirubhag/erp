@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>poNumber</name>
+        <label>PO Number</label>
+        <type>text</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>vendorId</name>
+        <label>Vendor</label>
+        <type>entity_select</type>
+        <entity_name>VENDOR</entity_name>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>orderDate</name>
+        <label>Order Date</label>
+        <type>date</type>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>totalAmount</name>
+        <label>Total Amount</label>
+        <type>number</type>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>status</name>
+        <label>Status</label>
+        <type>select</type>
+        <options>DRAFT,ORDERED,RECEIVED,CANCELLED</options>
+        <show_in_list>true</show_in_list>
+        <sequence>5</sequence>
+    </field>
+</fields>

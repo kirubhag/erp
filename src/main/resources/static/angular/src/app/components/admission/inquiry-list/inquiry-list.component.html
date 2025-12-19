@@ -1,0 +1,87 @@
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Admission Inquiries</h2>
+        <button class="btn btn-primary" routerLink="../inquiry-create">
+            <i class="fas fa-plus me-2"></i> New Inquiry
+        </button>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Search Inquiries..." [(ngModel)]="searchTerm"
+                (input)="onSearch()">
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Grade</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Workflow Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let inquiry of filteredInquiries">
+                            <td>
+                                <div>{{ inquiry.firstName }} {{ inquiry.lastName }}</div>
+                                <small class="text-muted">{{ inquiry.source }}</small>
+                            </td>
+                            <td>
+                                <div><i class="fas fa-envelope me-2 text-muted"></i>{{ inquiry.email }}</div>
+                                <div><i class="fas fa-phone me-2 text-muted"></i>{{ inquiry.phone }}</div>
+                            </td>
+                            <td>{{ inquiry.gradeInterested }}</td>
+                            <td>{{ inquiry.inquiryDate }}</td>
+                            <td>
+                                <span class="badge" [ngClass]="{
+                                        'bg-info': inquiry.status === 'NEW',
+                                        'bg-primary': inquiry.status === 'CONTACTED',
+                                        'bg-warning': inquiry.status === 'VISITED',
+                                        'bg-secondary': inquiry.status === 'APPLICATION_FORM_ISSUED',
+                                        'bg-success': inquiry.status === 'APPROVED',
+                                        'bg-danger': inquiry.status === 'REJECTED',
+                                        'bg-dark': inquiry.status === 'CLOSED'
+                                      }">
+                                    {{ inquiry.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <button *ngIf="inquiry.status === 'NEW'" class="btn btn-outline-primary"
+                                        (click)="updateStatus(inquiry.id, 'CONTACTED')" title="Mark Contacted"><i
+                                            class="fas fa-phone"></i></button>
+                                    <button *ngIf="inquiry.status === 'CONTACTED'" class="btn btn-outline-warning"
+                                        (click)="updateStatus(inquiry.id, 'VISITED')" title="Mark Visited"><i
+                                            class="fas fa-walking"></i></button>
+                                    <button *ngIf="['VISITED', 'CONTACTED'].includes(inquiry.status)"
+                                        class="btn btn-outline-secondary"
+                                        (click)="updateStatus(inquiry.id, 'APPLICATION_FORM_ISSUED')"
+                                        title="Issue Form"><i class="fas fa-file-alt"></i></button>
+                                    <button *ngIf="['APPLICATION_FORM_ISSUED', 'VISITED'].includes(inquiry.status)"
+                                        class="btn btn-outline-success" (click)="updateStatus(inquiry.id, 'APPROVED')"
+                                        title="Approve"><i class="fas fa-check"></i></button>
+                                    <button *ngIf="inquiry.status !== 'CLOSED' && inquiry.status !== 'REJECTED'"
+                                        class="btn btn-outline-danger" (click)="updateStatus(inquiry.id, 'REJECTED')"
+                                        title="Reject"><i class="fas fa-times"></i></button>
+                                    <button *ngIf="inquiry.status !== 'CLOSED'" class="btn btn-outline-dark"
+                                        (click)="updateStatus(inquiry.id, 'CLOSED')" title="Close"><i
+                                            class="fas fa-archive"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="filteredInquiries.length === 0 && !isLoading">
+                            <td colspan="6" class="text-center py-4">No inquiries found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

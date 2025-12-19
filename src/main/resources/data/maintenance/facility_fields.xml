@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>name</name>
+        <label>Facility Name</label>
+        <type>text</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>type</name>
+        <label>Type</label>
+        <type>select</type>
+        <options>Lab,Auditorium,Sports Ground,Meeting Room,Other</options>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>capacity</name>
+        <label>Capacity</label>
+        <type>number</type>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>isBookable</name>
+        <label>Bookable</label>
+        <type>boolean</type>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>description</name>
+        <label>Description</label>
+        <type>textarea</type>
+        <sequence>5</sequence>
+    </field>
+</fields>

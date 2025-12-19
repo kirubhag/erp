@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>basic_info</name>
+        <label>Item Information</label>
+        <sequence>1</sequence>
+        <fields>name,code,category,unit</fields>
+    </section>
+    <section>
+        <name>stock_info</name>
+        <label>Stock Control</label>
+        <sequence>2</sequence>
+        <fields>reorderLevel,currentStock</fields>
+    </section>
+</sections>

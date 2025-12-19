@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>staffId</name>
+        <label>Staff</label>
+        <type>entity_select</type>
+        <entity_name>STAFF</entity_name>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>cycleId</name>
+        <label>Cycle</label>
+        <type>entity_select</type>
+        <entity_name>PERFORMANCE_CYCLE</entity_name>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>reviewerId</name>
+        <label>Reviewer</label>
+        <type>entity_select</type>
+        <entity_name>STAFF</entity_name>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>reviewDate</name>
+        <label>Review Date</label>
+        <type>date</type>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>overallRating</name>
+        <label>Overall Rating</label>
+        <type>number</type>
+        <show_in_list>true</show_in_list>
+        <sequence>5</sequence>
+    </field>
+    <field>
+        <name>status</name>
+        <label>Status</label>
+        <type>select</type>
+        <options>DRAFT,SUBMITTED,FINALIZED</options>
+        <show_in_list>true</show_in_list>
+        <sequence>6</sequence>
+    </field>
+    <field>
+        <name>comments</name>
+        <label>General Comments</label>
+        <type>textarea</type>
+        <sequence>7</sequence>
+    </field>
+</fields>

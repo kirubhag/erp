@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="ADMISSION_INQUIRY">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Unique identifier</fieldDescription>
+    </field>
+    <field>
+        <fieldName>firstName</fieldName>
+        <fieldLabel>First Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>First Name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>lastName</fieldName>
+        <fieldLabel>Last Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Personal</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Last Name</fieldDescription>
+    </field>
+    <field>
+        <fieldName>email</fieldName>
+        <fieldLabel>Email</fieldLabel>
+        <fieldType>EMAIL</fieldType>
+        <fieldCategory>Contact</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>180</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Email Address</fieldDescription>
+    </field>
+    <field>
+        <fieldName>phone</fieldName>
+        <fieldLabel>Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <fieldCategory>Contact</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>130</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <fieldDescription>Phone Number</fieldDescription>
+    </field>
+    <field>
+        <fieldName>gradeInterested</fieldName>
+        <fieldLabel>Grade Interested</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <fieldCategory>Academic</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Grade Interested</fieldDescription>
+    </field>
+    <field>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Inquiry Status</fieldDescription>
+    </field>
+    <field>
+        <fieldName>inquiryDate</fieldName>
+        <fieldLabel>Inquiry Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Date of Inquiry</fieldDescription>
+    </field>
+    <field>
+        <fieldName>source</fieldName>
+        <fieldLabel>Source</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <fieldCategory>Generic</fieldCategory>
+        <displayOrder>9</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Source of Inquiry</fieldDescription>
+    </field>
+</entityFields>

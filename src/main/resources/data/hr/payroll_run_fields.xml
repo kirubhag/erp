@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <fieldName>month</fieldName>
+        <fieldLabel>Month</fieldLabel>
+        <fieldType>NUMBER</fieldType>
+        <fieldCategory>RUN_INFO</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSortable>true</isSortable>
+    </field>
+    <field>
+        <fieldName>year</fieldName>
+        <fieldLabel>Year</fieldLabel>
+        <fieldType>NUMBER</fieldType>
+        <fieldCategory>RUN_INFO</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSortable>true</isSortable>
+    </field>
+    <field>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>SELECT</fieldType>
+        <fieldCategory>RUN_INFO</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+        <options>DRAFT,PROCESSED,COMPLETED,CANCELLED</options>
+    </field>
+    <field>
+        <fieldName>totalPayout</fieldName>
+        <fieldLabel>Total Payout</fieldLabel>
+        <fieldType>CURRENCY</fieldType>
+        <fieldCategory>SUMMARY</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <isSortable>true</isSortable>
+    </field>
+</fields>

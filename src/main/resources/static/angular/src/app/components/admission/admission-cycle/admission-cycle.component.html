@@ -1,0 +1,74 @@
+<div class="container-fluid p-4">
+    <h2>Admission Cycles</h2>
+
+    <div class="card mb-4">
+        <div class="card-header">Create New Cycle</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Cycle Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="newCycle.name" placeholder="e.g. 2024 Intake">
+                </div>
+                <div class="col-md-3">
+                    <label>Start Date</label>
+                    <input type="date" class="form-control" [(ngModel)]="newCycle.startDate">
+                </div>
+                <div class="col-md-3">
+                    <label>End Date</label>
+                    <input type="date" class="form-control" [(ngModel)]="newCycle.endDate">
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button class="btn btn-primary" (click)="saveCycle()">Save Cycle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4" *ngIf="cycles.length > 0">
+        <div class="card-header">Existing Cycles</div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of cycles">
+                        <td>{{c.name}}</td>
+                        <td>{{c.startDate}}</td>
+                        <td>{{c.endDate}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-secondary" (click)="selectedCycleId = c.id">Manage
+                                Seats</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card" *ngIf="selectedCycleId">
+        <div class="card-header">Seat Allocation for Selected Cycle</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Grade Level</label>
+                    <select class="form-select" [(ngModel)]="newAllocation.gradeLevel">
+                        <option *ngFor="let g of gradeLevels" [value]="g">{{g}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>Total Seats</label>
+                    <input type="number" class="form-control" [(ngModel)]="newAllocation.totalSeats">
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button class="btn btn-success" (click)="saveAllocation()">Set Capacity</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

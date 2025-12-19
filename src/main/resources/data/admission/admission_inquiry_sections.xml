@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitySections type="ADMISSION_INQUIRY">
+    <section>
+        <name>Personal Information</name>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>firstName</field>
+            <field>lastName</field>
+        </fields>
+    </section>
+    <section>
+        <name>Contact Details</name>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>email</field>
+            <field>phone</field>
+        </fields>
+    </section>
+    <section>
+        <name>Inquiry Details</name>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>gradeInterested</field>
+            <field>status</field>
+            <field>inquiryDate</field>
+            <field>source</field>
+        </fields>
+    </section>
+</entitySections>

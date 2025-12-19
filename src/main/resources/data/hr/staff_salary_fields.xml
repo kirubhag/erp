@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <fieldName>staffId</fieldName>
+        <fieldLabel>Staff ID</fieldLabel>
+        <fieldType>NUMBER</fieldType>
+        <fieldCategory>BASIC_INFO</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+    </field>
+    <field>
+        <fieldName>basicSalary</fieldName>
+        <fieldLabel>Basic Salary</fieldLabel>
+        <fieldType>CURRENCY</fieldType>
+        <fieldCategory>EARNINGS</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+    </field>
+    <field>
+        <fieldName>hra</fieldName>
+        <fieldLabel>HRA</fieldLabel>
+        <fieldType>CURRENCY</fieldType>
+        <fieldCategory>EARNINGS</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+    </field>
+    <field>
+        <fieldName>da</fieldName>
+        <fieldLabel>DA</fieldLabel>
+        <fieldType>CURRENCY</fieldType>
+        <fieldCategory>EARNINGS</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+    </field>
+    <field>
+        <fieldName>specialAllowance</fieldName>
+        <fieldLabel>Special Allowance</fieldLabel>
+        <fieldType>CURRENCY</fieldType>
+        <fieldCategory>EARNINGS</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+    </field>
+    <field>
+        <fieldName>isPfEnabled</fieldName>
+        <fieldLabel>Enable PF Deduction</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <fieldCategory>DEDUCTIONS</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+    </field>
+     <field>
+        <fieldName>pfAccountNumber</fieldName>
+        <fieldLabel>PF Account No</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>DEDUCTIONS</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+    </field>
+    <field>
+        <fieldName>taxDeduction</fieldName>
+        <fieldLabel>TDS (Monthly)</fieldLabel>
+        <fieldType>CURRENCY</fieldType>
+        <fieldCategory>DEDUCTIONS</fieldCategory>
+        <displayOrder>8</displayOrder>
+        <isRequired>false</isRequired>
+    </field>
+    <field>
+        <fieldName>panNumber</fieldName>
+        <fieldLabel>PAN Number</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>DEDUCTIONS</fieldCategory>
+        <displayOrder>9</displayOrder>
+        <isRequired>false</isRequired>
+    </field>
+</fields>

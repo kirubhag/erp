@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>facilityId</name>
+        <label>Facility</label>
+        <type>entity_select</type>
+        <entity_name>FACILITY</entity_name>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>bookedById</name>
+        <label>Booked By</label>
+        <type>entity_select</type>
+        <entity_name>STAFF</entity_name>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>startTime</name>
+        <label>Start Time</label>
+        <type>datetime</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>endTime</name>
+        <label>End Time</label>
+        <type>datetime</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>purpose</name>
+        <label>Purpose</label>
+        <type>text</type>
+        <show_in_list>true</show_in_list>
+        <sequence>5</sequence>
+    </field>
+    <field>
+        <name>status</name>
+        <label>Status</label>
+        <type>select</type>
+        <options>BOOKED,CANCELLED</options>
+        <show_in_list>true</show_in_list>
+        <sequence>6</sequence>
+    </field>
+</fields>

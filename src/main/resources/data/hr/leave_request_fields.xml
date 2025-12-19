@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <fieldName>staffId</fieldName>
+        <fieldLabel>Staff ID</fieldLabel>
+        <fieldType>NUMBER</fieldType>
+        <fieldCategory>REQUEST_DETAILS</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+    </field>
+    <field>
+        <fieldName>leaveTypeId</fieldName>
+        <fieldLabel>Leave Type</fieldLabel>
+        <fieldType>SELECT</fieldType>
+        <fieldCategory>REQUEST_DETAILS</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <options>
+             <!-- Ideally fetched dynamically, but for metadata we assume static or frontend handled -->
+        </options>
+    </field>
+    <field>
+        <fieldName>startDate</fieldName>
+        <fieldLabel>Start Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>REQUEST_DETAILS</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>endDate</fieldName>
+        <fieldLabel>End Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>REQUEST_DETAILS</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>reason</fieldName>
+        <fieldLabel>Reason</fieldLabel>
+        <fieldType>TEXTAREA</fieldType>
+        <fieldCategory>REQUEST_DETAILS</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>STATUS</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isReadOnly>true</isReadOnly>
+    </field>
+    <field>
+        <fieldName>rejectionReason</fieldName>
+        <fieldLabel>Rejection Reason</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>STATUS</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isReadOnly>true</isReadOnly>
+    </field>
+</fields>

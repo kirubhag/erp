@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <fieldName>candidateName</fieldName>
+        <fieldLabel>Candidate Name</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>CANDIDATE_INFO</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+    </field>
+    <field>
+        <fieldName>candidateEmail</fieldName>
+        <fieldLabel>Email</fieldLabel>
+        <fieldType>EMAIL</fieldType>
+        <fieldCategory>CANDIDATE_INFO</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+    </field>
+    <field>
+        <fieldName>candidatePhone</fieldName>
+        <fieldLabel>Phone</fieldLabel>
+        <fieldType>PHONE</fieldType>
+        <fieldCategory>CANDIDATE_INFO</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+    </field>
+    <field>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>SELECT</fieldType>
+        <fieldCategory>APPLICATION_INFO</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <options>NEW,SCREENING,INTERVIEW,OFFER_EXTENDED,HIRED,REJECTED</options>
+    </field>
+    <field>
+        <fieldName>appliedDate</fieldName>
+        <fieldLabel>Date Applied</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>APPLICATION_INFO</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+    </field>
+    <field>
+        <fieldName>resumeUrl</fieldName>
+        <fieldLabel>Resume URL</fieldLabel>
+        <fieldType>URL</fieldType>
+        <fieldCategory>DOCUMENTS</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+    </field>
+    <field>
+        <fieldName>jobPostingId</fieldName>
+        <fieldLabel>Job ID</fieldLabel>
+        <fieldType>NUMBER</fieldType>
+        <fieldCategory>APPLICATION_INFO</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+    </field>
+</fields>

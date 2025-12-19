@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>basic_info</name>
+        <label>Asset Information</label>
+        <sequence>1</sequence>
+        <fields>name,assetTag,serialNumber,type,purchaseDate</fields>
+    </section>
+    <section>
+        <name>status_info</name>
+        <label>Status &amp; Assignment</label>
+        <sequence>2</sequence>
+        <fields>status,location,assignedStaffId</fields>
+    </section>
+</sections>

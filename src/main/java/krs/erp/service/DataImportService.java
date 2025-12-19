@@ -1397,9 +1397,10 @@ public class DataImportService {
             NodeList orgList = document.getElementsByTagName("organizations");
             for (int i = 0; i < orgList.getLength(); i++) {
                 Element orgElement = (Element) orgList.item(i);
-                
+
                 String name = orgElement.getAttribute("name");
-                if (name == null || name.isEmpty()) continue;
+                if (name == null || name.isEmpty())
+                    continue;
 
                 // Check if organization already exists
                 if (organizationRepository.findByName(name).isPresent()) {
@@ -1423,13 +1424,13 @@ public class DataImportService {
                 org.setCountry(orgElement.getAttribute("country"));
                 org.setRegistrationNumber(orgElement.getAttribute("registration_number"));
                 org.setTaxId(orgElement.getAttribute("tax_id"));
-                
+
                 String establishedYear = orgElement.getAttribute("established_year");
                 if (establishedYear != null && !establishedYear.isEmpty()) {
                     org.setEstablishedYear(Integer.parseInt(establishedYear));
                 }
-                
-                org.setIsActive("1".equals(orgElement.getAttribute("is_active")));
+
+                org.setIsActive("1".equals(orgElement.getAttribute("is_active")) ? 1 : 0);
                 org.setCreatedTime(LocalDateTime.now());
 
                 organizationRepository.save(org);
@@ -1461,9 +1462,10 @@ public class DataImportService {
             NodeList yearList = document.getElementsByTagName("academicYear");
             for (int i = 0; i < yearList.getLength(); i++) {
                 Element yearElement = (Element) yearList.item(i);
-                
+
                 String name = getChildElementText(yearElement, "name");
-                if (name == null || name.isEmpty()) continue;
+                if (name == null || name.isEmpty())
+                    continue;
 
                 // Check if academic year already exists
                 if (academicYearRepository.findByName(name).isPresent()) {
@@ -1473,21 +1475,21 @@ public class DataImportService {
 
                 AcademicYear academicYear = new AcademicYear();
                 academicYear.setName(name);
-                
+
                 String startDateStr = getChildElementText(yearElement, "startDate");
                 if (startDateStr != null) {
                     academicYear.setStartDate(LocalDate.parse(startDateStr));
                 }
-                
+
                 String endDateStr = getChildElementText(yearElement, "endDate");
                 if (endDateStr != null) {
                     academicYear.setEndDate(LocalDate.parse(endDateStr));
                 }
-                
+
                 String isActive = getChildElementText(yearElement, "isActive");
                 academicYear.setIsActive("true".equalsIgnoreCase(isActive));
-                
-                academicYear.setCreatedTime(LocalDateTime.now());
+
+                academicYear.setCreatedAt(LocalDateTime.now());
 
                 academicYearRepository.save(academicYear);
                 logger.info("Imported academic year: {}", name);
@@ -1496,5 +1498,368 @@ public class DataImportService {
             logger.error("Error importing academic years from XML", e);
             throw new RuntimeException("Failed to import academic years: " + e.getMessage(), e);
         }
+    }
+
+    @Autowired
+    private krs.erp.service.hr.PayrollService payrollService;
+
+    @Autowired
+    private krs.erp.repository.hr.StaffSalaryRepository staffSalaryRepository;
+
+    @Transactional
+    public void generatePayrollSampleData() {
+        try {
+            logger.info("Starting Payroll Sample Data Generation...");
+
+            // 1. Create Salary Structures for all Active Staff
+            List<Staff> activeStaff = staffRepository.findByEmploymentStatus(Staff.EmploymentStatus.ACTIVE);
+            logger.info("Found {} active staff members", activeStaff.size());
+
+            for (Staff staff : activeStaff) {
+                if (staffSalaryRepository.findByStaffId(staff.getId()).isEmpty()) {
+                    krs.erp.model.hr.StaffSalary salary = new krs.erp.model.hr.StaffSalary();
+                    salary.setStaffId(staff.getId());
+
+                    // Randomize base salary between 30k and 100k
+                    double basic = 30000 + (Math.random() * 70000);
+                    basic = Math.round(basic / 100) * 100; // Round to nearest 100
+
+                    salary.setBasicSalary(basic);
+                    salary.setHra(basic * 0.40); // 40% of Basic
+                    salary.setDa(basic * 0.10); // 10% of Basic
+                    salary.setSpecialAllowance(5000.0);
+
+                    // Enable PF for 70% of staff
+                    boolean enablePf = Math.random() > 0.3;
+                    salary.setIsPfEnabled(enablePf);
+                    if (enablePf) {
+                        salary.setPfAccountNumber("PF" + (10000 + staff.getId()));
+                    }
+
+                    // Random Tax between 1000 and 5000
+                    salary.setTaxDeduction(enablePf ? 1500.0 : 500.0);
+                    salary.setPanNumber("ABCDE" + (1000 + staff.getId()) + "F");
+
+                    staffSalaryRepository.save(salary);
+                }
+            }
+            logger.info("Salary structures created/verified.");
+
+            // 2. Generate Payroll Runs for last 3 months
+            LocalDate today = LocalDate.now();
+            for (int i = 2; i >= 0; i--) {
+                LocalDate date = today.minusMonths(i);
+                int month = date.getMonthValue();
+                int year = date.getYear();
+
+                try {
+                    if (!payrollService.getAllRuns().stream()
+                            .anyMatch(r -> r.getMonth() == month && r.getYear() == year)) {
+                        logger.info("Generating Payroll for {}/{}", month, year);
+                        krs.erp.model.hr.PayrollRun run = payrollService.initiatePayrollRun(month, year);
+                        payrollService.executePayrollRun(run.getId());
+                    }
+                } catch (Exception e) {
+                    logger.warn("Skipping payroll gen for {}/{}: {}", month, year, e.getMessage());
+                }
+            }
+
+            logger.info("Payroll Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating payroll sample data", e);
+            throw new RuntimeException("Failed to generate payroll data", e);
+        }
+    }
+
+    @Autowired
+    private krs.erp.repository.hr.LeaveTypeRepository leaveTypeRepository;
+    @Autowired
+    private krs.erp.repository.hr.LeaveBalanceRepository leaveBalanceRepository;
+
+    @Transactional
+    public void generateLeaveSampleData() {
+        try {
+            logger.info("Starting Leave Sample Data Generation...");
+
+            // 1. Create Leave Types
+            createLeaveType("Sick Leave", "SL", 10, false, "Medical leave for illness");
+            createLeaveType("Casual Leave", "CL", 10, false, "For personal matters");
+            createLeaveType("Privilege Leave", "PL", 15, true, "Earned leave based on service");
+
+            List<krs.erp.model.hr.LeaveType> types = leaveTypeRepository.findAll();
+
+            // 2. Create Balances for all staff
+            List<Staff> staffList = staffRepository.findAll();
+            String academicYear = "2025-2026";
+
+            int balancesCreated = 0;
+            for (Staff staff : staffList) {
+                for (krs.erp.model.hr.LeaveType type : types) {
+                    if (leaveBalanceRepository
+                            .findByStaffIdAndLeaveTypeIdAndAcademicYear(staff.getId(), type.getId(), academicYear)
+                            .isEmpty()) {
+                        krs.erp.model.hr.LeaveBalance balance = new krs.erp.model.hr.LeaveBalance();
+                        balance.setStaffId(staff.getId());
+                        balance.setLeaveTypeId(type.getId());
+                        balance.setAcademicYear(academicYear);
+                        balance.setTotalDays((double) type.getDaysAllowed());
+
+                        // Randomly consume some days for realism
+                        double consumed = Math.random() > 0.5 ? Math.floor(Math.random() * 5) : 0.0;
+                        balance.setConsumedDays(consumed);
+                        balance.setRemainingDays(type.getDaysAllowed() - consumed);
+
+                        leaveBalanceRepository.save(balance);
+                        balancesCreated++;
+                    }
+                }
+            }
+            logger.info("Leave Sample Data Generation Completed. Balances created: {}", balancesCreated);
+
+        } catch (Exception e) {
+            logger.error("Error generating leave sample data", e);
+            throw new RuntimeException("Failed to generate leave data", e);
+        }
+    }
+
+    private void createLeaveType(String name, String code, int days, boolean carry, String desc) {
+        if (leaveTypeRepository.findByCode(code).isEmpty()) {
+            krs.erp.model.hr.LeaveType t = new krs.erp.model.hr.LeaveType();
+            t.setName(name);
+            t.setCode(code);
+            t.setDaysAllowed(days);
+            t.setIsCarryForward(carry);
+            t.setDescription(desc);
+            leaveTypeRepository.save(t);
+        }
+
+    @Autowired
+    private krs.erp.repository.hr.PerformanceCycleRepository performanceCycleRepository;
+    @Autowired
+    private krs.erp.repository.hr.PerformanceCriteriaRepository performanceCriteriaRepository;
+    @Autowired
+    private krs.erp.repository.hr.PerformanceReviewRepository performanceReviewRepository;
+    @Autowired
+    private krs.erp.repository.hr.PerformanceReviewDetailRepository performanceReviewDetailRepository;
+
+    @Transactional
+    public void generatePerformanceSampleData() {
+        try {
+            logger.info("Starting Performance Sample Data Generation...");
+
+            // 1. Create Performance Cycles
+            PerformanceCycle cycle = new PerformanceCycle();
+            cycle.setName("Annual Review 2025");
+            cycle.setStartDate(LocalDate.of(2025, 1, 1));
+            cycle.setEndDate(LocalDate.of(2025, 12, 31));
+            cycle.setStatus(PerformanceCycle.CycleStatus.ACTIVE);
+            performanceCycleRepository.save(cycle);
+
+            // 2. Create Criteria
+            createCriteria("Productivity", "Employee's ability to produce work efficiently.");
+            createCriteria("Quality of Work", "The accuracy and thoroughness of work produced.");
+            createCriteria("Teamwork", "Cooperation and contribution to team goals.");
+            createCriteria("Attendance", "Punctuality and presence at work.");
+
+            List<PerformanceCriteria> criteriaList = performanceCriteriaRepository.findAll();
+            List<Staff> staffList = staffRepository.findAll();
+
+            // 3. Create Sample Reviews for first 5 staff members
+            for (int i = 0; i < Math.min(5, staffList.size()); i++) {
+                Staff staff = staffList.get(i);
+                PerformanceReview review = new PerformanceReview();
+                review.setStaffId(staff.getId());
+                review.setCycleId(cycle.getId());
+                review.setReviewerId(1L); // Admin or Manager
+                review.setReviewDate(LocalDate.now());
+                review.setStatus(PerformanceReview.ReviewStatus.SUBMITTED);
+                review.setComments("Good overall performance during this period.");
+                performanceReviewRepository.save(review);
+
+                double ratingSum = 0;
+                for (PerformanceCriteria criteria : criteriaList) {
+                    PerformanceReviewDetail detail = new PerformanceReviewDetail();
+                    detail.setReviewId(review.getId());
+                    detail.setCriteriaId(criteria.getId());
+                    int rating = 3 + (int) (Math.random() * 3); // Rating 3, 4, or 5
+                    detail.setRating(rating);
+                    detail.setComments("Consistent performance in " + criteria.getName());
+                    performanceReviewDetailRepository.save(detail);
+                    ratingSum += rating;
+                }
+
+                review.setOverallRating(ratingSum / criteriaList.size());
+                performanceReviewRepository.save(review);
+            }
+
+            logger.info("Performance Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating performance sample data", e);
+            throw new RuntimeException("Failed to generate performance data", e);
+        }
+    }
+
+    @Autowired
+    private krs.erp.repository.inventory.AssetRepository assetRepository;
+    @Autowired
+    private krs.erp.repository.inventory.ConsumableRepository consumableRepository;
+    @Autowired
+    private krs.erp.repository.inventory.VendorRepository vendorRepository;
+    @Autowired
+    private krs.erp.repository.inventory.PurchaseOrderRepository purchaseOrderRepository;
+
+    @Transactional
+    public void generateInventorySampleData() {
+        try {
+            logger.info("Starting Inventory Sample Data Generation...");
+
+            // 1. Create Vendors
+            Vendor v1 = createVendor("Global Systems", "John Doe", "john@globalsystems.com", "9876543210", "GST12345");
+            Vendor v2 = createVendor("Elite Furniture", "Jane Smith", "jane@elite.com", "9876543211", "GST54321");
+
+            // 2. Create Assets
+            createAsset("MacBook Air M2", "AST-001", "SN12345", "Electronics", LocalDate.now().minusMonths(6),
+                    Asset.AssetStatus.ASSIGNED, "Lab 1", 1L);
+            createAsset("Dell Latitude 7420", "AST-002", "SN54321", "Electronics", LocalDate.now().minusMonths(2),
+                    Asset.AssetStatus.AVAILABLE, "Storage", null);
+            createAsset("Ergonomic Chair", "AST-003", "SN98765", "Furniture", LocalDate.now().minusYears(1),
+                    Asset.AssetStatus.ASSIGNED, "Office 101", 2L);
+
+            // 3. Create Consumables
+            createConsumable("A4 Paper", "CON-001", "Stationery", "Box", 5, 20);
+            createConsumable("Blue Ink Pen", "CON-002", "Stationery", "Nos", 50, 200);
+            createConsumable("Hand Sanitizer", "CON-003", "Cleaning", "Litre", 10, 50);
+
+            // 4. Create sample Purchase Orders
+            createPO("PO-2025-001", v1.getId(), LocalDate.now().minusDays(10), 150000.0,
+                    PurchaseOrder.POStatus.RECEIVED);
+            createPO("PO-2025-002", v2.getId(), LocalDate.now().minusDays(2), 25000.0, PurchaseOrder.POStatus.ORDERED);
+
+            logger.info("Inventory Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating inventory sample data", e);
+            throw new RuntimeException("Failed to generate inventory data", e);
+        }
+    }
+
+    private Vendor createVendor(String name, String contact, String email, String phone, String gstin) {
+        Vendor v = new Vendor();
+        v.setName(name);
+        v.setContactPerson(contact);
+        v.setEmail(email);
+        v.setPhone(phone);
+        v.setTinGstin(gstin);
+        return vendorRepository.save(v);
+    }
+
+    private void createAsset(String name, String tag, String sn, String type, LocalDate date, Asset.AssetStatus status,
+            String loc, Long staffId) {
+        Asset a = new Asset();
+        a.setName(name);
+        a.setAssetTag(tag);
+        a.setSerialNumber(sn);
+        a.setType(type);
+        a.setPurchaseDate(date);
+        a.setStatus(status);
+        a.setLocation(loc);
+        a.setAssignedStaffId(staffId);
+        assetRepository.save(a);
+    }
+
+    private void createConsumable(String name, String code, String cat, String unit, Integer reorder, Integer stock) {
+        Consumable c = new Consumable();
+        c.setName(code); // Fixed: name should be set to name, code to code
+        c.setName(name);
+        c.setCode(code);
+        c.setCategory(cat);
+        c.setUnit(unit);
+        c.setReorderLevel(reorder);
+        c.setCurrentStock(stock);
+        consumableRepository.save(c);
+    }
+
+    private void createPO(String poNum, Long vendorId, LocalDate date, Double amount, PurchaseOrder.POStatus status) {
+        PurchaseOrder po = new PurchaseOrder();
+        po.setPoNumber(poNum);
+        po.setVendorId(vendorId);
+        po.setOrderDate(date);
+        po.setTotalAmount(amount);
+        po.setStatus(status);
+        purchaseOrderRepository.save(po);
+
+    @Autowired
+    private krs.erp.repository.maintenance.WorkOrderRepository workOrderRepository;
+    @Autowired
+    private krs.erp.repository.maintenance.FacilityRepository facilityRepository;
+    @Autowired
+    private krs.erp.repository.maintenance.FacilityBookingRepository facilityBookingRepository;
+
+    @Transactional
+    public void generateMaintenanceSampleData() {
+        try {
+            logger.info("Starting Maintenance Sample Data Generation...");
+
+            // 1. Create Facilities
+            Facility f1 = createFacility("Main Auditorium", "Auditorium", 500,
+                    "Main building auditorium for large events.");
+            Facility f2 = createFacility("Advanced Physics Lab", "Lab", 40,
+                    "Lab with advanced equipment for research.");
+            Facility f3 = createFacility("Conference Room A", "Meeting Room", 20, "Boardroom for faculty meetings.");
+
+            // 2. Create sample Facilities Bookings
+            createFacilityBooking(f1.getId(), 1L, LocalDateTime.now().plusDays(2).withHour(10).withMinute(0),
+                    LocalDateTime.now().plusDays(2).withHour(13).withMinute(0), "Annual Science Fair");
+            createFacilityBooking(f3.getId(), 2L, LocalDateTime.now().plusDays(1).withHour(14).withMinute(0),
+                    LocalDateTime.now().plusDays(1).withHour(16).withMinute(0), "Departmental Meeting");
+
+            // 3. Create Work Orders
+            createWorkOrder("AC Repair - Room 202", "AC is not cooling, making noise.", "HIGH",
+                    WorkOrder.WorkOrderStatus.ASSIGNED, 3L, null);
+            createWorkOrder("Projector Bulb Replacement", "Projector in Lab 1 bulb is fused.", "MEDIUM",
+                    WorkOrder.WorkOrderStatus.NEW, null, null);
+            createWorkOrder("Water Leakage - Cafeteria", "Major leakage in the kitchen area.", "URGENT",
+                    WorkOrder.WorkOrderStatus.IN_PROGRESS, 4L, null);
+
+            logger.info("Maintenance Sample Data Generation Completed.");
+
+        } catch (Exception e) {
+            logger.error("Error generating maintenance sample data", e);
+            throw new RuntimeException("Failed to generate maintenance data", e);
+        }
+    }
+
+    private Facility createFacility(String name, String type, Integer cap, String desc) {
+        Facility f = new Facility();
+        f.setName(name);
+        f.setType(type);
+        f.setCapacity(cap);
+        f.setDescription(desc);
+        return facilityRepository.save(f);
+    }
+
+    private void createFacilityBooking(Long facilityId, Long staffId, LocalDateTime start, LocalDateTime end,
+            String purpose) {
+        FacilityBooking b = new FacilityBooking();
+        b.setFacilityId(facilityId);
+        b.setBookedById(staffId);
+        b.setStartTime(start);
+        b.setEndTime(end);
+        b.setPurpose(purpose);
+        facilityBookingRepository.save(b);
+    }
+
+    private void createWorkOrder(String title, String desc, String priority, WorkOrder.WorkOrderStatus status,
+            Long technicianId, Long assetId) {
+        WorkOrder wo = new WorkOrder();
+        wo.setTitle(title);
+        wo.setDescription(desc);
+        wo.setPriority(priority);
+        wo.setStatus(status);
+        wo.setAssignedTechnicianId(technicianId);
+        wo.setAssetId(assetId);
+        workOrderRepository.save(wo);
     }
 }

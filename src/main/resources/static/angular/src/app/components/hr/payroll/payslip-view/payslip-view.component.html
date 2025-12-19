@@ -1,0 +1,113 @@
+<div class="container-fluid p-4">
+    <div class="mb-4">
+        <a routerLink="/setup/hr/payroll-runs" class="btn btn-sm btn-outline-secondary mb-2"><i
+                class="fas fa-arrow-left"></i> Back to Runs</a>
+        <h2>Payslips</h2>
+    </div>
+
+    <div class="card mb-4" *ngIf="!selectedPayslip">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Staff Name</th>
+                            <th>Department</th>
+                            <th>Basic</th>
+                            <th>Allowances</th>
+                            <th>Deductions</th>
+                            <th>Net Salary</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of payslips">
+                            <td>{{p.staffName}} ({{p.staffId}})</td>
+                            <td>{{p.department}}</td>
+                            <td>{{p.basicSalary | currency:'INR'}}</td>
+                            <td>{{p.hra + p.da + p.allowances | currency:'INR'}}</td>
+                            <td>{{p.totalDeductions | currency:'INR'}}</td>
+                            <td class="fw-bold">{{p.netSalary | currency:'INR'}}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary" (click)="viewPayslip(p)">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Payslip View -->
+    <div class="card" *ngIf="selectedPayslip">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Payslip for {{selectedPayslip.staffName}}</h5>
+            <div>
+                <button class="btn btn-sm btn-outline-secondary me-2" (click)="selectedPayslip = null">Back to
+                    List</button>
+                <button class="btn btn-sm btn-primary" (click)="printPayslip()"><i class="fas fa-print"></i>
+                    Print</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h6>Employee Details</h6>
+                    <table class="table table-sm table-borderless">
+                        <tr>
+                            <td>ID:</td>
+                            <td>{{selectedPayslip.staffId}}</td>
+                        </tr>
+                        <tr>
+                            <td>Name:</td>
+                            <td>{{selectedPayslip.staffName}}</td>
+                        </tr>
+                        <tr>
+                            <td>Dept:</td>
+                            <td>{{selectedPayslip.department}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6 text-end">
+                    <h3>NET PAY: {{selectedPayslip.netSalary | currency:'INR'}}</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">Earnings</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between"><span>Basic Salary</span>
+                                <span>{{selectedPayslip.basicSalary | currency:'INR'}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between"><span>HRA</span>
+                                <span>{{selectedPayslip.hra | currency:'INR'}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between"><span>DA</span>
+                                <span>{{selectedPayslip.da | currency:'INR'}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between"><span>Other Allowances</span>
+                                <span>{{selectedPayslip.allowances | currency:'INR'}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between fw-bold bg-light"><span>Total
+                                    Earnings</span> <span>{{selectedPayslip.grossSalary | currency:'INR'}}</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-danger text-white">Deductions</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between"><span>Provident Fund (PF)</span>
+                                <span>{{selectedPayslip.pfDeduction | currency:'INR'}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between"><span>Tax (TDS)</span>
+                                <span>{{selectedPayslip.taxDeduction | currency:'INR'}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between"><span>Other</span>
+                                <span>{{selectedPayslip.otherDeductions | currency:'INR'}}</span></li>
+                            <li class="list-group-item d-flex justify-content-between fw-bold bg-light"><span>Total
+                                    Deductions</span> <span>{{selectedPayslip.totalDeductions | currency:'INR'}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

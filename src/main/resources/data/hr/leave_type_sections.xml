@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <id>1</id>
+        <name>Basic Information</name>
+        <codeName>BASIC_INFO</codeName>
+        <sequence>1</sequence>
+    </section>
+    <section>
+        <id>2</id>
+        <name>Policy Configuration</name>
+        <codeName>POLICY</codeName>
+        <sequence>2</sequence>
+    </section>
+</sections>

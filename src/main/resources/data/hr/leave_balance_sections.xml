@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <id>1</id>
+        <name>Balance Information</name>
+        <codeName>BALANCE_INFO</codeName>
+        <sequence>1</sequence>
+    </section>
+    <section>
+        <id>2</id>
+        <name>Quota Tracking</name>
+        <codeName>QUOTA_TRACKING</codeName>
+        <sequence>2</sequence>
+    </section>
+</sections>

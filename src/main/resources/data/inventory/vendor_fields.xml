@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>name</name>
+        <label>Vendor Name</label>
+        <type>text</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>contactPerson</name>
+        <label>Contact Person</label>
+        <type>text</type>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>email</name>
+        <label>Email</label>
+        <type>email</type>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>phone</name>
+        <label>Phone</label>
+        <type>text</type>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>tinGstin</name>
+        <label>TIN / GSTIN</label>
+        <type>text</type>
+        <show_in_list>true</show_in_list>
+        <sequence>5</sequence>
+    </field>
+    <field>
+        <name>address</name>
+        <label>Address</label>
+        <type>textarea</type>
+        <sequence>6</sequence>
+    </field>
+</fields>

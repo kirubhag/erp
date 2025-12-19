@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <sectionName>Run Information</sectionName>
+        <sectionCode>RUN_INFO</sectionCode>
+        <displayOrder>1</displayOrder>
+    </section>
+    <section>
+        <sectionName>Summary</sectionName>
+        <sectionCode>SUMMARY</sectionCode>
+        <displayOrder>2</displayOrder>
+    </section>
+</sections>

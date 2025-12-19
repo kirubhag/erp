@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>review_info</name>
+        <label>Review Summary</label>
+        <sequence>1</sequence>
+        <fields>staffId,cycleId,reviewerId,reviewDate,overallRating,status,comments</fields>
+    </section>
+</sections>

@@ -144,6 +144,36 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'setup/admission',
+    loadChildren: () => import('./components/admission/admission.routes').then(m => m.ADMISSION_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/hr',
+    loadChildren: () => import('./components/hr/hr.routes').then(m => m.HR_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/administrative/:section',
+    loadComponent: () => import('./components/common/under-construction/under-construction.component').then(m => m.UnderConstructionComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/finance/:section',
+    loadComponent: () => import('./components/common/under-construction/under-construction.component').then(m => m.UnderConstructionComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/communication/:section',
+    loadComponent: () => import('./components/common/under-construction/under-construction.component').then(m => m.UnderConstructionComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/resource/:section',
+    loadComponent: () => import('./components/common/under-construction/under-construction.component').then(m => m.UnderConstructionComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'setup/import-history',
     loadComponent: () => import('./components/import-history/import-history.component').then(m => m.ImportHistoryComponent),
     canActivate: [AuthGuard]
@@ -186,6 +216,16 @@ export const routes: Routes = [
   {
     path: 'promotions/:id',
     loadComponent: () => import('./components/promotion-details/promotion-details.component').then(m => m.PromotionDetailsComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/inventory',
+    loadChildren: () => import('./components/inventory/inventory.routes').then(m => m.INVENTORY_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'setup/maintenance',
+    loadChildren: () => import('./components/maintenance/maintenance.routes').then(m => m.MAINTENANCE_ROUTES),
     canActivate: [AuthGuard]
   },
 ];

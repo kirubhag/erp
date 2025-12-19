@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <fieldName>staffId</fieldName>
+        <fieldLabel>Staff ID</fieldLabel>
+        <fieldType>NUMBER</fieldType>
+        <fieldCategory>BALANCE_INFO</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+    </field>
+    <field>
+        <fieldName>leaveTypeId</fieldName>
+        <fieldLabel>Leave Type ID</fieldLabel>
+        <fieldType>NUMBER</fieldType>
+        <fieldCategory>BALANCE_INFO</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>academicYear</fieldName>
+        <fieldLabel>Academic Year</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>BALANCE_INFO</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>totalDays</fieldName>
+        <fieldLabel>Total Quota</fieldLabel>
+        <fieldType>NUMBER</fieldType>
+        <fieldCategory>QUOTA_TRACKING</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>consumedDays</fieldName>
+        <fieldLabel>Consumed</fieldLabel>
+        <fieldType>NUMBER</fieldType>
+        <fieldCategory>QUOTA_TRACKING</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <isRequired>true</isRequired>
+    </field>
+    <field>
+        <fieldName>remainingDays</fieldName>
+        <fieldLabel>Remaining</fieldLabel>
+        <fieldType>NUMBER</fieldType>
+        <fieldCategory>QUOTA_TRACKING</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <isRequired>true</isRequired>
+    </field>
+</fields>

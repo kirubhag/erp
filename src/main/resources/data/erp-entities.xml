@@ -250,4 +250,353 @@
         <display_column>record_date</display_column>
         <has_rel_table>false</has_rel_table>
     </entity>
+    <entity>
+        <id>16</id>
+        <singular_name>Admission Inquiry</singular_name>
+        <plural_name>Admission Inquiries</plural_name>
+        <system_name>ADMISSION_INQUIRY</system_name>
+        <description>Track student admission inquiries</description>
+        <is_active>true</is_active>
+        <sequence>16</sequence>
+        <presence>true</presence>
+        <icon>fas fa-question-circle</icon>
+        <route>#!/setup/admission/inquiry-list</route>
+        <table_name>erp_admission_inquiries</table_name>
+        <pkid>id</pkid>
+        <display_column>first_name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>17</id>
+        <singular_name>Admission Application</singular_name>
+        <plural_name>Admission Applications</plural_name>
+        <system_name>ADMISSION_APPLICATION</system_name>
+        <description>Manage student admission applications</description>
+        <is_active>true</is_active>
+        <sequence>17</sequence>
+        <presence>true</presence>
+        <icon>fas fa-file-contract</icon>
+        <route>#!/setup/admission/application-list</route>
+        <table_name>erp_admission_applications</table_name>
+        <pkid>id</pkid>
+        <display_column>application_number</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>18</id>
+        <singular_name>Job Posting</singular_name>
+        <plural_name>Job Postings</plural_name>
+        <system_name>JOB_POSTING</system_name>
+        <description>Manage job vacancies and descriptions</description>
+        <is_active>true</is_active>
+        <sequence>18</sequence>
+        <presence>true</presence>
+        <icon>fas fa-briefcase</icon>
+        <route>#!/setup/hr/job-postings</route>
+        <table_name>erp_hr_job_postings</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>19</id>
+        <singular_name>Job Application</singular_name>
+        <plural_name>Job Applications</plural_name>
+        <system_name>JOB_APPLICATION</system_name>
+        <description>Track applicant submissions</description>
+        <is_active>true</is_active>
+        <sequence>19</sequence>
+        <presence>true</presence>
+        <icon>fas fa-user-tie</icon>
+        <route>#!/setup/hr/job-applications</route>
+        <table_name>erp_hr_job_applications</table_name>
+        <pkid>id</pkid>
+        <display_column>candidate_name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>20</id>
+        <singular_name>Staff Salary</singular_name>
+        <plural_name>Staff Salaries</plural_name>
+        <system_name>STAFF_SALARY</system_name>
+        <description>Salary configuration for staff</description>
+        <is_active>true</is_active>
+        <sequence>20</sequence>
+        <presence>true</presence>
+        <icon>fas fa-money-bill-wave</icon>
+        <route>#!/setup/hr/salaries</route>
+        <table_name>erp_hr_staff_salaries</table_name>
+        <pkid>id</pkid>
+        <display_column>basic_salary</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>21</id>
+        <singular_name>Payroll Run</singular_name>
+        <plural_name>Payroll Runs</plural_name>
+        <system_name>PAYROLL_RUN</system_name>
+        <description>Monthly payroll batches</description>
+        <is_active>true</is_active>
+        <sequence>21</sequence>
+        <presence>true</presence>
+        <icon>fas fa-sync-alt</icon>
+        <route>#!/setup/hr/payroll-runs</route>
+        <table_name>erp_hr_payroll_runs</table_name>
+        <pkid>id</pkid>
+        <display_column>month</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>22</id>
+        <singular_name>Payslip</singular_name>
+        <plural_name>Payslips</plural_name>
+        <system_name>PAYSLIP</system_name>
+        <description>Generated staff payslips</description>
+        <is_active>true</is_active>
+        <sequence>22</sequence>
+        <presence>false</presence>
+        <icon>fas fa-file-invoice-dollar</icon>
+        <route>#!/setup/hr/payslips</route>
+        <table_name>erp_hr_payslips</table_name>
+        <pkid>id</pkid>
+        <display_column>net_salary</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>30</id>
+        <singular_name>Leave Type</singular_name>
+        <plural_name>Leave Types</plural_name>
+        <system_name>LEAVE_TYPE</system_name>
+        <description>Configure leave policies</description>
+        <is_active>true</is_active>
+        <sequence>23</sequence>
+        <presence>true</presence>
+        <icon>fas fa-cog</icon>
+        <route>#!/setup/hr/leave-types</route>
+        <table_name>erp_hr_leave_types</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>31</id>
+        <singular_name>Leave Request</singular_name>
+        <plural_name>Leave Requests</plural_name>
+        <system_name>LEAVE_REQUEST</system_name>
+        <description>Staff leave applications</description>
+        <is_active>true</is_active>
+        <sequence>24</sequence>
+        <presence>true</presence>
+        <icon>fas fa-calendar-minus</icon>
+        <route>#!/setup/hr/leaves</route>
+        <table_name>erp_hr_leave_requests</table_name>
+        <pkid>id</pkid>
+        <display_column>reason</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>32</id>
+        <singular_name>Leave Balance</singular_name>
+        <plural_name>Leave Balances</plural_name>
+        <system_name>LEAVE_BALANCE</system_name>
+        <description>Track staff leave quotas</description>
+        <is_active>true</is_active>
+        <sequence>25</sequence>
+        <presence>true</presence>
+        <icon>fas fa-chart-pie</icon>
+        <route>#!/setup/hr/leave-balances</route>
+        <table_name>erp_hr_leave_balances</table_name>
+        <pkid>id</pkid>
+        <display_column>remaining_days</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>33</id>
+        <singular_name>Performance Cycle</singular_name>
+        <plural_name>Performance Cycles</plural_name>
+        <system_name>PERFORMANCE_CYCLE</system_name>
+        <description>Define review periods</description>
+        <is_active>true</is_active>
+        <sequence>26</sequence>
+        <presence>true</presence>
+        <icon>fas fa-sync</icon>
+        <route>#!/setup/hr/performance-cycles</route>
+        <table_name>erp_performance_cycles</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    
+    <entity>
+        <id>34</id>
+        <singular_name>Performance Criteria</singular_name>
+        <plural_name>Performance Criteria</plural_name>
+        <system_name>PERFORMANCE_CRITERIA</system_name>
+        <description>Define evaluation metrics</description>
+        <is_active>true</is_active>
+        <sequence>27</sequence>
+        <presence>true</presence>
+        <icon>fas fa-list-check</icon>
+        <route>#!/setup/hr/performance-criteria</route>
+        <table_name>erp_performance_criteria</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>35</id>
+        <singular_name>Performance Review</singular_name>
+        <plural_name>Performance Reviews</plural_name>
+        <system_name>PERFORMANCE_REVIEW</system_name>
+        <description>Staff evaluations</description>
+        <is_active>true</is_active>
+        <sequence>28</sequence>
+        <presence>true</presence>
+        <icon>fas fa-star</icon>
+        <route>#!/setup/hr/performance-reviews</route>
+        <table_name>erp_performance_reviews</table_name>
+        <pkid>id</pkid>
+        <display_column>overall_rating</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>36</id>
+        <singular_name>Performance Review Detail</singular_name>
+        <plural_name>Performance Review Details</plural_name>
+        <system_name>PERFORMANCE_REVIEW_DETAIL</system_name>
+        <description>Ratings per criteria</description>
+        <is_active>true</is_active>
+        <sequence>29</sequence>
+        <presence>false</presence>
+        <icon>fas fa-info-circle</icon>
+        <route>#!/setup/hr/performance-review-details</route>
+        <table_name>erp_performance_review_details</table_name>
+        <pkid>id</pkid>
+        <display_column>rating</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>40</id>
+        <singular_name>Asset</singular_name>
+        <plural_name>Assets</plural_name>
+        <system_name>ASSET</system_name>
+        <description>Track individual institution assets</description>
+        <is_active>true</is_active>
+        <sequence>30</sequence>
+        <presence>true</presence>
+        <icon>fas fa-laptop</icon>
+        <route>#!/setup/inventory/assets</route>
+        <table_name>erp_inventory_assets</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>41</id>
+        <singular_name>Consumable</singular_name>
+        <plural_name>Consumables</plural_name>
+        <system_name>CONSUMABLE</system_name>
+        <description>Manage stock levels of consumables</description>
+        <is_active>true</is_active>
+        <sequence>31</sequence>
+        <presence>true</presence>
+        <icon>fas fa-box-open</icon>
+        <route>#!/setup/inventory/consumables</route>
+        <table_name>erp_inventory_consumables</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>42</id>
+        <singular_name>Vendor</singular_name>
+        <plural_name>Vendors</plural_name>
+        <system_name>VENDOR</system_name>
+        <description>Manage suppliers and vendors</description>
+        <is_active>true</is_active>
+        <sequence>32</sequence>
+        <presence>true</presence>
+        <icon>fas fa-truck</icon>
+        <route>#!/setup/inventory/vendors</route>
+        <table_name>erp_inventory_vendors</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>43</id>
+        <singular_name>Purchase Order</singular_name>
+        <plural_name>Purchase Orders</plural_name>
+        <system_name>PURCHASE_ORDER</system_name>
+        <description>Track procurement orders</description>
+        <is_active>true</is_active>
+        <sequence>33</sequence>
+        <presence>true</presence>
+        <icon>fas fa-shopping-cart</icon>
+        <route>#!/setup/inventory/purchase-orders</route>
+        <table_name>erp_inventory_purchase_orders</table_name>
+        <pkid>id</pkid>
+        <display_column>po_number</display_column>
+        <has_rel_table>false</has_rel_table>
+    <entity>
+        <id>50</id>
+        <singular_name>Work Order</singular_name>
+        <plural_name>Work Orders</plural_name>
+        <system_name>WORK_ORDER</system_name>
+        <description>Track maintenance and repair requests</description>
+        <is_active>true</is_active>
+        <sequence>40</sequence>
+        <presence>true</presence>
+        <icon>fas fa-tools</icon>
+        <route>#!/setup/maintenance/work-orders</route>
+        <table_name>erp_maint_work_orders</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>51</id>
+        <singular_name>Facility</singular_name>
+        <plural_name>Facilities</plural_name>
+        <system_name>FACILITY</system_name>
+        <description>Manage bookable institutional spaces</description>
+        <is_active>true</is_active>
+        <sequence>41</sequence>
+        <presence>true</presence>
+        <icon>fas fa-building</icon>
+        <route>#!/setup/maintenance/facilities</route>
+        <table_name>erp_maint_facilities</table_name>
+        <pkid>id</pkid>
+        <display_column>name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+
+    <entity>
+        <id>52</id>
+        <singular_name>Facility Booking</singular_name>
+        <plural_name>Facility Bookings</plural_name>
+        <system_name>FACILITY_BOOKING</system_name>
+        <description>Track bookings for institutional facilities</description>
+        <is_active>true</is_active>
+        <sequence>42</sequence>
+        <presence>true</presence>
+        <icon>fas fa-calendar-check</icon>
+        <route>#!/setup/maintenance/bookings</route>
+        <table_name>erp_maint_facility_bookings</table_name>
+        <pkid>id</pkid>
+        <display_column>purpose</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
 </entities>

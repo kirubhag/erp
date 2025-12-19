@@ -83,7 +83,7 @@ public class AuthController {
             JdbcTemplate jdbcTemplate = new JdbcTemplate(java.util.Objects.requireNonNull(masterDataSource));
             String sql = "SELECT user_id, username, password_hash, email, first_name, last_name, " +
                     "phone, user_type, enabled, tenant_id, organization_id " +
-                    "FROM IAM_MasterDB.iam_users " +
+                    "FROM iam_users " +
                     "WHERE (username = ? OR email = ?) AND enabled = 1";
 
             String identifier = username != null && !username.isEmpty() ? username : email;

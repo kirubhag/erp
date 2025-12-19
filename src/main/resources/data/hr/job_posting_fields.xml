@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <fieldName>title</fieldName>
+        <fieldLabel>Job Title</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>BASIC_INFO</fieldCategory>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Title of the job position</fieldDescription>
+    </field>
+    <field>
+        <fieldName>department</fieldName>
+        <fieldLabel>Department</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <fieldCategory>BASIC_INFO</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <fieldDescription>Department offering the position</fieldDescription>
+    </field>
+    <field>
+        <fieldName>employmentType</fieldName>
+        <fieldLabel>Employment Type</fieldLabel>
+        <fieldType>SELECT</fieldType>
+        <fieldCategory>BASIC_INFO</fieldCategory>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <options>FULL_TIME,PART_TIME,CONTRACT,TEMPORARY,INTERN</options>
+    </field>
+    <field>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>SELECT</fieldType>
+        <fieldCategory>BASIC_INFO</fieldCategory>
+        <displayOrder>4</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <options>DRAFT,OPEN,CLOSED,ON_HOLD</options>
+    </field>
+    <field>
+        <fieldName>postedDate</fieldName>
+        <fieldLabel>Posted Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>DATES</fieldCategory>
+        <displayOrder>5</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+    </field>
+     <field>
+        <fieldName>closingDate</fieldName>
+        <fieldLabel>Closing Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <fieldCategory>DATES</fieldCategory>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+    </field>
+    <field>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXTAREA</fieldType>
+        <fieldCategory>DETAILS</fieldCategory>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+    </field>
+    <field>
+        <fieldName>requirements</fieldName>
+        <fieldLabel>Requirements</fieldLabel>
+        <fieldType>TEXTAREA</fieldType>
+        <fieldCategory>DETAILS</fieldCategory>
+        <displayOrder>8</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+    </field>
+</fields>

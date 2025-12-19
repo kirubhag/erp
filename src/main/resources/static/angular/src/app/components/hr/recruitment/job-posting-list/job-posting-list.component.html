@@ -1,0 +1,95 @@
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Job Postings</h2>
+        <button class="btn btn-primary" (click)="showCreateModal = true"><i class="fas fa-plus me-2"></i>Post New
+            Job</button>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Title</th>
+                            <th>Department</th>
+                            <th>Type</th>
+                            <th>Posted Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let job of jobs">
+                            <td>
+                                <div class="fw-bold">{{job.title}}</div>
+                                <div class="small text-muted">{{job.description | slice:0:50}}</div>
+                            </td>
+                            <td>{{job.department}}</td>
+                            <td>{{job.employmentType}}</td>
+                            <td>{{job.postedDate}}</td>
+                            <td>
+                                <span class="badge" [ngClass]="{
+                                        'bg-success': job.status === 'OPEN',
+                                        'bg-secondary': job.status === 'DRAFT',
+                                        'bg-danger': job.status === 'CLOSED',
+                                        'bg-warning': job.status === 'ON_HOLD'
+                                      }">
+                                    {{ job.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <button *ngIf="job.status === 'OPEN'" class="btn btn-sm btn-outline-danger"
+                                    (click)="updateStatus(job.id, 'CLOSED')">Close</button>
+                                <button *ngIf="job.status === 'CLOSED'" class="btn btn-sm btn-outline-success"
+                                    (click)="updateStatus(job.id, 'OPEN')">Reopen</button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="jobs.length === 0 && !isLoading">
+                            <td colspan="6" class="text-center py-4">No job postings found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Modal -->
+    <div class="modal fade show d-block" *ngIf="showCreateModal" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Post New Job</h5>
+                    <button type="button" class="btn-close" (click)="showCreateModal = false"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Job Title</label>
+                        <input type="text" class="form-control" [(ngModel)]="newJob.title">
+                    </div>
+                    <div class="mb-3">
+                        <label>Department</label>
+                        <input type="text" class="form-control" [(ngModel)]="newJob.department">
+                    </div>
+                    <div class="mb-3">
+                        <label>Employment Type</label>
+                        <select class="form-select" [(ngModel)]="newJob.employmentType">
+                            <option value="FULL_TIME">Full Time</option>
+                            <option value="PART_TIME">Part Time</option>
+                            <option value="CONTRACT">Contract</option>
+                            <option value="INTERN">Intern</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Description</label>
+                        <textarea class="form-control" rows="3" [(ngModel)]="newJob.description"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" (click)="showCreateModal = false">Cancel</button>
+                    <button class="btn btn-primary" (click)="saveJob()">Post Job</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

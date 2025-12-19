@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>basic_info</name>
+        <label>Basic Information</label>
+        <sequence>1</sequence>
+        <fields>name,startDate,endDate,status</fields>
+    </section>
+</sections>

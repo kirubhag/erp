@@ -47,7 +47,7 @@ public class AccountClosureService {
         String dbName = dbNames.get(0);
 
         // 2. Delete users from IAM_MasterDB
-        String deleteUsersSql = "DELETE FROM IAM_MasterDB.iam_users WHERE tenant_id = ?";
+        String deleteUsersSql = "DELETE FROM iam_users WHERE tenant_id = ?";
         jdbcTemplate.update(deleteUsersSql, tenantId);
 
         // 3. Update erp_tenants status and reason

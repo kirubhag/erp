@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <name>basic_info</name>
+        <label>Work Order Details</label>
+        <sequence>1</sequence>
+        <fields>title,description,priority,status</fields>
+    </section>
+    <section>
+        <name>assignment_info</name>
+        <label>Assignment &amp; Scheduling</label>
+        <sequence>2</sequence>
+        <fields>requestDate,assignedTechnicianId,assetId</fields>
+    </section>
+</sections>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+    <field>
+        <name>name</name>
+        <label>Item Name</label>
+        <type>text</type>
+        <required>true</required>
+        <show_in_list>true</show_in_list>
+        <sequence>1</sequence>
+    </field>
+    <field>
+        <name>code</name>
+        <label>Code</label>
+        <type>text</type>
+        <show_in_list>true</show_in_list>
+        <sequence>2</sequence>
+    </field>
+    <field>
+        <name>category</name>
+        <label>Category</label>
+        <type>select</type>
+        <options>Stationery,Chemicals,Cleaning,Food,Other</options>
+        <show_in_list>true</show_in_list>
+        <sequence>3</sequence>
+    </field>
+    <field>
+        <name>unit</name>
+        <label>Unit</label>
+        <type>text</type>
+        <show_in_list>true</show_in_list>
+        <sequence>4</sequence>
+    </field>
+    <field>
+        <name>reorderLevel</name>
+        <label>Reorder Level</label>
+        <type>number</type>
+        <show_in_list>true</show_in_list>
+        <sequence>5</sequence>
+    </field>
+    <field>
+        <name>currentStock</name>
+        <label>Current Stock</label>
+        <type>number</type>
+        <show_in_list>true</show_in_list>
+        <sequence>6</sequence>
+    </field>
+</fields>

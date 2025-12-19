@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <sectionName>Candidate Information</sectionName>
+        <sectionCode>CANDIDATE_INFO</sectionCode>
+        <displayOrder>1</displayOrder>
+    </section>
+    <section>
+        <sectionName>Application Details</sectionName>
+        <sectionCode>APPLICATION_INFO</sectionCode>
+        <displayOrder>2</displayOrder>
+    </section>
+    <section>
+        <sectionName>Documents</sectionName>
+        <sectionCode>DOCUMENTS</sectionCode>
+        <displayOrder>3</displayOrder>
+    </section>
+</sections>

@@ -1,0 +1,105 @@
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Leave Management</h2>
+        <button class="btn btn-primary" (click)="showApplyModal = true"><i class="fas fa-plus me-2"></i>Apply
+            Leave</button>
+    </div>
+
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link" [class.active]="activeTab === 'my-leaves'" (click)="switchTab('my-leaves')"
+                style="cursor: pointer;">My Leaves</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [class.active]="activeTab === 'pending'" (click)="switchTab('pending')"
+                style="cursor: pointer;">Pending Approvals</a>
+        </li>
+    </ul>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th *ngIf="activeTab === 'pending'">Staff ID</th>
+                            <th>Type</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th *ngIf="activeTab === 'pending'">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let req of (activeTab === 'my-leaves' ? myLeaves : pendingLeaves)">
+                            <td *ngIf="activeTab === 'pending'">{{req.staffId}}</td>
+                            <td>{{getTypeName(req.leaveTypeId)}}</td>
+                            <td>{{req.startDate}}</td>
+                            <td>{{req.endDate}}</td>
+                            <td>{{req.reason}}</td>
+                            <td>
+                                <span class="badge" [ngClass]="{
+                                        'bg-warning': req.status === 'PENDING',
+                                        'bg-success': req.status === 'APPROVED',
+                                        'bg-danger': req.status === 'REJECTED'
+                                      }">
+                                    {{ req.status }}
+                                </span>
+                                <small *ngIf="req.rejectionReason"
+                                    class="d-block text-danger">{{req.rejectionReason}}</small>
+                            </td>
+                            <td *ngIf="activeTab === 'pending'">
+                                <button class="btn btn-sm btn-success me-1" (click)="approve(req.id!)"><i
+                                        class="fas fa-check"></i></button>
+                                <button class="btn btn-sm btn-danger" (click)="reject(req.id!)"><i
+                                        class="fas fa-times"></i></button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="(activeTab === 'my-leaves' ? myLeaves : pendingLeaves).length === 0">
+                            <td colspan="7" class="text-center py-4">No records found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apply Modal -->
+    <div class="modal fade show d-block" *ngIf="showApplyModal" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Apply for Leave</h5>
+                    <button type="button" class="btn-close" (click)="showApplyModal = false"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Leave Type</label>
+                        <select class="form-select" [(ngModel)]="newRequest.leaveTypeId">
+                            <option *ngFor="let t of leaveTypes" [value]="t.id">{{t.name}} ({{t.code}})</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Start Date</label>
+                            <input type="date" class="form-control" [(ngModel)]="newRequest.startDate">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>End Date</label>
+                            <input type="date" class="form-control" [(ngModel)]="newRequest.endDate">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Reason</label>
+                        <textarea class="form-control" rows="3" [(ngModel)]="newRequest.reason"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" (click)="showApplyModal = false">Cancel</button>
+                    <button class="btn btn-primary" (click)="applyLeave()">Submit Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

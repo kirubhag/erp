@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+    <section>
+        <sectionName>Basic Information</sectionName>
+        <sectionCode>BASIC_INFO</sectionCode>
+        <displayOrder>1</displayOrder>
+    </section>
+    <section>
+        <sectionName>Earnings</sectionName>
+        <sectionCode>EARNINGS</sectionCode>
+        <displayOrder>2</displayOrder>
+    </section>
+    <section>
+        <sectionName>Deductions</sectionName>
+        <sectionCode>DEDUCTIONS</sectionCode>
+        <displayOrder>3</displayOrder>
+    </section>
+</sections>

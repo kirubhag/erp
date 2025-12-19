@@ -1,0 +1,82 @@
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Payroll Dashboard</h2>
+        <button class="btn btn-primary" (click)="showCreateModal = true"><i class="fas fa-plus me-2"></i>Run
+            Payroll</button>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Period</th>
+                            <th>Status</th>
+                            <th>Processed Date</th>
+                            <th>Total Payout</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let run of runs">
+                            <td>
+                                <div class="fw-bold">{{getMonthName(run.month)}} {{run.year}}</div>
+                            </td>
+                            <td>
+                                <span class="badge" [ngClass]="{
+                                        'bg-secondary': run.status === 'DRAFT',
+                                        'bg-success': run.status === 'PROCESSED' || run.status === 'COMPLETED',
+                                        'bg-danger': run.status === 'CANCELLED'
+                                      }">
+                                    {{ run.status }}
+                                </span>
+                            </td>
+                            <td>{{run.processedDate ? run.processedDate : '-'}}</td>
+                            <td>{{run.totalPayout | currency:'INR'}}</td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <button *ngIf="run.status === 'DRAFT'" class="btn btn-primary"
+                                        (click)="executeRun(run)">Process</button>
+                                    <a [routerLink]="['/setup/hr/payroll-runs', run.id, 'payslips']"
+                                        class="btn btn-outline-secondary">View Payslips</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="runs.length === 0 && !isLoading">
+                            <td colspan="5" class="text-center py-4">No payroll runs found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Modal -->
+    <div class="modal fade show d-block" *ngIf="showCreateModal" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Initiate Payroll Run</h5>
+                    <button type="button" class="btn-close" (click)="showCreateModal = false"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Year</label>
+                        <input type="number" class="form-control" [(ngModel)]="newRunYear">
+                    </div>
+                    <div class="mb-3">
+                        <label>Month</label>
+                        <select class="form-select" [(ngModel)]="newRunMonth">
+                            <option *ngFor="let m of months" [value]="m.val">{{m.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" (click)="showCreateModal = false">Cancel</button>
+                    <button class="btn btn-primary" (click)="createRun()">Initiate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

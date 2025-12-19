@@ -65,6 +65,163 @@ export class SetupComponent implements OnInit {
       ]
     },
     {
+      id: 'administrative',
+      title: 'Administrative & Institutional',
+      items: [
+        {
+          id: 'admission-enrollment',
+          label: 'Admission & Enrollment',
+          icon: 'fas fa-user-plus',
+          route: '/setup/admission/dashboard',
+          description: 'Manage applications, registration, and waitlists'
+        },
+        {
+          id: 'hr-management',
+          label: 'HR Management',
+          icon: 'fas fa-users-cog',
+          route: '/setup/administrative/hr',
+          description: 'Staff recruitment, payroll, and performance evaluation'
+        },
+        {
+          id: 'inventory-assets',
+          label: 'Inventory & Assets',
+          icon: 'fas fa-boxes',
+          route: '/setup/administrative/inventory',
+          description: 'Track physical assets and manage consumables'
+        },
+        {
+          id: 'facility-management',
+          label: 'Facility Management',
+          icon: 'fas fa-building',
+          route: '/setup/administrative/facility',
+          description: 'Handle maintenance work orders and facility scheduling'
+        },
+        {
+          id: 'reporting-mis',
+          label: 'Reporting & Analytics',
+          icon: 'fas fa-chart-line',
+          route: '/setup/administrative/reports',
+          description: 'Centralized dashboard for reports and analytics'
+        },
+        {
+          id: 'document-management',
+          label: 'Document Management',
+          icon: 'fas fa-file-contract',
+          route: '/setup/administrative/documents',
+          description: 'Secure storage for official documents and policies'
+        }
+      ]
+    },
+    {
+      id: 'financial',
+      title: 'Financial & Accounting',
+      items: [
+        {
+          id: 'fee-management',
+          label: 'Fee Management',
+          icon: 'fas fa-money-bill-wave',
+          route: '/setup/finance/fees',
+          description: 'Define fee structures and manage collections'
+        },
+        {
+          id: 'invoicing-payments',
+          label: 'Invoicing & Payments',
+          icon: 'fas fa-file-invoice-dollar',
+          route: '/setup/finance/invoices',
+          description: 'Generate invoices and track payments'
+        },
+        {
+          id: 'financial-aid',
+          label: 'Financial Aid',
+          icon: 'fas fa-hand-holding-usd',
+          route: '/setup/finance/aid',
+          description: 'Manage scholarships and financial aid disbursements'
+        },
+        {
+          id: 'general-ledger',
+          label: 'General Ledger',
+          icon: 'fas fa-book',
+          route: '/setup/finance/ledger',
+          description: 'Record financial transactions and accounting'
+        },
+        {
+          id: 'budgeting',
+          label: 'Budgeting',
+          icon: 'fas fa-wallet',
+          route: '/setup/finance/budget',
+          description: 'Create and monitor departmental budgets'
+        },
+        {
+          id: 'bank-reconciliation',
+          label: 'Bank Reconciliation',
+          icon: 'fas fa-university',
+          route: '/setup/finance/reconciliation',
+          description: 'Match internal records with bank statements'
+        }
+      ]
+    },
+    {
+      id: 'communication',
+      title: 'Communication & Engagement',
+      items: [
+        {
+          id: 'communication-portal',
+          label: 'Communication Portal',
+          icon: 'fas fa-comments',
+          route: '/setup/communication/portal',
+          description: 'Internal messaging for staff, students, and parents'
+        },
+        {
+          id: 'announcements',
+          label: 'Announcements',
+          icon: 'fas fa-bullhorn',
+          route: '/setup/communication/announcements',
+          description: 'Broadcast notices and circulars'
+        },
+        {
+          id: 'helpdesk',
+          label: 'Helpdesk Support',
+          icon: 'fas fa-life-ring',
+          route: '/setup/communication/helpdesk',
+          description: 'Support ticketing and issue resolution'
+        },
+        {
+          id: 'alumni',
+          label: 'Alumni Management',
+          icon: 'fas fa-user-graduate',
+          route: '/setup/communication/alumni',
+          description: 'Track and engage with former students'
+        }
+      ]
+    },
+    {
+      id: 'resource-support',
+      title: 'Resource & Academic Support',
+      items: [
+        {
+          id: 'library-management',
+          label: 'Library Management',
+          icon: 'fas fa-book-reader',
+          route: '/setup/resource/library',
+          description: 'Manage books, circulation, and digital resources'
+        },
+        {
+          id: 'lms-integration',
+          label: 'LMS Integration',
+          icon: 'fas fa-laptop-code',
+          route: '/setup/resource/lms',
+          description: 'Online content, quizzes, and assessments'
+        },
+        {
+          id: 'training-development',
+          label: 'Professional Development',
+          icon: 'fas fa-chalkboard-teacher',
+          route: '/setup/resource/training',
+          description: 'Track staff training and certifications'
+        }
+      ]
+    },
+    {
       id: 'academic-settings',
       title: 'Academic Settings',
       items: [
@@ -131,10 +288,10 @@ export class SetupComponent implements OnInit {
           description: 'Create and view class schedules'
         }
       ]
-},
-{
-  id: 'security',
-    title: 'Security Control',
+    },
+    {
+      id: 'security',
+      title: 'Security Control',
       items: [
         {
           id: 'profiles',
@@ -165,10 +322,10 @@ export class SetupComponent implements OnInit {
           description: 'Track system changes and user activities'
         }
       ]
-},
-{
-  id: 'customization',
-    title: 'Customization',
+    },
+    {
+      id: 'customization',
+      title: 'Customization',
       items: [
         {
           id: 'modules-fields',
@@ -206,10 +363,10 @@ export class SetupComponent implements OnInit {
           description: 'View record storage usage across modules'
         }
       ]
-},
-{
-  id: 'automation',
-    title: 'Automation',
+    },
+    {
+      id: 'automation',
+      title: 'Automation',
       items: [
         {
           id: 'workflow-rules',
@@ -233,10 +390,10 @@ export class SetupComponent implements OnInit {
           description: 'Manage scheduled tasks and recurring events'
         }
       ]
-},
-{
-  id: 'process-management',
-    title: 'Process Management',
+    },
+    {
+      id: 'process-management',
+      title: 'Process Management',
       items: [
         {
           id: 'blueprint',
@@ -260,10 +417,10 @@ export class SetupComponent implements OnInit {
           description: 'Configure review and validation processes'
         }
       ]
-},
-{
-  id: 'data-administration',
-    title: 'Data Administration',
+    },
+    {
+      id: 'data-administration',
+      title: 'Data Administration',
       items: [
         {
           id: 'import',

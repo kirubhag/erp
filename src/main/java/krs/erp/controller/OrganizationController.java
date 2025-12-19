@@ -248,7 +248,7 @@ public class OrganizationController {
             // Update user's organization_id in IAM_MasterDB
             try {
                 JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-                String updateSql = "UPDATE IAM_MasterDB.iam_users SET organization_id = ? WHERE user_id = ?";
+                String updateSql = "UPDATE iam_users SET organization_id = ? WHERE user_id = ?";
                 int updated = jdbcTemplate.update(updateSql, savedOrganization.getId(), currentUserId);
                 
                 if (updated == 0) {
