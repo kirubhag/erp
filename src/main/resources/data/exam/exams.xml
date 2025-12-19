@@ -1,19 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <exams>
-        <exam_name>Midterm Exam 2023</exam_name>
-        <academic_year>2023-2024</academic_year>
-        <term>Term 1</term>
-        <start_date>2023-10-15</start_date>
-        <end_date>2023-10-25</end_date>
-        <status>SCHEDULED</status>
+        <exam_name>Midterm Examination 2024</exam_name>
+        <exam_code>MID-2024-01</exam_code>
+        <exam_type>Midterm</exam_type>
+        <academic_year>2024-2025</academic_year>
+        <semester>First Semester</semester>
+        <exam_date>2024-10-15</exam_date>
+        <total_marks>100</total_marks>
+        <passing_marks>40</passing_marks>
+        <duration_minutes>180</duration_minutes>
+        <instructions>Answer all questions. Calculator allowed for math section.</instructions>
     </exams>
     <exams>
-        <exam_name>Final Exam 2023</exam_name>
-        <academic_year>2023-2024</academic_year>
-        <term>Term 2</term>
-        <start_date>2024-03-15</start_date>
-        <end_date>2024-03-25</end_date>
-        <status>PLANNED</status>
+        <exam_name>Final Examination 2024</exam_name>
+        <exam_code>FIN-2024-01</exam_code>
+        <exam_type>Final</exam_type>
+        <academic_year>2024-2025</academic_year>
+        <semester>First Semester</semester>
+        <exam_date>2024-12-20</exam_date>
+        <total_marks>100</total_marks>
+        <passing_marks>40</passing_marks>
+        <duration_minutes>180</duration_minutes>
+        <instructions>This is a comprehensive examination covering all topics.</instructions>
+    </exams>
+    <exams>
+        <exam_name>Quiz 1 - Mathematics</exam_name>
+        <exam_code>QUIZ-MATH-001</exam_code>
+        <exam_type>Quiz</exam_type>
+        <academic_year>2024-2025</academic_year>
+        <semester>First Semester</semester>
+        <exam_date>2024-09-15</exam_date>
+        <total_marks>25</total_marks>
+        <passing_marks>10</passing_marks>
+        <duration_minutes>30</duration_minutes>
+        <instructions>Short quiz covering Chapter 1-3.</instructions>
+    </exams>
+    <exams>
+        <exam_name>Practical Assessment - Science</exam_name>
+        <exam_code>PRAC-SCI-001</exam_code>
+        <exam_type>Practical</exam_type>
+        <academic_year>2024-2025</academic_year>
+        <semester>First Semester</semester>
+        <exam_date>2024-11-10</exam_date>
+        <total_marks>50</total_marks>
+        <passing_marks>20</passing_marks>
+        <duration_minutes>90</duration_minutes>
+        <instructions>Lab coat and safety goggles required.</instructions>
     </exams>
 </root>

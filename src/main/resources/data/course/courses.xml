@@ -1,17 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <courses>
-        <course_name>Mathematics 101</course_name>
+        <course_name>Introduction to Mathematics</course_name>
         <course_code>MATH101</course_code>
-        <description>Introduction to Mathematics</description>
-        <credits>3</credits>
+        <description>Fundamental mathematical concepts including algebra, geometry, and basic calculus.</description>
+        <credits>4</credits>
         <department>Mathematics</department>
     </courses>
     <courses>
-        <course_name>Physics 101</course_name>
+        <course_name>Advanced Mathematics</course_name>
+        <course_code>MATH201</course_code>
+        <description>Advanced topics in calculus, linear algebra, and differential equations.</description>
+        <credits>4</credits>
+        <department>Mathematics</department>
+    </courses>
+    <courses>
+        <course_name>Introduction to Physics</course_name>
         <course_code>PHY101</course_code>
-        <description>Introduction to Physics</description>
+        <description>Basic physics covering mechanics, thermodynamics, and waves.</description>
         <credits>4</credits>
         <department>Science</department>
+    </courses>
+    <courses>
+        <course_name>Chemistry Fundamentals</course_name>
+        <course_code>CHEM101</course_code>
+        <description>Introduction to chemistry including atomic structure, bonding, and reactions.</description>
+        <credits>4</credits>
+        <department>Science</department>
+    </courses>
+    <courses>
+        <course_name>English Composition</course_name>
+        <course_code>ENG101</course_code>
+        <description>Academic writing, essay structure, and grammar fundamentals.</description>
+        <credits>3</credits>
+        <department>English</department>
+    </courses>
+    <courses>
+        <course_name>English Literature</course_name>
+        <course_code>ENG201</course_code>
+        <description>Study of classic and modern literature with critical analysis.</description>
+        <credits>3</credits>
+        <department>English</department>
+    </courses>
+    <courses>
+        <course_name>Computer Science Basics</course_name>
+        <course_code>CS101</course_code>
+        <description>Introduction to programming, algorithms, and computational thinking.</description>
+        <credits>4</credits>
+        <department>Computer Science</department>
+    </courses>
+    <courses>
+        <course_name>World History</course_name>
+        <course_code>HIST101</course_code>
+        <description>Survey of major historical events and civilizations.</description>
+        <credits>3</credits>
+        <department>History</department>
     </courses>
 </root>

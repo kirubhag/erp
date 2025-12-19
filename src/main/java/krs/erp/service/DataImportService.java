@@ -22,41 +22,40 @@ import org.w3c.dom.NodeList;
 
 import krs.erp.model.Address;
 import krs.erp.model.Attendance;
+import krs.erp.model.Course;
 import krs.erp.model.ErpClass;
+import krs.erp.model.Exam;
 import krs.erp.model.Grade;
 import krs.erp.model.HealthRecord;
 import krs.erp.model.Parent;
 import krs.erp.model.ParentStudentRelation;
 import krs.erp.model.Permission;
 import krs.erp.model.Role;
+import krs.erp.model.Room;
+import krs.erp.model.Room.RoomType;
 import krs.erp.model.Staff;
 import krs.erp.model.Student;
 import krs.erp.model.Subject;
+import krs.erp.model.Timetable;
+import krs.erp.model.Timetable.DayOfWeek;
 import krs.erp.model.User;
 import krs.erp.repository.AddressRepository;
 import krs.erp.repository.AttendanceRepository;
+import krs.erp.repository.CourseRepository;
 import krs.erp.repository.ErpClassRepository;
+import krs.erp.repository.ExamRepository;
 import krs.erp.repository.GradeRepository;
 import krs.erp.repository.HealthRecordRepository;
 import krs.erp.repository.ParentRepository;
 import krs.erp.repository.ParentStudentRelationRepository;
 import krs.erp.repository.PermissionRepository;
 import krs.erp.repository.RoleRepository;
+import krs.erp.repository.RoomRepository;
 import krs.erp.repository.StaffRepository;
 import krs.erp.repository.StudentRepository;
 import krs.erp.repository.SubjectRepository;
-
-import krs.erp.repository.UserRepository;
-import krs.erp.model.Room;
-import krs.erp.model.Room.RoomType;
-import krs.erp.model.Timetable;
-import krs.erp.model.Timetable.DayOfWeek;
-import krs.erp.repository.RoomRepository;
 import krs.erp.repository.TimetableRepository;
-import krs.erp.model.Course;
-import krs.erp.model.Exam;
-import krs.erp.repository.CourseRepository;
-import krs.erp.repository.ExamRepository;
+import krs.erp.repository.UserRepository;
 
 @Service
 public class DataImportService {
@@ -1217,61 +1216,145 @@ public class DataImportService {
     }
 
     public void importCoursesDataFromXml(String filePath) {
-        importDataFromXml(filePath);
+        try {
+            logger.info("Starting course data import from XML file: {}", filePath);
+
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", filePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            importCourses(document);
+
+            logger.info("Course data import completed successfully for: {}", filePath);
+
+        } catch (Exception e) {
+            logger.error("Error importing course data from XML file: {}", filePath, e);
+            throw new RuntimeException("Failed to import course data from XML: " + filePath, e);
+        }
     }
 
     private void importCourses(Document document) {
-        NodeList courseNodes = document.getElementsByTagName("course");
+        NodeList courseNodes = document.getElementsByTagName("courses");
         logger.info("Importing {} courses", courseNodes.getLength());
 
         for (int i = 0; i < courseNodes.getLength(); i++) {
             Element element = (Element) courseNodes.item(i);
 
             Course course = new Course();
-            course.setCourseCode(element.getAttribute("course_code"));
-            course.setCourseName(element.getAttribute("course_name"));
-            course.setDescription(getAttributeOrNull(element, "description"));
+            course.setCourseCode(getChildElementText(element, "course_code"));
+            course.setCourseName(getChildElementText(element, "course_name"));
+            course.setDescription(getChildElementText(element, "description"));
 
-            String credits = getAttributeOrNull(element, "credits");
-            if (credits != null) {
+            String credits = getChildElementText(element, "credits");
+            if (credits != null && !credits.isEmpty()) {
                 course.setCredits(Integer.valueOf(credits));
             }
 
-            course.setDepartment(getAttributeOrNull(element, "department"));
+            course.setDepartment(getChildElementText(element, "department"));
+            course.setIsActive(1);
+            course.setCreatedTime(LocalDateTime.now());
 
-            setBaseEntityFields(course, element);
-
-            if (course.getCourseCode() != null && !courseRepository.existsByCourseCode(course.getCourseCode())) {
+            if (course.getCourseCode() != null && !course.getCourseCode().isEmpty() 
+                && !courseRepository.existsByCourseCode(course.getCourseCode())) {
                 courseRepository.save(course);
+                logger.info("Imported course: {}", course.getCourseCode());
             } else {
-                logger.warn("Skipping or updating existing course: {}", course.getCourseCode());
+                logger.warn("Skipping existing or invalid course: {}", course.getCourseCode());
             }
         }
     }
 
     public void importExamsDataFromXml(String filePath) {
-        importDataFromXml(filePath);
+        try {
+            logger.info("Starting exam data import from XML file: {}", filePath);
+
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", filePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            importExams(document);
+
+            logger.info("Exam data import completed successfully for: {}", filePath);
+
+        } catch (Exception e) {
+            logger.error("Error importing exam data from XML file: {}", filePath, e);
+            throw new RuntimeException("Failed to import exam data from XML: " + filePath, e);
+        }
     }
 
     private void importExams(Document document) {
-        NodeList examNodes = document.getElementsByTagName("exam");
+        NodeList examNodes = document.getElementsByTagName("exams");
         logger.info("Importing {} exams", examNodes.getLength());
 
         for (int i = 0; i < examNodes.getLength(); i++) {
             Element element = (Element) examNodes.item(i);
 
             Exam exam = new Exam();
-            exam.setExamName(element.getAttribute("exam_name"));
-            exam.setAcademicYear(getAttributeOrNull(element, "academic_year"));
-            exam.setTerm(getAttributeOrNull(element, "term"));
+            String examName = getChildElementText(element, "exam_name");
+            if (examName == null || examName.isEmpty()) {
+                logger.warn("Skipping exam with no name");
+                continue;
+            }
+            
+            exam.setExamName(examName);
+            exam.setExamCode(getChildElementText(element, "exam_code"));
+            exam.setExamType(getChildElementText(element, "exam_type"));
+            exam.setAcademicYear(getChildElementText(element, "academic_year"));
+            exam.setSemester(getChildElementText(element, "semester"));
+            exam.setExamDate(parseLocalDate(getChildElementText(element, "exam_date")));
+            exam.setInstructions(getChildElementText(element, "instructions"));
+            
+            String totalMarks = getChildElementText(element, "total_marks");
+            if (totalMarks != null && !totalMarks.isEmpty()) {
+                exam.setTotalMarks(new java.math.BigDecimal(totalMarks));
+            }
+            
+            String passingMarks = getChildElementText(element, "passing_marks");
+            if (passingMarks != null && !passingMarks.isEmpty()) {
+                exam.setPassingMarks(new java.math.BigDecimal(passingMarks));
+            }
+            
+            String durationMinutes = getChildElementText(element, "duration_minutes");
+            if (durationMinutes != null && !durationMinutes.isEmpty()) {
+                exam.setDurationMinutes(Integer.valueOf(durationMinutes));
+            }
 
-            exam.setStartDate(parseLocalDate(getAttributeOrNull(element, "start_date")));
-            exam.setEndDate(parseLocalDate(getAttributeOrNull(element, "end_date")));
-            exam.setStatus(getAttributeOrNull(element, "status"));
+            exam.setIsActive(1);
+            exam.setCreatedTime(LocalDateTime.now());
 
-            setBaseEntityFields(exam, element);
-
-            examRepository.save(exam);
+            // Check if exam already exists by name
+            if (!examRepository.findByExamName(examName).isPresent()) {
+                examRepository.save(exam);
+                logger.info("Imported exam: {}", examName);
+            } else {
+                logger.warn("Skipping existing exam: {}", examName);
+            }
         }
+    }
+
+    /**
+     * Get text content of a child element
+     */
+    private String getChildElementText(Element parent, String tagName) {
+        NodeList nodeList = parent.getElementsByTagName(tagName);
+        if (nodeList.getLength() > 0) {
+            String text = nodeList.item(0).getTextContent();
+            return (text != null && !text.trim().isEmpty()) ? text.trim() : null;
+        }
+        return null;
     }
 }

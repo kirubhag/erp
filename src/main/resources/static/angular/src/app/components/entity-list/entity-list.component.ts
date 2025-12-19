@@ -11,7 +11,7 @@ import { UIFieldTypeService } from '../../services/ui-field-type.service';
 export interface EntityColumn {
   key: string;
   label: string;
-  type: 'text' | 'email' | 'badge' | 'date' | 'avatar' | 'custom';
+  type: 'text' | 'email' | 'badge' | 'date' | 'avatar' | 'custom' | 'number';
   sortable?: boolean;
   width?: string;
   customTemplate?: string;

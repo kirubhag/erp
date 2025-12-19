@@ -85,6 +85,53 @@ export class EntityManagementComponent implements OnInit {
       { key: 'subjectCode', label: 'Code', type: 'text', sortable: true },
       { key: 'description', label: 'Description', type: 'text' },
       { key: 'isActive', label: 'Active', type: 'badge' }
+    ],
+    rooms: [
+      { key: 'id', label: 'ID', type: 'text' },
+      { key: 'roomName', label: 'Room Name', type: 'text', sortable: true },
+      { key: 'roomType', label: 'Type', type: 'badge', sortable: true },
+      { key: 'capacity', label: 'Capacity', type: 'number', sortable: true },
+      { key: 'building', label: 'Building', type: 'text', sortable: true },
+      { key: 'description', label: 'Description', type: 'text' },
+      { key: 'isActive', label: 'Active', type: 'badge' }
+    ],
+    exams: [
+      { key: 'id', label: 'ID', type: 'text' },
+      { key: 'examName', label: 'Exam Name', type: 'text', sortable: true },
+      { key: 'academicYear', label: 'Academic Year', type: 'text', sortable: true },
+      { key: 'term', label: 'Term', type: 'text', sortable: true },
+      { key: 'startDate', label: 'Start Date', type: 'date', sortable: true },
+      { key: 'endDate', label: 'End Date', type: 'date', sortable: true },
+      { key: 'status', label: 'Status', type: 'badge' }
+    ],
+    courses: [
+      { key: 'id', label: 'ID', type: 'text' },
+      { key: 'courseName', label: 'Course Name', type: 'text', sortable: true },
+      { key: 'courseCode', label: 'Code', type: 'text', sortable: true },
+      { key: 'credits', label: 'Credits', type: 'number', sortable: true },
+      { key: 'department', label: 'Department', type: 'text', sortable: true },
+      { key: 'description', label: 'Description', type: 'text' },
+      { key: 'isActive', label: 'Active', type: 'badge' }
+    ],
+    assignments: [
+      { key: 'id', label: 'ID', type: 'text' },
+      { key: 'student', label: 'Student', type: 'text', sortable: true },
+      { key: 'subject', label: 'Subject', type: 'text', sortable: true },
+      { key: 'examType', label: 'Exam Type', type: 'text', sortable: true },
+      { key: 'marksObtained', label: 'Marks', type: 'number', sortable: true },
+      { key: 'totalMarks', label: 'Total', type: 'number' },
+      { key: 'percentage', label: 'Percentage', type: 'number', sortable: true },
+      { key: 'letterGrade', label: 'Grade', type: 'badge' }
+    ],
+    grades: [
+      { key: 'id', label: 'ID', type: 'text' },
+      { key: 'student', label: 'Student', type: 'text', sortable: true },
+      { key: 'subject', label: 'Subject', type: 'text', sortable: true },
+      { key: 'examType', label: 'Exam Type', type: 'text', sortable: true },
+      { key: 'marksObtained', label: 'Marks', type: 'number', sortable: true },
+      { key: 'totalMarks', label: 'Total', type: 'number' },
+      { key: 'percentage', label: 'Percentage', type: 'number', sortable: true },
+      { key: 'letterGrade', label: 'Grade', type: 'badge' }
     ]
   };
 
@@ -92,7 +139,12 @@ export class EntityManagementComponent implements OnInit {
     staff: '/api/v1/staff',
     attendance: '/api/attendance',
     parents: '/api/parents',
-    subjects: '/api/subjects'
+    subjects: '/api/subjects',
+    rooms: '/api/rooms',
+    exams: '/api/exams',
+    courses: '/api/courses',
+    assignments: '/api/assignments',
+    grades: '/api/grades'
   };
 
   constructor(
@@ -102,11 +154,28 @@ export class EntityManagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Get the entity type from the route path
+    const routePath = this.route.snapshot.url[0]?.path || '';
+    this.entityType = routePath;
+    
+    console.log(`========================================`);
+    console.log(`EntityManagementComponent ngOnInit`);
+    console.log(`Route Path: ${routePath}`);
+    console.log(`Entity Type: ${this.entityType}`);
+    console.log(`========================================`);
+    
+    this.initializeEntityType();
+    this.loadData();
+    
+    // Also subscribe to route changes for navigation between entity types
     this.route.paramMap.subscribe(params => {
-      const routePath = this.route.snapshot.url[0]?.path || '';
-      this.entityType = routePath;
-      this.initializeEntityType();
-      this.loadData();
+      const newRoutePath = this.route.snapshot.url[0]?.path || '';
+      if (newRoutePath !== this.entityType) {
+        console.log(`Route changed from ${this.entityType} to ${newRoutePath}`);
+        this.entityType = newRoutePath;
+        this.initializeEntityType();
+        this.loadData();
+      }
     });
   }
 
@@ -136,6 +205,36 @@ export class EntityManagementComponent implements OnInit {
         this.entityNamePlural = 'Subjects';
         this.columns = this.columnMappings['subjects'];
         break;
+      case 'rooms':
+        this.title = 'Rooms';
+        this.entityName = 'Room';
+        this.entityNamePlural = 'Rooms';
+        this.columns = this.columnMappings['rooms'];
+        break;
+      case 'exams':
+        this.title = 'Exams';
+        this.entityName = 'Exam';
+        this.entityNamePlural = 'Exams';
+        this.columns = this.columnMappings['exams'];
+        break;
+      case 'courses':
+        this.title = 'Courses';
+        this.entityName = 'Course';
+        this.entityNamePlural = 'Courses';
+        this.columns = this.columnMappings['courses'];
+        break;
+      case 'assignments':
+        this.title = 'Assignments';
+        this.entityName = 'Assignment';
+        this.entityNamePlural = 'Assignments';
+        this.columns = this.columnMappings['assignments'];
+        break;
+      case 'grades':
+        this.title = 'Grades';
+        this.entityName = 'Grade';
+        this.entityNamePlural = 'Grades';
+        this.columns = this.columnMappings['grades'];
+        break;
       default:
         this.title = 'Entity Management';
         this.entityName = 'Item';
@@ -143,12 +242,20 @@ export class EntityManagementComponent implements OnInit {
     }
   }
 
+  // Force recompile - loadData method with detailed logging
   loadData(page: number = 1): void {
+    console.log(`=== LOADDATA CALLED ===`);
+    console.log(`Entity Type: ${this.entityType}`);
+    console.log(`All API Endpoints:`, this.apiEndpoints);
+    
     this.loading = true;
     const endpoint = this.apiEndpoints[this.entityType];
     
+    console.log(`Resolved endpoint for '${this.entityType}': ${endpoint}`);
+    
     if (!endpoint) {
-      console.warn(`No API endpoint configured for entity type: ${this.entityType}`);
+      console.error(`❌ No API endpoint configured for entity type: ${this.entityType}`);
+      console.error(`Available endpoints:`, Object.keys(this.apiEndpoints));
       this.loading = false;
       return;
     }
@@ -158,9 +265,12 @@ export class EntityManagementComponent implements OnInit {
       size: this.pagination.itemsPerPage
     };
 
+    console.log(`🚀 Making HTTP GET request to: ${endpoint}`, params);
+
     // Use relative URL - request goes to the same origin as the page
     this.http.get<ApiResponse>(endpoint, { params }).subscribe({
       next: (response) => {
+        console.log(`✅ Received response for ${this.entityType}:`, response);
         this.data = this.extractData(response);
         this.pagination.totalItems = this.extractTotalElements(response);
         this.pagination.totalPages = Math.ceil(
@@ -168,10 +278,16 @@ export class EntityManagementComponent implements OnInit {
         );
         this.pagination.currentPage = page;
         this.loading = false;
-        console.log(`Loaded ${this.data.length} ${this.entityType} records`);
+        console.log(`✅ Loaded ${this.data.length} ${this.entityType} records`);
       },
       error: (error) => {
-        console.error(`Error loading ${this.entityType}:`, error);
+        console.error(`❌ Error loading ${this.entityType}:`, error);
+        console.error(`Error details:`, {
+          status: error.status,
+          statusText: error.statusText,
+          url: error.url,
+          message: error.message
+        });
         this.loading = false;
         // Set empty data on error
         this.data = [];

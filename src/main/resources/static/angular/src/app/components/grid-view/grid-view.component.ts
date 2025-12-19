@@ -10,7 +10,7 @@ import { EntityAvatarComponent } from '../entity-avatar/entity-avatar.component'
 export interface GridColumn {
   key: string;
   label: string;
-  type: 'text' | 'email' | 'badge' | 'date' | 'avatar' | 'custom' | 'currency' | 'percentage';
+  type: 'text' | 'email' | 'badge' | 'date' | 'avatar' | 'custom' | 'currency' | 'percentage' | 'number';
   sortable?: boolean;
   width?: string;
   customTemplate?: string;

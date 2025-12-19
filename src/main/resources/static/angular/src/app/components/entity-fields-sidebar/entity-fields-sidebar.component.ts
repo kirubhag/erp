@@ -76,9 +76,12 @@ export class EntityFieldsSidebarComponent implements OnInit, OnChanges {
           this.loading = false;
         },
         error: (err) => {
-          console.error('Error loading entity fields:', err);
-          this.error = 'Failed to load fields';
+          console.warn(`No field metadata found for entity type: ${this.entityType}. This is normal for entities without custom field definitions.`);
+          // Gracefully handle missing field metadata - don't show error to user
+          this.fields = [];
+          this.fieldFilters = [];
           this.loading = false;
+          // Don't set error message - this is expected for some entity types
         }
       });
   }
