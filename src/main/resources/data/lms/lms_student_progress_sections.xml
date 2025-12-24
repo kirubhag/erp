@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LMS_STUDENT_PROGRESS">
     <section>
-        <title>Student Learning Track</title>
-        <fields>student,lesson,completionPercentage,completed,timeSpentMinutes,lastAccessed</fields>
+        <sectionName>student_learning_track</sectionName>
+        <sectionLabel>Student Learning Track</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>student</field>
+            <field>lesson</field>
+            <field>completionPercentage</field>
+            <field>completed</field>
+            <field>timeSpentMinutes</field>
+            <field>lastAccessed</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

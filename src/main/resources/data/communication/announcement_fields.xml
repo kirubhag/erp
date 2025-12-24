@@ -1,44 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="ANNOUNCEMENT">
     <field>
-        <fieldName>title</fieldName>
-        <displayLabel>Title</displayLabel>
-        <uiType>1</uiType>
-        <dataType>String</dataType>
-        <isRequired>true</isRequired>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>content</fieldName>
-        <displayLabel>Content</displayLabel>
-        <uiType>19</uiType>
-        <dataType>String</dataType>
-        <isRequired>true</isRequired>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>targetAudience</fieldName>
-        <displayLabel>Target Audience</displayLabel>
-        <uiType>4</uiType>
-        <dataType>String</dataType>
-        <isRequired>true</isRequired>
-        <picklistValues>ALL,STUDENTS,STAFF,PARENTS</picklistValues>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>publishedAt</fieldName>
-        <displayLabel>Published At</displayLabel>
-        <uiType>14</uiType>
-        <dataType>LocalDateTime</dataType>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>expiresAt</fieldName>
-        <displayLabel>Expires At</displayLabel>
-        <uiType>14</uiType>
-        <dataType>LocalDateTime</dataType>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>author</fieldName>
-        <displayLabel>Author</displayLabel>
-        <uiType>13</uiType>
-        <dataType>Lookup</dataType>
-        <lookupEntity>USER</lookupEntity>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

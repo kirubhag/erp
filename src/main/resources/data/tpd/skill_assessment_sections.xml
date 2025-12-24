@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="SKILL_ASSESSMENT">
     <section>
-        <title>Skill Gap Analysis</title>
-        <fields>staff,competency,selfRating,managerRating,manager,assessmentDate</fields>
+        <sectionName>skill_gap_analysis</sectionName>
+        <sectionLabel>Skill Gap Analysis</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>staff</field>
+            <field>competency</field>
+            <field>selfRating</field>
+            <field>managerRating</field>
+            <field>manager</field>
+            <field>assessmentDate</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

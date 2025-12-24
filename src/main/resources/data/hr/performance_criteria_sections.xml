@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="PERFORMANCE_CRITERIA">
     <section>
-        <name>basic_info</name>
-        <label>Basic Information</label>
-        <sequence>1</sequence>
-        <fields>name,description</fields>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>basic_info</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

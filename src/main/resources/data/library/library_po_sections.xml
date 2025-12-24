@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LIBRARY_PO">
     <section>
-        <title>Purchase Order Details</title>
-        <fields>vendor,orderDate,totalAmount,status</fields>
+        <sectionName>purchase_order_details</sectionName>
+        <sectionLabel>Purchase Order Details</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>vendor</field>
+            <field>orderDate</field>
+            <field>totalAmount</field>
+            <field>status</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

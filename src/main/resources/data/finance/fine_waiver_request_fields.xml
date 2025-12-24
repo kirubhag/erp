@@ -1,44 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="FINE_WAIVER_REQUEST">
     <field>
-        <name>fineLedgerId</name>
-        <display_name>Fine Instance</display_name>
-        <type>select</type>
-        <entity_ref>FINE_LEDGER</entity_ref>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>fineLedgerId</fieldName>
+        <fieldLabel>fineLedgerId</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>reason</name>
-        <display_name>Reason for Waiver</display_name>
-        <type>textarea</type>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>reason</fieldName>
+        <fieldLabel>reason</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>adjustmentAmount</name>
-        <display_name>Amount to Adjusted</display_name>
-        <type>number</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>adjustmentAmount</fieldName>
+        <fieldLabel>adjustmentAmount</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>status</name>
-        <display_name>Waiver Status</display_name>
-        <type>enum</type>
-        <options>PENDING,APPROVED,REJECTED</options>
-        <grid_visible>true</grid_visible>
+        <fieldName>status</fieldName>
+        <fieldLabel>status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>requestedById</name>
-        <display_name>Requested By</display_name>
-        <type>select</type>
-        <entity_ref>PARENT</entity_ref>
-        <grid_visible>true</grid_visible>
+        <fieldName>requestedById</fieldName>
+        <fieldLabel>requestedById</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>approvedById</name>
-        <display_name>Decision By</display_name>
-        <type>select</type>
-        <entity_ref>STAFF</entity_ref>
+        <fieldName>approvedById</fieldName>
+        <fieldLabel>approvedById</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

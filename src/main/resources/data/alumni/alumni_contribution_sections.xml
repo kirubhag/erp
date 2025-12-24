@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="ALUMNI_CONTRIBUTION">
     <section>
-        <name>basic_info</name>
-        <label>Contribution Details</label>
-        <sequence>1</sequence>
-        <fields>alumniId,type,amount,contributionDate</fields>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>basic_info</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>content_info</name>
-        <label>Description</label>
-        <sequence>2</sequence>
-        <fields>description</fields>
+        <sectionName>content_info</sectionName>
+        <sectionLabel>content_info</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="VIRTUAL_ATTENDANCE">
     <section>
-        <title>Attendance Log</title>
-        <fields>session,user,joinTime,leaveTime,durationMinutes,attended</fields>
+        <sectionName>attendance_log</sectionName>
+        <sectionLabel>Attendance Log</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>session</field>
+            <field>user</field>
+            <field>joinTime</field>
+            <field>leaveTime</field>
+            <field>durationMinutes</field>
+            <field>attended</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

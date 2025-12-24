@@ -1,39 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="FACILITY">
     <field>
-        <name>name</name>
-        <label>Facility Name</label>
-        <type>text</type>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>1</sequence>
+        <fieldName>name</fieldName>
+        <fieldLabel>Facility Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>type</name>
-        <label>Type</label>
-        <type>select</type>
-        <options>Lab,Auditorium,Sports Ground,Meeting Room,Other</options>
-        <show_in_list>true</show_in_list>
-        <sequence>2</sequence>
+        <fieldName>type</fieldName>
+        <fieldLabel>Type</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>capacity</name>
-        <label>Capacity</label>
-        <type>number</type>
-        <show_in_list>true</show_in_list>
-        <sequence>3</sequence>
+        <fieldName>capacity</fieldName>
+        <fieldLabel>Capacity</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>isBookable</name>
-        <label>Bookable</label>
-        <type>boolean</type>
-        <show_in_list>true</show_in_list>
-        <sequence>4</sequence>
+        <fieldName>isBookable</fieldName>
+        <fieldLabel>Bookable</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>description</name>
-        <label>Description</label>
-        <type>textarea</type>
-        <sequence>5</sequence>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

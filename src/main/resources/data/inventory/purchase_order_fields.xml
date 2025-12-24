@@ -1,42 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="PURCHASE_ORDER">
     <field>
-        <name>poNumber</name>
-        <label>PO Number</label>
-        <type>text</type>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>1</sequence>
+        <fieldName>poNumber</fieldName>
+        <fieldLabel>PO Number</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>vendorId</name>
-        <label>Vendor</label>
-        <type>entity_select</type>
-        <entity_name>VENDOR</entity_name>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>2</sequence>
+        <fieldName>vendorId</fieldName>
+        <fieldLabel>Vendor</fieldLabel>
+        <fieldType>ENTITY_SELECT</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>orderDate</name>
-        <label>Order Date</label>
-        <type>date</type>
-        <show_in_list>true</show_in_list>
-        <sequence>3</sequence>
+        <fieldName>orderDate</fieldName>
+        <fieldLabel>Order Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>totalAmount</name>
-        <label>Total Amount</label>
-        <type>number</type>
-        <show_in_list>true</show_in_list>
-        <sequence>4</sequence>
+        <fieldName>totalAmount</fieldName>
+        <fieldLabel>Total Amount</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>status</name>
-        <label>Status</label>
-        <type>select</type>
-        <options>DRAFT,ORDERED,RECEIVED,CANCELLED</options>
-        <show_in_list>true</show_in_list>
-        <sequence>5</sequence>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

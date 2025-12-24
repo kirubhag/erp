@@ -1,45 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="VENDOR">
     <field>
-        <name>name</name>
-        <label>Vendor Name</label>
-        <type>text</type>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>1</sequence>
+        <fieldName>name</fieldName>
+        <fieldLabel>Vendor Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>contactPerson</name>
-        <label>Contact Person</label>
-        <type>text</type>
-        <show_in_list>true</show_in_list>
-        <sequence>2</sequence>
+        <fieldName>contactPerson</fieldName>
+        <fieldLabel>Contact Person</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>email</name>
-        <label>Email</label>
-        <type>email</type>
-        <show_in_list>true</show_in_list>
-        <sequence>3</sequence>
+        <fieldName>email</fieldName>
+        <fieldLabel>Email</fieldLabel>
+        <fieldType>EMAIL</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>phone</name>
-        <label>Phone</label>
-        <type>text</type>
-        <show_in_list>true</show_in_list>
-        <sequence>4</sequence>
+        <fieldName>phone</fieldName>
+        <fieldLabel>Phone</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>tinGstin</name>
-        <label>TIN / GSTIN</label>
-        <type>text</type>
-        <show_in_list>true</show_in_list>
-        <sequence>5</sequence>
+        <fieldName>tinGstin</fieldName>
+        <fieldLabel>TIN / GSTIN</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>address</name>
-        <label>Address</label>
-        <type>textarea</type>
-        <sequence>6</sequence>
+        <fieldName>address</fieldName>
+        <fieldLabel>Address</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

@@ -1,14 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sections type="SCHOLARSHIP_CATEGORY">
+<?xml version='1.0' encoding='UTF-8'?>
+<entitySections type="SCHOLARSHIP_CATEGORY">
     <section>
-        <name>General Information</name>
+        <sectionName>general_information</sectionName>
+        <sectionLabel>General Information</sectionLabel>
         <fields>
             <field>name</field>
             <field>description</field>
         </fields>
     </section>
     <section>
-        <name>Aid Configuration</name>
+        <sectionName>aid_configuration</sectionName>
+        <sectionLabel>Aid Configuration</sectionLabel>
         <fields>
             <field>type</field>
             <field>amount</field>
@@ -16,10 +18,11 @@
         </fields>
     </section>
     <section>
-        <name>Eligibility Rules</name>
+        <sectionName>eligibility_rules</sectionName>
+        <sectionLabel>Eligibility Rules</sectionLabel>
         <fields>
             <field>isNeedBased</field>
             <field>isMeritBased</field>
         </fields>
     </section>
-</sections>
+</entitySections>

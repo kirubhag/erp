@@ -1,62 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="FEE_PAYMENT">
     <field>
-        <name>studentId</name>
-        <display_name>Student</display_name>
-        <type>select</type>
-        <entity_ref>STUDENT</entity_ref>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>studentId</fieldName>
+        <fieldLabel>studentId</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>feeStructureId</name>
-        <display_name>Fee Structure</display_name>
-        <type>select</type>
-        <entity_ref>FEE_STRUCTURE</entity_ref>
-        <grid_visible>true</grid_visible>
+        <fieldName>feeStructureId</fieldName>
+        <fieldLabel>feeStructureId</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>baseAmount</name>
-        <display_name>Base Amount</display_name>
-        <type>number</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>baseAmount</fieldName>
+        <fieldLabel>baseAmount</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>discountAmount</name>
-        <display_name>Discount</display_name>
-        <type>number</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>discountAmount</fieldName>
+        <fieldLabel>discountAmount</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>fineAmount</name>
-        <display_name>Fine Applied</display_name>
-        <type>number</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>fineAmount</fieldName>
+        <fieldLabel>fineAmount</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>netAmount</name>
-        <display_name>Net Amount Paid</display_name>
-        <type>number</type>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>netAmount</fieldName>
+        <fieldLabel>netAmount</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>paymentMode</name>
-        <display_name>Mode</display_name>
-        <type>enum</type>
-        <options>CASH,ONLINE,CHEQUE</options>
-        <grid_visible>true</grid_visible>
+        <fieldName>paymentMode</fieldName>
+        <fieldLabel>paymentMode</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>receiptNumber</name>
-        <display_name>Receipt #</display_name>
-        <type>text</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>receiptNumber</fieldName>
+        <fieldLabel>receiptNumber</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>8</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>paymentDate</name>
-        <display_name>Payment Date</display_name>
-        <type>datetime</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>paymentDate</fieldName>
+        <fieldLabel>paymentDate</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <displayOrder>9</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

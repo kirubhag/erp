@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="EVIDENCE">
     <section>
-        <title>External Credit Approval</title>
-        <fields>staff,title,provider,certificateUrl,requestedCredits,status,approvedCredits</fields>
+        <sectionName>external_credit_approval</sectionName>
+        <sectionLabel>External Credit Approval</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>staff</field>
+            <field>title</field>
+            <field>provider</field>
+            <field>certificateUrl</field>
+            <field>requestedCredits</field>
+            <field>status</field>
+            <field>approvedCredits</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

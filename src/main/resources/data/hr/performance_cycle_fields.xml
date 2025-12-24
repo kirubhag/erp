@@ -1,35 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="PERFORMANCE_CYCLE">
     <field>
-        <name>name</name>
-        <label>Cycle Name</label>
-        <type>text</type>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>1</sequence>
+        <fieldName>name</fieldName>
+        <fieldLabel>Cycle Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>startDate</name>
-        <label>Start Date</label>
-        <type>date</type>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>2</sequence>
+        <fieldName>startDate</fieldName>
+        <fieldLabel>Start Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>endDate</name>
-        <label>End Date</label>
-        <type>date</type>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>3</sequence>
+        <fieldName>endDate</fieldName>
+        <fieldLabel>End Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>status</name>
-        <label>Status</label>
-        <type>select</type>
-        <options>ACTIVE,CLOSED</options>
-        <show_in_list>true</show_in_list>
-        <sequence>4</sequence>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

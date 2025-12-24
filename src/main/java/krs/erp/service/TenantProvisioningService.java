@@ -2,6 +2,8 @@ package krs.erp.service;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
@@ -14,6 +16,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Service
 public class TenantProvisioningService {
+
+    private static final Logger logger = LoggerFactory.getLogger(TenantProvisioningService.class);
 
     @Autowired
     @Qualifier("masterDataSource")
@@ -59,15 +63,24 @@ public class TenantProvisioningService {
             Integer existingCount = tenantJdbc.queryForObject(
                 "SELECT COUNT(*) FROM erp_entities", Integer.class);
             if (existingCount != null && existingCount > 0) {
-                System.out.println("System data already exists in tenant DB: " + dbName + " (found " + existingCount + " entities). Skipping copy.");
+                logger.info("System data already exists in tenant DB: {} (found {} entities). Skipping copy.", dbName, existingCount);
                 return;
             }
 
-            System.out.println("Starting system data copy for tenant: " + dbName);
+            // First check if master DB has data
+            Integer masterCount = masterJdbc.queryForObject(
+                "SELECT COUNT(*) FROM erp_entities", Integer.class);
+            if (masterCount == null || masterCount == 0) {
+                logger.warn("Master DB has no ERP entities! Data initialization may not have run yet.");
+            } else {
+                logger.info("Master DB has {} entities to copy", masterCount);
+            }
+
+            logger.info("Starting system data copy for tenant: {}", dbName);
 
             // 1. Copy ERP Entities
             try {
-                System.out.println("Copying ERP Entities...");
+                logger.info("Copying ERP Entities...");
                 masterJdbc.query("SELECT * FROM erp_entities", rs -> {
                     String sql = "INSERT IGNORE INTO erp_entities (erp_entity_id, singular_name, plural_name, description, is_active, sequence, system_name, presence, icon, route, table_name, pkid, display_column, has_rel_table, created_date, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
@@ -86,16 +99,38 @@ public class TenantProvisioningService {
                             rs.getString("display_column"),
                             rs.getBoolean("has_rel_table"));
                 });
-                System.out.println("ERP Entities copied.");
+                logger.info("ERP Entities copied.");
             } catch (Exception e) {
-                System.err.println("Failed to copy ERP Entities: " + e.getMessage());
-                e.printStackTrace();
+                logger.error("Failed to copy ERP Entities: {}", e.getMessage(), e);
                 throw e;
             }
 
-            // 2. Copy ERP Sections
+            // 2. Copy ERP Entity Relations
             try {
-                System.out.println("Copying ERP Sections...");
+                logger.info("Copying ERP Entity Relations...");
+                masterJdbc.query("SELECT * FROM erp_entity_relations", rs -> {
+                    String sql = "INSERT IGNORE INTO erp_entity_relations (relation_id, parent_entity_id, child_entity_id, relation_type, relation_name, foreign_key_column, is_mandatory, cascade_delete, display_order, is_active, created_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+                    tenantJdbc.update(sql,
+                            rs.getLong("relation_id"),
+                            rs.getLong("parent_entity_id"),
+                            rs.getLong("child_entity_id"),
+                            rs.getString("relation_type"),
+                            rs.getString("relation_name"),
+                            rs.getString("foreign_key_column"),
+                            rs.getBoolean("is_mandatory"),
+                            rs.getBoolean("cascade_delete"),
+                            rs.getInt("display_order"),
+                            rs.getBoolean("is_active"));
+                });
+                logger.info("ERP Entity Relations copied.");
+            } catch (Exception e) {
+                logger.warn("Failed to copy ERP Entity Relations (may not exist): {}", e.getMessage());
+                // Don't throw - this table may not exist or be empty
+            }
+
+            // 3. Copy ERP Sections
+            try {
+                logger.info("Copying ERP Sections...");
                 masterJdbc.query("SELECT * FROM erp_sections", rs -> {
                     String sql = "INSERT IGNORE INTO erp_sections (erp_section_id, entity_type, section_name, section_label, layout_type, display_order, is_collapsible, is_collapsed_by_default, show_in_create, show_in_edit, show_in_detail, section_icon, section_color, css_class, description, help_text, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
@@ -116,16 +151,15 @@ public class TenantProvisioningService {
                             rs.getString("description"),
                             rs.getString("help_text"));
                 });
-                System.out.println("ERP Sections copied.");
+                logger.info("ERP Sections copied.");
             } catch (Exception e) {
-                System.err.println("Failed to copy ERP Sections: " + e.getMessage());
-                e.printStackTrace();
+                logger.error("Failed to copy ERP Sections: {}", e.getMessage(), e);
                 throw e;
             }
 
-            // 3. Copy ERP Fields
+            // 4. Copy ERP Fields
             try {
-                System.out.println("Copying ERP Fields...");
+                logger.info("Copying ERP Fields...");
                 masterJdbc.query("SELECT * FROM erp_fields", rs -> {
                     String sql = "INSERT IGNORE INTO erp_fields (erp_field_id, entity_type, field_name, field_label, field_type, ui_type, section_id, row_position, column_position, is_required, is_searchable, is_sortable, display_order, field_description, default_width, max_length, validation_pattern, picklist_options, decimal_places, is_unique, show_in_list, show_in_form, column_width, show_type, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
@@ -154,16 +188,15 @@ public class TenantProvisioningService {
                             rs.getString("column_width"),
                             rs.getObject("show_type"));
                 });
-                System.out.println("ERP Fields copied.");
+                logger.info("ERP Fields copied.");
             } catch (Exception e) {
-                System.err.println("Failed to copy ERP Fields: " + e.getMessage());
-                e.printStackTrace();
+                logger.error("Failed to copy ERP Fields: {}", e.getMessage(), e);
                 throw e;
             }
 
-            // 4. Copy Roles (Only System Roles)
+            // 5. Copy Roles (Only System Roles)
             try {
-                System.out.println("Copying Roles...");
+                logger.info("Copying Roles...");
                 masterJdbc.query("SELECT * FROM roles WHERE system_role = 1", rs -> {
                     String sql = "INSERT IGNORE INTO roles (role_id, name, description, system_role, created_time, created_by) VALUES (?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
@@ -172,16 +205,15 @@ public class TenantProvisioningService {
                             rs.getString("description"),
                             rs.getBoolean("system_role"));
                 });
-                System.out.println("Roles copied.");
+                logger.info("Roles copied.");
             } catch (Exception e) {
-                System.err.println("Failed to copy Roles: " + e.getMessage());
-                e.printStackTrace();
+                logger.error("Failed to copy Roles: {}", e.getMessage(), e);
                 throw e;
             }
 
-            // 5. Copy Permissions (Only System Permissions)
+            // 6. Copy Permissions (Only System Permissions)
             try {
-                System.out.println("Copying Permissions...");
+                logger.info("Copying Permissions...");
                 masterJdbc.query("SELECT * FROM permissions WHERE system_permission = 1", rs -> {
                     String sql = "INSERT IGNORE INTO permissions (permission_id, name, description, resource, action, system_permission, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
                     tenantJdbc.update(sql,
@@ -192,20 +224,19 @@ public class TenantProvisioningService {
                             rs.getString("action"),
                             rs.getBoolean("system_permission"));
                 });
-                System.out.println("Permissions copied.");
+                logger.info("Permissions copied.");
             } catch (Exception e) {
-                System.err.println("Failed to copy Permissions: " + e.getMessage());
-                e.printStackTrace();
+                logger.error("Failed to copy Permissions: {}", e.getMessage(), e);
                 throw e;
             }
 
-            // 6. Copy Role Permissions
+            // 7. Copy Role Permissions
             // We need to be careful here to only copy permissions for roles that exist in
             // the tenant DB
             // Since we copied system roles and permissions with their IDs, we can copy the
             // relations directly
             try {
-                System.out.println("Copying Role Permissions...");
+                logger.info("Copying Role Permissions...");
                 masterJdbc.query("SELECT rp.* FROM role_permissions rp " +
                         "JOIN roles r ON rp.role_id = r.role_id " +
                         "JOIN permissions p ON rp.permission_id = p.permission_id " +
@@ -215,16 +246,15 @@ public class TenantProvisioningService {
                                     rs.getLong("role_id"),
                                     rs.getLong("permission_id"));
                         });
-                System.out.println("Role Permissions copied.");
+                logger.info("Role Permissions copied.");
             } catch (Exception e) {
-                System.err.println("Failed to copy Role Permissions: " + e.getMessage());
-                e.printStackTrace();
+                logger.error("Failed to copy Role Permissions: {}", e.getMessage(), e);
                 throw e;
             }
 
-            // 7. Copy Custom Views (System custom views)
+            // 8. Copy Custom Views (System custom views)
             try {
-                System.out.println("Copying Custom Views...");
+                logger.info("Copying Custom Views...");
                 masterJdbc.query("SELECT * FROM custom_views WHERE created_by = 'system'", rs -> {
                     String sql = "INSERT IGNORE INTO custom_views (custom_view_id, view_name, description, entity_type, is_default, is_public, created_by, created_time, modified_time, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     tenantJdbc.update(sql,
@@ -239,16 +269,15 @@ public class TenantProvisioningService {
                             rs.getTimestamp("modified_time"),
                             rs.getInt("is_active"));
                 });
-                System.out.println("Custom Views copied.");
+                logger.info("Custom Views copied.");
             } catch (Exception e) {
-                System.err.println("Failed to copy Custom Views: " + e.getMessage());
-                e.printStackTrace();
+                logger.error("Failed to copy Custom Views: {}", e.getMessage(), e);
                 throw e;
             }
 
-            // 8. Copy Custom View Fields
+            // 9. Copy Custom View Fields
             try {
-                System.out.println("Copying Custom View Fields...");
+                logger.info("Copying Custom View Fields...");
                 masterJdbc.query("SELECT cvf.* FROM custom_view_fields cvf " +
                         "JOIN custom_views cv ON cvf.custom_view_id = cv.custom_view_id " +
                         "WHERE cv.created_by = 'system'", rs -> {
@@ -257,18 +286,16 @@ public class TenantProvisioningService {
                                     rs.getLong("custom_view_id"),
                                     rs.getString("field_name"));
                         });
-                System.out.println("Custom View Fields copied.");
+                logger.info("Custom View Fields copied.");
             } catch (Exception e) {
-                System.err.println("Failed to copy Custom View Fields: " + e.getMessage());
-                e.printStackTrace();
+                logger.error("Failed to copy Custom View Fields: {}", e.getMessage(), e);
                 throw e;
             }
 
-            System.out.println("System data copied successfully to tenant DB: " + dbName);
+            logger.info("System data copied successfully to tenant DB: {}", dbName);
 
         } catch (Exception e) {
-            System.err.println("Error copying system data to tenant DB: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error copying system data to tenant DB: {}", e.getMessage(), e);
             // We might want to throw this to fail the registration if system data is
             // critical
             throw new RuntimeException("Failed to copy system data to tenant DB: " + e.getMessage(), e);

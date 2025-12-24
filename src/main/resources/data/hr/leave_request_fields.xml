@@ -1,65 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="LEAVE_REQUEST">
     <field>
-        <fieldName>staffId</fieldName>
-        <fieldLabel>Staff ID</fieldLabel>
-        <fieldType>NUMBER</fieldType>
-        <fieldCategory>REQUEST_DETAILS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>1</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>leaveTypeId</fieldName>
-        <fieldLabel>Leave Type</fieldLabel>
-        <fieldType>SELECT</fieldType>
-        <fieldCategory>REQUEST_DETAILS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>2</displayOrder>
-        <isRequired>true</isRequired>
-        <options>
-             <!-- Ideally fetched dynamically, but for metadata we assume static or frontend handled -->
-        </options>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>startDate</fieldName>
-        <fieldLabel>Start Date</fieldLabel>
-        <fieldType>DATE</fieldType>
-        <fieldCategory>REQUEST_DETAILS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>3</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>endDate</fieldName>
-        <fieldLabel>End Date</fieldLabel>
-        <fieldType>DATE</fieldType>
-        <fieldCategory>REQUEST_DETAILS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>4</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>reason</fieldName>
-        <fieldLabel>Reason</fieldLabel>
-        <fieldType>TEXTAREA</fieldType>
-        <fieldCategory>REQUEST_DETAILS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>5</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>status</fieldName>
-        <fieldLabel>Status</fieldLabel>
-        <fieldType>TEXT</fieldType>
-        <fieldCategory>STATUS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>
-        <isReadOnly>true</isReadOnly>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>rejectionReason</fieldName>
-        <fieldLabel>Rejection Reason</fieldLabel>
-        <fieldType>TEXT</fieldType>
-        <fieldCategory>STATUS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>7</displayOrder>
         <isRequired>false</isRequired>
-        <isReadOnly>true</isReadOnly>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

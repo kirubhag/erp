@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="TRAINING_EVENT">
     <section>
-        <title>Training Logistics</title>
-        <fields>title,type,venue,startDateTime,endDateTime,resourcePerson,cost</fields>
+        <sectionName>training_logistics</sectionName>
+        <sectionLabel>Training Logistics</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>title</field>
+            <field>type</field>
+            <field>venue</field>
+            <field>startDateTime</field>
+            <field>endDateTime</field>
+            <field>resourcePerson</field>
+            <field>cost</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

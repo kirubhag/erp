@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="PERFORMANCE_REVIEW">
     <section>
-        <name>review_info</name>
-        <label>Review Summary</label>
-        <sequence>1</sequence>
-        <fields>staffId,cycleId,reviewerId,reviewDate,overallRating,status,comments</fields>
+        <sectionName>review_info</sectionName>
+        <sectionLabel>review_info</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

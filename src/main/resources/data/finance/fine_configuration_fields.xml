@@ -1,41 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="FINE_CONFIGURATION">
     <field>
-        <name>categoryId</name>
-        <display_name>Fine Category</display_name>
-        <type>select</type>
-        <entity_ref>FINE_CATEGORY</entity_ref>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>categoryId</fieldName>
+        <fieldLabel>categoryId</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>calcLogic</name>
-        <display_name>Calculation Logic</display_name>
-        <type>enum</type>
-        <options>FLAT,PERCENTAGE</options>
-        <grid_visible>true</grid_visible>
+        <fieldName>calcLogic</fieldName>
+        <fieldLabel>calcLogic</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>baseAmount</name>
-        <display_name>Base Amount</display_name>
-        <type>number</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>baseAmount</fieldName>
+        <fieldLabel>baseAmount</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>frequency</name>
-        <display_name>Frequency</display_name>
-        <type>enum</type>
-        <options>ONE_TIME,DAILY,WEEKLY</options>
-        <grid_visible>true</grid_visible>
+        <fieldName>frequency</fieldName>
+        <fieldLabel>frequency</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>gracePeriodDays</name>
-        <display_name>Grace Period (Days)</display_name>
-        <type>number</type>
+        <fieldName>gracePeriodDays</fieldName>
+        <fieldLabel>gracePeriodDays</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>isAutoPost</name>
-        <display_name>Auto Post to Ledger?</display_name>
-        <type>boolean</type>
+        <fieldName>isAutoPost</fieldName>
+        <fieldLabel>isAutoPost</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

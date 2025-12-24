@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="FINE_WAIVER_REQUEST">
     <section>
-        <name>Request Context</name>
-        <fields>
-            <field>fineLedgerId</field>
-            <field>requestedById</field>
-            <field>requestDate</field>
-        </fields>
+        <sectionName>request_context</sectionName>
+        <sectionLabel>Request Context</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>Justification</name>
-        <fields>
-            <field>reason</field>
-        </fields>
+        <sectionName>justification</sectionName>
+        <sectionLabel>Justification</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>Decision</name>
-        <fields>
-            <field>status</field>
-            <field>adjustmentAmount</field>
-            <field>approvedById</field>
-        </fields>
+        <sectionName>decision</sectionName>
+        <sectionLabel>Decision</sectionLabel>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

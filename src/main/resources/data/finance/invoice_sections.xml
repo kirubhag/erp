@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="INVOICE">
     <section>
-        <name>Invoice Details</name>
-        <fields>
-            <field>invoiceNumber</field>
-            <field>studentId</field>
-            <field>status</field>
-        </fields>
+        <sectionName>invoice_details</sectionName>
+        <sectionLabel>Invoice Details</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>Dates</name>
-        <fields>
-            <field>issueDate</field>
-            <field>dueDate</field>
-        </fields>
+        <sectionName>dates</sectionName>
+        <sectionLabel>Dates</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>Financial Summary</name>
-        <fields>
-            <field>totalAmount</field>
-            <field>discountAmount</field>
-            <field>taxAmount</field>
-            <field>netAmount</field>
-        </fields>
+        <sectionName>financial_summary</sectionName>
+        <sectionLabel>Financial Summary</sectionLabel>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LEAVE_REQUEST">
     <section>
-        <id>1</id>
-        <name>Request Details</name>
-        <codeName>REQUEST_DETAILS</codeName>
-        <sequence>1</sequence>
+        <sectionName>request_details</sectionName>
+        <sectionLabel>Request Details</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <id>2</id>
-        <name>Status &amp; Approval</name>
-        <codeName>STATUS</codeName>
-        <sequence>2</sequence>
+        <sectionName>status_approval</sectionName>
+        <sectionLabel>Status &amp; Approval</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

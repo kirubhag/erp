@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="BUDGET_LINE">
     <section>
         <sectionName>General Information</sectionName>
-        <sequence>1</sequence>
+        <sectionLabel>General Information</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

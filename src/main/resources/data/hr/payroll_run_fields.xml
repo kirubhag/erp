@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="PAYROLL_RUN">
     <field>
-        <fieldName>month</fieldName>
-        <fieldLabel>Month</fieldLabel>
-        <fieldType>NUMBER</fieldType>
-        <fieldCategory>RUN_INFO</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>1</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>year</fieldName>
-        <fieldLabel>Year</fieldLabel>
-        <fieldType>NUMBER</fieldType>
-        <fieldCategory>RUN_INFO</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>2</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>status</fieldName>
-        <fieldLabel>Status</fieldLabel>
-        <fieldType>SELECT</fieldType>
-        <fieldCategory>RUN_INFO</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>3</displayOrder>
-        <isRequired>true</isRequired>
-        <options>DRAFT,PROCESSED,COMPLETED,CANCELLED</options>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>totalPayout</fieldName>
-        <fieldLabel>Total Payout</fieldLabel>
-        <fieldType>CURRENCY</fieldType>
-        <fieldCategory>SUMMARY</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

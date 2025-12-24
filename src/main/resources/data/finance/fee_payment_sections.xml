@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="FEE_PAYMENT">
     <section>
-        <name>Student & Fee Context</name>
-        <fields>
-            <field>studentId</field>
-            <field>feeStructureId</field>
-        </fields>
+        <sectionName>student_fee_context</sectionName>
+        <sectionLabel>Student and Fee Context</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>false</isCollapsible>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Student and fee structure information</description>
     </section>
     <section>
-        <name>Net Calculation</name>
-        <fields>
-            <field>baseAmount</field>
-            <field>discountAmount</field>
-            <field>fineAmount</field>
-            <field>netAmount</field>
-        </fields>
+        <sectionName>net_calculation</sectionName>
+        <sectionLabel>Net Calculation</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Fee calculation details</description>
     </section>
     <section>
-        <name>Payment Details</name>
-        <fields>
-            <field>paymentMode</field>
-            <field>receiptNumber</field>
-            <field>paymentDate</field>
-            <field>remarks</field>
-        </fields>
+        <sectionName>payment_details</sectionName>
+        <sectionLabel>Payment Details</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Payment mode and receipt information</description>
     </section>
-</sections>
+</entitySections>

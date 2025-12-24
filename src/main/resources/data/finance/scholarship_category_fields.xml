@@ -1,48 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields type="SCHOLARSHIP_CATEGORY">
+<entityFields type="SCHOLARSHIP_CATEGORY">
     <field>
-        <name>name</name>
-        <display_name>Category Name</display_name>
-        <type>text</type>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>name</fieldName>
+        <fieldLabel>Category Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>description</name>
-        <display_name>Description</display_name>
-        <type>textarea</type>
-        <grid_visible>false</grid_visible>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>false</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>type</name>
-        <display_name>Aid Type</display_name>
-        <type>select</type>
-        <options>FIXED,PERCENTAGE</options>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>type</fieldName>
+        <fieldLabel>Aid Type</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>amount</name>
-        <display_name>Fixed Amount</display_name>
-        <type>number</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>amount</fieldName>
+        <fieldLabel>Fixed Amount</fieldLabel>
+        <fieldType>DECIMAL</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>percentage</name>
-        <display_name>Percentage (%)</display_name>
-        <type>number</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>percentage</fieldName>
+        <fieldLabel>Percentage (%)</fieldLabel>
+        <fieldType>DECIMAL</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>isNeedBased</name>
-        <display_name>Need Based?</display_name>
-        <type>boolean</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>isNeedBased</fieldName>
+        <fieldLabel>Need Based?</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>isMeritBased</name>
-        <display_name>Merit Based?</display_name>
-        <type>boolean</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>isMeritBased</fieldName>
+        <fieldLabel>Merit Based?</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

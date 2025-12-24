@@ -1,16 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entity-fields type="JOURNAL_ENTRY">
-    <field name="id" label="ID" type="number" readOnly="true" hidden="true"/>
-    <field name="entryNumber" label="Entry Number" type="text" required="true" searchable="true"/>
-    <field name="date" label="Entry Date" type="date" required="true"/>
-    <field name="reference" label="Reference" type="text" searchable="true"/>
-    <field name="description" label="Description" type="text"/>
-    <field name="status" label="Status" type="select" readOnly="true">
-        <option value="DRAFT" label="Draft"/>
-        <option value="POSTED" label="Posted"/>
-        <option value="CANCELLED" label="Cancelled"/>
+<entityFields type="JOURNAL_ENTRY">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>false</showInList>
+        <showInForm>false</showInForm>
     </field>
-    <field name="items" label="Journal Items" type="list" relationType="ONE_TO_MANY" relatedEntity="JOURNAL_ITEM"/>
-    <field name="createdAt" label="Created At" type="datetime" readOnly="true"/>
-    <field name="updatedAt" label="Updated At" type="datetime" readOnly="true"/>
-</entity-fields>
+    <field>
+        <fieldName>entryNumber</fieldName>
+        <fieldLabel>Entry Number</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>date</fieldName>
+        <fieldLabel>Entry Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>reference</fieldName>
+        <fieldLabel>Reference</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>items</fieldName>
+        <fieldLabel>Journal Items</fieldLabel>
+        <fieldType>LIST</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>createdAt</fieldName>
+        <fieldLabel>Created At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>false</showInForm>
+    </field>
+    <field>
+        <fieldName>updatedAt</fieldName>
+        <fieldLabel>Updated At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <displayOrder>8</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>false</showInForm>
+    </field>
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>9</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>false</showInList>
+        <showInForm>false</showInForm>
+    </field>
+</entityFields>

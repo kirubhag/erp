@@ -1,15 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LIBRARY_RESOURCE">
     <section>
-        <title>General Information</title>
-        <fields>title,format,isbnIssn,category</fields>
+        <sectionName>general_information</sectionName>
+        <sectionLabel>General Information</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>title</field>
+            <field>format</field>
+            <field>isbnIssn</field>
+            <field>category</field>
+        </fields>
     </section>
     <section>
-        <title>Cataloging Details</title>
-        <fields>author,publisher,edition,year</fields>
+        <sectionName>cataloging_details</sectionName>
+        <sectionLabel>Cataloging Details</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>author</field>
+            <field>publisher</field>
+            <field>edition</field>
+            <field>year</field>
+        </fields>
     </section>
     <section>
-        <title>Resources &amp; Description</title>
-        <fields>digitalPath,description</fields>
+        <sectionName>resources_description</sectionName>
+        <sectionLabel>Resources &amp; Description</sectionLabel>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>digitalPath</field>
+            <field>description</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

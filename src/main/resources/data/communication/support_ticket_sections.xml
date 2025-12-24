@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="SUPPORT_TICKET">
     <section>
         <sectionName>Ticket Details</sectionName>
-        <sequence>1</sequence>
+        <sectionLabel>Ticket Details</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
         <sectionName>Assignment &amp; Status</sectionName>
-        <sequence>2</sequence>
+        <sectionLabel>Assignment &amp; Status</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
         <sectionName>Comments</sectionName>
-        <sequence>3</sequence>
-        <isRelatedList>true</isRelatedList>
-        <relatedEntity>TICKET_COMMENT</relatedEntity>
+        <sectionLabel>Comments</sectionLabel>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

@@ -1,65 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="ALUMNI">
     <field>
-        <name>fullName</name>
-        <label>Full Name</label>
-        <type>text</type>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>1</sequence>
+        <fieldName>fullName</fieldName>
+        <fieldLabel>Full Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>graduationYear</name>
-        <label>Graduation Year</label>
-        <type>number</type>
-        <show_in_list>true</show_in_list>
-        <sequence>2</sequence>
+        <fieldName>graduationYear</fieldName>
+        <fieldLabel>Graduation Year</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>degree</name>
-        <label>Degree/Course</label>
-        <type>text</type>
-        <show_in_list>true</show_in_list>
-        <sequence>3</sequence>
+        <fieldName>degree</fieldName>
+        <fieldLabel>Degree/Course</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>email</name>
-        <label>Email</label>
-        <type>text</type>
-        <show_in_list>true</show_in_list>
-        <sequence>4</sequence>
+        <fieldName>email</fieldName>
+        <fieldLabel>Email</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>phoneNumber</name>
-        <label>Phone Number</label>
-        <type>text</type>
-        <sequence>5</sequence>
+        <fieldName>phoneNumber</fieldName>
+        <fieldLabel>Phone Number</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>occupation</name>
-        <label>Occupation</label>
-        <type>text</type>
-        <show_in_list>true</show_in_list>
-        <sequence>6</sequence>
+        <fieldName>occupation</fieldName>
+        <fieldLabel>Occupation</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>company</name>
-        <label>Company/Institution</label>
-        <type>text</type>
-        <sequence>7</sequence>
+        <fieldName>company</fieldName>
+        <fieldLabel>Company/Institution</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>linkedinProfile</name>
-        <label>LinkedIn Profile</label>
-        <type>text</type>
-        <sequence>8</sequence>
+        <fieldName>linkedinProfile</fieldName>
+        <fieldLabel>LinkedIn Profile</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>8</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>status</name>
-        <label>Status</label>
-        <type>select</type>
-        <options>ACTIVE,INACTIVE</options>
-        <show_in_list>true</show_in_list>
-        <sequence>9</sequence>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>9</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

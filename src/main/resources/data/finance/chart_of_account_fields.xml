@@ -1,17 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entity-fields type="CHART_OF_ACCOUNT">
-    <field name="id" label="ID" type="number" readOnly="true" hidden="true"/>
-    <field name="code" label="Account Code" type="text" required="true" searchable="true"/>
-    <field name="name" label="Account Name" type="text" required="true" searchable="true"/>
-    <field name="type" label="Account Type" type="select" required="true">
-        <option value="ASSET" label="Asset"/>
-        <option value="LIABILITY" label="Liability"/>
-        <option value="EQUITY" label="Equity"/>
-        <option value="REVENUE" label="Revenue"/>
-        <option value="EXPENSE" label="Expense"/>
+<entityFields type="CHART_OF_ACCOUNT">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>false</showInList>
+        <showInForm>false</showInForm>
     </field>
-    <field name="parentAccount" label="Parent Account" type="relation" relationType="MANY_TO_ONE" relatedEntity="CHART_OF_ACCOUNT"/>
-    <field name="isActive" label="Is Active" type="boolean" defaultValue="true"/>
-    <field name="createdAt" label="Created At" type="datetime" readOnly="true"/>
-    <field name="updatedAt" label="Updated At" type="datetime" readOnly="true"/>
-</entity-fields>
+    <field>
+        <fieldName>code</fieldName>
+        <fieldLabel>Account Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>name</fieldName>
+        <fieldLabel>Account Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>parentAccount</fieldName>
+        <fieldLabel>Parent Account</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Is Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>createdAt</fieldName>
+        <fieldLabel>Created At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>false</showInForm>
+    </field>
+    <field>
+        <fieldName>updatedAt</fieldName>
+        <fieldLabel>Updated At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>false</showInForm>
+    </field>
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>8</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>false</showInList>
+        <showInForm>false</showInForm>
+    </field>
+</entityFields>

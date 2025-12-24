@@ -1,33 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="PERFORMANCE_REVIEW_DETAIL">
     <field>
-        <name>reviewId</name>
-        <label>Review ID</label>
-        <type>number</type>
-        <required>true</required>
-        <sequence>1</sequence>
+        <fieldName>reviewId</fieldName>
+        <fieldLabel>Review ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>criteriaId</name>
-        <label>Criteria</label>
-        <type>entity_select</type>
-        <entity_name>PERFORMANCE_CRITERIA</entity_name>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>2</sequence>
+        <fieldName>criteriaId</fieldName>
+        <fieldLabel>Criteria</fieldLabel>
+        <fieldType>ENTITY_SELECT</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>rating</name>
-        <label>Rating (1-5)</label>
-        <type>number</type>
-        <show_in_list>true</show_in_list>
-        <sequence>3</sequence>
+        <fieldName>rating</fieldName>
+        <fieldLabel>Rating (1-5)</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>comments</name>
-        <label>Comments</label>
-        <type>textarea</type>
-        <show_in_list>true</show_in_list>
-        <sequence>4</sequence>
+        <fieldName>comments</fieldName>
+        <fieldLabel>Comments</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

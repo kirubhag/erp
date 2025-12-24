@@ -1,49 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="INVOICE">
     <field>
-        <name>invoiceNumber</name>
-        <display_name>Invoice #</display_name>
-        <type>text</type>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>invoiceNumber</fieldName>
+        <fieldLabel>invoiceNumber</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>studentId</name>
-        <display_name>Student</display_name>
-        <type>select</type>
-        <entity_ref>STUDENT</entity_ref>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>studentId</fieldName>
+        <fieldLabel>studentId</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>issueDate</name>
-        <display_name>Issue Date</display_name>
-        <type>date</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>issueDate</fieldName>
+        <fieldLabel>issueDate</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>dueDate</name>
-        <display_name>Due Date</display_name>
-        <type>date</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>dueDate</fieldName>
+        <fieldLabel>dueDate</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>totalAmount</name>
-        <display_name>Total Amount</display_name>
-        <type>number</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>totalAmount</fieldName>
+        <fieldLabel>totalAmount</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>netAmount</name>
-        <display_name>Net Amount</display_name>
-        <type>number</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>netAmount</fieldName>
+        <fieldLabel>netAmount</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>status</name>
-        <display_name>Status</display_name>
-        <type>enum</type>
-        <options>DRAFT,ISSUED,PAID,PARTIALLY_PAID,OVERDUE,CANCELLED</options>
-        <grid_visible>true</grid_visible>
+        <fieldName>status</fieldName>
+        <fieldLabel>status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

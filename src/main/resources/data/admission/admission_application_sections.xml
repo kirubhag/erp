@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <entitySections type="ADMISSION_APPLICATION">
     <section>
-        <name>Application Details</name>
+        <sectionName>application_details</sectionName>
+        <sectionLabel>Application Details</sectionLabel>
         <displayOrder>1</displayOrder>
         <isCollapsible>false</isCollapsible>
         <isDefaultExpanded>true</isDefaultExpanded>
@@ -13,7 +14,8 @@
         </fields>
     </section>
     <section>
-        <name>Personal Information</name>
+        <sectionName>personal_information</sectionName>
+        <sectionLabel>Personal Information</sectionLabel>
         <displayOrder>2</displayOrder>
         <isCollapsible>true</isCollapsible>
         <isDefaultExpanded>true</isDefaultExpanded>
@@ -23,7 +25,8 @@
         </fields>
     </section>
     <section>
-        <name>Parent Info</name>
+        <sectionName>parent_info</sectionName>
+        <sectionLabel>Parent Info</sectionLabel>
         <displayOrder>3</displayOrder>
         <isCollapsible>true</isCollapsible>
         <isDefaultExpanded>true</isDefaultExpanded>
@@ -31,8 +34,9 @@
             <field>parentName</field>
         </fields>
     </section>
-     <section>
-        <name>Education Info</name>
+    <section>
+        <sectionName>education_info</sectionName>
+        <sectionLabel>Education Info</sectionLabel>
         <displayOrder>4</displayOrder>
         <isCollapsible>true</isCollapsible>
         <isDefaultExpanded>true</isDefaultExpanded>

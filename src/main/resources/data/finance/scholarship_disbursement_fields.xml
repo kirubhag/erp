@@ -1,38 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields type="SCHOLARSHIP_DISBURSEMENT">
+<entityFields type="SCHOLARSHIP_DISBURSEMENT">
     <field>
-        <name>application</name>
-        <display_name>Application</display_name>
-        <type>relation</type>
-        <entity>ScholarshipApplication</entity>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>application</fieldName>
+        <fieldLabel>Application</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>invoice</name>
-        <display_name>Invoice</display_name>
-        <type>relation</type>
-        <entity>Invoice</entity>
-        <grid_visible>true</grid_visible>
+        <fieldName>invoice</fieldName>
+        <fieldLabel>Invoice</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>disbursementAmount</name>
-        <display_name>Disbursed Amount</display_name>
-        <type>number</type>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>disbursementAmount</fieldName>
+        <fieldLabel>Disbursed Amount</fieldLabel>
+        <fieldType>DECIMAL</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>disbursementDate</name>
-        <display_name>Disbursement Date</display_name>
-        <type>date</type>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>disbursementDate</fieldName>
+        <fieldLabel>Disbursement Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>status</name>
-        <display_name>Status</display_name>
-        <type>text</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

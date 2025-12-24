@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="FINE_CONFIGURATION">
     <section>
-        <name>Fine Logic</name>
-        <fields>
-            <field>categoryId</field>
-            <field>calcLogic</field>
-            <field>baseAmount</field>
-        </fields>
+        <sectionName>fine_logic</sectionName>
+        <sectionLabel>Fine Logic</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>Automation Rules</name>
-        <fields>
-            <field>frequency</field>
-            <field>gracePeriodDays</field>
-            <field>isAutoPost</field>
-        </fields>
+        <sectionName>automation_rules</sectionName>
+        <sectionLabel>Automation Rules</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

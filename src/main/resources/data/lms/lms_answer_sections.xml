@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LMS_ANSWER">
     <section>
-        <title>Answer Option</title>
-        <fields>question,answerText,correct</fields>
+        <sectionName>answer_option</sectionName>
+        <sectionLabel>Answer Option</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>question</field>
+            <field>answerText</field>
+            <field>correct</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

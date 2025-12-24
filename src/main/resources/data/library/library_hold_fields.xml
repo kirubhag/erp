@@ -1,30 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="LIBRARY_HOLD">
     <field>
-        <system_name>resource</system_name>
-        <display_name>Library Resource</display_name>
-        <show_type>lookup</show_type>
-        <lookup_entity>LIBRARY_RESOURCE</lookup_entity>
-        <is_required>true</is_required>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>user</system_name>
-        <display_name>Requested By</display_name>
-        <show_type>lookup</show_type>
-        <lookup_entity>USER</lookup_entity>
-        <is_required>true</is_required>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>requestDate</system_name>
-        <display_name>Request Date</display_name>
-        <show_type>datetime</show_type>
-        <is_required>true</is_required>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>status</system_name>
-        <display_name>Hold Status</display_name>
-        <show_type>select</show_type>
-        <options>WAITING,FULFILLED,CANCELLED</options>
-        <is_required>true</is_required>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

@@ -1,63 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="ASSET">
     <field>
-        <name>name</name>
-        <label>Asset Name</label>
-        <type>text</type>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>1</sequence>
+        <fieldName>name</fieldName>
+        <fieldLabel>Asset Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>assetTag</name>
-        <label>Asset Tag</label>
-        <type>text</type>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>2</sequence>
+        <fieldName>assetTag</fieldName>
+        <fieldLabel>Asset Tag</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>serialNumber</name>
-        <label>Serial Number</label>
-        <type>text</type>
-        <show_in_list>true</show_in_list>
-        <sequence>3</sequence>
+        <fieldName>serialNumber</fieldName>
+        <fieldLabel>Serial Number</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>type</name>
-        <label>Type</label>
-        <type>select</type>
-        <options>Electronics,Furniture,Vehicle,Equipment,Other</options>
-        <show_in_list>true</show_in_list>
-        <sequence>4</sequence>
+        <fieldName>type</fieldName>
+        <fieldLabel>Type</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>purchaseDate</name>
-        <label>Purchase Date</label>
-        <type>date</type>
-        <show_in_list>true</show_in_list>
-        <sequence>5</sequence>
+        <fieldName>purchaseDate</fieldName>
+        <fieldLabel>Purchase Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>status</name>
-        <label>Status</label>
-        <type>select</type>
-        <options>AVAILABLE,ASSIGNED,UNDER_REPAIR,DISPOSED</options>
-        <show_in_list>true</show_in_list>
-        <sequence>6</sequence>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>location</name>
-        <label>Location</label>
-        <type>text</type>
-        <show_in_list>true</show_in_list>
-        <sequence>7</sequence>
+        <fieldName>location</fieldName>
+        <fieldLabel>Location</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>assignedStaffId</name>
-        <label>Assigned To</label>
-        <type>entity_select</type>
-        <entity_name>STAFF</entity_name>
-        <sequence>8</sequence>
+        <fieldName>assignedStaffId</fieldName>
+        <fieldLabel>Assigned To</fieldLabel>
+        <fieldType>ENTITY_SELECT</fieldType>
+        <displayOrder>8</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LIBRARY_POLICY">
     <section>
-        <title>Policy Constraints</title>
-        <fields>role,gradeLevel,maxBooks,loanPeriodDays,maxRenewals,finePerDay</fields>
+        <sectionName>policy_constraints</sectionName>
+        <sectionLabel>Policy Constraints</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>role</field>
+            <field>gradeLevel</field>
+            <field>maxBooks</field>
+            <field>loanPeriodDays</field>
+            <field>maxRenewals</field>
+            <field>finePerDay</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

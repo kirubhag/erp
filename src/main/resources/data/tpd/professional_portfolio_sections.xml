@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="PROFESSIONAL_PORTFOLIO">
     <section>
-        <title>Growth & Career Roadmap</title>
-        <fields>staff,currentRole,targetTrack,totalCPDCredits,yearsOfService,promotionReady,professionalSummary</fields>
+        <sectionName>growth_career_roadmap</sectionName>
+        <sectionLabel>Growth and Career Roadmap</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>staff</field>
+            <field>currentRole</field>
+            <field>targetTrack</field>
+            <field>totalCPDCredits</field>
+            <field>yearsOfService</field>
+            <field>promotionReady</field>
+            <field>professionalSummary</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

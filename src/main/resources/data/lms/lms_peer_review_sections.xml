@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LMS_PEER_REVIEW">
     <section>
-        <title>Peer Feedback</title>
-        <fields>submission,reviewer,score,feedback,isAnonymous</fields>
+        <sectionName>peer_feedback</sectionName>
+        <sectionLabel>Peer Feedback</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>submission</field>
+            <field>reviewer</field>
+            <field>score</field>
+            <field>feedback</field>
+            <field>isAnonymous</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

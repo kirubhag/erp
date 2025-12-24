@@ -1,38 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="MIS_REPORT">
     <field>
-        <name>name</name>
-        <label>Report Name</label>
-        <type>text</type>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>1</sequence>
+        <fieldName>name</fieldName>
+        <fieldLabel>Report Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>type</name>
-        <label>Report Type</label>
-        <type>select</type>
-        <options>ADMISSION,HR,FINANCE,INVENTORY,MAINTENANCE</options>
-        <show_in_list>true</show_in_list>
-        <sequence>2</sequence>
+        <fieldName>type</fieldName>
+        <fieldLabel>Report Type</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>description</name>
-        <label>Description</label>
-        <type>textarea</type>
-        <sequence>3</sequence>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>lastRunDate</name>
-        <label>Last Run Date</label>
-        <type>datetime</type>
-        <show_in_list>true</show_in_list>
-        <sequence>4</sequence>
+        <fieldName>lastRunDate</fieldName>
+        <fieldLabel>Last Run Date</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>reportData</name>
-        <label>Report Data / Config</label>
-        <type>textarea</type>
-        <sequence>5</sequence>
+        <fieldName>reportData</fieldName>
+        <fieldLabel>Report Data / Config</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

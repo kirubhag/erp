@@ -1,52 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="LEAVE_BALANCE">
     <field>
-        <fieldName>staffId</fieldName>
-        <fieldLabel>Staff ID</fieldLabel>
-        <fieldType>NUMBER</fieldType>
-        <fieldCategory>BALANCE_INFO</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>1</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>leaveTypeId</fieldName>
-        <fieldLabel>Leave Type ID</fieldLabel>
-        <fieldType>NUMBER</fieldType>
-        <fieldCategory>BALANCE_INFO</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>2</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>academicYear</fieldName>
-        <fieldLabel>Academic Year</fieldLabel>
-        <fieldType>TEXT</fieldType>
-        <fieldCategory>BALANCE_INFO</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>3</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>totalDays</fieldName>
-        <fieldLabel>Total Quota</fieldLabel>
-        <fieldType>NUMBER</fieldType>
-        <fieldCategory>QUOTA_TRACKING</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>4</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>consumedDays</fieldName>
-        <fieldLabel>Consumed</fieldLabel>
-        <fieldType>NUMBER</fieldType>
-        <fieldCategory>QUOTA_TRACKING</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>5</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>remainingDays</fieldName>
-        <fieldLabel>Remaining</fieldLabel>
-        <fieldType>NUMBER</fieldType>
-        <fieldCategory>QUOTA_TRACKING</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>6</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

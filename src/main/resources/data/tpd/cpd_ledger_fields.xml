@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="CPD_LEDGER">
     <field>
-        <system_name>staff</system_name>
-        <display_name>Staff Member</display_name>
-        <show_type>lookup</show_type>
-        <lookup_entity>USER</lookup_entity>
-        <is_readonly>true</is_readonly>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>academicYear</system_name>
-        <display_name>Academic Year</display_name>
-        <show_type>number</show_type>
-        <is_readonly>true</is_readonly>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>creditsEarned</system_name>
-        <display_name>Credits Earned</display_name>
-        <show_type>number</show_type>
-        <is_readonly>true</is_readonly>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>creditsRequired</system_name>
-        <display_name>Target Credits</display_name>
-        <show_type>number</show_type>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

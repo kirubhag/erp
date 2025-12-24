@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="INSTITUTION_EVENT">
     <section>
-        <name>basic_info</name>
-        <label>Event Details</label>
-        <sequence>1</sequence>
-        <fields>title,category,status,location</fields>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>basic_info</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>timing_info</name>
-        <label>Schedule &amp; Description</label>
-        <sequence>2</sequence>
-        <fields>startDate,endDate,description</fields>
+        <sectionName>timing_info</sectionName>
+        <sectionLabel>timing_info</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

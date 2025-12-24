@@ -1,28 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="FEE_TYPE">
     <field>
-        <name>name</name>
-        <display_name>Fee Name</display_name>
-        <type>text</type>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>name</fieldName>
+        <fieldLabel>name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>code</name>
-        <display_name>Code</display_name>
-        <type>text</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>code</fieldName>
+        <fieldLabel>code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>description</name>
-        <display_name>Description</display_name>
-        <type>textarea</type>
-        <grid_visible>false</grid_visible>
+        <fieldName>description</fieldName>
+        <fieldLabel>description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>isRecurring</name>
-        <display_name>Is Recurring?</display_name>
-        <type>boolean</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>isRecurring</fieldName>
+        <fieldLabel>isRecurring</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

@@ -549,6 +549,7 @@
         <pkid>id</pkid>
         <display_column>po_number</display_column>
         <has_rel_table>false</has_rel_table>
+    </entity>
     <entity>
         <id>50</id>
         <singular_name>Work Order</singular_name>
@@ -598,6 +599,7 @@
         <pkid>id</pkid>
         <display_column>purpose</display_column>
         <has_rel_table>false</has_rel_table>
+    </entity>
     <entity>
         <id>60</id>
         <singular_name>MIS Report</singular_name>
@@ -613,6 +615,7 @@
         <pkid>id</pkid>
         <display_column>name</display_column>
         <has_rel_table>false</has_rel_table>
+    </entity>
     <entity>
         <id>70</id>
         <singular_name>Document</singular_name>
@@ -628,6 +631,7 @@
         <pkid>id</pkid>
         <display_column>title</display_column>
         <has_rel_table>false</has_rel_table>
+    </entity>
     <entity>
         <id>80</id>
         <singular_name>Calendar Day</singular_name>
@@ -659,6 +663,7 @@
         <pkid>id</pkid>
         <display_column>title</display_column>
         <has_rel_table>false</has_rel_table>
+    </entity>
     <entity>
         <id>90</id>
         <singular_name>Notification Log</singular_name>
@@ -690,6 +695,7 @@
         <pkid>id</pkid>
         <display_column>name</display_column>
         <has_rel_table>false</has_rel_table>
+    </entity>
     <entity>
         <id>100</id>
         <singular_name>Alumni Profile</singular_name>
@@ -721,6 +727,7 @@
         <pkid>id</pkid>
         <display_column>description</display_column>
         <has_rel_table>false</has_rel_table>
+    </entity>
     <entity>
         <id>110</id>
         <singular_name>Fee Type</singular_name>
@@ -1080,6 +1087,7 @@
         <pkid>id</pkid>
         <display_column>title</display_column>
         <has_rel_table>false</has_rel_table>
+    </entity>
     <entity>
         <id>181</id>
         <singular_name>Ticket Comment</singular_name>
@@ -1093,6 +1101,7 @@
         <pkid>id</pkid>
         <display_column>comment</display_column>
         <has_rel_table>false</has_rel_table>
+    </entity>
     <entity>
         <id>190</id>
         <singular_name>Author</singular_name>
@@ -1590,6 +1599,3 @@
         <has_rel_table>false</has_rel_table>
     </entity>
 </entities>
-
-
-

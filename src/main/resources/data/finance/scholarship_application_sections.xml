@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections type="SCHOLARSHIP_APPLICATION">
+<entitySections type="SCHOLARSHIP_APPLICATION">
     <section>
-        <name>Application Details</name>
+        <sectionName>application_details</sectionName>
+        <sectionLabel>Application Details</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
         <fields>
             <field>student</field>
             <field>category</field>
@@ -10,10 +14,14 @@
         </fields>
     </section>
     <section>
-        <name>Review &amp; Status</name>
+        <sectionName>review_status</sectionName>
+        <sectionLabel>Review and Status</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
         <fields>
             <field>status</field>
             <field>remarks</field>
         </fields>
     </section>
-</sections>
+</entitySections>

@@ -11,6 +11,18 @@
   color: white !important;
 }
 
+/* Ensure navbar-collapse is visible on large screens */
+@media (min-width: 992px) {
+  .navbar-collapse {
+    display: flex !important;
+    flex-basis: auto;
+  }
+  
+  .navbar-collapse.collapse {
+    display: flex !important;
+  }
+}
+
 /* Menu container - responsive width management */
 .navbar-nav.me-auto {
   overflow: visible;

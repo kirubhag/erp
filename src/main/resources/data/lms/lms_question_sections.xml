@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LMS_QUESTION">
     <section>
-        <title>Question Content</title>
-        <fields>quiz,questionText,type,points</fields>
+        <sectionName>question_content</sectionName>
+        <sectionLabel>Question Content</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>quiz</field>
+            <field>questionText</field>
+            <field>type</field>
+            <field>points</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

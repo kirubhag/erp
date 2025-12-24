@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LMS_MODULE">
     <section>
-        <title>Module Details</title>
-        <fields>subject,title,description,orderIndex,published</fields>
+        <sectionName>module_details</sectionName>
+        <sectionLabel>Module Details</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>subject</field>
+            <field>title</field>
+            <field>description</field>
+            <field>orderIndex</field>
+            <field>published</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

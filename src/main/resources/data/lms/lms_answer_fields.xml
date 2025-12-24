@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="LMS_ANSWER">
     <field>
-        <system_name>question</system_name>
-        <display_name>Question</display_name>
-        <show_type>lookup</show_type>
-        <lookup_entity>LMS_QUESTION</lookup_entity>
-        <is_required>true</is_required>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>answerText</system_name>
-        <display_name>Answer Text</display_name>
-        <show_type>textarea</show_type>
-        <is_required>true</is_required>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>correct</system_name>
-        <display_name>Is Correct</display_name>
-        <show_type>checkbox</show_type>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

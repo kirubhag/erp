@@ -1,79 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="STAFF_SALARY">
     <field>
-        <fieldName>staffId</fieldName>
-        <fieldLabel>Staff ID</fieldLabel>
-        <fieldType>NUMBER</fieldType>
-        <fieldCategory>BASIC_INFO</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>1</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>basicSalary</fieldName>
-        <fieldLabel>Basic Salary</fieldLabel>
-        <fieldType>CURRENCY</fieldType>
-        <fieldCategory>EARNINGS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>2</displayOrder>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>hra</fieldName>
-        <fieldLabel>HRA</fieldLabel>
-        <fieldType>CURRENCY</fieldType>
-        <fieldCategory>EARNINGS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>da</fieldName>
-        <fieldLabel>DA</fieldLabel>
-        <fieldType>CURRENCY</fieldType>
-        <fieldCategory>EARNINGS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>specialAllowance</fieldName>
-        <fieldLabel>Special Allowance</fieldLabel>
-        <fieldType>CURRENCY</fieldType>
-        <fieldCategory>EARNINGS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>isPfEnabled</fieldName>
-        <fieldLabel>Enable PF Deduction</fieldLabel>
-        <fieldType>BOOLEAN</fieldType>
-        <fieldCategory>DEDUCTIONS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-     <field>
-        <fieldName>pfAccountNumber</fieldName>
-        <fieldLabel>PF Account No</fieldLabel>
-        <fieldType>TEXT</fieldType>
-        <fieldCategory>DEDUCTIONS</fieldCategory>
+    <field>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>7</displayOrder>
         <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>taxDeduction</fieldName>
-        <fieldLabel>TDS (Monthly)</fieldLabel>
-        <fieldType>CURRENCY</fieldType>
-        <fieldCategory>DEDUCTIONS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>8</displayOrder>
         <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>panNumber</fieldName>
-        <fieldLabel>PAN Number</fieldLabel>
-        <fieldType>TEXT</fieldType>
-        <fieldCategory>DEDUCTIONS</fieldCategory>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
         <displayOrder>9</displayOrder>
         <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

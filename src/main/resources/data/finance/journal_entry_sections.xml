@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entity-sections type="JOURNAL_ENTRY">
-    <section title="Header Information">
-        <field-ref name="entryNumber"/>
-        <field-ref name="date"/>
-        <field-ref name="reference"/>
-        <field-ref name="status"/>
+<entitySections type="JOURNAL_ENTRY">
+    <section>
+        <sectionName>header_information</sectionName>
+        <sectionLabel>Header Information</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>entryNumber</field>
+            <field>date</field>
+            <field>reference</field>
+            <field>status</field>
+        </fields>
     </section>
-    <section title="Description">
-        <field-ref name="description"/>
+    <section>
+        <sectionName>description</sectionName>
+        <sectionLabel>Description</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>description</field>
+        </fields>
     </section>
-</entity-sections>
+</entitySections>

@@ -38,6 +38,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   hasAvatar = false;
   avatarLoadError = false;
   isOverflowDropdownOpen = false;
+  isNavbarCollapsed = true; // For mobile menu toggle
   
   // Navbar width constraints - dynamically calculated based on screen size
   private readonly ITEM_WIDTH = 140; // Estimated width per menu item including margins
@@ -258,6 +259,20 @@ export class NavbarComponent implements OnInit, AfterViewInit {
    */
   closeProfileDropdown(): void {
     this.isProfileDropdownOpen = false;
+  }
+
+  /**
+   * Toggle navbar collapsed state (for mobile)
+   */
+  toggleNavbar(): void {
+    this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  }
+
+  /**
+   * Close navbar when a link is clicked (mobile)
+   */
+  closeNavbar(): void {
+    this.isNavbarCollapsed = true;
   }
 
   /**

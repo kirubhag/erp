@@ -1,52 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="BANK_STATEMENT">
     <field>
-        <fieldName>bankName</fieldName>
-        <displayLabel>Bank Name</displayLabel>
-        <uiType>1</uiType>
-        <dataType>String</dataType>
-        <isRequired>true</isRequired>
-        <section>General Information</section>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>accountNumber</fieldName>
-        <displayLabel>Account Number</displayLabel>
-        <uiType>1</uiType>
-        <dataType>String</dataType>
-        <isRequired>true</isRequired>
-        <section>General Information</section>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>statementDate</fieldName>
-        <displayLabel>Statement Date</displayLabel>
-        <uiType>5</uiType>
-        <dataType>LocalDate</dataType>
-        <isRequired>true</isRequired>
-        <section>General Information</section>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>openingBalance</fieldName>
-        <displayLabel>Opening Balance</displayLabel>
-        <uiType>9</uiType>
-        <dataType>BigDecimal</dataType>
-        <isRequired>true</isRequired>
-        <section>Financial Summary</section>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>closingBalance</fieldName>
-        <displayLabel>Closing Balance</displayLabel>
-        <uiType>9</uiType>
-        <dataType>BigDecimal</dataType>
-        <isRequired>true</isRequired>
-        <section>Financial Summary</section>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>status</fieldName>
-        <displayLabel>Status</displayLabel>
-        <uiType>4</uiType>
-        <dataType>String</dataType>
-        <isRequired>true</isRequired>
-        <section>General Information</section>
-        <picklistValues>PENDING,PARTIAL,COMPLETED</picklistValues>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

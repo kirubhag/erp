@@ -1,53 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="SUPPORT_TICKET">
     <field>
-        <fieldName>title</fieldName>
-        <displayLabel>Title</displayLabel>
-        <uiType>1</uiType>
-        <dataType>String</dataType>
-        <isRequired>true</isRequired>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>description</fieldName>
-        <displayLabel>Description</displayLabel>
-        <uiType>19</uiType>
-        <dataType>String</dataType>
-        <isRequired>true</isRequired>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>category</fieldName>
-        <displayLabel>Category</displayLabel>
-        <uiType>4</uiType>
-        <dataType>String</dataType>
-        <picklistValues>IT,ADMIN,FINANCE,ACADEMIC,OTHER</picklistValues>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>priority</fieldName>
-        <displayLabel>Priority</displayLabel>
-        <uiType>4</uiType>
-        <dataType>String</dataType>
-        <picklistValues>LOW,MEDIUM,HIGH,URGENT</picklistValues>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>status</fieldName>
-        <displayLabel>Status</displayLabel>
-        <uiType>4</uiType>
-        <dataType>String</dataType>
-        <picklistValues>OPEN,IN_PROGRESS,RESOLVED,CLOSED</picklistValues>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>author</fieldName>
-        <displayLabel>Created By</displayLabel>
-        <uiType>13</uiType>
-        <dataType>Lookup</dataType>
-        <isRequired>true</isRequired>
-        <lookupEntity>USER</lookupEntity>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>assignedTo</fieldName>
-        <displayLabel>Assigned To</displayLabel>
-        <uiType>13</uiType>
-        <dataType>Lookup</dataType>
-        <lookupEntity>USER</lookupEntity>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

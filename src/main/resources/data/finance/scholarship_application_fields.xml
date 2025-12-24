@@ -1,46 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields type="SCHOLARSHIP_APPLICATION">
+<entityFields type="SCHOLARSHIP_APPLICATION">
     <field>
-        <name>student</name>
-        <display_name>Student</display_name>
-        <type>relation</type>
-        <entity>Student</entity>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>student</fieldName>
+        <fieldLabel>Student</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>category</name>
-        <display_name>Scholarship Category</display_name>
-        <type>relation</type>
-        <entity>ScholarshipCategory</entity>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>category</fieldName>
+        <fieldLabel>Scholarship Category</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>academicYear</name>
-        <display_name>Academic Year</display_name>
-        <type>relation</type>
-        <entity>AcademicYear</entity>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>academicYear</fieldName>
+        <fieldLabel>Academic Year</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>applicationDate</name>
-        <display_name>Application Date</display_name>
-        <type>date</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>applicationDate</fieldName>
+        <fieldLabel>Application Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>status</name>
-        <display_name>Status</display_name>
-        <type>select</type>
-        <options>SUBMITTED,UNDER_REVIEW,APPROVED,REJECTED</options>
-        <grid_visible>true</grid_visible>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>remarks</name>
-        <display_name>Remarks</display_name>
-        <type>textarea</type>
-        <grid_visible>false</grid_visible>
+        <fieldName>remarks</fieldName>
+        <fieldLabel>Remarks</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>false</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

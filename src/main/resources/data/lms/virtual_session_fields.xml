@@ -1,56 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="VIRTUAL_SESSION">
     <field>
-        <system_name>lesson</system_name>
-        <display_name>Lesson</display_name>
-        <show_type>lookup</show_type>
-        <lookup_entity>LESSON</lookup_entity>
-        <is_required>true</is_required>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>title</system_name>
-        <display_name>Session Title</display_name>
-        <show_type>text</show_type>
-        <is_required>true</is_required>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>provider</system_name>
-        <display_name>Platform</display_name>
-        <show_type>select</show_type>
-        <options>ZOOM:Zoom,GOOGLE_MEET:Google Meet,MS_TEAMS:Microsoft Teams</options>
-        <is_required>true</is_required>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>meetingUrl</system_name>
-        <display_name>Meeting Link</display_name>
-        <show_type>text</show_type>
-        <is_required>true</is_required>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>meetingId</system_name>
-        <display_name>Meeting ID</display_name>
-        <show_type>text</show_type>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>meetingPassword</system_name>
-        <display_name>Passcode</display_name>
-        <show_type>text</show_type>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>startTime</system_name>
-        <display_name>Start Time</display_name>
-        <show_type>datetime</show_type>
-        <is_required>true</is_required>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>endTime</system_name>
-        <display_name>End Time</display_name>
-        <show_type>datetime</show_type>
-        <is_required>true</is_required>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>8</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>recordingUrl</system_name>
-        <display_name>Recording Link</display_name>
-        <show_type>text</show_type>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>9</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

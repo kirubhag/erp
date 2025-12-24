@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LMS_POINT_LOG">
     <section>
-        <title>Achievement Details</title>
-        <fields>student,points,reason,badgeAwarded,earnedAt</fields>
+        <sectionName>achievement_details</sectionName>
+        <sectionLabel>Achievement Details</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>student</field>
+            <field>points</field>
+            <field>reason</field>
+            <field>badgeAwarded</field>
+            <field>earnedAt</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="ALUMNI">
     <section>
-        <name>personal_info</name>
-        <label>Personal &amp; Contact Information</label>
-        <sequence>1</sequence>
-        <fields>fullName,email,phoneNumber,linkedinProfile</fields>
+        <sectionName>personal_info</sectionName>
+        <sectionLabel>personal_info</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>academic_info</name>
-        <label>Academic History</label>
-        <sequence>2</sequence>
-        <fields>graduationYear,degree</fields>
+        <sectionName>academic_info</sectionName>
+        <sectionLabel>academic_info</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>professional_info</name>
-        <label>Professional Status</label>
-        <sequence>3</sequence>
-        <fields>occupation,company,status</fields>
+        <sectionName>professional_info</sectionName>
+        <sectionLabel>professional_info</sectionLabel>
+        <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

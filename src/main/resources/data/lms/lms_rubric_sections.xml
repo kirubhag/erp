@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LMS_RUBRIC">
     <section>
-        <title>Rubric Config</title>
-        <fields>name,criteria,maxPoints</fields>
+        <sectionName>rubric_config</sectionName>
+        <sectionLabel>Rubric Config</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>name</field>
+            <field>criteria</field>
+            <field>maxPoints</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

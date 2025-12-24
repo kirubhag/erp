@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="FINE_CATEGORY">
     <section>
-        <name>Category Info</name>
-        <fields>
-            <field>name</field>
-            <field>description</field>
-        </fields>
+        <sectionName>category_info</sectionName>
+        <sectionLabel>Category Info</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

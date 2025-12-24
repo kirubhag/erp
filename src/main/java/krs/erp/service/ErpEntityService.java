@@ -1,9 +1,14 @@
 package krs.erp.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +32,10 @@ public class ErpEntityService {
     @Autowired
     private ErpEntityRoleRelationRepository relationRepository;
 
+    @Autowired
+    @Qualifier("masterDataSource")
+    private DataSource masterDataSource;
+
     /**
      * Get all ERP entities
      */
@@ -44,11 +53,55 @@ public class ErpEntityService {
     }
 
     /**
-     * Get all active menu items ordered by sequence
+     * Get all active menu items ordered by sequence.
+     * Falls back to master database if tenant database is empty.
      */
     @Transactional(readOnly = true)
     public List<ErpEntity> getActiveMenuItems() {
-        return erpEntityRepository.findActiveMenuItems();
+        List<ErpEntity> items = erpEntityRepository.findActiveMenuItems();
+        
+        // If no items found in tenant DB, fallback to master DB
+        if (items == null || items.isEmpty()) {
+            items = getMenuItemsFromMasterDb();
+        }
+        
+        return items;
+    }
+
+    /**
+     * Get menu items directly from master database (fallback)
+     */
+    private List<ErpEntity> getMenuItemsFromMasterDb() {
+        try {
+            JdbcTemplate masterJdbc = new JdbcTemplate(masterDataSource);
+            String sql = "SELECT erp_entity_id, singular_name, plural_name, description, is_active, " +
+                        "sequence, system_name, presence, icon, route, table_name, pkid, display_column, " +
+                        "has_rel_table, created_date, last_modified_date, created_by, last_modified_by " +
+                        "FROM erp_entities WHERE is_active = true AND presence = true ORDER BY sequence ASC";
+            
+            return masterJdbc.query(sql, (rs, rowNum) -> {
+                ErpEntity entity = new ErpEntity();
+                entity.setId(rs.getLong("erp_entity_id"));
+                entity.setSingularName(rs.getString("singular_name"));
+                entity.setPluralName(rs.getString("plural_name"));
+                entity.setDescription(rs.getString("description"));
+                entity.setIsActive(rs.getBoolean("is_active"));
+                entity.setSequence(rs.getInt("sequence"));
+                entity.setSystemName(rs.getString("system_name"));
+                entity.setPresence(rs.getBoolean("presence"));
+                entity.setIcon(rs.getString("icon"));
+                entity.setRoute(rs.getString("route"));
+                entity.setTableName(rs.getString("table_name"));
+                entity.setPkid(rs.getString("pkid"));
+                entity.setDisplayColumn(rs.getString("display_column"));
+                entity.setHasRelTable(rs.getBoolean("has_rel_table"));
+                return entity;
+            });
+        } catch (Exception e) {
+            // Log error but don't fail - return empty list
+            System.err.println("Failed to get menu items from master DB: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
     /**

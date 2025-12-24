@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="TRANSACTION">
     <section>
-        <name>Transaction Info</name>
-        <fields>
-            <field>transactionIdExt</field>
-            <field>invoiceId</field>
-            <field>status</field>
-        </fields>
+        <sectionName>transaction_info</sectionName>
+        <sectionLabel>Transaction Info</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>Payment Details</name>
-        <fields>
-            <field>amountPaid</field>
-            <field>paymentMode</field>
-            <field>paymentDate</field>
-            <field>referenceNumber</field>
-        </fields>
+        <sectionName>payment_details</sectionName>
+        <sectionLabel>Payment Details</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

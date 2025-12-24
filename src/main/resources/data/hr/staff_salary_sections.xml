@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="STAFF_SALARY">
     <section>
         <sectionName>Basic Information</sectionName>
-        <sectionCode>BASIC_INFO</sectionCode>
+        <sectionLabel>Basic Information</sectionLabel>
         <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
         <sectionName>Earnings</sectionName>
-        <sectionCode>EARNINGS</sectionCode>
+        <sectionLabel>Earnings</sectionLabel>
         <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
         <sectionName>Deductions</sectionName>
-        <sectionCode>DEDUCTIONS</sectionCode>
+        <sectionLabel>Deductions</sectionLabel>
         <displayOrder>3</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

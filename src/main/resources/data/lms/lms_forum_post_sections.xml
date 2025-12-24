@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LMS_FORUM_POST">
     <section>
-        <title>Post Content</title>
-        <fields>forum,author,content,parentPost,likes</fields>
+        <sectionName>post_content</sectionName>
+        <sectionLabel>Post Content</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>forum</field>
+            <field>author</field>
+            <field>content</field>
+            <field>parentPost</field>
+            <field>likes</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

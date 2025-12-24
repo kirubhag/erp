@@ -1,41 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="DISCIPLINARY_INCIDENT">
     <field>
-        <name>studentId</name>
-        <display_name>Student</display_name>
-        <type>select</type>
-        <entity_ref>STUDENT</entity_ref>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>studentId</fieldName>
+        <fieldLabel>studentId</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>description</name>
-        <display_name>Misconduct Details</display_name>
-        <type>textarea</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>description</fieldName>
+        <fieldLabel>description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>fineAmount</name>
-        <display_name>Fine Amount</display_name>
-        <type>number</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>fineAmount</fieldName>
+        <fieldLabel>fineAmount</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>approvalStatus</name>
-        <display_name>Status</display_name>
-        <type>enum</type>
-        <options>PENDING,APPROVED,REJECTED</options>
-        <grid_visible>true</grid_visible>
+        <fieldName>approvalStatus</fieldName>
+        <fieldLabel>approvalStatus</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>evidenceUrl</name>
-        <display_name>Evidence Link (Photo/Doc)</display_name>
-        <type>text</type>
+        <fieldName>evidenceUrl</fieldName>
+        <fieldLabel>evidenceUrl</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>reportedById</name>
-        <display_name>Reported By</display_name>
-        <type>select</type>
-        <entity_ref>STAFF</entity_ref>
+        <fieldName>reportedById</fieldName>
+        <fieldLabel>reportedById</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

@@ -1,57 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="PERFORMANCE_REVIEW">
     <field>
-        <name>staffId</name>
-        <label>Staff</label>
-        <type>entity_select</type>
-        <entity_name>STAFF</entity_name>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>1</sequence>
+        <fieldName>staffId</fieldName>
+        <fieldLabel>Staff</fieldLabel>
+        <fieldType>ENTITY_SELECT</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>cycleId</name>
-        <label>Cycle</label>
-        <type>entity_select</type>
-        <entity_name>PERFORMANCE_CYCLE</entity_name>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>2</sequence>
+        <fieldName>cycleId</fieldName>
+        <fieldLabel>Cycle</fieldLabel>
+        <fieldType>ENTITY_SELECT</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>reviewerId</name>
-        <label>Reviewer</label>
-        <type>entity_select</type>
-        <entity_name>STAFF</entity_name>
-        <show_in_list>true</show_in_list>
-        <sequence>3</sequence>
+        <fieldName>reviewerId</fieldName>
+        <fieldLabel>Reviewer</fieldLabel>
+        <fieldType>ENTITY_SELECT</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>reviewDate</name>
-        <label>Review Date</label>
-        <type>date</type>
-        <show_in_list>true</show_in_list>
-        <sequence>4</sequence>
+        <fieldName>reviewDate</fieldName>
+        <fieldLabel>Review Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>overallRating</name>
-        <label>Overall Rating</label>
-        <type>number</type>
-        <show_in_list>true</show_in_list>
-        <sequence>5</sequence>
+        <fieldName>overallRating</fieldName>
+        <fieldLabel>Overall Rating</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>status</name>
-        <label>Status</label>
-        <type>select</type>
-        <options>DRAFT,SUBMITTED,FINALIZED</options>
-        <show_in_list>true</show_in_list>
-        <sequence>6</sequence>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>comments</name>
-        <label>General Comments</label>
-        <type>textarea</type>
-        <sequence>7</sequence>
+        <fieldName>comments</fieldName>
+        <fieldLabel>General Comments</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

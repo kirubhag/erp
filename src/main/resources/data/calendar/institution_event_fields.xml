@@ -1,54 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="INSTITUTION_EVENT">
     <field>
-        <name>title</name>
-        <label>Event Title</label>
-        <type>text</type>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>1</sequence>
+        <fieldName>title</fieldName>
+        <fieldLabel>Event Title</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>category</name>
-        <label>Category</label>
-        <type>select</type>
-        <options>SPORTS,CULTURAL,ACADEMIC,MEETING</options>
-        <show_in_list>true</show_in_list>
-        <sequence>2</sequence>
+        <fieldName>category</fieldName>
+        <fieldLabel>Category</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>startDate</name>
-        <label>Start Date &amp; Time</label>
-        <type>datetime</type>
-        <show_in_list>true</show_in_list>
-        <sequence>3</sequence>
+        <fieldName>startDate</fieldName>
+        <fieldLabel>Start Date &amp; Time</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>endDate</name>
-        <label>End Date &amp; Time</label>
-        <type>datetime</type>
-        <show_in_list>true</show_in_list>
-        <sequence>4</sequence>
+        <fieldName>endDate</fieldName>
+        <fieldLabel>End Date &amp; Time</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>location</name>
-        <label>Location</label>
-        <type>text</type>
-        <show_in_list>true</show_in_list>
-        <sequence>5</sequence>
+        <fieldName>location</fieldName>
+        <fieldLabel>Location</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>status</name>
-        <label>Status</label>
-        <type>select</type>
-        <options>SCHEDULED,IN_PROGRESS,COMPLETED,CANCELLED</options>
-        <show_in_list>true</show_in_list>
-        <sequence>6</sequence>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>description</name>
-        <label>Description</label>
-        <type>textarea</type>
-        <sequence>7</sequence>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

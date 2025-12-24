@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="WORK_ORDER">
     <section>
-        <name>basic_info</name>
-        <label>Work Order Details</label>
-        <sequence>1</sequence>
-        <fields>title,description,priority,status</fields>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>basic_info</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>assignment_info</name>
-        <label>Assignment &amp; Scheduling</label>
-        <sequence>2</sequence>
-        <fields>requestDate,assignedTechnicianId,assetId</fields>
+        <sectionName>assignment_info</sectionName>
+        <sectionLabel>assignment_info</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

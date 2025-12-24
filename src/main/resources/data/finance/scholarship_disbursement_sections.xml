@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sections type="SCHOLARSHIP_DISBURSEMENT">
+<?xml version='1.0' encoding='UTF-8'?>
+<entitySections type="SCHOLARSHIP_DISBURSEMENT">
     <section>
-        <name>Disbursement Details</name>
+        <sectionName>disbursement_details</sectionName>
+        <sectionLabel>Disbursement Details</sectionLabel>
         <fields>
             <field>application</field>
             <field>invoice</field>
@@ -10,4 +11,4 @@
             <field>status</field>
         </fields>
     </section>
-</sections>
+</entitySections>

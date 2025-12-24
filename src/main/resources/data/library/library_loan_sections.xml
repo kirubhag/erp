@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LIBRARY_LOAN">
     <section>
-        <title>Loan Details</title>
-        <fields>item,user,loanDate,dueDate,status</fields>
+        <sectionName>loan_details</sectionName>
+        <sectionLabel>Loan Details</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>item</field>
+            <field>user</field>
+            <field>loanDate</field>
+            <field>dueDate</field>
+            <field>status</field>
+        </fields>
     </section>
     <section>
-        <title>Return &amp; Renewals</title>
-        <fields>returnDate,renewalCount</fields>
+        <sectionName>return_renewals</sectionName>
+        <sectionLabel>Return &amp; Renewals</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>returnDate</field>
+            <field>renewalCount</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

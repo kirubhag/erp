@@ -1,10 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entity-fields type="ACCOUNTING_PERIOD">
-    <field name="id" label="ID" type="number" readOnly="true" hidden="true"/>
-    <field name="name" label="Period Name" type="text" required="true" searchable="true"/>
-    <field name="startDate" label="Start Date" type="date" required="true"/>
-    <field name="endDate" label="End Date" type="date" required="true"/>
-    <field name="isClosed" label="Is Closed" type="boolean" defaultValue="false"/>
-    <field name="createdAt" label="Created At" type="datetime" readOnly="true"/>
-    <field name="updatedAt" label="Updated At" type="datetime" readOnly="true"/>
-</entity-fields>
+<entityFields type="ACCOUNTING_PERIOD">
+    <field>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>false</showInList>
+        <showInForm>false</showInForm>
+    </field>
+    <field>
+        <fieldName>name</fieldName>
+        <fieldLabel>Period Name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>startDate</fieldName>
+        <fieldLabel>Start Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>endDate</fieldName>
+        <fieldLabel>End Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>isClosed</fieldName>
+        <fieldLabel>Is Closed</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
+    </field>
+    <field>
+        <fieldName>createdAt</fieldName>
+        <fieldLabel>Created At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>false</showInForm>
+    </field>
+    <field>
+        <fieldName>updatedAt</fieldName>
+        <fieldLabel>Updated At</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>false</showInForm>
+    </field>
+</entityFields>

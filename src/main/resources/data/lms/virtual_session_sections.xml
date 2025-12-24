@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="VIRTUAL_SESSION">
     <section>
-        <title>Session Configuration</title>
-        <fields>lesson,title,provider,meetingUrl,meetingId,meetingPassword,startTime,endTime,recordingUrl</fields>
+        <sectionName>session_configuration</sectionName>
+        <sectionLabel>Session Configuration</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>lesson</field>
+            <field>title</field>
+            <field>provider</field>
+            <field>meetingUrl</field>
+            <field>meetingId</field>
+            <field>meetingPassword</field>
+            <field>startTime</field>
+            <field>endTime</field>
+            <field>recordingUrl</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

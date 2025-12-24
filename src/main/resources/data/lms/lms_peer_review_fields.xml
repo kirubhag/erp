@@ -1,32 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="LMS_PEER_REVIEW">
     <field>
-        <system_name>submission</system_name>
-        <display_name>Submission</display_name>
-        <show_type>lookup</show_type>
-        <lookup_entity>LMS_SUBMISSION</lookup_entity>
-        <is_readonly>true</is_readonly>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>reviewer</system_name>
-        <display_name>Reviewed By (Peer)</display_name>
-        <show_type>lookup</show_type>
-        <lookup_entity>USER</lookup_entity>
-        <is_readonly>true</is_readonly>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>score</system_name>
-        <display_name>Score (1-100)</display_name>
-        <show_type>number</show_type>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>feedback</system_name>
-        <display_name>Feedback Comments</display_name>
-        <show_type>textarea</show_type>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <system_name>isAnonymous</system_name>
-        <display_name>Anonymous Review</display_name>
-        <show_type>checkbox</show_type>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

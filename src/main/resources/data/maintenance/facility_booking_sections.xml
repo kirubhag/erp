@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="FACILITY_BOOKING">
     <section>
-        <name>booking_info</name>
-        <label>Booking Details</label>
-        <sequence>1</sequence>
-        <fields>facilityId,bookedById,startTime,endTime,purpose,status</fields>
+        <sectionName>booking_info</sectionName>
+        <sectionLabel>booking_info</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

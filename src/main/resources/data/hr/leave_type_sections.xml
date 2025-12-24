@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LEAVE_TYPE">
     <section>
-        <id>1</id>
-        <name>Basic Information</name>
-        <codeName>BASIC_INFO</codeName>
-        <sequence>1</sequence>
+        <sectionName>basic_information</sectionName>
+        <sectionLabel>Basic Information</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <id>2</id>
-        <name>Policy Configuration</name>
-        <codeName>POLICY</codeName>
-        <sequence>2</sequence>
+        <sectionName>policy_configuration</sectionName>
+        <sectionLabel>Policy Configuration</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

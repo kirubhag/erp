@@ -1,39 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="FEE_STRUCTURE">
     <field>
-        <name>feeTypeId</name>
-        <display_name>Fee Type</display_name>
-        <type>select</type>
-        <entity_ref>FEE_TYPE</entity_ref>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>feeTypeId</fieldName>
+        <fieldLabel>feeTypeId</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>academicYearId</name>
-        <display_name>Academic Year</display_name>
-        <type>select</type>
-        <entity_ref>ACADEMIC_YEAR</entity_ref>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>academicYearId</fieldName>
+        <fieldLabel>academicYearId</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>gradeId</name>
-        <display_name>Grade/Class</display_name>
-        <type>select</type>
-        <entity_ref>GRADE</entity_ref>
-        <grid_visible>true</grid_visible>
+        <fieldName>gradeId</fieldName>
+        <fieldLabel>gradeId</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>amount</name>
-        <display_name>Amount</display_name>
-        <type>number</type>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>amount</fieldName>
+        <fieldLabel>amount</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>dueDate</name>
-        <display_name>Due Date</display_name>
-        <type>date</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>dueDate</fieldName>
+        <fieldLabel>dueDate</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

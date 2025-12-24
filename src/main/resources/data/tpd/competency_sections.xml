@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="COMPETENCY">
     <section>
-        <title>Competency Framework</title>
-        <fields>name,targetRole,requiredLevel,description</fields>
+        <sectionName>competency_framework</sectionName>
+        <sectionLabel>Competency Framework</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>name</field>
+            <field>targetRole</field>
+            <field>requiredLevel</field>
+            <field>description</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

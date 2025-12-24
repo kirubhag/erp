@@ -1,48 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="TRANSACTION">
     <field>
-        <name>transactionIdExt</name>
-        <display_name>Txn ID</display_name>
-        <type>text</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>transactionIdExt</fieldName>
+        <fieldLabel>transactionIdExt</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>invoiceId</name>
-        <display_name>Invoice</display_name>
-        <type>select</type>
-        <entity_ref>INVOICE</entity_ref>
-        <grid_visible>true</grid_visible>
+        <fieldName>invoiceId</fieldName>
+        <fieldLabel>invoiceId</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>paymentDate</name>
-        <display_name>Payment Date</display_name>
-        <type>datetime</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>paymentDate</fieldName>
+        <fieldLabel>paymentDate</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>amountPaid</name>
-        <display_name>Amount Paid</display_name>
-        <type>number</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>amountPaid</fieldName>
+        <fieldLabel>amountPaid</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>paymentMode</name>
-        <display_name>Mode</display_name>
-        <type>enum</type>
-        <options>CASH,ONLINE,CHEQUE,BANK_TRANSFER</options>
-        <grid_visible>true</grid_visible>
+        <fieldName>paymentMode</fieldName>
+        <fieldLabel>paymentMode</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>referenceNumber</name>
-        <display_name>Ref #</display_name>
-        <type>text</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>referenceNumber</fieldName>
+        <fieldLabel>referenceNumber</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>6</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>status</name>
-        <display_name>Status</display_name>
-        <type>enum</type>
-        <options>SUCCESS,PENDING,FAILED</options>
-        <grid_visible>true</grid_visible>
+        <fieldName>status</fieldName>
+        <fieldLabel>status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>7</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

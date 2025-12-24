@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="TICKET_COMMENT">
     <field>
-        <fieldName>author</fieldName>
-        <displayLabel>Author</displayLabel>
-        <uiType>13</uiType>
-        <dataType>Lookup</dataType>
-        <isRequired>true</isRequired>
-        <lookupEntity>USER</lookupEntity>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>comment</fieldName>
-        <displayLabel>Comment</displayLabel>
-        <uiType>19</uiType>
-        <dataType>String</dataType>
-        <isRequired>true</isRequired>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName>createdAt</fieldName>
-        <displayLabel>Date</displayLabel>
-        <uiType>14</uiType>
-        <dataType>LocalDateTime</dataType>
-        <isReadonly>true</isReadonly>
+        <fieldName></fieldName>
+        <fieldLabel></fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

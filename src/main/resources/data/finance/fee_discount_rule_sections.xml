@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="FEE_DISCOUNT_RULE">
     <section>
-        <name>Rule Definition</name>
-        <fields>
-            <field>name</field>
-            <field>conditionType</field>
-        </fields>
+        <sectionName>rule_definition</sectionName>
+        <sectionLabel>Rule Definition</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>Discount Logic</name>
-        <fields>
-            <field>type</field>
-            <field>value</field>
-        </fields>
+        <sectionName>discount_logic</sectionName>
+        <sectionLabel>Discount Logic</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

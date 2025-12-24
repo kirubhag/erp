@@ -1,40 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="ALUMNI_CONTRIBUTION">
     <field>
-        <name>alumniId</name>
-        <label>Alumni ID</label>
-        <type>number</type>
-        <required>true</required>
-        <show_in_list>true</show_in_list>
-        <sequence>1</sequence>
+        <fieldName>alumniId</fieldName>
+        <fieldLabel>Alumni ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>type</name>
-        <label>Contribution Type</label>
-        <type>select</type>
-        <options>DONATION,VOLUNTEER,MENTORSHIP</options>
-        <show_in_list>true</show_in_list>
-        <sequence>2</sequence>
+        <fieldName>type</fieldName>
+        <fieldLabel>Contribution Type</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>amount</name>
-        <label>Amount (if financial)</label>
-        <type>number</type>
-        <show_in_list>true</show_in_list>
-        <sequence>3</sequence>
+        <fieldName>amount</fieldName>
+        <fieldLabel>Amount (if financial)</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>contributionDate</name>
-        <label>Date</label>
-        <type>date</type>
-        <show_in_list>true</show_in_list>
-        <sequence>4</sequence>
+        <fieldName>contributionDate</fieldName>
+        <fieldLabel>Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>description</name>
-        <label>Description</label>
-        <type>textarea</type>
-        <show_in_list>true</show_in_list>
-        <sequence>5</sequence>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

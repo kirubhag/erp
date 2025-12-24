@@ -1,38 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="FINE_LEDGER">
     <field>
-        <name>studentId</name>
-        <display_name>Student</display_name>
-        <type>select</type>
-        <entity_ref>STUDENT</entity_ref>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>studentId</fieldName>
+        <fieldLabel>studentId</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>fineConfigId</name>
-        <display_name>Fine Applied</display_name>
-        <type>select</type>
-        <entity_ref>FINE_CONFIGURATION</entity_ref>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>fineConfigId</fieldName>
+        <fieldLabel>fineConfigId</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>accruedAmount</name>
-        <display_name>Total Accrual</display_name>
-        <type>number</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>accruedAmount</fieldName>
+        <fieldLabel>accruedAmount</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>status</name>
-        <display_name>Status</display_name>
-        <type>enum</type>
-        <options>PENDING,PAID,WAIVED</options>
-        <grid_visible>true</grid_visible>
+        <fieldName>status</fieldName>
+        <fieldLabel>status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>issuedAt</name>
-        <display_name>Issued At</display_name>
-        <type>datetime</type>
-        <grid_visible>true</grid_visible>
+        <fieldName>issuedAt</fieldName>
+        <fieldLabel>issuedAt</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <displayOrder>5</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>

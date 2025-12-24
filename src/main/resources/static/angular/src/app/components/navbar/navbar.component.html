@@ -5,16 +5,17 @@
       {{organizationName}}
     </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <button class="navbar-toggler" type="button" (click)="toggleNavbar()" 
+            [attr.aria-expanded]="!isNavbarCollapsed" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="navbar-collapse" [class.collapse]="isNavbarCollapsed" [class.show]="!isNavbarCollapsed" id="navbarNav">
       <ul class="navbar-nav me-auto">
         <!-- Dynamic menu items -->
         <li class="nav-item" *ngFor="let menuItem of visibleMenuItems; trackBy: trackByMenuItem">
           <a class="nav-link" [routerLink]="[menuItem.route]" routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: false}">
+            [routerLinkActiveOptions]="{exact: false}" (click)="closeNavbar()">
             <i [class]="(menuItem.icon || 'fas fa-circle') + ' me-1'"></i>{{menuItem.pluralName}}
           </a>
         </li>

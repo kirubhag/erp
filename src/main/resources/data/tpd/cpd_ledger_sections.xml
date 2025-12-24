@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="CPD_LEDGER">
     <section>
-        <title>Credit Passport</title>
-        <fields>staff,academicYear,creditsEarned,creditsRequired</fields>
+        <sectionName>credit_passport</sectionName>
+        <sectionLabel>Credit Passport</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>staff</field>
+            <field>academicYear</field>
+            <field>creditsEarned</field>
+            <field>creditsRequired</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

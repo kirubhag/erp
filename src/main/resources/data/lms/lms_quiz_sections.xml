@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="LMS_QUIZ">
     <section>
-        <title>Quiz Configuration</title>
-        <fields>lesson,subject,title,description,timeLimitMinutes,passingScore</fields>
+        <sectionName>quiz_configuration</sectionName>
+        <sectionLabel>Quiz Configuration</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>lesson</field>
+            <field>subject</field>
+            <field>title</field>
+            <field>description</field>
+            <field>timeLimitMinutes</field>
+            <field>passingScore</field>
+        </fields>
     </section>
-</sections>
+</entitySections>

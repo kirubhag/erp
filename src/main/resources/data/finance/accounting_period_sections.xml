@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entity-sections type="ACCOUNTING_PERIOD">
-    <section title="Period Details">
-        <field-ref name="name"/>
-        <field-ref name="startDate"/>
-        <field-ref name="endDate"/>
-        <field-ref name="isClosed"/>
+<entitySections type="ACCOUNTING_PERIOD">
+    <section>
+        <sectionName>period_details</sectionName>
+        <sectionLabel>Period Details</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
+        <fields>
+            <field>name</field>
+            <field>startDate</field>
+            <field>endDate</field>
+            <field>isClosed</field>
+        </fields>
     </section>
-</entity-sections>
+</entitySections>

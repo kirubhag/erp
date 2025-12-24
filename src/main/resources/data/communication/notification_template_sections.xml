@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sections>
+<entitySections type="NOTIFICATION_TEMPLATE">
     <section>
-        <name>basic_info</name>
-        <label>Template Details</label>
-        <sequence>1</sequence>
-        <fields>name,channel,subject,placeholders</fields>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>basic_info</sectionLabel>
+        <displayOrder>1</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
     <section>
-        <name>content_info</name>
-        <label>Template Content</label>
-        <sequence>2</sequence>
-        <fields>content</fields>
+        <sectionName>content_info</sectionName>
+        <sectionLabel>content_info</sectionLabel>
+        <displayOrder>2</displayOrder>
+        <isCollapsible>true</isCollapsible>
+        <isDefaultExpanded>true</isDefaultExpanded>
     </section>
-</sections>
+</entitySections>

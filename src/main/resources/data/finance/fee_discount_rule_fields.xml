@@ -1,31 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fields>
+<entityFields type="FEE_DISCOUNT_RULE">
     <field>
-        <name>name</name>
-        <display_name>Discount Name</display_name>
-        <type>text</type>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>name</fieldName>
+        <fieldLabel>name</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>1</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>type</name>
-        <display_name>Discount Type</display_name>
-        <type>enum</type>
-        <options>PERCENTAGE,FIXED</options>
-        <grid_visible>true</grid_visible>
+        <fieldName>type</fieldName>
+        <fieldLabel>type</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <displayOrder>2</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>value</name>
-        <display_name>Discount Value</display_name>
-        <type>number</type>
-        <required>true</required>
-        <grid_visible>true</grid_visible>
+        <fieldName>value</fieldName>
+        <fieldLabel>value</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <displayOrder>3</displayOrder>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
     <field>
-        <name>conditionType</name>
-        <display_name>Applicable Condition</display_name>
-        <type>text</type>
-        <placeholder>e.g. SIBLING, MERIT</placeholder>
-        <grid_visible>true</grid_visible>
+        <fieldName>conditionType</fieldName>
+        <fieldLabel>conditionType</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <displayOrder>4</displayOrder>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showInList>true</showInList>
+        <showInForm>true</showInForm>
     </field>
-</fields>
+</entityFields>
