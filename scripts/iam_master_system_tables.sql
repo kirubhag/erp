@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS role_permissions (
 -- =============================================================================
 CREATE TABLE IF NOT EXISTS erp_sections (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(50) NOT NULL,
+    entity_type VARCHAR(250) NOT NULL,
     section_name VARCHAR(100) NOT NULL,
     section_label VARCHAR(200) NOT NULL,
     layout_type VARCHAR(20) NOT NULL DEFAULT 'TWO_COLUMN',
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS erp_sections (
 -- =============================================================================
 CREATE TABLE IF NOT EXISTS erp_fields (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(100) NOT NULL,
+    entity_type VARCHAR(250) NOT NULL,
     field_name VARCHAR(100) NOT NULL,
     field_label VARCHAR(200) NOT NULL,
     field_type VARCHAR(50) NOT NULL,

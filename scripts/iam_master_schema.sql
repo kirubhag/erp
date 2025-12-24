@@ -12,11 +12,7 @@ CREATE TABLE IF NOT EXISTS erp_tenants (
     tenant_name VARCHAR(255) NOT NULL,
     db_host VARCHAR(255) NOT NULL,
     db_name VARCHAR(255) NOT NULL,
-    status ENUM(
-        'Active',
-        'Inactive',
-        'Suspended'
-    ) NOT NULL DEFAULT 'Active',
+    status VARCHAR(250) NOT NULL DEFAULT 'Active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE KEY uk_tenant_db (db_host, db_name)

@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS role_permissions (
 -- Address table - Created early as it's used polymorphically
 CREATE TABLE IF NOT EXISTS addresses (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(50) NOT NULL,
+    entity_type VARCHAR(250) NOT NULL,
     entity_id BIGINT NOT NULL,
     address_line1 VARCHAR(100),
     address_line2 VARCHAR(100),
@@ -530,7 +530,7 @@ CREATE TABLE IF NOT EXISTS health_records (
 
 CREATE TABLE IF NOT EXISTS erp_fields (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(100) NOT NULL,
+    entity_type VARCHAR(250) NOT NULL,
     field_name VARCHAR(100) NOT NULL,
     field_label VARCHAR(200) NOT NULL,
     field_type VARCHAR(50) NOT NULL,
@@ -572,7 +572,7 @@ CREATE TABLE IF NOT EXISTS erp_fields (
 -- ERP Sections table - Stores module section configurations
 CREATE TABLE IF NOT EXISTS erp_sections (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(50) NOT NULL,
+    entity_type VARCHAR(250) NOT NULL,
     section_name VARCHAR(100) NOT NULL,
     section_label VARCHAR(200) NOT NULL,
     layout_type VARCHAR(20) NOT NULL DEFAULT 'TWO_COLUMN',
@@ -617,7 +617,7 @@ CREATE TABLE IF NOT EXISTS email_templates (
     template_name VARCHAR(100) NOT NULL,
     subject VARCHAR(200) NOT NULL,
     body TEXT NOT NULL,
-    entity_type VARCHAR(100) NOT NULL,
+    entity_type VARCHAR(250) NOT NULL,
     description VARCHAR(500),
     last_used DATETIME,
     usage_count INT NOT NULL DEFAULT 0,
@@ -636,7 +636,7 @@ CREATE TABLE IF NOT EXISTS email_templates (
 CREATE TABLE IF NOT EXISTS email_logs (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     template_id BIGINT,
-    entity_type VARCHAR(100) NOT NULL,
+    entity_type VARCHAR(250) NOT NULL,
     entity_id BIGINT NOT NULL,
     recipient_email VARCHAR(255) NOT NULL,
     recipient_name VARCHAR(200),
@@ -714,7 +714,7 @@ CREATE TABLE IF NOT EXISTS custom_views (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     view_name VARCHAR(100) NOT NULL,
     description VARCHAR(500),
-    entity_type VARCHAR(50) NOT NULL,
+    entity_type VARCHAR(250) NOT NULL,
     is_default BOOLEAN DEFAULT false,
     created_by_user VARCHAR(100),
     is_public BOOLEAN DEFAULT false,
@@ -745,7 +745,7 @@ CREATE TABLE IF NOT EXISTS recycle_bin (
     recycle_bin_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_id BIGINT NOT NULL,
     entity_name VARCHAR(100) NOT NULL,
-    entity_type VARCHAR(100) NOT NULL,
+    entity_type VARCHAR(250) NOT NULL,
     deleted_by VARCHAR(100) NOT NULL,
     deleted_time DATETIME NOT NULL,
     deletion_reason VARCHAR(500),

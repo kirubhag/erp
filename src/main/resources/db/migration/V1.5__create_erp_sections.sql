@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS erp_sections (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
 
 -- Section Identification
-entity_type VARCHAR(50) NOT NULL COMMENT 'Entity type this section belongs to',
+entity_type VARCHAR(250) NOT NULL COMMENT 'Entity type this section belongs to',
 section_name VARCHAR(100) NOT NULL COMMENT 'Unique system name for the section',
 section_label VARCHAR(200) NOT NULL COMMENT 'Display label for the section',
 

@@ -4,20 +4,53 @@ SET FOREIGN_KEY_CHECKS = 0;
 CREATE TABLE IF NOT EXISTS academic_settings (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     organization_id BIGINT NOT NULL UNIQUE,
-
--- Attendance Settings
-enable_attendance_tracking BOOLEAN DEFAULT true,
-attendance_calculation_method VARCHAR(20);
+    enable_attendance_tracking BOOLEAN DEFAULT true,
+    attendance_calculation_method VARCHAR(20) DEFAULT 'percentage',
+    minimum_attendance_percentage DOUBLE DEFAULT 75.0,
+    allow_late_marking BOOLEAN DEFAULT true,
+    late_marking_cutoff_minutes INT DEFAULT 30,
+    enable_biometric_integration BOOLEAN DEFAULT false,
+    default_exam_duration INT DEFAULT 60,
+    allow_makeup_exams BOOLEAN DEFAULT true,
+    makeup_exam_deadline_days INT DEFAULT 7,
+    passing_percentage DOUBLE DEFAULT 40.0,
+    enable_grade_moderation BOOLEAN DEFAULT false,
+    auto_calculate_grades BOOLEAN DEFAULT true,
+    publish_results_immediately BOOLEAN DEFAULT false,
+    auto_promote_students BOOLEAN DEFAULT false,
+    minimum_attendance_for_promotion DOUBLE DEFAULT 75.0,
+    minimum_grade_for_promotion DOUBLE DEFAULT 40.0,
+    allow_grace_marks BOOLEAN DEFAULT true,
+    grace_marks_limit DOUBLE DEFAULT 5.0,
+    require_all_subjects_pass BOOLEAN DEFAULT true,
+    allow_compartment_exams BOOLEAN DEFAULT true,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 -- Table from SQL file: academic_terms
 CREATE TABLE IF NOT EXISTS academic_terms (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100);
+    name VARCHAR(100) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    academic_year_id BIGINT NOT NULL,
+    organization_id BIGINT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 -- Table from SQL file: academic_years
 CREATE TABLE IF NOT EXISTS academic_years (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50);
+    name VARCHAR(50) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT false,
+    organization_id BIGINT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 -- Table from SQL file: addresses
 CREATE TABLE IF NOT EXISTS addresses (
@@ -76,7 +109,18 @@ CREATE TABLE IF NOT EXISTS attendance (
 -- Table from SQL file: courses
 CREATE TABLE IF NOT EXISTS courses (
     course_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    course_code VARCHAR(50);
+    course_name VARCHAR(100) NOT NULL,
+    course_code VARCHAR(20) NOT NULL UNIQUE,
+    description TEXT,
+    credits INT,
+    department VARCHAR(100),
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1
+);
 
 -- Table from SQL file: custom_view_fields
 CREATE TABLE IF NOT EXISTS custom_view_fields (
@@ -830,7 +874,7 @@ CREATE TABLE IF NOT EXISTS erp_fee_types (
 -- Table from SQL file: erp_fields
 CREATE TABLE IF NOT EXISTS erp_fields (
     erp_field_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(100) NOT NULL,
+    entity_type VARCHAR(250) NOT NULL,
     field_name VARCHAR(100) NOT NULL,
     field_label VARCHAR(200) NOT NULL,
     field_type VARCHAR(50) NOT NULL,
@@ -852,6 +896,7 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     show_in_list BOOLEAN DEFAULT true,
     show_in_form BOOLEAN DEFAULT true,
     column_width VARCHAR(50) DEFAULT 'medium',
+    show_type INT DEFAULT 0,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -862,6 +907,7 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     INDEX idx_entity_type (entity_type),
     INDEX idx_field_name (field_name),
     INDEX idx_section_id (section_id),
+    INDEX idx_show_type (show_type),
     INDEX idx_is_active (is_active)
 );
 
@@ -1722,7 +1768,7 @@ CREATE TABLE IF NOT EXISTS erp_rooms (
 -- Table from SQL file: erp_sections
 CREATE TABLE IF NOT EXISTS erp_sections (
     erp_section_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(50) NOT NULL,
+    entity_type VARCHAR(250) NOT NULL,
     section_name VARCHAR(100) NOT NULL,
     section_label VARCHAR(200) NOT NULL,
     layout_type VARCHAR(20) NOT NULL DEFAULT 'TWO_COLUMN',
@@ -1938,17 +1984,53 @@ CREATE TABLE IF NOT EXISTS erp_tpd_training_events (
 -- Table from SQL file: exams
 CREATE TABLE IF NOT EXISTS exams (
     exam_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    exam_name VARCHAR(255);
+    exam_name VARCHAR(255) NOT NULL,
+    exam_code VARCHAR(50),
+    exam_type VARCHAR(50),
+    exam_date DATE,
+    start_time TIME,
+    end_time TIME,
+    duration_minutes INT,
+    total_marks DECIMAL(10,2),
+    passing_marks DECIMAL(10,2),
+    subject_id BIGINT,
+    class_id BIGINT,
+    academic_year VARCHAR(50),
+    semester VARCHAR(50),
+    instructions TEXT,
+    organization_id BIGINT,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1
+);
 
 -- Table from SQL file: field_mapping_templates
 CREATE TABLE IF NOT EXISTS field_mapping_templates (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(50);
+    field_mapping_template_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    entity_type VARCHAR(50) NOT NULL,
+    field_name VARCHAR(100) NOT NULL,
+    field_label VARCHAR(255) NOT NULL,
+    is_required BOOLEAN DEFAULT false,
+    data_type VARCHAR(50),
+    suggestions TEXT,
+    section VARCHAR(100),
+    display_order INT DEFAULT 0
+);
 
 -- Table from SQL file: field_mappings
 CREATE TABLE IF NOT EXISTS field_mappings (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    import_session_id VARCHAR(50);
+    field_mapping_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    import_session_id VARCHAR(50) NOT NULL,
+    source_column VARCHAR(255),
+    source_index INT,
+    target_field VARCHAR(255),
+    target_field_label VARCHAR(255),
+    is_required BOOLEAN DEFAULT false,
+    data_type VARCHAR(50)
+);
 
 -- Table generated from JPA: fin_scholarship_applications
 CREATE TABLE IF NOT EXISTS fin_scholarship_applications (
@@ -1993,7 +2075,15 @@ CREATE TABLE IF NOT EXISTS fin_scholarship_disbursements (
 -- Table from SQL file: grading_scales
 CREATE TABLE IF NOT EXISTS grading_scales (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50);
+    name VARCHAR(50) NOT NULL,
+    letter_grade VARCHAR(10) NOT NULL,
+    min_percentage DOUBLE NOT NULL,
+    max_percentage DOUBLE NOT NULL,
+    grade_point DOUBLE NOT NULL,
+    organization_id BIGINT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 -- Table from SQL file: health_records
 CREATE TABLE IF NOT EXISTS health_records (
@@ -2084,26 +2174,99 @@ CREATE TABLE IF NOT EXISTS import_history (
 
 -- Table from SQL file: import_results
 CREATE TABLE IF NOT EXISTS import_results (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    import_session_id VARCHAR(50);
+    import_result_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    import_session_id VARCHAR(50) NOT NULL,
+    row_num INT,
+    record_id VARCHAR(255),
+    status VARCHAR(50) NOT NULL,
+    data TEXT,
+    errors TEXT,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Table from SQL file: import_sessions
 CREATE TABLE IF NOT EXISTS import_sessions (
-    id VARCHAR(50);
+    id VARCHAR(50) PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    organization_id BIGINT,
+    entity_type VARCHAR(50) NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_format VARCHAR(20),
+    total_records INT,
+    file_size BIGINT,
+    import_type VARCHAR(20),
+    duplicate_action VARCHAR(20),
+    find_duplicates_by VARCHAR(50),
+    enable_manual_approval BOOLEAN DEFAULT false,
+    skip_empty_fields BOOLEAN DEFAULT false,
+    status VARCHAR(20),
+    uploaded_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    imported_at DATETIME,
+    updated_at DATETIME,
+    added_records INT DEFAULT 0,
+    updated_records INT DEFAULT 0,
+    skipped_records INT DEFAULT 0,
+    failed_records INT DEFAULT 0,
+    success_rate DOUBLE DEFAULT 0.0
+);
 
 -- Table from SQL file: login_history
 CREATE TABLE IF NOT EXISTS login_history (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
-    username VARCHAR(100);
+    username VARCHAR(100) NOT NULL,
+    login_time DATETIME NOT NULL,
+    ip_address VARCHAR(50),
+    browser VARCHAR(255),
+    status VARCHAR(20),
+    failure_reason VARCHAR(500)
+);
 
 -- Table from SQL file: organization_settings
 CREATE TABLE IF NOT EXISTS organization_settings (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    organization_id BIGINT NOT NULL,
-
--- Theme and Display Settings
-default_theme VARCHAR(50);
+    organization_settings_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    organization_id BIGINT NOT NULL UNIQUE,
+    default_theme VARCHAR(50),
+    theme_primary_color VARCHAR(7),
+    theme_secondary_color VARCHAR(7),
+    theme_accent_color VARCHAR(7),
+    default_language VARCHAR(10),
+    default_timezone VARCHAR(50),
+    default_date_format VARCHAR(20),
+    default_time_format VARCHAR(20),
+    default_currency VARCHAR(3),
+    items_per_page INT,
+    default_list_view VARCHAR(20),
+    enable_smart_filters BOOLEAN,
+    enable_column_customization BOOLEAN,
+    enable_bulk_operations BOOLEAN,
+    enable_audit_logging BOOLEAN,
+    data_retention_days INT,
+    max_file_upload_mb INT,
+    smtp_server VARCHAR(255),
+    smtp_port INT,
+    smtp_username VARCHAR(100),
+    smtp_password VARCHAR(255),
+    smtp_from_email VARCHAR(100),
+    smtp_from_name VARCHAR(100),
+    email_templates_enabled BOOLEAN,
+    enable_two_factor_auth BOOLEAN,
+    session_timeout_minutes INT,
+    password_expiry_days INT,
+    min_password_length INT,
+    require_special_characters BOOLEAN,
+    enable_email_notifications BOOLEAN,
+    enable_sms_notifications BOOLEAN,
+    enable_in_app_notifications BOOLEAN,
+    notification_sound_enabled BOOLEAN,
+    api_rate_limit_per_minute INT,
+    enable_api_documentation BOOLEAN,
+    enable_webhooks BOOLEAN,
+    created_by VARCHAR(100) NOT NULL,
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME
+);
 
 -- Table from SQL file: organizations
 CREATE TABLE IF NOT EXISTS organizations (
@@ -2201,11 +2364,29 @@ CREATE TABLE IF NOT EXISTS parents (
 
 -- Table from SQL file: payment_transactions
 CREATE TABLE IF NOT EXISTS payment_transactions (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    payment_transaction_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     subscription_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     organization_id BIGINT NOT NULL,
-    transaction_id VARCHAR(100);
+    transaction_id VARCHAR(100) NOT NULL UNIQUE,
+    transaction_type VARCHAR(20) NOT NULL,
+    payment_method VARCHAR(50),
+    amount DECIMAL(10, 2) NOT NULL,
+    currency VARCHAR(3) DEFAULT 'USD',
+    transaction_status VARCHAR(20) NOT NULL,
+    payment_gateway VARCHAR(50),
+    gateway_response JSON,
+    error_message TEXT,
+    transaction_date DATETIME NOT NULL,
+    processed_at DATETIME,
+    refunded_at DATETIME,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_subscription_id (subscription_id),
+    INDEX idx_user_id (user_id),
+    INDEX idx_transaction_id (transaction_id),
+    INDEX idx_transaction_status (transaction_status),
+    INDEX idx_transaction_date (transaction_date)
+);
 
 -- Table from SQL file: permissions
 CREATE TABLE IF NOT EXISTS permissions (
@@ -2228,8 +2409,25 @@ CREATE TABLE IF NOT EXISTS permissions (
 
 -- Table from SQL file: pricing_plans
 CREATE TABLE IF NOT EXISTS pricing_plans (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    plan_name VARCHAR(50);
+    pricing_plan_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    plan_name VARCHAR(50) NOT NULL UNIQUE,
+    plan_type VARCHAR(20) NOT NULL,
+    display_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price_monthly DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    price_yearly DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    max_users INT,
+    max_storage_gb INT,
+    features JSON,
+    is_active BOOLEAN DEFAULT TRUE,
+    is_trial_eligible BOOLEAN DEFAULT FALSE,
+    trial_days INT DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME,
+    INDEX idx_plan_name (plan_name),
+    INDEX idx_plan_type (plan_type),
+    INDEX idx_is_active (is_active)
+);
 
 -- Table from SQL file: recycle_bin
 CREATE TABLE IF NOT EXISTS recycle_bin (
@@ -2386,23 +2584,72 @@ created_by VARCHAR(100),
 
 -- Table from SQL file: student_promotion_audit_log
 CREATE TABLE IF NOT EXISTS student_promotion_audit_log (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    promotion_record_id BIGINT NOT NULL,
-    action VARCHAR(100);
+    log_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    batch_id BIGINT,
+    record_id BIGINT,
+    action_type VARCHAR(50) NOT NULL,
+    performed_by BIGINT NOT NULL,
+    target_student_id BIGINT,
+    old_value VARCHAR(500),
+    new_value VARCHAR(500),
+    details TEXT,
+    ip_address VARCHAR(45),
+    user_agent VARCHAR(255),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_batch_id (batch_id),
+    INDEX idx_record_id (record_id),
+    INDEX idx_action_type (action_type),
+    INDEX idx_performed_by (performed_by),
+    INDEX idx_created_at (created_at)
+);
 
 -- Table from SQL file: student_promotion_batch
 CREATE TABLE IF NOT EXISTS student_promotion_batch (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    batch_name VARCHAR(255);
+    batch_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    batch_name VARCHAR(200) NOT NULL,
+    academic_year_from VARCHAR(20) NOT NULL,
+    academic_year_to VARCHAR(20) NOT NULL,
+    promotion_date DATE NOT NULL,
+    initiated_by BIGINT NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    total_students INT DEFAULT 0,
+    successful_promotions INT DEFAULT 0,
+    failed_promotions INT DEFAULT 0,
+    processed_students INT DEFAULT 0,
+    progress_percentage DOUBLE DEFAULT 0.0,
+    current_phase VARCHAR(50),
+    notes TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME,
+    completed_at DATETIME,
+    started_at DATETIME,
+    INDEX idx_status (status),
+    INDEX idx_initiated_by (initiated_by),
+    INDEX idx_promotion_date (promotion_date),
+    INDEX idx_created_at (created_at)
+);
 
 -- Table from SQL file: student_promotion_record
 CREATE TABLE IF NOT EXISTS student_promotion_record (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    record_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     batch_id BIGINT NOT NULL,
     student_id BIGINT NOT NULL,
-    from_class_id BIGINT,
-    to_class_id BIGINT,
-    promotion_status VARCHAR(50);
+    from_grade_level VARCHAR(20) NOT NULL,
+    to_grade_level VARCHAR(20) NOT NULL,
+    from_section VARCHAR(20),
+    to_section VARCHAR(20),
+    promotion_status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    failure_reason VARCHAR(500),
+    promoted_at DATETIME,
+    rolled_back_at DATETIME,
+    student_snapshot JSON,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME,
+    INDEX idx_batch_id (batch_id),
+    INDEX idx_student_id (student_id),
+    INDEX idx_promotion_status (promotion_status),
+    FOREIGN KEY (batch_id) REFERENCES student_promotion_batch(batch_id) ON DELETE CASCADE
+);
 
 -- Table from SQL file: students
 CREATE TABLE IF NOT EXISTS students (
@@ -2466,13 +2713,24 @@ CREATE TABLE IF NOT EXISTS subjects (
 
 -- Table from SQL file: subscription_history
 CREATE TABLE IF NOT EXISTS subscription_history (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    subscription_change_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     subscription_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     organization_id BIGINT NOT NULL,
     previous_plan_id BIGINT,
     new_plan_id BIGINT NOT NULL,
-    change_type VARCHAR(20);
+    change_type VARCHAR(20) NOT NULL,
+    change_reason TEXT,
+    previous_status VARCHAR(20),
+    new_status VARCHAR(20),
+    effective_date DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by BIGINT,
+    INDEX idx_subscription_id (subscription_id),
+    INDEX idx_user_id (user_id),
+    INDEX idx_change_type (change_type),
+    INDEX idx_effective_date (effective_date)
+);
 
 -- Table from SQL file: user_roles
 CREATE TABLE IF NOT EXISTS user_roles (
@@ -2489,16 +2747,54 @@ CREATE TABLE IF NOT EXISTS user_settings (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     organization_id BIGINT NOT NULL,
-
--- Theme and Display Preferences
-theme VARCHAR(50);
+    default_list_view VARCHAR(20) DEFAULT 'table',
+    records_per_page INT DEFAULT 25,
+    theme VARCHAR(50) DEFAULT '#0099cc',
+    theme_primary_color VARCHAR(50) DEFAULT '#0099cc',
+    theme_secondary_color VARCHAR(50),
+    theme_accent_color VARCHAR(50),
+    theme_custom_colors JSON,
+    grid_columns JSON,
+    column_widths JSON,
+    hidden_columns JSON,
+    list_sidebar_expanded BOOLEAN DEFAULT TRUE,
+    saved_filters JSON,
+    saved_views JSON,
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE,
+    INDEX idx_user_id (user_id),
+    INDEX idx_organization_id (organization_id),
+    INDEX idx_is_active (is_active),
+    UNIQUE KEY uk_user_org (user_id, organization_id)
+);
 
 -- Table from SQL file: user_subscriptions
 CREATE TABLE IF NOT EXISTS user_subscriptions (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_subscription_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     organization_id BIGINT NOT NULL,
     plan_id BIGINT NOT NULL,
-    subscription_status VARCHAR(20);
+    subscription_status VARCHAR(20) NOT NULL,
+    billing_cycle VARCHAR(20),
+    trial_start_date DATE,
+    trial_end_date DATE,
+    subscription_start_date DATE NOT NULL,
+    subscription_end_date DATE,
+    next_billing_date DATE,
+    is_auto_renew BOOLEAN DEFAULT TRUE,
+    payment_status VARCHAR(20),
+    amount_paid DECIMAL(10, 2) DEFAULT 0.00,
+    currency VARCHAR(3) DEFAULT 'USD',
+    notes TEXT,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME,
+    created_by BIGINT,
+    updated_by BIGINT,
+    INDEX idx_user_id (user_id),
+    INDEX idx_organization_id (organization_id),
+    INDEX idx_plan_id (plan_id),
+    INDEX idx_subscription_status (subscription_status),
+    INDEX idx_next_billing_date (next_billing_date)
+);
 
 SET FOREIGN_KEY_CHECKS = 1;
