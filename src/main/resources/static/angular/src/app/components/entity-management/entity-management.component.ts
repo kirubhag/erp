@@ -151,22 +151,22 @@ export class EntityManagementComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Get the entity type from the route path
     const routePath = this.route.snapshot.url[0]?.path || '';
     this.entityType = routePath;
-    
+
     console.log(`========================================`);
     console.log(`EntityManagementComponent ngOnInit`);
     console.log(`Route Path: ${routePath}`);
     console.log(`Entity Type: ${this.entityType}`);
     console.log(`========================================`);
-    
+
     this.initializeEntityType();
     this.loadData();
-    
+
     // Also subscribe to route changes for navigation between entity types
     this.route.paramMap.subscribe(params => {
       const newRoutePath = this.route.snapshot.url[0]?.path || '';
@@ -177,9 +177,68 @@ export class EntityManagementComponent implements OnInit {
         this.loadData();
       }
     });
+
+    // Load dynamic columns if not hardcoded
+    if (this.columns.length === 0) {
+      this.loadDynamicColumns();
+    }
+  }
+
+  private loadDynamicColumns(): void {
+    const entityTypeMapping: { [key: string]: string } = {
+      'job-postings': 'JOB_POSTING',
+      'job-applications': 'JOB_APPLICATION',
+      'inquiries': 'ADMISSION_INQUIRY',
+      'applications': 'ADMISSION_APPLICATION'
+    };
+
+    const apiEntityType = entityTypeMapping[this.entityType] || this.entityType.toUpperCase();
+
+    console.log(`Loading dynamic columns for ${this.entityType} (API type: ${apiEntityType})`);
+
+    this.http.get<any[]>(`/api/fields/${apiEntityType}`).subscribe({
+      next: (fields) => {
+        if (fields && fields.length > 0) {
+          this.columns = fields
+            .filter(f => f.showInList)
+            .sort((a, b) => a.displayOrder - b.displayOrder)
+            .map(f => ({
+              key: f.fieldName,
+              label: f.fieldLabel,
+              type: this.mapFieldTypeToColumnType(f.fieldType),
+              sortable: f.isSortable,
+              width: f.defaultWidth ? `${f.defaultWidth}px` : undefined
+            }));
+          console.log(`Loaded ${this.columns.length} dynamic columns`);
+        }
+      },
+      error: (err) => console.error('Failed to load dynamic columns', err)
+    });
+  }
+
+  private mapFieldTypeToColumnType(fieldType: string): 'text' | 'email' | 'badge' | 'date' | 'avatar' | 'custom' | 'number' {
+    switch (fieldType) {
+      case 'EMAIL': return 'email';
+      case 'DATE':
+      case 'DATETIME': return 'date';
+      case 'NUMBER':
+      case 'DECIMAL':
+      case 'LONG': return 'number';
+      case 'ENUM':
+      case 'BOOLEAN': return 'badge';
+      default: return 'text';
+    }
   }
 
   private initializeEntityType(): void {
+    // Add default endpoint mappings
+    if (!this.apiEndpoints[this.entityType]) {
+      // Try to guess endpoint if not hardcoded
+      if (this.entityType === 'job-postings') this.apiEndpoints['job-postings'] = '/api/recruitment/job-postings';
+      else if (this.entityType === 'job-applications') this.apiEndpoints['job-applications'] = '/api/recruitment/applications';
+      else if (this.entityType === 'inquiries') this.apiEndpoints['inquiries'] = '/api/admission/inquiries';
+      else if (this.entityType === 'applications') this.apiEndpoints['applications'] = '/api/admission/applications';
+    }
     switch (this.entityType) {
       case 'staff':
         this.title = 'Staff Members';
@@ -235,6 +294,26 @@ export class EntityManagementComponent implements OnInit {
         this.entityNamePlural = 'Grades';
         this.columns = this.columnMappings['grades'];
         break;
+      case 'job-postings':
+        this.title = 'Job Postings';
+        this.entityName = 'Job Posting';
+        this.entityNamePlural = 'Job Postings';
+        break;
+      case 'job-applications':
+        this.title = 'Job Applications';
+        this.entityName = 'Job Application';
+        this.entityNamePlural = 'Job Applications';
+        break;
+      case 'inquiries':
+        this.title = 'Admission Inquiries';
+        this.entityName = 'Inquiry';
+        this.entityNamePlural = 'Inquiries';
+        break;
+      case 'applications':
+        this.title = 'Admission Applications';
+        this.entityName = 'Application';
+        this.entityNamePlural = 'Applications';
+        break;
       default:
         this.title = 'Entity Management';
         this.entityName = 'Item';
@@ -247,12 +326,12 @@ export class EntityManagementComponent implements OnInit {
     console.log(`=== LOADDATA CALLED ===`);
     console.log(`Entity Type: ${this.entityType}`);
     console.log(`All API Endpoints:`, this.apiEndpoints);
-    
+
     this.loading = true;
     const endpoint = this.apiEndpoints[this.entityType];
-    
+
     console.log(`Resolved endpoint for '${this.entityType}': ${endpoint}`);
-    
+
     if (!endpoint) {
       console.error(`❌ No API endpoint configured for entity type: ${this.entityType}`);
       console.error(`Available endpoints:`, Object.keys(this.apiEndpoints));
@@ -340,8 +419,8 @@ export class EntityManagementComponent implements OnInit {
     switch (event.action) {
       case 'import':
         console.log(`Import ${this.entityType} - navigating to import-wizard route`);
-        this.router.navigate(['/import-wizard'], { 
-          queryParams: { entityType: this.entityType } 
+        this.router.navigate(['/import-wizard'], {
+          queryParams: { entityType: this.entityType }
         }).then(success => {
           console.log('Navigation:', success ? 'SUCCESS' : 'FAILED');
         });

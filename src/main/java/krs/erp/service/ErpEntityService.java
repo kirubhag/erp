@@ -59,12 +59,12 @@ public class ErpEntityService {
     @Transactional(readOnly = true)
     public List<ErpEntity> getActiveMenuItems() {
         List<ErpEntity> items = erpEntityRepository.findActiveMenuItems();
-        
+
         // If no items found in tenant DB, fallback to master DB
         if (items == null || items.isEmpty()) {
             items = getMenuItemsFromMasterDb();
         }
-        
+
         return items;
     }
 
@@ -75,10 +75,10 @@ public class ErpEntityService {
         try {
             JdbcTemplate masterJdbc = new JdbcTemplate(masterDataSource);
             String sql = "SELECT erp_entity_id, singular_name, plural_name, description, is_active, " +
-                        "sequence, system_name, presence, icon, route, table_name, pkid, display_column, " +
-                        "has_rel_table, created_date, last_modified_date, created_by, last_modified_by " +
-                        "FROM erp_entities WHERE is_active = true AND presence = true ORDER BY sequence ASC";
-            
+                    "sequence, system_name, presence, icon, route, table_name, pkid, display_column, " +
+                    "has_rel_table, created_date, last_modified_date, created_by, last_modified_by " +
+                    "FROM erp_entities WHERE is_active = true AND presence = true ORDER BY sequence ASC";
+
             return masterJdbc.query(sql, (rs, rowNum) -> {
                 ErpEntity entity = new ErpEntity();
                 entity.setId(rs.getLong("erp_entity_id"));
@@ -143,7 +143,7 @@ public class ErpEntityService {
     public ErpEntity updateEntity(Long id, ErpEntity updatedEntity) {
         ErpEntity entity = erpEntityRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Entity not found with id: " + id));
-        
+
         entity.setSingularName(updatedEntity.getSingularName());
         entity.setPluralName(updatedEntity.getPluralName());
         entity.setDescription(updatedEntity.getDescription());
@@ -154,7 +154,7 @@ public class ErpEntityService {
         entity.setIcon(updatedEntity.getIcon());
         entity.setRoute(updatedEntity.getRoute());
         entity.setLastModifiedBy("system");
-        
+
         return erpEntityRepository.save(entity);
     }
 
@@ -195,19 +195,19 @@ public class ErpEntityService {
     public ErpEntityRoleRelation addRoleToEntity(Long entityId, Role role) {
         ErpEntity entity = erpEntityRepository.findById(entityId)
                 .orElseThrow(() -> new RuntimeException("Entity not found with id: " + entityId));
-        
+
         // Check if relation already exists
-        Optional<ErpEntityRoleRelation> existingRelation = 
-                relationRepository.findByErpEntityIdAndRoleId(entityId, role.getId());
-        
+        Optional<ErpEntityRoleRelation> existingRelation = relationRepository.findByErpEntityIdAndRoleId(entityId,
+                role.getId());
+
         if (existingRelation.isPresent()) {
             return existingRelation.get();
         }
-        
+
         ErpEntityRoleRelation relation = new ErpEntityRoleRelation(entity, role);
         relation.setCreatedBy("system");
         relation.setLastModifiedBy("system");
-        
+
         return relationRepository.save(relation);
     }
 
@@ -215,10 +215,87 @@ public class ErpEntityService {
      * Remove a role from an entity (revoke access)
      */
     public void removeRoleFromEntity(Long entityId, Long roleId) {
-        Optional<ErpEntityRoleRelation> relation = 
-                relationRepository.findByErpEntityIdAndRoleId(entityId, roleId);
-        
+        Optional<ErpEntityRoleRelation> relation = relationRepository.findByErpEntityIdAndRoleId(entityId, roleId);
+
         relation.ifPresent(r -> relationRepository.delete(r));
+    }
+
+    @Autowired
+    private krs.erp.repository.ErpTabGroupRepository tabGroupRepository;
+
+    @Autowired
+    private krs.erp.repository.ErpTabGroupEntityMappingRepository tabGroupMappingRepository;
+
+    /**
+     * Get all active Tab Groups with their mapped Entities
+     */
+    @Transactional(readOnly = true)
+    public List<krs.erp.dto.TabGroupDTO> getActiveTabGroups() {
+        List<krs.erp.model.ErpTabGroup> groups = tabGroupRepository.findByIsActiveOrderBySequenceAsc(1);
+        List<krs.erp.dto.TabGroupDTO> result = new ArrayList<>();
+
+        for (krs.erp.model.ErpTabGroup group : groups) {
+            krs.erp.dto.TabGroupDTO dto = new krs.erp.dto.TabGroupDTO();
+            dto.setId(group.getId());
+            dto.setName(group.getName());
+            dto.setCode(group.getCode());
+            dto.setIcon(group.getIcon());
+            dto.setSequence(group.getSequence());
+            dto.setDescription(group.getDescription());
+
+            // Fetch mapped entities
+            List<krs.erp.model.ErpTabGroupEntityMapping> mappings = tabGroupMappingRepository
+                    .findByTabGroupIdOrderBySequenceAsc(group.getId());
+
+            List<ErpEntity> entities = new ArrayList<>();
+            for (krs.erp.model.ErpTabGroupEntityMapping mapping : mappings) {
+                erpEntityRepository.findById(mapping.getEntityId()).ifPresent(entities::add);
+            }
+            dto.setEntities(entities);
+
+            result.add(dto);
+        }
+
+        return result;
+    }
+
+    @Autowired
+    private krs.erp.repository.ErpTabGroupRepository tabGroupRepository;
+
+    @Autowired
+    private krs.erp.repository.ErpTabGroupEntityMappingRepository tabGroupMappingRepository;
+
+    /**
+     * Get all active Tab Groups with their mapped Entities
+     */
+    @Transactional(readOnly = true)
+    public List<krs.erp.dto.TabGroupDTO> getActiveTabGroups() {
+        List<krs.erp.model.ErpTabGroup> groups = tabGroupRepository.findByIsActiveOrderBySequenceAsc(1);
+        List<krs.erp.dto.TabGroupDTO> result = new ArrayList<>();
+
+        for (krs.erp.model.ErpTabGroup group : groups) {
+            krs.erp.dto.TabGroupDTO dto = new krs.erp.dto.TabGroupDTO();
+            dto.setId(group.getId());
+            dto.setName(group.getName());
+            dto.setCode(group.getCode());
+            dto.setIcon(group.getIcon());
+            dto.setSequence(group.getSequence());
+            dto.setDescription(group.getDescription());
+
+            // Fetch mapped entities
+            List<krs.erp.model.ErpTabGroupEntityMapping> mappings = tabGroupMappingRepository
+                    .findByTabGroupIdOrderBySequenceAsc(group.getId());
+
+            List<krs.erp.model.ErpEntity> entities = new ArrayList<>();
+            for (krs.erp.model.ErpTabGroupEntityMapping mapping : mappings) {
+                erpEntityRepository.findById(mapping.getEntityId()).ifPresent(entities::add);
+            }
+            dto.setEntities(entities);
+
+            result.add(dto);
+        }
+
+        return result;
     }
 
     /**

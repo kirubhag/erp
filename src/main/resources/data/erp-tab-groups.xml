@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<erp_tab_groups>
+    <!-- 1. Core Platform -->
+    <tab_group>
+        <name>Core Platform</name>
+        <code>CORE</code>
+        <icon>fas fa-cube</icon>
+        <sequence>1</sequence>
+        <description>Core system modules including User Management, Organizations, and System Settings</description>
+        <entities>
+            <entity>Dashboard</entity> <!-- Explicitly added as it's the landing -->
+            <entity>Student</entity>
+            <entity>Staff</entity>
+            <entity>User</entity>
+            <entity>Role</entity>
+            <entity>Permission</entity>
+            <entity>Organization</entity>
+            <entity>OrganizationSettings</entity>
+            <entity>Course</entity>
+            <entity>Subject</entity>
+            <entity>Grade</entity>
+            <entity>Exam</entity>
+            <entity>Attendance</entity>
+            <entity>Timetable</entity>
+            <entity>Room</entity>
+            <entity>EmailTemplate</entity>
+            <entity>EmailLog</entity>
+        </entities>
+    </tab_group>
+
+    <!-- 2. Academic Management -->
+    <tab_group>
+        <name>Academic Management</name>
+        <code>ACADEMIC</code>
+        <icon>fas fa-university</icon>
+        <sequence>2</sequence>
+        <description>Manage academic years, terms, and grading policies</description>
+        <entities>
+            <entity>AcademicSettings</entity>
+            <entity>AcademicYear</entity>
+            <entity>GradingScale</entity>
+            <entity>Term</entity>
+        </entities>
+    </tab_group>
+
+    <!-- 3. Student Lifecycle -->
+    <tab_group>
+        <name>Student Lifecycle</name>
+        <code>STUDENT_LIFECYCLE</code>
+        <icon>fas fa-user-graduate</icon>
+        <sequence>3</sequence>
+        <description>Admission, enrollment, and alumni management</description>
+        <entities>
+            <entity>AdmissionApplication</entity>
+            <entity>AdmissionCycle</entity>
+            <entity>AdmissionInquiry</entity>
+            <entity>AdmissionSeatAllocation</entity>
+            <entity>StudentRegistration</entity>
+            <entity>Alumni</entity>
+            <entity>AlumniContribution</entity>
+        </entities>
+    </tab_group>
+
+    <!-- 4. Financial Management -->
+    <tab_group>
+        <name>Financial Management</name>
+        <code>FINANCE</code>
+        <icon>fas fa-coins</icon>
+        <sequence>4</sequence>
+        <description>Accounting, fees, scholarships, and billing</description>
+        <entities>
+            <entity>Invoice</entity>
+            <entity>Transaction</entity>
+            <entity>FeeStructure</entity>
+            <entity>FeePayment</entity>
+            <entity>ScholarshipApplication</entity>
+            <entity>Budget</entity>
+            <entity>ChartOfAccount</entity>
+            <entity>JournalEntry</entity>
+            <entity>BankStatement</entity>
+        </entities>
+    </tab_group>
+
+    <!-- 5. Human Resources -->
+    <tab_group>
+        <name>Human Resources</name>
+        <code>HR</code>
+        <icon>fas fa-users-cog</icon>
+        <sequence>5</sequence>
+        <description>Employee management, payroll, leave, and recruitment</description>
+        <entities>
+            <entity>Staff</entity>
+            <entity>LeaveRequest</entity>
+            <entity>LeaveBalance</entity>
+            <entity>PayrollRun</entity>
+            <entity>Payslip</entity>
+            <entity>JobPosting</entity>
+            <entity>JobApplication</entity>
+            <entity>PerformanceReview</entity>
+        </entities>
+    </tab_group>
+
+    <!-- 6. Learning & Teaching (LMS + TPD) -->
+    <tab_group>
+        <name>Learning &amp; Teaching</name>
+        <code>LEARNING</code>
+        <icon>fas fa-chalkboard</icon>
+        <sequence>6</sequence>
+        <description>LMS, content, assessments, and teacher professional development</description>
+        <entities>
+            <entity>LmsModule</entity>
+            <entity>LmsContent</entity>
+            <entity>LmsQuiz</entity>
+            <entity>LmsSubmission</entity>
+            <entity>VirtualClassSession</entity>
+            <entity>TrainingEvent</entity>
+            <entity>Competency</entity>
+            <entity>ProfessionalPortfolio</entity>
+        </entities>
+    </tab_group>
+
+    <!-- 7. Operations (Inventory + Maintenance) -->
+    <tab_group>
+        <name>Operations</name>
+        <code>OPERATIONS</code>
+        <icon>fas fa-tools</icon>
+        <sequence>7</sequence>
+        <description>Inventory, assets, and facility maintenance</description>
+        <entities>
+            <entity>Asset</entity>
+            <entity>Consumable</entity>
+            <entity>Vendor</entity>
+            <entity>PurchaseOrder</entity>
+            <entity>Facility</entity>
+            <entity>WorkOrder</entity>
+            <entity>FacilityBooking</entity>
+        </entities>
+    </tab_group>
+
+    <!-- 8. Library Management -->
+    <tab_group>
+        <name>Library Management</name>
+        <code>LIBRARY</code>
+        <icon>fas fa-book-reader</icon>
+        <sequence>8</sequence>
+        <description>Books, resources, loans, and memberships</description>
+        <entities>
+            <entity>LibraryResource</entity>
+            <entity>LibraryLoan</entity>
+            <entity>LibraryHold</entity>
+            <entity>LibraryItem</entity>
+            <entity>LibraryPolicy</entity>
+        </entities>
+    </tab_group>
+
+    <!-- 9. Communication -->
+    <tab_group>
+        <name>Communication</name>
+        <code>COMMUNICATION</code>
+        <icon>fas fa-comments</icon>
+        <sequence>9</sequence>
+        <description>Announcements, messages, emails, and support tickets</description>
+        <entities>
+            <entity>Announcement</entity>
+            <entity>Message</entity>
+            <entity>NotificationLog</entity>
+            <entity>SupportTicket</entity>
+        </entities>
+    </tab_group>
+
+    <!-- 10. Administration -->
+    <tab_group>
+        <name>Administration</name>
+        <code>ADMINISTRATION</code>
+        <icon>fas fa-shield-alt</icon>
+        <sequence>10</sequence>
+        <description>System administration, calendar, documents, and reporting</description>
+        <entities>
+            <entity>InstitutionEvent</entity>
+            <entity>CalendarDay</entity>
+            <entity>ErpDocument</entity>
+            <entity>MISReport</entity>
+            <entity>RecycleBin</entity>
+            <entity>LoginHistory</entity>
+            <entity>ImportHistory</entity>
+        </entities>
+    </tab_group>
+</erp_tab_groups>

@@ -2669,6 +2669,13 @@ CREATE TABLE IF NOT EXISTS students (
     emergency_contact_name VARCHAR(100),
     emergency_contact_phone VARCHAR(20),
     emergency_contact_relation VARCHAR(50),
+    -- Additional student fields
+    nationality VARCHAR(50),
+    blood_group VARCHAR(10),
+    photo_url VARCHAR(500),
+    section VARCHAR(20),
+    admission_number VARCHAR(50) UNIQUE,
+    admission_date DATE,
     user_id BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -2683,6 +2690,7 @@ CREATE TABLE IF NOT EXISTS students (
     INDEX idx_email (email),
     INDEX idx_grade_level (grade_level),
     INDEX idx_enrollment_status (enrollment_status),
+    INDEX idx_admission_number (admission_number),
     INDEX idx_is_active (is_active)
 );
 
@@ -2797,4 +2805,40 @@ CREATE TABLE IF NOT EXISTS user_subscriptions (
     INDEX idx_next_billing_date (next_billing_date)
 );
 
-SET FOREIGN_KEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS = 1;-- Table: erp_tab_groups
+CREATE TABLE IF NOT EXISTS erp_tab_groups (
+    erp_tab_group_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    code VARCHAR(50) NOT NULL UNIQUE,
+    icon VARCHAR(100),
+    sequence INT NOT NULL DEFAULT 0,
+    description TEXT,
+    is_active INT DEFAULT 1,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    INDEX idx_tab_group_code (code),
+    INDEX idx_tab_group_sequence (sequence),
+    INDEX idx_tab_group_is_active (is_active)
+);
+
+-- Table: erp_tab_group_entity_rel
+CREATE TABLE IF NOT EXISTS erp_tab_group_entity_rel (
+    erp_tab_group_entity_rel_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    tab_group_id BIGINT NOT NULL,
+    entity_id BIGINT NOT NULL,
+    sequence INT NOT NULL DEFAULT 0,
+    is_active INT DEFAULT 1,
+    created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    FOREIGN KEY (tab_group_id) REFERENCES erp_tab_groups (erp_tab_group_id) ON DELETE CASCADE,
+    FOREIGN KEY (entity_id) REFERENCES erp_entities (erp_entity_id) ON DELETE CASCADE,
+    INDEX idx_rel_tab_group (tab_group_id),
+    INDEX idx_rel_entity (entity_id),
+    UNIQUE KEY uk_tab_group_entity (tab_group_id, entity_id)
+);

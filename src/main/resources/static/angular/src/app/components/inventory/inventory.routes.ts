@@ -3,22 +3,18 @@ import { Routes } from '@angular/router';
 export const INVENTORY_ROUTES: Routes = [
     {
         path: 'assets',
-        loadComponent: () => import('../entity-list/entity-list.component').then(m => m.EntityListComponent),
-        data: { entityName: 'ASSET' }
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
     },
     {
         path: 'consumables',
-        loadComponent: () => import('../entity-list/entity-list.component').then(m => m.EntityListComponent),
-        data: { entityName: 'CONSUMABLE' }
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
     },
     {
         path: 'vendors',
-        loadComponent: () => import('../entity-list/entity-list.component').then(m => m.EntityListComponent),
-        data: { entityName: 'VENDOR' }
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
     },
     {
         path: 'purchase-orders',
-        loadComponent: () => import('../entity-list/entity-list.component').then(m => m.EntityListComponent),
-        data: { entityName: 'PURCHASE_ORDER' }
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
     }
 ];

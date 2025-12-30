@@ -461,36 +461,12 @@ export class SampleDataModalComponent implements OnInit {
 
   entities: EntityCheckbox[] = [
     {
-      name: 'PERMISSIONS',
-      label: 'Permissions',
-      icon: 'fas fa-lock',
-      isImported: false,
-      isSelected: true,
-      description: 'System permissions for role-based access control'
-    },
-    {
-      name: 'ROLES',
-      label: 'Roles',
-      icon: 'fas fa-user-tie',
-      isImported: false,
-      isSelected: true,
-      description: 'Pre-defined roles with specific permissions'
-    },
-    {
       name: 'STAFF',
       label: 'Staff Members',
       icon: 'fas fa-chalkboard-teacher',
       isImported: false,
       isSelected: true,
       description: 'Sample staff members and faculty data'
-    },
-    {
-      name: 'USERS',
-      label: 'Users',
-      icon: 'fas fa-users',
-      isImported: false,
-      isSelected: true,
-      description: 'User accounts with access credentials'
     },
     {
       name: 'STUDENTS',

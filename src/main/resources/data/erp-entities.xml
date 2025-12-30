@@ -260,7 +260,7 @@
         <sequence>16</sequence>
         <presence>true</presence>
         <icon>fas fa-question-circle</icon>
-        <route>#!/setup/admission/inquiry-list</route>
+        <route>#!/setup/admission/inquiries</route>
         <table_name>erp_admission_inquiries</table_name>
         <pkid>id</pkid>
         <display_column>first_name</display_column>
@@ -277,7 +277,7 @@
         <sequence>17</sequence>
         <presence>true</presence>
         <icon>fas fa-file-contract</icon>
-        <route>#!/setup/admission/application-list</route>
+        <route>#!/setup/admission/applications</route>
         <table_name>erp_admission_applications</table_name>
         <pkid>id</pkid>
         <display_column>application_number</display_column>

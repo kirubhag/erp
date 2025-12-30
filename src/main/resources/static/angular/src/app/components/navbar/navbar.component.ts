@@ -26,7 +26,7 @@ export interface MenuItem {
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
   @ViewChild('menuContainer', { read: ElementRef }) menuContainer!: ElementRef;
-  
+
   menuItems: MenuItem[] = [];
   visibleMenuItems: MenuItem[] = [];
   overflowMenuItems: MenuItem[] = [];
@@ -39,7 +39,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   avatarLoadError = false;
   isOverflowDropdownOpen = false;
   isNavbarCollapsed = true; // For mobile menu toggle
-  
+
   // Navbar width constraints - dynamically calculated based on screen size
   private readonly ITEM_WIDTH = 140; // Estimated width per menu item including margins
   private readonly MORE_BUTTON_WIDTH = 60; // Width of the "..." button
@@ -49,6 +49,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   constructor(
     private menuService: MenuService,
+    private layoutService: import('../../services/layout.service').LayoutService,
     private authService: AuthService,
     private themeService: ThemeService,
     private router: Router
@@ -56,8 +57,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // Set default menu items immediately (synchronous)
-    this.setDefaultMenuItems();
-    console.log('Navbar initialized with default menu items');
+    // this.setDefaultMenuItems(); // Disabled defaults to rely on active group
+    console.log('Navbar initialized');
 
     // Load current user
     this.loadCurrentUser();
@@ -65,7 +66,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     // Load theme from service (will load from localStorage + database if available)
     this.loadTheme();
 
-    // Load menu items from API
+    // Load menu items from API (now listens to LayoutService)
     this.loadMenuItems();
   }
 
@@ -119,41 +120,20 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   loadMenuItems(): void {
-    this.menuService.getMenuItems().subscribe({
-      next: (items) => {
-        this.menuItems = items.map(item => ({
-          ...item,
-          route: this.convertRoute(item.route)
-        }));
+    // Subscribe to active Group from LayoutService
+    this.layoutService.getActiveGroup().subscribe(group => {
+      if (group) {
+        this.menuItems = group.entities.map(entity => ({
+          id: entity.id,
+          systemName: entity.singularName, // Mapping singular name as system name or use actual system name if available
+          pluralName: entity.pluralName,
+          singularName: entity.singularName,
+          icon: entity.icon,
+          route: entity.route,
+          sequence: entity.sequence,
+          isActive: true
+        })).sort((a, b) => a.sequence - b.sequence);
 
-        // Filter only active items and sort by sequence
-        const activeItems = this.menuItems.filter(item => item.isActive).sort((a, b) => a.sequence - b.sequence);
-        
-        console.log('Menu items loaded from API:', activeItems.length);
-        console.log('Loaded menu items:', activeItems.map(i => ({ 
-          name: i.pluralName, 
-          sequence: i.sequence, 
-          icon: i.icon, 
-          route: i.route,
-          active: i.isActive 
-        })));
-        
-        // Debug: Check specific items for icon issues
-        const roomsItem = activeItems.find(i => i.systemName === 'ROOM');
-        const timetableItem = activeItems.find(i => i.systemName === 'TIMETABLE');
-        if (roomsItem) console.log('Rooms icon:', roomsItem.icon, '| Full item:', roomsItem);
-        if (timetableItem) console.log('Timetable icon:', timetableItem.icon, '| Full item:', timetableItem);
-        
-        // Calculate overflow based on available space
-        this.calculateMenuOverflow(activeItems);
-      },
-      error: (error) => {
-        // Silently fail and use default menu items
-        // Only log if it's not a timeout error
-        if (error.name !== 'TimeoutError') {
-          console.warn('Error fetching menu items, using defaults:', error.message);
-        }
-        // Default menu items already set in ngOnInit via setDefaultMenuItems()
         this.calculateMenuOverflow(this.menuItems);
       }
     });
@@ -191,20 +171,20 @@ export class NavbarComponent implements OnInit, AfterViewInit {
    */
   calculateMenuOverflow(items?: MenuItem[]): void {
     const menuItems = items || this.menuItems.filter(item => item.isActive).sort((a, b) => a.sequence - b.sequence);
-    
+
     // Get current window width
     const screenWidth = window.innerWidth;
-    
+
     // Calculate available width for menu items
     // Subtract brand width, profile width, padding, and buffer
     const availableWidth = screenWidth - this.BRAND_WIDTH - this.PROFILE_WIDTH - this.PADDING_BUFFER;
-    
+
     // Calculate how many items can fit based on available width
     const maxItems = Math.floor(availableWidth / this.ITEM_WIDTH);
-    
+
     // Apply responsive breakpoints
     let effectiveMaxItems = maxItems;
-    
+
     if (screenWidth < 768) {
       // Mobile: collapse to hamburger menu (Bootstrap handles this)
       effectiveMaxItems = menuItems.length; // Show all in collapsed menu
@@ -219,7 +199,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       effectiveMaxItems = Math.min(maxItems, 8);
     }
     // Large screens (1600+): use calculated maxItems as-is
-    
+
     if (menuItems.length <= effectiveMaxItems) {
       // All items fit, no overflow
       this.visibleMenuItems = menuItems;
@@ -232,7 +212,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       this.visibleMenuItems = menuItems.slice(0, visibleCount);
       this.overflowMenuItems = menuItems.slice(visibleCount);
       this.hasOverflow = true;
-      
+
       console.log(`Menu overflow (${screenWidth}px): ${this.visibleMenuItems.length} visible, ${this.overflowMenuItems.length} in dropdown`);
     }
   }

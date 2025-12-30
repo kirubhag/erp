@@ -48,7 +48,17 @@ public enum EntityType {
     PERFORMANCE_REVIEW("PerformanceReview"),
     LEAVE_TYPE("LeaveType"),
     LEAVE_REQUEST("LeaveRequest"),
-    PAYROLL_RUN("PayrollRun");
+    LEAVE_BALANCE("LeaveBalance"),
+    PAYROLL_RUN("PayrollRun"),
+    JOB_POSTING("JobPosting"),
+    JOB_APPLICATION("JobApplication"),
+    ADMISSION_INQUIRY("AdmissionInquiry"),
+    ADMISSION_APPLICATION("AdmissionApplication"),
+    // Inventory types
+    ASSET("Asset"),
+    CONSUMABLE("Consumable"),
+    VENDOR("Vendor"),
+    PURCHASE_ORDER("PurchaseOrder");
 
     private final String displayName;
 
@@ -67,6 +77,7 @@ public enum EntityType {
     /**
      * Get EntityType from string value
      * Handles both singular and plural forms (e.g., "student" or "students")
+     * Also handles hyphenated forms (e.g., "job-postings", "job-applications")
      */
     public static EntityType fromValue(String value) {
         if (value == null) {
@@ -74,6 +85,53 @@ public enum EntityType {
         }
 
         String upperValue = value.toUpperCase();
+        
+        // Handle special hyphenated cases
+        if ("JOB-POSTINGS".equals(upperValue) || "JOB-POSTING".equals(upperValue)) {
+            return EntityType.JOB_POSTING;
+        }
+        if ("JOB-APPLICATIONS".equals(upperValue) || "JOB-APPLICATION".equals(upperValue)) {
+            return EntityType.JOB_APPLICATION;
+        }
+        if ("PURCHASE-ORDERS".equals(upperValue) || "PURCHASE-ORDER".equals(upperValue)) {
+            return EntityType.PURCHASE_ORDER;
+        }
+        if ("LEAVE-BALANCES".equals(upperValue) || "LEAVE-BALANCE".equals(upperValue)) {
+            return EntityType.LEAVE_BALANCE;
+        }
+        if ("LEAVE-TYPES".equals(upperValue) || "LEAVE-TYPE".equals(upperValue)) {
+            return EntityType.LEAVE_TYPE;
+        }
+        if ("LEAVE-REQUESTS".equals(upperValue) || "LEAVE-REQUEST".equals(upperValue)) {
+            return EntityType.LEAVE_REQUEST;
+        }
+        if ("PAYROLL-RUNS".equals(upperValue) || "PAYROLL-RUN".equals(upperValue)) {
+            return EntityType.PAYROLL_RUN;
+        }
+        if ("PERFORMANCE-CYCLES".equals(upperValue) || "PERFORMANCE-CYCLE".equals(upperValue)) {
+            return EntityType.PERFORMANCE_CYCLE;
+        }
+        if ("PERFORMANCE-CRITERIA".equals(upperValue)) {
+            return EntityType.PERFORMANCE_CRITERIA;
+        }
+        if ("PERFORMANCE-REVIEWS".equals(upperValue) || "PERFORMANCE-REVIEW".equals(upperValue)) {
+            return EntityType.PERFORMANCE_REVIEW;
+        }
+        if ("INQUIRIES".equals(upperValue) || "INQUIRY".equals(upperValue)) {
+            return EntityType.ADMISSION_INQUIRY;
+        }
+        if ("APPLICATIONS".equals(upperValue) || "APPLICATION".equals(upperValue)) {
+            return EntityType.ADMISSION_APPLICATION;
+        }
+        if ("LEAVES".equals(upperValue)) {
+            return EntityType.LEAVE_REQUEST;
+        }
+        if ("SALARIES".equals(upperValue)) {
+            return EntityType.PAYROLL_RUN;
+        }
+
+        // Replace hyphens with underscores for standard enum matching
+        upperValue = upperValue.replace("-", "_");
 
         try {
             // Try exact match first

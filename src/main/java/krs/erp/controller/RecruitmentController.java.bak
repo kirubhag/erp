@@ -1,0 +1,68 @@
+package krs.erp.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import krs.erp.model.hr.JobApplication;
+import krs.erp.model.hr.JobApplication.ApplicationStatus;
+import krs.erp.model.hr.JobPosting;
+import krs.erp.service.hr.RecruitmentService;
+
+@RestController
+@RequestMapping("/api/recruitment")
+public class RecruitmentController {
+
+    @Autowired
+    private RecruitmentService recruitmentService;
+
+    // Job Posting Endpoints
+    @PostMapping("/job-postings")
+    public ResponseEntity<JobPosting> createJobPosting(@RequestBody JobPosting jobPosting) {
+        return ResponseEntity.ok(recruitmentService.createJobPosting(jobPosting));
+    }
+
+    @GetMapping("/job-postings")
+    public ResponseEntity<List<JobPosting>> getAllJobPostings() {
+        return ResponseEntity.ok(recruitmentService.getAllJobPostings());
+    }
+
+    @PutMapping("/job-postings/{id}/status")
+    public ResponseEntity<JobPosting> updateJobStatus(
+            @PathVariable Long id,
+            @RequestParam JobPosting.JobStatus status) {
+        return ResponseEntity.ok(recruitmentService.updateJobStatus(id, status));
+    }
+
+    // Job Application Endpoints
+    @PostMapping("/applications")
+    public ResponseEntity<JobApplication> applyForJob(@RequestBody JobApplication application) {
+        return ResponseEntity.ok(recruitmentService.applyForJob(application));
+    }
+
+    @GetMapping("/applications")
+    public ResponseEntity<List<JobApplication>> getAllApplications() {
+        return ResponseEntity.ok(recruitmentService.getAllApplications());
+    }
+
+    @GetMapping("/job-postings/{id}/applications")
+    public ResponseEntity<List<JobApplication>> getApplicationsForJob(@PathVariable Long id) {
+        return ResponseEntity.ok(recruitmentService.getApplicationsForJob(id));
+    }
+
+    @PutMapping("/applications/{id}/status")
+    public ResponseEntity<JobApplication> updateApplicationStatus(
+            @PathVariable Long id,
+            @RequestParam ApplicationStatus status) {
+        return ResponseEntity.ok(recruitmentService.updateApplicationStatus(id, status));
+    }
+}

@@ -6,11 +6,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import krs.erp.enums.AccountType;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,6 +22,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import krs.erp.enums.AccountType;
 import krs.erp.model.Address;
 import krs.erp.model.Attendance;
 import krs.erp.model.Course;
@@ -31,6 +30,7 @@ import krs.erp.model.ErpClass;
 import krs.erp.model.Exam;
 import krs.erp.model.Grade;
 import krs.erp.model.HealthRecord;
+import krs.erp.model.Organization;
 import krs.erp.model.Parent;
 import krs.erp.model.ParentStudentRelation;
 import krs.erp.model.Permission;
@@ -43,20 +43,63 @@ import krs.erp.model.Subject;
 import krs.erp.model.Timetable;
 import krs.erp.model.Timetable.DayOfWeek;
 import krs.erp.model.User;
-import krs.erp.model.finance.*;
-import krs.erp.model.hr.*;
-import krs.erp.model.inventory.*;
-import krs.erp.model.maintenance.*;
-import krs.erp.model.reporting.*;
-import krs.erp.model.calendar.*;
-import krs.erp.model.communication.*;
-import krs.erp.model.alumni.*;
-import krs.erp.model.library.*;
-import krs.erp.model.lms.*;
-import krs.erp.model.tpd.*;
+import krs.erp.model.academic.AcademicYear;
+import krs.erp.model.admission.StudentRegistration;
+import krs.erp.model.communication.Announcement;
+import krs.erp.model.communication.Message;
+import krs.erp.model.communication.SupportTicket;
+import krs.erp.model.communication.TicketComment;
+import krs.erp.model.finance.AccountingPeriod;
+import krs.erp.model.finance.BankStatement;
+import krs.erp.model.finance.BankStatementLine;
+import krs.erp.model.finance.Budget;
+import krs.erp.model.finance.BudgetLine;
+import krs.erp.model.finance.ChartOfAccount;
+import krs.erp.model.finance.JournalEntry;
+import krs.erp.model.finance.JournalItem;
+import krs.erp.model.finance.ScholarshipApplication;
+import krs.erp.model.finance.ScholarshipCategory;
+import krs.erp.model.hr.PerformanceCriteria;
+import krs.erp.model.hr.PerformanceCycle;
+import krs.erp.model.hr.PerformanceReview;
+import krs.erp.model.hr.PerformanceReviewDetail;
+import krs.erp.model.inventory.Asset;
+import krs.erp.model.inventory.Consumable;
+import krs.erp.model.inventory.PurchaseOrder;
+import krs.erp.model.inventory.Vendor;
+import krs.erp.model.library.Author;
+import krs.erp.model.library.LibraryPolicy;
+import krs.erp.model.library.LibraryPurchaseRequest;
+import krs.erp.model.library.LibraryResource;
+import krs.erp.model.library.Publisher;
+import krs.erp.model.library.ResourceItem;
+import krs.erp.model.lms.Lesson;
+import krs.erp.model.lms.LmsAnswer;
+import krs.erp.model.lms.LmsBadge;
+import krs.erp.model.lms.LmsContent;
+import krs.erp.model.lms.LmsForum;
+import krs.erp.model.lms.LmsForumPost;
+import krs.erp.model.lms.LmsModule;
+import krs.erp.model.lms.LmsPeerReview;
+import krs.erp.model.lms.LmsPointLog;
+import krs.erp.model.lms.LmsQuestion;
+import krs.erp.model.lms.LmsQuestionBank;
+import krs.erp.model.lms.LmsQuiz;
+import krs.erp.model.lms.LmsRubric;
+import krs.erp.model.lms.LmsStudentProgress;
+import krs.erp.model.lms.LmsSubmission;
+import krs.erp.model.lms.LmsTopic;
+import krs.erp.model.lms.VirtualAttendanceRecord;
 import krs.erp.model.lms.VirtualClassSession;
-import krs.erp.repository.lms.VirtualClassSessionRepository;
-
+import krs.erp.model.maintenance.Facility;
+import krs.erp.model.maintenance.FacilityBooking;
+import krs.erp.model.maintenance.WorkOrder;
+import krs.erp.model.reporting.MISReport;
+import krs.erp.model.tpd.Competency;
+import krs.erp.model.tpd.CpdLedger;
+import krs.erp.model.tpd.ProfessionalPortfolio;
+import krs.erp.model.tpd.SkillAssessment;
+import krs.erp.model.tpd.TrainingEvent;
 import krs.erp.repository.AddressRepository;
 import krs.erp.repository.AttendanceRepository;
 import krs.erp.repository.CourseRepository;
@@ -64,6 +107,7 @@ import krs.erp.repository.ErpClassRepository;
 import krs.erp.repository.ExamRepository;
 import krs.erp.repository.GradeRepository;
 import krs.erp.repository.HealthRecordRepository;
+import krs.erp.repository.OrganizationRepository;
 import krs.erp.repository.ParentRepository;
 import krs.erp.repository.ParentStudentRelationRepository;
 import krs.erp.repository.PermissionRepository;
@@ -74,23 +118,49 @@ import krs.erp.repository.StudentRepository;
 import krs.erp.repository.SubjectRepository;
 import krs.erp.repository.TimetableRepository;
 import krs.erp.repository.UserRepository;
-import krs.erp.repository.OrganizationRepository;
 import krs.erp.repository.academic.AcademicYearRepository;
-import krs.erp.model.academic.AcademicYear;
-import krs.erp.model.Organization;
-import krs.erp.repository.finance.*;
-import krs.erp.repository.hr.*;
-import krs.erp.repository.inventory.*;
-import krs.erp.repository.maintenance.*;
-import krs.erp.repository.reporting.*;
-import krs.erp.repository.calendar.*;
-import krs.erp.repository.communication.*;
-import krs.erp.repository.alumni.*;
-import krs.erp.repository.library.*;
-import krs.erp.repository.lms.*;
-import krs.erp.repository.tpd.*;
 import krs.erp.repository.admission.StudentRegistrationRepository;
-import krs.erp.model.admission.StudentRegistration;
+import krs.erp.repository.communication.AnnouncementRepository;
+import krs.erp.repository.communication.MessageRepository;
+import krs.erp.repository.communication.SupportTicketRepository;
+import krs.erp.repository.communication.TicketCommentRepository;
+import krs.erp.repository.finance.BankStatementRepository;
+import krs.erp.repository.finance.BudgetRepository;
+import krs.erp.repository.library.AuthorRepository;
+import krs.erp.repository.library.LibraryHoldRepository;
+import krs.erp.repository.library.LibraryLoanRepository;
+import krs.erp.repository.library.LibraryPORepository;
+import krs.erp.repository.library.LibraryPolicyRepository;
+import krs.erp.repository.library.LibraryPurchaseRequestRepository;
+import krs.erp.repository.library.LibraryResourceRepository;
+import krs.erp.repository.library.PublisherRepository;
+import krs.erp.repository.library.ResourceItemRepository;
+import krs.erp.repository.lms.LessonRepository;
+import krs.erp.repository.lms.LmsAnswerRepository;
+import krs.erp.repository.lms.LmsBadgeRepository;
+import krs.erp.repository.lms.LmsContentRepository;
+import krs.erp.repository.lms.LmsForumPostRepository;
+import krs.erp.repository.lms.LmsForumRepository;
+import krs.erp.repository.lms.LmsModuleRepository;
+import krs.erp.repository.lms.LmsPeerReviewRepository;
+import krs.erp.repository.lms.LmsPointLogRepository;
+import krs.erp.repository.lms.LmsQuestionBankRepository;
+import krs.erp.repository.lms.LmsQuestionRepository;
+import krs.erp.repository.lms.LmsQuizRepository;
+import krs.erp.repository.lms.LmsRubricRepository;
+import krs.erp.repository.lms.LmsStudentProgressRepository;
+import krs.erp.repository.lms.LmsSubmissionRepository;
+import krs.erp.repository.lms.LmsTopicRepository;
+import krs.erp.repository.lms.VirtualAttendanceRecordRepository;
+import krs.erp.repository.lms.VirtualClassSessionRepository;
+import krs.erp.repository.tpd.CompetencyRepository;
+import krs.erp.repository.tpd.CpdLedgerRepository;
+import krs.erp.repository.tpd.EvidenceRepository;
+import krs.erp.repository.tpd.ProfessionalPortfolioRepository;
+import krs.erp.repository.tpd.SkillAssessmentRepository;
+import krs.erp.repository.tpd.TrainingAttendanceRepository;
+import krs.erp.repository.tpd.TrainingEvaluationRepository;
+import krs.erp.repository.tpd.TrainingEventRepository;
 
 @Service
 public class DataImportService {
@@ -338,9 +408,38 @@ public class DataImportService {
     }
 
     @Transactional
+    public void importAddressesDataFromXml(String xmlFilePath) {
+        try {
+            logger.debug("Starting address data import from XML file: {}", xmlFilePath);
+
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            // Import only addresses from the XML file
+            importAddresses(document);
+
+            logger.info("Address data import completed successfully");
+        } catch (Exception e) {
+            logger.error("Error importing address data from XML: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to import address data from XML", e);
+        }
+    }
+
+    @Transactional
     public void importStudentDataFromXml(String xmlFilePath) {
         try {
             logger.debug("Starting student data import from XML file: {}", xmlFilePath);
+
+            // Load existing addresses from database into cache (students reference addresses)
+            loadAddressesIntoCache();
 
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
             if (inputStream == null) {
@@ -843,6 +942,22 @@ public class DataImportService {
         subjects.clear();
     }
 
+    /**
+     * Load existing addresses from database into cache.
+     * This is needed when importing students in standalone mode (not via importDataFromXml).
+     */
+    private void loadAddressesIntoCache() {
+        if (addresses.isEmpty()) {
+            List<Address> allAddresses = addressRepository.findAll();
+            logger.info("Loading {} addresses into cache for student import", allAddresses.size());
+            for (Address address : allAddresses) {
+                if (address.getId() != null) {
+                    addresses.put(address.getId(), address);
+                }
+            }
+        }
+    }
+
     private void importPermissions(Document document) {
         NodeList permissionNodes = document.getElementsByTagName("permissions");
         logger.info("Importing {} permissions", permissionNodes.getLength());
@@ -968,6 +1083,21 @@ public class DataImportService {
             String entityType = getAttributeOrNull(element, "entity_type");
             if (entityType != null) {
                 address.setEntityType(Address.EntityType.valueOf(entityType));
+            }
+
+            String entityId = getAttributeOrNull(element, "entity_id");
+            if (entityId != null) {
+                address.setEntityId(Long.parseLong(entityId));
+            }
+
+            String isPrimary = getAttributeOrNull(element, "is_primary");
+            if (isPrimary != null) {
+                address.setIsPrimary("1".equals(isPrimary) || "true".equalsIgnoreCase(isPrimary));
+            }
+
+            String addressType = getAttributeOrNull(element, "address_type");
+            if (addressType != null) {
+                address.setAddressType(Address.AddressType.valueOf(addressType));
             }
 
             setBaseEntityFields(address, element);

@@ -11,42 +11,47 @@ export const HR_ROUTES: Routes = [
     },
     {
         path: 'job-postings',
-        loadComponent: () => import('./recruitment/job-posting-list/job-posting-list.component').then(m => m.JobPostingListComponent)
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
     },
     {
         path: 'job-applications',
-        loadComponent: () => import('./recruitment/applicant-tracking/applicant-tracking.component').then(m => m.ApplicantTrackingComponent)
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
     },
     {
         path: 'payroll-runs',
-        loadComponent: () => import('./payroll/payroll-dashboard/payroll-dashboard.component').then(m => m.PayrollDashboardComponent)
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
     },
     {
         path: 'payroll-runs/:id/payslips',
         loadComponent: () => import('./payroll/payslip-view/payslip-view.component').then(m => m.PayslipViewComponent)
     },
     {
+        path: 'salaries',
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
+    },
+    {
         path: 'leave-types',
-        loadComponent: () => import('./leave/leave-types/leave-type-list.component').then(m => m.LeaveTypeListComponent)
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
     },
     {
         path: 'leaves',
-        loadComponent: () => import('./leave/leave-requests/leave-request-list.component').then(m => m.LeaveRequestListComponent)
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
+    },
+    {
+        path: 'leave-balances',
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
     },
     {
         path: 'performance-cycles',
-        loadComponent: () => import('../entity-list/entity-list.component').then(m => m.EntityListComponent),
-        data: { entityName: 'PERFORMANCE_CYCLE' }
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
     },
     {
         path: 'performance-criteria',
-        loadComponent: () => import('../entity-list/entity-list.component').then(m => m.EntityListComponent),
-        data: { entityName: 'PERFORMANCE_CRITERIA' }
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
     },
     {
         path: 'performance-reviews',
-        loadComponent: () => import('../entity-list/entity-list.component').then(m => m.EntityListComponent),
-        data: { entityName: 'PERFORMANCE_REVIEW' }
+        loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent)
     },
     {
         path: '',

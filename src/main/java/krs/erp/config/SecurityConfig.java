@@ -90,6 +90,12 @@ public class SecurityConfig {
                                                                                                 // debugging
                                                 .requestMatchers("/api/migration/**").permitAll() // Allow migration
                                                                                                   // endpoint
+                                                .requestMatchers("/api/students/**").permitAll() // Allow students endpoints for dev/testing
+                                                .requestMatchers("/api/staff/**").permitAll() // Allow staff endpoints for dev/testing
+                                                .requestMatchers("/api/parents/**").permitAll() // Allow parent endpoints for dev/testing
+                                                .requestMatchers("/api/subjects/**").permitAll() // Allow subject endpoints for dev/testing
+                                                .requestMatchers("/api/entities/**").permitAll() // Allow entity endpoints for dev/testing
+                                                .requestMatchers("/api/v1/**").permitAll() // Allow v1 API endpoints (sample data, etc.)
                                                 .requestMatchers("/api/organizations/**").authenticated() // Organizations
                                                                                                           // require
                                                                                                           // authentication

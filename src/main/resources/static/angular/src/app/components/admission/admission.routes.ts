@@ -12,12 +12,12 @@ export const ADMISSION_ROUTES: Routes = [
             },
             {
                 path: 'inquiries',
-                loadComponent: () => import('./inquiry-list/inquiry-list.component').then(m => m.InquiryListComponent),
+                loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent),
                 canActivate: [AuthGuard]
             },
             {
                 path: 'applications',
-                loadComponent: () => import('./application-list/application-list.component').then(m => m.ApplicationListComponent),
+                loadComponent: () => import('../entity-management/entity-management.component').then(m => m.EntityManagementComponent),
                 canActivate: [AuthGuard]
             },
             {

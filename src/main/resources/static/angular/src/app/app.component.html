@@ -1,5 +1,20 @@
-<!-- Top Loading Progress Bar - Above everything -->
+<!-- Top Loading Progress Bar -->
 <div class="top-loading-bar" [class.loading]="isLoading"></div>
 
-<app-navbar *ngIf="showNavbar"></app-navbar>
-<router-outlet></router-outlet>
+<div class="app-container" [class.authenticated]="showNavbar">
+    <!-- Sidebar (Left) -->
+    <app-sidebar *ngIf="showNavbar"></app-sidebar>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-content-wrapper" [class.sidebar-present]="showNavbar"
+        [class.sidebar-collapsed]="(layoutService.getSidebarCollapsed() | async)">
+
+        <!-- Top Navbar (Dynamic Entities) -->
+        <app-navbar *ngIf="showNavbar"></app-navbar>
+
+        <!-- Router Outlet (Page Content) -->
+        <div class="content-body" [class.with-navbar]="showNavbar">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

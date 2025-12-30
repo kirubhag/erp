@@ -1,91 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="JOB_POSTING">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
         <displayOrder>1</displayOrder>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
         <showInList>true</showInList>
         <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>title</fieldName>
+        <fieldLabel>Title</fieldLabel>
         <fieldType>STRING</fieldType>
         <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showInList>true</showInList>
         <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>department</fieldName>
+        <fieldLabel>Department</fieldLabel>
         <fieldType>STRING</fieldType>
         <displayOrder>3</displayOrder>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showInList>true</showInList>
         <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>employmentType</fieldName>
+        <fieldLabel>Employment Type</fieldLabel>
+        <fieldType>ENUM</fieldType>
         <displayOrder>4</displayOrder>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showInList>true</showInList>
         <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>postedDate</fieldName>
+        <fieldLabel>Posted Date</fieldLabel>
+        <fieldType>DATE</fieldType>
         <displayOrder>5</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
         <showInList>true</showInList>
         <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>closingDate</fieldName>
+        <fieldLabel>Closing Date</fieldLabel>
+        <fieldType>DATE</fieldType>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
         <showInList>true</showInList>
         <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
         <displayOrder>7</displayOrder>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showInList>true</showInList>
         <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
         <displayOrder>8</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
+        <isSortable>false</isSortable>
+        <showInList>false</showInList>
         <showInForm>true</showInForm>
     </field>
 </entityFields>

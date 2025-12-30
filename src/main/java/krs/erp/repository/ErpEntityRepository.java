@@ -17,70 +17,72 @@ import krs.erp.model.ErpEntity;
 @Repository
 public interface ErpEntityRepository extends JpaRepository<ErpEntity, Long> {
 
-    /**
-     * Find an ERP entity by its singular name
-     */
-    Optional<ErpEntity> findBySingularName(String singularName);
+       /**
+        * Find an ERP entity by its singular name
+        */
+       Optional<ErpEntity> findBySingularName(String singularName);
 
-    /**
-     * Find all active ERP entities
-     */
-    List<ErpEntity> findByIsActiveTrue();
+       /**
+        * Find all active ERP entities
+        */
+       List<ErpEntity> findByIsActiveTrue();
 
-    /**
-     * Find all ERP entities accessible by a specific role
-     */
-    @Query("SELECT DISTINCT e FROM ErpEntity e " +
-           "JOIN e.roleRelations r " +
-           "WHERE r.role.id = :roleId AND e.isActive = true")
-    List<ErpEntity> findActiveEntitiesByRoleId(@Param("roleId") Long roleId);
+       /**
+        * Find all ERP entities accessible by a specific role
+        */
+       @Query("SELECT DISTINCT e FROM ErpEntity e " +
+                     "JOIN e.roleRelations r " +
+                     "WHERE r.role.id = :roleId AND e.isActive = true")
+       List<ErpEntity> findActiveEntitiesByRoleId(@Param("roleId") Long roleId);
 
-    /**
-     * Find all ERP entities accessible by a list of roles
-     */
-    @Query("SELECT DISTINCT e FROM ErpEntity e " +
-           "JOIN e.roleRelations r " +
-           "WHERE r.role.id IN :roleIds AND e.isActive = true " +
-           "ORDER BY e.singularName")
-    List<ErpEntity> findActiveEntitiesByRoleIds(@Param("roleIds") List<Long> roleIds);
+       /**
+        * Find all ERP entities accessible by a list of roles
+        */
+       @Query("SELECT DISTINCT e FROM ErpEntity e " +
+                     "JOIN e.roleRelations r " +
+                     "WHERE r.role.id IN :roleIds AND e.isActive = true " +
+                     "ORDER BY e.singularName")
+       List<ErpEntity> findActiveEntitiesByRoleIds(@Param("roleIds") List<Long> roleIds);
 
-    /**
-     * Check if an entity is accessible by a specific role
-     */
-    @Query("SELECT COUNT(e) > 0 FROM ErpEntity e " +
-           "JOIN e.roleRelations r " +
-           "WHERE e.id = :entityId AND r.role.id = :roleId AND e.isActive = true")
-    boolean isEntityAccessibleByRole(@Param("entityId") Long entityId, @Param("roleId") Long roleId);
+       /**
+        * Check if an entity is accessible by a specific role
+        */
+       @Query("SELECT COUNT(e) > 0 FROM ErpEntity e " +
+                     "JOIN e.roleRelations r " +
+                     "WHERE e.id = :entityId AND r.role.id = :roleId AND e.isActive = true")
+       boolean isEntityAccessibleByRole(@Param("entityId") Long entityId, @Param("roleId") Long roleId);
 
-    /**
-     * Find an ERP entity by its system name
-     */
-    Optional<ErpEntity> findBySystemName(String systemName);
+       /**
+        * Find an ERP entity by its system name
+        */
+       Optional<ErpEntity> findBySystemName(String systemName);
 
-    /**
-     * Find all active menu items with presence ordered by sequence
-     */
-    @Query("SELECT e FROM ErpEntity e " +
-           "WHERE e.isActive = true AND e.presence = true " +
-           "ORDER BY e.sequence ASC")
-    List<ErpEntity> findActiveMenuItems();
+       Optional<ErpEntity> findBySingularName(String singularName);
 
-    /**
-     * Find active menu items accessible by role, ordered by sequence
-     */
-    @Query("SELECT DISTINCT e FROM ErpEntity e " +
-           "JOIN e.roleRelations r " +
-           "WHERE r.role.id IN :roleIds AND e.isActive = true AND e.presence = true " +
-           "ORDER BY e.sequence ASC")
-    List<ErpEntity> findActiveMenuItemsByRoleIds(@Param("roleIds") List<Long> roleIds);
+       /**
+        * Find all active menu items with presence ordered by sequence
+        */
+       @Query("SELECT e FROM ErpEntity e " +
+                     "WHERE e.isActive = true AND e.presence = true " +
+                     "ORDER BY e.sequence ASC")
+       List<ErpEntity> findActiveMenuItems();
 
-    /**
-     * Find an ERP entity by table name
-     */
-    Optional<ErpEntity> findByTableName(String tableName);
+       /**
+        * Find active menu items accessible by role, ordered by sequence
+        */
+       @Query("SELECT DISTINCT e FROM ErpEntity e " +
+                     "JOIN e.roleRelations r " +
+                     "WHERE r.role.id IN :roleIds AND e.isActive = true AND e.presence = true " +
+                     "ORDER BY e.sequence ASC")
+       List<ErpEntity> findActiveMenuItemsByRoleIds(@Param("roleIds") List<Long> roleIds);
 
-    /**
-     * Find all ERP entities that have related child tables
-     */
-    List<ErpEntity> findByHasRelTableTrue();
+       /**
+        * Find an ERP entity by table name
+        */
+       Optional<ErpEntity> findByTableName(String tableName);
+
+       /**
+        * Find all ERP entities that have related child tables
+        */
+       List<ErpEntity> findByHasRelTableTrue();
 }

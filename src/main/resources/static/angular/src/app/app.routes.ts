@@ -129,6 +129,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'setup/tab-groups',
+    loadComponent: () => import('./components/setup/tab-groups/tab-group-list.component').then(m => m.TabGroupListComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'setup/organisation-settings',
     loadComponent: () => import('./components/company-settings/company-settings.component').then(m => m.CompanySettingsComponent),
     canActivate: [AuthGuard]

@@ -5,10 +5,13 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
 import { LoadingService } from './services/loading.service';
 
+import { SidebarComponent } from './components/layout/sidebar/sidebar.component';
+import { LayoutService } from './services/layout.service';
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, CommonModule],
+  imports: [RouterOutlet, NavbarComponent, SidebarComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -18,10 +21,11 @@ export class AppComponent implements OnInit {
   isLoading = false;
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router,
-    private loadingService: LoadingService
-  ) {}
+    private loadingService: LoadingService,
+    public layoutService: LayoutService
+  ) { }
 
   ngOnInit(): void {
     // Subscribe to user state changes
@@ -47,7 +51,7 @@ export class AppComponent implements OnInit {
     const hiddenRoutes = ['/', '/login', '/register'];
     const currentUser = this.authService.getCurrentUser();
     const currentUrl = this.router.url;
-    
+
     // Show navbar only if:
     // 1. User is logged in (has currentUser with id)
     // 2. Current URL is NOT a hidden route

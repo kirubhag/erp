@@ -28,6 +28,9 @@ public class ModuleController {
     @Autowired
     private ErpEntityService erpEntityService;
 
+    @Autowired
+    private krs.erp.service.ErpTabGroupXmlLoaderService xmlLoaderService;
+
     /**
      * Get active menu items ordered by sequence
      * GET /api/module/menu-items
@@ -49,6 +52,36 @@ public class ModuleController {
     }
 
     /**
+     * Get active Tab Groups with nested Entities
+     * GET /api/module/groups
+     */
+    @GetMapping("/groups")
+    public ResponseEntity<List<krs.erp.dto.TabGroupDTO>> getTabGroups() {
+        List<krs.erp.dto.TabGroupDTO> groups = erpEntityService.getActiveTabGroups();
+        return ResponseEntity.ok(groups);
+    }
+
+    /**
+     * Trigger XML reload for Tab Groups (Admin only)
+     * POST /api/module/groups/reload
+     */
+    @org.springframework.web.bind.annotation.PostMapping("/groups/reload")
+    public ResponseEntity<Map<String, Object>> reloadTabGroups() {
+        try {
+            xmlLoaderService.loadTabGroupsFromXml();
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Tab Groups reloaded from XML successfully");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "Failed to reload: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    /**
      * Update menu item sequences
      * PUT /api/module/update-sequence
      * 
@@ -63,7 +96,7 @@ public class ModuleController {
             for (SequenceUpdateDTO update : updates) {
                 ErpEntity entity = erpEntityService.getEntityById(update.getId())
                         .orElseThrow(() -> new RuntimeException("Entity not found: " + update.getId()));
-                
+
                 if ("Dashboard".equals(entity.getSingularName())) {
                     dashboardFound = true;
                     if (update.getSequence() != 1) {
@@ -74,23 +107,23 @@ public class ModuleController {
                     }
                 }
             }
-            
+
             // Update sequences
             int updatedCount = 0;
             for (SequenceUpdateDTO update : updates) {
                 ErpEntity entity = erpEntityService.getEntityById(update.getId())
                         .orElseThrow(() -> new RuntimeException("Entity not found: " + update.getId()));
-                
+
                 entity.setSequence(update.getSequence());
                 erpEntityService.updateEntity(entity.getId(), entity);
                 updatedCount++;
             }
-            
+
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("message", "Successfully updated " + updatedCount + " menu items");
             response.put("count", updatedCount);
-            
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
@@ -99,7 +132,7 @@ public class ModuleController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
-    
+
     /**
      * Rename a module (update plural and singular names)
      * PUT /api/module/rename
@@ -112,7 +145,7 @@ public class ModuleController {
             Long id = Long.valueOf(renameData.get("id").toString());
             String pluralName = renameData.get("pluralName").toString();
             String singularName = renameData.get("singularName").toString();
-            
+
             // Validate inputs
             if (pluralName == null || pluralName.trim().isEmpty()) {
                 Map<String, Object> errorResponse = new HashMap<>();
@@ -120,29 +153,29 @@ public class ModuleController {
                 errorResponse.put("message", "Plural name is required");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
             }
-            
+
             if (singularName == null || singularName.trim().isEmpty()) {
                 Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("success", false);
                 errorResponse.put("message", "Singular name is required");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
             }
-            
+
             // Get entity
             ErpEntity entity = erpEntityService.getEntityById(id)
                     .orElseThrow(() -> new RuntimeException("Entity not found: " + id));
-            
+
             // Update names
             entity.setPluralName(pluralName);
             entity.setSingularName(singularName);
-            
+
             erpEntityService.updateEntity(entity.getId(), entity);
-            
+
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("message", "Module renamed successfully");
             response.put("data", entity);
-            
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();

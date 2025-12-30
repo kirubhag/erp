@@ -38,20 +38,22 @@ public class SampleDataController {
     /**
      * Define the correct dependency order for loading sample data.
      * Entities are loaded in this order to satisfy foreign key dependencies:
-     * 1. Students (no dependencies)
-     * 2. Staff (no dependencies)
-     * 3. Parents (no dependencies)
-     * 4. Subjects (no dependencies)
-     * 5. Rooms (no dependencies)
-     * 6. Classes (may depend on staff/rooms)
-     * 7. Courses (may depend on subjects/staff)
-     * 8. Timetables (depends on classes/subjects/staff)
-     * 9. Attendance (depends on students/classes)
-     * 10. Grades (depends on students and subjects)
-     * 11. Exams (depends on courses/subjects)
+     * 1. Addresses (required by students, staff, parents)
+     * 2. Students (no other dependencies besides addresses)
+     * 3. Staff (no dependencies besides addresses)
+     * 4. Parents (no dependencies besides addresses)
+     * 5. Subjects (no dependencies)
+     * 6. Rooms (no dependencies)
+     * 7. Classes (may depend on staff/rooms)
+     * 8. Courses (may depend on subjects/staff)
+     * 9. Timetables (depends on classes/subjects/staff)
+     * 10. Attendance (depends on students/classes)
+     * 11. Grades (depends on students and subjects)
+     * 12. Exams (depends on courses/subjects)
      */
     private static final List<String> DEPENDENCY_ORDER = Arrays.asList(
-            "STUDENTS", // Load all students first
+            "addresses", // MUST be loaded first - referenced by students, staff, parents
+            "STUDENTS", // Load all students
             "staff", // Staff data
             "parents", // Parent data
             "subjects", // Subjects must be loaded before grades
@@ -109,6 +111,7 @@ public class SampleDataController {
         List<Map<String, String>> entities = new ArrayList<>();
 
         // Add entity information with descriptions
+        entities.add(createEntityInfo("addresses", "Sample Addresses (Required for students, staff, parents)"));
         entities.add(createEntityInfo("STUDENTS", "All Students (Kindergarten to Grade 12)"));
         entities.add(createEntityInfo("kindergarten", "Kindergarten Students Only"));
         entities.add(createEntityInfo("grade_1", "Grade 1 Students Only"));
@@ -243,7 +246,7 @@ public class SampleDataController {
                         } else if (entityName.equalsIgnoreCase("registrations")) {
                             dataImportService.generateStudentRegistrationSampleData();
                         } else if (isAddressEntity(entityName)) {
-                            dataImportService.importDataFromXml(xmlFilePath);
+                            dataImportService.importAddressesDataFromXml(xmlFilePath);
                         } else if (entityName.equalsIgnoreCase("payroll")) {
                             dataImportService.generatePayrollSampleData();
                         } else if (entityName.equalsIgnoreCase("leaves")) {
