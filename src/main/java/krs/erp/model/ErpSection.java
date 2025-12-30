@@ -18,7 +18,7 @@ import krs.erp.enums.SectionLayoutType;
 @AttributeOverride(name = "id", column = @Column(name = "erp_section_id"))
 public class ErpSection extends BaseEntity {
 
-    @Column(name = "entity_type", nullable = false, length = 50)
+    @Column(name = "entity_type", nullable = false, length = 100)
     @Enumerated(EnumType.STRING)
     private EntityType entityType;
 

@@ -30,7 +30,7 @@ export class LayoutService {
   private apiUrl = '/api/module/groups';
   
   // State
-  private sidebarCollapsed = new BehaviorSubject<boolean>(false);
+  private sidebarCollapsed = new BehaviorSubject<boolean>(this.getInitialSidebarState());
   private activeGroup = new BehaviorSubject<TabGroup | null>(null);
   
   // Data Cache
@@ -48,6 +48,11 @@ export class LayoutService {
         this.updateActiveGroupFromRoute(this.router.url);
       }
     });
+  }
+
+  private getInitialSidebarState(): boolean {
+    const saved = localStorage.getItem('sidebarCollapsed');
+    return saved === 'true';
   }
 
   loadGroups() {
@@ -82,7 +87,14 @@ export class LayoutService {
   }
 
   toggleSidebar() {
-    this.sidebarCollapsed.next(!this.sidebarCollapsed.value);
+    const newState = !this.sidebarCollapsed.value;
+    this.sidebarCollapsed.next(newState);
+    localStorage.setItem('sidebarCollapsed', String(newState));
+  }
+
+  setSidebarCollapsed(collapsed: boolean) {
+    this.sidebarCollapsed.next(collapsed);
+    localStorage.setItem('sidebarCollapsed', String(collapsed));
   }
 
   private updateActiveGroupFromRoute(url: string) {

@@ -10,7 +10,7 @@
         <sequence>1</sequence>
         <presence>true</presence>
         <icon>fas fa-home</icon>
-        <route>#!/dashboard</route>
+        <route>/dashboard</route>
     </entity>
     
     <entity>
@@ -23,7 +23,7 @@
         <sequence>2</sequence>
         <presence>true</presence>
         <icon>fas fa-user-graduate</icon>
-        <route>#!/students</route>
+        <route>/students</route>
         <table_name>students</table_name>
         <pkid>student_id</pkid>
         <display_column>first_name</display_column>
@@ -40,7 +40,7 @@
         <sequence>3</sequence>
         <presence>true</presence>
         <icon>fas fa-chalkboard-teacher</icon>
-        <route>#!/staff</route>
+        <route>/staff</route>
         <table_name>staff</table_name>
         <pkid>staff_id</pkid>
         <display_column>first_name</display_column>
@@ -57,7 +57,7 @@
         <sequence>4</sequence>
         <presence>true</presence>
         <icon>fas fa-calendar-check</icon>
-        <route>#!/attendance</route>
+        <route>/attendance</route>
         <table_name>attendance</table_name>
         <pkid>attendance_id</pkid>
         <display_column>attendance_date</display_column>
@@ -74,7 +74,7 @@
         <sequence>5</sequence>
         <presence>true</presence>
         <icon>fas fa-users</icon>
-        <route>#!/parents</route>
+        <route>/parents</route>
         <table_name>parents</table_name>
         <pkid>parent_id</pkid>
         <display_column>first_name</display_column>
@@ -91,7 +91,7 @@
         <sequence>6</sequence>
         <presence>true</presence>
         <icon>fas fa-book</icon>
-        <route>#!/subjects</route>
+        <route>/subjects</route>
         <table_name>subjects</table_name>
         <pkid>subject_id</pkid>
         <display_column>subject_name</display_column>
@@ -108,7 +108,7 @@
         <sequence>7</sequence>
         <presence>true</presence>
         <icon>fas fa-graduation-cap</icon>
-        <route>#!/grades</route>
+        <route>/grades</route>
         <table_name>erp_grade</table_name>
         <pkid>grade_id</pkid>
         <display_column>exam_type</display_column>
@@ -125,7 +125,7 @@
         <sequence>8</sequence>
         <presence>true</presence>
         <icon>fas fa-calendar-alt</icon>
-        <route>#!/timetables</route>
+        <route>/timetables</route>
         <table_name>erp_timetables</table_name>
         <pkid>timetable_id</pkid>
         <display_column>class_name</display_column>
@@ -142,7 +142,7 @@
         <sequence>9</sequence>
         <presence>true</presence>
         <icon>fas fa-door-open</icon>
-        <route>#!/rooms</route>
+        <route>/rooms</route>
         <table_name>erp_rooms</table_name>
         <pkid>room_id</pkid>
         <display_column>room_name</display_column>
@@ -159,7 +159,7 @@
         <sequence>10</sequence>
         <presence>false</presence>
         <icon>fas fa-user</icon>
-        <route>#!/users</route>
+        <route>/users</route>
         <table_name>users</table_name>
         <pkid>user_id</pkid>
         <display_column>username</display_column>
@@ -176,7 +176,7 @@
         <sequence>11</sequence>
         <presence>false</presence>
         <icon>fas fa-map-marker-alt</icon>
-        <route>#!/addresses</route>
+        <route>/addresses</route>
         <table_name>addresses</table_name>
         <pkid>address_id</pkid>
         <display_column>address_line1</display_column>
@@ -193,7 +193,7 @@
         <sequence>12</sequence>
         <presence>true</presence>
         <icon>fas fa-tasks</icon>
-        <route>#!/assignments</route>
+        <route>/assignments</route>
         <table_name>assignments</table_name>
         <pkid>assignment_id</pkid>
         <display_column>title</display_column>
@@ -210,7 +210,7 @@
         <sequence>13</sequence>
         <presence>true</presence>
         <icon>fas fa-file-alt</icon>
-        <route>#!/exams</route>
+        <route>/exams</route>
         <table_name>exams</table_name>
         <pkid>exam_id</pkid>
         <display_column>exam_name</display_column>
@@ -227,7 +227,7 @@
         <sequence>14</sequence>
         <presence>true</presence>
         <icon>fas fa-book-open</icon>
-        <route>#!/courses</route>
+        <route>/courses</route>
         <table_name>courses</table_name>
         <pkid>course_id</pkid>
         <display_column>course_name</display_column>
@@ -244,7 +244,7 @@
         <sequence>15</sequence>
         <presence>false</presence>
         <icon>fas fa-heartbeat</icon>
-        <route>#!/health-records</route>
+        <route>/health-records</route>
         <table_name>health_records</table_name>
         <pkid>health_record_id</pkid>
         <display_column>record_date</display_column>
@@ -260,7 +260,7 @@
         <sequence>16</sequence>
         <presence>true</presence>
         <icon>fas fa-question-circle</icon>
-        <route>#!/setup/admission/inquiries</route>
+        <route>/setup/admission/inquiries</route>
         <table_name>erp_admission_inquiries</table_name>
         <pkid>id</pkid>
         <display_column>first_name</display_column>
@@ -277,7 +277,7 @@
         <sequence>17</sequence>
         <presence>true</presence>
         <icon>fas fa-file-contract</icon>
-        <route>#!/setup/admission/applications</route>
+        <route>/setup/admission/applications</route>
         <table_name>erp_admission_applications</table_name>
         <pkid>id</pkid>
         <display_column>application_number</display_column>
@@ -293,7 +293,7 @@
         <sequence>18</sequence>
         <presence>true</presence>
         <icon>fas fa-briefcase</icon>
-        <route>#!/setup/hr/job-postings</route>
+        <route>/setup/hr/job-postings</route>
         <table_name>erp_hr_job_postings</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -310,7 +310,7 @@
         <sequence>19</sequence>
         <presence>true</presence>
         <icon>fas fa-user-tie</icon>
-        <route>#!/setup/hr/job-applications</route>
+        <route>/setup/hr/job-applications</route>
         <table_name>erp_hr_job_applications</table_name>
         <pkid>id</pkid>
         <display_column>candidate_name</display_column>
@@ -326,7 +326,7 @@
         <sequence>20</sequence>
         <presence>true</presence>
         <icon>fas fa-money-bill-wave</icon>
-        <route>#!/setup/hr/salaries</route>
+        <route>/setup/hr/salaries</route>
         <table_name>erp_hr_staff_salaries</table_name>
         <pkid>id</pkid>
         <display_column>basic_salary</display_column>
@@ -343,7 +343,7 @@
         <sequence>21</sequence>
         <presence>true</presence>
         <icon>fas fa-sync-alt</icon>
-        <route>#!/setup/hr/payroll-runs</route>
+        <route>/setup/hr/payroll-runs</route>
         <table_name>erp_hr_payroll_runs</table_name>
         <pkid>id</pkid>
         <display_column>month</display_column>
@@ -360,7 +360,7 @@
         <sequence>22</sequence>
         <presence>false</presence>
         <icon>fas fa-file-invoice-dollar</icon>
-        <route>#!/setup/hr/payslips</route>
+        <route>/setup/hr/payslips</route>
         <table_name>erp_hr_payslips</table_name>
         <pkid>id</pkid>
         <display_column>net_salary</display_column>
@@ -376,7 +376,7 @@
         <sequence>23</sequence>
         <presence>true</presence>
         <icon>fas fa-cog</icon>
-        <route>#!/setup/hr/leave-types</route>
+        <route>/setup/hr/leave-types</route>
         <table_name>erp_hr_leave_types</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -393,7 +393,7 @@
         <sequence>24</sequence>
         <presence>true</presence>
         <icon>fas fa-calendar-minus</icon>
-        <route>#!/setup/hr/leaves</route>
+        <route>/setup/hr/leaves</route>
         <table_name>erp_hr_leave_requests</table_name>
         <pkid>id</pkid>
         <display_column>reason</display_column>
@@ -410,7 +410,7 @@
         <sequence>25</sequence>
         <presence>true</presence>
         <icon>fas fa-chart-pie</icon>
-        <route>#!/setup/hr/leave-balances</route>
+        <route>/setup/hr/leave-balances</route>
         <table_name>erp_hr_leave_balances</table_name>
         <pkid>id</pkid>
         <display_column>remaining_days</display_column>
@@ -426,7 +426,7 @@
         <sequence>26</sequence>
         <presence>true</presence>
         <icon>fas fa-sync</icon>
-        <route>#!/setup/hr/performance-cycles</route>
+        <route>/setup/hr/performance-cycles</route>
         <table_name>erp_performance_cycles</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -443,7 +443,7 @@
         <sequence>27</sequence>
         <presence>true</presence>
         <icon>fas fa-list-check</icon>
-        <route>#!/setup/hr/performance-criteria</route>
+        <route>/setup/hr/performance-criteria</route>
         <table_name>erp_performance_criteria</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -460,7 +460,7 @@
         <sequence>28</sequence>
         <presence>true</presence>
         <icon>fas fa-star</icon>
-        <route>#!/setup/hr/performance-reviews</route>
+        <route>/setup/hr/performance-reviews</route>
         <table_name>erp_performance_reviews</table_name>
         <pkid>id</pkid>
         <display_column>overall_rating</display_column>
@@ -477,7 +477,7 @@
         <sequence>29</sequence>
         <presence>false</presence>
         <icon>fas fa-info-circle</icon>
-        <route>#!/setup/hr/performance-review-details</route>
+        <route>/setup/hr/performance-review-details</route>
         <table_name>erp_performance_review_details</table_name>
         <pkid>id</pkid>
         <display_column>rating</display_column>
@@ -493,7 +493,7 @@
         <sequence>30</sequence>
         <presence>true</presence>
         <icon>fas fa-laptop</icon>
-        <route>#!/setup/inventory/assets</route>
+        <route>/setup/inventory/assets</route>
         <table_name>erp_inventory_assets</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -510,7 +510,7 @@
         <sequence>31</sequence>
         <presence>true</presence>
         <icon>fas fa-box-open</icon>
-        <route>#!/setup/inventory/consumables</route>
+        <route>/setup/inventory/consumables</route>
         <table_name>erp_inventory_consumables</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -527,7 +527,7 @@
         <sequence>32</sequence>
         <presence>true</presence>
         <icon>fas fa-truck</icon>
-        <route>#!/setup/inventory/vendors</route>
+        <route>/setup/inventory/vendors</route>
         <table_name>erp_inventory_vendors</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -544,7 +544,7 @@
         <sequence>33</sequence>
         <presence>true</presence>
         <icon>fas fa-shopping-cart</icon>
-        <route>#!/setup/inventory/purchase-orders</route>
+        <route>/setup/inventory/purchase-orders</route>
         <table_name>erp_inventory_purchase_orders</table_name>
         <pkid>id</pkid>
         <display_column>po_number</display_column>
@@ -560,7 +560,7 @@
         <sequence>40</sequence>
         <presence>true</presence>
         <icon>fas fa-tools</icon>
-        <route>#!/setup/maintenance/work-orders</route>
+        <route>/setup/maintenance/work-orders</route>
         <table_name>erp_maint_work_orders</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -577,7 +577,7 @@
         <sequence>41</sequence>
         <presence>true</presence>
         <icon>fas fa-building</icon>
-        <route>#!/setup/maintenance/facilities</route>
+        <route>/setup/maintenance/facilities</route>
         <table_name>erp_maint_facilities</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -594,7 +594,7 @@
         <sequence>42</sequence>
         <presence>true</presence>
         <icon>fas fa-calendar-check</icon>
-        <route>#!/setup/maintenance/bookings</route>
+        <route>/setup/maintenance/bookings</route>
         <table_name>erp_maint_facility_bookings</table_name>
         <pkid>id</pkid>
         <display_column>purpose</display_column>
@@ -610,7 +610,7 @@
         <sequence>50</sequence>
         <presence>true</presence>
         <icon>fas fa-chart-bar</icon>
-        <route>#!/setup/reporting/reports</route>
+        <route>/setup/reporting/reports</route>
         <table_name>erp_reporting_mis_reports</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -626,7 +626,7 @@
         <sequence>60</sequence>
         <presence>true</presence>
         <icon>fas fa-file-alt</icon>
-        <route>#!/setup/documents/list</route>
+        <route>/setup/documents/list</route>
         <table_name>erp_docs_documents</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -642,7 +642,7 @@
         <sequence>70</sequence>
         <presence>true</presence>
         <icon>fas fa-calendar-alt</icon>
-        <route>#!/setup/calendar/days</route>
+        <route>/setup/calendar/days</route>
         <table_name>erp_cal_calendar_days</table_name>
         <pkid>id</pkid>
         <display_column>description</display_column>
@@ -658,7 +658,7 @@
         <sequence>71</sequence>
         <presence>true</presence>
         <icon>fas fa-bullhorn</icon>
-        <route>#!/setup/calendar/events</route>
+        <route>/setup/calendar/events</route>
         <table_name>erp_cal_events</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -674,7 +674,7 @@
         <sequence>80</sequence>
         <presence>true</presence>
         <icon>fas fa-history</icon>
-        <route>#!/setup/communication/logs</route>
+        <route>/setup/communication/logs</route>
         <table_name>erp_comm_logs</table_name>
         <pkid>id</pkid>
         <display_column>recipient</display_column>
@@ -690,7 +690,7 @@
         <sequence>81</sequence>
         <presence>true</presence>
         <icon>fas fa-envelope-open-text</icon>
-        <route>#!/setup/communication/templates</route>
+        <route>/setup/communication/templates</route>
         <table_name>erp_comm_templates</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -706,7 +706,7 @@
         <sequence>90</sequence>
         <presence>true</presence>
         <icon>fas fa-user-graduate</icon>
-        <route>#!/setup/alumni/directory</route>
+        <route>/setup/alumni/directory</route>
         <table_name>erp_alumni_profiles</table_name>
         <pkid>id</pkid>
         <display_column>full_name</display_column>
@@ -722,7 +722,7 @@
         <sequence>91</sequence>
         <presence>true</presence>
         <icon>fas fa-hand-holding-heart</icon>
-        <route>#!/setup/alumni/contributions</route>
+        <route>/setup/alumni/contributions</route>
         <table_name>erp_alumni_contributions</table_name>
         <pkid>id</pkid>
         <display_column>description</display_column>
@@ -738,7 +738,7 @@
         <sequence>100</sequence>
         <presence>true</presence>
         <icon>fas fa-money-bill-wave</icon>
-        <route>#!/setup/finance/fee-types</route>
+        <route>/setup/finance/fee-types</route>
         <table_name>erp_fee_types</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -754,7 +754,7 @@
         <sequence>101</sequence>
         <presence>true</presence>
         <icon>fas fa-receipt</icon>
-        <route>#!/setup/finance/fee-structures</route>
+        <route>/setup/finance/fee-structures</route>
         <table_name>erp_fee_structures</table_name>
         <pkid>id</pkid>
         <display_column>amount</display_column>
@@ -770,7 +770,7 @@
         <sequence>102</sequence>
         <presence>true</presence>
         <icon>fas fa-tags</icon>
-        <route>#!/setup/finance/discounts</route>
+        <route>/setup/finance/discounts</route>
         <table_name>erp_fee_discount_rules</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -786,7 +786,7 @@
         <sequence>103</sequence>
         <presence>true</presence>
         <icon>fas fa-gavel</icon>
-        <route>#!/setup/finance/fine-categories</route>
+        <route>/setup/finance/fine-categories</route>
         <table_name>erp_fee_fine_categories</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -802,7 +802,7 @@
         <sequence>104</sequence>
         <presence>true</presence>
         <icon>fas fa-cogs</icon>
-        <route>#!/setup/finance/fine-management</route>
+        <route>/setup/finance/fine-management</route>
         <table_name>erp_fee_fine_configs</table_name>
         <pkid>id</pkid>
         <display_column>base_amount</display_column>
@@ -818,7 +818,7 @@
         <sequence>105</sequence>
         <presence>true</presence>
         <icon>fas fa-file-invoice-dollar</icon>
-        <route>#!/setup/finance/payments</route>
+        <route>/setup/finance/payments</route>
         <table_name>erp_fee_payments</table_name>
         <pkid>id</pkid>
         <display_column>net_amount</display_column>
@@ -834,7 +834,7 @@
         <sequence>106</sequence>
         <presence>true</presence>
         <icon>fas fa-balance-scale</icon>
-        <route>#!/setup/finance/fine-ledger</route>
+        <route>/setup/finance/fine-ledger</route>
         <table_name>erp_fee_fine_ledger</table_name>
         <pkid>id</pkid>
         <display_column>accrued_amount</display_column>
@@ -850,7 +850,7 @@
         <sequence>107</sequence>
         <presence>true</presence>
         <icon>fas fa-user-shield</icon>
-        <route>#!/setup/finance/incidents</route>
+        <route>/setup/finance/incidents</route>
         <table_name>erp_fee_disciplinary_incidents</table_name>
         <pkid>id</pkid>
         <display_column>description</display_column>
@@ -866,7 +866,7 @@
         <sequence>108</sequence>
         <presence>true</presence>
         <icon>fas fa-hand-holding-usd</icon>
-        <route>#!/setup/finance/waivers</route>
+        <route>/setup/finance/waivers</route>
         <table_name>erp_fee_fine_waivers</table_name>
         <pkid>id</pkid>
         <display_column>reason</display_column>
@@ -882,7 +882,7 @@
         <sequence>110</sequence>
         <presence>true</presence>
         <icon>fas fa-file-invoice</icon>
-        <route>#!/setup/finance/invoices</route>
+        <route>/setup/finance/invoices</route>
         <table_name>erp_fin_invoices</table_name>
         <pkid>id</pkid>
         <display_column>invoice_number</display_column>
@@ -898,7 +898,7 @@
         <sequence>111</sequence>
         <presence>true</presence>
         <icon>fas fa-exchange-alt</icon>
-        <route>#!/setup/finance/transactions</route>
+        <route>/setup/finance/transactions</route>
         <table_name>erp_fin_transactions</table_name>
         <pkid>id</pkid>
         <display_column>transaction_id_ext</display_column>
@@ -914,7 +914,7 @@
         <sequence>112</sequence>
         <presence>true</presence>
         <icon>fas fa-list-ul</icon>
-        <route>#!/setup/finance/invoice-items</route>
+        <route>/setup/finance/invoice-items</route>
         <table_name>erp_fin_invoice_items</table_name>
         <pkid>id</pkid>
         <display_column>description</display_column>
@@ -931,7 +931,7 @@
         <sequence>120</sequence>
         <presence>true</presence>
         <icon>fas fa-award</icon>
-        <route>#!/setup/finance/scholarships/categories</route>
+        <route>/setup/finance/scholarships/categories</route>
         <table_name>erp_scholarship_categories</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -948,7 +948,7 @@
         <sequence>121</sequence>
         <presence>true</presence>
         <icon>fas fa-file-signature</icon>
-        <route>#!/setup/finance/scholarships/applications</route>
+        <route>/setup/finance/scholarships/applications</route>
         <table_name>erp_scholarship_applications</table_name>
         <pkid>id</pkid>
         <display_column>application_date</display_column>
@@ -965,7 +965,7 @@
         <sequence>130</sequence>
         <presence>true</presence>
         <icon>fas fa-atlas</icon>
-        <route>#!/setup/finance/accounting/coa</route>
+        <route>/setup/finance/accounting/coa</route>
         <table_name>erp_chart_of_accounts</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -982,7 +982,7 @@
         <sequence>131</sequence>
         <presence>true</presence>
         <icon>fas fa-book</icon>
-        <route>#!/setup/finance/accounting/journals</route>
+        <route>/setup/finance/accounting/journals</route>
         <table_name>erp_journal_entries</table_name>
         <pkid>id</pkid>
         <display_column>entry_number</display_column>
@@ -999,7 +999,7 @@
         <sequence>133</sequence>
         <presence>true</presence>
         <icon>fas fa-calendar</icon>
-        <route>#!/setup/finance/accounting/periods</route>
+        <route>/setup/finance/accounting/periods</route>
         <table_name>erp_accounting_periods</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -1015,7 +1015,7 @@
         <sequence>140</sequence>
         <presence>true</presence>
         <icon>fas fa-money-check-alt</icon>
-        <route>#!/setup/finance/accounting/budgets</route>
+        <route>/setup/finance/accounting/budgets</route>
         <table_name>erp_budgets</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -1032,7 +1032,7 @@
         <sequence>150</sequence>
         <presence>true</presence>
         <icon>fas fa-university</icon>
-        <route>#!/setup/finance/accounting/bank-statements</route>
+        <route>/setup/finance/accounting/bank-statements</route>
         <table_name>erp_bank_statements</table_name>
         <pkid>id</pkid>
         <display_column>account_number</display_column>
@@ -1048,7 +1048,7 @@
         <sequence>160</sequence>
         <presence>true</presence>
         <icon>fas fa-envelope</icon>
-        <route>#!/setup/communication/messages</route>
+        <route>/setup/communication/messages</route>
         <table_name>erp_messages</table_name>
         <pkid>id</pkid>
         <display_column>subject</display_column>
@@ -1065,7 +1065,7 @@
         <sequence>161</sequence>
         <presence>true</presence>
         <icon>fas fa-bullhorn</icon>
-        <route>#!/setup/communication/announcements</route>
+        <route>/setup/communication/announcements</route>
         <table_name>erp_announcements</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -1082,7 +1082,7 @@
         <sequence>170</sequence>
         <presence>true</presence>
         <icon>fas fa-ticket-alt</icon>
-        <route>#!/setup/communication/tickets</route>
+        <route>/setup/communication/tickets</route>
         <table_name>erp_support_tickets</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -1112,7 +1112,7 @@
         <sequence>180</sequence>
         <presence>true</presence>
         <icon>fas fa-pen-nib</icon>
-        <route>#!/setup/library/authors</route>
+        <route>/setup/library/authors</route>
         <table_name>erp_library_authors</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -1128,7 +1128,7 @@
         <sequence>181</sequence>
         <presence>true</presence>
         <icon>fas fa-building</icon>
-        <route>#!/setup/library/publishers</route>
+        <route>/setup/library/publishers</route>
         <table_name>erp_library_publishers</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -1144,7 +1144,7 @@
         <sequence>190</sequence>
         <presence>true</presence>
         <icon>fas fa-book</icon>
-        <route>#!/setup/library/resources</route>
+        <route>/setup/library/resources</route>
         <table_name>erp_library_resources</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -1160,7 +1160,7 @@
         <sequence>191</sequence>
         <presence>true</presence>
         <icon>fas fa-barcode</icon>
-        <route>#!/setup/library/items</route>
+        <route>/setup/library/items</route>
         <table_name>erp_library_items</table_name>
         <pkid>id</pkid>
         <display_column>accession_number</display_column>
@@ -1176,7 +1176,7 @@
         <sequence>200</sequence>
         <presence>true</presence>
         <icon>fas fa-exchange-alt</icon>
-        <route>#!/setup/library/loans</route>
+        <route>/setup/library/loans</route>
         <table_name>erp_library_loans</table_name>
         <pkid>id</pkid>
         <display_column>loan_date</display_column>
@@ -1192,7 +1192,7 @@
         <sequence>201</sequence>
         <presence>true</presence>
         <icon>fas fa-hand-paper</icon>
-        <route>#!/setup/library/holds</route>
+        <route>/setup/library/holds</route>
         <table_name>erp_library_holds</table_name>
         <pkid>id</pkid>
         <display_column>request_date</display_column>
@@ -1208,7 +1208,7 @@
         <sequence>210</sequence>
         <presence>true</presence>
         <icon>fas fa-gavel</icon>
-        <route>#!/setup/library/policies</route>
+        <route>/setup/library/policies</route>
         <table_name>erp_library_policies</table_name>
         <pkid>id</pkid>
         <display_column>max_books</display_column>
@@ -1224,7 +1224,7 @@
         <sequence>220</sequence>
         <presence>true</presence>
         <icon>fas fa-shopping-cart</icon>
-        <route>#!/setup/library/purchase-requests</route>
+        <route>/setup/library/purchase-requests</route>
         <table_name>erp_library_purchase_requests</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -1240,7 +1240,7 @@
         <sequence>221</sequence>
         <presence>true</presence>
         <icon>fas fa-file-invoice</icon>
-        <route>#!/setup/library/pos</route>
+        <route>/setup/library/pos</route>
         <table_name>erp_library_pos</table_name>
         <pkid>id</pkid>
         <display_column>order_date</display_column>
@@ -1256,7 +1256,7 @@
         <sequence>300</sequence>
         <presence>true</presence>
         <icon>fas fa-layer-group</icon>
-        <route>#!/setup/lms/modules</route>
+        <route>/setup/lms/modules</route>
         <table_name>erp_lms_modules</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -1272,7 +1272,7 @@
         <sequence>301</sequence>
         <presence>true</presence>
         <icon>fas fa-chalkboard-teacher</icon>
-        <route>#!/setup/lms/lessons</route>
+        <route>/setup/lms/lessons</route>
         <table_name>erp_lms_lessons</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -1288,7 +1288,7 @@
         <sequence>302</sequence>
         <presence>true</presence>
         <icon>fas fa-heading</icon>
-        <route>#!/setup/lms/topics</route>
+        <route>/setup/lms/topics</route>
         <table_name>erp_lms_topics</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -1304,7 +1304,7 @@
         <sequence>303</sequence>
         <presence>true</presence>
         <icon>fas fa-file-video</icon>
-        <route>#!/setup/lms/contents</route>
+        <route>/setup/lms/contents</route>
         <table_name>erp_lms_content</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -1320,7 +1320,7 @@
         <sequence>310</sequence>
         <presence>true</presence>
         <icon>fas fa-question-circle</icon>
-        <route>#!/setup/lms/quizzes</route>
+        <route>/setup/lms/quizzes</route>
         <table_name>erp_lms_quizzes</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -1336,7 +1336,7 @@
         <sequence>311</sequence>
         <presence>true</presence>
         <icon>fas fa-university</icon>
-        <route>#!/setup/lms/question-bank</route>
+        <route>/setup/lms/question-bank</route>
         <table_name>erp_lms_question_bank</table_name>
         <pkid>id</pkid>
         <display_column>question_text</display_column>
@@ -1352,7 +1352,7 @@
         <sequence>312</sequence>
         <presence>true</presence>
         <icon>fas fa-user-check</icon>
-        <route>#!/setup/lms/submissions</route>
+        <route>/setup/lms/submissions</route>
         <table_name>erp_lms_submissions</table_name>
         <pkid>id</pkid>
         <display_column>score</display_column>
@@ -1368,7 +1368,7 @@
         <sequence>313</sequence>
         <presence>true</presence>
         <icon>fas fa-tasks</icon>
-        <route>#!/setup/lms/rubrics</route>
+        <route>/setup/lms/rubrics</route>
         <table_name>erp_lms_rubrics</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -1384,7 +1384,7 @@
         <sequence>320</sequence>
         <presence>true</presence>
         <icon>fas fa-video</icon>
-        <route>#!/setup/lms/virtual-sessions</route>
+        <route>/setup/lms/virtual-sessions</route>
         <table_name>erp_lms_virtual_sessions</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -1400,7 +1400,7 @@
         <sequence>321</sequence>
         <presence>true</presence>
         <icon>fas fa-user-clock</icon>
-        <route>#!/setup/lms/virtual-attendance</route>
+        <route>/setup/lms/virtual-attendance</route>
         <table_name>erp_lms_virtual_attendance</table_name>
         <pkid>id</pkid>
         <display_column>join_time</display_column>
@@ -1416,7 +1416,7 @@
         <sequence>340</sequence>
         <presence>true</presence>
         <icon>fas fa-graduation-cap</icon>
-        <route>#!/setup/tpd/competencies</route>
+        <route>/setup/tpd/competencies</route>
         <table_name>erp_tpd_competencies</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -1432,7 +1432,7 @@
         <sequence>341</sequence>
         <presence>true</presence>
         <icon>fas fa-user-check</icon>
-        <route>#!/setup/tpd/assessments</route>
+        <route>/setup/tpd/assessments</route>
         <table_name>erp_tpd_skill_assessments</table_name>
         <pkid>id</pkid>
         <display_column>assessment_date</display_column>
@@ -1448,7 +1448,7 @@
         <sequence>342</sequence>
         <presence>true</presence>
         <icon>fas fa-calendar-alt</icon>
-        <route>#!/setup/tpd/events</route>
+        <route>/setup/tpd/events</route>
         <table_name>erp_tpd_training_events</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -1464,7 +1464,7 @@
         <sequence>343</sequence>
         <presence>true</presence>
         <icon>fas fa-passport</icon>
-        <route>#!/setup/tpd/ledger</route>
+        <route>/setup/tpd/ledger</route>
         <table_name>erp_tpd_cpd_ledger</table_name>
         <pkid>id</pkid>
         <display_column>credits_earned</display_column>
@@ -1480,7 +1480,7 @@
         <sequence>344</sequence>
         <presence>true</presence>
         <icon>fas fa-briefcase</icon>
-        <route>#!/setup/tpd/portfolios</route>
+        <route>/setup/tpd/portfolios</route>
         <table_name>erp_tpd_portfolios</table_name>
         <pkid>id</pkid>
         <display_column>current_role</display_column>
@@ -1496,7 +1496,7 @@
         <sequence>330</sequence>
         <presence>true</presence>
         <icon>fas fa-chart-line</icon>
-        <route>#!/setup/lms/progress</route>
+        <route>/setup/lms/progress</route>
         <table_name>erp_lms_student_progress</table_name>
         <pkid>id</pkid>
         <display_column>completion_percentage</display_column>
@@ -1512,7 +1512,7 @@
         <sequence>331</sequence>
         <presence>true</presence>
         <icon>fas fa-medal</icon>
-        <route>#!/setup/lms/badges</route>
+        <route>/setup/lms/badges</route>
         <table_name>erp_lms_badges</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -1528,7 +1528,7 @@
         <sequence>332</sequence>
         <presence>true</presence>
         <icon>fas fa-trophy</icon>
-        <route>#!/setup/lms/points</route>
+        <route>/setup/lms/points</route>
         <table_name>erp_lms_point_logs</table_name>
         <pkid>id</pkid>
         <display_column>points</display_column>
@@ -1544,7 +1544,7 @@
         <sequence>350</sequence>
         <presence>true</presence>
         <icon>fas fa-comments</icon>
-        <route>#!/setup/lms/forums</route>
+        <route>/setup/lms/forums</route>
         <table_name>erp_lms_forums</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -1560,7 +1560,7 @@
         <sequence>351</sequence>
         <presence>true</presence>
         <icon>fas fa-comment-dots</icon>
-        <route>#!/setup/lms/posts</route>
+        <route>/setup/lms/posts</route>
         <table_name>erp_lms_forum_posts</table_name>
         <pkid>id</pkid>
         <display_column>content</display_column>
@@ -1576,7 +1576,7 @@
         <sequence>352</sequence>
         <presence>true</presence>
         <icon>fas fa-user-friends</icon>
-        <route>#!/setup/lms/peer-reviews</route>
+        <route>/setup/lms/peer-reviews</route>
         <table_name>erp_lms_peer_reviews</table_name>
         <pkid>id</pkid>
         <display_column>score</display_column>
@@ -1592,7 +1592,7 @@
         <sequence>360</sequence>
         <presence>true</presence>
         <icon>fas fa-user-plus</icon>
-        <route>#!/setup/admission/registrations</route>
+        <route>/setup/admission/registrations</route>
         <table_name>erp_student_registrations</table_name>
         <pkid>registration_id</pkid>
         <display_column>registration_date</display_column>

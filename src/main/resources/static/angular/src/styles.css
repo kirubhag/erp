@@ -180,7 +180,7 @@ a:hover,
 /* Content Body */
 .content-body {
   background-color: #f8f9fa;
-  padding: 30px;
+  padding: 0; /* No padding by default (for login/register pages) */
   margin: 0;
   flex: 1;
   display: flex;

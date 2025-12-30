@@ -42,7 +42,7 @@ import com.zaxxer.hikari.HikariDataSource;
  */
 @Component
 @Order(1) // Run before tenant-specific initializers
-@SuppressWarnings({"unused", "UnnecessaryLocalVariable"})
+@SuppressWarnings({ "unused", "UnnecessaryLocalVariable" })
 public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(MasterDbSystemDataInitializer.class);
@@ -65,6 +65,9 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
         // Ensure IAM_MasterDB exists
         ensureMasterDatabaseExists();
 
+        // Fix schema issues before loading data
+        fixSchemaIssues();
+
         // Load system data in order
         loadSystemPermissions();
         loadSystemRoles();
@@ -77,6 +80,22 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
         loadErpTabGroups();
 
         logger.info("=== IAM_MasterDB System Data Initialization Completed ===");
+    }
+
+    /**
+     * Fix known schema issues that might cause data loading failures
+     */
+    private void fixSchemaIssues() {
+        try {
+            logger.info("Checking and fixing schema issues...");
+
+            // Fix erp_sections.entity_type length (was 50, needs 100 for some enum values)
+            masterJdbcTemplate.execute("ALTER TABLE erp_sections MODIFY COLUMN entity_type VARCHAR(100)");
+            logger.info("✓ Fixed erp_sections.entity_type column length");
+
+        } catch (Exception e) {
+            logger.warn("Schema fix warning (might already be fixed): {}", e.getMessage());
+        }
     }
 
     /**
@@ -906,9 +925,9 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         // Insert entity mapping
                         masterJdbcTemplate.update(
                                 "INSERT INTO erp_tab_group_entity_rel " +
-                                        "(tab_group_id, entity_id, sequence) " +
-                                        "VALUES (?, ?, ?)",
-                                tabGroupId, entityId, j + 1);
+                                        "(tab_group_id, entity_id, sequence, is_active, created_by, created_time, modified_time) " +
+                                        "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                                tabGroupId, entityId, j + 1, 1, "system", LocalDateTime.now(), LocalDateTime.now());
                     }
                 }
 

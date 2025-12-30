@@ -292,6 +292,50 @@ public class TenantProvisioningService {
                 throw e;
             }
 
+            // 10. Copy Tab Groups
+            try {
+                logger.info("Copying Tab Groups...");
+                masterJdbc.query("SELECT * FROM erp_tab_groups", rs -> {
+                    String sql = "INSERT IGNORE INTO erp_tab_groups (erp_tab_group_id, name, code, icon, sequence, description, is_active, created_by, created_time, modified_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    tenantJdbc.update(sql,
+                            rs.getLong("erp_tab_group_id"),
+                            rs.getString("name"),
+                            rs.getString("code"),
+                            rs.getString("icon"),
+                            rs.getInt("sequence"),
+                            rs.getString("description"),
+                            rs.getInt("is_active"),
+                            rs.getString("created_by"),
+                            rs.getTimestamp("created_time"),
+                            rs.getTimestamp("modified_time"));
+                });
+                logger.info("Tab Groups copied.");
+            } catch (Exception e) {
+                logger.error("Failed to copy Tab Groups: {}", e.getMessage(), e);
+                throw e;
+            }
+
+            // 11. Copy Tab Group Entity Relations
+            try {
+                logger.info("Copying Tab Group Entity Relations...");
+                masterJdbc.query("SELECT * FROM erp_tab_group_entity_rel", rs -> {
+                    String sql = "INSERT IGNORE INTO erp_tab_group_entity_rel (erp_tab_group_entity_rel_id, tab_group_id, entity_id, sequence, is_active, created_by, created_time, modified_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    tenantJdbc.update(sql,
+                            rs.getLong("erp_tab_group_entity_rel_id"),
+                            rs.getLong("tab_group_id"),
+                            rs.getLong("entity_id"),
+                            rs.getInt("sequence"),
+                            rs.getInt("is_active"),
+                            rs.getString("created_by"),
+                            rs.getTimestamp("created_time"),
+                            rs.getTimestamp("modified_time"));
+                });
+                logger.info("Tab Group Entity Relations copied.");
+            } catch (Exception e) {
+                logger.error("Failed to copy Tab Group Entity Relations: {}", e.getMessage(), e);
+                throw e;
+            }
+
             logger.info("System data copied successfully to tenant DB: {}", dbName);
 
         } catch (Exception e) {

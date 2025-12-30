@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,11 +13,14 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import krs.erp.enums.EntityType;
 import krs.erp.enums.UIFieldType;
 
 @Entity
-@Table(name = "erp_fields")
+@Table(name = "erp_fields", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"entity_type", "field_name"})
+})
 @AttributeOverride(name = "id", column = @Column(name = "erp_field_id"))
 public class ErpField extends BaseEntity {
 

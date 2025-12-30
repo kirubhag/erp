@@ -95,6 +95,8 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/parents/**").permitAll() // Allow parent endpoints for dev/testing
                                                 .requestMatchers("/api/subjects/**").permitAll() // Allow subject endpoints for dev/testing
                                                 .requestMatchers("/api/entities/**").permitAll() // Allow entity endpoints for dev/testing
+                                                .requestMatchers("/api/fields/**").permitAll() // Allow entity fields metadata endpoints for dev/testing
+                                                .requestMatchers("/api/module/**").permitAll() // Allow module/tab groups endpoints for dev/testing
                                                 .requestMatchers("/api/v1/**").permitAll() // Allow v1 API endpoints (sample data, etc.)
                                                 .requestMatchers("/api/organizations/**").authenticated() // Organizations
                                                                                                           // require
