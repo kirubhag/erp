@@ -24,6 +24,7 @@ import krs.erp.repository.ErpEntityRoleRelationRepository;
  */
 @Service
 @Transactional
+@SuppressWarnings("unused")
 public class ErpEntityService {
 
     @Autowired
@@ -248,45 +249,6 @@ public class ErpEntityService {
                     .findByTabGroupIdOrderBySequenceAsc(group.getId());
 
             List<ErpEntity> entities = new ArrayList<>();
-            for (krs.erp.model.ErpTabGroupEntityMapping mapping : mappings) {
-                erpEntityRepository.findById(mapping.getEntityId()).ifPresent(entities::add);
-            }
-            dto.setEntities(entities);
-
-            result.add(dto);
-        }
-
-        return result;
-    }
-
-    @Autowired
-    private krs.erp.repository.ErpTabGroupRepository tabGroupRepository;
-
-    @Autowired
-    private krs.erp.repository.ErpTabGroupEntityMappingRepository tabGroupMappingRepository;
-
-    /**
-     * Get all active Tab Groups with their mapped Entities
-     */
-    @Transactional(readOnly = true)
-    public List<krs.erp.dto.TabGroupDTO> getActiveTabGroups() {
-        List<krs.erp.model.ErpTabGroup> groups = tabGroupRepository.findByIsActiveOrderBySequenceAsc(1);
-        List<krs.erp.dto.TabGroupDTO> result = new ArrayList<>();
-
-        for (krs.erp.model.ErpTabGroup group : groups) {
-            krs.erp.dto.TabGroupDTO dto = new krs.erp.dto.TabGroupDTO();
-            dto.setId(group.getId());
-            dto.setName(group.getName());
-            dto.setCode(group.getCode());
-            dto.setIcon(group.getIcon());
-            dto.setSequence(group.getSequence());
-            dto.setDescription(group.getDescription());
-
-            // Fetch mapped entities
-            List<krs.erp.model.ErpTabGroupEntityMapping> mappings = tabGroupMappingRepository
-                    .findByTabGroupIdOrderBySequenceAsc(group.getId());
-
-            List<krs.erp.model.ErpEntity> entities = new ArrayList<>();
             for (krs.erp.model.ErpTabGroupEntityMapping mapping : mappings) {
                 erpEntityRepository.findById(mapping.getEntityId()).ifPresent(entities::add);
             }

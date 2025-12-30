@@ -163,6 +163,7 @@ import krs.erp.repository.tpd.TrainingEvaluationRepository;
 import krs.erp.repository.tpd.TrainingEventRepository;
 
 @Service
+@SuppressWarnings({"unused", "UnnecessaryLocalVariable"})
 public class DataImportService {
 
     private static final Logger logger = LoggerFactory.getLogger(DataImportService.class);

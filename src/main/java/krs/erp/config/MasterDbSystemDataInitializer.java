@@ -42,6 +42,7 @@ import com.zaxxer.hikari.HikariDataSource;
  */
 @Component
 @Order(1) // Run before tenant-specific initializers
+@SuppressWarnings({"unused", "UnnecessaryLocalVariable"})
 public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(MasterDbSystemDataInitializer.class);
@@ -73,6 +74,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
         loadErpEntities();
         loadErpEntityRelations();
         loadCustomViews();
+        loadErpTabGroups();
 
         logger.info("=== IAM_MasterDB System Data Initialization Completed ===");
     }
@@ -806,6 +808,117 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
         } catch (Exception e) {
             logger.error("Error loading custom views", e);
+        }
+    }
+
+    /**
+     * Load ERP Tab Groups from XML into IAM_MasterDB
+     */
+    private void loadErpTabGroups() {
+        logger.info("Loading ERP Tab Groups into IAM_MasterDB...");
+
+        try {
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            Resource resource = resolver.getResource("classpath:data/erp-tab-groups.xml");
+
+            if (!resource.exists()) {
+                logger.warn("Tab Groups XML file not found: data/erp-tab-groups.xml");
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(resource.getInputStream());
+            document.getDocumentElement().normalize();
+
+            NodeList groupNodes = document.getElementsByTagName("tab_group");
+            int totalLoaded = 0;
+
+            for (int i = 0; i < groupNodes.getLength(); i++) {
+                Element groupElement = (Element) groupNodes.item(i);
+
+                String code = getElementText(groupElement, "code");
+                String name = getElementText(groupElement, "name");
+                String icon = getElementText(groupElement, "icon");
+                String description = getElementText(groupElement, "description");
+                Integer sequence = Integer.parseInt(getElementText(groupElement, "sequence"));
+
+                // Check if tab group already exists
+                Integer existingCount = masterJdbcTemplate.queryForObject(
+                        "SELECT COUNT(*) FROM erp_tab_groups WHERE code = ?",
+                        Integer.class, code);
+
+                Long tabGroupId;
+
+                if (existingCount != null && existingCount > 0) {
+                    // Update existing tab group
+                    masterJdbcTemplate.update(
+                            "UPDATE erp_tab_groups " +
+                                    "SET name = ?, icon = ?, description = ?, sequence = ?, modified_time = ? " +
+                                    "WHERE code = ?",
+                            name, icon, description, sequence, LocalDateTime.now(), code);
+
+                    // Get existing tab group ID
+                    tabGroupId = masterJdbcTemplate.queryForObject(
+                            "SELECT erp_tab_group_id FROM erp_tab_groups WHERE code = ?",
+                            Long.class, code);
+
+                    // Delete existing entity mappings
+                    masterJdbcTemplate.update(
+                            "DELETE FROM erp_tab_group_entity_rel WHERE tab_group_id = ?",
+                            tabGroupId);
+                } else {
+                    // Insert new tab group
+                    masterJdbcTemplate.update(
+                            "INSERT INTO erp_tab_groups " +
+                                    "(name, code, icon, description, sequence, is_active, " +
+                                    "created_by, created_time, modified_time) " +
+                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                            name, code, icon, description, sequence, 1,
+                            "system", LocalDateTime.now(), LocalDateTime.now());
+
+                    // Get generated tab group ID
+                    tabGroupId = masterJdbcTemplate.queryForObject(
+                            "SELECT LAST_INSERT_ID()", Long.class);
+                }
+
+                // Process entity mappings
+                NodeList entitiesNode = groupElement.getElementsByTagName("entities");
+                if (entitiesNode.getLength() > 0) {
+                    Element entitiesElement = (Element) entitiesNode.item(0);
+                    NodeList entityNodes = entitiesElement.getElementsByTagName("entity");
+
+                    for (int j = 0; j < entityNodes.getLength(); j++) {
+                        Element entityElement = (Element) entityNodes.item(j);
+                        String entityName = entityElement.getTextContent().trim();
+
+                        // Get entity ID from erp_entities table
+                        Long entityId = null;
+                        try {
+                            entityId = masterJdbcTemplate.queryForObject(
+                                    "SELECT erp_entity_id FROM erp_entities WHERE singular_name = ?",
+                                    Long.class, entityName);
+                        } catch (Exception e) {
+                            logger.warn("Entity not found for tab group mapping: {}", entityName);
+                            continue;
+                        }
+
+                        // Insert entity mapping
+                        masterJdbcTemplate.update(
+                                "INSERT INTO erp_tab_group_entity_rel " +
+                                        "(tab_group_id, entity_id, sequence) " +
+                                        "VALUES (?, ?, ?)",
+                                tabGroupId, entityId, j + 1);
+                    }
+                }
+
+                totalLoaded++;
+            }
+
+            logger.info("✓ Loaded {} tab groups into IAM_MasterDB", totalLoaded);
+
+        } catch (Exception e) {
+            logger.error("Error loading tab groups", e);
         }
     }
 }

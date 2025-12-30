@@ -5,6 +5,7 @@ import { MenuService } from '../../services/menu.service';
 import { AuthService, UserDetails } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+import { LayoutService } from '../../services/layout.service';
 
 export interface MenuItem {
   id: number;
@@ -49,7 +50,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   constructor(
     private menuService: MenuService,
-    private layoutService: import('../../services/layout.service').LayoutService,
+    private layoutService: LayoutService,
     private authService: AuthService,
     private themeService: ThemeService,
     private router: Router

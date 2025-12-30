@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { LayoutService, TabGroup } from '../../services/layout.service';
+import { LayoutService, TabGroup } from '../../../services/layout.service';
 import { Observable } from 'rxjs';
 
 @Component({

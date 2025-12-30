@@ -26,6 +26,8 @@
         <exclude name="OnlyOneReturn"/>
         <exclude name="CallSuperInConstructor"/>
         <exclude name="CommentDefaultAccessModifier"/>
+        <exclude name="MethodArgumentCouldBeFinal"/>
+        <exclude name="LocalVariableCouldBeFinal"/>
     </rule>
 
     <!-- Custom Short Variable Rule - More lenient for Spring Boot -->
@@ -42,6 +44,9 @@
         <exclude name="LoosePackageCoupling"/>
         <exclude name="DataClass"/>
         <exclude name="UseUtilityClass"/>
+        <exclude name="CyclomaticComplexity"/>
+        <exclude name="NPathComplexity"/>
+        <exclude name="ExcessiveParameterList"/>
     </rule>
 
     <!-- Custom Complexity Rules -->

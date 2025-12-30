@@ -57,8 +57,6 @@ public interface ErpEntityRepository extends JpaRepository<ErpEntity, Long> {
         */
        Optional<ErpEntity> findBySystemName(String systemName);
 
-       Optional<ErpEntity> findBySingularName(String singularName);
-
        /**
         * Find all active menu items with presence ordered by sequence
         */
