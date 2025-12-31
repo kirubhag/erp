@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<journal_entries>
+    <journal_entry>
+        <entry_number>JE-2025-001</entry_number>
+        <date>2025-01-01</date>
+        <description>Opening Balances for FY 2024-25</description>
+        <status>POSTED</status>
+        <items>
+            <item>
+                <account_code>1002</account_code>
+                <label>Opening Bank Balance</label>
+                <debit>500000.00</debit>
+                <credit>0.00</credit>
+            </item>
+            <item>
+                <account_code>3001</account_code>
+                <label>Capital Fund</label>
+                <debit>0.00</debit>
+                <credit>500000.00</credit>
+            </item>
+        </items>
+    </journal_entry>
+    
+    <journal_entry>
+        <entry_number>JE-2025-002</entry_number>
+        <date>2025-01-18</date>
+        <description>Tuition Fee Collection - January</description>
+        <status>POSTED</status>
+        <items>
+            <item>
+                <account_code>1002</account_code>
+                <label>Bank Account</label>
+                <debit>250000.00</debit>
+                <credit>0.00</credit>
+            </item>
+            <item>
+                <account_code>4001</account_code>
+                <label>Tuition Fee Income</label>
+                <debit>0.00</debit>
+                <credit>250000.00</credit>
+            </item>
+        </items>
+    </journal_entry>
+    
+    <journal_entry>
+        <entry_number>JE-2025-003</entry_number>
+        <date>2025-01-31</date>
+        <description>Staff Salary Payment - January 2025</description>
+        <status>POSTED</status>
+        <items>
+            <item>
+                <account_code>5001</account_code>
+                <label>Staff Salary Expense</label>
+                <debit>180000.00</debit>
+                <credit>0.00</credit>
+            </item>
+            <item>
+                <account_code>1002</account_code>
+                <label>Bank Account</label>
+                <debit>0.00</debit>
+                <credit>180000.00</credit>
+            </item>
+        </items>
+    </journal_entry>
+    
+    <journal_entry>
+        <entry_number>JE-2025-004</entry_number>
+        <date>2025-01-25</date>
+        <description>Utilities Payment - January</description>
+        <status>POSTED</status>
+        <items>
+            <item>
+                <account_code>5100</account_code>
+                <label>Utilities Expense</label>
+                <debit>15000.00</debit>
+                <credit>0.00</credit>
+            </item>
+            <item>
+                <account_code>1002</account_code>
+                <label>Bank Account</label>
+                <debit>0.00</debit>
+                <credit>15000.00</credit>
+            </item>
+        </items>
+    </journal_entry>
+    
+    <journal_entry>
+        <entry_number>JE-2025-005</entry_number>
+        <date>2025-01-20</date>
+        <description>Library Books Purchase</description>
+        <status>DRAFT</status>
+        <items>
+            <item>
+                <account_code>5300</account_code>
+                <label>Stationery and Supplies</label>
+                <debit>25000.00</debit>
+                <credit>0.00</credit>
+            </item>
+            <item>
+                <account_code>2001</account_code>
+                <label>Accounts Payable</label>
+                <debit>0.00</debit>
+                <credit>25000.00</credit>
+            </item>
+        </items>
+    </journal_entry>
+</journal_entries>

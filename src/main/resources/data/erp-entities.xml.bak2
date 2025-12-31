@@ -866,7 +866,7 @@
         <sequence>108</sequence>
         <presence>true</presence>
         <icon>fas fa-hand-holding-usd</icon>
-        <route>/finance/waivers</route>
+        <route>/setup/finance/waivers</route>
         <table_name>erp_fee_fine_waivers</table_name>
         <pkid>id</pkid>
         <display_column>reason</display_column>
@@ -882,7 +882,7 @@
         <sequence>110</sequence>
         <presence>true</presence>
         <icon>fas fa-file-invoice</icon>
-        <route>/finance/invoices</route>
+        <route>/setup/finance/invoices</route>
         <table_name>erp_fin_invoices</table_name>
         <pkid>id</pkid>
         <display_column>invoice_number</display_column>
@@ -898,7 +898,7 @@
         <sequence>111</sequence>
         <presence>true</presence>
         <icon>fas fa-exchange-alt</icon>
-        <route>/finance/transactions</route>
+        <route>/setup/finance/transactions</route>
         <table_name>erp_fin_transactions</table_name>
         <pkid>id</pkid>
         <display_column>transaction_id_ext</display_column>
@@ -914,7 +914,7 @@
         <sequence>112</sequence>
         <presence>true</presence>
         <icon>fas fa-list-ul</icon>
-        <route>/finance/invoice-items</route>
+        <route>/setup/finance/invoice-items</route>
         <table_name>erp_fin_invoice_items</table_name>
         <pkid>id</pkid>
         <display_column>description</display_column>
@@ -931,7 +931,7 @@
         <sequence>120</sequence>
         <presence>true</presence>
         <icon>fas fa-award</icon>
-        <route>/finance/scholarships/categories</route>
+        <route>/setup/finance/scholarships/categories</route>
         <table_name>erp_scholarship_categories</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -948,7 +948,7 @@
         <sequence>121</sequence>
         <presence>true</presence>
         <icon>fas fa-file-signature</icon>
-        <route>/finance/scholarships/applications</route>
+        <route>/setup/finance/scholarships/applications</route>
         <table_name>erp_scholarship_applications</table_name>
         <pkid>id</pkid>
         <display_column>application_date</display_column>
@@ -965,7 +965,7 @@
         <sequence>130</sequence>
         <presence>true</presence>
         <icon>fas fa-atlas</icon>
-        <route>/finance/accounting/coa</route>
+        <route>/setup/finance/accounting/coa</route>
         <table_name>erp_chart_of_accounts</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -982,7 +982,7 @@
         <sequence>131</sequence>
         <presence>true</presence>
         <icon>fas fa-book</icon>
-        <route>/finance/accounting/journals</route>
+        <route>/setup/finance/accounting/journals</route>
         <table_name>erp_journal_entries</table_name>
         <pkid>id</pkid>
         <display_column>entry_number</display_column>
@@ -999,7 +999,7 @@
         <sequence>133</sequence>
         <presence>true</presence>
         <icon>fas fa-calendar</icon>
-        <route>/finance/accounting/periods</route>
+        <route>/setup/finance/accounting/periods</route>
         <table_name>erp_accounting_periods</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -1015,7 +1015,7 @@
         <sequence>140</sequence>
         <presence>true</presence>
         <icon>fas fa-money-check-alt</icon>
-        <route>/finance/accounting/budgets</route>
+        <route>/setup/finance/accounting/budgets</route>
         <table_name>erp_budgets</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transactions>
+    <transaction>
+        <transaction_id_ext>TXN-2025-001</transaction_id_ext>
+        <invoice_number>INV-2025-001</invoice_number>
+        <payment_date>2025-01-18T10:30:00</payment_date>
+        <amount_paid>25000.00</amount_paid>
+        <payment_mode>ONLINE</payment_mode>
+        <reference_number>RAZP-20250118-001</reference_number>
+        <status>SUCCESS</status>
+    </transaction>
+    
+    <transaction>
+        <transaction_id_ext>TXN-2025-002</transaction_id_ext>
+        <invoice_number>INV-2025-002</invoice_number>
+        <payment_date>2025-01-19T14:15:00</payment_date>
+        <amount_paid>15000.00</amount_paid>
+        <payment_mode>BANK_TRANSFER</payment_mode>
+        <reference_number>NEFT-20250119-456</reference_number>
+        <status>SUCCESS</status>
+    </transaction>
+    
+    <transaction>
+        <transaction_id_ext>TXN-2025-003</transaction_id_ext>
+        <invoice_number>INV-2025-002</invoice_number>
+        <payment_date>2025-01-22T09:45:00</payment_date>
+        <amount_paid>10000.00</amount_paid>
+        <payment_mode>CASH</payment_mode>
+        <reference_number>CASH-001</reference_number>
+        <status>SUCCESS</status>
+    </transaction>
+    
+    <transaction>
+        <transaction_id_ext>TXN-2025-004</transaction_id_ext>
+        <invoice_number>INV-2025-003</invoice_number>
+        <payment_date>2025-01-20T11:00:00</payment_date>
+        <amount_paid>22500.00</amount_paid>
+        <payment_mode>CHEQUE</payment_mode>
+        <reference_number>CHQ-789456</reference_number>
+        <status>PENDING</status>
+    </transaction>
+    
+    <transaction>
+        <transaction_id_ext>TXN-2025-005</transaction_id_ext>
+        <invoice_number>INV-2025-004</invoice_number>
+        <payment_date>2025-01-25T16:20:00</payment_date>
+        <amount_paid>3000.00</amount_paid>
+        <payment_mode>ONLINE</payment_mode>
+        <reference_number>RAZP-20250125-789</reference_number>
+        <status>FAILED</status>
+    </transaction>
+</transactions>

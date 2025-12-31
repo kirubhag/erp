@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<discount_rules>
+    <discount_rule>
+        <name>Sibling Discount</name>
+        <type>PERCENTAGE</type>
+        <value>10.00</value>
+        <condition_type>SIBLING</condition_type>
+        <description>10% discount for families with multiple children enrolled</description>
+        <is_active>true</is_active>
+    </discount_rule>
+    <discount_rule>
+        <name>Early Payment Discount</name>
+        <type>PERCENTAGE</type>
+        <value>5.00</value>
+        <condition_type>EARLY_PAYMENT</condition_type>
+        <description>5% discount for payments made before March 31st</description>
+        <is_active>true</is_active>
+    </discount_rule>
+    <discount_rule>
+        <name>Merit Scholarship Discount</name>
+        <type>PERCENTAGE</type>
+        <value>25.00</value>
+        <condition_type>MERIT</condition_type>
+        <description>25% tuition discount for students with GPA above 3.8</description>
+        <is_active>true</is_active>
+    </discount_rule>
+    <discount_rule>
+        <name>Staff Child Discount</name>
+        <type>PERCENTAGE</type>
+        <value>50.00</value>
+        <condition_type>STAFF_CHILD</condition_type>
+        <description>50% discount for children of staff members</description>
+        <is_active>true</is_active>
+    </discount_rule>
+    <discount_rule>
+        <name>Financial Hardship Waiver</name>
+        <type>FIXED</type>
+        <value>10000.00</value>
+        <condition_type>FINANCIAL_AID</condition_type>
+        <description>Fixed amount waiver for families facing financial hardship</description>
+        <is_active>true</is_active>
+    </discount_rule>
+</discount_rules>

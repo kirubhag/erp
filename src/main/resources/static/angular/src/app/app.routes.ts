@@ -279,7 +279,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/finance',
+    path: 'finance',
     loadChildren: () => import('./components/finance/finance.routes').then(m => m.FINANCE_ROUTES),
     canActivate: [AuthGuard]
   },

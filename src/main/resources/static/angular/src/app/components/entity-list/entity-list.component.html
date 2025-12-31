@@ -49,7 +49,7 @@
 <!-- Main Container -->
 <div class="main-container" [class.has-entity-sidebar]="sidebarVisible && entityType">
   <!-- Dynamic Entity Fields Sidebar -->
-  <app-entity-fields-sidebar *ngIf="sidebarVisible && entityType" [entityType]="entityType" [visible]="sidebarVisible"
+  <app-entity-fields-sidebar *ngIf="sidebarVisible && entityType" [entityType]="entityType" [fields]="fieldMetadata" [visible]="sidebarVisible"
     (fieldFilterChange)="onFieldFilterChange($event)">
   </app-entity-fields-sidebar>
 

@@ -459,96 +459,7 @@ export class SampleDataModalComponent implements OnInit {
   populationStarted = false;
   populationCompleted = false;
 
-  entities: EntityCheckbox[] = [
-    {
-      name: 'STAFF',
-      label: 'Staff Members',
-      icon: 'fas fa-chalkboard-teacher',
-      isImported: false,
-      isSelected: true,
-      description: 'Sample staff members and faculty data'
-    },
-    {
-      name: 'STUDENTS',
-      label: 'Students',
-      icon: 'fas fa-user-graduate',
-      isImported: false,
-      isSelected: true,
-      description: 'Sample student records and enrollment data'
-    },
-    {
-      name: 'GRADES',
-      label: 'Grades',
-      icon: 'fas fa-star',
-      isImported: false,
-      isSelected: true,
-      description: 'Grade levels and grading scales'
-    },
-    {
-      name: 'SUBJECTS',
-      label: 'Subjects',
-      icon: 'fas fa-book',
-      isImported: false,
-      isSelected: true,
-      description: 'Academic subjects and course information'
-    },
-    {
-      name: 'TIMETABLES',
-      label: 'Timetables',
-      icon: 'fas fa-calendar-alt',
-      isImported: false,
-      isSelected: true,
-      description: 'Class schedules and timetable data'
-    },
-    {
-      name: 'PARENTS',
-      label: 'Parents',
-      icon: 'fas fa-user-friends',
-      isImported: false,
-      isSelected: true,
-      description: 'Parent/guardian contact information'
-    },
-    {
-      name: 'ROOMS',
-      label: 'Rooms',
-      icon: 'fas fa-door-open',
-      isImported: false,
-      isSelected: true,
-      description: 'Classrooms and facility details'
-    },
-    {
-      name: 'COURSES',
-      label: 'Courses',
-      icon: 'fas fa-graduation-cap',
-      isImported: false,
-      isSelected: true,
-      description: 'Educational courses and curriculum'
-    },
-    {
-      name: 'EXAMS',
-      label: 'Exams',
-      icon: 'fas fa-file-alt',
-      isImported: false,
-      isSelected: true,
-      description: 'Examination schedules and records'
-    },
-    {
-      name: 'ATTENDANCE',
-      label: 'Attendance',
-      icon: 'fas fa-clipboard-check',
-      isImported: false,
-      isSelected: true,
-      description: 'Student attendance records'
-    },
-    {
-      name: 'ADDRESSES',
-      label: 'Addresses',
-      icon: 'fas fa-map-marker-alt',
-      isImported: false,
-      isSelected: true,
-      description: 'Address data for students and staff'
-    }
-  ];
+  entities: EntityCheckbox[] = [];
 
   organizationName = '';
 
@@ -564,10 +475,71 @@ export class SampleDataModalComponent implements OnInit {
       this.organizationName = org.name;
     }
 
-    // Check which entities have already been imported
+    // Load available entities from backend
     this.loading = true;
-    this.checkImportedEntities();
+    this.loadAvailableEntities();
   }
+
+  private loadAvailableEntities(): void {
+    this.organizationService.getAvailableEntities().subscribe({
+      next: (response: any) => {
+        // Map backend entities to our EntityCheckbox format
+        this.entities = response.entities.map((entity: any) => ({
+          name: entity.name,
+          label: entity.description.split('(')[0].trim(), // Use first part as label
+          icon: this.getIconForEntity(entity.name),
+          isImported: false,
+          isSelected: true,
+          description: entity.description
+        }));
+        
+        // Check which entities have already been imported
+        this.checkImportedEntities();
+      },
+      error: (error) => {
+        console.error('Error loading available entities:', error);
+        this.errorMessage = 'Could not load available entities. Please try again.';
+        this.loading = false;
+      }
+    });
+  }
+
+  private getIconForEntity(entityName: string): string {
+    const iconMap: { [key: string]: string } = {
+      'addresses': 'fas fa-map-marker-alt',
+      'STUDENTS': 'fas fa-user-graduate',
+      'students': 'fas fa-user-graduate',
+      'staff': 'fas fa-chalkboard-teacher',
+      'parents': 'fas fa-user-friends',
+      'subjects': 'fas fa-book',
+      'classes': 'fas fa-school',
+      'rooms': 'fas fa-door-open',
+      'courses': 'fas fa-graduation-cap',
+      'timetables': 'fas fa-calendar-alt',
+      'attendance': 'fas fa-clipboard-check',
+      'grades': 'fas fa-star',
+      'exams': 'fas fa-file-alt',
+      'finance': 'fas fa-coins',
+      'fee_types': 'fas fa-money-bill-wave',
+      'fee_structures': 'fas fa-receipt',
+      'fee_payments': 'fas fa-credit-card',
+      'discount_rules': 'fas fa-tags',
+      'fine_categories': 'fas fa-gavel',
+      'invoices': 'fas fa-file-invoice',
+      'transactions': 'fas fa-exchange-alt',
+      'chart_of_accounts': 'fas fa-atlas',
+      'journal_entries': 'fas fa-book',
+      'budgets': 'fas fa-money-check-alt',
+      'scholarships': 'fas fa-award',
+      'accounting': 'fas fa-calculator',
+      'library': 'fas fa-book-reader',
+      'lms': 'fas fa-laptop',
+      'tpd': 'fas fa-user-graduate'
+    };
+    
+    return iconMap[entityName] || 'fas fa-database';
+  }
+
 
   private checkImportedEntities(): void {
     this.organizationService.getImportedEntities().subscribe({

@@ -125,7 +125,6 @@ import krs.erp.repository.communication.MessageRepository;
 import krs.erp.repository.communication.SupportTicketRepository;
 import krs.erp.repository.communication.TicketCommentRepository;
 import krs.erp.repository.finance.BankStatementRepository;
-import krs.erp.repository.finance.BudgetLineRepository;
 import krs.erp.repository.finance.BudgetRepository;
 import krs.erp.repository.library.AuthorRepository;
 import krs.erp.repository.library.LibraryHoldRepository;
@@ -338,9 +337,6 @@ public class DataImportService {
 
     @Autowired
     private BudgetRepository budgetRepository;
-
-    @Autowired
-    private BudgetLineRepository budgetLineRepository;
 
     @Autowired
     private BankStatementRepository bankStatementRepository;
@@ -3179,9 +3175,9 @@ public class DataImportService {
                 Element feeTypeElement = (Element) feeTypeList.item(i);
 
                 krs.erp.model.finance.FeeType feeType = new krs.erp.model.finance.FeeType();
-                feeType.setName(getElementText(feeTypeElement, "name"));
-                feeType.setCode(getElementText(feeTypeElement, "code"));
-                feeType.setDescription(getElementText(feeTypeElement, "description"));
+                feeType.setName(getTextContent(feeTypeElement, "name"));
+                feeType.setCode(getTextContent(feeTypeElement, "code"));
+                feeType.setDescription(getTextContent(feeTypeElement, "description"));
 
                 feeTypeRepository.save(feeType);
             }
@@ -3214,7 +3210,7 @@ public class DataImportService {
                 krs.erp.model.finance.FeeStructure structure = new krs.erp.model.finance.FeeStructure();
 
                 // Find fee type by code
-                String feeTypeCode = getElementText(structureElement, "fee_type_code");
+                String feeTypeCode = getTextContent(structureElement, "fee_type_code");
                 krs.erp.model.finance.FeeType feeType = feeTypeRepository.findAll().stream()
                         .filter(ft -> ft.getCode().equals(feeTypeCode))
                         .findFirst()
@@ -3224,9 +3220,9 @@ public class DataImportService {
                     structure.setFeeTypeId(feeType.getId());
                 }
 
-                structure.setAcademicYearId(Long.parseLong(getElementText(structureElement, "academic_year_id")));
-                structure.setAmount(Double.parseDouble(getElementText(structureElement, "amount")));
-                structure.setDueDate(LocalDate.parse(getElementText(structureElement, "due_date")));
+                structure.setAcademicYearId(Long.parseLong(getTextContent(structureElement, "academic_year_id")));
+                structure.setAmount(Double.parseDouble(getTextContent(structureElement, "amount")));
+                structure.setDueDate(LocalDate.parse(getTextContent(structureElement, "due_date")));
 
                 feeStructureRepository.save(structure);
             }
@@ -3257,12 +3253,12 @@ public class DataImportService {
                 Element ruleElement = (Element) ruleList.item(i);
 
                 krs.erp.model.finance.FeeDiscountRule rule = new krs.erp.model.finance.FeeDiscountRule();
-                rule.setName(getElementText(ruleElement, "name"));
+                rule.setName(getTextContent(ruleElement, "name"));
                 rule.setType(krs.erp.model.finance.FeeDiscountRule.DiscountType
-                        .valueOf(getElementText(ruleElement, "type")));
-                rule.setValue(Double.parseDouble(getElementText(ruleElement, "value")));
-                rule.setConditionType(getElementText(ruleElement, "condition_type"));
-                // Note: description field not available in FeeDiscountRule model
+                        .valueOf(getTextContent(ruleElement, "type")));
+                rule.setValue(Double.parseDouble(getTextContent(ruleElement, "value")));
+                rule.setConditionType(getTextContent(ruleElement, "condition_type"));
+                rule.setDescription(getTextContent(ruleElement, "description"));
 
                 feeDiscountRuleRepository.save(rule);
             }
@@ -3293,8 +3289,8 @@ public class DataImportService {
                 Element categoryElement = (Element) categoryList.item(i);
 
                 krs.erp.model.finance.FineCategory category = new krs.erp.model.finance.FineCategory();
-                category.setName(getElementText(categoryElement, "name"));
-                category.setDescription(getElementText(categoryElement, "description"));
+                category.setName(getTextContent(categoryElement, "name"));
+                category.setDescription(getTextContent(categoryElement, "description"));
 
                 fineCategoryRepository.save(category);
             }
@@ -3325,14 +3321,14 @@ public class DataImportService {
                 Element invoiceElement = (Element) invoiceList.item(i);
 
                 krs.erp.model.finance.Invoice invoice = new krs.erp.model.finance.Invoice();
-                invoice.setInvoiceNumber(getElementText(invoiceElement, "invoice_number"));
-                invoice.setStudentId(Long.parseLong(getElementText(invoiceElement, "student_id")));
-                invoice.setIssueDate(LocalDate.parse(getElementText(invoiceElement, "issue_date")));
-                invoice.setDueDate(LocalDate.parse(getElementText(invoiceElement, "due_date")));
-                invoice.setTotalAmount(Double.parseDouble(getElementText(invoiceElement, "total_amount")));
-                invoice.setNetAmount(Double.parseDouble(getElementText(invoiceElement, "net_amount")));
+                invoice.setInvoiceNumber(getTextContent(invoiceElement, "invoice_number"));
+                invoice.setStudentId(Long.parseLong(getTextContent(invoiceElement, "student_id")));
+                invoice.setIssueDate(LocalDate.parse(getTextContent(invoiceElement, "issue_date")));
+                invoice.setDueDate(LocalDate.parse(getTextContent(invoiceElement, "due_date")));
+                invoice.setTotalAmount(Double.parseDouble(getTextContent(invoiceElement, "total_amount")));
+                invoice.setNetAmount(Double.parseDouble(getTextContent(invoiceElement, "net_amount")));
                 invoice.setStatus(
-                        krs.erp.model.finance.Invoice.InvoiceStatus.valueOf(getElementText(invoiceElement, "status")));
+                        krs.erp.model.finance.Invoice.InvoiceStatus.valueOf(getTextContent(invoiceElement, "status")));
 
                 krs.erp.model.finance.Invoice savedInvoice = invoiceRepository.save(invoice);
 
@@ -3343,10 +3339,10 @@ public class DataImportService {
 
                     krs.erp.model.finance.InvoiceItem item = new krs.erp.model.finance.InvoiceItem();
                     item.setInvoiceId(savedInvoice.getId());
-                    item.setDescription(getElementText(itemElement, "description"));
-                    item.setAmount(Double.parseDouble(getElementText(itemElement, "amount")));
+                    item.setDescription(getTextContent(itemElement, "description"));
+                    item.setAmount(Double.parseDouble(getTextContent(itemElement, "amount")));
                     item.setItemType(krs.erp.model.finance.InvoiceItem.ItemType
-                            .valueOf(getElementText(itemElement, "item_type")));
+                            .valueOf(getTextContent(itemElement, "item_type")));
 
                     invoiceItemRepository.save(item);
                 }
@@ -3378,10 +3374,10 @@ public class DataImportService {
                 Element transactionElement = (Element) transactionList.item(i);
 
                 krs.erp.model.finance.Transaction transaction = new krs.erp.model.finance.Transaction();
-                transaction.setTransactionIdExt(getElementText(transactionElement, "transaction_id_ext"));
+                transaction.setTransactionIdExt(getTextContent(transactionElement, "transaction_id_ext"));
 
                 // Find invoice by invoice number
-                String invoiceNumber = getElementText(transactionElement, "invoice_number");
+                String invoiceNumber = getTextContent(transactionElement, "invoice_number");
                 krs.erp.model.finance.Invoice invoice = invoiceRepository.findAll().stream()
                         .filter(inv -> inv.getInvoiceNumber().equals(invoiceNumber))
                         .findFirst()
@@ -3391,13 +3387,13 @@ public class DataImportService {
                     transaction.setInvoiceId(invoice.getId());
                 }
 
-                transaction.setPaymentDate(LocalDateTime.parse(getElementText(transactionElement, "payment_date")));
-                transaction.setAmountPaid(Double.parseDouble(getElementText(transactionElement, "amount_paid")));
+                transaction.setPaymentDate(LocalDateTime.parse(getTextContent(transactionElement, "payment_date")));
+                transaction.setAmountPaid(Double.parseDouble(getTextContent(transactionElement, "amount_paid")));
                 transaction.setPaymentMode(krs.erp.model.finance.Transaction.PaymentMode
-                        .valueOf(getElementText(transactionElement, "payment_mode")));
-                transaction.setReferenceNumber(getElementText(transactionElement, "reference_number"));
+                        .valueOf(getTextContent(transactionElement, "payment_mode")));
+                transaction.setReferenceNumber(getTextContent(transactionElement, "reference_number"));
                 transaction.setStatus(krs.erp.model.finance.Transaction.TransactionStatus
-                        .valueOf(getElementText(transactionElement, "status")));
+                        .valueOf(getTextContent(transactionElement, "status")));
 
                 transactionRepository.save(transaction);
             }
@@ -3428,17 +3424,17 @@ public class DataImportService {
                 Element paymentElement = (Element) paymentList.item(i);
 
                 krs.erp.model.finance.FeePayment payment = new krs.erp.model.finance.FeePayment();
-                payment.setStudentId(Long.parseLong(getElementText(paymentElement, "student_id")));
-                payment.setFeeStructureId(Long.parseLong(getElementText(paymentElement, "fee_structure_id")));
-                payment.setBaseAmount(Double.parseDouble(getElementText(paymentElement, "base_amount")));
-                payment.setDiscountAmount(Double.parseDouble(getElementText(paymentElement, "discount_amount")));
-                payment.setFineAmount(Double.parseDouble(getElementText(paymentElement, "fine_amount")));
-                payment.setNetAmount(Double.parseDouble(getElementText(paymentElement, "net_amount")));
-                payment.setPaymentDate(LocalDateTime.parse(getElementText(paymentElement, "payment_date")));
+                payment.setStudentId(Long.parseLong(getTextContent(paymentElement, "student_id")));
+                payment.setFeeStructureId(Long.parseLong(getTextContent(paymentElement, "fee_structure_id")));
+                payment.setBaseAmount(Double.parseDouble(getTextContent(paymentElement, "base_amount")));
+                payment.setDiscountAmount(Double.parseDouble(getTextContent(paymentElement, "discount_amount")));
+                payment.setFineAmount(Double.parseDouble(getTextContent(paymentElement, "fine_amount")));
+                payment.setNetAmount(Double.parseDouble(getTextContent(paymentElement, "net_amount")));
+                payment.setPaymentDate(LocalDateTime.parse(getTextContent(paymentElement, "payment_date")));
                 payment.setPaymentMode(krs.erp.model.finance.FeePayment.PaymentMode
-                        .valueOf(getElementText(paymentElement, "payment_mode")));
-                payment.setReceiptNumber(getElementText(paymentElement, "receipt_number"));
-                payment.setRemarks(getElementText(paymentElement, "remarks"));
+                        .valueOf(getTextContent(paymentElement, "payment_mode")));
+                payment.setReceiptNumber(getTextContent(paymentElement, "receipt_number"));
+                payment.setRemarks(getTextContent(paymentElement, "remarks"));
 
                 feePaymentRepository.save(payment);
             }
@@ -3469,10 +3465,10 @@ public class DataImportService {
                 Element accountElement = (Element) accountList.item(i);
 
                 ChartOfAccount account = new ChartOfAccount();
-                account.setCode(getElementText(accountElement, "code"));
-                account.setName(getElementText(accountElement, "name"));
-                account.setType(AccountType.valueOf(getElementText(accountElement, "type")));
-                // Note: description field not available in ChartOfAccount model
+                account.setCode(getTextContent(accountElement, "code"));
+                account.setName(getTextContent(accountElement, "name"));
+                account.setType(AccountType.valueOf(getTextContent(accountElement, "type")));
+                account.setDescription(getTextContent(accountElement, "description"));
 
                 chartOfAccountRepository.save(account);
             }
@@ -3503,10 +3499,10 @@ public class DataImportService {
                 Element entryElement = (Element) entryList.item(i);
 
                 JournalEntry entry = new JournalEntry();
-                entry.setEntryNumber(getElementText(entryElement, "entry_number"));
-                entry.setDate(LocalDate.parse(getElementText(entryElement, "date")));
-                entry.setDescription(getElementText(entryElement, "description"));
-                entry.setStatus(JournalEntry.EntryStatus.valueOf(getElementText(entryElement, "status")));
+                entry.setEntryNumber(getTextContent(entryElement, "entry_number"));
+                entry.setDate(LocalDate.parse(getTextContent(entryElement, "date")));
+                entry.setDescription(getTextContent(entryElement, "description"));
+                entry.setStatus(JournalEntry.EntryStatus.valueOf(getTextContent(entryElement, "status")));
 
                 JournalEntry savedEntry = journalEntryRepository.save(entry);
 
@@ -3516,7 +3512,7 @@ public class DataImportService {
                     Element itemElement = (Element) itemsList.item(j);
 
                     // Find account by code
-                    String accountCode = getElementText(itemElement, "account_code");
+                    String accountCode = getTextContent(itemElement, "account_code");
                     ChartOfAccount account = chartOfAccountRepository.findAll().stream()
                             .filter(acc -> acc.getCode().equals(accountCode))
                             .findFirst()
@@ -3526,9 +3522,9 @@ public class DataImportService {
                         JournalItem item = new JournalItem();
                         item.setJournalEntry(savedEntry);
                         item.setAccount(account);
-                        item.setLabel(getElementText(itemElement, "label"));
-                        item.setDebit(new BigDecimal(getElementText(itemElement, "debit")));
-                        item.setCredit(new BigDecimal(getElementText(itemElement, "credit")));
+                        item.setLabel(getTextContent(itemElement, "label"));
+                        item.setDebit(new BigDecimal(getTextContent(itemElement, "debit")));
+                        item.setCredit(new BigDecimal(getTextContent(itemElement, "credit")));
 
                         journalItemRepository.save(item);
                     }
@@ -3574,11 +3570,11 @@ public class DataImportService {
                 Element budgetElement = (Element) budgetList.item(i);
 
                 Budget budget = new Budget();
-                budget.setName(getElementText(budgetElement, "name"));
+                budget.setName(getTextContent(budgetElement, "name"));
                 budget.setAccountingPeriod(period);
-                budget.setTotalAmount(new BigDecimal(getElementText(budgetElement, "total_amount")));
-                budget.setStatus(Budget.BudgetStatus.valueOf(getElementText(budgetElement, "status")));
-                budget.setDescription(getElementText(budgetElement, "description"));
+                budget.setTotalAmount(new BigDecimal(getTextContent(budgetElement, "total_amount")));
+                budget.setStatus(Budget.BudgetStatus.valueOf(getTextContent(budgetElement, "status")));
+                budget.setDescription(getTextContent(budgetElement, "description"));
 
                 Budget savedBudget = budgetRepository.save(budget);
 
@@ -3588,7 +3584,7 @@ public class DataImportService {
                     Element lineElement = (Element) linesList.item(j);
 
                     // Find account by code
-                    String accountCode = getElementText(lineElement, "account_code");
+                    String accountCode = getTextContent(lineElement, "account_code");
                     ChartOfAccount account = chartOfAccountRepository.findAll().stream()
                             .filter(acc -> acc.getCode().equals(accountCode))
                             .findFirst()
@@ -3598,9 +3594,9 @@ public class DataImportService {
                         BudgetLine line = new BudgetLine();
                         line.setBudget(savedBudget);
                         line.setAccount(account);
-                        line.setAllocatedAmount(new BigDecimal(getElementText(lineElement, "allocated_amount")));
-                        line.setActualAmount(new BigDecimal(getElementText(lineElement, "actual_amount")));
-                        line.setDescription(getElementText(lineElement, "description"));
+                        line.setAllocatedAmount(new BigDecimal(getTextContent(lineElement, "allocated_amount")));
+                        line.setActualAmount(new BigDecimal(getTextContent(lineElement, "actual_amount")));
+                        line.setDescription(getTextContent(lineElement, "description"));
 
                         budgetLineRepository.save(line);
                     }

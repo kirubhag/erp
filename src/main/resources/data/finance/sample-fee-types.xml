@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fee_types>
+    <fee_type>
+        <name>Tuition Fee</name>
+        <code>TF001</code>
+        <description>Annual tuition fee for academic instruction</description>
+        <is_mandatory>true</is_mandatory>
+    </fee_type>
+    <fee_type>
+        <name>Transport Fee</name>
+        <code>TR001</code>
+        <description>School bus transportation fee</description>
+        <is_mandatory>false</is_mandatory>
+    </fee_type>
+    <fee_type>
+        <name>Library Fee</name>
+        <code>LB001</code>
+        <description>Annual library membership and maintenance fee</description>
+        <is_mandatory>true</is_mandatory>
+    </fee_type>
+    <fee_type>
+        <name>Lab Fee</name>
+        <code>LAB001</code>
+        <description>Science and computer laboratory usage fee</description>
+        <is_mandatory>true</is_mandatory>
+    </fee_type>
+    <fee_type>
+        <name>Sports Fee</name>
+        <code>SP001</code>
+        <description>Sports facilities and equipment fee</description>
+        <is_mandatory>false</is_mandatory>
+    </fee_type>
+    <fee_type>
+        <name>Activity Fee</name>
+        <code>ACT001</code>
+        <description>Extra-curricular activities and events fee</description>
+        <is_mandatory>false</is_mandatory>
+    </fee_type>
+    <fee_type>
+        <name>Examination Fee</name>
+        <code>EX001</code>
+        <description>Examination and assessment fee</description>
+        <is_mandatory>true</is_mandatory>
+    </fee_type>
+    <fee_type>
+        <name>Admission Fee</name>
+        <code>AD001</code>
+        <description>One-time admission processing fee</description>
+        <is_mandatory>true</is_mandatory>
+    </fee_type>
+</fee_types>

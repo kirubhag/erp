@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<budgets>
+    <budget>
+        <name>Annual Budget 2024-25</name>
+        <accounting_period_name>FY 2024-25</accounting_period_name>
+        <total_amount>5000000.00</total_amount>
+        <status>APPROVED</status>
+        <description>Institutional budget for fiscal year 2024-25</description>
+        <budget_lines>
+            <budget_line>
+                <account_code>5001</account_code>
+                <allocated_amount>2500000.00</allocated_amount>
+                <actual_amount>180000.00</actual_amount>
+                <description>Staff salaries and benefits</description>
+            </budget_line>
+            <budget_line>
+                <account_code>5100</account_code>
+                <allocated_amount>300000.00</allocated_amount>
+                <actual_amount>15000.00</actual_amount>
+                <description>Utilities and infrastructure</description>
+            </budget_line>
+            <budget_line>
+                <account_code>5200</account_code>
+                <allocated_amount>500000.00</allocated_amount>
+                <actual_amount>0.00</actual_amount>
+                <description>Maintenance and repairs</description>
+            </budget_line>
+            <budget_line>
+                <account_code>5300</account_code>
+                <allocated_amount>400000.00</allocated_amount>
+                <actual_amount>25000.00</actual_amount>
+                <description>Stationery, supplies, and books</description>
+            </budget_line>
+            <budget_line>
+                <account_code>5400</account_code>
+                <allocated_amount>600000.00</allocated_amount>
+                <actual_amount>0.00</actual_amount>
+                <description>Transportation operations</description>
+            </budget_line>
+        </budget_lines>
+    </budget>
+    
+    <budget>
+        <name>IT Department Budget 2024-25</name>
+        <accounting_period_name>FY 2024-25</accounting_period_name>
+        <total_amount>800000.00</total_amount>
+        <status>APPROVED</status>
+        <description>IT infrastructure and digital learning budget</description>
+        <budget_lines>
+            <budget_line>
+                <account_code>1510</account_code>
+                <allocated_amount>500000.00</allocated_amount>
+                <actual_amount>0.00</actual_amount>
+                <description>Computer equipment and software</description>
+            </budget_line>
+            <budget_line>
+                <account_code>5100</account_code>
+                <allocated_amount>200000.00</allocated_amount>
+                <actual_amount>0.00</actual_amount>
+                <description>Internet and cloud services</description>
+            </budget_line>
+            <budget_line>
+                <account_code>5200</account_code>
+                <allocated_amount>100000.00</allocated_amount>
+                <actual_amount>0.00</actual_amount>
+                <description>IT maintenance and support</description>
+            </budget_line>
+        </budget_lines>
+    </budget>
+    
+    <budget>
+        <name>Library Budget 2024-25</name>
+        <accounting_period_name>FY 2024-25</accounting_period_name>
+        <total_amount>250000.00</total_amount>
+        <status>DRAFT</status>
+        <description>Library books, resources, and operations</description>
+        <budget_lines>
+            <budget_line>
+                <account_code>5300</account_code>
+                <allocated_amount>200000.00</allocated_amount>
+                <actual_amount>0.00</actual_amount>
+                <description>Books and digital resources</description>
+            </budget_line>
+            <budget_line>
+                <account_code>5001</account_code>
+                <allocated_amount>50000.00</allocated_amount>
+                <actual_amount>0.00</actual_amount>
+                <description>Librarian salary</description>
+            </budget_line>
+        </budget_lines>
+    </budget>
+</budgets>

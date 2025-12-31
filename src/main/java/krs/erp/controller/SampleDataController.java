@@ -113,19 +113,6 @@ public class SampleDataController {
         // Add entity information with descriptions
         entities.add(createEntityInfo("addresses", "Sample Addresses (Required for students, staff, parents)"));
         entities.add(createEntityInfo("STUDENTS", "All Students (Kindergarten to Grade 12)"));
-        entities.add(createEntityInfo("kindergarten", "Kindergarten Students Only"));
-        entities.add(createEntityInfo("grade_1", "Grade 1 Students Only"));
-        entities.add(createEntityInfo("grade_2", "Grade 2 Students Only"));
-        entities.add(createEntityInfo("grade_3", "Grade 3 Students Only"));
-        entities.add(createEntityInfo("grade_4", "Grade 4 Students Only"));
-        entities.add(createEntityInfo("grade_5", "Grade 5 Students Only"));
-        entities.add(createEntityInfo("grade_6", "Grade 6 Students Only"));
-        entities.add(createEntityInfo("grade_7", "Grade 7 Students Only"));
-        entities.add(createEntityInfo("grade_8", "Grade 8 Students Only"));
-        entities.add(createEntityInfo("grade_9", "Grade 9 Students Only"));
-        entities.add(createEntityInfo("grade_10", "Grade 10 Students Only"));
-        entities.add(createEntityInfo("grade_11", "Grade 11 Students Only"));
-        entities.add(createEntityInfo("grade_12", "Grade 12 Students Only"));
         entities.add(createEntityInfo("staff", "Staff Members"));
         entities.add(createEntityInfo("parents", "Parents/Guardians"));
         entities.add(createEntityInfo("subjects", "Subjects/Courses"));
@@ -149,6 +136,19 @@ public class SampleDataController {
         entities.add(createEntityInfo("finance", "Fee & Fine Management"));
         entities.add(createEntityInfo("scholarships", "Scholarships & Financial Aid"));
         entities.add(createEntityInfo("accounting", "General Ledger (Accounting)"));
+
+        // Individual Finance Entities
+        entities.add(createEntityInfo("fee_types", "Fee Types (Tuition, Transport, Library, etc.)"));
+        entities.add(createEntityInfo("fee_structures", "Fee Structures (Grade-specific fee amounts)"));
+        entities.add(createEntityInfo("fee_payments", "Fee Payments (Student payment records)"));
+        entities.add(createEntityInfo("discount_rules", "Discount Rules (Sibling, Merit, Early Payment)"));
+        entities.add(createEntityInfo("fine_categories", "Fine Categories (Late fees, Disciplinary)"));
+        entities.add(createEntityInfo("invoices", "Invoices (Billing invoices with line items)"));
+        entities.add(createEntityInfo("transactions", "Transactions (Payment transactions)"));
+        entities.add(createEntityInfo("chart_of_accounts", "Chart of Accounts (Asset, Liability, Revenue, Expense)"));
+        entities.add(createEntityInfo("journal_entries", "Journal Entries (Double-entry bookkeeping)"));
+        entities.add(createEntityInfo("budgets", "Budgets (Department budgets with tracking)"));
+
         entities.add(createEntityInfo("library", "Library Management"));
         entities.add(createEntityInfo("lms", "Learning Management System (LMS)"));
         entities.add(createEntityInfo("tpd", "Staff Training & Growth (TPD)"));
@@ -200,7 +200,103 @@ public class SampleDataController {
                 try {
                     logger.info("Importing sample data for entity: {}", entityName);
 
-                    // Map entity names to XML file paths and use appropriate import method
+                    // Check for special entity handlers first (these don't use XML file mapping)
+                    boolean handledBySpecialMethod = false;
+
+                    // Finance entities with direct XML import methods
+                    if (entityName.equalsIgnoreCase("fee_types")) {
+                        dataImportService.importFeeTypesDataFromXml("data/finance/sample-fee-types.xml");
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("fee_structures")) {
+                        dataImportService.importFeeStructuresDataFromXml("data/finance/sample-fee-structures.xml");
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("fee_payments")) {
+                        dataImportService.importFeePaymentsDataFromXml("data/finance/sample-fee-payments.xml");
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("discount_rules")) {
+                        dataImportService.importDiscountRulesDataFromXml("data/finance/sample-discount-rules.xml");
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("fine_categories")) {
+                        dataImportService.importFineCategoriesDataFromXml("data/finance/sample-fine-categories.xml");
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("invoices")) {
+                        dataImportService.importInvoicesDataFromXml("data/finance/sample-invoices.xml");
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("transactions")) {
+                        dataImportService.importTransactionsDataFromXml("data/finance/sample-transactions.xml");
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("chart_of_accounts")) {
+                        dataImportService.importChartOfAccountsDataFromXml("data/finance/sample-chart-of-accounts.xml");
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("journal_entries")) {
+                        dataImportService.importJournalEntriesDataFromXml("data/finance/sample-journal-entries.xml");
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("budgets")) {
+                        dataImportService.importBudgetsDataFromXml("data/finance/sample-budgets.xml");
+                        handledBySpecialMethod = true;
+                    }
+                    // Other special entity handlers (programmatic generation)
+                    else if (entityName.equalsIgnoreCase("registrations")) {
+                        dataImportService.generateStudentRegistrationSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("payroll")) {
+                        dataImportService.generatePayrollSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("leaves")) {
+                        dataImportService.generateLeaveSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("performance")) {
+                        dataImportService.generatePerformanceSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("inventory")) {
+                        dataImportService.generateInventorySampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("maintenance")) {
+                        dataImportService.generateMaintenanceSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("reporting")) {
+                        dataImportService.generateReportingSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("documents")) {
+                        dataImportService.generateDocumentSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("calendar")) {
+                        dataImportService.generateCalendarSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("communication")) {
+                        dataImportService.generateCommunicationSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("alumni")) {
+                        dataImportService.generateAlumniSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("finance")) {
+                        dataImportService.generateFinanceSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("scholarships")) {
+                        dataImportService.generateScholarshipSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("accounting")) {
+                        dataImportService.generateAccountingSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("library")) {
+                        dataImportService.generateLibrarySampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("lms")) {
+                        dataImportService.generateLmsSampleData();
+                        handledBySpecialMethod = true;
+                    } else if (entityName.equalsIgnoreCase("tpd")) {
+                        dataImportService.generateTpdSampleData();
+                        handledBySpecialMethod = true;
+                    }
+
+                    // If handled by special method, mark as successful and continue
+                    if (handledBySpecialMethod) {
+                        successfulImports++;
+                        logger.info("Successfully imported sample data for: {}", entityName);
+                        continue;
+                    }
+
+                    // Otherwise, try to find XML file mapping
                     String xmlFilePath = getXmlFilePathForEntity(entityName);
 
                     if (xmlFilePath != null) {
@@ -279,6 +375,29 @@ public class SampleDataController {
                             dataImportService.generateLmsSampleData();
                         } else if (entityName.equalsIgnoreCase("tpd")) {
                             dataImportService.generateTpdSampleData();
+                        } else if (entityName.equalsIgnoreCase("fee_types")) {
+                            dataImportService.importFeeTypesDataFromXml("data/finance/sample-fee-types.xml");
+                        } else if (entityName.equalsIgnoreCase("fee_structures")) {
+                            dataImportService.importFeeStructuresDataFromXml("data/finance/sample-fee-structures.xml");
+                        } else if (entityName.equalsIgnoreCase("fee_payments")) {
+                            dataImportService.importFeePaymentsDataFromXml("data/finance/sample-fee-payments.xml");
+                        } else if (entityName.equalsIgnoreCase("discount_rules")) {
+                            dataImportService.importDiscountRulesDataFromXml("data/finance/sample-discount-rules.xml");
+                        } else if (entityName.equalsIgnoreCase("fine_categories")) {
+                            dataImportService
+                                    .importFineCategoriesDataFromXml("data/finance/sample-fine-categories.xml");
+                        } else if (entityName.equalsIgnoreCase("invoices")) {
+                            dataImportService.importInvoicesDataFromXml("data/finance/sample-invoices.xml");
+                        } else if (entityName.equalsIgnoreCase("transactions")) {
+                            dataImportService.importTransactionsDataFromXml("data/finance/sample-transactions.xml");
+                        } else if (entityName.equalsIgnoreCase("chart_of_accounts")) {
+                            dataImportService
+                                    .importChartOfAccountsDataFromXml("data/finance/sample-chart-of-accounts.xml");
+                        } else if (entityName.equalsIgnoreCase("journal_entries")) {
+                            dataImportService
+                                    .importJournalEntriesDataFromXml("data/finance/sample-journal-entries.xml");
+                        } else if (entityName.equalsIgnoreCase("budgets")) {
+                            dataImportService.importBudgetsDataFromXml("data/finance/sample-budgets.xml");
                         } else {
                             // For other entities, use the generic import
                             dataImportService.importDataFromXml(xmlFilePath);

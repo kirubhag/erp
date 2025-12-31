@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fee_structures>
+    <!-- Kindergarten Fees -->
+    <fee_structure>
+        <fee_type_code>TF001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <grade_name>Kindergarten</grade_name>
+        <amount>15000.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    <fee_structure>
+        <fee_type_code>LB001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <grade_name>Kindergarten</grade_name>
+        <amount>1000.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    
+    <!-- Grade 1-5 Fees (Primary) -->
+    <fee_structure>
+        <fee_type_code>TF001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <grade_name>Grade 1</grade_name>
+        <amount>20000.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    <fee_structure>
+        <fee_type_code>LB001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <grade_name>Grade 1</grade_name>
+        <amount>1500.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    <fee_structure>
+        <fee_type_code>LAB001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <grade_name>Grade 1</grade_name>
+        <amount>2000.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    
+    <!-- Grade 6-8 Fees (Middle School) -->
+    <fee_structure>
+        <fee_type_code>TF001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <grade_name>Grade 6</grade_name>
+        <amount>25000.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    <fee_structure>
+        <fee_type_code>LB001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <grade_name>Grade 6</grade_name>
+        <amount>2000.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    <fee_structure>
+        <fee_type_code>LAB001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <grade_name>Grade 6</grade_name>
+        <amount>3000.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    
+    <!-- Grade 9-12 Fees (High School) -->
+    <fee_structure>
+        <fee_type_code>TF001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <grade_name>Grade 9</grade_name>
+        <amount>30000.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    <fee_structure>
+        <fee_type_code>LB001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <grade_name>Grade 9</grade_name>
+        <amount>2500.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    <fee_structure>
+        <fee_type_code>LAB001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <grade_name>Grade 9</grade_name>
+        <amount>4000.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    <fee_structure>
+        <fee_type_code>EX001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <grade_name>Grade 9</grade_name>
+        <amount>3000.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    
+    <!-- Transport Fee (Optional) -->
+    <fee_structure>
+        <fee_type_code>TR001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <amount>8000.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+    
+    <!-- Sports Fee (Optional) -->
+    <fee_structure>
+        <fee_type_code>SP001</fee_type_code>
+        <academic_year_id>1</academic_year_id>
+        <amount>5000.00</amount>
+        <due_date>2025-04-15</due_date>
+    </fee_structure>
+</fee_structures>

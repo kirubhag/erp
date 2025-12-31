@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chart_of_accounts>
+    <!-- Asset Accounts -->
+    <account>
+        <code>1001</code>
+        <name>Cash in Hand</name>
+        <type>ASSET</type>
+        <description>Petty cash and cash on premises</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>1002</code>
+        <name>Main Bank Account</name>
+        <type>ASSET</type>
+        <description>Primary operating bank account</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>1003</code>
+        <name>Savings Account</name>
+        <type>ASSET</type>
+        <description>Institutional savings account</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>1100</code>
+        <name>Accounts Receivable - Fees</name>
+        <type>ASSET</type>
+        <description>Outstanding fee payments from students</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>1500</code>
+        <name>Fixed Assets - Buildings</name>
+        <type>ASSET</type>
+        <description>School buildings and infrastructure</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>1510</code>
+        <name>Fixed Assets - Equipment</name>
+        <type>ASSET</type>
+        <description>Computers, furniture, and equipment</description>
+        <is_active>true</is_active>
+    </account>
+    
+    <!-- Liability Accounts -->
+    <account>
+        <code>2001</code>
+        <name>Accounts Payable</name>
+        <type>LIABILITY</type>
+        <description>Outstanding payments to vendors</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>2100</code>
+        <name>Salary Payable</name>
+        <type>LIABILITY</type>
+        <description>Accrued staff salaries</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>2200</code>
+        <name>Advance Fee Received</name>
+        <type>LIABILITY</type>
+        <description>Fees received in advance</description>
+        <is_active>true</is_active>
+    </account>
+    
+    <!-- Equity Accounts -->
+    <account>
+        <code>3001</code>
+        <name>Capital Fund</name>
+        <type>EQUITY</type>
+        <description>Institutional capital and reserves</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>3100</code>
+        <name>Retained Earnings</name>
+        <type>EQUITY</type>
+        <description>Accumulated surplus from previous years</description>
+        <is_active>true</is_active>
+    </account>
+    
+    <!-- Revenue Accounts -->
+    <account>
+        <code>4001</code>
+        <name>Tuition Fee Income</name>
+        <type>REVENUE</type>
+        <description>Revenue from tuition fees</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>4002</code>
+        <name>Transport Fee Income</name>
+        <type>REVENUE</type>
+        <description>Revenue from transportation services</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>4003</code>
+        <name>Library Fee Income</name>
+        <type>REVENUE</type>
+        <description>Revenue from library fees</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>4100</code>
+        <name>Fine Income</name>
+        <type>REVENUE</type>
+        <description>Revenue from late fees and fines</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>4200</code>
+        <name>Donation Income</name>
+        <type>REVENUE</type>
+        <description>Donations and grants received</description>
+        <is_active>true</is_active>
+    </account>
+    
+    <!-- Expense Accounts -->
+    <account>
+        <code>5001</code>
+        <name>Staff Salary Expense</name>
+        <type>EXPENSE</type>
+        <description>Teaching and administrative staff salaries</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>5100</code>
+        <name>Utilities Expense</name>
+        <type>EXPENSE</type>
+        <description>Electricity, water, and internet</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>5200</code>
+        <name>Maintenance Expense</name>
+        <type>EXPENSE</type>
+        <description>Building and equipment maintenance</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>5300</code>
+        <name>Stationery and Supplies</name>
+        <type>EXPENSE</type>
+        <description>Office and classroom supplies</description>
+        <is_active>true</is_active>
+    </account>
+    <account>
+        <code>5400</code>
+        <name>Transportation Expense</name>
+        <type>EXPENSE</type>
+        <description>Bus fuel, maintenance, and driver salaries</description>
+        <is_active>true</is_active>
+    </account>
+</chart_of_accounts>

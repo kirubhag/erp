@@ -120,119 +120,119 @@ export class SetupComponent implements OnInit {
           id: 'fee-types',
           label: 'Fee Types',
           icon: 'fas fa-money-bill-wave',
-          route: '/setup/finance/fee-types',
+          route: '/finance/fee-types',
           description: 'Define institutional fee categories'
         },
         {
           id: 'fee-structures',
           label: 'Fee Structures',
           icon: 'fas fa-receipt',
-          route: '/setup/finance/fee-structures',
+          route: '/finance/fee-structures',
           description: 'Set fee amounts by grade and year'
         },
         {
           id: 'fine-management',
           label: 'Fine Management',
           icon: 'fas fa-gavel',
-          route: '/setup/finance/fine-management',
+          route: '/finance/fine-management',
           description: 'Configure automated fine rules and categories'
         },
         {
           id: 'fee-payments',
           label: 'Fee Collection',
           icon: 'fas fa-file-invoice-dollar',
-          route: '/setup/finance/payments',
+          route: '/finance/payments',
           description: 'Record and track student fee payments'
         },
         {
           id: 'fine-ledger',
           label: 'Fine Ledger',
           icon: 'fas fa-balance-scale',
-          route: '/setup/finance/fine-ledger',
+          route: '/finance/fine-ledger',
           description: 'View and manage student fine records'
         },
         {
           id: 'disciplinary-incidents',
           label: 'Behavioral Fines',
           icon: 'fas fa-user-shield',
-          route: '/setup/finance/incidents',
+          route: '/finance/incidents',
           description: 'Report incidents and issue disciplinary fines'
         },
         {
           id: 'fine-waivers',
           label: 'Fine Waivers',
           icon: 'fas fa-hand-holding-usd',
-          route: '/setup/finance/waivers',
+          route: '/finance/waivers',
           description: 'Process waiver requests and adjustments'
         },
         {
           id: 'invoices',
           label: 'Invoices',
           icon: 'fas fa-file-invoice',
-          route: '/setup/finance/invoices',
+          route: '/finance/invoices',
           description: 'Manage billing invoices for fees and fines'
         },
         {
           id: 'transactions',
           label: 'Transactions',
           icon: 'fas fa-exchange-alt',
-          route: '/setup/finance/transactions',
+          route: '/finance/transactions',
           description: 'View and track payment transactions'
         },
         {
           id: 'chart-of-accounts',
           label: 'Chart of Accounts',
           icon: 'fas fa-sitemap',
-          route: '/setup/finance/accounts',
+          route: '/finance/accounts',
           description: 'Manage the hierarchy of accounting codes'
         },
         {
           id: 'journal-entries',
           label: 'Journal Entries',
           icon: 'fas fa-book',
-          route: '/setup/finance/journal-entries',
+          route: '/finance/journal-entries',
           description: 'Record accounting transactions and adjustments'
         },
         {
           id: 'accounting-periods',
           label: 'Accounting Periods',
           icon: 'fas fa-calendar-check',
-          route: '/setup/finance/accounting-periods',
+          route: '/finance/accounting-periods',
           description: 'Manage fiscal years and reporting durations'
         },
         {
           id: 'trial-balance',
           label: 'Trial Balance',
           icon: 'fas fa-balance-scale-left',
-          route: '/setup/finance/trial-balance',
+          route: '/finance/trial-balance',
           description: 'View the summary of all account balances'
         },
         {
           id: 'profit-loss',
           label: 'Profit & Loss',
           icon: 'fas fa-chart-pie',
-          route: '/setup/finance/profit-loss',
+          route: '/finance/profit-loss',
           description: 'Analyze institutional revenue and expenses'
         },
         {
           id: 'scholarships',
           label: 'Scholarships',
           icon: 'fas fa-graduation-cap',
-          route: '/setup/finance/scholarship-categories',
+          route: '/finance/scholarship-categories',
           description: 'Define aid types and manage applications'
         },
         {
           id: 'budgets',
           label: 'Budgets',
           icon: 'fas fa-money-check-alt',
-          route: '/setup/finance/budgets',
+          route: '/finance/budgets',
           description: 'Manage departmental and institutional budgets'
         },
         {
           id: 'bank-statements',
           label: 'Bank Statements',
           icon: 'fas fa-university',
-          route: '/setup/finance/bank-statements',
+          route: '/finance/bank-statements',
           description: 'Reconcile ledger entries with bank records'
         }
       ]

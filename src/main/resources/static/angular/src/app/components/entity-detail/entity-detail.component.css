@@ -227,7 +227,7 @@
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   position: sticky;
-  top: 52px; /* Position below the top-nav */
+  top: 56px;
   z-index: 90;
 }
 
@@ -312,8 +312,8 @@
   padding: 1.5rem 0;
   overflow-y: auto;
   position: sticky;
-  top: 52px; /* Position below the top-nav */
-  height: calc(100vh - 52px); /* Full device height minus top-nav */
+  top: 56px;
+  height: calc(100vh - 56px);
   align-self: flex-start;
 }
 
@@ -378,6 +378,11 @@
 .tab.active {
   color: var(--app-primary);
   border-bottom-color: var(--app-primary);
+}
+
+/* Detail Content Body */
+.detail-content-body {
+  padding: 30px;
 }
 
 /* Collapsible Section */

@@ -69,15 +69,25 @@
         <sequence>4</sequence>
         <description>Accounting, fees, scholarships, and billing</description>
         <entities>
+            <entity>Fee Type</entity>
+            <entity>Fee Structure</entity>
+            <entity>Fee Discount Rule</entity>
+            <entity>Fine Category</entity>
+            <entity>Fine Configuration</entity>
+            <entity>Fee Payment</entity>
+            <entity>Fine Ledger</entity>
+            <entity>Disciplinary Incident</entity>
+            <entity>Fine Waiver Request</entity>
             <entity>Invoice</entity>
             <entity>Transaction</entity>
-            <entity>FeeStructure</entity>
-            <entity>FeePayment</entity>
-            <entity>ScholarshipApplication</entity>
+            <entity>Invoice Item</entity>
+            <entity>Scholarship Category</entity>
+            <entity>Scholarship Application</entity>
+            <entity>Chart of Account</entity>
+            <entity>Journal Entry</entity>
+            <entity>Accounting Period</entity>
             <entity>Budget</entity>
-            <entity>ChartOfAccount</entity>
-            <entity>JournalEntry</entity>
-            <entity>BankStatement</entity>
+            <entity>Bank Statement</entity>
         </entities>
     </tab_group>
 

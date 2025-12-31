@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fee_payments>
+    <fee_payment>
+        <student_id>1</student_id>
+        <fee_structure_id>1</fee_structure_id>
+        <base_amount>20000.00</base_amount>
+        <discount_amount>0.00</discount_amount>
+        <fine_amount>0.00</fine_amount>
+        <net_amount>20000.00</net_amount>
+        <payment_date>2025-01-15T10:30:00</payment_date>
+        <payment_mode>ONLINE</payment_mode>
+        <receipt_number>RCP-2025-001</receipt_number>
+        <remarks>Full tuition payment for Q1</remarks>
+    </fee_payment>
+    
+    <fee_payment>
+        <student_id>2</student_id>
+        <fee_structure_id>2</fee_structure_id>
+        <base_amount>25000.00</base_amount>
+        <discount_amount>2500.00</discount_amount>
+        <fine_amount>0.00</fine_amount>
+        <net_amount>22500.00</net_amount>
+        <payment_date>2025-01-18T14:20:00</payment_date>
+        <payment_mode>BANK_TRANSFER</payment_mode>
+        <receipt_number>RCP-2025-002</receipt_number>
+        <remarks>Sibling discount applied - 10%</remarks>
+    </fee_payment>
+    
+    <fee_payment>
+        <student_id>3</student_id>
+        <fee_structure_id>1</fee_structure_id>
+        <base_amount>20000.00</base_amount>
+        <discount_amount>1000.00</discount_amount>
+        <fine_amount>0.00</fine_amount>
+        <net_amount>19000.00</net_amount>
+        <payment_date>2025-01-10T09:15:00</payment_date>
+        <payment_mode>CASH</payment_mode>
+        <receipt_number>RCP-2025-003</receipt_number>
+        <remarks>Early payment discount - 5%</remarks>
+    </fee_payment>
+    
+    <fee_payment>
+        <student_id>4</student_id>
+        <fee_structure_id>3</fee_structure_id>
+        <base_amount>15000.00</base_amount>
+        <discount_amount>0.00</discount_amount>
+        <fine_amount>500.00</fine_amount>
+        <net_amount>15500.00</net_amount>
+        <payment_date>2025-01-25T16:45:00</payment_date>
+        <payment_mode>CHEQUE</payment_mode>
+        <receipt_number>RCP-2025-004</receipt_number>
+        <remarks>Late payment - fine added</remarks>
+    </fee_payment>
+    
+    <fee_payment>
+        <student_id>5</student_id>
+        <fee_structure_id>4</fee_structure_id>
+        <base_amount>8000.00</base_amount>
+        <discount_amount>0.00</discount_amount>
+        <fine_amount>0.00</fine_amount>
+        <net_amount>8000.00</net_amount>
+        <payment_date>2025-01-12T11:00:00</payment_date>
+        <payment_mode>ONLINE</payment_mode>
+        <receipt_number>RCP-2025-005</receipt_number>
+        <remarks>Transport fee - Q1 2025</remarks>
+    </fee_payment>
+</fee_payments>

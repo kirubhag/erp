@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fine_categories>
+    <fine_category>
+        <name>Late Fee Payment</name>
+        <description>Penalty for delayed fee payments beyond due date</description>
+        <is_active>true</is_active>
+    </fine_category>
+    <fine_category>
+        <name>Disciplinary Fine</name>
+        <description>Fines imposed for student misconduct or rule violations</description>
+        <is_active>true</is_active>
+    </fine_category>
+    <fine_category>
+        <name>Library Fine</name>
+        <description>Penalty for late return or damage to library books</description>
+        <is_active>true</is_active>
+    </fine_category>
+    <fine_category>
+        <name>Equipment Damage</name>
+        <description>Charges for damage to school property or equipment</description>
+        <is_active>true</is_active>
+    </fine_category>
+    <fine_category>
+        <name>Lost ID Card</name>
+        <description>Replacement fee for lost student ID cards</description>
+        <is_active>true</is_active>
+    </fine_category>
+</fine_categories>

@@ -58,7 +58,26 @@ public enum EntityType {
     ASSET("Asset"),
     CONSUMABLE("Consumable"),
     VENDOR("Vendor"),
-    PURCHASE_ORDER("PurchaseOrder");
+    PURCHASE_ORDER("PurchaseOrder"),
+    // Finance types
+    FEE_TYPE("FeeType"),
+    FEE_STRUCTURE("FeeStructure"),
+    FEE_DISCOUNT_RULE("FeeDiscountRule"),
+    FINE_CATEGORY("FineCategory"),
+    FINE_CONFIGURATION("FineConfiguration"),
+    FEE_PAYMENT("FeePayment"),
+    FINE_LEDGER("FineLedger"),
+    DISCIPLINARY_INCIDENT("DisciplinaryIncident"),
+    FINE_WAIVER_REQUEST("FineWaiverRequest"),
+    INVOICE("Invoice"),
+    TRANSACTION("Transaction"),
+    INVOICE_ITEM("InvoiceItem"),
+    BUDGET("Budget"),
+    BANK_STATEMENT("BankStatement"),
+    // Communication types
+    MESSAGE("Message"),
+    ANNOUNCEMENT("Announcement"),
+    SUPPORT_TICKET("SupportTicket");
 
     private final String displayName;
 
@@ -128,6 +147,76 @@ public enum EntityType {
         }
         if ("SALARIES".equals(upperValue)) {
             return EntityType.PAYROLL_RUN;
+        }
+        
+        // Handle Finance module routes
+        if ("FEE-TYPES".equals(upperValue) || "FEE-TYPE".equals(upperValue)) {
+            return EntityType.FEE_TYPE;
+        }
+        if ("FEE-STRUCTURES".equals(upperValue) || "FEE-STRUCTURE".equals(upperValue)) {
+            return EntityType.FEE_STRUCTURE;
+        }
+        if ("DISCOUNTS".equals(upperValue) || "DISCOUNT".equals(upperValue)) {
+            return EntityType.FEE_DISCOUNT_RULE;
+        }
+        if ("FINE-CATEGORIES".equals(upperValue) || "FINE-CATEGORY".equals(upperValue)) {
+            return EntityType.FINE_CATEGORY;
+        }
+        if ("FINE-MANAGEMENT".equals(upperValue)) {
+            return EntityType.FINE_CONFIGURATION;
+        }
+        if ("PAYMENTS".equals(upperValue) || "PAYMENT".equals(upperValue)) {
+            return EntityType.FEE_PAYMENT;
+        }
+        if ("FINE-LEDGER".equals(upperValue)) {
+            return EntityType.FINE_LEDGER;
+        }
+        if ("INCIDENTS".equals(upperValue) || "INCIDENT".equals(upperValue)) {
+            return EntityType.DISCIPLINARY_INCIDENT;
+        }
+        if ("WAIVERS".equals(upperValue) || "WAIVER".equals(upperValue)) {
+            return EntityType.FINE_WAIVER_REQUEST;
+        }
+        if ("INVOICES".equals(upperValue) || "INVOICE".equals(upperValue)) {
+            return EntityType.INVOICE;
+        }
+        if ("TRANSACTIONS".equals(upperValue) || "TRANSACTION".equals(upperValue)) {
+            return EntityType.TRANSACTION;
+        }
+        if ("INVOICE-ITEMS".equals(upperValue) || "INVOICE-ITEM".equals(upperValue)) {
+            return EntityType.INVOICE_ITEM;
+        }
+        if ("BUDGETS".equals(upperValue) || "BUDGET".equals(upperValue)) {
+            return EntityType.BUDGET;
+        }
+        if ("BANK-STATEMENTS".equals(upperValue) || "BANK-STATEMENT".equals(upperValue)) {
+            return EntityType.BANK_STATEMENT;
+        }
+        if ("SCHOLARSHIP-CATEGORIES".equals(upperValue) || "SCHOLARSHIP-CATEGORY".equals(upperValue)) {
+            return EntityType.SCHOLARSHIP_CATEGORY;
+        }
+        if ("SCHOLARSHIP-APPLICATIONS".equals(upperValue) || "SCHOLARSHIP-APPLICATION".equals(upperValue)) {
+            return EntityType.SCHOLARSHIP_APPLICATION;
+        }
+        if ("ACCOUNTS".equals(upperValue) || "ACCOUNT".equals(upperValue)) {
+            return EntityType.CHART_OF_ACCOUNT;
+        }
+        if ("JOURNAL-ENTRIES".equals(upperValue) || "JOURNAL-ENTRY".equals(upperValue)) {
+            return EntityType.JOURNAL_ENTRY;
+        }
+        if ("ACCOUNTING-PERIODS".equals(upperValue) || "ACCOUNTING-PERIOD".equals(upperValue)) {
+            return EntityType.ACCOUNTING_PERIOD;
+        }
+        
+        // Handle Communication module routes
+        if ("MESSAGES".equals(upperValue) || "MESSAGE".equals(upperValue)) {
+            return EntityType.MESSAGE;
+        }
+        if ("ANNOUNCEMENTS".equals(upperValue) || "ANNOUNCEMENT".equals(upperValue)) {
+            return EntityType.ANNOUNCEMENT;
+        }
+        if ("TICKETS".equals(upperValue) || "TICKET".equals(upperValue)) {
+            return EntityType.SUPPORT_TICKET;
         }
 
         // Replace hyphens with underscores for standard enum matching

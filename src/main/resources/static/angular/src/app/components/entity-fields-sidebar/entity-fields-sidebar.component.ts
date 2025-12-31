@@ -32,9 +32,10 @@ export interface FieldFilter {
 export class EntityFieldsSidebarComponent implements OnInit, OnChanges {
   @Input() entityType: string = '';
   @Input() visible: boolean = true;
+  @Input() fields: EntityField[] = []; // Accept fields from parent to avoid duplicate API calls
   @Output() fieldFilterChange = new EventEmitter<FieldFilter[]>();
   
-  fields: EntityField[] = [];
+  internalFields: EntityField[] = [];
   fieldFilters: FieldFilter[] = [];
   loading: boolean = false;
   error: string = '';
@@ -42,15 +43,34 @@ export class EntityFieldsSidebarComponent implements OnInit, OnChanges {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    if (this.entityType) {
+    // If fields are provided from parent, use them; otherwise load them
+    if (this.fields && this.fields.length > 0) {
+      this.initializeFieldFilters(this.fields);
+    } else if (this.entityType) {
       this.loadEntityFields();
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['entityType'] && !changes['entityType'].firstChange) {
+    // If fields input changed and has values, use them
+    if (changes['fields'] && changes['fields'].currentValue && changes['fields'].currentValue.length > 0) {
+      this.initializeFieldFilters(changes['fields'].currentValue);
+    } else if (changes['entityType'] && !changes['entityType'].firstChange && (!this.fields || this.fields.length === 0)) {
       this.loadEntityFields();
     }
+  }
+
+  private initializeFieldFilters(fields: EntityField[]): void {
+    this.internalFields = fields
+      .filter(f => f.isActive === 1)
+      .sort((a, b) => a.displayOrder - b.displayOrder);
+    
+    // Initialize field filters
+    this.fieldFilters = this.internalFields.map(field => ({
+      fieldName: field.fieldName,
+      fieldLabel: field.fieldLabel,
+      selected: false
+    }));
   }
 
   loadEntityFields(): void {
@@ -62,23 +82,13 @@ export class EntityFieldsSidebarComponent implements OnInit, OnChanges {
     this.http.get<EntityField[]>(`/api/fields/${this.entityType}`)
       .subscribe({
         next: (fields) => {
-          this.fields = fields
-            .filter(f => f.isActive === 1)
-            .sort((a, b) => a.displayOrder - b.displayOrder);
-          
-          // Initialize field filters
-          this.fieldFilters = this.fields.map(field => ({
-            fieldName: field.fieldName,
-            fieldLabel: field.fieldLabel,
-            selected: false
-          }));
-          
+          this.initializeFieldFilters(fields);
           this.loading = false;
         },
         error: (err) => {
           console.warn(`No field metadata found for entity type: ${this.entityType}. This is normal for entities without custom field definitions.`);
           // Gracefully handle missing field metadata - don't show error to user
-          this.fields = [];
+          this.internalFields = [];
           this.fieldFilters = [];
           this.loading = false;
           // Don't set error message - this is expected for some entity types

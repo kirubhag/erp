@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<invoices>
+    <invoice>
+        <invoice_number>INV-2025-001</invoice_number>
+        <student_id>1</student_id>
+        <issue_date>2025-01-05</issue_date>
+        <due_date>2025-01-20</due_date>
+        <total_amount>25000.00</total_amount>
+        <discount_amount>0.00</discount_amount>
+        <net_amount>25000.00</net_amount>
+        <status>PAID</status>
+        <items>
+            <item>
+                <description>Tuition Fee - Q1 2025</description>
+                <amount>20000.00</amount>
+                <item_type>FEE</item_type>
+            </item>
+            <item>
+                <description>Library Fee - Annual</description>
+                <amount>2000.00</amount>
+                <item_type>FEE</item_type>
+            </item>
+            <item>
+                <description>Lab Fee - Q1 2025</description>
+                <amount>3000.00</amount>
+                <item_type>FEE</item_type>
+            </item>
+        </items>
+    </invoice>
+    
+    <invoice>
+        <invoice_number>INV-2025-002</invoice_number>
+        <student_id>2</student_id>
+        <issue_date>2025-01-05</issue_date>
+        <due_date>2025-01-20</due_date>
+        <total_amount>30000.00</total_amount>
+        <discount_amount>3000.00</discount_amount>
+        <net_amount>27000.00</net_amount>
+        <status>PARTIALLY_PAID</status>
+        <items>
+            <item>
+                <description>Tuition Fee - Q1 2025</description>
+                <amount>25000.00</amount>
+                <item_type>FEE</item_type>
+            </item>
+            <item>
+                <description>Transport Fee - Q1 2025</description>
+                <amount>5000.00</amount>
+                <item_type>FEE</item_type>
+            </item>
+            <item>
+                <description>Sibling Discount (10%)</description>
+                <amount>-3000.00</amount>
+                <item_type>DISCOUNT</item_type>
+            </item>
+        </items>
+    </invoice>
+    
+    <invoice>
+        <invoice_number>INV-2025-003</invoice_number>
+        <student_id>3</student_id>
+        <issue_date>2025-01-10</issue_date>
+        <due_date>2025-01-25</due_date>
+        <total_amount>22500.00</total_amount>
+        <discount_amount>0.00</discount_amount>
+        <net_amount>22500.00</net_amount>
+        <status>ISSUED</status>
+        <items>
+            <item>
+                <description>Tuition Fee - Q1 2025</description>
+                <amount>20000.00</amount>
+                <item_type>FEE</item_type>
+            </item>
+            <item>
+                <description>Library Fee - Annual</description>
+                <amount>1500.00</amount>
+                <item_type>FEE</item_type>
+            </item>
+            <item>
+                <description>Sports Fee - Annual</description>
+                <amount>1000.00</amount>
+                <item_type>FEE</item_type>
+            </item>
+        </items>
+    </invoice>
+    
+    <invoice>
+        <invoice_number>INV-2025-004</invoice_number>
+        <student_id>4</student_id>
+        <issue_date>2025-01-15</issue_date>
+        <due_date>2025-02-05</due_date>
+        <total_amount>5500.00</total_amount>
+        <discount_amount>0.00</discount_amount>
+        <net_amount>5500.00</net_amount>
+        <status>OVERDUE</status>
+        <items>
+            <item>
+                <description>Late Fee - December 2024</description>
+                <amount>500.00</amount>
+                <item_type>FINE</item_type>
+            </item>
+            <item>
+                <description>Library Fine - Overdue Books</description>
+                <amount>200.00</amount>
+                <item_type>FINE</item_type>
+            </item>
+            <item>
+                <description>Examination Fee - Mid-term</description>
+                <amount>4800.00</amount>
+                <item_type>FEE</item_type>
+            </item>
+        </items>
+    </invoice>
+</invoices>

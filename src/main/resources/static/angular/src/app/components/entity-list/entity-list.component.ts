@@ -54,6 +54,7 @@ export class EntityListComponent implements OnInit {
   @Input() entityType: string = ''; // For navigation to detail page
   @Input() columns: EntityColumn[] = [];
   @Input() data: any[] = [];
+  @Input() fieldMetadata: any[] = []; // Field metadata to pass to sidebar
   @Input() filters: EntityFilter[] = [];
   @Input() actions: EntityAction[] = [];
   @Input() pagination: PaginationInfo = {

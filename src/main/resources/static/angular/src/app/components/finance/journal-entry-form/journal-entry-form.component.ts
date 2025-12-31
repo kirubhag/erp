@@ -134,7 +134,7 @@ export class JournalEntryFormComponent implements OnInit {
 
         request.subscribe({
             next: () => {
-                this.router.navigate(['/setup/finance/journal-entries']);
+                this.router.navigate(['/finance/journal-entries']);
                 this.saving = false;
             },
             error: (err) => {
