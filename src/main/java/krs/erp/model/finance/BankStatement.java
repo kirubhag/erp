@@ -1,13 +1,18 @@
 package krs.erp.model.finance;
 
-import jakarta.persistence.*;
-import krs.erp.model.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import krs.erp.model.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
@@ -32,6 +37,4 @@ public class BankStatement extends BaseEntity {
 
     @OneToMany(mappedBy = "bankStatement", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BankStatementLine> lines = new ArrayList<>();
-
-    private String status = "PENDING"; // PENDING, PARTIAL, COMPLETED
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fine_configurations>
+    <configuration>
+        <categoryId>1</categoryId>
+        <calcLogic>FLAT</calcLogic>
+        <baseAmount>10.00</baseAmount>
+        <frequency>DAILY</frequency>
+        <gracePeriodDays>3</gracePeriodDays>
+        <isActive>true</isActive>
+    </configuration>
+    <configuration>
+        <categoryId>2</categoryId>
+        <calcLogic>FLAT</calcLogic>
+        <baseAmount>50.00</baseAmount>
+        <frequency>ONE_TIME</frequency>
+        <gracePeriodDays>0</gracePeriodDays>
+        <isActive>true</isActive>
+    </configuration>
+    <configuration>
+        <categoryId>3</categoryId>
+        <calcLogic>PERCENTAGE</calcLogic>
+        <baseAmount>5.00</baseAmount>
+        <frequency>WEEKLY</frequency>
+        <gracePeriodDays>7</gracePeriodDays>
+        <isActive>true</isActive>
+    </configuration>
+</fine_configurations>

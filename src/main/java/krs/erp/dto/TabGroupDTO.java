@@ -8,6 +8,7 @@ public class TabGroupDTO {
     private String name;
     private String code;
     private String icon;
+    private String routePath;
     private Integer sequence;
     private String description;
     private List<ErpEntity> entities;
@@ -43,6 +44,14 @@ public class TabGroupDTO {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getRoutePath() {
+        return routePath;
+    }
+
+    public void setRoutePath(String routePath) {
+        this.routePath = routePath;
     }
 
     public Integer getSequence() {

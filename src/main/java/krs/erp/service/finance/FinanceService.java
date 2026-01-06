@@ -1,21 +1,61 @@
 package krs.erp.service.finance;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import krs.erp.model.finance.*;
-import krs.erp.repository.finance.*;
-import krs.erp.repository.ParentStudentRelationRepository;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.HashMap;
 import java.util.stream.Collectors;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import krs.erp.enums.AccountType;
+import krs.erp.model.finance.BankStatement;
+import krs.erp.model.finance.BankStatementLine;
+import krs.erp.model.finance.Budget;
+import krs.erp.model.finance.BudgetLine;
+import krs.erp.model.finance.ChartOfAccount;
+import krs.erp.model.finance.DisciplinaryIncident;
+import krs.erp.model.finance.FeeDiscountRule;
+import krs.erp.model.finance.FeePayment;
+import krs.erp.model.finance.FeeStructure;
+import krs.erp.model.finance.FineWaiverRequest;
+import krs.erp.model.finance.Invoice;
+import krs.erp.model.finance.InvoiceItem;
+import krs.erp.model.finance.JournalEntry;
+import krs.erp.model.finance.JournalItem;
+import krs.erp.model.finance.ScholarshipApplication;
+import krs.erp.model.finance.ScholarshipCategory;
+import krs.erp.model.finance.ScholarshipDisbursement;
+import krs.erp.model.finance.StudentFineLedger;
+import krs.erp.model.finance.Transaction;
+import krs.erp.repository.ParentStudentRelationRepository;
+import krs.erp.repository.finance.AccountingPeriodRepository;
+import krs.erp.repository.finance.BankStatementLineRepository;
+import krs.erp.repository.finance.BankStatementRepository;
+import krs.erp.repository.finance.BudgetLineRepository;
+import krs.erp.repository.finance.BudgetRepository;
+import krs.erp.repository.finance.ChartOfAccountRepository;
+import krs.erp.repository.finance.DisciplinaryIncidentRepository;
+import krs.erp.repository.finance.FeeDiscountRuleRepository;
+import krs.erp.repository.finance.FeePaymentRepository;
+import krs.erp.repository.finance.FeeStructureRepository;
+import krs.erp.repository.finance.FeeTypeRepository;
+import krs.erp.repository.finance.FineWaiverRequestRepository;
+import krs.erp.repository.finance.InvoiceItemRepository;
+import krs.erp.repository.finance.InvoiceRepository;
+import krs.erp.repository.finance.JournalEntryRepository;
+import krs.erp.repository.finance.JournalItemRepository;
+import krs.erp.repository.finance.ScholarshipApplicationRepository;
+import krs.erp.repository.finance.ScholarshipCategoryRepository;
+import krs.erp.repository.finance.ScholarshipDisbursementRepository;
+import krs.erp.repository.finance.StudentFineLedgerRepository;
+import krs.erp.repository.finance.TransactionRepository;
 
 @Service
 public class FinanceService {
@@ -445,14 +485,8 @@ public class FinanceService {
         line.setMatchedJournalItemId(journalItemId);
         bankStatementLineRepository.save(line);
 
-        // Update statement status if all lines are reconciled
+        // Note: BankStatement status tracking removed - use line reconciliation status
         BankStatement statement = line.getBankStatement();
-        boolean allReconciled = statement.getLines().stream().allMatch(BankStatementLine::isReconciled);
-        if (allReconciled) {
-            statement.setStatus("COMPLETED");
-        } else {
-            statement.setStatus("PARTIAL");
-        }
         bankStatementRepository.save(statement);
     }
 }

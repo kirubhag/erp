@@ -1,12 +1,22 @@
 package krs.erp.model.finance;
 
-import jakarta.persistence.*;
-import krs.erp.model.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import krs.erp.model.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
@@ -36,6 +46,4 @@ public class Budget extends BaseEntity {
 
     @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BudgetLine> lines = new ArrayList<>();
-
-    private String description;
 }

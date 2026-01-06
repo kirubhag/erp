@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   showConfirmPassword = false;
   passwordStrength = 0;
   passwordStrengthLabel = '';
-  
+
   // Field touched states for better UX
   fieldTouched = {
     organizationName: false,
@@ -40,10 +40,10 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-    
+
     // Don't auto-redirect - let users complete registration or navigate manually
     // The route guard will handle protection if needed
-    
+
     // Watch password changes for strength meter
     this.registerForm.get('password')?.valueChanges.subscribe(password => {
       this.calculatePasswordStrength(password);
@@ -131,11 +131,11 @@ export class RegisterComponent implements OnInit {
     }
 
     let strength = 0;
-    
+
     // Length check
     if (password.length >= 8) strength += 20;
     if (password.length >= 12) strength += 10;
-    
+
     // Character variety checks
     if (/[a-z]/.test(password)) strength += 20;
     if (/[A-Z]/.test(password)) strength += 20;
@@ -257,12 +257,12 @@ export class RegisterComponent implements OnInit {
       next: () => {
         this.successMessage = 'Registration successful! Logging you in...';
         this.loading = false;
-        
+
         // Auto-login with the new credentials
         this.authService.login(formValue.email.trim().toLowerCase(), formValue.password).subscribe({
           next: () => {
             setTimeout(() => {
-              this.router.navigate(['/dashboard']);
+              this.router.navigate(['/onboarding']);
             }, 500);
           },
           error: (loginError) => {

@@ -61,15 +61,16 @@ public class TenantProvisioningService {
         try {
             // Check if system data already exists to prevent duplicates
             Integer existingCount = tenantJdbc.queryForObject(
-                "SELECT COUNT(*) FROM erp_entities", Integer.class);
+                    "SELECT COUNT(*) FROM erp_entities", Integer.class);
             if (existingCount != null && existingCount > 0) {
-                logger.info("System data already exists in tenant DB: {} (found {} entities). Skipping copy.", dbName, existingCount);
+                logger.info("System data already exists in tenant DB: {} (found {} entities). Skipping copy.", dbName,
+                        existingCount);
                 return;
             }
 
             // First check if master DB has data
             Integer masterCount = masterJdbc.queryForObject(
-                "SELECT COUNT(*) FROM erp_entities", Integer.class);
+                    "SELECT COUNT(*) FROM erp_entities", Integer.class);
             if (masterCount == null || masterCount == 0) {
                 logger.warn("Master DB has no ERP entities! Data initialization may not have run yet.");
             } else {
@@ -296,12 +297,13 @@ public class TenantProvisioningService {
             try {
                 logger.info("Copying Tab Groups...");
                 masterJdbc.query("SELECT * FROM erp_tab_groups", rs -> {
-                    String sql = "INSERT IGNORE INTO erp_tab_groups (erp_tab_group_id, name, code, icon, sequence, description, is_active, created_by, created_time, modified_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String sql = "INSERT IGNORE INTO erp_tab_groups (erp_tab_group_id, name, code, icon, route_path, sequence, description, is_active, created_by, created_time, modified_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_tab_group_id"),
                             rs.getString("name"),
                             rs.getString("code"),
                             rs.getString("icon"),
+                            rs.getString("route_path"),
                             rs.getInt("sequence"),
                             rs.getString("description"),
                             rs.getInt("is_active"),

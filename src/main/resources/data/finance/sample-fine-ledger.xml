@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entries>
+    <entry>
+        <student_id>1</student_id>
+        <fine_config_id>1</fine_config_id>
+        <base_amount>500.00</base_amount>
+        <accrued_amount>500.00</accrued_amount>
+        <status>PENDING</status>
+        <issued_at>2024-01-15</issued_at>
+    </entry>
+    <entry>
+        <student_id>2</student_id>
+        <fine_config_id>2</fine_config_id>
+        <base_amount>200.00</base_amount>
+        <accrued_amount>200.00</accrued_amount>
+        <status>PAID</status>
+        <issued_at>2024-02-01</issued_at>
+    </entry>
+    <entry>
+        <student_id>3</student_id>
+        <fine_config_id>1</fine_config_id>
+        <base_amount>500.00</base_amount>
+        <accrued_amount>0.00</accrued_amount>
+        <status>WAIVED</status>
+        <issued_at>2024-03-01</issued_at>
+    </entry>
+</entries>

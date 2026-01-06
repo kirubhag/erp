@@ -75,6 +75,7 @@ public class ErpTabGroupXmlLoaderService {
         String code = getElementText(groupElement, "code");
         String name = getElementText(groupElement, "name");
         String icon = getElementText(groupElement, "icon");
+        String routePath = getElementText(groupElement, "route_path");
         String description = getElementText(groupElement, "description");
         int sequence = Integer.parseInt(getElementText(groupElement, "sequence"));
 
@@ -86,6 +87,7 @@ public class ErpTabGroupXmlLoaderService {
             // Update fields if needed, or skip if you want to preserve user changes
             group.setName(name); // Optional: assume XML is source of truth for name/icon
             group.setIcon(icon);
+            group.setRoutePath(routePath);
             group.setSequence(sequence);
             group.setDescription(description);
             logger.debug("Updating existing Tab Group: {}", code);
@@ -94,6 +96,7 @@ public class ErpTabGroupXmlLoaderService {
             group.setCode(code);
             group.setName(name);
             group.setIcon(icon);
+            group.setRoutePath(routePath);
             group.setSequence(sequence);
             group.setDescription(description);
             group.setCreatedTime(LocalDateTime.now());

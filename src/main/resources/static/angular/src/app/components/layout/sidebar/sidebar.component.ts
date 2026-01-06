@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { LayoutService, TabGroup } from '../../../services/layout.service';
 import { ThemeService } from '../../../services/theme.service';
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'app-sidebar',
-    standalone: true,
-    imports: [CommonModule, RouterModule],
-    template: `
+  selector: 'app-sidebar',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  template: `
     <div class="sidebar-wrapper" 
          [class.collapsed]="(collapsed$ | async)"
          [style.--theme-primary]="currentTheme$ | async">
@@ -40,7 +40,7 @@ import { Observable } from 'rxjs';
       </div>
     </div>
   `,
-    styles: [`
+  styles: [`
     :host {
       display: block;
       height: calc(100vh - 56px);
@@ -252,30 +252,34 @@ import { Observable } from 'rxjs';
   `]
 })
 export class SidebarComponent implements OnInit {
-    groups$: Observable<TabGroup[]>;
-    activeGroup$: Observable<TabGroup | null>;
-    collapsed$: Observable<boolean>;
-    currentTheme$: Observable<string>;
+  groups$: Observable<TabGroup[]>;
+  activeGroup$: Observable<TabGroup | null>;
+  collapsed$: Observable<boolean>;
+  currentTheme$: Observable<string>;
 
-    constructor(
-        private layoutService: LayoutService,
-        private themeService: ThemeService
-    ) {
-        this.groups$ = this.layoutService.getGroups();
-        this.activeGroup$ = this.layoutService.getActiveGroup();
-        this.collapsed$ = this.layoutService.getSidebarCollapsed();
-        this.currentTheme$ = this.themeService.getTheme$();
-    }
+  constructor(
+    private layoutService: LayoutService,
+    private themeService: ThemeService,
+    private router: Router // Added Router injection
+  ) {
+    this.groups$ = this.layoutService.getGroups();
+    this.activeGroup$ = this.layoutService.getActiveGroup();
+    this.collapsed$ = this.layoutService.getSidebarCollapsed();
+    this.currentTheme$ = this.themeService.getTheme$();
+  }
 
-    ngOnInit(): void {
-        // Component initialization if needed
-    }
+  ngOnInit(): void {
+    // Component initialization if needed
+  }
 
-    selectGroup(group: TabGroup) {
-        this.layoutService.setActiveGroup(group);
+  selectGroup(group: TabGroup) {
+    this.layoutService.setActiveGroup(group);
+    if (group.routePath) {
+      this.router.navigate([group.routePath]);
     }
+  }
 
-    toggleSidebar() {
-        this.layoutService.toggleSidebar();
-    }
+  toggleSidebar() {
+    this.layoutService.toggleSidebar();
+  }
 }

@@ -1,11 +1,13 @@
 package krs.erp.repository.finance;
 
-import krs.erp.model.finance.ChartOfAccount;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
+
+import krs.erp.model.finance.ChartOfAccount;
 
 @Repository
 public interface ChartOfAccountRepository extends JpaRepository<ChartOfAccount, Long> {
-    Optional<ChartOfAccount> findByCode(String code);
+    Optional<ChartOfAccount> findByName(String name);
 }

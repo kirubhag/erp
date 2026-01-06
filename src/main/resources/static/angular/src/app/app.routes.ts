@@ -283,6 +283,12 @@ export const routes: Routes = [
     loadChildren: () => import('./components/finance/finance.routes').then(m => m.FINANCE_ROUTES),
     canActivate: [AuthGuard]
   },
+  // Dynamic Tab Group Dashboard Route
+  {
+    path: ':tabGroupRoute',
+    loadComponent: () => import('./components/dashboards/tab-group-dashboard.component').then(m => m.TabGroupDashboardComponent),
+    canActivate: [AuthGuard]
+  },
   {
     path: '',
     redirectTo: '/dashboard',

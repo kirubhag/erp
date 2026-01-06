@@ -1,10 +1,15 @@
 package krs.erp.model.finance;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import krs.erp.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "erp_fee_payments")
@@ -44,6 +49,6 @@ public class FeePayment extends BaseEntity {
     private String remarks;
 
     public enum PaymentMode {
-        CASH, ONLINE, CHEQUE
+        CASH, ONLINE, CHEQUE, BANK_TRANSFER
     }
 }

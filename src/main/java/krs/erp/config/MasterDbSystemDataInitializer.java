@@ -859,6 +859,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 String code = getElementText(groupElement, "code");
                 String name = getElementText(groupElement, "name");
                 String icon = getElementText(groupElement, "icon");
+                String routePath = getElementText(groupElement, "route_path");
                 String description = getElementText(groupElement, "description");
                 Integer sequence = Integer.parseInt(getElementText(groupElement, "sequence"));
 
@@ -873,9 +874,9 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                     // Update existing tab group
                     masterJdbcTemplate.update(
                             "UPDATE erp_tab_groups " +
-                                    "SET name = ?, icon = ?, description = ?, sequence = ?, modified_time = ? " +
+                                    "SET name = ?, icon = ?, route_path = ?, description = ?, sequence = ?, modified_time = ? " +
                                     "WHERE code = ?",
-                            name, icon, description, sequence, LocalDateTime.now(), code);
+                            name, icon, routePath, description, sequence, LocalDateTime.now(), code);
 
                     // Get existing tab group ID
                     tabGroupId = masterJdbcTemplate.queryForObject(
@@ -890,10 +891,10 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                     // Insert new tab group
                     masterJdbcTemplate.update(
                             "INSERT INTO erp_tab_groups " +
-                                    "(name, code, icon, description, sequence, is_active, " +
+                                    "(name, code, icon, route_path, description, sequence, is_active, " +
                                     "created_by, created_time, modified_time) " +
-                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                            name, code, icon, description, sequence, 1,
+                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                            name, code, icon, routePath, description, sequence, 1,
                             "system", LocalDateTime.now(), LocalDateTime.now());
 
                     // Get generated tab group ID

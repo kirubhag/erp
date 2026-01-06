@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+    <item>
+        <invoice_id>1</invoice_id>
+        <description>Tuition Fee - Grade 10</description>
+        <item_type>FEE</item_type>
+        <amount>25000.00</amount>
+    </item>
+    <item>
+        <invoice_id>1</invoice_id>
+        <description>Library Late Return Fine</description>
+        <item_type>FINE</item_type>
+        <amount>100.00</amount>
+    </item>
+    <item>
+        <invoice_id>2</invoice_id>
+        <description>Laboratory Fee</description>
+        <item_type>OTHER</item_type>
+        <amount>5000.00</amount>
+    </item>
+</items>

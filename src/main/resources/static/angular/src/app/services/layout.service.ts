@@ -9,6 +9,7 @@ export interface TabGroup {
   name: string;
   code: string;
   icon: string;
+  routePath: string;
   sequence: number;
   description: string;
   entities: ErpEntity[];
@@ -28,20 +29,20 @@ export interface ErpEntity {
 })
 export class LayoutService {
   private apiUrl = '/api/module/groups';
-  
+
   // State
   private sidebarCollapsed = new BehaviorSubject<boolean>(this.getInitialSidebarState());
   private activeGroup = new BehaviorSubject<TabGroup | null>(null);
-  
+
   // Data Cache
   private groups$ = new BehaviorSubject<TabGroup[]>([]);
-  
+
   constructor(
     private http: HttpClient,
     private router: Router
   ) {
     this.loadGroups();
-    
+
     // Auto-detect Active Group on Route Change
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -62,8 +63,8 @@ export class LayoutService {
           this.groups$.next(groups);
           // Set default group (Core Platform) if none selected
           if (!this.activeGroup.value && groups.length > 0) {
-             const coreGroup = groups.find(g => g.code === 'CORE') || groups[0];
-             this.setActiveGroup(coreGroup);
+            const coreGroup = groups.find(g => g.code === 'CORE') || groups[0];
+            this.setActiveGroup(coreGroup);
           }
         }),
         shareReplay(1)
@@ -101,15 +102,15 @@ export class LayoutService {
     // Simple logic: check if current route belongs to any entity in groups
     // If exact match found, update active group.
     // Otherwise keep current group.
-    
+
     // Skip for root path
-    if (url === '/' || url === '/dashboard') return; 
-    
+    if (url === '/' || url === '/dashboard') return;
+
     const groups = this.groups$.value;
     for (const group of groups) {
       if (group.entities.some(e => url.includes(e.route))) {
         if (this.activeGroup.value?.id !== group.id) {
-            this.setActiveGroup(group);
+          this.setActiveGroup(group);
         }
         return;
       }

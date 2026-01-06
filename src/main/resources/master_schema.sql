@@ -343,6 +343,8 @@ CREATE TABLE IF NOT EXISTS erp_alumni_profiles (
 -- Table generated from JPA: erp_announcements
 CREATE TABLE IF NOT EXISTS erp_announcements (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
     target_audience VARCHAR(255) NOT NULL,
     published_at DATETIME,
     expires_at DATETIME,
@@ -395,7 +397,11 @@ created_by VARCHAR(100),
 -- Table generated from JPA: erp_bank_statement_lines
 CREATE TABLE IF NOT EXISTS erp_bank_statement_lines (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    is_reconciled BOOLEAN,
+    date DATE NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    amount DECIMAL(19, 4) NOT NULL DEFAULT 0,
+    reference VARCHAR(255),
+    is_reconciled BOOLEAN DEFAULT FALSE,
     matched_journal_item_id BIGINT,
     bank_statement_id BIGINT NOT NULL,
     created_by VARCHAR(100),
@@ -425,8 +431,9 @@ CREATE TABLE IF NOT EXISTS erp_bank_statements (
 -- Table generated from JPA: erp_budget_lines
 CREATE TABLE IF NOT EXISTS erp_budget_lines (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    allocated_amount DECIMAL(19, 2) NOT NULL,
-    actual_amount DECIMAL(19, 2) NOT NULL,
+    description VARCHAR(255),
+    allocated_amount DECIMAL(19, 4) NOT NULL,
+    actual_amount DECIMAL(19, 4) NOT NULL DEFAULT 0,
     budget_id BIGINT NOT NULL,
     account_id BIGINT NOT NULL,
     created_by VARCHAR(100),
@@ -440,7 +447,9 @@ CREATE TABLE IF NOT EXISTS erp_budget_lines (
 -- Table generated from JPA: erp_budgets
 CREATE TABLE IF NOT EXISTS erp_budgets (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    total_amount DECIMAL(19, 2) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'DRAFT',
+    total_amount DECIMAL(19, 4) NOT NULL DEFAULT 0,
     accounting_period_id BIGINT NOT NULL,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -487,6 +496,8 @@ CREATE TABLE IF NOT EXISTS erp_cal_events (
 -- Table generated from JPA: erp_chart_of_accounts
 CREATE TABLE IF NOT EXISTS erp_chart_of_accounts (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(50) NOT NULL,
     created_at DATETIME,
     updated_at DATETIME,
     parent_account_id BIGINT,
@@ -1229,6 +1240,9 @@ CREATE TABLE IF NOT EXISTS erp_inventory_vendors (
 CREATE TABLE IF NOT EXISTS erp_journal_entries (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entry_number VARCHAR(255) NOT NULL,
+    reference VARCHAR(255),
+    description TEXT,
+    status VARCHAR(50) NOT NULL DEFAULT 'DRAFT',
     created_at DATETIME,
     updated_at DATETIME,
     created_by VARCHAR(100),
@@ -1242,6 +1256,9 @@ CREATE TABLE IF NOT EXISTS erp_journal_entries (
 -- Table generated from JPA: erp_journal_items
 CREATE TABLE IF NOT EXISTS erp_journal_items (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    debit DECIMAL(19, 4) NOT NULL DEFAULT 0,
+    credit DECIMAL(19, 4) NOT NULL DEFAULT 0,
+    label VARCHAR(255),
     journal_entry_id BIGINT NOT NULL,
     account_id BIGINT NOT NULL,
     created_by VARCHAR(100),
@@ -1255,6 +1272,9 @@ CREATE TABLE IF NOT EXISTS erp_journal_items (
 -- Table generated from JPA: erp_library_authors
 CREATE TABLE IF NOT EXISTS erp_library_authors (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    biography TEXT,
+    nationality VARCHAR(100),
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1267,6 +1287,7 @@ CREATE TABLE IF NOT EXISTS erp_library_authors (
 CREATE TABLE IF NOT EXISTS erp_library_holds (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     request_date DATETIME NOT NULL,
+    status VARCHAR(50) NOT NULL,
     resource_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     created_by VARCHAR(100),
@@ -1280,8 +1301,11 @@ CREATE TABLE IF NOT EXISTS erp_library_holds (
 -- Table generated from JPA: erp_library_items
 CREATE TABLE IF NOT EXISTS erp_library_items (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    accession_number VARCHAR(255) NOT NULL,
-    audit_status VARCHAR(255),
+    accession_number VARCHAR(255) NOT NULL UNIQUE,
+    barcode VARCHAR(255) UNIQUE,
+    location VARCHAR(255),
+    status VARCHAR(50) NOT NULL,
+    audit_status VARCHAR(50),
     resource_id BIGINT NOT NULL,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1297,7 +1321,8 @@ CREATE TABLE IF NOT EXISTS erp_library_loans (
     loan_date DATETIME NOT NULL,
     due_date DATETIME NOT NULL,
     return_date DATETIME,
-    renewal_count INT,
+    renewal_count INT DEFAULT 0,
+    status VARCHAR(50) NOT NULL,
     item_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     created_by VARCHAR(100),
@@ -1306,6 +1331,7 @@ CREATE TABLE IF NOT EXISTS erp_library_loans (
     modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     owner_id BIGINT,
     is_active INT DEFAULT 1
+);
 );
 
 -- Table generated from JPA: erp_library_policies
@@ -1329,7 +1355,8 @@ CREATE TABLE IF NOT EXISTS erp_library_policies (
 CREATE TABLE IF NOT EXISTS erp_library_pos (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     order_date DATE NOT NULL,
-    total_amount DECIMAL(19, 2) NOT NULL,
+    total_amount DECIMAL(19, 4) NOT NULL,
+    status VARCHAR(50) NOT NULL,
     vendor_id BIGINT NOT NULL,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1342,6 +1369,8 @@ CREATE TABLE IF NOT EXISTS erp_library_pos (
 -- Table generated from JPA: erp_library_publishers
 CREATE TABLE IF NOT EXISTS erp_library_publishers (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(500),
     contact_info VARCHAR(255),
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1354,6 +1383,10 @@ CREATE TABLE IF NOT EXISTS erp_library_publishers (
 -- Table generated from JPA: erp_library_purchase_requests
 CREATE TABLE IF NOT EXISTS erp_library_purchase_requests (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255),
+    reason TEXT,
+    status VARCHAR(50) NOT NULL,
     requested_by BIGINT NOT NULL,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1366,8 +1399,14 @@ CREATE TABLE IF NOT EXISTS erp_library_purchase_requests (
 -- Table generated from JPA: erp_library_resources
 CREATE TABLE IF NOT EXISTS erp_library_resources (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    format VARCHAR(50) NOT NULL,
     isbn_issn VARCHAR(255),
-    digital_path VARCHAR(255),
+    language VARCHAR(50),
+    published_year INT,
+    edition VARCHAR(100),
+    digital_path VARCHAR(500),
+    description TEXT,
     author_id BIGINT,
     publisher_id BIGINT,
     created_by VARCHAR(100),
@@ -1381,6 +1420,8 @@ CREATE TABLE IF NOT EXISTS erp_library_resources (
 -- Table generated from JPA: erp_lms_answers
 CREATE TABLE IF NOT EXISTS erp_lms_answers (
     answer_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    answer_text TEXT NOT NULL,
+    correct BOOLEAN DEFAULT FALSE,
     question_id BIGINT NOT NULL,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1393,6 +1434,11 @@ CREATE TABLE IF NOT EXISTS erp_lms_answers (
 -- Table generated from JPA: erp_lms_badges
 CREATE TABLE IF NOT EXISTS erp_lms_badges (
     badge_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    description TEXT,
+    icon_url VARCHAR(255),
+    points_required INT DEFAULT 0,
+    tier VARCHAR(50),
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1404,6 +1450,10 @@ CREATE TABLE IF NOT EXISTS erp_lms_badges (
 -- Table generated from JPA: erp_lms_content
 CREATE TABLE IF NOT EXISTS erp_lms_content (
     content_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    content_url TEXT,
+    file_size_in_bytes BIGINT DEFAULT 0,
     lesson_id BIGINT NOT NULL,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1416,6 +1466,9 @@ CREATE TABLE IF NOT EXISTS erp_lms_content (
 -- Table generated from JPA: erp_lms_forum_posts
 CREATE TABLE IF NOT EXISTS erp_lms_forum_posts (
     post_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    content TEXT NOT NULL,
+    posted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    likes INT DEFAULT 0,
     forum_id BIGINT NOT NULL,
     author_id BIGINT NOT NULL,
     parent_post_id BIGINT,
@@ -1430,6 +1483,10 @@ CREATE TABLE IF NOT EXISTS erp_lms_forum_posts (
 -- Table generated from JPA: erp_lms_forums
 CREATE TABLE IF NOT EXISTS erp_lms_forums (
     forum_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    is_locked BOOLEAN DEFAULT FALSE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     course_id BIGINT,
     lesson_id BIGINT,
     created_by VARCHAR(100),
@@ -1443,6 +1500,10 @@ CREATE TABLE IF NOT EXISTS erp_lms_forums (
 -- Table generated from JPA: erp_lms_lessons
 CREATE TABLE IF NOT EXISTS erp_lms_lessons (
     lesson_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    order_index INT DEFAULT 0,
+    published BOOLEAN DEFAULT FALSE,
     module_id BIGINT NOT NULL,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1455,6 +1516,10 @@ CREATE TABLE IF NOT EXISTS erp_lms_lessons (
 -- Table generated from JPA: erp_lms_modules
 CREATE TABLE IF NOT EXISTS erp_lms_modules (
     module_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    order_index INT DEFAULT 0,
+    published BOOLEAN DEFAULT FALSE,
     subject_id BIGINT NOT NULL,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1467,6 +1532,10 @@ CREATE TABLE IF NOT EXISTS erp_lms_modules (
 -- Table generated from JPA: erp_lms_peer_reviews
 CREATE TABLE IF NOT EXISTS erp_lms_peer_reviews (
     review_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    score INT,
+    feedback TEXT,
+    is_anonymous BOOLEAN DEFAULT TRUE,
+    reviewed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     submission_id BIGINT NOT NULL,
     reviewer_id BIGINT NOT NULL,
     created_by VARCHAR(100),
@@ -1480,6 +1549,9 @@ CREATE TABLE IF NOT EXISTS erp_lms_peer_reviews (
 -- Table generated from JPA: erp_lms_point_logs
 CREATE TABLE IF NOT EXISTS erp_lms_point_logs (
     log_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    points INT DEFAULT 0,
+    reason VARCHAR(255),
+    earned_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     student_id BIGINT NOT NULL,
     badge_id BIGINT,
     created_by VARCHAR(100),
@@ -1493,6 +1565,10 @@ CREATE TABLE IF NOT EXISTS erp_lms_point_logs (
 -- Table generated from JPA: erp_lms_question_bank
 CREATE TABLE IF NOT EXISTS erp_lms_question_bank (
     qbank_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    question_text TEXT NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    difficulty VARCHAR(50),
+    tags VARCHAR(255),
     subject_id BIGINT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1505,6 +1581,9 @@ CREATE TABLE IF NOT EXISTS erp_lms_question_bank (
 -- Table generated from JPA: erp_lms_questions
 CREATE TABLE IF NOT EXISTS erp_lms_questions (
     question_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    question_text TEXT NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    points DOUBLE DEFAULT 1.0,
     quiz_id BIGINT NOT NULL,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1517,6 +1596,11 @@ CREATE TABLE IF NOT EXISTS erp_lms_questions (
 -- Table generated from JPA: erp_lms_quizzes
 CREATE TABLE IF NOT EXISTS erp_lms_quizzes (
     quiz_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    time_limit_minutes INT DEFAULT 0,
+    passing_score DOUBLE DEFAULT 0.0,
+    published BOOLEAN DEFAULT FALSE,
     lesson_id BIGINT,
     subject_id BIGINT,
     created_by VARCHAR(100),
@@ -1530,6 +1614,9 @@ CREATE TABLE IF NOT EXISTS erp_lms_quizzes (
 -- Table generated from JPA: erp_lms_rubrics
 CREATE TABLE IF NOT EXISTS erp_lms_rubrics (
     rubric_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    criteria TEXT,
+    max_points DOUBLE DEFAULT 0.0,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1541,9 +1628,21 @@ CREATE TABLE IF NOT EXISTS erp_lms_rubrics (
 -- Table generated from JPA: erp_lms_student_progress
 CREATE TABLE IF NOT EXISTS erp_lms_student_progress (
     progress_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    completion_percentage DOUBLE DEFAULT 0.0,
+    completed BOOLEAN DEFAULT FALSE,
+    completion_date DATETIME,
+    time_spent_minutes INT DEFAULT 0,
+    last_accessed DATETIME DEFAULT CURRENT_TIMESTAMP,
+    notes TEXT,
     student_id BIGINT NOT NULL,
     lesson_id BIGINT NOT NULL,
     created_by VARCHAR(100),
+    modified_by VARCHAR(100),
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1
+);
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -1554,6 +1653,9 @@ CREATE TABLE IF NOT EXISTS erp_lms_student_progress (
 -- Table generated from JPA: erp_lms_submissions
 CREATE TABLE IF NOT EXISTS erp_lms_submissions (
     submission_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    score DOUBLE DEFAULT 0.0,
+    submission_date DATETIME,
+    status VARCHAR(50),
     quiz_id BIGINT NOT NULL,
     student_id BIGINT NOT NULL,
     created_by VARCHAR(100),
@@ -1567,6 +1669,9 @@ CREATE TABLE IF NOT EXISTS erp_lms_submissions (
 -- Table generated from JPA: erp_lms_topics
 CREATE TABLE IF NOT EXISTS erp_lms_topics (
     topic_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT,
+    order_index INT DEFAULT 0,
     lesson_id BIGINT NOT NULL,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1579,6 +1684,10 @@ CREATE TABLE IF NOT EXISTS erp_lms_topics (
 -- Table generated from JPA: erp_lms_virtual_attendance
 CREATE TABLE IF NOT EXISTS erp_lms_virtual_attendance (
     attendance_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    join_time DATETIME,
+    leave_time DATETIME,
+    duration_minutes BIGINT DEFAULT 0,
+    attended BOOLEAN DEFAULT FALSE,
     session_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     created_by VARCHAR(100),
@@ -1592,6 +1701,15 @@ CREATE TABLE IF NOT EXISTS erp_lms_virtual_attendance (
 -- Table generated from JPA: erp_lms_virtual_sessions
 CREATE TABLE IF NOT EXISTS erp_lms_virtual_sessions (
     session_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    provider VARCHAR(50) NOT NULL,
+    meeting_url VARCHAR(500) NOT NULL,
+    meeting_id VARCHAR(255),
+    meeting_password VARCHAR(255),
+    start_time DATETIME NOT NULL,
+    end_time DATETIME NOT NULL,
+    recording_url VARCHAR(500),
+    recurring BOOLEAN DEFAULT FALSE,
     lesson_id BIGINT NOT NULL,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
@@ -1656,8 +1774,10 @@ CREATE TABLE IF NOT EXISTS erp_maint_work_orders (
 -- Table generated from JPA: erp_messages
 CREATE TABLE IF NOT EXISTS erp_messages (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    subject VARCHAR(255),
+    body TEXT,
     sent_at DATETIME,
-    is_read BOOLEAN,
+    is_read BOOLEAN DEFAULT FALSE,
     sender_id BIGINT NOT NULL,
     recipient_id BIGINT NOT NULL,
     created_by VARCHAR(100),
@@ -1800,6 +1920,9 @@ CREATE TABLE IF NOT EXISTS erp_sections (
 -- Table generated from JPA: erp_student_registrations
 CREATE TABLE IF NOT EXISTS erp_student_registrations (
     registration_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    registration_date DATE NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'PENDING',
+    remarks VARCHAR(500),
     student_id BIGINT NOT NULL,
     academic_year_id BIGINT NOT NULL,
     class_id BIGINT NOT NULL,
@@ -1814,6 +1937,11 @@ CREATE TABLE IF NOT EXISTS erp_student_registrations (
 -- Table generated from JPA: erp_support_tickets
 CREATE TABLE IF NOT EXISTS erp_support_tickets (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    category VARCHAR(50),
+    priority VARCHAR(50),
+    status VARCHAR(50),
     author_id BIGINT NOT NULL,
     assigned_to_id BIGINT,
     created_by VARCHAR(100),
@@ -1839,6 +1967,7 @@ CREATE TABLE IF NOT EXISTS erp_tenants (
 -- Table generated from JPA: erp_ticket_comments
 CREATE TABLE IF NOT EXISTS erp_ticket_comments (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    comment TEXT NOT NULL,
     created_at DATETIME,
     ticket_id BIGINT NOT NULL,
     author_id BIGINT NOT NULL,
@@ -1884,6 +2013,10 @@ CREATE TABLE IF NOT EXISTS erp_timetables (
 -- Table generated from JPA: erp_tpd_competencies
 CREATE TABLE IF NOT EXISTS erp_tpd_competencies (
     competency_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    description TEXT,
+    target_role VARCHAR(100) NOT NULL,
+    required_level INT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1896,6 +2029,10 @@ CREATE TABLE IF NOT EXISTS erp_tpd_competencies (
 CREATE TABLE IF NOT EXISTS erp_tpd_cpd_ledger (
     ledger_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     staff_id BIGINT NOT NULL,
+    academic_year INT,
+    credits_earned DOUBLE DEFAULT 0.0,
+    credits_required DOUBLE DEFAULT 30.0,
+    notes TEXT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1907,6 +2044,9 @@ CREATE TABLE IF NOT EXISTS erp_tpd_cpd_ledger (
 -- Table generated from JPA: erp_tpd_evaluations
 CREATE TABLE IF NOT EXISTS erp_tpd_evaluations (
     evaluation_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    reaction_score INT,
+    learning_score INT,
+    feedback TEXT,
     event_id BIGINT NOT NULL,
     staff_id BIGINT NOT NULL,
     created_by VARCHAR(100),
@@ -1920,6 +2060,13 @@ CREATE TABLE IF NOT EXISTS erp_tpd_evaluations (
 -- Table generated from JPA: erp_tpd_evidence
 CREATE TABLE IF NOT EXISTS erp_tpd_evidence (
     evidence_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    provider VARCHAR(255),
+    certificate_url VARCHAR(500),
+    requested_credits DOUBLE,
+    approved_credits DOUBLE,
+    status VARCHAR(50) DEFAULT 'PENDING',
+    upload_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     staff_id BIGINT NOT NULL,
     approved_by BIGINT,
     created_by VARCHAR(100),
@@ -1934,6 +2081,13 @@ CREATE TABLE IF NOT EXISTS erp_tpd_evidence (
 CREATE TABLE IF NOT EXISTS erp_tpd_portfolios (
     portfolio_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     staff_id BIGINT NOT NULL,
+    current_role VARCHAR(255),
+    target_track VARCHAR(255),
+    total_cpd_credits DOUBLE,
+    years_of_service INT,
+    promotion_ready BOOLEAN DEFAULT FALSE,
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    professional_summary TEXT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1948,6 +2102,10 @@ CREATE TABLE IF NOT EXISTS erp_tpd_skill_assessments (
     staff_id BIGINT NOT NULL,
     competency_id BIGINT NOT NULL,
     manager_id BIGINT,
+    self_rating INT,
+    manager_rating INT,
+    feedback TEXT,
+    assessment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1959,6 +2117,9 @@ CREATE TABLE IF NOT EXISTS erp_tpd_skill_assessments (
 -- Table generated from JPA: erp_tpd_training_attendance
 CREATE TABLE IF NOT EXISTS erp_tpd_training_attendance (
     attendance_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    check_in_time DATETIME NOT NULL,
+    attendance_method VARCHAR(50),
+    attended BOOLEAN DEFAULT TRUE,
     event_id BIGINT NOT NULL,
     staff_id BIGINT NOT NULL,
     created_by VARCHAR(100),
@@ -1972,7 +2133,15 @@ CREATE TABLE IF NOT EXISTS erp_tpd_training_attendance (
 -- Table generated from JPA: erp_tpd_training_events
 CREATE TABLE IF NOT EXISTS erp_tpd_training_events (
     event_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    type VARCHAR(50) NOT NULL,
     venue_id BIGINT,
+    start_date_time DATETIME NOT NULL,
+    end_date_time DATETIME NOT NULL,
+    resource_person VARCHAR(255),
+    cost DOUBLE DEFAULT 0.0,
+    max_participants INT,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -2035,6 +2204,9 @@ CREATE TABLE IF NOT EXISTS field_mappings (
 -- Table generated from JPA: fin_scholarship_applications
 CREATE TABLE IF NOT EXISTS fin_scholarship_applications (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    application_date DATE,
+    status VARCHAR(50),
+    remarks TEXT,
     approved_by VARCHAR(255),
     approval_date DATE,
     student_id BIGINT NOT NULL,
@@ -2051,6 +2223,13 @@ CREATE TABLE IF NOT EXISTS fin_scholarship_applications (
 -- Table generated from JPA: fin_scholarship_categories
 CREATE TABLE IF NOT EXISTS fin_scholarship_categories (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    type VARCHAR(50) NOT NULL,
+    amount DECIMAL(19,4),
+    percentage DECIMAL(5,2),
+    is_need_based TINYINT(1) DEFAULT 0,
+    is_merit_based TINYINT(1) DEFAULT 0,
     created_by VARCHAR(100),
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -2062,6 +2241,10 @@ CREATE TABLE IF NOT EXISTS fin_scholarship_categories (
 -- Table generated from JPA: fin_scholarship_disbursements
 CREATE TABLE IF NOT EXISTS fin_scholarship_disbursements (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    disbursement_amount DECIMAL(19, 4) NOT NULL,
+    disbursement_date DATE NOT NULL,
+    reference_number VARCHAR(255),
+    status VARCHAR(50),
     application_id BIGINT NOT NULL,
     invoice_id BIGINT,
     created_by VARCHAR(100),
@@ -2812,6 +2995,7 @@ CREATE TABLE IF NOT EXISTS erp_tab_groups (
     name VARCHAR(100) NOT NULL UNIQUE,
     code VARCHAR(50) NOT NULL UNIQUE,
     icon VARCHAR(100),
+    route_path VARCHAR(255),
     sequence INT NOT NULL DEFAULT 0,
     description TEXT,
     is_active INT DEFAULT 1,

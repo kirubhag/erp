@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bank_statements>
+    <statement>
+        <accountNumber>1234567890</accountNumber>
+        <bankName>State Bank of India</bankName>
+        <statementDate>2025-01-31</statementDate>
+        <openingBalance>500000.00</openingBalance>
+        <closingBalance>475000.00</closingBalance>
+        <totalDebit>75000.00</totalDebit>
+        <totalCredit>50000.00</totalCredit>
+        <statementPeriodStart>2025-01-01</statementPeriodStart>
+        <statementPeriodEnd>2025-01-31</statementPeriodEnd>
+    </statement>
+    <statement>
+        <accountNumber>1234567890</accountNumber>
+        <bankName>State Bank of India</bankName>
+        <statementDate>2024-12-31</statementDate>
+        <openingBalance>450000.00</openingBalance>
+        <closingBalance>500000.00</closingBalance>
+        <totalDebit>50000.00</totalDebit>
+        <totalCredit>100000.00</totalCredit>
+        <statementPeriodStart>2024-12-01</statementPeriodStart>
+        <statementPeriodEnd>2024-12-31</statementPeriodEnd>
+    </statement>
+</bank_statements>

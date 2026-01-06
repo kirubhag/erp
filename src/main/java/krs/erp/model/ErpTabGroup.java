@@ -40,6 +40,9 @@ public class ErpTabGroup {
     @Column(name = "icon", length = 100)
     private String icon;
 
+    @Column(name = "route_path", length = 100)
+    private String routePath;
+
     @Column(name = "sequence", nullable = false)
     private Integer sequence = 0;
 
@@ -97,6 +100,14 @@ public class ErpTabGroup {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getRoutePath() {
+        return routePath;
+    }
+
+    public void setRoutePath(String routePath) {
+        this.routePath = routePath;
     }
 
     public Integer getSequence() {

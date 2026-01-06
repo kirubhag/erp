@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requests>
+    <request>
+        <fine_ledger_id>1</fine_ledger_id>
+        <requested_by_id>1</requested_by_id>
+        <reason>Student facing financial hardship due to family emergency</reason>
+        <status>PENDING</status>
+        <request_date>2024-01-20</request_date>
+        <adjustment_amount>500.00</adjustment_amount>
+    </request>
+    <request>
+        <fine_ledger_id>2</fine_ledger_id>
+        <requested_by_id>2</requested_by_id>
+        <reason>Medical emergency prevented timely payment</reason>
+        <status>APPROVED</status>
+        <request_date>2024-02-15</request_date>
+        <approved_by_id>1</approved_by_id>
+        <adjustment_amount>200.00</adjustment_amount>
+    </request>
+    <request>
+        <fine_ledger_id>3</fine_ledger_id>
+        <requested_by_id>3</requested_by_id>
+        <reason>Request for partial waiver due to academic excellence</reason>
+        <status>REJECTED</status>
+        <request_date>2024-03-05</request_date>
+        <approved_by_id>1</approved_by_id>
+        <adjustment_amount>0</adjustment_amount>
+    </request>
+</requests>

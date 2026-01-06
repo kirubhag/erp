@@ -23,11 +23,10 @@
   left: 0;
   height: 100%;
   width: 50%;
-  background: linear-gradient(90deg, 
-    transparent,
-    var(--app-primary, #0891B2) 50%, 
-    var(--app-primary-dark, #0369A1) 100%
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      var(--app-primary, #0891B2) 50%,
+      var(--app-primary-dark, #0369A1) 100%);
   animation: loading-slide 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   box-shadow: 0 0 10px var(--app-primary, #0891B2);
 }
@@ -36,6 +35,7 @@
   0% {
     left: -50%;
   }
+
   100% {
     left: 100%;
   }
@@ -73,3 +73,11 @@
   min-height: calc(100vh - 70px);
   transition: all 0.3s ease;
 }
+
+/* Add padding when navbar is present to prevent overlap */
+.content-body.with-navbar {
+  padding-top: 0;
+  /* Reset default, will be set per page */
+}
+
+/* Dashboard pages handle their own padding via component styles */

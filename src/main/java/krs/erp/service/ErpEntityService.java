@@ -241,6 +241,7 @@ public class ErpEntityService {
             dto.setName(group.getName());
             dto.setCode(group.getCode());
             dto.setIcon(group.getIcon());
+            dto.setRoutePath(group.getRoutePath());
             dto.setSequence(group.getSequence());
             dto.setDescription(group.getDescription());
 

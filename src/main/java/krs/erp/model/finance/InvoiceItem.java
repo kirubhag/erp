@@ -1,9 +1,13 @@
 package krs.erp.model.finance;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
+import krs.erp.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import krs.erp.model.BaseEntity;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -25,6 +29,6 @@ public class InvoiceItem extends BaseEntity {
     private ItemType itemType;
 
     public enum ItemType {
-        FEE, FINE, OTHER
+        FEE, FINE, DISCOUNT, OTHER
     }
 }

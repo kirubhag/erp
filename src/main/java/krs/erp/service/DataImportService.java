@@ -55,10 +55,15 @@ import krs.erp.model.finance.BankStatementLine;
 import krs.erp.model.finance.Budget;
 import krs.erp.model.finance.BudgetLine;
 import krs.erp.model.finance.ChartOfAccount;
+import krs.erp.model.finance.DisciplinaryIncident;
+import krs.erp.model.finance.FineConfiguration;
+import krs.erp.model.finance.FineWaiverRequest;
+import krs.erp.model.finance.InvoiceItem;
 import krs.erp.model.finance.JournalEntry;
 import krs.erp.model.finance.JournalItem;
 import krs.erp.model.finance.ScholarshipApplication;
 import krs.erp.model.finance.ScholarshipCategory;
+import krs.erp.model.finance.StudentFineLedger;
 import krs.erp.model.hr.PerformanceCriteria;
 import krs.erp.model.hr.PerformanceCycle;
 import krs.erp.model.hr.PerformanceReview;
@@ -2640,7 +2645,6 @@ public class DataImportService {
 
             // 1. Accounting Period
             AccountingPeriod fy2024 = new AccountingPeriod();
-            fy2024.setName("FY 2024-25");
             fy2024.setStartDate(LocalDate.of(2024, 4, 1));
             fy2024.setEndDate(LocalDate.of(2025, 3, 31));
             fy2024.setIsClosed(false);
@@ -2648,25 +2652,21 @@ public class DataImportService {
 
             // 2. Chart of Accounts
             ChartOfAccount cash = new ChartOfAccount();
-            cash.setCode("1001");
             cash.setName("Cash in Hand");
             cash.setType(AccountType.ASSET);
             chartOfAccountRepository.save(cash);
 
             ChartOfAccount bank = new ChartOfAccount();
-            bank.setCode("1002");
             bank.setName("Main Bank Account");
             bank.setType(AccountType.ASSET);
             chartOfAccountRepository.save(bank);
 
             ChartOfAccount tuitionIncome = new ChartOfAccount();
-            tuitionIncome.setCode("4001");
             tuitionIncome.setName("Tuition Fee Income");
             tuitionIncome.setType(AccountType.REVENUE);
             chartOfAccountRepository.save(tuitionIncome);
 
             ChartOfAccount salaryExpense = new ChartOfAccount();
-            salaryExpense.setCode("5001");
             salaryExpense.setName("Staff Salary Expense");
             salaryExpense.setType(AccountType.EXPENSE);
             chartOfAccountRepository.save(salaryExpense);
@@ -2674,7 +2674,6 @@ public class DataImportService {
             // 3. Initial Journal Entry (Opening Balance)
             JournalEntry je = new JournalEntry();
             je.setEntryNumber("OP-001");
-            je.setDate(LocalDate.of(2024, 4, 1));
             je.setDescription("Opening Balances");
             je.setStatus(JournalEntry.EntryStatus.POSTED);
 
@@ -2701,7 +2700,6 @@ public class DataImportService {
             b.setAccountingPeriod(fy2024);
             b.setTotalAmount(new BigDecimal("1000000.00"));
             b.setStatus(Budget.BudgetStatus.APPROVED);
-            b.setDescription("Annual administrative budget");
 
             BudgetLine bl1 = new BudgetLine();
             bl1.setBudget(b);
@@ -2726,7 +2724,6 @@ public class DataImportService {
             bs.setStatementDate(LocalDate.now());
             bs.setOpeningBalance(new BigDecimal("50000.00"));
             bs.setClosingBalance(new BigDecimal("45000.00"));
-            bs.setStatus("COMPLETED");
 
             BankStatementLine bsl1 = new BankStatementLine();
             bsl1.setBankStatement(bs);
@@ -3469,7 +3466,6 @@ public class DataImportService {
                 Element accountElement = (Element) accountList.item(i);
 
                 ChartOfAccount account = new ChartOfAccount();
-                account.setCode(getElementText(accountElement, "code"));
                 account.setName(getElementText(accountElement, "name"));
                 account.setType(AccountType.valueOf(getElementText(accountElement, "type")));
                 // Note: description field not available in ChartOfAccount model
@@ -3504,7 +3500,6 @@ public class DataImportService {
 
                 JournalEntry entry = new JournalEntry();
                 entry.setEntryNumber(getElementText(entryElement, "entry_number"));
-                entry.setDate(LocalDate.parse(getElementText(entryElement, "date")));
                 entry.setDescription(getElementText(entryElement, "description"));
                 entry.setStatus(JournalEntry.EntryStatus.valueOf(getElementText(entryElement, "status")));
 
@@ -3515,10 +3510,10 @@ public class DataImportService {
                 for (int j = 0; j < itemsList.getLength(); j++) {
                     Element itemElement = (Element) itemsList.item(j);
 
-                    // Find account by code
-                    String accountCode = getElementText(itemElement, "account_code");
+                    // Find account by name
+                    String accountName = getElementText(itemElement, "account_name");
                     ChartOfAccount account = chartOfAccountRepository.findAll().stream()
-                            .filter(acc -> acc.getCode().equals(accountCode))
+                            .filter(acc -> acc.getName().equals(accountName))
                             .findFirst()
                             .orElse(null);
 
@@ -3557,14 +3552,15 @@ public class DataImportService {
             document.getDocumentElement().normalize();
 
             // First ensure we have an accounting period
+            LocalDate periodStart = LocalDate.of(2024, 4, 1);
+            LocalDate periodEnd = LocalDate.of(2025, 3, 31);
             AccountingPeriod period = accountingPeriodRepository.findAll().stream()
-                    .filter(p -> p.getName().equals("FY 2024-25"))
+                    .filter(p -> p.getStartDate().equals(periodStart) && p.getEndDate().equals(periodEnd))
                     .findFirst()
                     .orElseGet(() -> {
                         AccountingPeriod newPeriod = new AccountingPeriod();
-                        newPeriod.setName("FY 2024-25");
-                        newPeriod.setStartDate(LocalDate.of(2024, 4, 1));
-                        newPeriod.setEndDate(LocalDate.of(2025, 3, 31));
+                        newPeriod.setStartDate(periodStart);
+                        newPeriod.setEndDate(periodEnd);
                         newPeriod.setIsClosed(false);
                         return accountingPeriodRepository.save(newPeriod);
                     });
@@ -3578,7 +3574,6 @@ public class DataImportService {
                 budget.setAccountingPeriod(period);
                 budget.setTotalAmount(new BigDecimal(getElementText(budgetElement, "total_amount")));
                 budget.setStatus(Budget.BudgetStatus.valueOf(getElementText(budgetElement, "status")));
-                budget.setDescription(getElementText(budgetElement, "description"));
 
                 Budget savedBudget = budgetRepository.save(budget);
 
@@ -3587,10 +3582,10 @@ public class DataImportService {
                 for (int j = 0; j < linesList.getLength(); j++) {
                     Element lineElement = (Element) linesList.item(j);
 
-                    // Find account by code
-                    String accountCode = getElementText(lineElement, "account_code");
+                    // Find account by name
+                    String accountName = getElementText(lineElement, "account_name");
                     ChartOfAccount account = chartOfAccountRepository.findAll().stream()
-                            .filter(acc -> acc.getCode().equals(accountCode))
+                            .filter(acc -> acc.getName().equals(accountName))
                             .findFirst()
                             .orElse(null);
 
@@ -3610,6 +3605,317 @@ public class DataImportService {
         } catch (Exception e) {
             logger.error("Error importing budgets from XML", e);
             throw new RuntimeException("Failed to import budgets", e);
+        }
+    }
+
+    @Transactional
+    public void importFineConfigurationsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting fine configurations import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList configList = document.getElementsByTagName("configuration");
+            for (int i = 0; i < configList.getLength(); i++) {
+                Element configElement = (Element) configList.item(i);
+
+                FineConfiguration config = new FineConfiguration();
+                config.setCategoryId(Long.parseLong(getElementText(configElement, "categoryId")));
+                config.setCalcLogic(FineConfiguration.CalculationLogic.valueOf(getElementText(configElement, "calcLogic")));
+                config.setBaseAmount(Double.parseDouble(getElementText(configElement, "baseAmount")));
+                config.setFrequency(FineConfiguration.FineFrequency.valueOf(getElementText(configElement, "frequency")));
+                config.setGracePeriodDays(Integer.parseInt(getElementText(configElement, "gracePeriodDays")));
+                
+                String isActiveStr = getElementText(configElement, "isActive");
+                if (isActiveStr != null) {
+                    config.setIsActive(Boolean.parseBoolean(isActiveStr) ? 1 : 0);
+                }
+
+                fineConfigurationRepository.save(config);
+            }
+            logger.info("Fine configurations import completed successfully");
+        } catch (Exception e) {
+            logger.error("Error importing fine configurations from XML", e);
+            throw new RuntimeException("Failed to import fine configurations", e);
+        }
+    }
+
+    @Transactional
+    public void importFineLedgerDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting fine ledger import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList entryList = document.getElementsByTagName("entry");
+            for (int i = 0; i < entryList.getLength(); i++) {
+                Element entryElement = (Element) entryList.item(i);
+
+                StudentFineLedger entry = new StudentFineLedger();
+                entry.setStudentId(Long.parseLong(getElementText(entryElement, "student_id")));
+                entry.setFineConfigId(Long.parseLong(getElementText(entryElement, "fine_config_id")));
+                entry.setBaseAmount(Double.parseDouble(getElementText(entryElement, "base_amount")));
+                entry.setAccruedAmount(Double.parseDouble(getElementText(entryElement, "accrued_amount")));
+                entry.setStatus(StudentFineLedger.FineStatus.valueOf(getElementText(entryElement, "status")));
+                entry.setIssuedAt(LocalDateTime.parse(getElementText(entryElement, "issued_at") + "T00:00:00"));
+
+                fineLedgerRepository.save(entry);
+            }
+            logger.info("Fine ledger import completed successfully");
+        } catch (Exception e) {
+            logger.error("Error importing fine ledger from XML", e);
+            throw new RuntimeException("Failed to import fine ledger", e);
+        }
+    }
+
+    @Transactional
+    public void importDisciplinaryIncidentsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting disciplinary incidents import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList incidentList = document.getElementsByTagName("incident");
+            for (int i = 0; i < incidentList.getLength(); i++) {
+                Element incidentElement = (Element) incidentList.item(i);
+
+                DisciplinaryIncident incident = new DisciplinaryIncident();
+                incident.setStudentId(Long.parseLong(getElementText(incidentElement, "student_id")));
+                incident.setReportedById(Long.parseLong(getElementText(incidentElement, "reported_by_id")));
+                incident.setDescription(getElementText(incidentElement, "description"));
+                incident.setEvidenceUrl(getElementText(incidentElement, "evidence_url"));
+                incident.setFineAmount(Double.parseDouble(getElementText(incidentElement, "fine_amount")));
+                incident.setIncidentDate(LocalDateTime.parse(getElementText(incidentElement, "incident_date") + "T00:00:00"));
+                incident.setApprovalStatus(DisciplinaryIncident.ApprovalStatus.valueOf(getElementText(incidentElement, "status")));
+
+                disciplinaryIncidentRepository.save(incident);
+            }
+            logger.info("Disciplinary incidents import completed successfully");
+        } catch (Exception e) {
+            logger.error("Error importing disciplinary incidents from XML", e);
+            throw new RuntimeException("Failed to import disciplinary incidents", e);
+        }
+    }
+
+    @Transactional
+    public void importFineWaiverRequestsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting fine waiver requests import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList requestList = document.getElementsByTagName("request");
+            for (int i = 0; i < requestList.getLength(); i++) {
+                Element requestElement = (Element) requestList.item(i);
+
+                FineWaiverRequest request = new FineWaiverRequest();
+                request.setFineLedgerId(Long.parseLong(getElementText(requestElement, "fine_ledger_id")));
+                request.setRequestedById(Long.parseLong(getElementText(requestElement, "requested_by_id")));
+                request.setReason(getElementText(requestElement, "reason"));
+                request.setStatus(FineWaiverRequest.WaiverStatus.valueOf(getElementText(requestElement, "status")));
+                request.setRequestDate(LocalDateTime.parse(getElementText(requestElement, "request_date") + "T00:00:00"));
+                
+                String approvedById = getElementText(requestElement, "approved_by_id");
+                if (approvedById != null && !approvedById.isEmpty()) {
+                    request.setApprovedById(Long.parseLong(approvedById));
+                }
+                
+                String adjustmentAmount = getElementText(requestElement, "adjustment_amount");
+                if (adjustmentAmount != null && !adjustmentAmount.isEmpty()) {
+                    request.setAdjustmentAmount(Double.parseDouble(adjustmentAmount));
+                }
+
+                fineWaiverRequestRepository.save(request);
+            }
+            logger.info("Fine waiver requests import completed successfully");
+        } catch (Exception e) {
+            logger.error("Error importing fine waiver requests from XML", e);
+            throw new RuntimeException("Failed to import fine waiver requests", e);
+        }
+    }
+
+    @Transactional
+    public void importInvoiceItemsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting invoice items import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList itemList = document.getElementsByTagName("item");
+            for (int i = 0; i < itemList.getLength(); i++) {
+                Element itemElement = (Element) itemList.item(i);
+
+                InvoiceItem item = new InvoiceItem();
+                item.setInvoiceId(Long.parseLong(getElementText(itemElement, "invoice_id")));
+                item.setDescription(getElementText(itemElement, "description"));
+                item.setItemType(InvoiceItem.ItemType.valueOf(getElementText(itemElement, "item_type")));
+                item.setAmount(Double.parseDouble(getElementText(itemElement, "amount")));
+
+                invoiceItemRepository.save(item);
+            }
+            logger.info("Invoice items import completed successfully");
+        } catch (Exception e) {
+            logger.error("Error importing invoice items from XML", e);
+            throw new RuntimeException("Failed to import invoice items", e);
+        }
+    }
+
+    @Transactional
+    public void importAccountingPeriodsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting accounting periods import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList periodList = document.getElementsByTagName("period");
+            for (int i = 0; i < periodList.getLength(); i++) {
+                Element periodElement = (Element) periodList.item(i);
+
+                AccountingPeriod period = new AccountingPeriod();
+                period.setStartDate(LocalDate.parse(getElementText(periodElement, "start_date")));
+                period.setEndDate(LocalDate.parse(getElementText(periodElement, "end_date")));
+                period.setIsClosed(Boolean.parseBoolean(getElementText(periodElement, "is_closed")));
+
+                accountingPeriodRepository.save(period);
+            }
+            logger.info("Accounting periods import completed successfully");
+        } catch (Exception e) {
+            logger.error("Error importing accounting periods from XML", e);
+            throw new RuntimeException("Failed to import accounting periods", e);
+        }
+    }
+
+    @Transactional
+    public void importBankStatementsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting bank statements import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList statementList = document.getElementsByTagName("statement");
+            for (int i = 0; i < statementList.getLength(); i++) {
+                Element statementElement = (Element) statementList.item(i);
+
+                BankStatement statement = new BankStatement();
+                statement.setAccountNumber(getElementText(statementElement, "accountNumber"));
+                statement.setBankName(getElementText(statementElement, "bankName"));
+                statement.setStatementDate(LocalDate.parse(getElementText(statementElement, "statementDate")));
+                statement.setOpeningBalance(new BigDecimal(getElementText(statementElement, "openingBalance")));
+                statement.setClosingBalance(new BigDecimal(getElementText(statementElement, "closingBalance")));
+
+                bankStatementRepository.save(statement);
+            }
+            logger.info("Bank statements import completed successfully");
+        } catch (Exception e) {
+            logger.error("Error importing bank statements from XML", e);
+            throw new RuntimeException("Failed to import bank statements", e);
+        }
+    }
+
+    @Transactional
+    public void importScholarshipsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting scholarships import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            // Import categories first
+            NodeList categoryList = document.getElementsByTagName("category");
+            for (int i = 0; i < categoryList.getLength(); i++) {
+                Element categoryElement = (Element) categoryList.item(i);
+
+                ScholarshipCategory category = new ScholarshipCategory();
+                category.setName(getElementText(categoryElement, "name"));
+                category.setDescription(getElementText(categoryElement, "description"));
+                category.setType(ScholarshipCategory.AidType.valueOf(getElementText(categoryElement, "type")));
+                
+                String percentageStr = getElementText(categoryElement, "percentage");
+                if (percentageStr != null && !percentageStr.isEmpty()) {
+                    category.setPercentage(new BigDecimal(percentageStr));
+                }
+                
+                String amountStr = getElementText(categoryElement, "amount");
+                if (amountStr != null && !amountStr.isEmpty()) {
+                    category.setAmount(new BigDecimal(amountStr));
+                }
+                
+                category.setMeritBased(Boolean.parseBoolean(getElementText(categoryElement, "isMeritBased")));
+                category.setNeedBased(Boolean.parseBoolean(getElementText(categoryElement, "isNeedBased")));
+
+                scholarshipCategoryRepository.save(category);
+            }
+
+            // Import applications - skip for now as they require Student and AcademicYear entities
+            logger.info("Note: Scholarship applications require existing student and academic year records. Skipping application import.");
+            
+            logger.info("Scholarships import completed successfully");
+        } catch (Exception e) {
+            logger.error("Error importing scholarships from XML", e);
+            throw new RuntimeException("Failed to import scholarships", e);
         }
     }
 }

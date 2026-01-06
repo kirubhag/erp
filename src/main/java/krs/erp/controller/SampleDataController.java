@@ -143,11 +143,18 @@ public class SampleDataController {
         entities.add(createEntityInfo("fee_payments", "Fee Payments (Student payment records)"));
         entities.add(createEntityInfo("discount_rules", "Discount Rules (Sibling, Merit, Early Payment)"));
         entities.add(createEntityInfo("fine_categories", "Fine Categories (Late fees, Disciplinary)"));
+        entities.add(createEntityInfo("fine_configurations", "Fine Configurations (Fine calculation rules)"));
+        entities.add(createEntityInfo("fine_ledger", "Fine Ledger (Student fine records and payments)"));
+        entities.add(createEntityInfo("disciplinary_incidents", "Disciplinary Incidents (Student violations)"));
+        entities.add(createEntityInfo("fine_waiver_requests", "Fine Waiver Requests (Waiver applications)"));
         entities.add(createEntityInfo("invoices", "Invoices (Billing invoices with line items)"));
+        entities.add(createEntityInfo("invoice_items", "Invoice Items (Individual invoice line items)"));
         entities.add(createEntityInfo("transactions", "Transactions (Payment transactions)"));
         entities.add(createEntityInfo("chart_of_accounts", "Chart of Accounts (Asset, Liability, Revenue, Expense)"));
         entities.add(createEntityInfo("journal_entries", "Journal Entries (Double-entry bookkeeping)"));
+        entities.add(createEntityInfo("accounting_periods", "Accounting Periods (Fiscal periods for reporting)"));
         entities.add(createEntityInfo("budgets", "Budgets (Department budgets with tracking)"));
+        entities.add(createEntityInfo("bank_statements", "Bank Statements (Bank reconciliation data)"));
 
         entities.add(createEntityInfo("library", "Library Management"));
         entities.add(createEntityInfo("lms", "Learning Management System (LMS)"));
@@ -198,93 +205,119 @@ public class SampleDataController {
         try {
             for (String entityName : orderedEntities) {
                 try {
-                    logger.info("Importing sample data for entity: {}", entityName);
+                    // Normalize entity name from display format (e.g., "Fee Type") to backend format (e.g., "fee_types")
+                    String normalizedName = normalizeEntityName(entityName);
+                    logger.info("Importing sample data for entity: {} (normalized: {})", entityName, normalizedName);
 
                     // Check for special entity handlers first (these don't use XML file mapping)
                     boolean handledBySpecialMethod = false;
 
                     // Finance entities with direct XML import methods
-                    if (entityName.equalsIgnoreCase("fee_types")) {
+                    if (normalizedName.equalsIgnoreCase("fee_types")) {
                         dataImportService.importFeeTypesDataFromXml("data/finance/sample-fee-types.xml");
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("fee_structures")) {
+                    } else if (normalizedName.equalsIgnoreCase("fee_structures")) {
                         dataImportService.importFeeStructuresDataFromXml("data/finance/sample-fee-structures.xml");
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("fee_payments")) {
+                    } else if (normalizedName.equalsIgnoreCase("fee_payments")) {
                         dataImportService.importFeePaymentsDataFromXml("data/finance/sample-fee-payments.xml");
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("discount_rules")) {
+                    } else if (normalizedName.equalsIgnoreCase("discount_rules")) {
                         dataImportService.importDiscountRulesDataFromXml("data/finance/sample-discount-rules.xml");
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("fine_categories")) {
+                    } else if (normalizedName.equalsIgnoreCase("fine_categories")) {
                         dataImportService.importFineCategoriesDataFromXml("data/finance/sample-fine-categories.xml");
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("invoices")) {
+                    } else if (normalizedName.equalsIgnoreCase("invoices")) {
                         dataImportService.importInvoicesDataFromXml("data/finance/sample-invoices.xml");
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("transactions")) {
+                    } else if (normalizedName.equalsIgnoreCase("transactions")) {
                         dataImportService.importTransactionsDataFromXml("data/finance/sample-transactions.xml");
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("chart_of_accounts")) {
+                    } else if (normalizedName.equalsIgnoreCase("chart_of_accounts")) {
                         dataImportService.importChartOfAccountsDataFromXml("data/finance/sample-chart-of-accounts.xml");
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("journal_entries")) {
+                    } else if (normalizedName.equalsIgnoreCase("journal_entries")) {
                         dataImportService.importJournalEntriesDataFromXml("data/finance/sample-journal-entries.xml");
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("budgets")) {
+                    } else if (normalizedName.equalsIgnoreCase("budgets")) {
                         dataImportService.importBudgetsDataFromXml("data/finance/sample-budgets.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("fine_configurations")) {
+                        dataImportService.importFineConfigurationsDataFromXml("data/finance/sample-fine-configurations.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("fine_ledger")) {
+                        dataImportService.importFineLedgerDataFromXml("data/finance/sample-fine-ledger.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("disciplinary_incidents")) {
+                        dataImportService.importDisciplinaryIncidentsDataFromXml("data/finance/sample-disciplinary-incidents.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("fine_waiver_requests")) {
+                        dataImportService.importFineWaiverRequestsDataFromXml("data/finance/sample-fine-waiver-requests.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("invoice_items")) {
+                        dataImportService.importInvoiceItemsDataFromXml("data/finance/sample-invoice-items.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("accounting_periods")) {
+                        dataImportService.importAccountingPeriodsDataFromXml("data/finance/sample-accounting-periods.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("bank_statements")) {
+                        dataImportService.importBankStatementsDataFromXml("data/finance/sample-bank-statements.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("scholarships")) {
+                        dataImportService.importScholarshipsDataFromXml("data/finance/sample-scholarships.xml");
                         handledBySpecialMethod = true;
                     }
                     // Other special entity handlers (programmatic generation)
-                    else if (entityName.equalsIgnoreCase("registrations")) {
+                    else if (normalizedName.equalsIgnoreCase("registrations")) {
                         dataImportService.generateStudentRegistrationSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("payroll")) {
+                    } else if (normalizedName.equalsIgnoreCase("payroll")) {
                         dataImportService.generatePayrollSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("leaves")) {
+                    } else if (normalizedName.equalsIgnoreCase("leaves")) {
                         dataImportService.generateLeaveSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("performance")) {
+                    } else if (normalizedName.equalsIgnoreCase("performance")) {
                         dataImportService.generatePerformanceSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("inventory")) {
+                    } else if (normalizedName.equalsIgnoreCase("inventory")) {
                         dataImportService.generateInventorySampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("maintenance")) {
+                    } else if (normalizedName.equalsIgnoreCase("maintenance")) {
                         dataImportService.generateMaintenanceSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("reporting")) {
+                    } else if (normalizedName.equalsIgnoreCase("reporting")) {
                         dataImportService.generateReportingSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("documents")) {
+                    } else if (normalizedName.equalsIgnoreCase("documents")) {
                         dataImportService.generateDocumentSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("calendar")) {
+                    } else if (normalizedName.equalsIgnoreCase("calendar")) {
                         dataImportService.generateCalendarSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("communication")) {
+                    } else if (normalizedName.equalsIgnoreCase("communication")) {
                         dataImportService.generateCommunicationSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("alumni")) {
+                    } else if (normalizedName.equalsIgnoreCase("alumni")) {
                         dataImportService.generateAlumniSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("finance")) {
+                    } else if (normalizedName.equalsIgnoreCase("finance")) {
                         dataImportService.generateFinanceSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("scholarships")) {
+                    } else if (normalizedName.equalsIgnoreCase("scholarships")) {
                         dataImportService.generateScholarshipSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("accounting")) {
+                    } else if (normalizedName.equalsIgnoreCase("accounting")) {
                         dataImportService.generateAccountingSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("library")) {
+                    } else if (normalizedName.equalsIgnoreCase("library")) {
                         dataImportService.generateLibrarySampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("lms")) {
+                    } else if (normalizedName.equalsIgnoreCase("lms")) {
                         dataImportService.generateLmsSampleData();
                         handledBySpecialMethod = true;
-                    } else if (entityName.equalsIgnoreCase("tpd")) {
+                    } else if (normalizedName.equalsIgnoreCase("tpd")) {
                         dataImportService.generateTpdSampleData();
                         handledBySpecialMethod = true;
                     }
@@ -666,5 +699,67 @@ public class SampleDataController {
         }
 
         return new ArrayList<>(orderedSet);
+    }
+
+    /**
+     * Normalize entity name from display format to backend format.
+     * Converts display names like "Fee Type" to "fee_types"
+     * 
+     * @param displayName Entity name from UI (e.g., "Fee Type", "Fee Discount Rule")
+     * @return Normalized name (e.g., "fee_types", "discount_rules")
+     */
+    private String normalizeEntityName(String displayName) {
+        if (displayName == null) {
+            return null;
+        }
+
+        String normalized = displayName.trim();
+        
+        // Convert to lowercase and replace spaces with underscores
+        normalized = normalized.toLowerCase().replace(" ", "_");
+        
+        // Handle special cases where UI name doesn't match backend expectation
+        switch (normalized) {
+            case "fee_type":
+                return "fee_types";
+            case "fee_structure":
+                return "fee_structures";
+            case "fee_discount_rule":
+                return "discount_rules";
+            case "fine_category":
+                return "fine_categories";
+            case "fine_configuration":
+                return "fine_configurations";
+            case "fee_payment":
+                return "fee_payments";
+            case "fine_ledger":
+                return "fine_ledger";
+            case "disciplinary_incident":
+                return "disciplinary_incidents";
+            case "fine_waiver_request":
+                return "fine_waiver_requests";
+            case "invoice":
+                return "invoices";
+            case "transaction":
+                return "transactions";
+            case "invoice_item":
+                return "invoice_items";
+            case "chart_of_account":
+                return "chart_of_accounts";
+            case "journal_entry":
+                return "journal_entries";
+            case "accounting_period":
+                return "accounting_periods";
+            case "budget":
+                return "budgets";
+            case "bank_statement":
+                return "bank_statements";
+            case "scholarship_category":
+                return "scholarships";
+            case "scholarship_application":
+                return "scholarships";
+            default:
+                return normalized;
+        }
     }
 }

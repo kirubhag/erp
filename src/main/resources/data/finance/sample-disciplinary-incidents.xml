@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents>
+    <incident>
+        <student_id>1</student_id>
+        <reported_by_id>1</reported_by_id>
+        <description>Student was found using mobile phone during class</description>
+        <evidence_url>/evidence/incident_001.pdf</evidence_url>
+        <fine_amount>500.00</fine_amount>
+        <incident_date>2024-01-15</incident_date>
+        <status>APPROVED</status>
+    </incident>
+    <incident>
+        <student_id>2</student_id>
+        <reported_by_id>1</reported_by_id>
+        <description>Late submission of assignment beyond grace period</description>
+        <evidence_url>/evidence/incident_002.pdf</evidence_url>
+        <fine_amount>200.00</fine_amount>
+        <incident_date>2024-02-20</incident_date>
+        <status>PENDING</status>
+    </incident>
+    <incident>
+        <student_id>3</student_id>
+        <reported_by_id>2</reported_by_id>
+        <description>Vandalism of school property</description>
+        <evidence_url>/evidence/incident_003.pdf</evidence_url>
+        <fine_amount>1000.00</fine_amount>
+        <incident_date>2024-03-10</incident_date>
+        <status>APPROVED</status>
+    </incident>
+</incidents>

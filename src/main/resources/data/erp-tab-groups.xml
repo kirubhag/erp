@@ -5,6 +5,7 @@
         <name>Core Platform</name>
         <code>CORE</code>
         <icon>fas fa-cube</icon>
+        <route_path>/core-platform</route_path>
         <sequence>1</sequence>
         <description>Core system modules including User Management, Organizations, and System Settings</description>
         <entities>
@@ -33,6 +34,7 @@
         <name>Academic Management</name>
         <code>ACADEMIC</code>
         <icon>fas fa-university</icon>
+        <route_path>/academic-management</route_path>
         <sequence>2</sequence>
         <description>Manage academic years, terms, and grading policies</description>
         <entities>
@@ -48,6 +50,7 @@
         <name>Student Lifecycle</name>
         <code>STUDENT_LIFECYCLE</code>
         <icon>fas fa-user-graduate</icon>
+        <route_path>/student-lifecycle</route_path>
         <sequence>3</sequence>
         <description>Admission, enrollment, and alumni management</description>
         <entities>
@@ -66,6 +69,7 @@
         <name>Financial Management</name>
         <code>FINANCE</code>
         <icon>fas fa-coins</icon>
+        <route_path>/financial-management</route_path>
         <sequence>4</sequence>
         <description>Accounting, fees, scholarships, and billing</description>
         <entities>
@@ -96,6 +100,7 @@
         <name>Human Resources</name>
         <code>HR</code>
         <icon>fas fa-users-cog</icon>
+        <route_path>/human-resources</route_path>
         <sequence>5</sequence>
         <description>Employee management, payroll, leave, and recruitment</description>
         <entities>
@@ -115,6 +120,7 @@
         <name>Learning &amp; Teaching</name>
         <code>LEARNING</code>
         <icon>fas fa-chalkboard</icon>
+        <route_path>/learning-teaching</route_path>
         <sequence>6</sequence>
         <description>LMS, content, assessments, and teacher professional development</description>
         <entities>
@@ -134,6 +140,7 @@
         <name>Operations</name>
         <code>OPERATIONS</code>
         <icon>fas fa-tools</icon>
+        <route_path>/operations</route_path>
         <sequence>7</sequence>
         <description>Inventory, assets, and facility maintenance</description>
         <entities>
@@ -152,6 +159,7 @@
         <name>Library Management</name>
         <code>LIBRARY</code>
         <icon>fas fa-book-reader</icon>
+        <route_path>/library-management</route_path>
         <sequence>8</sequence>
         <description>Books, resources, loans, and memberships</description>
         <entities>
@@ -168,6 +176,7 @@
         <name>Communication</name>
         <code>COMMUNICATION</code>
         <icon>fas fa-comments</icon>
+        <route_path>/communication</route_path>
         <sequence>9</sequence>
         <description>Announcements, messages, emails, and support tickets</description>
         <entities>
@@ -183,6 +192,7 @@
         <name>Administration</name>
         <code>ADMINISTRATION</code>
         <icon>fas fa-shield-alt</icon>
+        <route_path>/administration</route_path>
         <sequence>10</sequence>
         <description>System administration, calendar, documents, and reporting</description>
         <entities>

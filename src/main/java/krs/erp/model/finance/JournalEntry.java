@@ -1,11 +1,17 @@
 package krs.erp.model.finance;
 
-import jakarta.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import krs.erp.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,9 +30,6 @@ public class JournalEntry extends BaseEntity {
 
     @Column(name = "entry_number", nullable = false, unique = true)
     private String entryNumber;
-
-    @Column(nullable = false)
-    private LocalDate date;
 
     private String reference;
 
