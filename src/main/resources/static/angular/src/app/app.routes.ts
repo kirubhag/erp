@@ -9,6 +9,10 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
+    path: 'confirm-account',
+    loadComponent: () => import('./components/confirm-account/confirm-account.component').then(m => m.ConfirmAccountComponent)
+  },
+  {
     path: 'dashboard',
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
     canActivate: [AuthGuard]

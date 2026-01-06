@@ -24,6 +24,9 @@ import krs.erp.repository.UserRepository;
 public class RegistrationService {
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private TenantProvisioningService tenantProvisioningService;
 
     @Autowired
@@ -43,7 +46,8 @@ public class RegistrationService {
     public void registerTenant(RegistrationRequest request) {
         // 0. Check if email already exists in Master DB
         if (emailExistsInMasterDb(request.getAdminEmail())) {
-            throw new IllegalArgumentException("Email address '" + request.getAdminEmail() + "' is already registered. Please use a different email or login to your existing account.");
+            throw new IllegalArgumentException("Email address '" + request.getAdminEmail()
+                    + "' is already registered. Please use a different email or login to your existing account.");
         }
 
         // 1. Generate Tenant ID and DB Name
@@ -90,9 +94,11 @@ public class RegistrationService {
 
     private void createUserInMasterDb(RegistrationRequest request, Long tenantId, Long organizationId) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        String sql = "INSERT INTO iam_users (username, password_hash, email, first_name, last_name, phone, user_type, enabled, tenant_id, organization_id, created_time, is_active, account_non_expired, credentials_non_expired, account_non_locked) "
+        String sql = "INSERT INTO iam_users (username, password_hash, email, first_name, last_name, phone, user_type, enabled, tenant_id, organization_id, created_time, is_active, account_non_expired, credentials_non_expired, account_non_locked, confirmation_token) "
                 +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1, 1)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1, 1, ?)";
+
+        String confirmationToken = UUID.randomUUID().toString();
 
         jdbcTemplate.update(sql,
                 request.getAdminEmail(), // username is email
@@ -102,10 +108,28 @@ public class RegistrationService {
                 request.getAdminLastName(),
                 request.getAdminPhone(),
                 UserType.ADMIN.name(),
-                true,
+                false, // Enabled is false until confirmed
                 tenantId,
                 organizationId,
-                LocalDateTime.now());
+                LocalDateTime.now(),
+                confirmationToken);
+
+        // Send Confirmation Email
+        sendConfirmationEmail(request.getAdminEmail(), confirmationToken);
+    }
+
+    private void sendConfirmationEmail(String toEmail, String token) {
+        String subject = "Confirm your ERP Account";
+        // Assuming frontend is running on standard port 4200, or use a configured
+        // property
+        String confirmationLink = "http://localhost:4200/confirm-account?token=" + token;
+
+        String content = "Welcome to ERP System!\n\n"
+                + "Please confirm your account by clicking the link below:\n"
+                + confirmationLink + "\n\n"
+                + "If you did not request this, please ignore this email.";
+
+        emailService.sendDirectEmail(null, null, toEmail, null, subject, content, "SYSTEM");
     }
 
     @Transactional
@@ -136,6 +160,21 @@ public class RegistrationService {
         admin.setEnabled(true);
         admin.setCreatedTime(LocalDateTime.now());
         admin.setOrganizationId(org.getId());
+        // In Tenant DB, we can enable them or keep disabled. Keeping consistent with
+        // Master DB logic is better but Master DB auth controls login.
+        // We will set enabled = true here for Tenant DB data, as Master DB enabled flag
+        // controls actual login access.
+        // Or we could sync it. Let's set to false to be safe, though Authentication
+        // typically checks Master DB.
+        // Since we are not syncing token to Tenant DB (User entity uses JpaRepository),
+        // logic might be split.
+        // Actually, AuthController uses IAM DB (Master).
+        // Let's store token in Tenant DB user too if possible, but our current flow
+        // doesn't easily propagate it to this method cleanly without changing method
+        // signature.
+        // For simplicity, we trust Master DB for auth.
+        admin.setEnabled(true); // Tenant DB copy can stay enabled, Master DB is gatekeeper.
+        admin.setCreatedTime(LocalDateTime.now());
 
         userRepository.save(admin);
 

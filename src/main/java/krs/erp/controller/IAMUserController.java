@@ -177,14 +177,16 @@ public class IAMUserController {
         body.append("\nLogin here: http://localhost:4200/login\n"); // TODO: Make URL configurable
         body.append("\nRegards,\nERP Team");
 
-        emailService.sendDirectEmail(
-                EntityType.GENERAL, // utilizing GENERAL for system user emails
-                user.getId(),
-                user.getEmail(),
-                user.getFullName(),
-                subject,
-                body.toString(),
-                "System");
+        if (user.getId() != null) {
+            emailService.sendDirectEmail(
+                    EntityType.GENERAL, // utilizing GENERAL for system user emails
+                    user.getId(),
+                    user.getEmail(),
+                    user.getFullName(),
+                    subject,
+                    body.toString(),
+                    "System");
+        }
     }
 
 }

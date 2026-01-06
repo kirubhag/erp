@@ -79,6 +79,15 @@ public class User extends BaseEntity {
     @Column(name = "avatar_url", length = 500)
     private String avatarUrl;
 
+    @Column(name = "reset_password_token", length = 100)
+    private String resetPasswordToken;
+
+    @Column(name = "confirmation_token", length = 100)
+    private String confirmationToken;
+
+    @Column(name = "reset_password_token_expiry")
+    private LocalDateTime resetPasswordTokenExpiry;
+
     @Column(name = "organization_id")
     private Long organizationId;
 
@@ -233,6 +242,30 @@ public class User extends BaseEntity {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
+
+    public String getConfirmationToken() {
+        return confirmationToken;
+    }
+
+    public void setConfirmationToken(String confirmationToken) {
+        this.confirmationToken = confirmationToken;
+    }
+
+    public LocalDateTime getResetPasswordTokenExpiry() {
+        return resetPasswordTokenExpiry;
+    }
+
+    public void setResetPasswordTokenExpiry(LocalDateTime resetPasswordTokenExpiry) {
+        this.resetPasswordTokenExpiry = resetPasswordTokenExpiry;
     }
 
     public Long getOrganizationId() {

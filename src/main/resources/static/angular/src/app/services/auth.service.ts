@@ -150,4 +150,25 @@ export class AuthService {
     this.currentUserSubject.next(user);
     localStorage.setItem('currentUser', JSON.stringify(user));
   }
+
+  /**
+   * Change Password
+   */
+  changePassword(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/change-password`, data);
+  }
+
+  /**
+   * Forgot Password - Send Reset Link
+   */
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/forgot-password`, { email });
+  }
+
+  /**
+   * Reset Password with token
+   */
+  resetPassword(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/reset-password`, data);
+  }
 }

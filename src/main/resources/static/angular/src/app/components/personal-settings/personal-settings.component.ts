@@ -36,6 +36,13 @@ export class PersonalSettingsComponent implements OnInit {
 
   @ViewChild('cropCanvas', { static: false }) cropCanvas!: ElementRef<HTMLCanvasElement>;
 
+  // Password Change Data
+  passwordData = {
+    oldPassword: '',
+    newPassword: '',
+    confirmNewPassword: ''
+  };
+
   // Locale Information
   localeInfo = {
     language: 'English (United States)',
@@ -524,5 +531,46 @@ export class PersonalSettingsComponent implements OnInit {
       this.closeCropModal();
       this.uploadAvatar(file);
     }, 'image/png');
+  }
+
+  /**
+   * Change Password
+   */
+  onChangePassword(): void {
+    this.successMessage = '';
+    this.errorMessage = '';
+
+    if (this.passwordData.newPassword !== this.passwordData.confirmNewPassword) {
+      this.errorMessage = 'New passwords do not match';
+      return;
+    }
+
+    if (this.passwordData.newPassword.length < 6) {
+      this.errorMessage = 'Password must be at least 6 characters';
+      return;
+    }
+
+    this.isSaving = true;
+    this.authService.changePassword({
+      oldPassword: this.passwordData.oldPassword,
+      newPassword: this.passwordData.newPassword
+    }).subscribe({
+      next: (response: any) => {
+        this.isSaving = false;
+        this.successMessage = response.message || 'Password changed successfully';
+        this.passwordData = { oldPassword: '', newPassword: '', confirmNewPassword: '' };
+
+        // Switch back to Personal Settings tab after delay
+        setTimeout(() => {
+          this.successMessage = '';
+          this.openTab('personal-settings');
+        }, 2000);
+      },
+      error: (error: any) => {
+        this.isSaving = false;
+        this.errorMessage = error.error?.message || 'Failed to change password. Please check your current password.';
+        console.error('Error changing password:', error);
+      }
+    });
   }
 }

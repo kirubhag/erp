@@ -39,7 +39,7 @@ export class UserComponent implements OnInit {
   successMessage = '';
   showUserForm = false;
   isEditMode = false;
-  
+
   userForm: FormGroup;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
@@ -66,7 +66,7 @@ export class UserComponent implements OnInit {
   loadUsers(): void {
     this.loading = true;
     this.errorMessage = '';
-    
+
     this.userService.getAllUsers().subscribe({
       next: (users: User[]) => {
         this.users = users;
@@ -109,14 +109,14 @@ export class UserComponent implements OnInit {
     if (!this.selectedUser) {
       return;
     }
-    
+
     this.isEditMode = true;
     this.showUserForm = true;
-    
+
     // Password is optional when editing
     this.userForm.get('password')?.setValidators([Validators.minLength(6)]);
     this.userForm.get('confirmPassword')?.setValidators([]);
-    
+
     // Populate form with selected user data
     this.userForm.patchValue({
       username: this.selectedUser.username,
@@ -127,7 +127,7 @@ export class UserComponent implements OnInit {
       userType: this.selectedUser.userType,
       enabled: this.selectedUser.enabled
     });
-    
+
     // Clear password fields
     this.userForm.get('password')?.reset();
     this.userForm.get('confirmPassword')?.reset();
@@ -157,7 +157,7 @@ export class UserComponent implements OnInit {
     this.successMessage = '';
 
     const formValue = this.userForm.value;
-    
+
     // Remove confirmPassword from request payload
     const userPayload: any = {
       username: formValue.username,
@@ -173,7 +173,7 @@ export class UserComponent implements OnInit {
       userPayload.password = formValue.password;
     }
 
-    const operation = this.isEditMode && this.selectedUser 
+    const operation = this.isEditMode && this.selectedUser
       ? this.userService.updateUser(this.selectedUser.id, userPayload)
       : this.userService.createUser(userPayload);
 
@@ -241,6 +241,30 @@ export class UserComponent implements OnInit {
           this.loading = false;
           this.errorMessage = 'Failed to deactivate user. Please try again.';
           console.error('Error deactivating user:', error);
+        }
+      });
+    }
+  }
+
+  /**
+   * Re-invite user
+   */
+  reinviteUser(): void {
+    if (!this.selectedUser) {
+      return;
+    }
+
+    if (confirm('Send invitation email again to this user?')) {
+      this.loading = true;
+      this.userService.reinviteUser(this.selectedUser.id).subscribe({
+        next: () => {
+          this.loading = false;
+          this.successMessage = 'Invitation email sent successfully!';
+        },
+        error: (error: any) => {
+          this.loading = false;
+          this.errorMessage = 'Failed to send invitation. Please try again.';
+          console.error('Error re-inviting user:', error);
         }
       });
     }
@@ -318,7 +342,7 @@ export class UserComponent implements OnInit {
   passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
     const password = group.get('password');
     const confirmPassword = group.get('confirmPassword');
-    
+
     if (password && confirmPassword && password.value !== confirmPassword.value) {
       return { passwordMismatch: true };
     }

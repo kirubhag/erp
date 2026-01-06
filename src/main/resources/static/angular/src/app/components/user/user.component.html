@@ -1,7 +1,7 @@
 <div class="setup-layout">
   <!-- Sidebar Navigation -->
   <app-settings-sidebar></app-settings-sidebar>
-  
+
   <!-- Main Content -->
   <div class="settings-content-container">
     <!-- Header -->
@@ -26,390 +26,307 @@
       </div>
 
       <div class="row g-3">
-    <!-- Users List Panel -->
-    <div class="col-md-5">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body p-4">
-          <!-- Header with Add Button -->
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="fw-bold fs-5">Active Users ({{ users.length }})</span>
-            <button class="btn btn-primary btn-sm" (click)="openAddUserForm()" [disabled]="loading">
-              <i class="bi bi-plus me-1"></i> New User
-            </button>
-          </div>
-
-          <!-- Search -->
-          <div class="input-group mb-3">
-            <span class="input-group-text bg-white border-end-0">
-              <i class="bi bi-search"></i>
-            </span>
-            <input 
-              type="text" 
-              class="form-control border-start-0" 
-              placeholder="Search users"
-              [(ngModel)]="searchQuery"
-              (keyup)="searchUsers()"
-            >
-          </div>
-
-          <!-- Users List -->
-          <div class="list-group list-group-flush">
-            <a 
-              *ngFor="let user of users"
-              href="#" 
-              (click)="$event.preventDefault(); selectUser(user)"
-              [class.active]="selectedUser?.id === user.id"
-              class="list-group-item list-group-item-action py-3"
-            >
-              <div class="d-flex align-items-center">
-                <input 
-                  class="form-check-input me-3" 
-                  type="checkbox" 
-                  [checked]="user.enabled"
-                  (click)="$event.stopPropagation()"
-                  disabled
-                >
-                <img 
-                  [src]="'https://placehold.co/40x40/E8F0FE/333?text=' + (getFullName(user).charAt(0) || 'U')" 
-                  class="rounded-circle me-3" 
-                  alt="Avatar"
-                  width="40"
-                  height="40"
-                >
-                <div class="flex-grow-1">
-                  <div class="fw-bold">{{ getFullName(user) }}</div>
-                  <small class="text-muted">{{ user.userType || 'User' }}</small>
-                </div>
-                <span *ngIf="!user.enabled" class="badge bg-danger ms-2">Inactive</span>
+        <!-- Users List Panel -->
+        <div class="col-md-5">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+              <!-- Header with Add Button -->
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="fw-bold fs-5">Active Users ({{ users.length }})</span>
+                <button class="btn btn-primary btn-sm" (click)="openAddUserForm()" [disabled]="loading">
+                  <i class="bi bi-plus me-1"></i> New User
+                </button>
               </div>
-            </a>
 
-            <!-- Empty State -->
-            <div *ngIf="users.length === 0 && !loading" class="text-center py-5">
-              <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
-              <p class="text-muted mt-3">No users found</p>
-            </div>
-
-            <!-- Loading State -->
-            <div *ngIf="loading" class="text-center py-5">
-              <div class="spinner-border spinner-border-sm text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- User Details Panel -->
-    <div class="col-md-7">
-      <div *ngIf="!showUserForm" class="card border-0 shadow-sm h-100">
-        <div class="card-body p-4 p-md-5">
-          <ng-container *ngIf="selectedUser; else noUserSelected">
-            <!-- User Header -->
-            <div class="d-flex align-items-start mb-4">
-              <img 
-                [src]="'https://placehold.co/80x80/E8F0FE/333?text=' + (getFullName(selectedUser).charAt(0) || 'U')" 
-                class="rounded-circle me-3" 
-                alt="User Avatar"
-                width="80"
-                height="80"
-              >
-              <div class="flex-grow-1">
-                <h3 class="mb-0">
-                  {{ getFullName(selectedUser) }}
-                  <span 
-                    [class.bg-success]="selectedUser.enabled"
-                    [class.bg-danger]="!selectedUser.enabled"
-                    class="badge ms-2"
-                  >
-                    {{ selectedUser.enabled ? 'Active' : 'Inactive' }}
-                  </span>
-                </h3>
-                <p class="text-muted mb-2">{{ selectedUser.userType || 'User' }}</p>
-                <div class="d-flex flex-wrap gap-2">
-                  <span *ngIf="selectedUser.email" class="text-muted small">
-                    <i class="bi bi-envelope me-1"></i>{{ selectedUser.email }}
-                  </span>
-                  <span *ngIf="selectedUser.phone" class="text-muted small">
-                    <i class="bi bi-telephone me-1"></i>{{ selectedUser.phone }}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <hr class="my-4">
-
-            <!-- User Details -->
-            <h5 class="mb-3">User Information</h5>
-            <dl class="row">
-              <dt class="col-sm-4 text-muted">Username</dt>
-              <dd class="col-sm-8">{{ selectedUser.username }}</dd>
-
-              <dt class="col-sm-4 text-muted">Email</dt>
-              <dd class="col-sm-8">{{ selectedUser.email || '---' }}</dd>
-
-              <dt class="col-sm-4 text-muted">Phone</dt>
-              <dd class="col-sm-8">{{ selectedUser.phone || '---' }}</dd>
-
-              <dt class="col-sm-4 text-muted">User Type</dt>
-              <dd class="col-sm-8">{{ selectedUser.userType || '---' }}</dd>
-
-              <dt class="col-sm-4 text-muted">Status</dt>
-              <dd class="col-sm-8">
-                <span *ngIf="selectedUser.enabled" class="badge bg-success">Enabled</span>
-                <span *ngIf="!selectedUser.enabled" class="badge bg-danger">Disabled</span>
-              </dd>
-            </dl>
-
-            <hr class="my-4">
-
-            <!-- Account Status -->
-            <h5 class="mb-3">Account Status</h5>
-            <dl class="row">
-              <dt class="col-sm-4 text-muted">Account Expired</dt>
-              <dd class="col-sm-8">
-                <span *ngIf="selectedUser.accountNonExpired" class="badge bg-success">No</span>
-                <span *ngIf="!selectedUser.accountNonExpired" class="badge bg-danger">Yes</span>
-              </dd>
-
-              <dt class="col-sm-4 text-muted">Locked</dt>
-              <dd class="col-sm-8">
-                <span *ngIf="selectedUser.accountNonLocked" class="badge bg-success">No</span>
-                <span *ngIf="!selectedUser.accountNonLocked" class="badge bg-danger">Yes</span>
-              </dd>
-
-              <dt class="col-sm-4 text-muted">Credentials Expired</dt>
-              <dd class="col-sm-8">
-                <span *ngIf="selectedUser.credentialsNonExpired" class="badge bg-success">No</span>
-                <span *ngIf="!selectedUser.credentialsNonExpired" class="badge bg-danger">Yes</span>
-              </dd>
-
-              <dt class="col-sm-4 text-muted">Last Login</dt>
-              <dd class="col-sm-8">{{ selectedUser.lastLoginDate || '---' }}</dd>
-
-              <dt class="col-sm-4 text-muted">Password Changed</dt>
-              <dd class="col-sm-8">{{ selectedUser.passwordChangeDate || '---' }}</dd>
-            </dl>
-
-            <hr class="my-4">
-
-            <!-- Roles -->
-            <h5 class="mb-3">Roles</h5>
-            <div *ngIf="selectedUser.roles && selectedUser.roles.length > 0; else noRoles">
-              <div class="d-flex flex-wrap gap-2">
-                <span *ngFor="let role of selectedUser.roles" class="badge bg-info">
-                  {{ role.name || role }}
+              <!-- Search -->
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-white border-end-0">
+                  <i class="bi bi-search"></i>
                 </span>
+                <input type="text" class="form-control border-start-0" placeholder="Search users"
+                  [(ngModel)]="searchQuery" (keyup)="searchUsers()">
+              </div>
+
+              <!-- Users List -->
+              <div class="list-group list-group-flush">
+                <a *ngFor="let user of users" href="#" (click)="$event.preventDefault(); selectUser(user)"
+                  [class.active]="selectedUser?.id === user.id" class="list-group-item list-group-item-action py-3">
+                  <div class="d-flex align-items-center">
+                    <input class="form-check-input me-3" type="checkbox" [checked]="user.enabled"
+                      (click)="$event.stopPropagation()" disabled>
+                    <img [src]="'https://placehold.co/40x40/E8F0FE/333?text=' + (getFullName(user).charAt(0) || 'U')"
+                      class="rounded-circle me-3" alt="Avatar" width="40" height="40">
+                    <div class="flex-grow-1">
+                      <div class="fw-bold">{{ getFullName(user) }}</div>
+                      <small class="text-muted">{{ user.userType || 'User' }}</small>
+                    </div>
+                    <span *ngIf="!user.enabled" class="badge bg-danger ms-2">Inactive</span>
+                  </div>
+                </a>
+
+                <!-- Empty State -->
+                <div *ngIf="users.length === 0 && !loading" class="text-center py-5">
+                  <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
+                  <p class="text-muted mt-3">No users found</p>
+                </div>
+
+                <!-- Loading State -->
+                <div *ngIf="loading" class="text-center py-5">
+                  <div class="spinner-border spinner-border-sm text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <ng-template #noRoles>
-              <p class="text-muted">No roles assigned</p>
-            </ng-template>
-
-            <hr class="my-4">
-
-            <!-- Action Buttons -->
-            <div class="d-flex gap-2 flex-wrap">
-              <button 
-                class="btn btn-primary btn-sm" 
-                (click)="openEditUserForm()"
-                [disabled]="loading"
-              >
-                <i class="bi bi-pencil me-1"></i> Edit
-              </button>
-
-              <button 
-                *ngIf="selectedUser.enabled"
-                class="btn btn-warning btn-sm" 
-                (click)="deactivateUser()"
-                [disabled]="loading"
-              >
-                <i class="bi bi-lock me-1"></i> Deactivate
-              </button>
-
-              <button 
-                *ngIf="!selectedUser.enabled"
-                class="btn btn-success btn-sm" 
-                (click)="activateUser()"
-                [disabled]="loading"
-              >
-                <i class="bi bi-unlock me-1"></i> Activate
-              </button>
-
-              <button 
-                class="btn btn-danger btn-sm" 
-                (click)="deleteUser()"
-                [disabled]="loading"
-              >
-                <i class="bi bi-trash me-1"></i> Delete
-              </button>
-            </div>
-
-          </ng-container>
-
-          <!-- No User Selected -->
-          <ng-template #noUserSelected>
-            <div class="text-center">
-              <i class="bi bi-person text-muted" style="font-size: 4rem;"></i>
-              <p class="text-muted mt-4">Select a user to view details</p>
-            </div>
-          </ng-template>
+          </div>
         </div>
-      </div>
 
-      <!-- User Form -->
-      <div *ngIf="showUserForm" class="card border-0 shadow-sm h-100">
-        <div class="card-body p-4">
-          <h5 class="mb-4">{{ isEditMode ? 'Edit User' : 'Add New User' }}</h5>
-
-          <form [formGroup]="userForm" (ngSubmit)="saveUser()">
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="username"
-                  formControlName="username"
-                  [class.is-invalid]="userForm.get('username')?.invalid && userForm.get('username')?.touched"
-                >
-                <div class="invalid-feedback" *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched">
-                  Username is required
+        <!-- User Details Panel -->
+        <div class="col-md-7">
+          <div *ngIf="!showUserForm" class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4 p-md-5">
+              <ng-container *ngIf="selectedUser; else noUserSelected">
+                <!-- User Header -->
+                <div class="d-flex align-items-start mb-4">
+                  <img
+                    [src]="'https://placehold.co/80x80/E8F0FE/333?text=' + (getFullName(selectedUser).charAt(0) || 'U')"
+                    class="rounded-circle me-3" alt="User Avatar" width="80" height="80">
+                  <div class="flex-grow-1">
+                    <h3 class="mb-0">
+                      {{ getFullName(selectedUser) }}
+                      <span [class.bg-success]="selectedUser.enabled" [class.bg-danger]="!selectedUser.enabled"
+                        class="badge ms-2">
+                        {{ selectedUser.enabled ? 'Active' : 'Inactive' }}
+                      </span>
+                    </h3>
+                    <p class="text-muted mb-2">{{ selectedUser.userType || 'User' }}</p>
+                    <div class="d-flex flex-wrap gap-2">
+                      <span *ngIf="selectedUser.email" class="text-muted small">
+                        <i class="bi bi-envelope me-1"></i>{{ selectedUser.email }}
+                      </span>
+                      <span *ngIf="selectedUser.phone" class="text-muted small">
+                        <i class="bi bi-telephone me-1"></i>{{ selectedUser.phone }}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="col-md-6 mb-3">
-                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                <input 
-                  type="email" 
-                  class="form-control" 
-                  id="email"
-                  formControlName="email"
-                  [class.is-invalid]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
-                >
-                <div class="invalid-feedback" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
-                  Valid email is required
+                <hr class="my-4">
+
+                <!-- User Details -->
+                <h5 class="mb-3">User Information</h5>
+                <dl class="row">
+                  <dt class="col-sm-4 text-muted">Username</dt>
+                  <dd class="col-sm-8">{{ selectedUser.username }}</dd>
+
+                  <dt class="col-sm-4 text-muted">Email</dt>
+                  <dd class="col-sm-8">{{ selectedUser.email || '---' }}</dd>
+
+                  <dt class="col-sm-4 text-muted">Phone</dt>
+                  <dd class="col-sm-8">{{ selectedUser.phone || '---' }}</dd>
+
+                  <dt class="col-sm-4 text-muted">User Type</dt>
+                  <dd class="col-sm-8">{{ selectedUser.userType || '---' }}</dd>
+
+                  <dt class="col-sm-4 text-muted">Status</dt>
+                  <dd class="col-sm-8">
+                    <span *ngIf="selectedUser.enabled" class="badge bg-success">Enabled</span>
+                    <span *ngIf="!selectedUser.enabled" class="badge bg-danger">Disabled</span>
+                  </dd>
+                </dl>
+
+                <hr class="my-4">
+
+                <!-- Account Status -->
+                <h5 class="mb-3">Account Status</h5>
+                <dl class="row">
+                  <dt class="col-sm-4 text-muted">Account Expired</dt>
+                  <dd class="col-sm-8">
+                    <span *ngIf="selectedUser.accountNonExpired" class="badge bg-success">No</span>
+                    <span *ngIf="!selectedUser.accountNonExpired" class="badge bg-danger">Yes</span>
+                  </dd>
+
+                  <dt class="col-sm-4 text-muted">Locked</dt>
+                  <dd class="col-sm-8">
+                    <span *ngIf="selectedUser.accountNonLocked" class="badge bg-success">No</span>
+                    <span *ngIf="!selectedUser.accountNonLocked" class="badge bg-danger">Yes</span>
+                  </dd>
+
+                  <dt class="col-sm-4 text-muted">Credentials Expired</dt>
+                  <dd class="col-sm-8">
+                    <span *ngIf="selectedUser.credentialsNonExpired" class="badge bg-success">No</span>
+                    <span *ngIf="!selectedUser.credentialsNonExpired" class="badge bg-danger">Yes</span>
+                  </dd>
+
+                  <dt class="col-sm-4 text-muted">Last Login</dt>
+                  <dd class="col-sm-8">{{ selectedUser.lastLoginDate || '---' }}</dd>
+
+                  <dt class="col-sm-4 text-muted">Password Changed</dt>
+                  <dd class="col-sm-8">{{ selectedUser.passwordChangeDate || '---' }}</dd>
+                </dl>
+
+                <hr class="my-4">
+
+                <!-- Roles -->
+                <h5 class="mb-3">Roles</h5>
+                <div *ngIf="selectedUser.roles && selectedUser.roles.length > 0; else noRoles">
+                  <div class="d-flex flex-wrap gap-2">
+                    <span *ngFor="let role of selectedUser.roles" class="badge bg-info">
+                      {{ role.name || role }}
+                    </span>
+                  </div>
                 </div>
-              </div>
+                <ng-template #noRoles>
+                  <p class="text-muted">No roles assigned</p>
+                </ng-template>
 
-              <div class="col-md-6 mb-3">
-                <label for="firstName" class="form-label">First Name</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="firstName"
-                  formControlName="firstName"
-                >
-              </div>
+                <hr class="my-4">
 
-              <div class="col-md-6 mb-3">
-                <label for="lastName" class="form-label">Last Name</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="lastName"
-                  formControlName="lastName"
-                >
-              </div>
+                <!-- Action Buttons -->
+                <div class="d-flex gap-2 flex-wrap">
+                  <button class="btn btn-primary btn-sm" (click)="openEditUserForm()" [disabled]="loading">
+                    <i class="bi bi-pencil me-1"></i> Edit
+                  </button>
 
-              <div class="col-md-6 mb-3">
-                <label for="phone" class="form-label">Phone</label>
-                <input 
-                  type="tel" 
-                  class="form-control" 
-                  id="phone"
-                  formControlName="phone"
-                >
-              </div>
+                  <button *ngIf="selectedUser.enabled" class="btn btn-warning btn-sm" (click)="deactivateUser()"
+                    [disabled]="loading">
+                    <i class="bi bi-lock me-1"></i> Deactivate
+                  </button>
 
-              <div class="col-md-6 mb-3">
-                <label for="userType" class="form-label">User Type</label>
-                <select class="form-select" id="userType" formControlName="userType">
-                  <option value="">Select User Type</option>
-                  <option value="Admin">Admin</option>
-                  <option value="Manager">Manager</option>
-                  <option value="Teacher">Teacher</option>
-                  <option value="Student">Student</option>
-                  <option value="Staff">Staff</option>
-                </select>
-              </div>
+                  <button *ngIf="!selectedUser.enabled" class="btn btn-success btn-sm" (click)="activateUser()"
+                    [disabled]="loading">
+                    <i class="bi bi-unlock me-1"></i> Activate
+                  </button>
 
-              <div class="col-md-6 mb-3">
-                <label for="password" class="form-label">
-                  Password
-                  <span class="text-danger" *ngIf="!isEditMode">*</span>
-                  <span class="text-muted small" *ngIf="isEditMode">(Leave blank to keep current)</span>
-                </label>
-                <input 
-                  type="password" 
-                  class="form-control" 
-                  id="password"
-                  formControlName="password"
-                  [class.is-invalid]="userForm.get('password')?.invalid && userForm.get('password')?.touched"
-                >
-                <div class="invalid-feedback" *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched">
-                  Password must be at least 6 characters
+                  <button class="btn btn-danger btn-sm" (click)="deleteUser()" [disabled]="loading">
+                    <i class="bi bi-trash me-1"></i> Delete
+                  </button>
+
+                  <button *ngIf="selectedUser.enabled" class="btn btn-info btn-sm text-white" (click)="reinviteUser()"
+                    [disabled]="loading" title="Send invitation email again">
+                    <i class="bi bi-envelope me-1"></i> Re-Invite
+                  </button>
                 </div>
-              </div>
 
-              <div class="col-md-6 mb-3">
-                <label for="confirmPassword" class="form-label">
-                  Confirm Password
-                  <span class="text-danger" *ngIf="!isEditMode">*</span>
-                </label>
-                <input 
-                  type="password" 
-                  class="form-control" 
-                  id="confirmPassword"
-                  formControlName="confirmPassword"
-                  [class.is-invalid]="(userForm.get('confirmPassword')?.invalid || userForm.errors?.['passwordMismatch']) && userForm.touched"
-                >
-                <div class="invalid-feedback" *ngIf="userForm.errors?.['passwordMismatch'] && userForm.touched">
-                  Passwords do not match
-                </div>
-              </div>
+              </ng-container>
 
-              <div class="col-md-6 mb-3">
-                <div class="form-check mt-4">
-                  <input 
-                    type="checkbox" 
-                    class="form-check-input" 
-                    id="enabled"
-                    formControlName="enabled"
-                  >
-                  <label class="form-check-label" for="enabled">
-                    Enabled
-                  </label>
+              <!-- No User Selected -->
+              <ng-template #noUserSelected>
+                <div class="text-center">
+                  <i class="bi bi-person text-muted" style="font-size: 4rem;"></i>
+                  <p class="text-muted mt-4">Select a user to view details</p>
                 </div>
-              </div>
+              </ng-template>
             </div>
+          </div>
 
-            <!-- Form Actions -->
-            <div class="d-flex gap-2 mt-4">
-              <button 
-                type="submit" 
-                class="btn btn-primary"
-                [disabled]="!userForm.valid || loading"
-              >
-                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                {{ isEditMode ? 'Update User' : 'Create User' }}
-              </button>
-              <button 
-                type="button" 
-                class="btn btn-secondary"
-                (click)="closeUserForm()"
-                [disabled]="loading"
-              >
-                Cancel
-              </button>
+          <!-- User Form -->
+          <div *ngIf="showUserForm" class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+              <h5 class="mb-4">{{ isEditMode ? 'Edit User' : 'Add New User' }}</h5>
+
+              <form [formGroup]="userForm" (ngSubmit)="saveUser()">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="username" formControlName="username"
+                      [class.is-invalid]="userForm.get('username')?.invalid && userForm.get('username')?.touched">
+                    <div class="invalid-feedback"
+                      *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched">
+                      Username is required
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" id="email" formControlName="email"
+                      [class.is-invalid]="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+                    <div class="invalid-feedback"
+                      *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+                      Valid email is required
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName" formControlName="firstName">
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" formControlName="lastName">
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="tel" class="form-control" id="phone" formControlName="phone">
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="userType" class="form-label">User Type</label>
+                    <select class="form-select" id="userType" formControlName="userType">
+                      <option value="">Select User Type</option>
+                      <option value="Admin">Admin</option>
+                      <option value="Manager">Manager</option>
+                      <option value="Teacher">Teacher</option>
+                      <option value="Student">Student</option>
+                      <option value="Staff">Staff</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="password" class="form-label">
+                      Password
+                      <span class="text-danger" *ngIf="!isEditMode">*</span>
+                      <span class="text-muted small" *ngIf="isEditMode">(Leave blank to keep current)</span>
+                    </label>
+                    <input type="password" class="form-control" id="password" formControlName="password"
+                      [class.is-invalid]="userForm.get('password')?.invalid && userForm.get('password')?.touched">
+                    <div class="invalid-feedback"
+                      *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched">
+                      Password must be at least 6 characters
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="confirmPassword" class="form-label">
+                      Confirm Password
+                      <span class="text-danger" *ngIf="!isEditMode">*</span>
+                    </label>
+                    <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword"
+                      [class.is-invalid]="(userForm.get('confirmPassword')?.invalid || userForm.errors?.['passwordMismatch']) && userForm.touched">
+                    <div class="invalid-feedback" *ngIf="userForm.errors?.['passwordMismatch'] && userForm.touched">
+                      Passwords do not match
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <div class="form-check mt-4">
+                      <input type="checkbox" class="form-check-input" id="enabled" formControlName="enabled">
+                      <label class="form-check-label" for="enabled">
+                        Enabled
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="d-flex gap-2 mt-4">
+                  <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid || loading">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"
+                      aria-hidden="true"></span>
+                    {{ isEditMode ? 'Update User' : 'Create User' }}
+                  </button>
+                  <button type="button" class="btn btn-secondary" (click)="closeUserForm()" [disabled]="loading">
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
-      </div>
       </div>
     </div>
+    <!-- End of Main Content -->
   </div>
-  <!-- End of Main Content -->
-</div>
-<!-- End of Setup Layout -->
+  <!-- End of Setup Layout -->

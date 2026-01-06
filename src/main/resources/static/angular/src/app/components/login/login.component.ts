@@ -18,7 +18,13 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   successMessage = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  // Forgot Password
+  showForgotPasswordModal = false;
+  resetEmail = '';
+  forgotPasswordSuccess = '';
+  forgotPasswordError = '';
+
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     // Don't auto-redirect - allow users to access login page
@@ -56,5 +62,37 @@ export class LoginComponent implements OnInit {
     if (event.key === 'Enter') {
       this.onLogin();
     }
+  }
+
+  // Forgot Password Methods
+
+  closeForgotPasswordModal(): void {
+    this.showForgotPasswordModal = false;
+    this.resetEmail = '';
+    this.forgotPasswordSuccess = '';
+    this.forgotPasswordError = '';
+  }
+
+  onForgotPassword(): void {
+    if (!this.resetEmail) {
+      this.forgotPasswordError = 'Please enter your email';
+      return;
+    }
+
+    this.loading = true; // Use shared loading or separate
+    this.forgotPasswordError = '';
+    this.forgotPasswordSuccess = '';
+
+    this.authService.forgotPassword(this.resetEmail).subscribe({
+      next: (response: any) => {
+        this.loading = false;
+        this.forgotPasswordSuccess = response.message || 'Reset link sent to your email';
+      },
+      error: (error: any) => {
+        this.loading = false;
+        this.forgotPasswordError = error.error?.message || 'Failed to send reset link';
+        console.error('Forgot password error:', error);
+      }
+    });
   }
 }

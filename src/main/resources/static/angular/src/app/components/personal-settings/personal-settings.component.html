@@ -24,139 +24,170 @@
             <i class="fas fa-universal-access"></i> Accessibility
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" (click)="openTab('change-password')">
+            <i class="fas fa-key"></i> Change Password
+          </a>
+        </li>
       </ul>
 
       <!-- Tab Content -->
       <div class="tab-content-wrapper">
-      <!-- Personal Settings Tab -->
-      <div class="personal-settings-tab">
-        <!-- Success/Error Messages -->
-        <div *ngIf="successMessage" class="alert alert-success alert-dismissible">
-          <i class="fas fa-check-circle"></i> {{ successMessage }}
-          <button type="button" class="btn-close" (click)="successMessage = ''"></button>
-        </div>
+        <!-- Personal Settings Tab -->
+        <div class="personal-settings-tab">
+          <!-- Success/Error Messages -->
+          <div *ngIf="successMessage" class="alert alert-success alert-dismissible">
+            <i class="fas fa-check-circle"></i> {{ successMessage }}
+            <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+          </div>
 
-        <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible">
-          <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
-          <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
-        </div>
+          <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible">
+            <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+            <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+          </div>
 
-        <!-- Profile Header -->
-        <div class="profile-header">
-          <div class="profile-avatar-container">
-            <img *ngIf="hasAvatar && !avatarLoadError" 
-                 [src]="getAvatarUrl()" 
-                 class="profile-avatar" 
-                 alt="User Avatar"
-                 (error)="onAvatarError()"
-                 (click)="viewAvatar()">
-            <div *ngIf="!hasAvatar || avatarLoadError" class="profile-avatar profile-avatar-initials">
-              {{ getUserInitials() }}
-            </div>
-            <div class="avatar-upload-overlay">
-              <div class="avatar-actions">
-                <button *ngIf="hasAvatar && !avatarLoadError" class="avatar-action-btn" (click)="viewAvatar()" title="View Avatar">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <label for="avatar-upload" class="avatar-action-btn" title="Change Photo">
-                  <i class="fas fa-camera"></i>
-                </label>
+          <!-- Profile Header -->
+          <div class="profile-header">
+            <div class="profile-avatar-container">
+              <img *ngIf="hasAvatar && !avatarLoadError" [src]="getAvatarUrl()" class="profile-avatar" alt="User Avatar"
+                (error)="onAvatarError()" (click)="viewAvatar()">
+              <div *ngIf="!hasAvatar || avatarLoadError" class="profile-avatar profile-avatar-initials">
+                {{ getUserInitials() }}
               </div>
-              <input 
-                type="file" 
-                id="avatar-upload" 
-                class="avatar-upload-input" 
-                accept="image/*" 
-                (change)="onAvatarSelect($event)">
+              <div class="avatar-upload-overlay">
+                <div class="avatar-actions">
+                  <button *ngIf="hasAvatar && !avatarLoadError" class="avatar-action-btn" (click)="viewAvatar()"
+                    title="View Avatar">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <label for="avatar-upload" class="avatar-action-btn" title="Change Photo">
+                    <i class="fas fa-camera"></i>
+                  </label>
+                </div>
+                <input type="file" id="avatar-upload" class="avatar-upload-input" accept="image/*"
+                  (change)="onAvatarSelect($event)">
+              </div>
+              <div *ngIf="isUploadingAvatar" class="avatar-uploading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+              </div>
             </div>
-            <div *ngIf="isUploadingAvatar" class="avatar-uploading-spinner">
-              <i class="fas fa-spinner fa-spin"></i>
+            <div class="profile-info">
+              <h2 class="profile-name">{{ getFullName() }}</h2>
+              <span class="profile-badge">{{ currentUser?.userType || 'User' }}</span>
+              <p class="profile-title" *ngIf="currentUser?.userType === 'ADMIN'">Super Admin</p>
+              <p class="profile-company">CRM Corp</p>
+            </div>
+            <div class="profile-actions">
+              <button class="btn-edit" *ngIf="!isEditing" (click)="startEdit()">
+                <i class="fas fa-edit"></i>
+              </button>
             </div>
           </div>
-          <div class="profile-info">
-            <h2 class="profile-name">{{ getFullName() }}</h2>
-            <span class="profile-badge">{{ currentUser?.userType || 'User' }}</span>
-            <p class="profile-title" *ngIf="currentUser?.userType === 'ADMIN'">Super Admin</p>
-            <p class="profile-company">CRM Corp</p>
+
+          <hr class="divider">
+
+          <!-- Locale Information -->
+          <div class="info-section">
+            <h5 class="section-header">Locale Information</h5>
+            <dl class="info-list">
+              <div class="info-item">
+                <dt class="info-label">Language</dt>
+                <dd class="info-value">{{ localeInfo.language }}</dd>
+              </div>
+              <div class="info-item">
+                <dt class="info-label">Country Locale</dt>
+                <dd class="info-value">{{ localeInfo.countryLocale }}</dd>
+              </div>
+              <div class="info-item">
+                <dt class="info-label">Date Format</dt>
+                <dd class="info-value">{{ localeInfo.dateFormat }}</dd>
+              </div>
+              <div class="info-item">
+                <dt class="info-label">Time Format</dt>
+                <dd class="info-value">{{ localeInfo.timeFormat }}</dd>
+              </div>
+              <div class="info-item">
+                <dt class="info-label">Time Zone</dt>
+                <dd class="info-value">{{ localeInfo.timeZone }}</dd>
+              </div>
+              <div class="info-item">
+                <dt class="info-label">Number Format</dt>
+                <dd class="info-value">{{ localeInfo.numberFormat }}</dd>
+              </div>
+            </dl>
           </div>
-          <div class="profile-actions">
-            <button class="btn-edit" *ngIf="!isEditing" (click)="startEdit()">
-              <i class="fas fa-edit"></i>
-            </button>
+
+          <hr class="divider">
+
+          <!-- Display Name Format -->
+          <div class="info-section">
+            <h5 class="section-header">Display Name Format & Preferences</h5>
+            <div class="form-group">
+              <label class="form-label">Name Format</label>
+              <select class="form-select" [(ngModel)]="selectedNameFormat">
+                <option *ngFor="let format of nameFormats">{{ format }}</option>
+              </select>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <!-- Themes Section -->
+          <div class="info-section">
+            <h5 class="section-header">Themes</h5>
+            <div class="themes-grid">
+              <span *ngFor="let theme of themes" class="color-dot" [style.backgroundColor]="theme.color"
+                [class.active]="theme.color === selectedTheme" (click)="selectedTheme = theme.color"
+                [title]="theme.name">
+              </span>
+            </div>
           </div>
         </div>
 
-        <hr class="divider">
-
-        <!-- Locale Information -->
-        <div class="info-section">
-          <h5 class="section-header">Locale Information</h5>
-          <dl class="info-list">
-            <div class="info-item">
-              <dt class="info-label">Language</dt>
-              <dd class="info-value">{{ localeInfo.language }}</dd>
-            </div>
-            <div class="info-item">
-              <dt class="info-label">Country Locale</dt>
-              <dd class="info-value">{{ localeInfo.countryLocale }}</dd>
-            </div>
-            <div class="info-item">
-              <dt class="info-label">Date Format</dt>
-              <dd class="info-value">{{ localeInfo.dateFormat }}</dd>
-            </div>
-            <div class="info-item">
-              <dt class="info-label">Time Format</dt>
-              <dd class="info-value">{{ localeInfo.timeFormat }}</dd>
-            </div>
-            <div class="info-item">
-              <dt class="info-label">Time Zone</dt>
-              <dd class="info-value">{{ localeInfo.timeZone }}</dd>
-            </div>
-            <div class="info-item">
-              <dt class="info-label">Number Format</dt>
-              <dd class="info-value">{{ localeInfo.numberFormat }}</dd>
-            </div>
-          </dl>
-        </div>
-
-        <hr class="divider">
-
-        <!-- Display Name Format -->
-        <div class="info-section">
-          <h5 class="section-header">Display Name Format & Preferences</h5>
-          <div class="form-group">
-            <label class="form-label">Name Format</label>
-            <select class="form-select" [(ngModel)]="selectedNameFormat">
-              <option *ngFor="let format of nameFormats">{{ format }}</option>
-            </select>
+        <!-- Accessibility Tab -->
+        <div class="accessibility-tab" style="display: none;">
+          <div class="accessibility-content">
+            <h3>Accessibility Settings</h3>
+            <p>Accessibility settings will be configured here.</p>
           </div>
         </div>
 
-        <hr class="divider">
-
-        <!-- Themes Section -->
-        <div class="info-section">
-          <h5 class="section-header">Themes</h5>
-          <div class="themes-grid">
-            <span 
-              *ngFor="let theme of themes" 
-              class="color-dot" 
-              [style.backgroundColor]="theme.color"
-              [class.active]="theme.color === selectedTheme"
-              (click)="selectedTheme = theme.color"
-              [title]="theme.name">
-            </span>
+        <!-- Change Password Tab -->
+        <div class="change-password-tab" style="display: none;">
+          <div class="info-section">
+            <h5 class="section-header">Change Password</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <form (submit)="onChangePassword()">
+                  <div class="mb-3">
+                    <label for="oldPassword" class="form-label">Current Password</label>
+                    <input type="password" class="form-control" id="oldPassword" [(ngModel)]="passwordData.oldPassword"
+                      name="oldPassword" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="newPassword" class="form-label">New Password</label>
+                    <input type="password" class="form-control" id="newPassword" [(ngModel)]="passwordData.newPassword"
+                      name="newPassword" required minlength="6">
+                  </div>
+                  <div class="mb-3">
+                    <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+                    <input type="password" class="form-control" id="confirmNewPassword"
+                      [(ngModel)]="passwordData.confirmNewPassword" name="confirmNewPassword" required>
+                    <div
+                      *ngIf="passwordData.newPassword !== passwordData.confirmNewPassword && passwordData.confirmNewPassword"
+                      class="text-danger small mt-1">
+                      Passwords do not match
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary"
+                    [disabled]="!passwordData.oldPassword || !passwordData.newPassword || passwordData.newPassword !== passwordData.confirmNewPassword">
+                    Change Password
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <!-- Accessibility Tab -->
-      <div class="accessibility-tab" style="display: none;">
-        <div class="accessibility-content">
-          <h3>Accessibility Settings</h3>
-          <p>Accessibility settings will be configured here.</p>
-        </div>
-      </div>
       </div>
     </div>
   </div>
@@ -193,12 +224,14 @@
       <div class="crop-controls">
         <div class="control-group">
           <label><i class="fas fa-search-plus"></i> Zoom</label>
-          <input type="range" min="1" max="3" step="0.1" [(ngModel)]="cropScale" (input)="updateCropPreview()" class="slider">
+          <input type="range" min="1" max="3" step="0.1" [(ngModel)]="cropScale" (input)="updateCropPreview()"
+            class="slider">
           <span>{{ (cropScale * 100).toFixed(0) }}%</span>
         </div>
         <div class="control-group">
           <label><i class="fas fa-undo"></i> Rotate</label>
-          <input type="range" min="0" max="360" step="1" [(ngModel)]="cropRotation" (input)="updateCropPreview()" class="slider">
+          <input type="range" min="0" max="360" step="1" [(ngModel)]="cropRotation" (input)="updateCropPreview()"
+            class="slider">
           <span>{{ cropRotation }}°</span>
         </div>
       </div>
@@ -211,4 +244,3 @@
     </div>
   </div>
 </div>
-

@@ -3,6 +3,11 @@ package krs.erp.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.time.LocalDateTime;
+
+import krs.erp.enums.EntityType;
+import krs.erp.service.EmailService;
 
 import javax.sql.DataSource;
 
@@ -49,6 +54,9 @@ public class AuthController {
     @Autowired
     @Qualifier("masterDataSource")
     private DataSource masterDataSource;
+
+    @Autowired
+    private EmailService emailService;
 
     /**
      * Login endpoint - authenticates user with email and password
@@ -266,6 +274,116 @@ public class AuthController {
         }
 
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Change Password
+     */
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody Map<String, String> request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Not authenticated"));
+        }
+
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "User not found"));
+        }
+
+        String oldPassword = request.get("oldPassword");
+        String newPassword = request.get("newPassword");
+
+        if (oldPassword == null || newPassword == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Old and new passwords are required"));
+        }
+
+        if (!passwordEncoder.matches(oldPassword, user.getPasswordHash())) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Incorrect old password"));
+        }
+
+        if (newPassword.length() < 6) {
+            return ResponseEntity.badRequest().body(Map.of("message", "New password must be at least 6 characters"));
+        }
+
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        user.setPasswordChangeDate(LocalDateTime.now());
+        userRepository.save(user);
+
+        return ResponseEntity.ok(Map.of("message", "Password changed successfully", "status", "success"));
+    }
+
+    /**
+     * Forgot Password - Send Reset Link
+     */
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        if (email == null || email.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Email is required"));
+        }
+
+        User user = userRepository.findByEmail(email).orElse(null);
+        if (user == null) {
+            // Do not reveal that email does not exist for security, but for dev we might
+            // want to know
+            return ResponseEntity.ok(Map.of("message",
+                    "If an account exists with this email, a reset link has been sent.", "status", "success"));
+        }
+
+        String token = UUID.randomUUID().toString();
+        user.setResetPasswordToken(token);
+        user.setResetPasswordTokenExpiry(LocalDateTime.now().plusHours(24));
+        userRepository.save(user);
+
+        // Send Email
+        String subject = "Password Reset Request";
+        String resetLink = "http://localhost:4200/reset-password?token=" + token; // TODO: Configurable URL
+        String body = "Dear " + user.getFirstName() + ",\n\n" +
+                "We received a request to reset your password. Click the link below to reset it:\n\n" +
+                resetLink + "\n\n" +
+                "This link will expire in 24 hours.\n\n" +
+                "If you did not request this, please ignore this email.";
+
+        emailService.sendDirectEmail(EntityType.GENERAL, user.getId(), user.getEmail(), user.getFullName(), subject,
+                body, "System");
+
+        return ResponseEntity.ok(Map.of("message", "Reset link sent to your email", "status", "success"));
+    }
+
+    /**
+     * Reset Password
+     */
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
+        String token = request.get("token");
+        String newPassword = request.get("newPassword");
+
+        if (token == null || newPassword == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Token and new password are required"));
+        }
+
+        User user = userRepository.findByResetPasswordToken(token).orElse(null);
+        if (user == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Invalid token"));
+        }
+
+        if (user.getResetPasswordTokenExpiry().isBefore(LocalDateTime.now())) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Token has expired"));
+        }
+
+        if (newPassword.length() < 6) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Password must be at least 6 characters"));
+        }
+
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        user.setResetPasswordToken(null);
+        user.setResetPasswordTokenExpiry(null);
+        user.setPasswordChangeDate(LocalDateTime.now());
+        userRepository.save(user);
+
+        return ResponseEntity.ok(Map.of("message", "Password has been reset successfully", "status", "success"));
     }
 
     /**
