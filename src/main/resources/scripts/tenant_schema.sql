@@ -1332,7 +1332,6 @@ CREATE TABLE IF NOT EXISTS erp_library_loans (
     owner_id BIGINT,
     is_active INT DEFAULT 1
 );
-);
 
 -- Table generated from JPA: erp_library_policies
 CREATE TABLE IF NOT EXISTS erp_library_policies (
@@ -1637,12 +1636,6 @@ CREATE TABLE IF NOT EXISTS erp_lms_student_progress (
     student_id BIGINT NOT NULL,
     lesson_id BIGINT NOT NULL,
     created_by VARCHAR(100),
-    modified_by VARCHAR(100),
-    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    owner_id BIGINT,
-    is_active INT DEFAULT 1
-);
     modified_by VARCHAR(100),
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
