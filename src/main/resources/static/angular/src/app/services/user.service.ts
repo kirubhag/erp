@@ -23,7 +23,7 @@ export interface User {
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = '/settings/users';
+  private apiUrl = '/api/iam/users';
 
   constructor(private http: HttpClient) { }
 
@@ -60,17 +60,14 @@ export class UserService {
    * Create a new user
    */
   createUser(user: Partial<User>): Observable<User> {
-    // Current API points to /settings/users, but implementation moved to /api/iam/users
-    // We should probably redirect this call to the new endpoint or update the apiUrl if everything moved.
-    // Given the task, I'll use the new endpoint for creation.
-    return this.http.post<User>(`/api/iam/users`, user);
+    return this.http.post<User>(`${this.apiUrl}`, user);
   }
 
   /**
    * Re-invite user
    */
   reinviteUser(id: number): Observable<any> {
-    return this.http.post(`/api/iam/users/${id}/reinvite`, {});
+    return this.http.post(`${this.apiUrl}/${id}/reinvite`, {});
   }
 
   /**

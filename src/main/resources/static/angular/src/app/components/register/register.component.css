@@ -521,3 +521,53 @@
     font-size: 0.9rem;
   }
 }
+
+/* Registration Success Message */
+.registration-success {
+  text-align: center;
+  padding: 2rem;
+}
+
+.registration-success .success-icon {
+  font-size: 4rem;
+  color: #28a745;
+  margin-bottom: 1.5rem;
+}
+
+.registration-success h2 {
+  color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.registration-success .success-message {
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.registration-success .success-message strong {
+  color: #2196F3;
+}
+
+.registration-success .instruction-text {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.registration-success .action-buttons {
+  margin-bottom: 1.5rem;
+}
+
+.registration-success .action-buttons .btn {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+}
+
+.registration-success .help-text {
+  color: #888;
+  font-size: 0.85rem;
+}

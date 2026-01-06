@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
@@ -49,11 +49,9 @@ export class UserComponent implements OnInit {
       lastName: [''],
       email: ['', [Validators.required, Validators.email]],
       phone: [''],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
-      userType: [''],
+      userType: ['STAFF'],
       enabled: [true]
-    }, { validators: this.passwordMatchValidator });
+    });
   }
 
   ngOnInit(): void {
@@ -97,9 +95,7 @@ export class UserComponent implements OnInit {
   openAddUserForm(): void {
     this.isEditMode = false;
     this.showUserForm = true;
-    this.userForm.reset({ enabled: true });
-    this.userForm.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
-    this.userForm.get('confirmPassword')?.setValidators([Validators.required]);
+    this.userForm.reset({ enabled: true, userType: 'STAFF' });
   }
 
   /**
@@ -113,10 +109,6 @@ export class UserComponent implements OnInit {
     this.isEditMode = true;
     this.showUserForm = true;
 
-    // Password is optional when editing
-    this.userForm.get('password')?.setValidators([Validators.minLength(6)]);
-    this.userForm.get('confirmPassword')?.setValidators([]);
-
     // Populate form with selected user data
     this.userForm.patchValue({
       username: this.selectedUser.username,
@@ -127,10 +119,6 @@ export class UserComponent implements OnInit {
       userType: this.selectedUser.userType,
       enabled: this.selectedUser.enabled
     });
-
-    // Clear password fields
-    this.userForm.get('password')?.reset();
-    this.userForm.get('confirmPassword')?.reset();
   }
 
   /**
@@ -158,20 +146,16 @@ export class UserComponent implements OnInit {
 
     const formValue = this.userForm.value;
 
-    // Remove confirmPassword from request payload
+    // Build request payload (no password - user will set via invitation)
     const userPayload: any = {
       username: formValue.username,
       firstName: formValue.firstName || '',
       lastName: formValue.lastName || '',
       email: formValue.email,
       phone: formValue.phone || '',
-      userType: formValue.userType || '',
+      userType: formValue.userType || 'STAFF',
       enabled: formValue.enabled
     };
-
-    if (formValue.password) {
-      userPayload.password = formValue.password;
-    }
 
     const operation = this.isEditMode && this.selectedUser
       ? this.userService.updateUser(this.selectedUser.id, userPayload)
@@ -180,7 +164,11 @@ export class UserComponent implements OnInit {
     operation.subscribe({
       next: (response: any) => {
         this.loading = false;
-        this.successMessage = this.isEditMode ? 'User updated successfully!' : 'User created successfully!';
+        if (this.isEditMode) {
+          this.successMessage = 'User updated successfully!';
+        } else {
+          this.successMessage = 'User created! An invitation email has been sent.';
+        }
         this.closeUserForm();
         this.loadUsers();
       },
@@ -334,18 +322,5 @@ export class UserComponent implements OnInit {
     const firstName = user.firstName || '';
     const lastName = user.lastName || '';
     return `${firstName} ${lastName}`.trim() || user.username;
-  }
-
-  /**
-   * Password match validator
-   */
-  passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
-    const password = group.get('password');
-    const confirmPassword = group.get('confirmPassword');
-
-    if (password && confirmPassword && password.value !== confirmPassword.value) {
-      return { passwordMismatch: true };
-    }
-    return null;
   }
 }

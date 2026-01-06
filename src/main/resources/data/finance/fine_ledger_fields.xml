@@ -2,7 +2,7 @@
 <entityFields type="FINE_LEDGER">
     <field>
         <fieldName>studentId</fieldName>
-        <fieldLabel>studentId</fieldLabel>
+        <fieldLabel>Student</fieldLabel>
         <fieldType>ENUM</fieldType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
@@ -13,7 +13,7 @@
     </field>
     <field>
         <fieldName>fineConfigId</fieldName>
-        <fieldLabel>fineConfigId</fieldLabel>
+        <fieldLabel>Fine Configuration</fieldLabel>
         <fieldType>ENUM</fieldType>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>
@@ -24,7 +24,7 @@
     </field>
     <field>
         <fieldName>accruedAmount</fieldName>
-        <fieldLabel>accruedAmount</fieldLabel>
+        <fieldLabel>Accrued Amount</fieldLabel>
         <fieldType>LONG</fieldType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
@@ -35,7 +35,7 @@
     </field>
     <field>
         <fieldName>status</fieldName>
-        <fieldLabel>status</fieldLabel>
+        <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
@@ -46,7 +46,7 @@
     </field>
     <field>
         <fieldName>issuedAt</fieldName>
-        <fieldLabel>issuedAt</fieldLabel>
+        <fieldLabel>Issued At</fieldLabel>
         <fieldType>DATETIME</fieldType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>

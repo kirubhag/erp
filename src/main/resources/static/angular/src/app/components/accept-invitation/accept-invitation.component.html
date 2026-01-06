@@ -1,0 +1,166 @@
+<div class="accept-invitation-container">
+  <div class="invitation-card">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary mb-3" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="text-muted">Validating your invitation...</p>
+    </div>
+
+    <!-- Invalid Token State -->
+    <div *ngIf="!loading && !tokenValid" class="text-center py-5">
+      <div class="error-icon mb-4">
+        <i class="bi bi-exclamation-circle text-danger" style="font-size: 4rem;"></i>
+      </div>
+      <h3 class="text-danger mb-3">Invalid Invitation</h3>
+      <p class="text-muted mb-4">{{ tokenError }}</p>
+      <a routerLink="/login" class="btn btn-primary">
+        <i class="bi bi-arrow-left me-2"></i>Go to Login
+      </a>
+    </div>
+
+    <!-- Valid Token - Password Form -->
+    <div *ngIf="!loading && tokenValid">
+      <!-- Header -->
+      <div class="card-header-section text-center mb-4">
+        <div class="welcome-icon mb-3">
+          <i class="bi bi-person-check text-primary" style="font-size: 3.5rem;"></i>
+        </div>
+        <h2 class="fw-bold mb-2">Welcome to ERP System!</h2>
+        <p class="text-muted mb-0">
+          Hello{{ userFirstName ? ' ' + userFirstName : '' }}, please set your password to activate your account.
+        </p>
+      </div>
+
+      <!-- User Info -->
+      <div class="user-info-card mb-4">
+        <div class="d-flex align-items-center">
+          <div class="user-avatar me-3">
+            <i class="bi bi-person-circle text-primary" style="font-size: 2.5rem;"></i>
+          </div>
+          <div>
+            <div class="fw-semibold">{{ userFirstName }} {{ userLastName }}</div>
+            <div class="text-muted small">{{ userEmail }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="alert alert-success d-flex align-items-center mb-4" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <div>
+          {{ successMessage }}
+          <div class="small mt-1">Redirecting to login...</div>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center mb-4" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <div>{{ errorMessage }}</div>
+      </div>
+
+      <!-- Password Form -->
+      <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()" *ngIf="!successMessage">
+        <!-- Password Field -->
+        <div class="mb-4">
+          <label for="password" class="form-label fw-semibold">
+            <i class="bi bi-lock me-2"></i>Create Password
+          </label>
+          <div class="input-group">
+            <input 
+              [type]="showPassword ? 'text' : 'password'" 
+              class="form-control form-control-lg" 
+              id="password" 
+              formControlName="password"
+              placeholder="Enter a strong password"
+              [class.is-invalid]="passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched">
+            <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+              <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+          </div>
+          
+          <!-- Password Strength Indicator -->
+          <div class="password-strength mt-2" *ngIf="passwordForm.get('password')?.value">
+            <div class="progress" style="height: 4px;">
+              <div class="progress-bar" [class]="getPasswordStrength().class" [style.width]="getPasswordStrength().width"></div>
+            </div>
+            <small [class]="'text-' + (getPasswordStrength().class === 'bg-danger' ? 'danger' : getPasswordStrength().class === 'bg-warning' ? 'warning' : 'success')">
+              {{ getPasswordStrength().label }}
+            </small>
+          </div>
+          
+          <div class="invalid-feedback" *ngIf="passwordForm.get('password')?.errors?.['required'] && passwordForm.get('password')?.touched">
+            Password is required
+          </div>
+          <div class="invalid-feedback" *ngIf="passwordForm.get('password')?.errors?.['minlength'] && passwordForm.get('password')?.touched">
+            Password must be at least 6 characters
+          </div>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="mb-4">
+          <label for="confirmPassword" class="form-label fw-semibold">
+            <i class="bi bi-lock-fill me-2"></i>Confirm Password
+          </label>
+          <div class="input-group">
+            <input 
+              [type]="showConfirmPassword ? 'text' : 'password'" 
+              class="form-control form-control-lg" 
+              id="confirmPassword" 
+              formControlName="confirmPassword"
+              placeholder="Confirm your password"
+              [class.is-invalid]="(passwordForm.get('confirmPassword')?.touched && (passwordForm.get('confirmPassword')?.invalid || passwordForm.errors?.['passwordMismatch']))">
+            <button type="button" class="btn btn-outline-secondary" (click)="toggleConfirmPasswordVisibility()">
+              <i [class]="showConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+          </div>
+          <div class="invalid-feedback" *ngIf="passwordForm.get('confirmPassword')?.errors?.['required'] && passwordForm.get('confirmPassword')?.touched">
+            Please confirm your password
+          </div>
+          <div class="invalid-feedback" *ngIf="passwordForm.errors?.['passwordMismatch'] && passwordForm.get('confirmPassword')?.touched">
+            Passwords do not match
+          </div>
+        </div>
+
+        <!-- Password Requirements -->
+        <div class="password-requirements mb-4">
+          <small class="text-muted d-block mb-2">Password requirements:</small>
+          <ul class="list-unstyled small text-muted mb-0">
+            <li [class.text-success]="hasMinLength()">
+              <i [class]="hasMinLength() ? 'bi bi-check-circle-fill text-success' : 'bi bi-circle'"></i>
+              At least 6 characters
+            </li>
+            <li [class.text-success]="hasUppercase()">
+              <i [class]="hasUppercase() ? 'bi bi-check-circle-fill text-success' : 'bi bi-circle'"></i>
+              One uppercase letter (recommended)
+            </li>
+            <li [class.text-success]="hasNumber()">
+              <i [class]="hasNumber() ? 'bi bi-check-circle-fill text-success' : 'bi bi-circle'"></i>
+              One number (recommended)
+            </li>
+          </ul>
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          type="submit" 
+          class="btn btn-primary btn-lg w-100" 
+          [disabled]="passwordForm.invalid || submitting">
+          <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2" role="status"></span>
+          <i *ngIf="!submitting" class="bi bi-check-lg me-2"></i>
+          {{ submitting ? 'Setting Password...' : 'Set Password & Activate Account' }}
+        </button>
+      </form>
+
+      <!-- Footer -->
+      <div class="text-center mt-4 pt-3 border-top">
+        <small class="text-muted">
+          Already have an account? 
+          <a routerLink="/login" class="text-decoration-none">Login here</a>
+        </small>
+      </div>
+    </div>
+  </div>
+</div>

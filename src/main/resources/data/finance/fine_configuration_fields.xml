@@ -2,7 +2,7 @@
 <entityFields type="FINE_CONFIGURATION">
     <field>
         <fieldName>categoryId</fieldName>
-        <fieldLabel>categoryId</fieldLabel>
+        <fieldLabel>Category</fieldLabel>
         <fieldType>ENUM</fieldType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
@@ -13,7 +13,7 @@
     </field>
     <field>
         <fieldName>calcLogic</fieldName>
-        <fieldLabel>calcLogic</fieldLabel>
+        <fieldLabel>Calculation Logic</fieldLabel>
         <fieldType>ENUM</fieldType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
@@ -24,7 +24,7 @@
     </field>
     <field>
         <fieldName>baseAmount</fieldName>
-        <fieldLabel>baseAmount</fieldLabel>
+        <fieldLabel>Base Amount</fieldLabel>
         <fieldType>LONG</fieldType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
@@ -35,7 +35,7 @@
     </field>
     <field>
         <fieldName>frequency</fieldName>
-        <fieldLabel>frequency</fieldLabel>
+        <fieldLabel>Frequency</fieldLabel>
         <fieldType>ENUM</fieldType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
@@ -46,7 +46,7 @@
     </field>
     <field>
         <fieldName>gracePeriodDays</fieldName>
-        <fieldLabel>gracePeriodDays</fieldLabel>
+        <fieldLabel>Grace Period Days</fieldLabel>
         <fieldType>LONG</fieldType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
@@ -57,7 +57,7 @@
     </field>
     <field>
         <fieldName>isAutoPost</fieldName>
-        <fieldLabel>isAutoPost</fieldLabel>
+        <fieldLabel>Auto Post</fieldLabel>
         <fieldType>BOOLEAN</fieldType>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>

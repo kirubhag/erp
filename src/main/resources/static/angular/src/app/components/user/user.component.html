@@ -266,38 +266,12 @@
                     <label for="userType" class="form-label">User Type</label>
                     <select class="form-select" id="userType" formControlName="userType">
                       <option value="">Select User Type</option>
-                      <option value="Admin">Admin</option>
-                      <option value="Manager">Manager</option>
-                      <option value="Teacher">Teacher</option>
-                      <option value="Student">Student</option>
-                      <option value="Staff">Staff</option>
+                      <option value="ADMIN">Admin</option>
+                      <option value="STAFF">Staff</option>
+                      <option value="TEACHER">Teacher</option>
+                      <option value="STUDENT">Student</option>
+                      <option value="PARENT">Parent</option>
                     </select>
-                  </div>
-
-                  <div class="col-md-6 mb-3">
-                    <label for="password" class="form-label">
-                      Password
-                      <span class="text-danger" *ngIf="!isEditMode">*</span>
-                      <span class="text-muted small" *ngIf="isEditMode">(Leave blank to keep current)</span>
-                    </label>
-                    <input type="password" class="form-control" id="password" formControlName="password"
-                      [class.is-invalid]="userForm.get('password')?.invalid && userForm.get('password')?.touched">
-                    <div class="invalid-feedback"
-                      *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched">
-                      Password must be at least 6 characters
-                    </div>
-                  </div>
-
-                  <div class="col-md-6 mb-3">
-                    <label for="confirmPassword" class="form-label">
-                      Confirm Password
-                      <span class="text-danger" *ngIf="!isEditMode">*</span>
-                    </label>
-                    <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword"
-                      [class.is-invalid]="(userForm.get('confirmPassword')?.invalid || userForm.errors?.['passwordMismatch']) && userForm.touched">
-                    <div class="invalid-feedback" *ngIf="userForm.errors?.['passwordMismatch'] && userForm.touched">
-                      Passwords do not match
-                    </div>
                   </div>
 
                   <div class="col-md-6 mb-3">
@@ -306,6 +280,14 @@
                       <label class="form-check-label" for="enabled">
                         Enabled
                       </label>
+                    </div>
+                  </div>
+
+                  <!-- Info message for new users -->
+                  <div class="col-12 mb-3" *ngIf="!isEditMode">
+                    <div class="alert alert-info mb-0">
+                      <i class="bi bi-info-circle me-2"></i>
+                      An invitation email will be sent to the user. They will set their own password.
                     </div>
                   </div>
                 </div>

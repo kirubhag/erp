@@ -56,7 +56,8 @@ public class SecurityConfig {
                                                                 "/api/migration/**",
                                                                 "/api/v1/sample-data/**",
                                                                 "/api/sample-data/**",
-                                                                "/api/user-settings/**"))
+                                                                "/api/user-settings/**",
+                                                                "/api/iam/**"))
                                 .headers(headers -> headers
                                                 .contentSecurityPolicy(csp -> csp
                                                                 .policyDirectives(
@@ -98,6 +99,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/entities/**").permitAll() // Allow entity endpoints for dev/testing
                                                 .requestMatchers("/api/fields/**").permitAll() // Allow entity fields metadata endpoints for dev/testing
                                                 .requestMatchers("/api/module/**").permitAll() // Allow module/tab groups endpoints for dev/testing
+                                                .requestMatchers("/api/iam/**").permitAll() // Allow IAM user management endpoints for dev/testing
                                                 .requestMatchers("/api/v1/sample-data/**").authenticated() // Sample data requires auth to populate owner_id
                                                 .requestMatchers("/api/sample-data/**").authenticated() // Sample data requires auth to populate owner_id
                                                 .requestMatchers("/api/v1/**").permitAll() // Allow other v1 API endpoints

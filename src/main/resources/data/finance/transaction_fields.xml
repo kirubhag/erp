@@ -2,7 +2,7 @@
 <entityFields type="TRANSACTION">
     <field>
         <fieldName>transactionIdExt</fieldName>
-        <fieldLabel>transactionIdExt</fieldLabel>
+        <fieldLabel>Transaction ID</fieldLabel>
         <fieldType>STRING</fieldType>
         <displayOrder>1</displayOrder>
         <isRequired>false</isRequired>
@@ -13,7 +13,7 @@
     </field>
     <field>
         <fieldName>invoiceId</fieldName>
-        <fieldLabel>invoiceId</fieldLabel>
+        <fieldLabel>Invoice</fieldLabel>
         <fieldType>ENUM</fieldType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
@@ -24,7 +24,7 @@
     </field>
     <field>
         <fieldName>paymentDate</fieldName>
-        <fieldLabel>paymentDate</fieldLabel>
+        <fieldLabel>Payment Date</fieldLabel>
         <fieldType>DATETIME</fieldType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
@@ -35,7 +35,7 @@
     </field>
     <field>
         <fieldName>amountPaid</fieldName>
-        <fieldLabel>amountPaid</fieldLabel>
+        <fieldLabel>Amount Paid</fieldLabel>
         <fieldType>LONG</fieldType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
@@ -46,7 +46,7 @@
     </field>
     <field>
         <fieldName>paymentMode</fieldName>
-        <fieldLabel>paymentMode</fieldLabel>
+        <fieldLabel>Payment Mode</fieldLabel>
         <fieldType>ENUM</fieldType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
@@ -57,7 +57,7 @@
     </field>
     <field>
         <fieldName>referenceNumber</fieldName>
-        <fieldLabel>referenceNumber</fieldLabel>
+        <fieldLabel>Reference Number</fieldLabel>
         <fieldType>STRING</fieldType>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>
@@ -68,7 +68,7 @@
     </field>
     <field>
         <fieldName>status</fieldName>
-        <fieldLabel>status</fieldLabel>
+        <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
         <displayOrder>7</displayOrder>
         <isRequired>false</isRequired>

@@ -13,6 +13,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/confirm-account/confirm-account.component').then(m => m.ConfirmAccountComponent)
   },
   {
+    path: 'accept-invitation',
+    loadComponent: () => import('./components/accept-invitation/accept-invitation.component').then(m => m.AcceptInvitationComponent)
+  },
+  {
     path: 'dashboard',
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
     canActivate: [AuthGuard]

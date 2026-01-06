@@ -24,6 +24,7 @@ import { HttpClient } from '@angular/common/http';
                 <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
                 <h3 class="text-success mb-3">Account Confirmed!</h3>
                 <p class="mb-4">{{ message }}</p>
+                <p class="text-muted mb-3">Redirecting to login page...</p>
                 <a routerLink="/login" class="btn btn-primary btn-lg">Login Now</a>
               </div>
 
@@ -74,6 +75,10 @@ export class ConfirmAccountComponent implements OnInit {
                 this.loading = false;
                 this.success = true;
                 this.message = response.message || 'Your account has been successfully confirmed.';
+                // Redirect to login page after 3 seconds
+                setTimeout(() => {
+                    this.router.navigate(['/login']);
+                }, 3000);
             },
             error: (error) => {
                 this.loading = false;

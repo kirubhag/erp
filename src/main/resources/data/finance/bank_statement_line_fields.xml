@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="BANK_STATEMENT_LINE">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>date</fieldName>
+        <fieldLabel>Transaction Date</fieldLabel>
+        <fieldType>DATE</fieldType>
         <displayOrder>1</displayOrder>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showInList>true</showInList>
         <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
         <fieldType>STRING</fieldType>
         <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showInList>true</showInList>
         <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>amount</fieldName>
+        <fieldLabel>Amount</fieldLabel>
+        <fieldType>DECIMAL</fieldType>
         <displayOrder>3</displayOrder>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showInList>true</showInList>
         <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>reconciled</fieldName>
+        <fieldLabel>Is Reconciled</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -45,8 +45,8 @@
         <showInForm>true</showInForm>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>reference</fieldName>
+        <fieldLabel>Reference</fieldLabel>
         <fieldType>STRING</fieldType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>

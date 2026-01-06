@@ -2,7 +2,7 @@
 <entityFields type="FEE_PAYMENT">
     <field>
         <fieldName>studentId</fieldName>
-        <fieldLabel>studentId</fieldLabel>
+        <fieldLabel>Student</fieldLabel>
         <fieldType>ENUM</fieldType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
@@ -13,7 +13,7 @@
     </field>
     <field>
         <fieldName>feeStructureId</fieldName>
-        <fieldLabel>feeStructureId</fieldLabel>
+        <fieldLabel>Fee Structure</fieldLabel>
         <fieldType>ENUM</fieldType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
@@ -24,7 +24,7 @@
     </field>
     <field>
         <fieldName>baseAmount</fieldName>
-        <fieldLabel>baseAmount</fieldLabel>
+        <fieldLabel>Base Amount</fieldLabel>
         <fieldType>LONG</fieldType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
@@ -35,7 +35,7 @@
     </field>
     <field>
         <fieldName>discountAmount</fieldName>
-        <fieldLabel>discountAmount</fieldLabel>
+        <fieldLabel>Discount Amount</fieldLabel>
         <fieldType>LONG</fieldType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
@@ -46,7 +46,7 @@
     </field>
     <field>
         <fieldName>fineAmount</fieldName>
-        <fieldLabel>fineAmount</fieldLabel>
+        <fieldLabel>Fine Amount</fieldLabel>
         <fieldType>LONG</fieldType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
@@ -57,7 +57,7 @@
     </field>
     <field>
         <fieldName>netAmount</fieldName>
-        <fieldLabel>netAmount</fieldLabel>
+        <fieldLabel>Net Amount</fieldLabel>
         <fieldType>LONG</fieldType>
         <displayOrder>6</displayOrder>
         <isRequired>true</isRequired>
@@ -68,7 +68,7 @@
     </field>
     <field>
         <fieldName>paymentMode</fieldName>
-        <fieldLabel>paymentMode</fieldLabel>
+        <fieldLabel>Payment Mode</fieldLabel>
         <fieldType>ENUM</fieldType>
         <displayOrder>7</displayOrder>
         <isRequired>false</isRequired>
@@ -79,7 +79,7 @@
     </field>
     <field>
         <fieldName>receiptNumber</fieldName>
-        <fieldLabel>receiptNumber</fieldLabel>
+        <fieldLabel>Receipt Number</fieldLabel>
         <fieldType>STRING</fieldType>
         <displayOrder>8</displayOrder>
         <isRequired>false</isRequired>
@@ -90,7 +90,7 @@
     </field>
     <field>
         <fieldName>paymentDate</fieldName>
-        <fieldLabel>paymentDate</fieldLabel>
+        <fieldLabel>Payment Date</fieldLabel>
         <fieldType>DATETIME</fieldType>
         <displayOrder>9</displayOrder>
         <isRequired>false</isRequired>

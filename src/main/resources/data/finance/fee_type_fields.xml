@@ -2,7 +2,7 @@
 <entityFields type="FEE_TYPE">
     <field>
         <fieldName>name</fieldName>
-        <fieldLabel>name</fieldLabel>
+        <fieldLabel>Name</fieldLabel>
         <fieldType>STRING</fieldType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
@@ -13,7 +13,7 @@
     </field>
     <field>
         <fieldName>code</fieldName>
-        <fieldLabel>code</fieldLabel>
+        <fieldLabel>Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
@@ -24,7 +24,7 @@
     </field>
     <field>
         <fieldName>description</fieldName>
-        <fieldLabel>description</fieldLabel>
+        <fieldLabel>Description</fieldLabel>
         <fieldType>TEXT</fieldType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
@@ -35,7 +35,7 @@
     </field>
     <field>
         <fieldName>isRecurring</fieldName>
-        <fieldLabel>isRecurring</fieldLabel>
+        <fieldLabel>Is Recurring</fieldLabel>
         <fieldType>BOOLEAN</fieldType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>

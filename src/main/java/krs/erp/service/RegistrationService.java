@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import krs.erp.config.multitenant.TenantContext;
 import krs.erp.dto.RegistrationRequest;
+import krs.erp.enums.EntityType;
 import krs.erp.model.Organization;
 import krs.erp.model.User;
 import krs.erp.model.User.UserType;
@@ -129,7 +130,7 @@ public class RegistrationService {
                 + confirmationLink + "\n\n"
                 + "If you did not request this, please ignore this email.";
 
-        emailService.sendDirectEmail(null, null, toEmail, null, subject, content, "SYSTEM");
+        emailService.sendDirectEmail(EntityType.GENERAL, 0L, toEmail, null, subject, content, "SYSTEM");
     }
 
     @Transactional
