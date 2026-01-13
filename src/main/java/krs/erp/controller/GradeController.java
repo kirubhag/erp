@@ -24,11 +24,10 @@ import jakarta.validation.Valid;
 import krs.erp.model.Grade;
 import krs.erp.model.Student;
 import krs.erp.model.Subject;
-import krs.erp.model.Staff;
 import krs.erp.repository.GradeRepository;
+import krs.erp.repository.StaffRepository;
 import krs.erp.repository.StudentRepository;
 import krs.erp.repository.SubjectRepository;
-import krs.erp.repository.StaffRepository;
 
 /**
  * REST controller for Grade entity

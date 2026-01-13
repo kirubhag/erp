@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Plans - ERP System</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Razorpay Checkout Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        .pricing-card {
+            border: none;
+            border-radius: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: transparent;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .card-price {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .period {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        .btn-subscribe {
+            border-radius: 2rem;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+        }
+
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold">Choose Your Plan</h1>
+            <p class="lead text-muted">Simple, transparent pricing for your business.</p>
+        </div>
+
+        <div class="toggle-container">
+            <span class="fw-bold" id="monthly-label">Monthly</span>
+            <label class="switch">
+                <input type="checkbox" id="pricing-toggle">
+                <span class="slider"></span>
+            </label>
+            <span class="fw-bold text-muted" id="yearly-label">Yearly <span class="badge bg-success ms-1">Save
+                    10%</span></span>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center">
+            <!-- Basic Plan (For demo structure, though requirement asked for dynamic based on Monthly/Yearly tables) -->
+            <!-- We will render 1 card that changes price based on toggle for simplicity unless multiple tiers exist. 
+                 The requirements implied 'Monthly' OR 'Yearly' subscriptions for the APP. -->
+
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm pricing-card">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Pro Subscription</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">
+                            <span id="price-display">₹2000</span>
+                            <small class="text-muted fw-light period">/ <span id="period-display">mo</span></small>
+                        </h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Unlimited Invoices</li>
+                            <li>Multi-user Access</li>
+                            <li>Advanced Reporting</li>
+                            <li>Priority Support</li>
+                        </ul>
+                        <button type="button" class="w-100 btn btn-lg btn-primary btn-subscribe"
+                            onclick="subscribe()">Subscribe Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden inputs for Razorpay -->
+    <script>
+        // Configuration
+        const keyId = 'rzp_test_S0xfDyaRi5qmWf'; // Ideally passed from backend
+        // For demo, hardcoded or fetched via API. 
+        // NOTE: In production, do NOT expose key variables like this if not public key. Key ID is public.
+
+        const monthlyPrice = 2000;
+        const yearlyPrice = 21600; // 24000 - 10% = 21600
+
+        let currentMode = 'MONTHLY'; // MONTHLY or YEARLY
+
+        const toggle = document.getElementById('pricing-toggle');
+        const priceDisplay = document.getElementById('price-display');
+        const periodDisplay = document.getElementById('period-display');
+        const monthlyLabel = document.getElementById('monthly-label');
+        const yearlyLabel = document.getElementById('yearly-label');
+
+        toggle.addEventListener('change', function () {
+            if (this.checked) {
+                currentMode = 'YEARLY';
+                priceDisplay.textContent = '₹' + yearlyPrice;
+                periodDisplay.textContent = 'yr';
+                monthlyLabel.classList.add('text-muted');
+                monthlyLabel.classList.remove('text-primary'); // if used
+                yearlyLabel.classList.remove('text-muted');
+                yearlyLabel.classList.add('text-primary');
+            } else {
+                currentMode = 'MONTHLY';
+                priceDisplay.textContent = '₹' + monthlyPrice;
+                periodDisplay.textContent = 'mo';
+                yearlyLabel.classList.add('text-muted');
+                yearlyLabel.classList.remove('text-primary');
+                monthlyLabel.classList.remove('text-muted');
+                monthlyLabel.classList.add('text-primary');
+            }
+        });
+
+        async function subscribe() {
+            // 1. Create Subscription on Backend
+            // For demo, we need a userId. In real app, it comes from session.
+            const userId = 1; // HARDCODED FOR DEMO
+
+            try {
+                const response = await fetch(`/api/v1/billing/subscription?planType=${currentMode}&userId=${userId}`, {
+                    method: 'POST'
+                });
+
+                if (!response.ok) throw new Error('Failed to create subscription');
+                const data = await response.json();
+                const subscriptionId = data.subscriptionId;
+
+                // 2. Open Razorpay
+                const options = {
+                    "key": keyId,
+                    "subscription_id": subscriptionId,
+                    "name": "ERP System",
+                    "description": `${currentMode} Subscription`,
+                    "handler": function (response) {
+                        // 3. Verify Payment on Backend
+                        verifyPayment(response, userId);
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                const rzp1 = new Razorpay(options);
+                rzp1.open();
+
+            } catch (error) {
+                console.error(error);
+                alert('Error starting subscription: ' + error.message);
+            }
+        }
+
+        async function verifyPayment(paymentResponse, userId) {
+            try {
+                const payload = {
+                    ...paymentResponse,
+                    user_id: userId.toString()
+                };
+
+                const response = await fetch('/api/v1/billing/verification', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    window.location.href = '/payment-success.html';
+                } else {
+                    alert('Payment verification failed');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error verifying payment');
+            }
+        }
+    </script>
+</body>
+
+</html>

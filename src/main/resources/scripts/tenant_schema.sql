@@ -3023,3 +3023,56 @@ CREATE TABLE IF NOT EXISTS erp_tab_group_entity_rel (
     INDEX idx_rel_entity (entity_id),
     UNIQUE KEY uk_tab_group_entity (tab_group_id, entity_id)
 );
+-- =====================================================
+-- ERP Subscription System (Razorpay) - Database Schema
+-- =====================================================
+
+-- Table: erp_plans
+-- Maps local plan definitions to Razorpay Plan IDs
+CREATE TABLE IF NOT EXISTS erp_plans (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    type VARCHAR(20) NOT NULL, -- MONTHLY, YEARLY
+    amount DECIMAL(10, 2) NOT NULL,
+    currency VARCHAR(3) DEFAULT 'INR',
+    razorpay_plan_id VARCHAR(100),
+    description TEXT,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- Table: erp_subscriptions
+-- Tracks user subscriptions via Razorpay
+CREATE TABLE IF NOT EXISTS erp_subscriptions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    plan_id BIGINT NOT NULL,
+    razorpay_subscription_id VARCHAR(100),
+    razorpay_customer_id VARCHAR(100),
+    status VARCHAR(50) DEFAULT 'CREATED', -- CREATED, AUTHENTICATED, ACTIVE, PAST_DUE, CANCELLED
+    current_period_start TIMESTAMP,
+    current_period_end TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (plan_id) REFERENCES erp_plans (id),
+    FOREIGN KEY (user_id) REFERENCES iam_users (user_id) ON DELETE CASCADE,
+    INDEX idx_erp_sub_user (user_id),
+    INDEX idx_erp_sub_status (status)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- Table: erp_payment_logs
+-- Logs individual payment attempts and webhooks
+CREATE TABLE IF NOT EXISTS erp_payment_logs (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT,
+    razorpay_payment_id VARCHAR(100),
+    razorpay_order_id VARCHAR(100),
+    razorpay_signature VARCHAR(255),
+    amount DECIMAL(10, 2),
+    status VARCHAR(50), -- SUCCESS, FAILED
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_erp_pay_user (user_id),
+    INDEX idx_erp_pay_order (razorpay_order_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;

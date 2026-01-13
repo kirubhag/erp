@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import krs.erp.model.hr.LeaveBalance;
 import krs.erp.model.hr.LeaveRequest;
-import krs.erp.model.hr.LeaveType;
 import krs.erp.repository.hr.LeaveBalanceRepository;
 import krs.erp.repository.hr.LeaveRequestRepository;
 import krs.erp.repository.hr.LeaveTypeRepository;

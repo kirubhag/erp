@@ -1,13 +1,18 @@
 package krs.erp.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import krs.erp.config.CustomUserDetails;
+import krs.erp.config.multitenant.TenantContext;
 import krs.erp.dto.UserDTO;
 import krs.erp.enums.EntityType;
 import krs.erp.model.User;
@@ -62,6 +69,7 @@ public class IAMUserController {
                 user.getUserType().toString(),
                 user.getFirstName(),
                 user.getLastName(),
+                user.getPhone(),
                 user.getEnabled())).toList());
     }
 
@@ -79,6 +87,7 @@ public class IAMUserController {
                         user.getUserType().toString(),
                         user.getFirstName(),
                         user.getLastName(),
+                        user.getPhone(),
                         user.getEnabled())))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -108,7 +117,8 @@ public class IAMUserController {
         Long organizationId = getCurrentOrganizationId();
 
         if (tenantId == null) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Unable to determine tenant. Please login again."));
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", "Unable to determine tenant. Please login again."));
         }
 
         // Generate invitation token
@@ -168,6 +178,7 @@ public class IAMUserController {
                 user.getUserType().toString(),
                 user.getFirstName(),
                 user.getLastName(),
+                user.getPhone(),
                 user.getEnabled()));
     }
 
@@ -209,14 +220,14 @@ public class IAMUserController {
     /**
      * Create user in Master DB
      */
-    private Long createUserInMasterDb(UserDTO userDTO, Long tenantId, Long organizationId, 
-                                       String invitationToken, User.UserType userType) {
+    private Long createUserInMasterDb(UserDTO userDTO, Long tenantId, Long organizationId,
+            String invitationToken, User.UserType userType) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        
+
         String sql = "INSERT INTO iam_users (username, password_hash, email, first_name, last_name, phone, " +
-                     "user_type, enabled, tenant_id, organization_id, created_time, is_active, " +
-                     "account_non_expired, credentials_non_expired, account_non_locked, confirmation_token) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1, 1, ?)";
+                "user_type, enabled, tenant_id, organization_id, created_time, is_active, " +
+                "account_non_expired, credentials_non_expired, account_non_locked, confirmation_token) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1, 1, ?)";
 
         try {
             jdbcTemplate.update(sql,
@@ -282,12 +293,12 @@ public class IAMUserController {
     public ResponseEntity<?> reinviteUser(@PathVariable Long id) {
         // Generate new invitation token
         String newToken = UUID.randomUUID().toString();
-        
+
         // Update token in Master DB
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
         String sql = "UPDATE iam_users SET confirmation_token = ?, enabled = 0 WHERE user_id = ?";
         int updated = jdbcTemplate.update(sql, newToken, id);
-        
+
         if (updated == 0) {
             return ResponseEntity.notFound().build();
         }
@@ -321,7 +332,7 @@ public class IAMUserController {
         }
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        
+
         // Find user by confirmation token in Master DB
         String findSql = "SELECT user_id, email, first_name FROM iam_users WHERE confirmation_token = ?";
         List<Map<String, Object>> users = jdbcTemplate.queryForList(findSql, token);
@@ -350,8 +361,7 @@ public class IAMUserController {
 
         return ResponseEntity.ok(Map.of(
                 "message", "Password set successfully. You can now login.",
-                "email", userData.get("email")
-        ));
+                "email", userData.get("email")));
     }
 
     /**
@@ -360,12 +370,13 @@ public class IAMUserController {
     @GetMapping("/validate-invitation/{token}")
     public ResponseEntity<?> validateInvitationToken(@PathVariable String token) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        
+
         String sql = "SELECT user_id, email, first_name, last_name FROM iam_users WHERE confirmation_token = ?";
         List<Map<String, Object>> users = jdbcTemplate.queryForList(sql, token);
 
         if (users.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("valid", false, "message", "Invalid or expired invitation token"));
+            return ResponseEntity.badRequest()
+                    .body(Map.of("valid", false, "message", "Invalid or expired invitation token"));
         }
 
         Map<String, Object> userData = users.get(0);
@@ -373,16 +384,21 @@ public class IAMUserController {
                 "valid", true,
                 "email", userData.get("email"),
                 "firstName", userData.get("first_name") != null ? userData.get("first_name") : "",
-                "lastName", userData.get("last_name") != null ? userData.get("last_name") : ""
-        ));
+                "lastName", userData.get("last_name") != null ? userData.get("last_name") : ""));
     }
 
     private void sendInvitationEmail(User user, String invitationToken) {
         String subject = "You've been invited to ERP System";
-        
+
         // Invitation link for setting password
         String invitationLink = "http://localhost:4200/accept-invitation?token=" + invitationToken;
-        
+
+        // Log the invitation link for development/debugging purposes (in case email
+        // fails)
+        System.out.println("=================================================================");
+        System.out.println("INVITATION LINK (DEV): " + invitationLink);
+        System.out.println("=================================================================");
+
         StringBuilder body = new StringBuilder();
         body.append("Dear ").append(user.getFirstName() != null ? user.getFirstName() : "User").append(",\n\n");
         body.append("You have been invited to join the ERP System.\n\n");

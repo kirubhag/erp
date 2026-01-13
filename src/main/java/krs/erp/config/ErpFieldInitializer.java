@@ -2,7 +2,6 @@ package krs.erp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 import krs.erp.service.ErpEntityRelationXmlLoaderService;
 import krs.erp.service.ErpFieldXmlLoaderService;

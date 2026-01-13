@@ -13,6 +13,7 @@ public class UserDTO {
     private String userType;
     private String firstName;
     private String lastName;
+    private String phone;
     private Boolean enabled;
 
     // Constructors
@@ -20,7 +21,7 @@ public class UserDTO {
     }
 
     public UserDTO(Long id, String username, String email, String passwordHash,
-            String userType, String firstName, String lastName, Boolean enabled) {
+            String userType, String firstName, String lastName, String phone, Boolean enabled) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -29,6 +30,7 @@ public class UserDTO {
         this.userType = userType;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phone = phone;
         this.enabled = enabled;
     }
 
@@ -95,6 +97,14 @@ public class UserDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Boolean getEnabled() {

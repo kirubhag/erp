@@ -1,12 +1,15 @@
 package krs.erp.config.multitenant;
 
-import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
-
-import javax.sql.DataSource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+import org.springframework.lang.NonNull;
+
+import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * Dynamic DataSource that routes to the correct tenant database.
@@ -31,6 +34,7 @@ public class MultiTenantDataSource extends AbstractRoutingDataSource {
     }
 
     @Override
+    @NonNull
     protected DataSource determineTargetDataSource() {
         String tenantId = (String) determineCurrentLookupKey();
 

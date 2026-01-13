@@ -77,7 +77,9 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
         loadErpEntities();
         loadErpEntityRelations();
         loadCustomViews();
+        loadCustomViews();
         loadErpTabGroups();
+        loadErpPlans();
 
         logger.info("=== IAM_MasterDB System Data Initialization Completed ===");
     }
@@ -874,7 +876,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                     // Update existing tab group
                     masterJdbcTemplate.update(
                             "UPDATE erp_tab_groups " +
-                                    "SET name = ?, icon = ?, route_path = ?, description = ?, sequence = ?, modified_time = ? " +
+                                    "SET name = ?, icon = ?, route_path = ?, description = ?, sequence = ?, modified_time = ? "
+                                    +
                                     "WHERE code = ?",
                             name, icon, routePath, description, sequence, LocalDateTime.now(), code);
 
@@ -926,7 +929,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         // Insert entity mapping
                         masterJdbcTemplate.update(
                                 "INSERT INTO erp_tab_group_entity_rel " +
-                                        "(tab_group_id, entity_id, sequence, is_active, created_by, created_time, modified_time) " +
+                                        "(tab_group_id, entity_id, sequence, is_active, created_by, created_time, modified_time) "
+                                        +
                                         "VALUES (?, ?, ?, ?, ?, ?, ?)",
                                 tabGroupId, entityId, j + 1, 1, "system", LocalDateTime.now(), LocalDateTime.now());
                     }
@@ -939,6 +943,60 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
         } catch (Exception e) {
             logger.error("Error loading tab groups", e);
+        }
+    }
+
+    private void loadErpPlans() {
+        try {
+            logger.info("Loading ERP plans into IAM_MasterDB...");
+
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            Resource resource = resolver.getResource("classpath:data/erp_plans.xml");
+
+            if (!resource.exists()) {
+                logger.warn("erp_plans.xml not found");
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(resource.getInputStream());
+
+            Element root = doc.getDocumentElement();
+            NodeList planNodes = root.getElementsByTagName("plan");
+            int loaded = 0;
+
+            for (int i = 0; i < planNodes.getLength(); i++) {
+                Element planElement = (Element) planNodes.item(i);
+
+                String name = getElementText(planElement, "name");
+                String type = getElementText(planElement, "type");
+                String amountStr = getElementText(planElement, "amount", "0.00");
+                String currency = getElementText(planElement, "currency", "INR");
+                String description = getElementText(planElement, "description", null);
+                Boolean isActive = getElementBoolean(planElement, "is_active", true);
+
+                java.math.BigDecimal amount = new java.math.BigDecimal(amountStr);
+
+                masterJdbcTemplate.update(
+                        "INSERT INTO erp_plans " +
+                                "(name, type, amount, currency, description, is_active, created_at, updated_at) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?) " +
+                                "ON DUPLICATE KEY UPDATE " +
+                                "amount = VALUES(amount), " +
+                                "currency = VALUES(currency), " +
+                                "description = VALUES(description), " +
+                                "is_active = VALUES(is_active), " +
+                                "updated_at = ?",
+                        name, type, amount, currency, description, isActive, LocalDateTime.now(), LocalDateTime.now(),
+                        LocalDateTime.now());
+                loaded++;
+            }
+
+            logger.info("✓ Loaded {} ERP plans into IAM_MasterDB", loaded);
+
+        } catch (Exception e) {
+            logger.error("Error loading ERP plans", e);
         }
     }
 }

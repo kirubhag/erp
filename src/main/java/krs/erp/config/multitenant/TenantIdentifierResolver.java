@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * Uses TenantContext to retrieve the tenant ID.
  */
 @Component
-public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver {
+public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver<String> {
 
     private static final String DEFAULT_TENANT = "default";
 
