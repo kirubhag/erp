@@ -157,27 +157,27 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/admission',
+    path: 'student-lifecycle/admission',
     loadChildren: () => import('./components/admission/admission.routes').then(m => m.ADMISSION_ROUTES),
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/hr',
+    path: 'human-resources',
     loadChildren: () => import('./components/hr/hr.routes').then(m => m.HR_ROUTES),
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/inventory',
+    path: 'assets-supplies/inventory',
     loadChildren: () => import('./components/inventory/inventory.routes').then(m => m.INVENTORY_ROUTES),
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/reporting',
+    path: 'administration/reporting',
     loadChildren: () => import('./components/reporting/reporting.routes').then(m => m.REPORTING_ROUTES),
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/documents',
+    path: 'administration/documents',
     loadChildren: () => import('./components/documents/documents.routes').then(m => m.DOCUMENT_ROUTES),
     canActivate: [AuthGuard]
   },
@@ -242,7 +242,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/maintenance',
+    path: 'assets-supplies/maintenance',
     loadChildren: () => import('./components/maintenance/maintenance.routes').then(m => m.MAINTENANCE_ROUTES),
     canActivate: [AuthGuard]
   },
@@ -257,32 +257,32 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/calendar',
+    path: 'administration/calendar',
     loadChildren: () => import('./components/calendar/calendar.routes').then(m => m.CALENDAR_ROUTES),
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/communication',
+    path: 'communication',
     loadChildren: () => import('./components/communication/communication.routes').then(m => m.COMMUNICATION_ROUTES),
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/library',
+    path: 'library-management',
     loadChildren: () => import('./components/library/library.routes').then(m => m.LIBRARY_ROUTES),
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/lms',
+    path: 'learning-teaching/lms',
     loadChildren: () => import('./components/lms/lms.routes').then(m => m.LMS_ROUTES),
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/tpd',
+    path: 'learning-teaching/tpd',
     loadChildren: () => import('./components/tpd/tpd.routes').then(m => m.TPD_ROUTES),
     canActivate: [AuthGuard]
   },
   {
-    path: 'setup/alumni',
+    path: 'student-lifecycle/alumni',
     loadChildren: () => import('./components/alumni/alumni.routes').then(m => m.ALUMNI_ROUTES),
     canActivate: [AuthGuard]
   },

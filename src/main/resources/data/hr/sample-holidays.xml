@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<holidays>
+    <!-- National Holidays - India 2026 -->
+    <holiday>
+        <holiday_date>2026-01-26</holiday_date>
+        <name>Republic Day</name>
+        <description>Republic Day of India</description>
+        <holiday_type>NATIONAL</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-03-17</holiday_date>
+        <name>Holi</name>
+        <description>Festival of Colors</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-03-30</holiday_date>
+        <name>Ugadi / Gudi Padwa</name>
+        <description>Hindu New Year</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-04-03</holiday_date>
+        <name>Good Friday</name>
+        <description>Christian religious holiday</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-04-14</holiday_date>
+        <name>Ambedkar Jayanti</name>
+        <description>Birth anniversary of Dr. B.R. Ambedkar</description>
+        <holiday_type>NATIONAL</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-05-01</holiday_date>
+        <name>May Day / Labour Day</name>
+        <description>International Workers Day</description>
+        <holiday_type>NATIONAL</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-05-23</holiday_date>
+        <name>Buddha Purnima</name>
+        <description>Birth of Buddha</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-06-07</holiday_date>
+        <name>Eid ul-Fitr</name>
+        <description>End of Ramadan</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-08-15</holiday_date>
+        <name>Independence Day</name>
+        <description>Independence Day of India</description>
+        <holiday_type>NATIONAL</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-08-13</holiday_date>
+        <name>Eid ul-Adha (Bakrid)</name>
+        <description>Festival of Sacrifice</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-08-25</holiday_date>
+        <name>Janmashtami</name>
+        <description>Birth of Lord Krishna</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-09-12</holiday_date>
+        <name>Muharram</name>
+        <description>Islamic New Year</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-10-02</holiday_date>
+        <name>Gandhi Jayanti</name>
+        <description>Birth anniversary of Mahatma Gandhi</description>
+        <holiday_type>NATIONAL</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-10-20</holiday_date>
+        <name>Dussehra / Vijayadashami</name>
+        <description>Victory of good over evil</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-11-09</holiday_date>
+        <name>Diwali</name>
+        <description>Festival of Lights</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-11-11</holiday_date>
+        <name>Govardhan Puja / Bhai Dooj</name>
+        <description>Hindu festival</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-11-12</holiday_date>
+        <name>Milad-un-Nabi</name>
+        <description>Prophet Muhammad's Birthday</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-11-28</holiday_date>
+        <name>Guru Nanak Jayanti</name>
+        <description>Birth anniversary of Guru Nanak</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+    <holiday>
+        <holiday_date>2026-12-25</holiday_date>
+        <name>Christmas</name>
+        <description>Christian festival</description>
+        <holiday_type>RELIGIOUS</holiday_type>
+        <is_optional>false</is_optional>
+        <applicable_to>ALL</applicable_to>
+    </holiday>
+</holidays>

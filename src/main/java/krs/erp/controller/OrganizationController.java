@@ -36,14 +36,17 @@ import krs.erp.service.OrganizationService;
 @RestController
 @RequestMapping("/api/organizations")
 public class OrganizationController {
-    
+
     @Autowired
     private OrganizationService organizationService;
-    
+
+    @Autowired
+    private krs.erp.service.SubscriptionService subscriptionService;
+
     @Autowired
     @Qualifier("masterDataSource")
     private DataSource masterDataSource;
-    
+
     /**
      * Get all organizations with pagination
      */
@@ -52,23 +55,23 @@ public class OrganizationController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String search) {
-        
+
         try {
             Pageable pageable = PageRequest.of(page, size);
             Page<Organization> organizations;
-            
+
             if (search != null && !search.trim().isEmpty()) {
                 organizations = organizationService.searchOrganizations(search, pageable);
             } else {
                 organizations = organizationService.getAllOrganizations(pageable);
             }
-            
+
             return ResponseEntity.ok(organizations);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+
     /**
      * Get organization by ID
      */
@@ -76,9 +79,9 @@ public class OrganizationController {
     public ResponseEntity<Organization> getOrganizationById(@PathVariable Long id) {
         Optional<Organization> organization = organizationService.getOrganizationById(id);
         return organization.map(ResponseEntity::ok)
-                          .orElse(ResponseEntity.notFound().build());
+                .orElse(ResponseEntity.notFound().build());
     }
-    
+
     /**
      * Get organization by code
      */
@@ -86,9 +89,9 @@ public class OrganizationController {
     public ResponseEntity<Organization> getOrganizationByCode(@PathVariable String code) {
         Optional<Organization> organization = organizationService.getOrganizationByCode(code);
         return organization.map(ResponseEntity::ok)
-                          .orElse(ResponseEntity.notFound().build());
+                .orElse(ResponseEntity.notFound().build());
     }
-    
+
     /**
      * Get organizations by type
      */
@@ -101,7 +104,7 @@ public class OrganizationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+
     /**
      * Get all organization types
      */
@@ -114,7 +117,7 @@ public class OrganizationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+
     /**
      * Get organizations by city
      */
@@ -127,7 +130,7 @@ public class OrganizationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+
     /**
      * Get organizations by country
      */
@@ -140,7 +143,7 @@ public class OrganizationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+
     /**
      * Create new organization
      */
@@ -155,13 +158,13 @@ public class OrganizationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+
     /**
      * Update existing organization
      */
     @PutMapping("/{id}")
     public ResponseEntity<Organization> updateOrganization(
-            @PathVariable Long id, 
+            @PathVariable Long id,
             @Valid @RequestBody Organization organization) {
         try {
             Organization updatedOrganization = organizationService.updateOrganization(id, organization);
@@ -172,7 +175,7 @@ public class OrganizationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+
     /**
      * Delete organization
      */
@@ -185,7 +188,7 @@ public class OrganizationController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     /**
      * Get organization count
      */
@@ -198,7 +201,7 @@ public class OrganizationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+
     /**
      * Register new organization with sample data population option
      * POST /api/organizations/register
@@ -210,18 +213,18 @@ public class OrganizationController {
             // Get current authenticated user
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Long currentUserId = null;
-            
+
             if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
                 CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
                 currentUserId = userDetails.getUserId();
             }
-            
+
             if (currentUserId == null) {
                 Map<String, String> error = new HashMap<>();
                 error.put("message", "User must be authenticated to create an organization");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
             }
-            
+
             // Create organization from registration request
             Organization organization = new Organization();
             organization.setName(request.getName());
@@ -241,16 +244,16 @@ public class OrganizationController {
             organization.setTaxId(request.getTaxId());
             organization.setEstablishedYear(request.getEstablishedYear());
             organization.setAccreditation(request.getAccreditation());
-            
+
             // Save organization
             Organization savedOrganization = organizationService.createOrganization(organization);
-            
+
             // Update user's organization_id in IAM_MasterDB
             try {
                 JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
                 String updateSql = "UPDATE iam_users SET organization_id = ? WHERE user_id = ?";
                 int updated = jdbcTemplate.update(updateSql, savedOrganization.getId(), currentUserId);
-                
+
                 if (updated == 0) {
                     Map<String, String> error = new HashMap<>();
                     error.put("message", "Failed to link organization to user. User not found.");
@@ -261,11 +264,19 @@ public class OrganizationController {
                 error.put("message", "Organization created but failed to link to user: " + e.getMessage());
                 return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(error);
             }
-            
+
             // TODO: If loadSampleData is true, trigger sample data population
             // This will be handled by a separate async task or by the frontend
             // importHistoryService.populateSampleData(request.getLoadSampleData());
-            
+
+            // Create Trial Subscription
+            try {
+                subscriptionService.createTrialSubscription(savedOrganization);
+            } catch (Exception e) {
+                // Log but don't fail registration
+                System.err.println("Failed to create trial subscription: " + e.getMessage());
+            }
+
             return ResponseEntity.status(HttpStatus.CREATED).body(savedOrganization);
         } catch (DataIntegrityViolationException e) {
             Map<String, String> error = new HashMap<>();

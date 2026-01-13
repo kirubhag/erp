@@ -2323,6 +2323,7 @@ CREATE TABLE IF NOT EXISTS iam_users (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
+    is_primary_user BOOLEAN NOT NULL DEFAULT false,
     INDEX idx_username (username),
     INDEX idx_email (email),
     INDEX idx_user_type (user_type),
@@ -3043,22 +3044,21 @@ CREATE TABLE IF NOT EXISTS erp_plans (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- Table: erp_subscriptions
--- Tracks user subscriptions via Razorpay
+-- Tracks organization subscriptions via Razorpay
 CREATE TABLE IF NOT EXISTS erp_subscriptions (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
+    organization_id BIGINT NOT NULL UNIQUE,
     plan_id BIGINT NOT NULL,
     razorpay_subscription_id VARCHAR(100),
     razorpay_customer_id VARCHAR(100),
-    status VARCHAR(50) DEFAULT 'CREATED', -- CREATED, AUTHENTICATED, ACTIVE, PAST_DUE, CANCELLED
+    status VARCHAR(50) DEFAULT 'CREATED', -- CREATED, AUTHENTICATED, ACTIVE, TRIAL, PAST_DUE, CANCELLED
     current_period_start TIMESTAMP,
     current_period_end TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (plan_id) REFERENCES erp_plans (id),
-    -- Assuming iam_users is the user table from previous context
-    FOREIGN KEY (user_id) REFERENCES iam_users (user_id) ON DELETE CASCADE,
-    INDEX idx_erp_sub_user (user_id),
+    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
+    INDEX idx_erp_sub_org (organization_id),
     INDEX idx_erp_sub_status (status)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 

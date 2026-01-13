@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<leave_types>
+    <leave_type>
+        <name>Casual Leave</name>
+        <code>CL</code>
+        <days_allowed>12</days_allowed>
+        <is_carry_forward>false</is_carry_forward>
+        <description>Casual leave for personal emergencies and short absences</description>
+    </leave_type>
+    <leave_type>
+        <name>Sick Leave</name>
+        <code>SL</code>
+        <days_allowed>10</days_allowed>
+        <is_carry_forward>true</is_carry_forward>
+        <description>Leave for illness and medical appointments</description>
+    </leave_type>
+    <leave_type>
+        <name>Earned Leave</name>
+        <code>EL</code>
+        <days_allowed>15</days_allowed>
+        <is_carry_forward>true</is_carry_forward>
+        <description>Earned/Privilege leave that can be carried forward</description>
+    </leave_type>
+    <leave_type>
+        <name>Maternity Leave</name>
+        <code>ML</code>
+        <days_allowed>180</days_allowed>
+        <is_carry_forward>false</is_carry_forward>
+        <description>Maternity leave for expecting mothers</description>
+    </leave_type>
+    <leave_type>
+        <name>Paternity Leave</name>
+        <code>PL</code>
+        <days_allowed>15</days_allowed>
+        <is_carry_forward>false</is_carry_forward>
+        <description>Paternity leave for new fathers</description>
+    </leave_type>
+    <leave_type>
+        <name>Bereavement Leave</name>
+        <code>BL</code>
+        <days_allowed>5</days_allowed>
+        <is_carry_forward>false</is_carry_forward>
+        <description>Leave due to death of immediate family member</description>
+    </leave_type>
+    <leave_type>
+        <name>Compensatory Off</name>
+        <code>CO</code>
+        <days_allowed>0</days_allowed>
+        <is_carry_forward>false</is_carry_forward>
+        <description>Compensatory leave for working on holidays/weekends</description>
+    </leave_type>
+    <leave_type>
+        <name>Study Leave</name>
+        <code>STL</code>
+        <days_allowed>30</days_allowed>
+        <is_carry_forward>false</is_carry_forward>
+        <description>Leave for higher education and professional development</description>
+    </leave_type>
+</leave_types>

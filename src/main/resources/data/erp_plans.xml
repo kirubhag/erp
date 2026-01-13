@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <erp_plans>
     <plan>
-        <name>Monthly Plan</name>
+        <name>Free</name>
         <type>MONTHLY</type>
-        <amount>2000.00</amount>
+        <amount>0.00</amount>
         <currency>INR</currency>
-        <description>Standard Monthly Subscription</description>
+        <description>Basic features for small teams.</description>
         <is_active>true</is_active>
     </plan>
     <plan>
-        <name>Yearly Plan</name>
-        <type>YEARLY</type>
-        <amount>21600.00</amount>
+        <name>Starter</name>
+        <type>MONTHLY</type>
+        <amount>500.00</amount>
         <currency>INR</currency>
-        <description>Yearly Subscription with 10% Discount</description>
+        <description>Perfect for growing businesses.</description>
+        <is_active>true</is_active>
+    </plan>
+    <plan>
+        <name>Professional</name>
+        <type>MONTHLY</type>
+        <amount>1000.00</amount>
+        <currency>INR</currency>
+        <description>Advanced features for scaling operations.</description>
+        <is_active>true</is_active>
+    </plan>
+    <plan>
+        <name>Enterprise</name>
+        <type>MONTHLY</type>
+        <amount>2000.00</amount>
+        <currency>INR</currency>
+        <description>Full access to all features and priority support.</description>
         <is_active>true</is_active>
     </plan>
 </erp_plans>

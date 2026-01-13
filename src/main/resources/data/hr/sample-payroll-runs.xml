@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<payroll_runs>
+    <payroll_run>
+        <month>1</month>
+        <year>2026</year>
+        <processed_date>2026-01-28</processed_date>
+        <status>COMPLETED</status>
+        <total_payout>1250000.00</total_payout>
+    </payroll_run>
+    <payroll_run>
+        <month>12</month>
+        <year>2025</year>
+        <processed_date>2025-12-28</processed_date>
+        <status>COMPLETED</status>
+        <total_payout>1245000.00</total_payout>
+    </payroll_run>
+    <payroll_run>
+        <month>11</month>
+        <year>2025</year>
+        <processed_date>2025-11-28</processed_date>
+        <status>COMPLETED</status>
+        <total_payout>1200000.00</total_payout>
+    </payroll_run>
+    <payroll_run>
+        <month>10</month>
+        <year>2025</year>
+        <processed_date>2025-10-28</processed_date>
+        <status>COMPLETED</status>
+        <total_payout>1195000.00</total_payout>
+    </payroll_run>
+    <payroll_run>
+        <month>9</month>
+        <year>2025</year>
+        <processed_date>2025-09-28</processed_date>
+        <status>COMPLETED</status>
+        <total_payout>1180000.00</total_payout>
+    </payroll_run>
+    <payroll_run>
+        <month>8</month>
+        <year>2025</year>
+        <processed_date>2025-08-28</processed_date>
+        <status>COMPLETED</status>
+        <total_payout>1175000.00</total_payout>
+    </payroll_run>
+</payroll_runs>

@@ -20,6 +20,7 @@ export interface User {
   lastLoginDate?: string;
   passwordChangeDate?: string;
   roles?: any[];
+  isPrimaryUser?: boolean;
 }
 
 @Component({

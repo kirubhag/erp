@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<attendance_records>
+    <!-- Sample staff attendance records -->
+    <!-- Status enum: ABSENT, EARLY_DEPARTURE, EXCUSED, LATE, PRESENT -->
+    <!-- Attendance type enum: STAFF, STUDENT -->
+    <attendance>
+        <attendance_date>2026-01-12</attendance_date>
+        <check_in_time>08:30:00</check_in_time>
+        <check_out_time>17:00:00</check_out_time>
+        <status>PRESENT</status>
+        <attendance_type>STAFF</attendance_type>
+        <remarks>On time</remarks>
+    </attendance>
+    <attendance>
+        <attendance_date>2026-01-12</attendance_date>
+        <check_in_time>08:45:00</check_in_time>
+        <check_out_time>17:30:00</check_out_time>
+        <status>PRESENT</status>
+        <attendance_type>STAFF</attendance_type>
+        <remarks>Regular attendance</remarks>
+    </attendance>
+    <attendance>
+        <attendance_date>2026-01-12</attendance_date>
+        <check_in_time>09:15:00</check_in_time>
+        <check_out_time>17:00:00</check_out_time>
+        <status>LATE</status>
+        <attendance_type>STAFF</attendance_type>
+        <remarks>Late arrival - traffic</remarks>
+    </attendance>
+    <attendance>
+        <attendance_date>2026-01-12</attendance_date>
+        <status>ABSENT</status>
+        <attendance_type>STAFF</attendance_type>
+        <remarks>Sick leave</remarks>
+    </attendance>
+    <attendance>
+        <attendance_date>2026-01-12</attendance_date>
+        <check_in_time>08:00:00</check_in_time>
+        <check_out_time>13:00:00</check_out_time>
+        <status>EARLY_DEPARTURE</status>
+        <attendance_type>STAFF</attendance_type>
+        <remarks>Early departure - personal work</remarks>
+    </attendance>
+    <attendance>
+        <attendance_date>2026-01-13</attendance_date>
+        <check_in_time>08:25:00</check_in_time>
+        <check_out_time>17:15:00</check_out_time>
+        <status>PRESENT</status>
+        <attendance_type>STAFF</attendance_type>
+        <remarks>On time</remarks>
+    </attendance>
+    <attendance>
+        <attendance_date>2026-01-13</attendance_date>
+        <check_in_time>08:30:00</check_in_time>
+        <check_out_time>17:00:00</check_out_time>
+        <status>PRESENT</status>
+        <attendance_type>STAFF</attendance_type>
+        <remarks>On time</remarks>
+    </attendance>
+    <attendance>
+        <attendance_date>2026-01-13</attendance_date>
+        <check_in_time>08:30:00</check_in_time>
+        <check_out_time>17:00:00</check_out_time>
+        <status>PRESENT</status>
+        <attendance_type>STAFF</attendance_type>
+        <remarks>On time</remarks>
+    </attendance>
+    <attendance>
+        <attendance_date>2026-01-13</attendance_date>
+        <status>EXCUSED</status>
+        <attendance_type>STAFF</attendance_type>
+        <remarks>Approved leave</remarks>
+    </attendance>
+    <attendance>
+        <attendance_date>2026-01-13</attendance_date>
+        <check_in_time>08:20:00</check_in_time>
+        <check_out_time>17:00:00</check_out_time>
+        <status>PRESENT</status>
+        <attendance_type>STAFF</attendance_type>
+        <remarks>Regular day</remarks>
+    </attendance>
+</attendance_records>

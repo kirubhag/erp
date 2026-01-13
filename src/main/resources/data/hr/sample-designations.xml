@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designations>
+    <designation>
+        <title>Principal</title>
+        <description>Head of the Institution</description>
+        <rank>1</rank>
+    </designation>
+    <designation>
+        <title>Vice Principal</title>
+        <description>Second in command</description>
+        <rank>2</rank>
+    </designation>
+    <designation>
+        <title>Head of Department</title>
+        <description>Department Lead</description>
+        <rank>3</rank>
+    </designation>
+    <designation>
+        <title>Senior Professor</title>
+        <description>Senior teaching faculty</description>
+        <rank>4</rank>
+    </designation>
+    <designation>
+        <title>Professor</title>
+        <description>Teaching faculty</description>
+        <rank>5</rank>
+    </designation>
+    <designation>
+        <title>Assistant Professor</title>
+        <description>Junior teaching faculty</description>
+        <rank>6</rank>
+    </designation>
+    <designation>
+        <title>Lab Assistant</title>
+        <description>Assists in laboratories</description>
+        <rank>7</rank>
+    </designation>
+    <designation>
+        <title>Clerk</title>
+        <description>Administrative staff</description>
+        <rank>8</rank>
+    </designation>
+</designations>

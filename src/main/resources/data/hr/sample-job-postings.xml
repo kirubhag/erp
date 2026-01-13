@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job_postings>
+    <job_posting>
+        <title>Senior Software Engineer</title>
+        <department>Information Technology</department>
+        <description>Looking for an experienced software engineer to join our development team. Should have strong skills in Java, Spring Boot, and Angular.</description>
+        <requirements>5+ years experience in software development, Bachelor's degree in CS or related field, strong problem-solving skills</requirements>
+        <employment_type>FULL_TIME</employment_type>
+        <posted_date>2026-01-05</posted_date>
+        <closing_date>2026-02-28</closing_date>
+        <status>OPEN</status>
+    </job_posting>
+    <job_posting>
+        <title>Math Teacher - Middle School</title>
+        <department>Academics</department>
+        <description>Seeking a qualified Math teacher for grades 6-8. Must be passionate about teaching and student development.</description>
+        <requirements>B.Ed or M.Ed in Mathematics, 2+ years teaching experience, excellent communication skills</requirements>
+        <employment_type>FULL_TIME</employment_type>
+        <posted_date>2026-01-10</posted_date>
+        <closing_date>2026-03-15</closing_date>
+        <status>OPEN</status>
+    </job_posting>
+    <job_posting>
+        <title>Administrative Assistant</title>
+        <department>Administration</department>
+        <description>Looking for an organized and detail-oriented administrative assistant to support daily operations.</description>
+        <requirements>Bachelor's degree, 1+ years administrative experience, proficient in MS Office</requirements>
+        <employment_type>FULL_TIME</employment_type>
+        <posted_date>2026-01-08</posted_date>
+        <closing_date>2026-02-15</closing_date>
+        <status>OPEN</status>
+    </job_posting>
+    <job_posting>
+        <title>Science Lab Assistant</title>
+        <department>Academics</department>
+        <description>Part-time position to assist in the science laboratory for high school experiments and demonstrations.</description>
+        <requirements>Bachelor's degree in Science, lab experience preferred, attention to safety protocols</requirements>
+        <employment_type>PART_TIME</employment_type>
+        <posted_date>2026-01-12</posted_date>
+        <closing_date>2026-02-28</closing_date>
+        <status>OPEN</status>
+    </job_posting>
+    <job_posting>
+        <title>HR Manager</title>
+        <department>Human Resources</department>
+        <description>Seeking an HR Manager to oversee recruitment, employee relations, and HR policies.</description>
+        <requirements>MBA in HR or equivalent, 5+ years HR experience, strong leadership skills</requirements>
+        <employment_type>FULL_TIME</employment_type>
+        <posted_date>2026-01-01</posted_date>
+        <closing_date>2026-01-31</closing_date>
+        <status>CLOSED</status>
+    </job_posting>
+    <job_posting>
+        <title>Sports Coach - Cricket</title>
+        <department>Physical Education</department>
+        <description>Looking for a qualified cricket coach to train students and lead school cricket team.</description>
+        <requirements>Certified cricket coach, 3+ years coaching experience, good communication skills</requirements>
+        <employment_type>FULL_TIME</employment_type>
+        <posted_date>2026-01-15</posted_date>
+        <closing_date>2026-03-01</closing_date>
+        <status>OPEN</status>
+    </job_posting>
+</job_postings>

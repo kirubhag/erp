@@ -77,7 +77,14 @@ public class SampleDataController {
             "accounting", // General Ledger
             "library", // Library Management
             "lms", // Learning Management System
-            "tpd" // Training & Professional Development
+            "finance", // Fee & Fine Management
+            "scholarships", // Scholarships & Financial Aid
+            "accounting", // General Ledger
+            "library", // Library Management
+            "lms", // Learning Management System
+            "tpd", // Training & Professional Development
+            "competencies", // Core Competencies (part of TPD but can be loaded separately)
+            "payslips" // Generated Payslips
     );
 
     /**
@@ -159,6 +166,10 @@ public class SampleDataController {
         entities.add(createEntityInfo("library", "Library Management"));
         entities.add(createEntityInfo("lms", "Learning Management System (LMS)"));
         entities.add(createEntityInfo("tpd", "Staff Training & Growth (TPD)"));
+        entities.add(createEntityInfo("competencies", "PD Competencies (XML)"));
+        entities.add(createEntityInfo("payslips", "Payroll Payslips (XML)"));
+        entities.add(createEntityInfo("departments", "HR Departments (XML)"));
+        entities.add(createEntityInfo("designations", "HR Designations (XML)"));
 
         response.put("entities", entities);
         response.put("recommendedOrder", DEPENDENCY_ORDER);
@@ -205,7 +216,8 @@ public class SampleDataController {
         try {
             for (String entityName : orderedEntities) {
                 try {
-                    // Normalize entity name from display format (e.g., "Fee Type") to backend format (e.g., "fee_types")
+                    // Normalize entity name from display format (e.g., "Fee Type") to backend
+                    // format (e.g., "fee_types")
                     String normalizedName = normalizeEntityName(entityName);
                     logger.info("Importing sample data for entity: {} (normalized: {})", entityName, normalizedName);
 
@@ -244,22 +256,26 @@ public class SampleDataController {
                         dataImportService.importBudgetsDataFromXml("data/finance/sample-budgets.xml");
                         handledBySpecialMethod = true;
                     } else if (normalizedName.equalsIgnoreCase("fine_configurations")) {
-                        dataImportService.importFineConfigurationsDataFromXml("data/finance/sample-fine-configurations.xml");
+                        dataImportService
+                                .importFineConfigurationsDataFromXml("data/finance/sample-fine-configurations.xml");
                         handledBySpecialMethod = true;
                     } else if (normalizedName.equalsIgnoreCase("fine_ledger")) {
                         dataImportService.importFineLedgerDataFromXml("data/finance/sample-fine-ledger.xml");
                         handledBySpecialMethod = true;
                     } else if (normalizedName.equalsIgnoreCase("disciplinary_incidents")) {
-                        dataImportService.importDisciplinaryIncidentsDataFromXml("data/finance/sample-disciplinary-incidents.xml");
+                        dataImportService.importDisciplinaryIncidentsDataFromXml(
+                                "data/finance/sample-disciplinary-incidents.xml");
                         handledBySpecialMethod = true;
                     } else if (normalizedName.equalsIgnoreCase("fine_waiver_requests")) {
-                        dataImportService.importFineWaiverRequestsDataFromXml("data/finance/sample-fine-waiver-requests.xml");
+                        dataImportService
+                                .importFineWaiverRequestsDataFromXml("data/finance/sample-fine-waiver-requests.xml");
                         handledBySpecialMethod = true;
                     } else if (normalizedName.equalsIgnoreCase("invoice_items")) {
                         dataImportService.importInvoiceItemsDataFromXml("data/finance/sample-invoice-items.xml");
                         handledBySpecialMethod = true;
                     } else if (normalizedName.equalsIgnoreCase("accounting_periods")) {
-                        dataImportService.importAccountingPeriodsDataFromXml("data/finance/sample-accounting-periods.xml");
+                        dataImportService
+                                .importAccountingPeriodsDataFromXml("data/finance/sample-accounting-periods.xml");
                         handledBySpecialMethod = true;
                     } else if (normalizedName.equalsIgnoreCase("bank_statements")) {
                         dataImportService.importBankStatementsDataFromXml("data/finance/sample-bank-statements.xml");
@@ -431,6 +447,15 @@ public class SampleDataController {
                                     .importJournalEntriesDataFromXml("data/finance/sample-journal-entries.xml");
                         } else if (entityName.equalsIgnoreCase("budgets")) {
                             dataImportService.importBudgetsDataFromXml("data/finance/sample-budgets.xml");
+
+                        } else if (entityName.equalsIgnoreCase("payslips")) {
+                            dataImportService.importPayslipsDataFromXml(xmlFilePath);
+                        } else if (entityName.equalsIgnoreCase("competencies")) {
+                            dataImportService.importCompetenciesDataFromXml(xmlFilePath);
+                        } else if (entityName.equalsIgnoreCase("departments")) {
+                            dataImportService.importDepartmentsDataFromXml(xmlFilePath);
+                        } else if (entityName.equalsIgnoreCase("designations")) {
+                            dataImportService.importDesignationsDataFromXml(xmlFilePath);
                         } else {
                             // For other entities, use the generic import
                             dataImportService.importDataFromXml(xmlFilePath);
@@ -508,7 +533,9 @@ public class SampleDataController {
         entityToXmlMap.put("subjects", "data/subject/subjects.xml");
         entityToXmlMap.put("subject", "data/subject/subjects.xml");
         entityToXmlMap.put("classes", "data/class/classes.xml");
-        entityToXmlMap.put("class", "data/class/classes.xml");
+        entityToXmlMap.put("course", "data/course/courses.xml");
+        entityToXmlMap.put("exams", "data/exam/exams.xml");
+
         entityToXmlMap.put("registrations", "data/admission/student_registration_fields.xml"); // Dummy mapping, using
                                                                                                // generate method
         entityToXmlMap.put("timetables", "data/timetable/timetables.xml");
@@ -527,7 +554,28 @@ public class SampleDataController {
         entityToXmlMap.put("course", "data/course/courses.xml");
         entityToXmlMap.put("exams", "data/exam/exams.xml");
 
-        return entityToXmlMap.get(entityName.toLowerCase());
+        // New mappings
+        entityToXmlMap.put("payslips", "data/hr/sample-payslips.xml");
+        entityToXmlMap.put("competencies", "data/tpd/sample-competencies.xml");
+
+        if (entityToXmlMap.containsKey(entityName.toLowerCase())) {
+            return entityToXmlMap.get(entityName.toLowerCase());
+        }
+
+        if (entityName.equalsIgnoreCase("payslips")) {
+            return "data/hr/sample-payslips.xml";
+        }
+        if (entityName.equalsIgnoreCase("competencies")) {
+            return "data/tpd/sample-competencies.xml";
+        }
+        if (entityName.equalsIgnoreCase("departments")) {
+            return "data/hr/sample-departments.xml";
+        }
+        if (entityName.equalsIgnoreCase("designations")) {
+            return "data/hr/sample-designations.xml";
+        }
+
+        return null;
     }
 
     /**
@@ -705,7 +753,8 @@ public class SampleDataController {
      * Normalize entity name from display format to backend format.
      * Converts display names like "Fee Type" to "fee_types"
      * 
-     * @param displayName Entity name from UI (e.g., "Fee Type", "Fee Discount Rule")
+     * @param displayName Entity name from UI (e.g., "Fee Type", "Fee Discount
+     *                    Rule")
      * @return Normalized name (e.g., "fee_types", "discount_rules")
      */
     private String normalizeEntityName(String displayName) {
@@ -714,10 +763,10 @@ public class SampleDataController {
         }
 
         String normalized = displayName.trim();
-        
+
         // Convert to lowercase and replace spaces with underscores
         normalized = normalized.toLowerCase().replace(" ", "_");
-        
+
         // Handle special cases where UI name doesn't match backend expectation
         switch (normalized) {
             case "fee_type":

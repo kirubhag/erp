@@ -94,6 +94,9 @@
                   <div class="flex-grow-1">
                     <h3 class="mb-0">
                       {{ getFullName(selectedUser) }}
+                      <span *ngIf="selectedUser.isPrimaryUser" class="badge bg-primary ms-2">
+                        <i class="bi bi-star-fill me-1"></i>Primary User
+                      </span>
                       <span [class.bg-success]="selectedUser.enabled" [class.bg-danger]="!selectedUser.enabled"
                         class="badge ms-2">
                         {{ selectedUser.enabled ? 'Active' : 'Inactive' }}
@@ -184,12 +187,15 @@
 
                 <!-- Action Buttons -->
                 <div class="d-flex gap-2 flex-wrap">
-                  <button class="btn btn-primary btn-sm" (click)="openEditUserForm()" [disabled]="loading">
+                  <button class="btn btn-primary btn-sm" (click)="openEditUserForm()" 
+                    [disabled]="loading || selectedUser.isPrimaryUser"
+                    [title]="selectedUser.isPrimaryUser ? 'Cannot edit primary user profile' : 'Edit user'">
                     <i class="bi bi-pencil me-1"></i> Edit
                   </button>
 
                   <button *ngIf="selectedUser.enabled" class="btn btn-warning btn-sm" (click)="deactivateUser()"
-                    [disabled]="loading">
+                    [disabled]="loading || selectedUser.isPrimaryUser"
+                    [title]="selectedUser.isPrimaryUser ? 'Cannot deactivate primary user' : 'Deactivate user'">
                     <i class="bi bi-lock me-1"></i> Deactivate
                   </button>
 
@@ -198,12 +204,15 @@
                     <i class="bi bi-unlock me-1"></i> Activate
                   </button>
 
-                  <button class="btn btn-danger btn-sm" (click)="deleteUser()" [disabled]="loading">
+                  <button class="btn btn-danger btn-sm" (click)="deleteUser()" 
+                    [disabled]="loading || selectedUser.isPrimaryUser"
+                    [title]="selectedUser.isPrimaryUser ? 'Cannot delete primary user' : 'Delete user'">
                     <i class="bi bi-trash me-1"></i> Delete
                   </button>
 
                   <button *ngIf="selectedUser.enabled" class="btn btn-info btn-sm text-white" (click)="reinviteUser()"
-                    [disabled]="loading" title="Send invitation email again">
+                    [disabled]="loading || selectedUser.isPrimaryUser" 
+                    [title]="selectedUser.isPrimaryUser ? 'Cannot re-invite primary user' : 'Send invitation email again'">
                     <i class="bi bi-envelope me-1"></i> Re-Invite
                   </button>
                 </div>

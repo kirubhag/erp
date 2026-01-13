@@ -85,7 +85,10 @@
 
             <!-- Subscriptions Section -->
             <div class="dropdown-section-title">SUBSCRIPTIONS</div>
-            <div class="subscription-badge">Enterprise</div>
+            <div class="subscription-badge">
+              {{ currentPlanName }}
+              <sup class="trial-badge" *ngIf="isTrialSubscription">Trial</sup>
+            </div>
 
             <a class="dropdown-item" (click)="navigateAndClose('/setup/subscription')">
               <i class="fas fa-crown"></i>

@@ -950,6 +950,14 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
         try {
             logger.info("Loading ERP plans into IAM_MasterDB...");
 
+            // Check if plans already exist
+            Integer existingCount = masterJdbcTemplate.queryForObject(
+                    "SELECT COUNT(*) FROM erp_plans", Integer.class);
+            if (existingCount != null && existingCount > 0) {
+                logger.info("ERP plans already loaded (found {} plans), skipping...", existingCount);
+                return;
+            }
+
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
             Resource resource = resolver.getResource("classpath:data/erp_plans.xml");
 
@@ -981,15 +989,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 masterJdbcTemplate.update(
                         "INSERT INTO erp_plans " +
                                 "(name, type, amount, currency, description, is_active, created_at, updated_at) " +
-                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?) " +
-                                "ON DUPLICATE KEY UPDATE " +
-                                "amount = VALUES(amount), " +
-                                "currency = VALUES(currency), " +
-                                "description = VALUES(description), " +
-                                "is_active = VALUES(is_active), " +
-                                "updated_at = ?",
-                        name, type, amount, currency, description, isActive, LocalDateTime.now(), LocalDateTime.now(),
-                        LocalDateTime.now());
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                        name, type, amount, currency, description, isActive, LocalDateTime.now(), LocalDateTime.now());
                 loaded++;
             }
 

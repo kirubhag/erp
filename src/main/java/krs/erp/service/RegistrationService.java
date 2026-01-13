@@ -44,6 +44,9 @@ public class RegistrationService {
     @Autowired
     private OrganizationRepository organizationRepository;
 
+    @Autowired
+    private SubscriptionService subscriptionService;
+
     public void registerTenant(RegistrationRequest request) {
         // 0. Check if email already exists in Master DB
         if (emailExistsInMasterDb(request.getAdminEmail())) {
@@ -59,8 +62,8 @@ public class RegistrationService {
         // 2. Create Tenant in Master DB
         createTenantInMasterDb(request.getOrganizationName(), dbName, tenantId);
 
-        // 3. Provision Tenant Database
-        tenantProvisioningService.provisionTenantDatabase(dbName);
+        // 3. Provision Tenant Database (pass tenant details for copying to tenant erp_tenants)
+        tenantProvisioningService.provisionTenantDatabase(dbName, tenantId, request.getOrganizationName());
 
         // 4. Switch Context to New Tenant
         TenantContext.setCurrentTenant(tenantId.toString());
@@ -95,9 +98,9 @@ public class RegistrationService {
 
     private void createUserInMasterDb(RegistrationRequest request, Long tenantId, Long organizationId) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        String sql = "INSERT INTO iam_users (username, password_hash, email, first_name, last_name, phone, user_type, enabled, tenant_id, organization_id, created_time, is_active, account_non_expired, credentials_non_expired, account_non_locked, confirmation_token) "
+        String sql = "INSERT INTO iam_users (username, password_hash, email, first_name, last_name, phone, user_type, enabled, tenant_id, organization_id, created_time, is_active, account_non_expired, credentials_non_expired, account_non_locked, confirmation_token, is_primary_user) "
                 +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1, 1, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1, 1, ?, ?)";
 
         String confirmationToken = UUID.randomUUID().toString();
 
@@ -113,7 +116,8 @@ public class RegistrationService {
                 tenantId,
                 organizationId,
                 LocalDateTime.now(),
-                confirmationToken);
+                confirmationToken,
+                true); // is_primary_user = true for account creator
 
         // Send Confirmation Email
         sendConfirmationEmail(request.getAdminEmail(), confirmationToken);
@@ -161,6 +165,7 @@ public class RegistrationService {
         admin.setEnabled(true);
         admin.setCreatedTime(LocalDateTime.now());
         admin.setOrganizationId(org.getId());
+        admin.setIsPrimaryUser(true); // Mark as primary user (account creator)
         // In Tenant DB, we can enable them or keep disabled. Keeping consistent with
         // Master DB logic is better but Master DB auth controls login.
         // We will set enabled = true here for Tenant DB data, as Master DB enabled flag
@@ -178,6 +183,15 @@ public class RegistrationService {
         admin.setCreatedTime(LocalDateTime.now());
 
         userRepository.save(admin);
+
+        // Create Trial Subscription for 15 days with Enterprise Edition
+        try {
+            subscriptionService.createTrialSubscription(org);
+            System.out.println("✓ Trial subscription created for organization: " + org.getName());
+        } catch (Exception e) {
+            System.err.println("⚠ Failed to create trial subscription: " + e.getMessage());
+            // Don't fail registration if subscription creation fails
+        }
 
         return org.getId();
     }

@@ -30,6 +30,10 @@ interface FeatureLimit {
   styleUrls: ['./subscription.component.css']
 })
 export class SubscriptionComponent implements OnInit {
+  // Main section tabs
+  activeSection: 'plan-details' | 'available-plans' | 'transaction-history' | 'usage-details' = 'plan-details';
+  
+  // Usage sub-tabs
   activeTab: 'onetime' | 'daily' = 'onetime';
 
   // User context (TODO: Get from auth service)
@@ -69,10 +73,10 @@ export class SubscriptionComponent implements OnInit {
 
   // Plan details (computed from API or fallback)
   profileId = 'ORG_ERP_001';
-  currentPlan = 'Enterprise';
-  supportPlan = 'Premium';
-  billingCycle = 'Yearly';
-  nextRenewal = new Date('2026-05-15');
+  currentPlan = 'Loading...';
+  supportPlan = 'Standard';
+  billingCycle = 'Monthly';
+  nextRenewal = new Date();
 
   // Users limit (computed from plan data)
   totalUsers = 7;
@@ -217,8 +221,9 @@ export class SubscriptionComponent implements OnInit {
     if (!this.currentSubscription) return;
 
     const sub = this.currentSubscription;
-    this.currentPlan = sub.plan.displayName;
-    this.billingCycle = sub.billingCycle;
+    // Use plan displayName, fallback to planName, then planType
+    this.currentPlan = sub.plan?.displayName || sub.plan?.planName || sub.plan?.planType || 'Free';
+    this.billingCycle = sub.billingCycle || 'Monthly';
     this.profileId = `ORG_${sub.organizationId}`;
 
     if (sub.nextBillingDate) {
@@ -296,12 +301,10 @@ export class SubscriptionComponent implements OnInit {
       cardCvv: this.paymentForm.cvv
     };
 
-    this.subscriptionService.upgradePlan(request).subscribe({
-      next: (subscription) => {
-        this.currentSubscription = subscription;
-        this.updateDisplayData();
+    this.subscriptionService.changePlan(this.selectedPlan.id).subscribe({
+      next: () => {
         this.upgrading = false;
-        this.successMessage = 'Subscription upgraded successfully!';
+        this.successMessage = 'Subscription plan changed successfully!';
 
         // Close modal and refresh after showing success message
         setTimeout(() => {
@@ -310,11 +313,43 @@ export class SubscriptionComponent implements OnInit {
         }, 2000);
       },
       error: (err) => {
-        console.error('Upgrade failed:', err);
-        this.paymentError = err.error?.message || 'Payment failed. Please check your card details.';
+        console.error('Change plan failed:', err);
+        this.paymentError = err.error?.message || 'Failed to change plan. Please try again.';
         this.upgrading = false;
       }
     });
+  }
+
+  /**
+   * Extend trial period
+   */
+  extendTrial(): void {
+    if (confirm('Extend trial by 1 minute for testing?')) {
+      this.subscriptionService.extendTrial(1, 'MINUTES').subscribe({
+        next: () => {
+          alert('Trial extended!');
+          this.loadSubscriptionData();
+        },
+        error: (err) => alert('Failed to extend trial: ' + err.message)
+      });
+    }
+  }
+
+  get trialRemaining(): string {
+    if (this.currentSubscription?.status === 'TRIAL' && this.currentSubscription.currentPeriodEnd) {
+      const end = new Date(this.currentSubscription.currentPeriodEnd).getTime();
+      const now = new Date().getTime();
+      const diff = end - now;
+      if (diff <= 0) return 'Expired';
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+      if (days > 0) return `${days}d ${hours}h`;
+      return `${hours}h ${minutes}m`;
+    }
+    return '';
   }
 
   /**
@@ -349,16 +384,23 @@ export class SubscriptionComponent implements OnInit {
    * Check if plan is current
    */
   isCurrentPlan(plan: PricingPlan): boolean {
-    return this.currentSubscription?.plan.id === plan.id;
+    if (!this.currentSubscription?.plan) return false;
+    // Match by ID if available, otherwise by name
+    if (this.currentSubscription.plan.id && plan.id) {
+      return this.currentSubscription.plan.id === plan.id;
+    }
+    return this.currentSubscription.plan.name === plan.name || 
+           this.currentSubscription.plan.displayName === plan.displayName;
   }
 
   /**
    * Check if plan is higher than current
    */
   canUpgradeTo(plan: PricingPlan): boolean {
-    if (!this.currentSubscription) return true;
-    const currentPrice = this.currentSubscription.plan.priceMonthly;
-    return plan.priceMonthly > currentPrice;
+    if (!this.currentSubscription?.plan) return true;
+    const currentPrice = this.currentSubscription.plan.priceMonthly || this.currentSubscription.plan.amount || 0;
+    const targetPrice = plan.priceMonthly || plan.amount || 0;
+    return targetPrice > currentPrice;
   }
 
   setActiveTab(tab: 'onetime' | 'daily'): void {

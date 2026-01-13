@@ -79,11 +79,12 @@ public class RazorpayService {
     }
 
     /**
-     * Create a subscription for a user.
+     * Create a subscription for an organization.
      * Yearly plan has 10% discount already built into the plan price in DB.
      */
     @Transactional
-    public String createSubscription(Long userId, String planType) throws RazorpayException {
+    public String createSubscription(krs.erp.model.Organization organization, String planType)
+            throws RazorpayException {
         ErpPlan plan = planRepository.findByType(planType)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid plan type: " + planType));
 
@@ -97,7 +98,7 @@ public class RazorpayService {
 
         // Save pending subscription
         ErpSubscription erpSub = new ErpSubscription();
-        erpSub.setUserId(userId);
+        erpSub.setOrganization(organization);
         erpSub.setPlan(plan);
         erpSub.setRazorpaySubscriptionId(subscription.get("id"));
         erpSub.setStatus("CREATED");

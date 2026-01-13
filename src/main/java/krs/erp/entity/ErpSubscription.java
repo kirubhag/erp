@@ -13,8 +13,9 @@ public class ErpSubscription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @OneToOne
+    @JoinColumn(name = "organization_id", nullable = false)
+    private krs.erp.model.Organization organization;
 
     @ManyToOne
     @JoinColumn(name = "plan_id", nullable = false)

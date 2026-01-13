@@ -1,20 +1,47 @@
 <div class="setup-layout">
   <app-settings-sidebar></app-settings-sidebar>
-  
+
   <div class="settings-content-container">
     <!-- Header -->
     <div class="content-header">
       <div>
         <h1 class="content-title">Subscription Information</h1>
-        <p class="content-description">Displays an overview of your organization's subscription plan and feature usage limits</p>
+        <p class="content-description">Displays an overview of your organization's subscription plan and feature usage
+          limits</p>
       </div>
       <a href="#" class="help-link"><i class="far fa-question-circle me-1"></i> Help</a>
     </div>
 
     <!-- Content Body -->
     <div class="content-body">
+      <!-- Tabs Navigation -->
+      <ul class="nav nav-tabs tabs-navigation">
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeSection === 'plan-details'" href="#" (click)="$event.preventDefault(); activeSection = 'plan-details'">
+            <i class="fas fa-credit-card"></i> Plan Details
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeSection === 'available-plans'" href="#" (click)="$event.preventDefault(); activeSection = 'available-plans'">
+            <i class="fas fa-th-large"></i> Available Plans
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeSection === 'transaction-history'" href="#" (click)="$event.preventDefault(); activeSection = 'transaction-history'">
+            <i class="fas fa-history"></i> Transaction History
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeSection === 'usage-details'" href="#" (click)="$event.preventDefault(); activeSection = 'usage-details'">
+            <i class="fas fa-chart-bar"></i> Usage Details
+          </a>
+        </li>
+      </ul>
+
+      <!-- Tab Content -->
+      <div class="tab-content-wrapper">
       <!-- Plan Details -->
-      <div class="plan-section">
+      <div class="plan-section" *ngIf="activeSection === 'plan-details'">
         <div class="section-header">
           <h5>Plan Details</h5>
           <div class="header-actions">
@@ -27,11 +54,16 @@
           <div class="plan-badge">
             <i class="fas fa-crown"></i>
           </div>
-          
+
           <div class="plan-info-grid">
             <div class="plan-info-item">
               <small class="label">Current Plan</small>
-              <strong>{{ currentPlan }}</strong>
+              <strong>{{ currentPlan }}<sup class="trial-badge" *ngIf="currentSubscription?.status === 'TRIAL'">Trial</sup></strong>
+            </div>
+            <div class="plan-info-item" *ngIf="currentSubscription?.status === 'TRIAL'">
+              <small class="label">Trial Ends In</small>
+              <strong class="text-danger">{{ trialRemaining }}</strong>
+              <button class="btn btn-sm btn-outline-primary ms-2" (click)="extendTrial()">Extend</button>
             </div>
             <div class="plan-info-item">
               <small class="label">Support Plan</small>
@@ -41,7 +73,7 @@
               <small class="label">Billing Cycle</small>
               <strong>{{ billingCycle }}</strong>
             </div>
-            <div class="plan-info-item">
+            <div class="plan-info-item" *ngIf="currentSubscription?.status !== 'TRIAL'">
               <small class="label">Next Renewal</small>
               <strong>{{ formatDate(nextRenewal) }}</strong>
             </div>
@@ -65,40 +97,34 @@
       </div>
 
       <!-- Available Plans -->
-      <div class="pricing-section" *ngIf="!loading">
+      <div class="pricing-section" *ngIf="activeSection === 'available-plans' && !loading">
         <h5 class="section-title">Available Plans</h5>
-        
+
         <!-- Billing Cycle Toggle -->
         <div class="billing-toggle">
-          <button 
-            class="toggle-btn" 
-            [class.active]="selectedBillingCycle === 'MONTHLY'"
-            (click)="selectedBillingCycle = 'MONTHLY'"
-          >
+          <button class="toggle-btn" [class.active]="selectedBillingCycle === 'MONTHLY'"
+            (click)="selectedBillingCycle = 'MONTHLY'">
             Monthly
           </button>
-          <button 
-            class="toggle-btn" 
-            [class.active]="selectedBillingCycle === 'YEARLY'"
-            (click)="selectedBillingCycle = 'YEARLY'"
-          >
+          <button class="toggle-btn" [class.active]="selectedBillingCycle === 'YEARLY'"
+            (click)="selectedBillingCycle = 'YEARLY'">
             Yearly <span class="badge-save">Save 20%</span>
           </button>
         </div>
 
         <!-- Plans Grid -->
-        <div class="plans-grid" *ngIf="!loadingPlans">
+        <div class="plans-grid" *ngIf="!loadingPlans && availablePlans.length > 0">
           <div class="plan-card" *ngFor="let plan of availablePlans" [class.current]="isCurrentPlan(plan)">
             <div class="plan-header-card">
               <div class="plan-icon">
-                <i class="fas fa-trophy" *ngIf="plan.planType === 'PREMIUM'"></i>
-                <i class="fas fa-star" *ngIf="plan.planType === 'STANDARD'"></i>
-                <i class="fas fa-box" *ngIf="plan.planType === 'BASIC'"></i>
-                <i class="fas fa-gift" *ngIf="plan.planType === 'FREE'"></i>
+                <i class="fas fa-crown" *ngIf="plan.name === 'Enterprise'"></i>
+                <i class="fas fa-trophy" *ngIf="plan.name === 'Professional'"></i>
+                <i class="fas fa-star" *ngIf="plan.name === 'Starter'"></i>
+                <i class="fas fa-gift" *ngIf="plan.name === 'Free'"></i>
               </div>
               <h6 class="plan-name">{{ plan.displayName }}</h6>
               <p class="plan-description">{{ plan.description }}</p>
-              
+
               <div class="plan-price">
                 <span class="currency">₹</span>
                 <span class="amount">{{ getPlanPrice(plan) }}</span>
@@ -106,12 +132,9 @@
               </div>
 
               <span class="current-badge" *ngIf="isCurrentPlan(plan)">Current Plan</span>
-              
-              <button 
-                class="btn-upgrade" 
-                *ngIf="!isCurrentPlan(plan) && canUpgradeTo(plan)"
-                (click)="openUpgradeModal(plan)"
-              >
+
+              <button class="btn-upgrade" *ngIf="!isCurrentPlan(plan) && canUpgradeTo(plan)"
+                (click)="openUpgradeModal(plan)">
                 Upgrade
               </button>
             </div>
@@ -129,6 +152,12 @@
           </div>
         </div>
 
+        <!-- No Plans Available -->
+        <div class="no-plans-message" *ngIf="!loadingPlans && availablePlans.length === 0">
+          <i class="fas fa-info-circle"></i>
+          <p>No plans available at this time. Please contact support.</p>
+        </div>
+
         <!-- Loading Plans -->
         <div class="loading-spinner" *ngIf="loadingPlans">
           <i class="fas fa-spinner fa-spin"></i> Loading plans...
@@ -136,15 +165,15 @@
       </div>
 
       <!-- History Section -->
-      <div class="history-section" *ngIf="!loading">
+      <div class="history-section" *ngIf="activeSection === 'transaction-history' && !loading">
         <div class="section-header">
           <h5>Transaction History</h5>
-          <button class="btn-link" (click)="loadHistory()">
-            {{ showHistorySection ? 'Hide' : 'View' }} History
+          <button class="btn-link" (click)="loadHistory()" *ngIf="!showHistorySection">
+            <i class="fas fa-sync-alt"></i> Load History
           </button>
         </div>
 
-        <div class="history-content" *ngIf="showHistorySection">
+        <div class="history-content">
           <!-- Subscription History -->
           <div class="history-subsection" *ngIf="subscriptionHistory.length > 0">
             <h6>Subscription Changes</h6>
@@ -183,11 +212,8 @@
                   <td>{{ formatDate(payment.processedAt) }}</td>
                   <td>${{ payment.amount }} {{ payment.currency }}</td>
                   <td>
-                    <span 
-                      class="badge-status" 
-                      [class.success]="payment.transactionStatus === 'SUCCESS'"
-                      [class.failed]="payment.transactionStatus === 'FAILED'"
-                    >
+                    <span class="badge-status" [class.success]="payment.transactionStatus === 'SUCCESS'"
+                      [class.failed]="payment.transactionStatus === 'FAILED'">
                       {{ payment.transactionStatus }}
                     </span>
                   </td>
@@ -203,30 +229,23 @@
           </div>
 
           <!-- No History -->
-          <p class="text-muted" *ngIf="!loadingHistory && subscriptionHistory.length === 0 && paymentHistory.length === 0">
+          <p class="text-muted"
+            *ngIf="!loadingHistory && subscriptionHistory.length === 0 && paymentHistory.length === 0">
             No transaction history available
           </p>
         </div>
       </div>
 
       <!-- Usage Details -->
-      <div class="usage-section">
+      <div class="usage-section" *ngIf="activeSection === 'usage-details'">
         <h5 class="section-title">Usage Details</h5>
-        
+
         <!-- Tabs -->
         <div class="usage-tabs">
-          <button 
-            class="tab-btn" 
-            [class.active]="activeTab === 'onetime'"
-            (click)="setActiveTab('onetime')"
-          >
+          <button class="tab-btn" [class.active]="activeTab === 'onetime'" (click)="setActiveTab('onetime')">
             One-Time Limits
           </button>
-          <button 
-            class="tab-btn" 
-            [class.active]="activeTab === 'daily'"
-            (click)="setActiveTab('daily')"
-          >
+          <button class="tab-btn" [class.active]="activeTab === 'daily'" (click)="setActiveTab('daily')">
             Daily Limits
           </button>
         </div>
@@ -268,6 +287,7 @@
           <p class="text-muted">Daily usage limits will be displayed here.</p>
         </div>
       </div>
+      </div><!-- End tab-content-wrapper -->
     </div>
   </div>
 </div>
@@ -303,52 +323,27 @@
       <form class="payment-form" (ngSubmit)="processUpgrade()">
         <div class="form-group">
           <label>Card Holder Name</label>
-          <input 
-            type="text" 
-            [(ngModel)]="paymentForm.cardHolderName" 
-            name="cardHolderName"
-            placeholder="John Doe"
-            required
-          >
+          <input type="text" [(ngModel)]="paymentForm.cardHolderName" name="cardHolderName" placeholder="John Doe"
+            required>
         </div>
 
         <div class="form-group">
           <label>Card Number</label>
-          <input 
-            type="text" 
-            [(ngModel)]="paymentForm.cardNumber" 
-            name="cardNumber"
-            (input)="formatCardNumber()"
-            placeholder="1234 5678 9012 3456"
-            maxlength="19"
-            required
-          >
+          <input type="text" [(ngModel)]="paymentForm.cardNumber" name="cardNumber" (input)="formatCardNumber()"
+            placeholder="1234 5678 9012 3456" maxlength="19" required>
           <small class="form-hint">Use card ending in 0000 to test failure</small>
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label>Expiry Date</label>
-            <input 
-              type="text" 
-              [(ngModel)]="paymentForm.expiryDate" 
-              name="expiryDate"
-              placeholder="MM/YY"
-              maxlength="5"
-              required
-            >
+            <input type="text" [(ngModel)]="paymentForm.expiryDate" name="expiryDate" placeholder="MM/YY" maxlength="5"
+              required>
           </div>
 
           <div class="form-group">
             <label>CVV</label>
-            <input 
-              type="password" 
-              [(ngModel)]="paymentForm.cvv" 
-              name="cvv"
-              placeholder="123"
-              maxlength="4"
-              required
-            >
+            <input type="password" [(ngModel)]="paymentForm.cvv" name="cvv" placeholder="123" maxlength="4" required>
           </div>
         </div>
 

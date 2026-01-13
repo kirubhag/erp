@@ -6,8 +6,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -93,6 +93,9 @@ public class User extends BaseEntity {
 
     @Column(name = "tenant_id")
     private Long tenantId;
+
+    @Column(name = "is_primary_user", nullable = false)
+    private Boolean isPrimaryUser = false;
 
     // Relationships
     @JsonIgnore
@@ -282,6 +285,14 @@ public class User extends BaseEntity {
 
     public void setTenantId(Long tenantId) {
         this.tenantId = tenantId;
+    }
+
+    public Boolean getIsPrimaryUser() {
+        return isPrimaryUser;
+    }
+
+    public void setIsPrimaryUser(Boolean isPrimaryUser) {
+        this.isPrimaryUser = isPrimaryUser;
     }
 
     public Set<Role> getRoles() {

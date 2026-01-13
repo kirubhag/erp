@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job_applications>
+    <!-- Status enum values: HIRED, INTERVIEW, NEW, OFFER_EXTENDED, REJECTED, SCREENING -->
+    <job_application>
+        <job_posting_title>Senior Software Engineer</job_posting_title>
+        <candidate_name>Rajesh Kumar</candidate_name>
+        <candidate_email>rajesh.kumar@example.com</candidate_email>
+        <candidate_phone>+91-9876543210</candidate_phone>
+        <resume_url>/uploads/resumes/rajesh_kumar_resume.pdf</resume_url>
+        <applied_date>2026-01-15</applied_date>
+        <status>SCREENING</status>
+    </job_application>
+    <job_application>
+        <job_posting_title>Senior Software Engineer</job_posting_title>
+        <candidate_name>Priya Sharma</candidate_name>
+        <candidate_email>priya.sharma@example.com</candidate_email>
+        <candidate_phone>+91-9876543211</candidate_phone>
+        <resume_url>/uploads/resumes/priya_sharma_resume.pdf</resume_url>
+        <applied_date>2026-01-16</applied_date>
+        <status>INTERVIEW</status>
+    </job_application>
+    <job_application>
+        <job_posting_title>Math Teacher - Middle School</job_posting_title>
+        <candidate_name>Deepa Menon</candidate_name>
+        <candidate_email>deepa.menon@example.com</candidate_email>
+        <candidate_phone>+91-9876543212</candidate_phone>
+        <resume_url>/uploads/resumes/deepa_menon_resume.pdf</resume_url>
+        <applied_date>2026-01-18</applied_date>
+        <status>INTERVIEW</status>
+    </job_application>
+    <job_application>
+        <job_posting_title>Administrative Assistant</job_posting_title>
+        <candidate_name>Amit Patel</candidate_name>
+        <candidate_email>amit.patel@example.com</candidate_email>
+        <candidate_phone>+91-9876543213</candidate_phone>
+        <resume_url>/uploads/resumes/amit_patel_resume.pdf</resume_url>
+        <applied_date>2026-01-12</applied_date>
+        <status>OFFER_EXTENDED</status>
+    </job_application>
+    <job_application>
+        <job_posting_title>HR Manager</job_posting_title>
+        <candidate_name>Neha Gupta</candidate_name>
+        <candidate_email>neha.gupta@example.com</candidate_email>
+        <candidate_phone>+91-9876543214</candidate_phone>
+        <resume_url>/uploads/resumes/neha_gupta_resume.pdf</resume_url>
+        <applied_date>2026-01-10</applied_date>
+        <status>HIRED</status>
+    </job_application>
+    <job_application>
+        <job_posting_title>Sports Coach - Cricket</job_posting_title>
+        <candidate_name>Vikram Singh</candidate_name>
+        <candidate_email>vikram.singh@example.com</candidate_email>
+        <candidate_phone>+91-9876543215</candidate_phone>
+        <resume_url>/uploads/resumes/vikram_singh_resume.pdf</resume_url>
+        <applied_date>2026-01-20</applied_date>
+        <status>NEW</status>
+    </job_application>
+    <job_application>
+        <job_posting_title>Senior Software Engineer</job_posting_title>
+        <candidate_name>Karthik Rajan</candidate_name>
+        <candidate_email>karthik.rajan@example.com</candidate_email>
+        <candidate_phone>+91-9876543216</candidate_phone>
+        <resume_url>/uploads/resumes/karthik_rajan_resume.pdf</resume_url>
+        <applied_date>2026-01-17</applied_date>
+        <status>REJECTED</status>
+    </job_application>
+</job_applications>

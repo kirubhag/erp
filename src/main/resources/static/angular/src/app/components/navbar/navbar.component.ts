@@ -6,6 +6,7 @@ import { AuthService, UserDetails } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 import { LayoutService } from '../../services/layout.service';
+import { SubscriptionService, UserSubscription } from '../../services/subscription.service';
 
 export interface MenuItem {
   id: number;
@@ -41,6 +42,11 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   isOverflowDropdownOpen = false;
   isNavbarCollapsed = true; // For mobile menu toggle
 
+  // Subscription data
+  currentSubscription: UserSubscription | null = null;
+  currentPlanName = 'Loading...';
+  isTrialSubscription = false;
+
   // Navbar width constraints - dynamically calculated based on screen size
   private readonly ITEM_WIDTH = 140; // Estimated width per menu item including margins
   private readonly MORE_BUTTON_WIDTH = 60; // Width of the "..." button
@@ -53,6 +59,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     private layoutService: LayoutService,
     private authService: AuthService,
     private themeService: ThemeService,
+    private subscriptionService: SubscriptionService,
     private router: Router
   ) { }
 
@@ -69,6 +76,9 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
     // Load menu items from API (now listens to LayoutService)
     this.loadMenuItems();
+
+    // Load subscription data
+    this.loadSubscription();
   }
 
   ngAfterViewInit() {
@@ -111,6 +121,26 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     // Subscribe to theme changes
     this.themeService.getTheme$().subscribe(theme => {
       this.selectedTheme = theme;
+    });
+  }
+
+  /**
+   * Load subscription data
+   */
+  loadSubscription(): void {
+    // Get subscription from service (uses auth context)
+    this.subscriptionService.getCurrentSubscription(0, 0).subscribe({
+      next: (subscription) => {
+        this.currentSubscription = subscription;
+        // Use plan displayName, fallback to planName, then planType
+        this.currentPlanName = subscription.plan?.displayName || subscription.plan?.planName || subscription.plan?.planType || 'Free';
+        this.isTrialSubscription = subscription.status === 'TRIAL';
+      },
+      error: (err) => {
+        console.error('Error loading subscription for navbar:', err);
+        this.currentPlanName = 'Free';
+        this.isTrialSubscription = false;
+      }
     });
   }
 

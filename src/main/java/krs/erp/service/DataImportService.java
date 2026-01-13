@@ -100,6 +100,7 @@ import krs.erp.model.maintenance.Facility;
 import krs.erp.model.maintenance.FacilityBooking;
 import krs.erp.model.maintenance.WorkOrder;
 import krs.erp.model.reporting.MISReport;
+import krs.erp.model.hr.Payslip;
 import krs.erp.model.tpd.Competency;
 import krs.erp.model.tpd.CpdLedger;
 import krs.erp.model.tpd.ProfessionalPortfolio;
@@ -159,6 +160,7 @@ import krs.erp.repository.lms.LmsSubmissionRepository;
 import krs.erp.repository.lms.LmsTopicRepository;
 import krs.erp.repository.lms.VirtualAttendanceRecordRepository;
 import krs.erp.repository.lms.VirtualClassSessionRepository;
+import krs.erp.repository.lms.VirtualClassSessionRepository;
 import krs.erp.repository.tpd.CompetencyRepository;
 import krs.erp.repository.tpd.CpdLedgerRepository;
 import krs.erp.repository.tpd.EvidenceRepository;
@@ -167,6 +169,14 @@ import krs.erp.repository.tpd.SkillAssessmentRepository;
 import krs.erp.repository.tpd.TrainingAttendanceRepository;
 import krs.erp.repository.tpd.TrainingEvaluationRepository;
 import krs.erp.repository.tpd.TrainingEventRepository;
+import krs.erp.repository.hr.PayslipRepository;
+import krs.erp.repository.hr.DepartmentRepository;
+import krs.erp.repository.hr.DesignationRepository;
+import krs.erp.repository.calendar.CalendarDayRepository;
+import krs.erp.model.hr.Department;
+import krs.erp.model.hr.Designation;
+import krs.erp.model.calendar.CalendarDay;
+import krs.erp.model.calendar.CalendarDay.DayType;
 
 @Service
 @SuppressWarnings({ "unused", "UnnecessaryLocalVariable" })
@@ -300,7 +310,19 @@ public class DataImportService {
     private VirtualAttendanceRecordRepository virtualAttendanceRecordRepository;
 
     @Autowired
+    private PayslipRepository payslipRepository;
+
+    @Autowired
     private CompetencyRepository competencyRepository;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private DesignationRepository designationRepository;
+
+    @Autowired
+    private CalendarDayRepository calendarDayRepository;
 
     @Autowired
     private SkillAssessmentRepository skillAssessmentRepository;
@@ -967,6 +989,154 @@ public class DataImportService {
                     addresses.put(address.getId(), address);
                 }
             }
+        }
+    }
+
+    @Transactional
+    public void importPayslipsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting Payslip data import from XML file: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList payslipList = document.getElementsByTagName("payslip");
+            logger.info("Found {} payslips in XML", payslipList.getLength());
+
+            for (int i = 0; i < payslipList.getLength(); i++) {
+                Element element = (Element) payslipList.item(i);
+                Payslip payslip = new Payslip();
+                payslip.setPayrollRunId(Long.parseLong(element.getAttribute("payroll_run_id")));
+                payslip.setStaffId(Long.parseLong(element.getAttribute("staff_id")));
+                payslip.setStaffName(element.getAttribute("staff_name"));
+                payslip.setDepartment(element.getAttribute("department"));
+                payslip.setBasicSalary(Double.parseDouble(element.getAttribute("basic_salary")));
+                payslip.setHra(Double.parseDouble(element.getAttribute("hra")));
+                payslip.setDa(Double.parseDouble(element.getAttribute("da")));
+                payslip.setAllowances(Double.parseDouble(element.getAttribute("allowances")));
+                payslip.setPfDeduction(Double.parseDouble(element.getAttribute("pf_deduction")));
+                payslip.setTaxDeduction(Double.parseDouble(element.getAttribute("tax_deduction")));
+                payslip.setOtherDeductions(Double.parseDouble(element.getAttribute("other_deductions")));
+                payslip.setGrossSalary(Double.parseDouble(element.getAttribute("gross_salary")));
+                payslip.setTotalDeductions(Double.parseDouble(element.getAttribute("total_deductions")));
+                payslip.setNetSalary(Double.parseDouble(element.getAttribute("net_salary")));
+
+                payslipRepository.save(payslip);
+            }
+            logger.info("Payslips loaded successfully");
+        } catch (Exception e) {
+            logger.error("Error importing payslips", e);
+            throw new RuntimeException("Failed to import payslips", e);
+        }
+    }
+
+    @Transactional
+    public void importCompetenciesDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting Competency data import from XML file: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList competencyList = document.getElementsByTagName("competency");
+            logger.info("Found {} competencies in XML", competencyList.getLength());
+
+            for (int i = 0; i < competencyList.getLength(); i++) {
+                Element element = (Element) competencyList.item(i);
+
+                // Check if competency already exists by name
+                String name = element.getAttribute("name");
+
+                // Note: Assuming we want to skip or update if exists. Here we'll skip/add
+                // simplistic check if repository supported naming check
+                // For now, simpler map:
+                Competency competency = new Competency();
+                competency.setName(name);
+                competency.setDescription(element.getAttribute("description"));
+                competency.setTargetRole(element.getAttribute("target_role"));
+                competency.setRequiredLevel(Integer.parseInt(element.getAttribute("required_level")));
+
+                competencyRepository.save(competency);
+            }
+            logger.info("Imported {} competencies", competencyList.getLength());
+        } catch (Exception e) {
+            logger.error("Error importing competencies data", e);
+            throw new RuntimeException("Error importing competencies data", e);
+        }
+    }
+
+    @Transactional
+    public void importDepartmentsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Importing departments from XML: {}", xmlFilePath);
+            Document doc = parseXmlFile(xmlFilePath);
+            NodeList nodeList = doc.getElementsByTagName("department");
+
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Element element = (Element) nodeList.item(i);
+
+                String name = getElementTextContent(element, "name");
+                if (departmentRepository.findByName(name).isPresent()) {
+                    continue;
+                }
+
+                Department department = new Department();
+                department.setName(name);
+                department.setCode(getElementTextContent(element, "code"));
+                department.setDescription(getElementTextContent(element, "description"));
+                department.setHeadOfDepartmentName(getElementTextContent(element, "headOfDepartmentName"));
+
+                departmentRepository.save(department);
+            }
+            logger.info("Imported {} departments", nodeList.getLength());
+        } catch (Exception e) {
+            logger.error("Error importing departments data", e);
+            throw new RuntimeException("Error importing departments data", e);
+        }
+    }
+
+    @Transactional
+    public void importDesignationsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Importing designations from XML: {}", xmlFilePath);
+            Document doc = parseXmlFile(xmlFilePath);
+            NodeList nodeList = doc.getElementsByTagName("designation");
+
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Element element = (Element) nodeList.item(i);
+
+                String title = getElementTextContent(element, "title");
+                if (designationRepository.findByTitle(title).isPresent()) {
+                    continue;
+                }
+
+                Designation designation = new Designation();
+                designation.setTitle(title);
+                designation.setDescription(getElementTextContent(element, "description"));
+
+                String rankStr = getElementTextContent(element, "rank");
+                if (rankStr != null && !rankStr.isEmpty()) {
+                    designation.setRankLevel(Integer.parseInt(rankStr));
+                }
+
+                designationRepository.save(designation);
+            }
+            logger.info("Imported {} designations", nodeList.getLength());
+        } catch (Exception e) {
+            logger.error("Error importing designations data", e);
+            throw new RuntimeException("Error importing designations data", e);
         }
     }
 
@@ -2279,9 +2449,6 @@ public class DataImportService {
     }
 
     @Autowired
-    private krs.erp.repository.calendar.CalendarDayRepository calendarDayRepository;
-
-    @Autowired
     private krs.erp.repository.calendar.InstitutionEventRepository institutionEventRepository;
 
     @Transactional
@@ -2317,7 +2484,7 @@ public class DataImportService {
     }
 
     private void createCalendarDay(java.time.LocalDate date, String type, String desc, boolean isHoliday) {
-        krs.erp.model.calendar.CalendarDay d = new krs.erp.model.calendar.CalendarDay();
+        CalendarDay d = new CalendarDay();
         d.setDate(date);
         d.setType(type);
         d.setDescription(desc);
@@ -2455,6 +2622,7 @@ public class DataImportService {
         e.setStatus(krs.erp.model.calendar.InstitutionEvent.EventStatus.SCHEDULED);
         institutionEventRepository.save(e);
 
+        // Sync to calendar
         // Sync to calendar
         createCalendarDay(start.toLocalDate(), "EVENT", title, false);
     }
@@ -3629,11 +3797,13 @@ public class DataImportService {
 
                 FineConfiguration config = new FineConfiguration();
                 config.setCategoryId(Long.parseLong(getElementText(configElement, "categoryId")));
-                config.setCalcLogic(FineConfiguration.CalculationLogic.valueOf(getElementText(configElement, "calcLogic")));
+                config.setCalcLogic(
+                        FineConfiguration.CalculationLogic.valueOf(getElementText(configElement, "calcLogic")));
                 config.setBaseAmount(Double.parseDouble(getElementText(configElement, "baseAmount")));
-                config.setFrequency(FineConfiguration.FineFrequency.valueOf(getElementText(configElement, "frequency")));
+                config.setFrequency(
+                        FineConfiguration.FineFrequency.valueOf(getElementText(configElement, "frequency")));
                 config.setGracePeriodDays(Integer.parseInt(getElementText(configElement, "gracePeriodDays")));
-                
+
                 String isActiveStr = getElementText(configElement, "isActive");
                 if (isActiveStr != null) {
                     config.setIsActive(Boolean.parseBoolean(isActiveStr) ? 1 : 0);
@@ -3709,8 +3879,10 @@ public class DataImportService {
                 incident.setDescription(getElementText(incidentElement, "description"));
                 incident.setEvidenceUrl(getElementText(incidentElement, "evidence_url"));
                 incident.setFineAmount(Double.parseDouble(getElementText(incidentElement, "fine_amount")));
-                incident.setIncidentDate(LocalDateTime.parse(getElementText(incidentElement, "incident_date") + "T00:00:00"));
-                incident.setApprovalStatus(DisciplinaryIncident.ApprovalStatus.valueOf(getElementText(incidentElement, "status")));
+                incident.setIncidentDate(
+                        LocalDateTime.parse(getElementText(incidentElement, "incident_date") + "T00:00:00"));
+                incident.setApprovalStatus(
+                        DisciplinaryIncident.ApprovalStatus.valueOf(getElementText(incidentElement, "status")));
 
                 disciplinaryIncidentRepository.save(incident);
             }
@@ -3745,13 +3917,14 @@ public class DataImportService {
                 request.setRequestedById(Long.parseLong(getElementText(requestElement, "requested_by_id")));
                 request.setReason(getElementText(requestElement, "reason"));
                 request.setStatus(FineWaiverRequest.WaiverStatus.valueOf(getElementText(requestElement, "status")));
-                request.setRequestDate(LocalDateTime.parse(getElementText(requestElement, "request_date") + "T00:00:00"));
-                
+                request.setRequestDate(
+                        LocalDateTime.parse(getElementText(requestElement, "request_date") + "T00:00:00"));
+
                 String approvedById = getElementText(requestElement, "approved_by_id");
                 if (approvedById != null && !approvedById.isEmpty()) {
                     request.setApprovedById(Long.parseLong(approvedById));
                 }
-                
+
                 String adjustmentAmount = getElementText(requestElement, "adjustment_amount");
                 if (adjustmentAmount != null && !adjustmentAmount.isEmpty()) {
                     request.setAdjustmentAmount(Double.parseDouble(adjustmentAmount));
@@ -3892,30 +4065,52 @@ public class DataImportService {
                 category.setName(getElementText(categoryElement, "name"));
                 category.setDescription(getElementText(categoryElement, "description"));
                 category.setType(ScholarshipCategory.AidType.valueOf(getElementText(categoryElement, "type")));
-                
+
                 String percentageStr = getElementText(categoryElement, "percentage");
                 if (percentageStr != null && !percentageStr.isEmpty()) {
                     category.setPercentage(new BigDecimal(percentageStr));
                 }
-                
+
                 String amountStr = getElementText(categoryElement, "amount");
                 if (amountStr != null && !amountStr.isEmpty()) {
                     category.setAmount(new BigDecimal(amountStr));
                 }
-                
+
                 category.setMeritBased(Boolean.parseBoolean(getElementText(categoryElement, "isMeritBased")));
                 category.setNeedBased(Boolean.parseBoolean(getElementText(categoryElement, "isNeedBased")));
 
                 scholarshipCategoryRepository.save(category);
             }
 
-            // Import applications - skip for now as they require Student and AcademicYear entities
-            logger.info("Note: Scholarship applications require existing student and academic year records. Skipping application import.");
-            
+            // Import applications - skip for now as they require Student and AcademicYear
+            // entities
+            logger.info(
+                    "Note: Scholarship applications require existing student and academic year records. Skipping application import.");
+
             logger.info("Scholarships import completed successfully");
         } catch (Exception e) {
             logger.error("Error importing scholarships from XML", e);
             throw new RuntimeException("Failed to import scholarships", e);
         }
+    }
+
+    private Document parseXmlFile(String xmlFilePath) throws Exception {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+        if (inputStream == null) {
+            throw new java.io.FileNotFoundException("XML file not found: " + xmlFilePath);
+        }
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(inputStream);
+        document.getDocumentElement().normalize();
+        return document;
+    }
+
+    private String getElementTextContent(Element element, String tagName) {
+        NodeList nodeList = element.getElementsByTagName(tagName);
+        if (nodeList != null && nodeList.getLength() > 0) {
+            return nodeList.item(0).getTextContent();
+        }
+        return null;
     }
 }

@@ -254,6 +254,18 @@
   display: inline-block;
 }
 
+.subscription-badge .trial-badge {
+  background: #fff3cd;
+  color: #856404;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  margin-left: 6px;
+  text-transform: uppercase;
+  vertical-align: super;
+}
+
 .profile-dropdown-menu .dropdown-item {
   padding: 12px 20px;
   color: #2c3e50;

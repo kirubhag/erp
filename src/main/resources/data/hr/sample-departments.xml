@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<departments>
+    <department>
+        <name>Administration</name>
+        <code>ADM</code>
+        <description>General administration and management</description>
+        <headOfDepartmentName>Dr. Sarah Connor</headOfDepartmentName>
+    </department>
+    <department>
+        <name>Human Resources</name>
+        <code>HR</code>
+        <description>Employee relations and recruitment</description>
+        <headOfDepartmentName>John Smith</headOfDepartmentName>
+    </department>
+    <department>
+        <name>Finance</name>
+        <code>FIN</code>
+        <description>Accounting and financial planning</description>
+        <headOfDepartmentName>Michael Scott</headOfDepartmentName>
+    </department>
+    <department>
+        <name>Computer Science</name>
+        <code>CS</code>
+        <description>Computer Science and IT Department</description>
+        <headOfDepartmentName>Alan Turing</headOfDepartmentName>
+    </department>
+    <department>
+        <name>Physics</name>
+        <code>PHY</code>
+        <description>Physics Department</description>
+        <headOfDepartmentName>Albert Einstein</headOfDepartmentName>
+    </department>
+</departments>

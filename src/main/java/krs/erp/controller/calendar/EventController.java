@@ -14,23 +14,19 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @GetMapping("/days")
-    public List<CalendarDay> getAllDays() {
-        return eventService.getAllCalendarDays();
-    }
-
     @GetMapping("/events")
-    public List<InstitutionEvent> getAllEvents() {
+    public List<InstitutionEvent> getEvents() {
         return eventService.getAllEvents();
     }
 
-    @PostMapping("/days")
-    public CalendarDay createDay(@RequestBody CalendarDay day) {
-        return eventService.saveCalendarDay(day);
+    @GetMapping("/holidays")
+    public List<CalendarDay> getCalendarDays() {
+        return eventService.getAllCalendarDays();
     }
 
-    @PostMapping("/events")
-    public InstitutionEvent createEvent(@RequestBody InstitutionEvent event) {
-        return eventService.saveEvent(event);
+    @PostMapping("/holidays")
+    public CalendarDay createCalendarDay(@RequestBody CalendarDay day) {
+        return eventService.createCalendarDay(day);
     }
+
 }

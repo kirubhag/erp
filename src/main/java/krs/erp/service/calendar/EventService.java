@@ -9,44 +9,47 @@ import krs.erp.repository.calendar.CalendarDayRepository;
 import krs.erp.repository.calendar.InstitutionEventRepository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class EventService {
 
     @Autowired
-    private CalendarDayRepository calendarDayRepository;
-
-    @Autowired
     private InstitutionEventRepository eventRepository;
 
-    public List<CalendarDay> getAllCalendarDays() {
-        return calendarDayRepository.findAll();
-    }
+    @Autowired
+    private CalendarDayRepository calendarDayRepository;
 
     public List<InstitutionEvent> getAllEvents() {
         return eventRepository.findAll();
     }
 
-    public CalendarDay saveCalendarDay(CalendarDay day) {
-        return calendarDayRepository.save(day);
+    public List<CalendarDay> getAllCalendarDays() {
+        return calendarDayRepository.findAll();
     }
 
-    public InstitutionEvent saveEvent(InstitutionEvent event) {
-        InstitutionEvent saved = eventRepository.save(event);
-        // Automatically sync to calendar if it's an event
-        syncEventToCalendar(saved);
-        return saved;
+    public InstitutionEvent createEvent(InstitutionEvent event) {
+        return eventRepository.save(event);
     }
 
-    private void syncEventToCalendar(InstitutionEvent event) {
-        LocalDate date = event.getStartDate().toLocalDate();
-        CalendarDay day = calendarDayRepository.findByDate(date).orElse(new CalendarDay());
-        day.setDate(date);
-        day.setType("EVENT");
-        day.setDescription(event.getTitle());
-        day.setHoliday(false);
-        day.setEventId(event.getId());
-        calendarDayRepository.save(day);
+    public CalendarDay createCalendarDay(CalendarDay calendarDay) {
+        // Check if date already exists
+        if (calendarDayRepository.findByDate(calendarDay.getDate()).isPresent()) {
+            throw new IllegalArgumentException("Calendar day already exists for date: " + calendarDay.getDate());
+        }
+        return calendarDayRepository.save(calendarDay);
+    }
+
+    public void deleteEvent(Long id) {
+        eventRepository.deleteById(id);
+    }
+
+    public void deleteCalendarDay(Long id) {
+        calendarDayRepository.deleteById(id);
+    }
+
+    public Optional<CalendarDay> getCalendarDayByDate(LocalDate date) {
+        return calendarDayRepository.findByDate(date);
     }
 }

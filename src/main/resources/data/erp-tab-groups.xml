@@ -105,13 +105,32 @@
         <description>Employee management, payroll, leave, and recruitment</description>
         <entities>
             <entity>Staff</entity>
-            <entity>LeaveRequest</entity>
-            <entity>LeaveBalance</entity>
-            <entity>PayrollRun</entity>
+            <entity>Leave Request</entity>
+            <entity>Leave Balance</entity>
+            <entity>Payroll Run</entity>
             <entity>Payslip</entity>
-            <entity>JobPosting</entity>
-            <entity>JobApplication</entity>
-            <entity>PerformanceReview</entity>
+            <entity>Job Posting</entity>
+            <entity>Job Application</entity>
+            <entity>Performance Review</entity>
+            <entity>Department</entity>
+            <entity>Designation</entity>
+            <entity>Attendance</entity>
+        </entities>
+    </tab_group>
+
+    <!-- 5a. Leave Management -->
+    <tab_group>
+        <name>Leave Management</name>
+        <code>LEAVE_MGMT</code>
+        <icon>fas fa-calendar-minus</icon>
+        <route_path>/leave-management</route_path>
+        <sequence>11</sequence>
+        <description>Manage leaves, holidays, and balances</description>
+        <entities>
+            <entity>Leave Type</entity>
+            <entity>Leave Request</entity>
+            <entity>Holiday</entity>
+            <entity>Leave Balance</entity>
         </entities>
     </tab_group>
 
@@ -137,10 +156,10 @@
 
     <!-- 7. Operations (Inventory + Maintenance) -->
     <tab_group>
-        <name>Operations</name>
-        <code>OPERATIONS</code>
+        <name>Assets &amp; Supplies</name>
+        <code>Assets_Supplies</code>
         <icon>fas fa-tools</icon>
-        <route_path>/operations</route_path>
+        <route_path>/assets-supplies</route_path>
         <sequence>7</sequence>
         <description>Inventory, assets, and facility maintenance</description>
         <entities>
@@ -197,7 +216,9 @@
         <description>System administration, calendar, documents, and reporting</description>
         <entities>
             <entity>InstitutionEvent</entity>
-            <entity>CalendarDay</entity>
+            <entity>InstitutionEvent</entity>
+            <entity>Holiday</entity>
+            <entity>ErpDocument</entity>
             <entity>ErpDocument</entity>
             <entity>MISReport</entity>
             <entity>RecycleBin</entity>

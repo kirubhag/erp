@@ -23,17 +23,17 @@ public class TenantProvisioningService {
     @Qualifier("masterDataSource")
     private DataSource masterDataSource;
 
-    public void provisionTenantDatabase(String dbName) {
+    public void provisionTenantDatabase(String dbName, Long tenantId, String tenantName) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
 
         // 1. Create Database
         jdbcTemplate.execute("CREATE DATABASE IF NOT EXISTS " + dbName);
 
         // 2. Initialize Schema
-        initializeTenantSchema(dbName);
+        initializeTenantSchema(dbName, tenantId, tenantName);
     }
 
-    private void initializeTenantSchema(String dbName) {
+    private void initializeTenantSchema(String dbName, Long tenantId, String tenantName) {
         // Create a temporary DataSource for the new tenant DB
         HikariDataSource tenantDataSource = new HikariDataSource();
         tenantDataSource.setJdbcUrl("jdbc:mysql://localhost:3307/" + dbName
@@ -48,13 +48,13 @@ public class TenantProvisioningService {
             databasePopulator.execute(tenantDataSource);
 
             // 3. Copy System Data from Master DB
-            copySystemData(dbName, tenantDataSource);
+            copySystemData(dbName, tenantDataSource, tenantId, tenantName);
         } finally {
             tenantDataSource.close();
         }
     }
 
-    private void copySystemData(String dbName, HikariDataSource tenantDataSource) {
+    private void copySystemData(String dbName, HikariDataSource tenantDataSource, Long tenantId, String tenantName) {
         JdbcTemplate masterJdbc = new JdbcTemplate(masterDataSource);
         JdbcTemplate tenantJdbc = new JdbcTemplate(tenantDataSource);
 
@@ -66,6 +66,16 @@ public class TenantProvisioningService {
                 logger.info("System data already exists in tenant DB: {} (found {} entities). Skipping copy.", dbName,
                         existingCount);
                 return;
+            }
+
+            // 0. Insert current tenant info into erp_tenants table in tenant DB
+            try {
+                logger.info("Adding tenant info to tenant DB erp_tenants table...");
+                String sql = "INSERT IGNORE INTO erp_tenants (tenant_id, tenant_name, db_host, db_name, status, created_at) VALUES (?, ?, 'localhost', ?, 'Active', NOW())";
+                tenantJdbc.update(sql, tenantId, tenantName, dbName);
+                logger.info("Tenant info added to tenant DB.");
+            } catch (Exception e) {
+                logger.warn("Failed to add tenant info to tenant DB: {}", e.getMessage());
             }
 
             // First check if master DB has data
@@ -336,6 +346,27 @@ public class TenantProvisioningService {
             } catch (Exception e) {
                 logger.error("Failed to copy Tab Group Entity Relations: {}", e.getMessage(), e);
                 throw e;
+            }
+
+            // 12. Copy ERP Plans (for subscription management in tenant context)
+            try {
+                logger.info("Copying ERP Plans...");
+                masterJdbc.query("SELECT * FROM erp_plans", rs -> {
+                    String sql = "INSERT IGNORE INTO erp_plans (id, name, type, amount, currency, razorpay_plan_id, description, is_active, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
+                    tenantJdbc.update(sql,
+                            rs.getLong("id"),
+                            rs.getString("name"),
+                            rs.getString("type"),
+                            rs.getBigDecimal("amount"),
+                            rs.getString("currency"),
+                            rs.getString("razorpay_plan_id"),
+                            rs.getString("description"),
+                            rs.getBoolean("is_active"));
+                });
+                logger.info("ERP Plans copied.");
+            } catch (Exception e) {
+                logger.error("Failed to copy ERP Plans: {}", e.getMessage(), e);
+                // Don't throw - plans might not exist yet
             }
 
             logger.info("System data copied successfully to tenant DB: {}", dbName);

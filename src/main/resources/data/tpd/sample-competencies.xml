@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Competency Data -->
+    <competency
+        name="Classroom Management"
+        description="Ability to maintain discipline and create a conducive learning environment."
+        target_role="TEACHER"
+        required_level="4"
+    />
+
+    <competency
+        name="Curriculum Planning"
+        description="Skill in designing and implementing educational curriculum."
+        target_role="TEACHER"
+        required_level="5"
+    />
+
+    <competency
+        name="Communication Skills"
+        description="Effectiveness in verbal and written communication with students, parents, and colleagues."
+        target_role="ALL"
+        required_level="3"
+    />
+    
+    <competency
+        name="Leadership"
+        description="Ability to lead teams and manage departmental activities."
+        target_role="HOD"
+        required_level="5"
+    />
+</dataset>

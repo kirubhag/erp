@@ -8,6 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface ErpPlanRepository extends JpaRepository<ErpPlan, Long> {
+    Optional<ErpPlan> findByName(String name);
+
     Optional<ErpPlan> findByType(String type);
 
     Optional<ErpPlan> findByRazorpayPlanId(String razorpayPlanId);

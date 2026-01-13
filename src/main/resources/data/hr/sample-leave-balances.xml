@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<leave_balances>
+    <!-- Sample leave balances for the academic year 2025-2026 -->
+    <leave_balance>
+        <staff_name>Dr. Sarah Connor</staff_name>
+        <leave_type_code>CL</leave_type_code>
+        <academic_year>2025-2026</academic_year>
+        <total_days>12.00</total_days>
+        <consumed_days>2.00</consumed_days>
+        <remaining_days>10.00</remaining_days>
+    </leave_balance>
+    <leave_balance>
+        <staff_name>Dr. Sarah Connor</staff_name>
+        <leave_type_code>SL</leave_type_code>
+        <academic_year>2025-2026</academic_year>
+        <total_days>10.00</total_days>
+        <consumed_days>0.00</consumed_days>
+        <remaining_days>10.00</remaining_days>
+    </leave_balance>
+    <leave_balance>
+        <staff_name>Dr. Sarah Connor</staff_name>
+        <leave_type_code>EL</leave_type_code>
+        <academic_year>2025-2026</academic_year>
+        <total_days>15.00</total_days>
+        <consumed_days>0.00</consumed_days>
+        <remaining_days>15.00</remaining_days>
+    </leave_balance>
+    <leave_balance>
+        <staff_name>John Smith</staff_name>
+        <leave_type_code>CL</leave_type_code>
+        <academic_year>2025-2026</academic_year>
+        <total_days>12.00</total_days>
+        <consumed_days>0.00</consumed_days>
+        <remaining_days>12.00</remaining_days>
+    </leave_balance>
+    <leave_balance>
+        <staff_name>John Smith</staff_name>
+        <leave_type_code>SL</leave_type_code>
+        <academic_year>2025-2026</academic_year>
+        <total_days>10.00</total_days>
+        <consumed_days>3.00</consumed_days>
+        <remaining_days>7.00</remaining_days>
+    </leave_balance>
+    <leave_balance>
+        <staff_name>John Smith</staff_name>
+        <leave_type_code>EL</leave_type_code>
+        <academic_year>2025-2026</academic_year>
+        <total_days>15.00</total_days>
+        <consumed_days>0.00</consumed_days>
+        <remaining_days>15.00</remaining_days>
+    </leave_balance>
+    <leave_balance>
+        <staff_name>Michael Scott</staff_name>
+        <leave_type_code>CL</leave_type_code>
+        <academic_year>2025-2026</academic_year>
+        <total_days>12.00</total_days>
+        <consumed_days>0.00</consumed_days>
+        <remaining_days>12.00</remaining_days>
+    </leave_balance>
+    <leave_balance>
+        <staff_name>Michael Scott</staff_name>
+        <leave_type_code>EL</leave_type_code>
+        <academic_year>2025-2026</academic_year>
+        <total_days>15.00</total_days>
+        <consumed_days>0.00</consumed_days>
+        <remaining_days>15.00</remaining_days>
+    </leave_balance>
+    <leave_balance>
+        <staff_name>Alan Turing</staff_name>
+        <leave_type_code>CL</leave_type_code>
+        <academic_year>2025-2026</academic_year>
+        <total_days>12.00</total_days>
+        <consumed_days>0.00</consumed_days>
+        <remaining_days>12.00</remaining_days>
+    </leave_balance>
+    <leave_balance>
+        <staff_name>Alan Turing</staff_name>
+        <leave_type_code>STL</leave_type_code>
+        <academic_year>2025-2026</academic_year>
+        <total_days>30.00</total_days>
+        <consumed_days>15.00</consumed_days>
+        <remaining_days>15.00</remaining_days>
+    </leave_balance>
+    <leave_balance>
+        <staff_name>Albert Einstein</staff_name>
+        <leave_type_code>CL</leave_type_code>
+        <academic_year>2025-2026</academic_year>
+        <total_days>12.00</total_days>
+        <consumed_days>0.00</consumed_days>
+        <remaining_days>12.00</remaining_days>
+    </leave_balance>
+    <leave_balance>
+        <staff_name>Albert Einstein</staff_name>
+        <leave_type_code>EL</leave_type_code>
+        <academic_year>2025-2026</academic_year>
+        <total_days>15.00</total_days>
+        <consumed_days>5.00</consumed_days>
+        <remaining_days>10.00</remaining_days>
+    </leave_balance>
+</leave_balances>

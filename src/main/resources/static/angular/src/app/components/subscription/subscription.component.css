@@ -1,5 +1,70 @@
 /* Container styles moved to global styles.css as .settings-content-container */
 
+/* Tabs Navigation - Same as Personal Settings */
+.tabs-navigation {
+  background: white;
+  border-bottom: 2px solid #e9ecef;
+  margin: 0;
+  padding: 0 30px;
+  display: flex;
+  gap: 0;
+}
+
+.nav-link {
+  padding: 0.75rem 1.5rem !important;
+  color: #6c757d !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease !important;
+  margin-right: 0;
+}
+
+.nav-link:hover {
+  color: var(--app-primary, var(--app-primary-default)) !important;
+  border-color: transparent !important;
+  background-color: #f8f9fa !important;
+}
+
+.nav-link.active {
+  color: var(--app-primary, var(--app-primary-default)) !important;
+  border-bottom-color: var(--app-primary, var(--app-primary-default)) !important;
+  background-color: transparent !important;
+}
+
+.nav-link i {
+  font-size: 16px;
+}
+
+/* Tab Content */
+.tab-content-wrapper {
+  background: white;
+  padding: 30px;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Trial Badge Superscript */
+.trial-badge {
+  background: #fff3cd;
+  color: #856404;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+  vertical-align: super;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .help-link {
   color: #8c8c8c;
   text-decoration: none;
@@ -186,6 +251,26 @@
   font-weight: 600;
   margin-bottom: 20px;
   color: #262626;
+}
+
+/* No Plans Message */
+.no-plans-message {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  color: #6c757d;
+}
+
+.no-plans-message i {
+  font-size: 36px;
+  margin-bottom: 16px;
+  color: #adb5bd;
+}
+
+.no-plans-message p {
+  margin: 0;
+  font-size: 15px;
 }
 
 /* Usage Tabs */

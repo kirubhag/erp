@@ -15,19 +15,37 @@ public class BillingController {
 
     private final RazorpayService razorpayService;
     private final ErpPaymentLogRepository paymentLogRepository;
+    private final krs.erp.repository.UserRepository userRepository;
+    private final krs.erp.repository.OrganizationRepository organizationRepository;
 
-    public BillingController(RazorpayService razorpayService, ErpPaymentLogRepository paymentLogRepository) {
+    public BillingController(RazorpayService razorpayService,
+            ErpPaymentLogRepository paymentLogRepository,
+            krs.erp.repository.UserRepository userRepository,
+            krs.erp.repository.OrganizationRepository organizationRepository) {
         this.razorpayService = razorpayService;
         this.paymentLogRepository = paymentLogRepository;
+        this.userRepository = userRepository;
+        this.organizationRepository = organizationRepository;
     }
 
     @PostMapping("/subscription")
     public ResponseEntity<?> createSubscription(@RequestParam String planType, @RequestParam Long userId) {
         try {
-            // In a real app, derive userId from SecurityContext
-            String subscriptionId = razorpayService.createSubscription(userId, planType);
+            // Find user and their organization
+            krs.erp.model.User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
+
+            if (user.getOrganizationId() == null) {
+                return ResponseEntity.badRequest().body(Map.of("error", "User not linked to an organization"));
+            }
+
+            krs.erp.model.Organization organization = organizationRepository.findById(user.getOrganizationId())
+                    .orElseThrow(
+                            () -> new IllegalArgumentException("Organization not found: " + user.getOrganizationId()));
+
+            String subscriptionId = razorpayService.createSubscription(organization, planType);
             return ResponseEntity.ok(Map.of("subscriptionId", subscriptionId));
-        } catch (RazorpayException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", e.getMessage()));
         }
     }

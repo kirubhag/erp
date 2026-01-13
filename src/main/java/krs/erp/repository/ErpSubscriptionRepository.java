@@ -9,9 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface ErpSubscriptionRepository extends JpaRepository<ErpSubscription, Long> {
-    Optional<ErpSubscription> findByUserIdAndStatus(Long userId, String status);
-
     Optional<ErpSubscription> findByRazorpaySubscriptionId(String razorpaySubscriptionId);
 
-    List<ErpSubscription> findByUserId(Long userId);
+    Optional<ErpSubscription> findByOrganizationId(Long organizationId);
+
+    List<ErpSubscription> findByStatusAndCurrentPeriodEndBefore(String status, java.time.LocalDateTime date);
+
 }

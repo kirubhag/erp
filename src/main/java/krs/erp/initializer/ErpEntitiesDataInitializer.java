@@ -35,7 +35,7 @@ public class ErpEntitiesDataInitializer implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
         logger.info("Starting ERP Entities data initialization...");
-        
+
         // Check if data already exists
         long count = erpEntityRepository.count();
         if (count > 0) {
@@ -45,36 +45,52 @@ public class ErpEntitiesDataInitializer implements CommandLineRunner {
 
         try {
             List<ErpEntity> entities = loadEntitiesFromXml();
-            
+
             int loaded = 0;
             int skipped = 0;
-            
+
             for (ErpEntity entity : entities) {
                 try {
                     // Check if entity with same system_name already exists
-                    if (erpEntityRepository.findBySystemName(entity.getSystemName()).isPresent()) {
-                        skipped++;
-                        logger.debug("Entity with system_name '{}' already exists. Skipping.", entity.getSystemName());
+                    java.util.Optional<ErpEntity> existingEntityOpt = erpEntityRepository
+                            .findBySystemName(entity.getSystemName());
+                    if (existingEntityOpt.isPresent()) {
+                        ErpEntity existingEntity = existingEntityOpt.get();
+                        existingEntity.setSingularName(entity.getSingularName());
+                        existingEntity.setPluralName(entity.getPluralName());
+                        existingEntity.setDescription(entity.getDescription());
+                        existingEntity.setIsActive(entity.getIsActive());
+                        existingEntity.setSequence(entity.getSequence());
+                        existingEntity.setPresence(entity.getPresence());
+                        existingEntity.setIcon(entity.getIcon());
+                        existingEntity.setRoute(entity.getRoute());
+                        // Update audit fields
+                        existingEntity.setLastModifiedDate(LocalDateTime.now());
+                        existingEntity.setLastModifiedBy("system");
+
+                        erpEntityRepository.save(existingEntity);
+                        logger.debug("Updated entity: {} - {}", entity.getSystemName(), entity.getPluralName());
+                        loaded++; // Count as processed
                         continue;
                     }
-                    
+
                     // Set audit fields
                     entity.setCreatedDate(LocalDateTime.now());
                     entity.setCreatedBy("system");
-                    
+
                     erpEntityRepository.save(entity);
                     loaded++;
                     logger.debug("Loaded entity: {} - {}", entity.getSystemName(), entity.getPluralName());
-                    
+
                 } catch (Exception e) {
                     logger.error("Error loading entity: {}", entity.getSystemName(), e);
                     skipped++;
                 }
             }
-            
-            logger.info("ERP Entities data initialization completed. Loaded: {}, Skipped: {}, Total: {}", 
-                       loaded, skipped, entities.size());
-            
+
+            logger.info("ERP Entities data initialization completed. Loaded: {}, Skipped: {}, Total: {}",
+                    loaded, skipped, entities.size());
+
         } catch (Exception e) {
             logger.error("Error during ERP Entities data initialization", e);
         }
@@ -82,25 +98,25 @@ public class ErpEntitiesDataInitializer implements CommandLineRunner {
 
     private List<ErpEntity> loadEntitiesFromXml() throws Exception {
         List<ErpEntity> entities = new ArrayList<>();
-        
+
         ClassPathResource resource = new ClassPathResource("data/erp-entities.xml");
-        
+
         if (!resource.exists()) {
             logger.warn("ERP entities XML file not found at: data/erp-entities.xml");
             return entities;
         }
-        
+
         try (InputStream inputStream = resource.getInputStream()) {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(inputStream);
             doc.getDocumentElement().normalize();
-            
+
             NodeList nodeList = doc.getElementsByTagName("entity");
-            
+
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Element element = (Element) nodeList.item(i);
-                
+
                 ErpEntity entity = new ErpEntity();
                 entity.setSingularName(getElementValue(element, "singular_name"));
                 entity.setPluralName(getElementValue(element, "plural_name"));
@@ -111,11 +127,11 @@ public class ErpEntitiesDataInitializer implements CommandLineRunner {
                 entity.setPresence(Boolean.parseBoolean(getElementValue(element, "presence", "true")));
                 entity.setIcon(getElementValue(element, "icon"));
                 entity.setRoute(getElementValue(element, "route"));
-                
+
                 entities.add(entity);
             }
         }
-        
+
         return entities;
     }
 

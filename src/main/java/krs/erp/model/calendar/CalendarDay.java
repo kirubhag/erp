@@ -1,29 +1,33 @@
 package krs.erp.model.calendar;
 
-import jakarta.persistence.*;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 import krs.erp.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import java.time.LocalDate;
 
-@Entity
-@Table(name = "erp_cal_calendar_days")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Entity
+@Table(name = "erp_utility_calendar_days")
+@AttributeOverride(name = "id", column = @Column(name = "calendar_day_id"))
 public class CalendarDay extends BaseEntity {
 
-    @Column(name = "calendar_date", nullable = false, unique = true)
-    private LocalDate date;
-
-    @Column(name = "day_type")
-    private String type; // HOLIDAY, EXAM, WORKING_DAY, EVENT
-
-    @Column(name = "description")
+    private java.time.LocalDate date;
     private String description;
 
-    @Column(name = "is_holiday")
+    // e.g. "HOLIDAY", "EVENT", "WORKING_DAY"
+    private String type;
+
     private boolean isHoliday;
 
-    @Column(name = "event_id")
-    private Long eventId; // Optional link to an InstitutionEvent
+    public enum DayType {
+        WORKING_DAY,
+        HOLIDAY,
+        EVENT,
+        WEEKEND
+    }
 }
