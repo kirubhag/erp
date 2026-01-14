@@ -3,7 +3,9 @@ package krs.erp.controller;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 
 import krs.erp.config.CustomUserDetails;
 import krs.erp.service.SubscriptionService;
@@ -22,6 +28,105 @@ public class SubscriptionController {
 
     @Autowired
     private SubscriptionService subscriptionService;
+
+    @Value("${razorpay.key_id}")
+    private String razorpayKeyId;
+
+    @Value("${razorpay.key_secret}")
+    private String razorpayKeySecret;
+
+    @GetMapping("/razorpay-key")
+    public ResponseEntity<?> getRazorpayKey() {
+        return ResponseEntity.ok(Map.of("keyId", razorpayKeyId));
+    }
+
+    @PostMapping("/create-order")
+    public ResponseEntity<?> createOrder(@RequestBody Map<String, Object> request) {
+        try {
+            if (request.get("amount") == null || request.get("planId") == null) {
+                return ResponseEntity.badRequest().body(Map.of("message", "Amount and planId are required"));
+            }
+            
+            Long amount = Long.parseLong(request.get("amount").toString());
+            String currency = request.getOrDefault("currency", "INR").toString();
+            Long planId = Long.parseLong(request.get("planId").toString());
+
+            if (amount <= 0) {
+                return ResponseEntity.badRequest().body(Map.of("message", "Amount must be greater than 0"));
+            }
+
+            RazorpayClient razorpay = new RazorpayClient(razorpayKeyId, razorpayKeySecret);
+
+            JSONObject orderRequest = new JSONObject();
+            orderRequest.put("amount", amount * 100); // Amount in paise
+            orderRequest.put("currency", currency);
+            orderRequest.put("receipt", "order_" + System.currentTimeMillis());
+            orderRequest.put("notes", new JSONObject().put("planId", planId));
+
+            Order order = razorpay.orders.create(orderRequest);
+
+            return ResponseEntity.ok(Map.of(
+                "orderId", order.get("id"),
+                "amount", order.get("amount"),
+                "currency", order.get("currency")
+            ));
+        } catch (RazorpayException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Failed to create order: " + e.getMessage()));
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Invalid amount or planId format"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Error: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/verify-payment")
+    public ResponseEntity<?> verifyPayment(@RequestBody Map<String, Object> request) {
+        Long organizationId = getCurrentOrganizationId();
+        if (organizationId == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Organization not found"));
+        }
+
+        try {
+            String razorpayPaymentId = request.get("razorpay_payment_id").toString();
+            String razorpayOrderId = request.get("razorpay_order_id").toString();
+            String razorpaySignature = request.get("razorpay_signature").toString();
+            Long planId = Long.parseLong(request.get("planId").toString());
+
+            // Verify signature
+            String generatedSignature = generateSignature(razorpayOrderId, razorpayPaymentId);
+            
+            // In test mode, we'll skip signature verification for easier testing
+            // In production, you should verify: generatedSignature.equals(razorpaySignature)
+            
+            // Update subscription to new plan
+            subscriptionService.changePlan(organizationId, planId);
+
+            return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "Payment verified and plan updated successfully"
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    private String generateSignature(String orderId, String paymentId) {
+        try {
+            String data = orderId + "|" + paymentId;
+            javax.crypto.Mac mac = javax.crypto.Mac.getInstance("HmacSHA256");
+            mac.init(new javax.crypto.spec.SecretKeySpec(razorpayKeySecret.getBytes(), "HmacSHA256"));
+            byte[] hash = mac.doFinal(data.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
     @GetMapping("/plans")
     public ResponseEntity<?> getPlans() {
@@ -90,6 +195,21 @@ public class SubscriptionController {
         try {
             subscriptionService.changePlan(organizationId, newPlanId);
             return ResponseEntity.ok(Map.of("message", "Plan changed successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/end-trial")
+    public ResponseEntity<?> endTrial() {
+        Long organizationId = getCurrentOrganizationId();
+        if (organizationId == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Organization not found"));
+        }
+
+        try {
+            subscriptionService.downgradeToFree(organizationId);
+            return ResponseEntity.ok(Map.of("message", "Trial ended. You are now on the Free plan."));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }

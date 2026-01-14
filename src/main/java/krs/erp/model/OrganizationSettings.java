@@ -147,11 +147,11 @@ public class OrganizationSettings {
     private Boolean enableWebhooks;
 
     // Metadata
-    @Column(name = "created_by", length = 100, nullable = false)
-    private String createdBy;
+    @Column(name = "created_by", nullable = false)
+    private Long createdBy;
 
-    @Column(name = "modified_by", length = 100)
-    private String modifiedBy;
+    @Column(name = "modified_by")
+    private Long modifiedBy;
 
     @CreationTimestamp
     @Column(name = "created_time", nullable = false, updatable = false)
@@ -287,11 +287,11 @@ public class OrganizationSettings {
     public Boolean getEnableWebhooks() { return enableWebhooks; }
     public void setEnableWebhooks(Boolean enableWebhooks) { this.enableWebhooks = enableWebhooks; }
 
-    public String getCreatedBy() { return createdBy; }
-    public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
+    public Long getCreatedBy() { return createdBy; }
+    public void setCreatedBy(Long createdBy) { this.createdBy = createdBy; }
 
-    public String getModifiedBy() { return modifiedBy; }
-    public void setModifiedBy(String modifiedBy) { this.modifiedBy = modifiedBy; }
+    public Long getModifiedBy() { return modifiedBy; }
+    public void setModifiedBy(Long modifiedBy) { this.modifiedBy = modifiedBy; }
 
     public LocalDateTime getCreatedTime() { return createdTime; }
     public void setCreatedTime(LocalDateTime createdTime) { this.createdTime = createdTime; }

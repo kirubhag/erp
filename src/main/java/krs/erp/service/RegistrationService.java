@@ -62,16 +62,16 @@ public class RegistrationService {
         // 2. Create Tenant in Master DB
         createTenantInMasterDb(request.getOrganizationName(), dbName, tenantId);
 
-        // 3. Provision Tenant Database (pass tenant details for copying to tenant erp_tenants)
+        // 3. Provision Tenant Database with initial schema (without metadata copy)
         tenantProvisioningService.provisionTenantDatabase(dbName, tenantId, request.getOrganizationName());
 
         // 4. Switch Context to New Tenant
         TenantContext.setCurrentTenant(tenantId.toString());
 
-        // 5. Initialize Tenant Data (Organization & Admin User)
+        // 5. Initialize Tenant Data (Organization & Admin User) and copy metadata with user ID
         Long organizationId = null;
         try {
-            organizationId = initializeTenantData(request);
+            organizationId = initializeTenantData(request, dbName);
         } finally {
             TenantContext.clear();
         }
@@ -138,10 +138,10 @@ public class RegistrationService {
     }
 
     @Transactional
-    protected Long initializeTenantData(RegistrationRequest request) {
+    protected Long initializeTenantData(RegistrationRequest request, String dbName) {
         System.out.println("Initializing tenant data for organization: " + request.getOrganizationName());
 
-        // Create Organization
+        // Create Organization first
         Organization org = new Organization();
         org.setName(request.getOrganizationName());
         org.setType("School"); // Default type
@@ -166,23 +166,21 @@ public class RegistrationService {
         admin.setCreatedTime(LocalDateTime.now());
         admin.setOrganizationId(org.getId());
         admin.setIsPrimaryUser(true); // Mark as primary user (account creator)
-        // In Tenant DB, we can enable them or keep disabled. Keeping consistent with
-        // Master DB logic is better but Master DB auth controls login.
-        // We will set enabled = true here for Tenant DB data, as Master DB enabled flag
-        // controls actual login access.
-        // Or we could sync it. Let's set to false to be safe, though Authentication
-        // typically checks Master DB.
-        // Since we are not syncing token to Tenant DB (User entity uses JpaRepository),
-        // logic might be split.
-        // Actually, AuthController uses IAM DB (Master).
-        // Let's store token in Tenant DB user too if possible, but our current flow
-        // doesn't easily propagate it to this method cleanly without changing method
-        // signature.
-        // For simplicity, we trust Master DB for auth.
         admin.setEnabled(true); // Tenant DB copy can stay enabled, Master DB is gatekeeper.
         admin.setCreatedTime(LocalDateTime.now());
 
         userRepository.save(admin);
+
+        System.out.println("Admin user saved with ID: " + admin.getId());
+
+        // Now copy system metadata from master DB to tenant DB with the admin user as creator
+        try {
+            tenantProvisioningService.copySystemDataWithUserId(dbName, admin.getId());
+            System.out.println("✓ System metadata copied with created_by = " + admin.getId());
+        } catch (Exception e) {
+            System.err.println("⚠ Failed to copy system metadata: " + e.getMessage());
+            // Don't fail registration if metadata copy fails - basic functionality still works
+        }
 
         // Create Trial Subscription for 15 days with Enterprise Edition
         try {

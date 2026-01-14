@@ -19,7 +19,7 @@ import krs.erp.enums.UIFieldType;
 
 @Entity
 @Table(name = "erp_fields", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"entity_type", "field_name"})
+        @UniqueConstraint(columnNames = { "entity_type", "field_name" })
 })
 @AttributeOverride(name = "id", column = @Column(name = "erp_field_id"))
 public class ErpField extends BaseEntity {
@@ -97,6 +97,10 @@ public class ErpField extends BaseEntity {
 
     @Column(name = "column_position")
     private Integer columnPosition = 0;
+
+    // Field-specific properties stored as JSON (for Auto Number, Slider, etc.)
+    @Column(name = "field_properties", columnDefinition = "TEXT")
+    private String fieldProperties;
 
     // Constructors
     public ErpField() {
@@ -313,6 +317,15 @@ public class ErpField extends BaseEntity {
 
     public ErpField setColumnPosition(Integer columnPosition) {
         this.columnPosition = columnPosition;
+        return this;
+    }
+
+    public String getFieldProperties() {
+        return fieldProperties;
+    }
+
+    public ErpField setFieldProperties(String fieldProperties) {
+        this.fieldProperties = fieldProperties;
         return this;
     }
 

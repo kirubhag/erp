@@ -190,7 +190,7 @@ public class ErpSectionService {
         try {
             // Parse entity type
             EntityType entityType = EntityType.valueOf(layoutData.getEntityType().toUpperCase());
-            
+
             // Process each section
             for (LayoutSaveDTO.SectionLayoutDTO sectionData : layoutData.getSections()) {
                 try {
@@ -203,7 +203,7 @@ public class ErpSectionService {
                             break;
                         }
                     }
-                    
+
                     if (section != null) {
                         // Update existing section
                         section.setDisplayOrder(sectionData.getDisplayOrder());
@@ -212,22 +212,29 @@ public class ErpSectionService {
                         sectionsUpdated++;
                     } else {
                         // Create new section if doesn't exist
-                        section = new ErpSection(entityType, sectionData.getSectionName(), sectionData.getSectionLabel());
+                        section = new ErpSection(entityType, sectionData.getSectionName(),
+                                sectionData.getSectionLabel());
                         section.setDisplayOrder(sectionData.getDisplayOrder());
                         section.setIsActive(1);
                         sectionRepository.save(section);
                         sectionsUpdated++;
                     }
-                    
+
                     // Update field positions
                     for (LayoutSaveDTO.FieldPositionDTO fieldPos : sectionData.getFields()) {
                         ErpField field = fieldRepository.findByEntityTypeAndFieldNameAndIsActiveTrue(
-                            entityType, fieldPos.getFieldName());
-                        
+                                entityType, fieldPos.getFieldName());
+
                         if (field != null) {
                             field.setSection(section);
                             field.setRowPosition(fieldPos.getRowPosition());
                             field.setColumnPosition(fieldPos.getColumnPosition());
+
+                            // Update field properties if provided
+                            if (fieldPos.getFieldProperties() != null) {
+                                field.setFieldProperties(fieldPos.getFieldProperties());
+                            }
+
                             fieldRepository.save(field);
                             fieldsUpdated++;
                         } else {
@@ -238,19 +245,20 @@ public class ErpSectionService {
                     errors.add("Error processing section " + sectionData.getSectionName() + ": " + e.getMessage());
                 }
             }
-            
+
             result.put("success", true);
             result.put("sectionsUpdated", sectionsUpdated);
             result.put("fieldsUpdated", fieldsUpdated);
             result.put("errors", errors);
-            result.put("message", String.format("Successfully updated %d sections and %d fields", sectionsUpdated, fieldsUpdated));
-            
+            result.put("message",
+                    String.format("Successfully updated %d sections and %d fields", sectionsUpdated, fieldsUpdated));
+
         } catch (Exception e) {
             result.put("success", false);
             result.put("message", "Error saving layout: " + e.getMessage());
             result.put("errors", errors);
         }
-        
+
         return result;
     }
 }

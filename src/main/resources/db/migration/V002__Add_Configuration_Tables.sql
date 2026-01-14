@@ -62,8 +62,8 @@ CREATE TABLE IF NOT EXISTS organization_settings (
     enable_webhooks BOOLEAN DEFAULT false,
     
     -- Metadata
-    created_by VARCHAR(100) NOT NULL,
-    modified_by VARCHAR(100),
+    created_by BIGINT NOT NULL,
+    modified_by BIGINT,
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME ON UPDATE CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT true,
@@ -152,8 +152,8 @@ CREATE TABLE IF NOT EXISTS user_settings (
     remember_me_enabled BOOLEAN DEFAULT false,
     
     -- Metadata
-    created_by VARCHAR(100) NOT NULL,
-    modified_by VARCHAR(100),
+    created_by BIGINT NOT NULL,
+    modified_by BIGINT,
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME ON UPDATE CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT true,

@@ -70,7 +70,8 @@ public class IAMUserController {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getPhone(),
-                user.getEnabled())).toList());
+                user.getEnabled(),
+                user.getIsPrimaryUser())).toList());
     }
 
     /**
@@ -88,7 +89,8 @@ public class IAMUserController {
                         user.getFirstName(),
                         user.getLastName(),
                         user.getPhone(),
-                        user.getEnabled())))
+                        user.getEnabled(),
+                        user.getIsPrimaryUser())))
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -179,7 +181,8 @@ public class IAMUserController {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getPhone(),
-                user.getEnabled()));
+                user.getEnabled(),
+                false)); // New users are not primary users
     }
 
     /**

@@ -64,7 +64,7 @@ class OrganizationSettingsRepositoryTest {
         settings1.setItemsPerPage(25);
         settings1.setDefaultListView("table");
         settings1.setIsActive(true);
-        settings1.setCreatedBy("test-user");
+        settings1.setCreatedBy(1L);
         settings1 = organizationSettingsRepository.save(settings1);
 
         settings2 = new OrganizationSettings();
@@ -77,7 +77,7 @@ class OrganizationSettingsRepositoryTest {
         settings2.setItemsPerPage(50);
         settings2.setDefaultListView("card");
         settings2.setIsActive(false);
-        settings2.setCreatedBy("test-user");
+        settings2.setCreatedBy(1L);
         settings2 = organizationSettingsRepository.save(settings2);
     }
 
@@ -92,7 +92,7 @@ class OrganizationSettingsRepositoryTest {
         OrganizationSettings newSettings = new OrganizationSettings();
         newSettings.setOrganizationId(newOrg.getId());
         newSettings.setDefaultTheme("light");
-        newSettings.setCreatedBy("test-user");
+        newSettings.setCreatedBy(1L);
         
         OrganizationSettings saved = organizationSettingsRepository.save(newSettings);
         

@@ -44,7 +44,7 @@ class CustomViewRepositoryTest {
         testView1.setSelectedFields(Arrays.asList("firstName", "lastName", "email", "gradeLevel"));
         testView1.setIsPublic(true);
         testView1.setIsDefault(false);
-        testView1.setCreatedBy("user1");
+        testView1.setCreatedBy(1L);
         testView1.setIsActive(1);
         testView1 = customViewRepository.save(testView1);
         
@@ -56,7 +56,7 @@ class CustomViewRepositoryTest {
         testView2.setSelectedFields(Arrays.asList("firstName", "lastName", "email", "phone", "address"));
         testView2.setIsPublic(false);
         testView2.setIsDefault(true);
-        testView2.setCreatedBy("user2");
+        testView2.setCreatedBy(1L);
         testView2.setIsActive(1);
         testView2 = customViewRepository.save(testView2);
         
@@ -68,7 +68,7 @@ class CustomViewRepositoryTest {
         testView3.setSelectedFields(Arrays.asList("firstName", "lastName", "email"));
         testView3.setIsPublic(true);
         testView3.setIsDefault(false);
-        testView3.setCreatedBy("user1");
+        testView3.setCreatedBy(1L);
         testView3.setIsActive(1);
         testView3 = customViewRepository.save(testView3);
     }

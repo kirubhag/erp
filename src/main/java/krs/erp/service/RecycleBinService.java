@@ -36,22 +36,22 @@ public interface RecycleBinService {
     /**
      * Restore a single entity from recycle bin
      */
-    boolean restoreEntity(Long recycleBinId, String restoredBy);
+    boolean restoreEntity(Long recycleBinId, Long restoredBy);
     
     /**
      * Restore an entity by entity ID and type
      */
-    boolean restoreEntityByIdAndType(Long entityId, EntityType entityType, String restoredBy);
+    boolean restoreEntityByIdAndType(Long entityId, EntityType entityType, Long restoredBy);
     
     /**
      * Restore all entities of a specific type
      */
-    int restoreAllEntitiesByType(EntityType entityType, String restoredBy);
+    int restoreAllEntitiesByType(EntityType entityType, Long restoredBy);
     
     /**
      * Restore all entities in recycle bin
      */
-    int restoreAllEntities(String restoredBy);
+    int restoreAllEntities(Long restoredBy);
     
     /**
      * Get all recycle bin records

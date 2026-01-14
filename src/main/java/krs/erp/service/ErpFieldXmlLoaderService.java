@@ -164,12 +164,18 @@ public class ErpFieldXmlLoaderService {
 
             // Set optional fields with defaults
             // Note: fieldCategory from XML is now handled by sections
+            field.setUiType(getElementTextAsInt(fieldElement, "uiType", null));
             field.setDisplayOrder(getElementTextAsInt(fieldElement, "displayOrder", 0));
             field.setDefaultWidth(getElementTextAsInt(fieldElement, "defaultWidth", 100));
+            field.setMaxLength(getElementTextAsInt(fieldElement, "maxLength", null));
+            field.setDecimalPlaces(getElementTextAsInt(fieldElement, "decimalPlaces", null));
             field.setIsRequired(getElementTextAsBoolean(fieldElement, "isRequired", false));
             field.setIsSearchable(getElementTextAsBoolean(fieldElement, "isSearchable", false));
             field.setIsSortable(getElementTextAsBoolean(fieldElement, "isSortable", false));
+            field.setShowInList(getElementTextAsBoolean(fieldElement, "showInList", true));
+            field.setShowInForm(getElementTextAsBoolean(fieldElement, "showInForm", true));
             field.setFieldDescription(getElementText(fieldElement, "fieldDescription"));
+            field.setPicklistOptions(getElementText(fieldElement, "picklistOptions"));
             field.setShowType(getElementTextAsInt(fieldElement, "showType", 0));
 
             return field;
@@ -202,6 +208,21 @@ public class ErpFieldXmlLoaderService {
      * Utility method to get integer value from XML element
      */
     private Integer getElementTextAsInt(Element parent, String tagName, int defaultValue) {
+        String text = getElementText(parent, tagName);
+        if (text != null && !text.isEmpty()) {
+            try {
+                return Integer.parseInt(text);
+            } catch (NumberFormatException e) {
+                logger.warn("Invalid integer value for {}: {}", tagName, text);
+            }
+        }
+        return defaultValue;
+    }
+
+    /**
+     * Utility method to get integer value from XML element (nullable version)
+     */
+    private Integer getElementTextAsInt(Element parent, String tagName, Integer defaultValue) {
         String text = getElementText(parent, tagName);
         if (text != null && !text.isEmpty()) {
             try {

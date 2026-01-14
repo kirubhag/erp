@@ -63,10 +63,28 @@
                   {{ section.fields[i].displayLabel }}
                 </label>
                 <div class="field-input">
-                  <!-- Single Line, Email, Phone, URL, Currency, Decimal, Number, Percent -->
-                  <input *ngIf="isInputField(section.fields[i])" [type]="getInputType(section.fields[i])"
-                    class="form-control" [class.is-invalid]="hasError(section.fields[i].fieldName)"
-                    [formControlName]="section.fields[i].fieldName" [placeholder]="section.fields[i].displayLabel" />
+                  <!-- Single Line, Email, Phone, URL, Auto Number -->
+                  <input *ngIf="isInputField(section.fields[i]) && !isSliderField(section.fields[i])"
+                    [type]="getInputType(section.fields[i])" class="form-control"
+                    [class.is-invalid]="hasError(section.fields[i].fieldName)"
+                    [formControlName]="section.fields[i].fieldName"
+                    [placeholder]="section.fields[i].placeholder || section.fields[i].displayLabel"
+                    [readonly]="section.fields[i].isReadonly" />
+
+                  <!-- Number / Slider / Currency / Decimal -->
+                  <div *ngIf="isSliderField(section.fields[i])" class="d-flex align-items-center gap-2">
+                    <input type="range" class="form-range flex-grow-1" [formControlName]="section.fields[i].fieldName"
+                      [min]="section.fields[i].minValue" [max]="section.fields[i].maxValue"
+                      [step]="section.fields[i].step || 1">
+                    <span class="badge bg-secondary">{{ entityForm.get(section.fields[i].fieldName)?.value }}</span>
+                  </div>
+
+                  <!-- Standard Number Input with Min/Max/Step -->
+                  <input *ngIf="getInputType(section.fields[i]) === 'number' && !isSliderField(section.fields[i])"
+                    type="number" class="form-control" [class.is-invalid]="hasError(section.fields[i].fieldName)"
+                    [formControlName]="section.fields[i].fieldName" [min]="section.fields[i].minValue ?? null"
+                    [max]="section.fields[i].maxValue ?? null" [step]="section.fields[i].step || 'any'"
+                    [placeholder]="section.fields[i].displayLabel" />
 
                   <!-- Multi Line / Textarea -->
                   <textarea *ngIf="isTextareaField(section.fields[i])" class="form-control"

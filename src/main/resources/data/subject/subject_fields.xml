@@ -13,6 +13,21 @@
         <fieldDescription>Unique identifier for the subject</fieldDescription>
     </field>
     <field>
+        <fieldName>autoNumber</fieldName>
+        <fieldLabel>Subject Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <uiType>120</uiType>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <maxLength>50</maxLength>
+        <fieldDescription>Auto-generated unique code for Subject</fieldDescription>
+        <fieldProperties>{"prefix":"SUB-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+    </field>
+    <field>
         <fieldName>subjectCode</fieldName>
         <fieldLabel>Subject Code</fieldLabel>
         <fieldType>STRING</fieldType>

@@ -2,7 +2,8 @@ package krs.erp.enums;
 
 /**
  * Enum representing UI Field Types for the ERP system (100-119 range)
- * These are Lightning/Salesforce-style UI field types for comprehensive field management
+ * These are Lightning/Salesforce-style UI field types for comprehensive field
+ * management
  */
 public enum UIFieldType {
     // Basic Input Types (100-106)
@@ -15,7 +16,6 @@ public enum UIFieldType {
     DATE(106, "Date", "DATE", "Date & Time", "date", null),
     DATETIME(107, "Date/Time", "DATETIME", "Date & Time", "datetime-local", null),
     NUMBER(108, "Number", "INT", "Basic Input", "number", null),
-    AUTO_NUMBER(109, "Auto Number", "INT", "Basic Input", "number", null),
     CURRENCY(110, "Currency", "DECIMAL", "Basic Input", "number", null),
     DECIMAL(111, "Decimal", "DECIMAL", "Basic Input", "number", null),
     PERCENT(112, "Percent", "DECIMAL", "Basic Input", "number", null),
@@ -25,7 +25,10 @@ public enum UIFieldType {
     RADIO(116, "Radio Button", "VARCHAR", "Selection Types", "radio", 255),
     FILE_UPLOAD(117, "File Upload", "VARCHAR", "File & Media", "file", 500),
     IMAGE_UPLOAD(118, "Image Upload", "VARCHAR", "File & Media", "file", 500),
-    URL(119, "URL", "VARCHAR", "Contact Information", "url", 500);
+    URL(119, "URL", "VARCHAR", "Contact Information", "url", 500),
+    // Advanced Field Types (120+)
+    AUTO_NUMBER(120, "Auto Number", "VARCHAR", "Advanced", "text", 100),
+    SLIDER(121, "Slider", "INT", "Advanced", "range", null);
 
     private final int typeId;
     private final String displayName;
@@ -34,7 +37,8 @@ public enum UIFieldType {
     private final String htmlInputType;
     private final Integer maxLength;
 
-    UIFieldType(int typeId, String displayName, String dataType, String category, String htmlInputType, Integer maxLength) {
+    UIFieldType(int typeId, String displayName, String dataType, String category, String htmlInputType,
+            Integer maxLength) {
         this.typeId = typeId;
         this.displayName = displayName;
         this.dataType = dataType;
@@ -111,8 +115,8 @@ public enum UIFieldType {
      * Check if the UI field type is numeric
      */
     public boolean isNumeric() {
-        return this == NUMBER || this == AUTO_NUMBER || this == CURRENCY || 
-               this == DECIMAL || this == PERCENT || this == LONG_INTEGER;
+        return this == NUMBER || this == AUTO_NUMBER || this == CURRENCY ||
+                this == DECIMAL || this == PERCENT || this == LONG_INTEGER;
     }
 
     /**
@@ -149,12 +153,12 @@ public enum UIFieldType {
         config.setIsMultiSelect(isMultiSelect());
         config.setIsRelationship(isRelationship());
         config.setIsFileUpload(isFileUpload());
-        
+
         // Set default decimal places for numeric types
         if (this == CURRENCY || this == DECIMAL || this == PERCENT) {
             config.setDecimalPlaces(2);
         }
-        
+
         return config;
     }
 
@@ -176,25 +180,60 @@ public enum UIFieldType {
         private Integer decimalPlaces;
 
         // Getters and setters
-        public Integer getMaxLength() { return maxLength; }
-        public void setMaxLength(Integer maxLength) { this.maxLength = maxLength; }
-        
-        public String getValidationPattern() { return validationPattern; }
-        public void setValidationPattern(String validationPattern) { this.validationPattern = validationPattern; }
-        
-        public boolean isHasOptions() { return hasOptions; }
-        public void setHasOptions(boolean hasOptions) { this.hasOptions = hasOptions; }
-        
-        public boolean isMultiSelect() { return isMultiSelect; }
-        public void setIsMultiSelect(boolean isMultiSelect) { this.isMultiSelect = isMultiSelect; }
-        
-        public boolean isRelationship() { return isRelationship; }
-        public void setIsRelationship(boolean isRelationship) { this.isRelationship = isRelationship; }
-        
-        public boolean isFileUpload() { return isFileUpload; }
-        public void setIsFileUpload(boolean isFileUpload) { this.isFileUpload = isFileUpload; }
-        
-        public Integer getDecimalPlaces() { return decimalPlaces; }
-        public void setDecimalPlaces(Integer decimalPlaces) { this.decimalPlaces = decimalPlaces; }
+        public Integer getMaxLength() {
+            return maxLength;
+        }
+
+        public void setMaxLength(Integer maxLength) {
+            this.maxLength = maxLength;
+        }
+
+        public String getValidationPattern() {
+            return validationPattern;
+        }
+
+        public void setValidationPattern(String validationPattern) {
+            this.validationPattern = validationPattern;
+        }
+
+        public boolean isHasOptions() {
+            return hasOptions;
+        }
+
+        public void setHasOptions(boolean hasOptions) {
+            this.hasOptions = hasOptions;
+        }
+
+        public boolean isMultiSelect() {
+            return isMultiSelect;
+        }
+
+        public void setIsMultiSelect(boolean isMultiSelect) {
+            this.isMultiSelect = isMultiSelect;
+        }
+
+        public boolean isRelationship() {
+            return isRelationship;
+        }
+
+        public void setIsRelationship(boolean isRelationship) {
+            this.isRelationship = isRelationship;
+        }
+
+        public boolean isFileUpload() {
+            return isFileUpload;
+        }
+
+        public void setIsFileUpload(boolean isFileUpload) {
+            this.isFileUpload = isFileUpload;
+        }
+
+        public Integer getDecimalPlaces() {
+            return decimalPlaces;
+        }
+
+        public void setDecimalPlaces(Integer decimalPlaces) {
+            this.decimalPlaces = decimalPlaces;
+        }
     }
 }

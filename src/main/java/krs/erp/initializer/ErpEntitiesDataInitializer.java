@@ -66,7 +66,7 @@ public class ErpEntitiesDataInitializer implements CommandLineRunner {
                         existingEntity.setRoute(entity.getRoute());
                         // Update audit fields
                         existingEntity.setLastModifiedDate(LocalDateTime.now());
-                        existingEntity.setLastModifiedBy("system");
+                        existingEntity.setLastModifiedBy(null); // System modified - no specific user
 
                         erpEntityRepository.save(existingEntity);
                         logger.debug("Updated entity: {} - {}", entity.getSystemName(), entity.getPluralName());
@@ -76,7 +76,7 @@ public class ErpEntitiesDataInitializer implements CommandLineRunner {
 
                     // Set audit fields
                     entity.setCreatedDate(LocalDateTime.now());
-                    entity.setCreatedBy("system");
+                    entity.setCreatedBy(null); // System created - no specific user
 
                     erpEntityRepository.save(entity);
                     loaded++;

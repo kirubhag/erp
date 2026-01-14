@@ -42,56 +42,197 @@
       <div class="tab-content-wrapper">
       <!-- Plan Details -->
       <div class="plan-section" *ngIf="activeSection === 'plan-details'">
-        <div class="section-header">
-          <h5>Plan Details</h5>
-          <div class="header-actions">
-            <span class="profile-id">Profile Id: {{ profileId }}</span>
-            <a href="#" class="manage-link">Manage Plan</a>
+        <!-- Header Row -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="mb-0 fw-semibold">Plan Details</h5>
+          <div class="d-flex align-items-center gap-3">
+            <span class="text-muted small">Profile ID: <code>{{ profileId }}</code></span>
           </div>
         </div>
 
-        <div class="plan-content">
-          <div class="plan-badge">
-            <i class="fas fa-crown"></i>
+        <!-- Main Plan Card -->
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-body p-4">
+            <div class="row align-items-center">
+              <!-- Plan Icon & Name -->
+              <div class="col-lg-4 mb-3 mb-lg-0">
+                <div class="d-flex align-items-center">
+                  <div class="plan-icon-lg rounded-circle d-flex align-items-center justify-content-center me-3"
+                       [class.bg-warning]="currentSubscription?.status === 'TRIAL'"
+                       [class.bg-primary]="currentSubscription?.status !== 'TRIAL'">
+                    <i class="fas fa-crown text-white fa-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="mb-1 fw-bold">{{ currentPlan }}</h4>
+                    <span class="badge" 
+                          [class.bg-warning]="currentSubscription?.status === 'TRIAL'"
+                          [class.text-dark]="currentSubscription?.status === 'TRIAL'"
+                          [class.bg-success]="currentSubscription?.status === 'ACTIVE'">
+                      {{ currentSubscription?.status === 'TRIAL' ? 'Trial' : 'Active' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Plan Details Grid -->
+              <div class="col-lg-8">
+                <div class="row g-3">
+                  <!-- Trial Info -->
+                  <div class="col-sm-6 col-md-4" *ngIf="currentSubscription?.status === 'TRIAL'">
+                    <div class="d-flex flex-column">
+                      <small class="text-muted text-uppercase fw-medium mb-1">Trial Ends In</small>
+                      <span class="fw-semibold text-danger">{{ trialRemaining }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Billing Cycle -->
+                  <div class="col-sm-6 col-md-4">
+                    <div class="d-flex flex-column">
+                      <small class="text-muted text-uppercase fw-medium mb-1">Billing Cycle</small>
+                      <span class="fw-semibold">{{ billingCycle }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Support Plan -->
+                  <div class="col-sm-6 col-md-4">
+                    <div class="d-flex flex-column">
+                      <small class="text-muted text-uppercase fw-medium mb-1">Support Plan</small>
+                      <span class="fw-semibold">
+                        <i class="fas fa-shield-alt text-success me-1"></i>{{ supportPlan }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Next Renewal (for active plans) -->
+                  <div class="col-sm-6 col-md-4" *ngIf="currentSubscription?.status !== 'TRIAL'">
+                    <div class="d-flex flex-column">
+                      <small class="text-muted text-uppercase fw-medium mb-1">Next Renewal</small>
+                      <span class="fw-semibold">{{ formatDate(nextRenewal) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="plan-info-grid">
-            <div class="plan-info-item">
-              <small class="label">Current Plan</small>
-              <strong>{{ currentPlan }}<sup class="trial-badge" *ngIf="currentSubscription?.status === 'TRIAL'">Trial</sup></strong>
-            </div>
-            <div class="plan-info-item" *ngIf="currentSubscription?.status === 'TRIAL'">
-              <small class="label">Trial Ends In</small>
-              <strong class="text-danger">{{ trialRemaining }}</strong>
-              <button class="btn btn-sm btn-outline-primary ms-2" (click)="extendTrial()">Extend</button>
-            </div>
-            <div class="plan-info-item">
-              <small class="label">Support Plan</small>
-              <strong>{{ supportPlan }} <i class="fas fa-shield-alt"></i></strong>
-            </div>
-            <div class="plan-info-item">
-              <small class="label">Billing Cycle</small>
-              <strong>{{ billingCycle }}</strong>
-            </div>
-            <div class="plan-info-item" *ngIf="currentSubscription?.status !== 'TRIAL'">
-              <small class="label">Next Renewal</small>
-              <strong>{{ formatDate(nextRenewal) }}</strong>
+          <!-- Trial Action Bar -->
+          <div class="card-footer bg-light border-top p-3" *ngIf="currentSubscription?.status === 'TRIAL'">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+              <div class="d-flex align-items-center gap-2">
+                <span class="text-muted">Trial Actions:</span>
+                <button class="btn btn-outline-primary btn-sm" (click)="extendTrial()">
+                  <i class="fas fa-clock me-1"></i> Extend Trial
+                </button>
+                <button class="btn btn-outline-danger btn-sm" (click)="openEndTrialConfirm()">
+                  <i class="fas fa-times-circle me-1"></i> End Trial
+                </button>
+              </div>
+              <button class="btn btn-success" (click)="payForCurrentPlan()">
+                <i class="fas fa-credit-card me-1"></i> Subscribe Now - ₹{{ getCurrentPlanPrice() }}
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- Users Limit -->
-        <div class="users-limit">
-          <div class="limit-header">
-            <strong>Users Limit</strong>
-            <span class="badge-count">{{ totalUsers }}</span>
+        <!-- Users Limit Card -->
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h6 class="mb-0 fw-semibold">
+                <i class="fas fa-users text-primary me-2"></i>Users Limit
+              </h6>
+              <span class="badge bg-primary rounded-pill px-3">{{ totalUsers }} Total</span>
+            </div>
+            
+            <div class="progress mb-3" style="height: 12px;">
+              <div class="progress-bar bg-primary" role="progressbar" 
+                   [style.width.%]="usersPercentage" 
+                   [attr.aria-valuenow]="usedUsers" 
+                   aria-valuemin="0" 
+                   [attr.aria-valuemax]="totalUsers">
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex align-items-center">
+                <span class="badge bg-primary me-2">&nbsp;</span>
+                <small class="text-muted">Used: <strong class="text-dark">{{ usedUsers }}</strong></small>
+              </div>
+              <div class="d-flex align-items-center">
+                <span class="badge bg-light border me-2">&nbsp;</span>
+                <small class="text-muted">Available: <strong class="text-dark">{{ availableUsers }}</strong></small>
+              </div>
+            </div>
           </div>
-          <div class="progress-bar">
-            <div class="progress-fill" [style.width.%]="usersPercentage"></div>
+        </div>
+
+        <!-- Quick Stats Row -->
+        <div class="row g-3 mb-4">
+          <div class="col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body text-center p-3">
+                <div class="rounded-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center mb-2" style="width: 48px; height: 48px;">
+                  <i class="fas fa-database text-primary"></i>
+                </div>
+                <h6 class="mb-1 fw-semibold">Storage</h6>
+                <small class="text-muted">{{ currentSubscription?.plan?.maxStorageGb || 10 }} GB</small>
+              </div>
+            </div>
           </div>
-          <div class="limit-stats">
-            <small><span class="dot used"></span> Used: {{ usedUsers }}</small>
-            <small><span class="dot available"></span> Available: {{ availableUsers }}</small>
+          <div class="col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body text-center p-3">
+                <div class="rounded-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center mb-2" style="width: 48px; height: 48px;">
+                  <i class="fas fa-users text-success"></i>
+                </div>
+                <h6 class="mb-1 fw-semibold">Max Users</h6>
+                <small class="text-muted">{{ currentSubscription?.plan?.maxUsers || 5 }}</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body text-center p-3">
+                <div class="rounded-circle bg-info bg-opacity-10 d-inline-flex align-items-center justify-content-center mb-2" style="width: 48px; height: 48px;">
+                  <i class="fas fa-headset text-info"></i>
+                </div>
+                <h6 class="mb-1 fw-semibold">Support</h6>
+                <small class="text-muted">{{ supportPlan }}</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body text-center p-3">
+                <div class="rounded-circle bg-warning bg-opacity-10 d-inline-flex align-items-center justify-content-center mb-2" style="width: 48px; height: 48px;">
+                  <i class="fas fa-plug text-warning"></i>
+                </div>
+                <h6 class="mb-1 fw-semibold">API Access</h6>
+                <small class="text-muted">{{ currentPlan !== 'Free' ? 'Enabled' : 'Disabled' }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features List -->
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-white border-bottom py-3">
+            <h6 class="mb-0 fw-semibold">
+              <i class="fas fa-check-circle text-success me-2"></i>Included Features
+            </h6>
+          </div>
+          <div class="card-body p-4">
+            <div class="row g-3">
+              <div class="col-md-6 col-lg-4" *ngFor="let feature of currentSubscription?.plan?.features || []">
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-check text-success me-2"></i>
+                  <span>{{ feature }}</span>
+                </div>
+              </div>
+              <div class="col-12 text-center py-4" *ngIf="!currentSubscription?.plan?.features?.length">
+                <p class="text-muted mb-0">Feature details are not available.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -134,8 +275,12 @@
               <span class="current-badge" *ngIf="isCurrentPlan(plan)">Current Plan</span>
 
               <button class="btn-upgrade" *ngIf="!isCurrentPlan(plan) && canUpgradeTo(plan)"
-                (click)="openUpgradeModal(plan)">
+                (click)="openConfirmModal(plan)">
                 Upgrade
+              </button>
+              <button class="btn-downgrade" *ngIf="!isCurrentPlan(plan) && !canUpgradeTo(plan)"
+                (click)="openConfirmModal(plan)">
+                Downgrade
               </button>
             </div>
 
@@ -369,6 +514,79 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- Plan Change Confirmation Modal -->
+<div class="modal-overlay" *ngIf="showConfirmModal" (click)="closeConfirmModal()">
+  <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h4 *ngIf="confirmAction === 'end-trial'">End Trial</h4>
+      <h4 *ngIf="confirmAction === 'upgrade'">Upgrade Plan</h4>
+      <h4 *ngIf="confirmAction === 'downgrade'">Downgrade Plan</h4>
+      <button class="btn-close" (click)="closeConfirmModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <!-- End Trial Confirmation -->
+      <div *ngIf="confirmAction === 'end-trial'" class="confirm-message">
+        <i class="fas fa-exclamation-triangle text-warning fa-3x mb-3"></i>
+        <p>Are you sure you want to end your trial?</p>
+        <p class="text-muted">Your plan will be changed from <strong>{{ currentPlan }}</strong> to <strong>Free</strong>.</p>
+        <p class="text-muted">You will lose access to premium features.</p>
+      </div>
+
+      <!-- Upgrade/Downgrade Confirmation -->
+      <div *ngIf="confirmAction !== 'end-trial' && selectedPlan" class="confirm-message">
+        <i class="fas fa-exchange-alt fa-3x mb-3" [class.text-success]="confirmAction === 'upgrade'" [class.text-warning]="confirmAction === 'downgrade'"></i>
+        <p>Are you sure you want to change your plan from <strong>{{ currentPlan }}</strong> to <strong>{{ selectedPlan.displayName }}</strong>?</p>
+        
+        <div class="plan-change-summary" *ngIf="confirmAction === 'upgrade'">
+          <p class="price-info">
+            Amount: <strong>₹{{ getPlanPrice(selectedPlan) }}</strong> / {{ selectedBillingCycle === 'YEARLY' ? 'year' : 'month' }}
+          </p>
+          <p class="text-muted">You will be redirected to the payment gateway.</p>
+        </div>
+
+        <div class="plan-change-summary" *ngIf="confirmAction === 'downgrade'">
+          <p class="text-muted" *ngIf="selectedPlan.name?.toLowerCase() !== 'free'">
+            Amount: <strong>₹{{ getPlanPrice(selectedPlan) }}</strong> / {{ selectedBillingCycle === 'YEARLY' ? 'year' : 'month' }}
+          </p>
+          <p class="text-warning" *ngIf="selectedPlan.name?.toLowerCase() === 'free'">
+            You will lose access to premium features.
+          </p>
+        </div>
+      </div>
+
+      <!-- Success Message -->
+      <div class="alert-success" *ngIf="successMessage">
+        <i class="fas fa-check-circle"></i> {{ successMessage }}
+      </div>
+
+      <!-- Error Message -->
+      <div class="alert-error" *ngIf="paymentError">
+        <i class="fas fa-exclamation-circle"></i> {{ paymentError }}
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" (click)="closeConfirmModal()" [disabled]="upgrading">
+          Cancel
+        </button>
+        <button type="button" class="btn-confirm" (click)="confirmPlanChange()" [disabled]="upgrading" 
+                [class.btn-danger]="confirmAction === 'end-trial' || confirmAction === 'downgrade'">
+          <i class="fas fa-spinner fa-spin" *ngIf="upgrading"></i>
+          <span *ngIf="!upgrading">
+            <span *ngIf="confirmAction === 'end-trial'">End Trial</span>
+            <span *ngIf="confirmAction === 'upgrade'">Proceed to Payment</span>
+            <span *ngIf="confirmAction === 'downgrade'">Confirm Downgrade</span>
+          </span>
+          <span *ngIf="upgrading">Processing...</span>
+        </button>
+      </div>
     </div>
   </div>
 </div>

@@ -16,12 +16,12 @@ public class CustomViewDTO {
     private List<String> selectedFields;
     private Boolean isDefault;
     private Boolean isPublic;
-    private String createdBy;
+    private Long createdBy;
     
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
     
-    private String modifiedBy;
+    private Long modifiedBy;
     
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedTime;
@@ -31,7 +31,7 @@ public class CustomViewDTO {
     
     public CustomViewDTO(Long id, String viewName, String description, EntityType entityType, 
                         List<String> selectedFields, Boolean isDefault, Boolean isPublic,
-                        String createdBy, LocalDateTime createdTime, String modifiedBy, LocalDateTime modifiedTime) {
+                        Long createdBy, LocalDateTime createdTime, Long modifiedBy, LocalDateTime modifiedTime) {
         this.id = id;
         this.viewName = viewName;
         this.description = description;
@@ -102,11 +102,11 @@ public class CustomViewDTO {
         this.isPublic = isPublic;
     }
     
-    public String getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
     
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
     
@@ -118,11 +118,11 @@ public class CustomViewDTO {
         this.createdTime = createdTime;
     }
     
-    public String getModifiedBy() {
+    public Long getModifiedBy() {
         return modifiedBy;
     }
     
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(Long modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
     
@@ -144,9 +144,9 @@ public class CustomViewDTO {
                 ", selectedFields=" + selectedFields +
                 ", isDefault=" + isDefault +
                 ", isPublic=" + isPublic +
-                ", createdBy='" + createdBy + '\'' +
+                ", createdBy=" + createdBy +
                 ", createdTime=" + createdTime +
-                ", modifiedBy='" + modifiedBy + '\'' +
+                ", modifiedBy=" + modifiedBy +
                 ", modifiedTime=" + modifiedTime +
                 '}';
     }

@@ -446,14 +446,19 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         String fieldType = getElementText(fieldElement, "fieldType");
                         String sectionName = getElementText(fieldElement, "sectionName", null);
                         Integer displayOrder = getElementInt(fieldElement, "displayOrder", 0);
+                        Integer uiType = getElementInt(fieldElement, "uiType", null);
                         Boolean isRequired = getElementBoolean(fieldElement, "isRequired", false);
                         Boolean isSearchable = getElementBoolean(fieldElement, "isSearchable", true);
                         Boolean isSortable = getElementBoolean(fieldElement, "isSortable", true);
                         Boolean showInList = getElementBoolean(fieldElement, "showInList", true);
                         Boolean showInForm = getElementBoolean(fieldElement, "showInForm", true);
-                        String description = getElementText(fieldElement, "description", null);
+                        String description = getElementText(fieldElement, "fieldDescription", null);
                         Integer maxLength = getElementInt(fieldElement, "maxLength", null);
+                        Integer decimalPlaces = getElementInt(fieldElement, "decimalPlaces", null);
+                        Integer showType = getElementInt(fieldElement, "showType", 0);
                         String validationPattern = getElementText(fieldElement, "validationPattern", null);
+                        String picklistOptions = getElementText(fieldElement, "picklistOptions", null);
+                        String fieldProperties = getElementText(fieldElement, "fieldProperties", null);
 
                         // Get section_id from section_name
                         Long sectionId = null;
@@ -471,15 +476,16 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                         masterJdbcTemplate.update(
                                 "INSERT INTO erp_fields " +
-                                        "(entity_type, field_name, field_label, field_type, section_id, display_order, "
+                                        "(entity_type, field_name, field_label, field_type, ui_type, section_id, display_order, "
                                         +
                                         "is_required, is_searchable, is_sortable, show_in_list, show_in_form, " +
-                                        "field_description, max_length, validation_pattern, created_time, modified_time, is_active) "
+                                        "field_description, max_length, decimal_places, show_type, validation_pattern, picklist_options, field_properties, created_time, modified_time, is_active) "
                                         +
-                                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                                         "ON DUPLICATE KEY UPDATE " +
                                         "field_label = VALUES(field_label), " +
                                         "field_type = VALUES(field_type), " +
+                                        "ui_type = VALUES(ui_type), " +
                                         "section_id = VALUES(section_id), " +
                                         "display_order = VALUES(display_order), " +
                                         "is_required = VALUES(is_required), " +
@@ -489,12 +495,18 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                                         "show_in_form = VALUES(show_in_form), " +
                                         "field_description = VALUES(field_description), " +
                                         "max_length = VALUES(max_length), " +
+                                        "decimal_places = VALUES(decimal_places), " +
+                                        "show_type = VALUES(show_type), " +
                                         "validation_pattern = VALUES(validation_pattern), " +
+                                        "picklist_options = VALUES(picklist_options), " +
+                                        "field_properties = VALUES(field_properties), " +
                                         "is_active = VALUES(is_active), " +
                                         "modified_time = ?",
-                                entityType, fieldName, fieldLabel, fieldType, sectionId, displayOrder,
+                                entityType, fieldName, fieldLabel, fieldType, uiType, sectionId, displayOrder,
                                 isRequired, isSearchable, isSortable, showInList, showInForm,
-                                description, maxLength, validationPattern, LocalDateTime.now(), LocalDateTime.now(), 1,
+                                description, maxLength, decimalPlaces, showType, validationPattern, picklistOptions,
+                                fieldProperties,
+                                LocalDateTime.now(), LocalDateTime.now(), 1,
                                 LocalDateTime.now());
                         totalLoaded++;
                     } catch (Exception e) {

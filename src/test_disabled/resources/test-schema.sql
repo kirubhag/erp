@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS organizations (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT
 );
 
@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS roles (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT
 );
 
@@ -40,8 +40,8 @@ CREATE TABLE IF NOT EXISTS permissions (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT
 );
 
@@ -61,8 +61,8 @@ CREATE TABLE IF NOT EXISTS users (
     organization_id BIGINT,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (role_id) REFERENCES roles(id),
     FOREIGN KEY (organization_id) REFERENCES organizations(id)
@@ -80,8 +80,8 @@ CREATE TABLE IF NOT EXISTS staff (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (organization_id) REFERENCES organizations(id)
@@ -98,8 +98,8 @@ CREATE TABLE IF NOT EXISTS students (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (organization_id) REFERENCES organizations(id)
@@ -114,8 +114,8 @@ CREATE TABLE IF NOT EXISTS parents (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -129,8 +129,8 @@ CREATE TABLE IF NOT EXISTS parent_student_relations (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (parent_id) REFERENCES parents(id),
     FOREIGN KEY (student_id) REFERENCES students(id),
@@ -149,8 +149,8 @@ CREATE TABLE IF NOT EXISTS attendance (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (organization_id) REFERENCES organizations(id)
@@ -172,8 +172,8 @@ CREATE TABLE IF NOT EXISTS health_records (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (student_id) REFERENCES students(id)
 );
@@ -188,8 +188,8 @@ CREATE TABLE IF NOT EXISTS email_templates (
     organization_id BIGINT,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (organization_id) REFERENCES organizations(id)
 );
@@ -208,8 +208,8 @@ CREATE TABLE IF NOT EXISTS email_logs (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (template_id) REFERENCES email_templates(id),
     FOREIGN KEY (organization_id) REFERENCES organizations(id)
@@ -228,8 +228,8 @@ CREATE TABLE IF NOT EXISTS custom_views (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (organization_id) REFERENCES organizations(id)
 );
@@ -244,8 +244,8 @@ CREATE TABLE IF NOT EXISTS user_custom_fields (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (entity_id) REFERENCES users(id),
     UNIQUE KEY unique_user_field (entity_id, field_name)
@@ -260,8 +260,8 @@ CREATE TABLE IF NOT EXISTS staff_custom_fields (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (entity_id) REFERENCES staff(id),
     UNIQUE KEY unique_staff_field (entity_id, field_name)
@@ -276,8 +276,8 @@ CREATE TABLE IF NOT EXISTS student_custom_fields (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (entity_id) REFERENCES students(id),
     UNIQUE KEY unique_student_field (entity_id, field_name)
@@ -292,8 +292,8 @@ CREATE TABLE IF NOT EXISTS parent_custom_fields (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (entity_id) REFERENCES parents(id),
     UNIQUE KEY unique_parent_field (entity_id, field_name)
@@ -308,8 +308,8 @@ CREATE TABLE IF NOT EXISTS organization_custom_fields (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (entity_id) REFERENCES organizations(id),
     UNIQUE KEY unique_org_field (entity_id, field_name)
@@ -324,8 +324,8 @@ CREATE TABLE IF NOT EXISTS attendance_custom_fields (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (entity_id) REFERENCES attendance(id),
     UNIQUE KEY unique_attendance_field (entity_id, field_name)
@@ -340,8 +340,8 @@ CREATE TABLE IF NOT EXISTS health_record_custom_fields (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (entity_id) REFERENCES health_records(id),
     UNIQUE KEY unique_health_field (entity_id, field_name)
@@ -356,8 +356,8 @@ CREATE TABLE IF NOT EXISTS email_template_custom_fields (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (entity_id) REFERENCES email_templates(id),
     UNIQUE KEY unique_email_template_field (entity_id, field_name)
@@ -372,8 +372,8 @@ CREATE TABLE IF NOT EXISTS email_log_custom_fields (
     is_active BOOLEAN DEFAULT TRUE,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(255),
-    modified_by VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (entity_id) REFERENCES email_logs(id),
     UNIQUE KEY unique_email_log_field (entity_id, field_name)

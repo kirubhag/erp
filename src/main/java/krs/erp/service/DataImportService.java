@@ -45,6 +45,7 @@ import krs.erp.model.Timetable.DayOfWeek;
 import krs.erp.model.User;
 import krs.erp.model.academic.AcademicYear;
 import krs.erp.model.admission.StudentRegistration;
+import krs.erp.model.calendar.CalendarDay;
 import krs.erp.model.communication.Announcement;
 import krs.erp.model.communication.Message;
 import krs.erp.model.communication.SupportTicket;
@@ -64,6 +65,9 @@ import krs.erp.model.finance.JournalItem;
 import krs.erp.model.finance.ScholarshipApplication;
 import krs.erp.model.finance.ScholarshipCategory;
 import krs.erp.model.finance.StudentFineLedger;
+import krs.erp.model.hr.Department;
+import krs.erp.model.hr.Designation;
+import krs.erp.model.hr.Payslip;
 import krs.erp.model.hr.PerformanceCriteria;
 import krs.erp.model.hr.PerformanceCycle;
 import krs.erp.model.hr.PerformanceReview;
@@ -100,7 +104,6 @@ import krs.erp.model.maintenance.Facility;
 import krs.erp.model.maintenance.FacilityBooking;
 import krs.erp.model.maintenance.WorkOrder;
 import krs.erp.model.reporting.MISReport;
-import krs.erp.model.hr.Payslip;
 import krs.erp.model.tpd.Competency;
 import krs.erp.model.tpd.CpdLedger;
 import krs.erp.model.tpd.ProfessionalPortfolio;
@@ -126,6 +129,7 @@ import krs.erp.repository.TimetableRepository;
 import krs.erp.repository.UserRepository;
 import krs.erp.repository.academic.AcademicYearRepository;
 import krs.erp.repository.admission.StudentRegistrationRepository;
+import krs.erp.repository.calendar.CalendarDayRepository;
 import krs.erp.repository.communication.AnnouncementRepository;
 import krs.erp.repository.communication.MessageRepository;
 import krs.erp.repository.communication.SupportTicketRepository;
@@ -133,6 +137,9 @@ import krs.erp.repository.communication.TicketCommentRepository;
 import krs.erp.repository.finance.BankStatementRepository;
 import krs.erp.repository.finance.BudgetLineRepository;
 import krs.erp.repository.finance.BudgetRepository;
+import krs.erp.repository.hr.DepartmentRepository;
+import krs.erp.repository.hr.DesignationRepository;
+import krs.erp.repository.hr.PayslipRepository;
 import krs.erp.repository.library.AuthorRepository;
 import krs.erp.repository.library.LibraryHoldRepository;
 import krs.erp.repository.library.LibraryLoanRepository;
@@ -160,7 +167,6 @@ import krs.erp.repository.lms.LmsSubmissionRepository;
 import krs.erp.repository.lms.LmsTopicRepository;
 import krs.erp.repository.lms.VirtualAttendanceRecordRepository;
 import krs.erp.repository.lms.VirtualClassSessionRepository;
-import krs.erp.repository.lms.VirtualClassSessionRepository;
 import krs.erp.repository.tpd.CompetencyRepository;
 import krs.erp.repository.tpd.CpdLedgerRepository;
 import krs.erp.repository.tpd.EvidenceRepository;
@@ -169,14 +175,6 @@ import krs.erp.repository.tpd.SkillAssessmentRepository;
 import krs.erp.repository.tpd.TrainingAttendanceRepository;
 import krs.erp.repository.tpd.TrainingEvaluationRepository;
 import krs.erp.repository.tpd.TrainingEventRepository;
-import krs.erp.repository.hr.PayslipRepository;
-import krs.erp.repository.hr.DepartmentRepository;
-import krs.erp.repository.hr.DesignationRepository;
-import krs.erp.repository.calendar.CalendarDayRepository;
-import krs.erp.model.hr.Department;
-import krs.erp.model.hr.Designation;
-import krs.erp.model.calendar.CalendarDay;
-import krs.erp.model.calendar.CalendarDay.DayType;
 
 @Service
 @SuppressWarnings({ "unused", "UnnecessaryLocalVariable" })
@@ -1739,8 +1737,54 @@ public class DataImportService {
                 entity.getClass().getMethod("setModifiedTime", LocalDateTime.class)
                         .invoke(entity, parseLocalDateTime(modTimeToSet));
             }
+            
+            // Set createdBy to current user ID from security context
+            Long currentUserId = getCurrentUserId();
+            if (currentUserId != null) {
+                try {
+                    entity.getClass().getMethod("setCreatedBy", Long.class)
+                            .invoke(entity, currentUserId);
+                } catch (NoSuchMethodException e) {
+                    // Entity doesn't have setCreatedBy method, ignore
+                }
+            }
         } catch (Exception e) {
             // Ignore if fields don't exist or can't be set
+        }
+    }
+    
+    /**
+     * Get the current user ID from the security context.
+     * @return The user ID or null if not authenticated
+     */
+    private Long getCurrentUserId() {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null && auth.getPrincipal() instanceof CustomUserDetails) {
+                CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+                return userDetails.getUserId();
+            }
+        } catch (Exception e) {
+            logger.debug("Could not get current user ID from security context: {}", e.getMessage());
+        }
+        return null;
+    }
+    
+    /**
+     * Set the createdBy field on an entity using reflection.
+     * This method is used for entities that are created directly without going through setBaseEntityFields.
+     * @param entity The entity to set createdBy on
+     */
+    private void setCreatedByOnEntity(Object entity) {
+        Long currentUserId = getCurrentUserId();
+        if (currentUserId != null) {
+            try {
+                entity.getClass().getMethod("setCreatedBy", Long.class).invoke(entity, currentUserId);
+            } catch (NoSuchMethodException e) {
+                // Entity doesn't have setCreatedBy method, ignore
+            } catch (Exception e) {
+                logger.debug("Could not set createdBy on entity: {}", e.getMessage());
+            }
         }
     }
 
@@ -2054,6 +2098,7 @@ public class DataImportService {
                     salary.setTaxDeduction(enablePf ? 1500.0 : 500.0);
                     salary.setPanNumber("ABCDE" + (1000 + staff.getId()) + "F");
 
+                    setCreatedByOnEntity(salary);
                     staffSalaryRepository.save(salary);
                 }
             }

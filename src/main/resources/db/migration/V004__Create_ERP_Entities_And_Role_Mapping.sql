@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS erp_entities (
     is_active BOOLEAN DEFAULT TRUE,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(100),
-    last_modified_by VARCHAR(100),
+    created_by BIGINT,
+    last_modified_by BIGINT,
     INDEX idx_singular_name (singular_name),
     INDEX idx_is_active (is_active)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS erp_entities_role_relation (
     role_id BIGINT NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(100),
-    last_modified_by VARCHAR(100),
+    created_by BIGINT,
+    last_modified_by BIGINT,
     UNIQUE KEY unique_entity_role (entity_id, role_id),
     FOREIGN KEY (entity_id) REFERENCES erp_entities(id) ON DELETE CASCADE,
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,

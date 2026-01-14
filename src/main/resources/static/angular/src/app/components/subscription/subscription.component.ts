@@ -54,9 +54,14 @@ export class SubscriptionComponent implements OnInit {
 
   // UI state
   showUpgradeModal = false;
+  showConfirmModal = false;
   showHistorySection = false;
   selectedBillingCycle: 'MONTHLY' | 'YEARLY' = 'YEARLY';
   selectedPlan?: PricingPlan;
+  confirmAction: 'upgrade' | 'downgrade' | 'end-trial' | null = null;
+
+  // Razorpay
+  razorpayKeyId: string = '';
 
   // Payment form
   paymentForm = {
@@ -141,6 +146,19 @@ export class SubscriptionComponent implements OnInit {
   ngOnInit(): void {
     this.loadSubscriptionData();
     this.loadAvailablePlans();
+    this.loadRazorpayKey();
+  }
+
+  /**
+   * Load Razorpay key from backend
+   */
+  loadRazorpayKey(): void {
+    this.subscriptionService.getRazorpayKey().subscribe({
+      next: (response) => {
+        this.razorpayKeyId = response.keyId;
+      },
+      error: (err) => console.error('Error loading Razorpay key:', err)
+    });
   }
 
   /**
@@ -224,7 +242,7 @@ export class SubscriptionComponent implements OnInit {
     // Use plan displayName, fallback to planName, then planType
     this.currentPlan = sub.plan?.displayName || sub.plan?.planName || sub.plan?.planType || 'Free';
     this.billingCycle = sub.billingCycle || 'Monthly';
-    this.profileId = `ORG_${sub.organizationId}`;
+    this.profileId = sub.organizationId ? `ORG_${sub.organizationId}` : `ORG_${this.organizationId}`;
 
     if (sub.nextBillingDate) {
       this.nextRenewal = new Date(sub.nextBillingDate);
@@ -401,6 +419,220 @@ export class SubscriptionComponent implements OnInit {
     const currentPrice = this.currentSubscription.plan.priceMonthly || this.currentSubscription.plan.amount || 0;
     const targetPrice = plan.priceMonthly || plan.amount || 0;
     return targetPrice > currentPrice;
+  }
+
+  /**
+   * Get button text based on current plan comparison
+   */
+  getButtonText(plan: PricingPlan): string {
+    if (this.isCurrentPlan(plan)) return 'Current Plan';
+    return this.canUpgradeTo(plan) ? 'Upgrade' : 'Downgrade';
+  }
+
+  /**
+   * Open confirmation modal for plan change
+   */
+  openConfirmModal(plan: PricingPlan): void {
+    this.selectedPlan = plan;
+    this.confirmAction = this.canUpgradeTo(plan) ? 'upgrade' : 'downgrade';
+    this.showConfirmModal = true;
+    this.paymentError = null;
+    this.successMessage = null;
+  }
+
+  /**
+   * Close confirmation modal
+   */
+  closeConfirmModal(): void {
+    this.showConfirmModal = false;
+    this.selectedPlan = undefined;
+    this.confirmAction = null;
+  }
+
+  /**
+   * Open confirmation modal for ending trial
+   */
+  openEndTrialConfirm(): void {
+    this.confirmAction = 'end-trial';
+    this.showConfirmModal = true;
+    this.paymentError = null;
+    this.successMessage = null;
+  }
+
+  /**
+   * Confirm plan change - opens Razorpay for paid plans
+   */
+  confirmPlanChange(): void {
+    if (this.confirmAction === 'end-trial') {
+      this.endTrialNow();
+      return;
+    }
+
+    if (!this.selectedPlan) return;
+
+    const amount = this.getPlanPrice(this.selectedPlan);
+    
+    // If downgrading to Free plan, no payment needed
+    if (amount === 0 || this.selectedPlan.name?.toLowerCase() === 'free') {
+      this.changePlanDirectly();
+      return;
+    }
+
+    // For paid plans, open Razorpay
+    this.openRazorpayCheckout();
+  }
+
+  /**
+   * End trial immediately and switch to Free plan
+   */
+  endTrialNow(): void {
+    this.upgrading = true;
+    this.subscriptionService.endTrial().subscribe({
+      next: () => {
+        this.upgrading = false;
+        this.successMessage = 'Trial ended. You are now on the Free plan.';
+        setTimeout(() => {
+          this.closeConfirmModal();
+          this.loadSubscriptionData();
+        }, 2000);
+      },
+      error: (err) => {
+        this.upgrading = false;
+        this.paymentError = err.error?.message || 'Failed to end trial.';
+      }
+    });
+  }
+
+  /**
+   * Change plan directly without payment (for free/downgrade)
+   */
+  changePlanDirectly(): void {
+    if (!this.selectedPlan) return;
+    
+    this.upgrading = true;
+    this.subscriptionService.changePlan(this.selectedPlan.id).subscribe({
+      next: () => {
+        this.upgrading = false;
+        this.successMessage = 'Plan changed successfully!';
+        setTimeout(() => {
+          this.closeConfirmModal();
+          this.loadSubscriptionData();
+        }, 2000);
+      },
+      error: (err) => {
+        this.upgrading = false;
+        this.paymentError = err.error?.message || 'Failed to change plan.';
+      }
+    });
+  }
+
+  /**
+   * Open Razorpay checkout
+   */
+  openRazorpayCheckout(): void {
+    if (!this.selectedPlan) {
+      console.error('No plan selected');
+      return;
+    }
+
+    console.log('Selected plan:', this.selectedPlan);
+    const amount = this.getPlanPrice(this.selectedPlan) || this.selectedPlan.amount || 0;
+    console.log('Amount to charge:', amount, 'Plan ID:', this.selectedPlan.id);
+    
+    if (amount <= 0) {
+      this.paymentError = 'Invalid plan amount. Please select a valid plan.';
+      return;
+    }
+    
+    this.upgrading = true;
+
+    // Create order first
+    this.subscriptionService.createOrder(amount, this.selectedPlan.id).subscribe({
+      next: (orderResponse) => {
+        this.upgrading = false;
+        this.closeConfirmModal();
+
+        const options = {
+          key: this.razorpayKeyId,
+          amount: orderResponse.amount,
+          currency: orderResponse.currency,
+          name: 'ERP System',
+          description: `${this.confirmAction === 'upgrade' ? 'Upgrade' : 'Change'} to ${this.selectedPlan?.displayName}`,
+          order_id: orderResponse.orderId,
+          handler: (response: any) => {
+            this.verifyPayment(response);
+          },
+          prefill: {
+            name: '',
+            email: '',
+            contact: ''
+          },
+          theme: {
+            color: '#3399cc'
+          },
+          modal: {
+            ondismiss: () => {
+              console.log('Payment cancelled');
+            }
+          }
+        };
+
+        const rzp = new (window as any).Razorpay(options);
+        rzp.open();
+      },
+      error: (err) => {
+        this.upgrading = false;
+        this.paymentError = err.error?.message || 'Failed to create order.';
+      }
+    });
+  }
+
+  /**
+   * Verify payment after Razorpay checkout
+   */
+  verifyPayment(response: any): void {
+    if (!this.selectedPlan) return;
+
+    this.upgrading = true;
+    this.subscriptionService.verifyPayment(
+      response.razorpay_payment_id,
+      response.razorpay_order_id,
+      response.razorpay_signature,
+      this.selectedPlan.id
+    ).subscribe({
+      next: () => {
+        this.upgrading = false;
+        this.successMessage = 'Payment successful! Plan updated.';
+        setTimeout(() => {
+          this.loadSubscriptionData();
+        }, 2000);
+      },
+      error: (err) => {
+        this.upgrading = false;
+        this.paymentError = err.error?.message || 'Payment verification failed.';
+      }
+    });
+  }
+
+  /**
+   * Get current plan price for display
+   */
+  getCurrentPlanPrice(): number {
+    if (!this.currentSubscription?.plan) return 0;
+    return this.selectedBillingCycle === 'YEARLY' 
+      ? this.currentSubscription.plan.priceYearly 
+      : this.currentSubscription.plan.priceMonthly;
+  }
+
+  /**
+   * Pay for current trial plan to convert to paid subscription
+   */
+  payForCurrentPlan(): void {
+    if (!this.currentSubscription?.plan) return;
+    
+    this.selectedPlan = this.currentSubscription.plan;
+    this.confirmAction = 'upgrade';
+    this.openRazorpayCheckout();
   }
 
   setActiveTab(tab: 'onetime' | 'daily'): void {

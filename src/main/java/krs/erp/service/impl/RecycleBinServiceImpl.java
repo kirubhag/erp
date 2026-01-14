@@ -238,7 +238,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
     
     @Override
     @Transactional
-    public boolean restoreEntity(Long recycleBinId, String restoredBy) {
+    public boolean restoreEntity(Long recycleBinId, Long restoredBy) {
         Optional<RecycleBin> recycleBinOpt = recycleBinRepository.findById(recycleBinId);
         if (!recycleBinOpt.isPresent()) {
             logger.warn("Recycle bin record with ID {} not found", recycleBinId);
@@ -251,7 +251,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
     
     @Override
     @Transactional
-    public boolean restoreEntityByIdAndType(Long entityId, EntityType entityType, String restoredBy) {
+    public boolean restoreEntityByIdAndType(Long entityId, EntityType entityType, Long restoredBy) {
         logger.info("Restoring entity: {} with ID: {} by user: {}", entityType, entityId, restoredBy);
         
         boolean restored = switch (entityType) {
@@ -274,7 +274,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
         return restored;
     }
     
-    private boolean restoreStudent(Long studentId, String restoredBy) {
+    private boolean restoreStudent(Long studentId, Long restoredBy) {
         Optional<Student> studentOpt = studentRepository.findById(studentId);
         if (!studentOpt.isPresent()) {
             logger.warn("Student with ID {} not found", studentId);
@@ -299,7 +299,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
         return true;
     }
     
-    private void restoreRelatedEntitiesForStudent(Long studentId, String restoredBy) {
+    private void restoreRelatedEntitiesForStudent(Long studentId, Long restoredBy) {
         // Restore attendance records
         List<Attendance> deletedAttendance = attendanceRepository.findByStudentIdAndIsActive(studentId, -1);
         for (Attendance attendance : deletedAttendance) {
@@ -346,7 +346,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
         }
     }
     
-    private boolean restoreParent(Long parentId, String restoredBy) {
+    private boolean restoreParent(Long parentId, Long restoredBy) {
         Optional<Parent> parentOpt = parentRepository.findById(parentId);
         if (!parentOpt.isPresent()) {
             logger.warn("Parent with ID {} not found", parentId);
@@ -376,7 +376,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
         return true;
     }
     
-    private boolean restoreAttendance(Long attendanceId, String restoredBy) {
+    private boolean restoreAttendance(Long attendanceId, Long restoredBy) {
         Optional<Attendance> attendanceOpt = attendanceRepository.findById(attendanceId);
         if (!attendanceOpt.isPresent()) {
             logger.warn("Attendance with ID {} not found", attendanceId);
@@ -397,7 +397,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
         return true;
     }
     
-    private boolean restoreHealthRecord(Long healthRecordId, String restoredBy) {
+    private boolean restoreHealthRecord(Long healthRecordId, Long restoredBy) {
         Optional<HealthRecord> healthRecordOpt = healthRecordRepository.findById(healthRecordId);
         if (!healthRecordOpt.isPresent()) {
             logger.warn("Health record with ID {} not found", healthRecordId);
@@ -418,7 +418,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
         return true;
     }
     
-    private boolean restoreGenericEntity(Long entityId, EntityType entityType, String restoredBy) {
+    private boolean restoreGenericEntity(Long entityId, EntityType entityType, Long restoredBy) {
         logger.info("Performing generic restore for entity type: {} with ID: {} by user: {}", entityType, entityId, restoredBy);
         // This method handles restoration for entities that don't have complex relationships
         // The actual entity restoration should be handled by specific service classes
@@ -426,7 +426,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
     }
     
     @Override
-    public int restoreAllEntitiesByType(EntityType entityType, String restoredBy) {
+    public int restoreAllEntitiesByType(EntityType entityType, Long restoredBy) {
         List<RecycleBin> records = recycleBinRepository.findByEntityTypeOrderByDeletedTimeDesc(entityType);
         int restoredCount = 0;
         
@@ -441,7 +441,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
     }
     
     @Override
-    public int restoreAllEntities(String restoredBy) {
+    public int restoreAllEntities(Long restoredBy) {
         logger.info("🔄 Starting restore all entities operation by user: {}", restoredBy);
         List<RecycleBin> allRecords = recycleBinRepository.findAllByOrderByDeletedTimeDesc();
         logger.info("📋 Found {} records in recycle bin to restore", allRecords.size());

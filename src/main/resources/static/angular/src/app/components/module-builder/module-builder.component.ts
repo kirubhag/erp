@@ -12,7 +12,20 @@ export interface LayoutField {
   label: string;
   type: string;
   required: boolean;
+
+  // Auto Number properties
   prefix?: string;
+  suffix?: string;
+  startNumber?: number;
+  increment?: number;
+  padding?: number;
+
+  // Slider properties
+  minValue?: number;
+  maxValue?: number;
+  step?: number;
+  defaultValue?: number;
+  displayFormat?: string;
 }
 
 export interface LayoutSection {
@@ -69,6 +82,7 @@ export class ModuleBuilderComponent implements OnInit {
     { id: 'dateTime', label: 'Date/Time', icon: 'far fa-clock', type: 'Date/Time' },
     { id: 'number', label: 'Number', icon: 'fas fa-hashtag', type: 'Number' },
     { id: 'autoNumber', label: 'Auto-Nu...', icon: 'fas fa-sort-numeric-up', type: 'Auto-Number' },
+    { id: 'slider', label: 'Slider', icon: 'fas fa-sliders-h', type: 'Slider' },
     { id: 'currency', label: 'Currency', icon: 'fas fa-dollar-sign', type: 'Currency' },
     { id: 'decimal', label: 'Decimal', icon: 'fas fa-circle', type: 'Decimal' },
     { id: 'percent', label: 'Percent', icon: 'fas fa-percent', type: 'Percent' },
@@ -256,7 +270,60 @@ export class ModuleBuilderComponent implements OnInit {
 
   addNewField(fieldType: FieldType) {
     console.log('Adding new field:', fieldType);
-    // Add logic to add field to the active section
+
+    // Auto Number field limit validation (max 5 per module)
+    if (fieldType.type === 'Auto-Number') {
+      const autoNumberCount = this.countAutoNumberFields();
+      if (autoNumberCount >= 5) {
+        alert('Maximum 5 Auto Number fields allowed per module. Please remove an existing Auto Number field before adding a new one.');
+        return;
+      }
+    }
+
+    // If no active section, create a new one
+    if (this.sections.length === 0) {
+      this.addNewSection();
+      this.activeSection = this.sections[0].id;
+    }
+
+    // Find the active section or use the first one
+    const targetSection = this.sections.find(s => s.id === this.activeSection) || this.sections[0];
+
+    // Create a new field with unique ID
+    const timestamp = Date.now();
+    const newField: LayoutField = {
+      id: `${fieldType.id}_${timestamp}`,
+      label: `New ${fieldType.type}`,
+      type: fieldType.type,
+      required: false
+    };
+
+    // Add field to the section (create new row or add to last row)
+    const lastRow = targetSection.rows[targetSection.rows.length - 1];
+    if (!lastRow || lastRow.length >= 2) {
+      targetSection.rows.push([newField]);
+    } else {
+      lastRow.push(newField);
+    }
+
+    console.log('Field added to section:', newField);
+  }
+
+  /**
+   * Count the number of Auto Number fields in the current module
+   */
+  countAutoNumberFields(): number {
+    let count = 0;
+    for (const section of this.sections) {
+      for (const row of section.rows) {
+        for (const field of row) {
+          if (field.type === 'Auto-Number') {
+            count++;
+          }
+        }
+      }
+    }
+    return count;
   }
 
   addNewSection() {
@@ -318,7 +385,7 @@ export class ModuleBuilderComponent implements OnInit {
 
   deleteField(fieldId: string, section: LayoutSection, event: Event) {
     event.stopPropagation();
-    
+
     // Find field label for confirmation
     let fieldLabel = fieldId;
     for (const row of section.rows) {
@@ -328,7 +395,7 @@ export class ModuleBuilderComponent implements OnInit {
         break;
       }
     }
-    
+
     if (!confirm(`Are you sure you want to remove "${fieldLabel}" from this section?`)) {
       return;
     }
@@ -358,12 +425,12 @@ export class ModuleBuilderComponent implements OnInit {
   onDragStart(event: DragEvent, item: any, type: 'new' | 'unused') {
     this.draggedItem = item;
     this.draggedItemType = type;
-    
+
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = 'copy';
       event.dataTransfer.setData('text/plain', JSON.stringify(item));
     }
-    
+
     console.log('Drag started:', item, type);
   }
 
@@ -377,16 +444,16 @@ export class ModuleBuilderComponent implements OnInit {
   onDrop(event: DragEvent, section: LayoutSection) {
     event.preventDefault();
     event.stopPropagation();
-    
+
     if (!this.draggedItem) {
       return;
     }
 
     console.log('Dropped item on section:', section.name);
-    
+
     // Create a new field from the dragged item
     let newField: LayoutField;
-    
+
     if (this.draggedItemType === 'new') {
       // Create a new field with unique ID
       const timestamp = Date.now();
@@ -400,10 +467,10 @@ export class ModuleBuilderComponent implements OnInit {
       // Reuse unused field
       newField = this.draggedItem;
     }
-    
+
     // Add field to the section (create new row or add to last row)
     const lastRow = section.rows[section.rows.length - 1];
-    
+
     if (!lastRow || lastRow.length >= 2) {
       // Create new row if last row doesn't exist or is full
       section.rows.push([newField]);
@@ -411,9 +478,9 @@ export class ModuleBuilderComponent implements OnInit {
       // Add to existing row
       lastRow.push(newField);
     }
-    
+
     console.log('Field added to section:', newField);
-    
+
     // Clear drag state
     this.draggedItem = null;
     this.draggedItemType = null;
@@ -424,43 +491,68 @@ export class ModuleBuilderComponent implements OnInit {
     console.log('Current Module:', this.currentModule);
     console.log('Sections count:', this.sections?.length || 0);
     console.log('Sections data:', this.sections);
-    
+
     if (!this.sections || this.sections.length === 0) {
       alert('No sections to save. Please add some fields first.');
       return;
     }
-    
+
     const layoutData = {
       entityType: this.currentModule,
       sections: this.sections.map((section, index) => ({
         sectionName: section.id,
         sectionLabel: section.name,
         displayOrder: index + 1,
-        fields: section.rows.flatMap((row, rowIndex) => 
-          row.map((field, colIndex) => ({
-            fieldName: field.id,
-            rowPosition: rowIndex,
-            columnPosition: colIndex
-          }))
+        fields: section.rows.flatMap((row, rowIndex) =>
+          row.map((field, colIndex) => {
+            const fieldData: any = {
+              fieldName: field.id,
+              rowPosition: rowIndex,
+              columnPosition: colIndex
+            };
+
+            // Construct fieldProperties JSON for specific field types
+            if (field.type === 'Auto-Number') {
+              const props = {
+                prefix: field.prefix || '',
+                suffix: field.suffix || '',
+                startNumber: field.startNumber || 1,
+                increment: field.increment || 1,
+                padding: field.padding || 4
+              };
+              fieldData.fieldProperties = JSON.stringify(props);
+            } else if (field.type === 'Slider') {
+              const props = {
+                minValue: field.minValue,
+                maxValue: field.maxValue,
+                step: field.step,
+                defaultValue: field.defaultValue,
+                displayFormat: field.displayFormat
+              };
+              fieldData.fieldProperties = JSON.stringify(props);
+            }
+
+            return fieldData;
+          })
         )
       }))
     };
-    
+
     console.log('Layout data prepared:', JSON.stringify(layoutData, null, 2));
-    
+
     // Call backend API to save layout
     this.sectionService.saveModuleLayout(this.currentModule, layoutData).subscribe({
       next: (response) => {
         console.log('Save response:', response);
-        
+
         const totalFields = this.sections.reduce((sum, s) => sum + s.rows.flat().length, 0);
         let message = `Layout saved successfully!\n\n`;
         message += `Saved ${response.sectionsUpdated || this.sections.length} sections with ${response.fieldsUpdated || totalFields} fields.`;
-        
+
         if (response.errors && response.errors.length > 0) {
           message += `\n\nWarnings:\n` + response.errors.join('\n');
         }
-        
+
         alert(message);
       },
       error: (error) => {

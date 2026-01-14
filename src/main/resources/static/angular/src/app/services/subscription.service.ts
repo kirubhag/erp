@@ -143,6 +143,44 @@ export class SubscriptionService {
     return this.http.post<any>(`${this.apiUrl}/change-plan`, { planId });
   }
 
+  /**
+   * End trial and switch to Free plan
+   */
+  endTrial(): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/end-trial`, {});
+  }
+
+  /**
+   * Get Razorpay key for frontend
+   */
+  getRazorpayKey(): Observable<{ keyId: string }> {
+    return this.http.get<{ keyId: string }>(`${this.apiUrl}/razorpay-key`);
+  }
+
+  /**
+   * Create Razorpay order
+   */
+  createOrder(amount: number, planId: number, currency: string = 'INR'): Observable<{ orderId: string; amount: number; currency: string }> {
+    console.log('Creating order with:', { amount, planId, currency });
+    return this.http.post<{ orderId: string; amount: number; currency: string }>(`${this.apiUrl}/create-order`, {
+      amount,
+      planId,
+      currency
+    });
+  }
+
+  /**
+   * Verify payment after Razorpay checkout
+   */
+  verifyPayment(razorpay_payment_id: string, razorpay_order_id: string, razorpay_signature: string, planId: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/verify-payment`, {
+      razorpay_payment_id,
+      razorpay_order_id,
+      razorpay_signature,
+      planId
+    });
+  }
+
   // Deprecated/Unused by current backend flow but kept for compatibility if needed
   startTrial(userId: number, organizationId: number): Observable<UserSubscription> {
     return new Observable();
@@ -282,8 +320,12 @@ export class SubscriptionService {
    * Transform subscription data (parse plan features)
    */
   private transformSubscription(data: any): UserSubscription {
+    // Extract organizationId from organization object if needed
+    const organizationId = data.organizationId || data.organization?.id || null;
+    
     return {
       ...data,
+      organizationId: organizationId,
       plan: this.transformPlan(data.plan)
     };
   }

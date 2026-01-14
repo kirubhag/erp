@@ -13,6 +13,21 @@
         <fieldDescription>Unique identifier for user</fieldDescription>
     </field>
     <field>
+        <fieldName>autoNumber</fieldName>
+        <fieldLabel>User Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <uiType>120</uiType>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <maxLength>50</maxLength>
+        <fieldDescription>Auto-generated unique code for User</fieldDescription>
+        <fieldProperties>{"prefix":"USE-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+    </field>
+    <field>
         <fieldName>username</fieldName>
         <fieldLabel>Username</fieldLabel>
         <fieldType>STRING</fieldType>

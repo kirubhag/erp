@@ -15,13 +15,14 @@ public class UserDTO {
     private String lastName;
     private String phone;
     private Boolean enabled;
+    private Boolean isPrimaryUser;
 
     // Constructors
     public UserDTO() {
     }
 
     public UserDTO(Long id, String username, String email, String passwordHash,
-            String userType, String firstName, String lastName, String phone, Boolean enabled) {
+            String userType, String firstName, String lastName, String phone, Boolean enabled, Boolean isPrimaryUser) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -32,6 +33,7 @@ public class UserDTO {
         this.lastName = lastName;
         this.phone = phone;
         this.enabled = enabled;
+        this.isPrimaryUser = isPrimaryUser;
     }
 
     // Getters and Setters
@@ -115,6 +117,14 @@ public class UserDTO {
         this.enabled = enabled;
     }
 
+    public Boolean getIsPrimaryUser() {
+        return isPrimaryUser;
+    }
+
+    public void setIsPrimaryUser(Boolean isPrimaryUser) {
+        this.isPrimaryUser = isPrimaryUser;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -126,6 +136,7 @@ public class UserDTO {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", enabled=" + enabled +
+                ", isPrimaryUser=" + isPrimaryUser +
                 '}';
     }
 }

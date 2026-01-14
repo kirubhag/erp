@@ -13,6 +13,21 @@
         <fieldDescription>Unique identifier for assignment</fieldDescription>
     </field>
     <field>
+        <fieldName>autoNumber</fieldName>
+        <fieldLabel>Assignment Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <uiType>120</uiType>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <maxLength>50</maxLength>
+        <fieldDescription>Auto-generated unique code for Assignment</fieldDescription>
+        <fieldProperties>{"prefix":"ASS-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+    </field>
+    <field>
         <fieldName>title</fieldName>
         <fieldLabel>Title</fieldLabel>
         <fieldType>STRING</fieldType>

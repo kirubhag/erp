@@ -74,9 +74,9 @@ public class CustomViewService {
      */
     public CustomView createView(CustomView customView, Long userId) {
         // Set audit fields
-        customView.setCreatedBy(userId.toString());
+        customView.setCreatedBy(userId);
         customView.setCreatedTime(LocalDateTime.now());
-        customView.setModifiedBy(userId.toString());
+        customView.setModifiedBy(userId);
         customView.setModifiedTime(LocalDateTime.now());
         
         // Ensure only one default view per entity type
@@ -103,7 +103,7 @@ public class CustomViewService {
         existingView.setDescription(updatedView.getDescription());
         existingView.setSelectedFields(updatedView.getSelectedFields());
         existingView.setIsPublic(updatedView.getIsPublic());
-        existingView.setModifiedBy(userId.toString());
+        existingView.setModifiedBy(userId);
         existingView.setModifiedTime(LocalDateTime.now());
         
         // Ensure only one default view per entity type

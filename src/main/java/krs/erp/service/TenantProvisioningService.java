@@ -23,17 +23,87 @@ public class TenantProvisioningService {
     @Qualifier("masterDataSource")
     private DataSource masterDataSource;
 
+    /**
+     * Provision tenant database with system user as creator (for backward compatibility)
+     */
     public void provisionTenantDatabase(String dbName, Long tenantId, String tenantName) {
+        provisionTenantDatabase(dbName, tenantId, tenantName, null);
+    }
+
+    /**
+     * Provision tenant database with specific user as creator
+     * @param dbName Database name
+     * @param tenantId Tenant ID
+     * @param tenantName Tenant name
+     * @param createdByUserId The user ID who initiated the signup (can be null for system)
+     */
+    public void provisionTenantDatabase(String dbName, Long tenantId, String tenantName, Long createdByUserId) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
 
         // 1. Create Database
         jdbcTemplate.execute("CREATE DATABASE IF NOT EXISTS " + dbName);
 
-        // 2. Initialize Schema
-        initializeTenantSchema(dbName, tenantId, tenantName);
+        // 2. Initialize Schema only (metadata copy is done separately after user creation)
+        initializeTenantSchemaOnly(dbName, tenantId, tenantName);
+        
+        // 3. Copy system data if userId is provided (for backward compatibility)
+        if (createdByUserId != null) {
+            copySystemDataWithUserId(dbName, createdByUserId);
+        }
     }
 
-    private void initializeTenantSchema(String dbName, Long tenantId, String tenantName) {
+    /**
+     * Copy system data from master DB to tenant DB with a specific user as creator.
+     * This should be called after the user is created in the tenant DB.
+     * @param dbName Database name
+     * @param createdByUserId The user ID who initiated the signup
+     */
+    public void copySystemDataWithUserId(String dbName, Long createdByUserId) {
+        // Create a temporary DataSource for the tenant DB
+        HikariDataSource tenantDataSource = new HikariDataSource();
+        tenantDataSource.setJdbcUrl("jdbc:mysql://localhost:3307/" + dbName
+                + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
+        tenantDataSource.setUsername("root");
+        tenantDataSource.setPassword("");
+        tenantDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+
+        try {
+            copySystemData(dbName, tenantDataSource, null, null, createdByUserId);
+        } finally {
+            tenantDataSource.close();
+        }
+    }
+
+    private void initializeTenantSchemaOnly(String dbName, Long tenantId, String tenantName) {
+        // Create a temporary DataSource for the new tenant DB
+        HikariDataSource tenantDataSource = new HikariDataSource();
+        tenantDataSource.setJdbcUrl("jdbc:mysql://localhost:3307/" + dbName
+                + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
+        tenantDataSource.setUsername("root"); // In prod, use configured credentials
+        tenantDataSource.setPassword(""); // In prod, use configured credentials
+        tenantDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+
+        try {
+            Resource resource = new ClassPathResource("scripts/tenant_schema.sql");
+            ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(resource);
+            databasePopulator.execute(tenantDataSource);
+
+            // Add tenant info to tenant DB
+            JdbcTemplate tenantJdbc = new JdbcTemplate(tenantDataSource);
+            try {
+                logger.info("Adding tenant info to tenant DB erp_tenants table...");
+                String sql = "INSERT IGNORE INTO erp_tenants (tenant_id, tenant_name, db_host, db_name, status, created_at) VALUES (?, ?, 'localhost', ?, 'Active', NOW())";
+                tenantJdbc.update(sql, tenantId, tenantName, dbName);
+                logger.info("Tenant info added to tenant DB.");
+            } catch (Exception e) {
+                logger.warn("Failed to add tenant info to tenant DB: {}", e.getMessage());
+            }
+        } finally {
+            tenantDataSource.close();
+        }
+    }
+
+    private void initializeTenantSchema(String dbName, Long tenantId, String tenantName, Long createdByUserId) {
         // Create a temporary DataSource for the new tenant DB
         HikariDataSource tenantDataSource = new HikariDataSource();
         tenantDataSource.setJdbcUrl("jdbc:mysql://localhost:3307/" + dbName
@@ -48,15 +118,18 @@ public class TenantProvisioningService {
             databasePopulator.execute(tenantDataSource);
 
             // 3. Copy System Data from Master DB
-            copySystemData(dbName, tenantDataSource, tenantId, tenantName);
+            copySystemData(dbName, tenantDataSource, tenantId, tenantName, createdByUserId);
         } finally {
             tenantDataSource.close();
         }
     }
 
-    private void copySystemData(String dbName, HikariDataSource tenantDataSource, Long tenantId, String tenantName) {
+    private void copySystemData(String dbName, HikariDataSource tenantDataSource, Long tenantId, String tenantName, Long createdByUserId) {
         JdbcTemplate masterJdbc = new JdbcTemplate(masterDataSource);
         JdbcTemplate tenantJdbc = new JdbcTemplate(tenantDataSource);
+        
+        // Use the provided userId or null for system-created records
+        final Long creatorId = createdByUserId;
 
         try {
             // Check if system data already exists to prevent duplicates
@@ -66,16 +139,6 @@ public class TenantProvisioningService {
                 logger.info("System data already exists in tenant DB: {} (found {} entities). Skipping copy.", dbName,
                         existingCount);
                 return;
-            }
-
-            // 0. Insert current tenant info into erp_tenants table in tenant DB
-            try {
-                logger.info("Adding tenant info to tenant DB erp_tenants table...");
-                String sql = "INSERT IGNORE INTO erp_tenants (tenant_id, tenant_name, db_host, db_name, status, created_at) VALUES (?, ?, 'localhost', ?, 'Active', NOW())";
-                tenantJdbc.update(sql, tenantId, tenantName, dbName);
-                logger.info("Tenant info added to tenant DB.");
-            } catch (Exception e) {
-                logger.warn("Failed to add tenant info to tenant DB: {}", e.getMessage());
             }
 
             // First check if master DB has data
@@ -93,7 +156,7 @@ public class TenantProvisioningService {
             try {
                 logger.info("Copying ERP Entities...");
                 masterJdbc.query("SELECT * FROM erp_entities", rs -> {
-                    String sql = "INSERT IGNORE INTO erp_entities (erp_entity_id, singular_name, plural_name, description, is_active, sequence, system_name, presence, icon, route, table_name, pkid, display_column, has_rel_table, created_date, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT IGNORE INTO erp_entities (erp_entity_id, singular_name, plural_name, description, is_active, sequence, system_name, presence, icon, route, table_name, pkid, display_column, has_rel_table, created_date, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_entity_id"),
                             rs.getString("singular_name"),
@@ -108,7 +171,8 @@ public class TenantProvisioningService {
                             rs.getString("table_name"),
                             rs.getString("pkid"),
                             rs.getString("display_column"),
-                            rs.getBoolean("has_rel_table"));
+                            rs.getBoolean("has_rel_table"),
+                            creatorId);
                 });
                 logger.info("ERP Entities copied.");
             } catch (Exception e) {
@@ -143,7 +207,7 @@ public class TenantProvisioningService {
             try {
                 logger.info("Copying ERP Sections...");
                 masterJdbc.query("SELECT * FROM erp_sections", rs -> {
-                    String sql = "INSERT IGNORE INTO erp_sections (erp_section_id, entity_type, section_name, section_label, layout_type, display_order, is_collapsible, is_collapsed_by_default, show_in_create, show_in_edit, show_in_detail, section_icon, section_color, css_class, description, help_text, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT IGNORE INTO erp_sections (erp_section_id, entity_type, section_name, section_label, layout_type, display_order, is_collapsible, is_collapsed_by_default, show_in_create, show_in_edit, show_in_detail, section_icon, section_color, css_class, description, help_text, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_section_id"),
                             rs.getString("entity_type"),
@@ -160,7 +224,8 @@ public class TenantProvisioningService {
                             rs.getString("section_color"),
                             rs.getString("css_class"),
                             rs.getString("description"),
-                            rs.getString("help_text"));
+                            rs.getString("help_text"),
+                            creatorId);
                 });
                 logger.info("ERP Sections copied.");
             } catch (Exception e) {
@@ -172,7 +237,7 @@ public class TenantProvisioningService {
             try {
                 logger.info("Copying ERP Fields...");
                 masterJdbc.query("SELECT * FROM erp_fields", rs -> {
-                    String sql = "INSERT IGNORE INTO erp_fields (erp_field_id, entity_type, field_name, field_label, field_type, ui_type, section_id, row_position, column_position, is_required, is_searchable, is_sortable, display_order, field_description, default_width, max_length, validation_pattern, picklist_options, decimal_places, is_unique, show_in_list, show_in_form, column_width, show_type, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT IGNORE INTO erp_fields (erp_field_id, entity_type, field_name, field_label, field_type, ui_type, section_id, row_position, column_position, is_required, is_searchable, is_sortable, display_order, field_description, default_width, max_length, validation_pattern, picklist_options, decimal_places, is_unique, show_in_list, show_in_form, column_width, show_type, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_field_id"),
                             rs.getString("entity_type"),
@@ -197,7 +262,8 @@ public class TenantProvisioningService {
                             rs.getBoolean("show_in_list"),
                             rs.getBoolean("show_in_form"),
                             rs.getString("column_width"),
-                            rs.getObject("show_type"));
+                            rs.getObject("show_type"),
+                            creatorId);
                 });
                 logger.info("ERP Fields copied.");
             } catch (Exception e) {
@@ -209,12 +275,13 @@ public class TenantProvisioningService {
             try {
                 logger.info("Copying Roles...");
                 masterJdbc.query("SELECT * FROM roles WHERE system_role = 1", rs -> {
-                    String sql = "INSERT IGNORE INTO roles (role_id, name, description, system_role, created_time, created_by) VALUES (?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT IGNORE INTO roles (role_id, name, description, system_role, created_time, created_by) VALUES (?, ?, ?, ?, NOW(), ?)";
                     tenantJdbc.update(sql,
                             rs.getLong("role_id"),
                             rs.getString("name"),
                             rs.getString("description"),
-                            rs.getBoolean("system_role"));
+                            rs.getBoolean("system_role"),
+                            creatorId);
                 });
                 logger.info("Roles copied.");
             } catch (Exception e) {
@@ -226,14 +293,15 @@ public class TenantProvisioningService {
             try {
                 logger.info("Copying Permissions...");
                 masterJdbc.query("SELECT * FROM permissions WHERE system_permission = 1", rs -> {
-                    String sql = "INSERT IGNORE INTO permissions (permission_id, name, description, resource, action, system_permission, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, NOW(), 'SYSTEM')";
+                    String sql = "INSERT IGNORE INTO permissions (permission_id, name, description, resource, action, system_permission, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)";
                     tenantJdbc.update(sql,
                             rs.getLong("permission_id"),
                             rs.getString("name"),
                             rs.getString("description"),
                             rs.getString("resource"),
                             rs.getString("action"),
-                            rs.getBoolean("system_permission"));
+                            rs.getBoolean("system_permission"),
+                            creatorId);
                 });
                 logger.info("Permissions copied.");
             } catch (Exception e) {
@@ -263,10 +331,10 @@ public class TenantProvisioningService {
                 throw e;
             }
 
-            // 8. Copy Custom Views (System custom views)
+            // 8. Copy Custom Views (System custom views - public or default views without specific owner)
             try {
                 logger.info("Copying Custom Views...");
-                masterJdbc.query("SELECT * FROM custom_views WHERE created_by = 'system'", rs -> {
+                masterJdbc.query("SELECT * FROM custom_views WHERE is_public = 1 OR is_default = 1 OR created_by IS NULL", rs -> {
                     String sql = "INSERT IGNORE INTO custom_views (custom_view_id, view_name, description, entity_type, is_default, is_public, created_by, created_time, modified_time, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     tenantJdbc.update(sql,
                             rs.getLong("custom_view_id"),
@@ -275,7 +343,7 @@ public class TenantProvisioningService {
                             rs.getString("entity_type"),
                             rs.getBoolean("is_default"),
                             rs.getBoolean("is_public"),
-                            rs.getString("created_by"),
+                            creatorId,
                             rs.getTimestamp("created_time"),
                             rs.getTimestamp("modified_time"),
                             rs.getInt("is_active"));
@@ -291,7 +359,7 @@ public class TenantProvisioningService {
                 logger.info("Copying Custom View Fields...");
                 masterJdbc.query("SELECT cvf.* FROM custom_view_fields cvf " +
                         "JOIN custom_views cv ON cvf.custom_view_id = cv.custom_view_id " +
-                        "WHERE cv.created_by = 'system'", rs -> {
+                        "WHERE cv.is_public = 1 OR cv.is_default = 1 OR cv.created_by IS NULL", rs -> {
                             String sql = "INSERT IGNORE INTO custom_view_fields (custom_view_id, field_name) VALUES (?, ?)";
                             tenantJdbc.update(sql,
                                     rs.getLong("custom_view_id"),
@@ -307,7 +375,7 @@ public class TenantProvisioningService {
             try {
                 logger.info("Copying Tab Groups...");
                 masterJdbc.query("SELECT * FROM erp_tab_groups", rs -> {
-                    String sql = "INSERT IGNORE INTO erp_tab_groups (erp_tab_group_id, name, code, icon, route_path, sequence, description, is_active, created_by, created_time, modified_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String sql = "INSERT IGNORE INTO erp_tab_groups (erp_tab_group_id, name, code, icon, route_path, sequence, description, is_active, created_by, created_time, modified_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NULL)";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_tab_group_id"),
                             rs.getString("name"),
@@ -317,9 +385,7 @@ public class TenantProvisioningService {
                             rs.getInt("sequence"),
                             rs.getString("description"),
                             rs.getInt("is_active"),
-                            rs.getString("created_by"),
-                            rs.getTimestamp("created_time"),
-                            rs.getTimestamp("modified_time"));
+                            creatorId);
                 });
                 logger.info("Tab Groups copied.");
             } catch (Exception e) {
@@ -331,16 +397,14 @@ public class TenantProvisioningService {
             try {
                 logger.info("Copying Tab Group Entity Relations...");
                 masterJdbc.query("SELECT * FROM erp_tab_group_entity_rel", rs -> {
-                    String sql = "INSERT IGNORE INTO erp_tab_group_entity_rel (erp_tab_group_entity_rel_id, tab_group_id, entity_id, sequence, is_active, created_by, created_time, modified_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    String sql = "INSERT IGNORE INTO erp_tab_group_entity_rel (erp_tab_group_entity_rel_id, tab_group_id, entity_id, sequence, is_active, created_by, created_time, modified_time) VALUES (?, ?, ?, ?, ?, ?, NOW(), NULL)";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_tab_group_entity_rel_id"),
                             rs.getLong("tab_group_id"),
                             rs.getLong("entity_id"),
                             rs.getInt("sequence"),
                             rs.getInt("is_active"),
-                            rs.getString("created_by"),
-                            rs.getTimestamp("created_time"),
-                            rs.getTimestamp("modified_time"));
+                            creatorId);
                 });
                 logger.info("Tab Group Entity Relations copied.");
             } catch (Exception e) {

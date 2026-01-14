@@ -82,10 +82,8 @@
             <div id="newFieldsCollapse" class="accordion-collapse collapse show" data-bs-parent="#newFieldsAccordion">
               <div class="accordion-body">
                 <div class="fields-grid">
-                  <div class="field-item" *ngFor="let fieldType of newFieldTypes" 
-                       draggable="true"
-                       (dragstart)="onDragStart($event, fieldType, 'new')"
-                       (click)="addNewField(fieldType)">
+                  <div class="field-item" *ngFor="let fieldType of newFieldTypes" draggable="true"
+                    (dragstart)="onDragStart($event, fieldType, 'new')" (click)="addNewField(fieldType)">
                     <i [class]="fieldType.icon"></i>
                     <span>{{ fieldType.label }}</span>
                   </div>
@@ -109,9 +107,8 @@
             </h2>
             <div id="unusedFieldsCollapse" class="accordion-collapse collapse" data-bs-parent="#unusedFieldsAccordion">
               <div class="accordion-body">
-                <div class="field-item" *ngFor="let field of unusedFields"
-                     draggable="true"
-                     (dragstart)="onDragStart($event, field, 'unused')">
+                <div class="field-item" *ngFor="let field of unusedFields" draggable="true"
+                  (dragstart)="onDragStart($event, field, 'unused')">
                   <i [class]="field.icon"></i>
                   <span>{{ field.label }}</span>
                 </div>
@@ -157,15 +154,13 @@
 
         <!-- Fields Sections -->
         <div class="section-wrapper" *ngFor="let section of sections" [class.active]="section.id === activeSection"
-          (click)="setActiveSection(section.id)"
-          (dragover)="onDragOver($event)"
-          (drop)="onDrop($event, section)">
-          <div class="section-header" contenteditable="true" (blur)="updateSectionName(section, $event)" (keydown.enter)="$event.preventDefault(); $any($event.target).blur()">{{ section.name }}</div>
+          (click)="setActiveSection(section.id)" (dragover)="onDragOver($event)" (drop)="onDrop($event, section)">
+          <div class="section-header" contenteditable="true" (blur)="updateSectionName(section, $event)"
+            (keydown.enter)="$event.preventDefault(); $any($event.target).blur()">{{ section.name }}</div>
 
           <div class="form-row" *ngFor="let row of section.rows">
             <div class="form-field" *ngFor="let field of row" [class.active]="field.id === activeField"
-              (click)="setActiveField(field.id, $event)"
-              (mouseenter)="hoveredField = field.id"
+              (click)="setActiveField(field.id, $event)" (mouseenter)="hoveredField = field.id"
               (mouseleave)="hoveredField = null">
               <div class="field-label" [class.required]="field.required">{{ field.label }}</div>
               <div class="field-type">
@@ -179,15 +174,12 @@
               </div>
               <div class="field-actions" *ngIf="hoveredField === field.id || field.id === activeField">
                 <div class="dropdown">
-                  <button class="field-action-btn" 
-                    (mouseenter)="showSettingsMenu = field.id"
-                    (mouseleave)="showSettingsMenu = null"
-                    (click)="toggleSettingsMenu(field.id, $event)">
+                  <button class="field-action-btn" (mouseenter)="showSettingsMenu = field.id"
+                    (mouseleave)="showSettingsMenu = null" (click)="toggleSettingsMenu(field.id, $event)">
                     <i class="fas fa-cog"></i>
                   </button>
-                  <div class="dropdown-menu" *ngIf="showSettingsMenu === field.id" 
-                    (mouseenter)="showSettingsMenu = field.id"
-                    (mouseleave)="showSettingsMenu = null">
+                  <div class="dropdown-menu" *ngIf="showSettingsMenu === field.id"
+                    (mouseenter)="showSettingsMenu = field.id" (mouseleave)="showSettingsMenu = null">
                     <a class="dropdown-item" (click)="openFieldPropertiesModal(field, $event)">
                       <i class="fas fa-edit me-2"></i>Edit Properties
                     </a>
@@ -233,8 +225,9 @@
 </div>
 
 <!-- Field Properties Modal -->
-<div class="modal fade" [class.show]="showFieldPropertiesModal" [style.display]="showFieldPropertiesModal ? 'block' : 'none'" 
-  tabindex="-1" role="dialog" *ngIf="showFieldPropertiesModal">
+<div class="modal fade" [class.show]="showFieldPropertiesModal"
+  [style.display]="showFieldPropertiesModal ? 'block' : 'none'" tabindex="-1" role="dialog"
+  *ngIf="showFieldPropertiesModal">
   <div class="modal-backdrop fade" [class.show]="showFieldPropertiesModal" (click)="closeFieldPropertiesModal()"></div>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -249,22 +242,88 @@
           </label>
           <input type="text" class="form-control" [(ngModel)]="selectedFieldForEdit.label">
         </div>
-        
+
+        <!-- Auto Number Specific Properties -->
+        <div class="mb-3 border-top pt-3" *ngIf="selectedFieldForEdit.type === 'Auto-Number'">
+          <h6>Auto Number Configuration</h6>
+          <div class="row g-3">
+            <div class="col-6">
+              <label class="form-label">Prefix</label>
+              <input type="text" class="form-control" [(ngModel)]="selectedFieldForEdit.prefix" placeholder="e.g. STU-">
+            </div>
+            <div class="col-6">
+              <label class="form-label">Suffix</label>
+              <input type="text" class="form-control" [(ngModel)]="selectedFieldForEdit.suffix"
+                placeholder="e.g. -2024">
+            </div>
+            <div class="col-4">
+              <label class="form-label">Start Number</label>
+              <input type="number" class="form-control" [(ngModel)]="selectedFieldForEdit.startNumber" min="1">
+            </div>
+            <div class="col-4">
+              <label class="form-label">Increment</label>
+              <input type="number" class="form-control" [(ngModel)]="selectedFieldForEdit.increment" min="1">
+            </div>
+            <div class="col-4">
+              <label class="form-label">Padding</label>
+              <input type="number" class="form-control" [(ngModel)]="selectedFieldForEdit.padding" min="1" max="10">
+            </div>
+            <div class="col-12">
+              <div class="form-text">
+                Preview: {{ selectedFieldForEdit.prefix || '' }}{{ (selectedFieldForEdit.startNumber ||
+                1).toString().padStart(selectedFieldForEdit.padding || 4, '0') }}{{ selectedFieldForEdit.suffix || '' }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slider Specific Properties -->
+        <div class="mb-3 border-top pt-3" *ngIf="selectedFieldForEdit.type === 'Slider'">
+          <h6>Slider Configuration</h6>
+          <div class="row g-3">
+            <div class="col-6">
+              <label class="form-label">Min Value</label>
+              <input type="number" class="form-control" [(ngModel)]="selectedFieldForEdit.minValue">
+            </div>
+            <div class="col-6">
+              <label class="form-label">Max Value</label>
+              <input type="number" class="form-control" [(ngModel)]="selectedFieldForEdit.maxValue">
+            </div>
+            <div class="col-6">
+              <label class="form-label">Step</label>
+              <input type="number" class="form-control" [(ngModel)]="selectedFieldForEdit.step" min="0.1">
+            </div>
+            <div class="col-6">
+              <label class="form-label">Default Value</label>
+              <input type="number" class="form-control" [(ngModel)]="selectedFieldForEdit.defaultValue">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Display Format</label>
+              <select class="form-select" [(ngModel)]="selectedFieldForEdit.displayFormat">
+                <option value="number">Number</option>
+                <option value="percent">Percentage</option>
+                <option value="currency">Currency</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         <div class="mb-3">
           <label class="form-label">Number of characters allowed</label>
           <input type="number" class="form-control" value="30">
         </div>
-        
+
         <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" [(ngModel)]="selectedFieldForEdit.required" id="requiredCheck">
+          <input class="form-check-input" type="checkbox" [(ngModel)]="selectedFieldForEdit.required"
+            id="requiredCheck">
           <label class="form-check-label" for="requiredCheck">Required</label>
         </div>
-        
+
         <div class="form-check mb-3" *ngIf="selectedFieldForEdit.type === 'Phone'">
           <input class="form-check-input" type="checkbox" id="validateCountryCode" checked>
           <label class="form-check-label" for="validateCountryCode">Validate based on Country Code</label>
         </div>
-        
+
         <div class="form-check mb-3">
           <input class="form-check-input" type="checkbox" id="markPII">
           <label class="form-check-label" for="markPII">

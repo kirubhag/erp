@@ -63,8 +63,8 @@ guardian_email VARCHAR(100) COMMENT 'Guardian''s email address',
 guardian_address VARCHAR(300) COMMENT 'Guardian address if different from student',
 
 -- Audit fields
-created_by VARCHAR(100),
-modified_by VARCHAR(100),
+created_by BIGINT,
+modified_by BIGINT,
 created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 is_active INT DEFAULT 1,
@@ -106,8 +106,8 @@ insurance_provider VARCHAR(100) COMMENT 'Health insurance provider',
 insurance_policy_number VARCHAR(50) COMMENT 'Insurance policy number',
 
 -- Audit fields
-created_by VARCHAR(100),
-modified_by VARCHAR(100),
+created_by BIGINT,
+modified_by BIGINT,
 created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 is_active INT DEFAULT 1,

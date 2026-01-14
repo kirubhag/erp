@@ -41,9 +41,9 @@ help_text TEXT COMMENT 'Help text for users',
 
 -- Activity Tracking (from BaseEntity)
 is_active TINYINT(1) DEFAULT 1 COMMENT '1=Active, 0=Inactive, -1=Deleted',
-created_by VARCHAR(255) COMMENT 'User who created this section',
+created_by BIGINT COMMENT 'User who created this section',
 created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation timestamp',
-modified_by VARCHAR(255) COMMENT 'User who last modified this section',
+modified_by BIGINT COMMENT 'User who last modified this section',
 modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last modification timestamp',
 owner_id BIGINT COMMENT 'Owner user ID',
 

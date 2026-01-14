@@ -82,11 +82,11 @@ public class ErpEntity {
     @Column(name = "last_modified_date")
     private LocalDateTime lastModifiedDate;
 
-    @Column(name = "created_by", length = 100)
-    private String createdBy;
+    @Column(name = "created_by")
+    private Long createdBy;
 
-    @Column(name = "last_modified_by", length = 100)
-    private String lastModifiedBy;
+    @Column(name = "last_modified_by")
+    private Long lastModifiedBy;
 
     @JsonIgnore
     @OneToMany(mappedBy = "erpEntity", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -200,19 +200,19 @@ public class ErpEntity {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public String getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 
-    public String getLastModifiedBy() {
+    public Long getLastModifiedBy() {
         return lastModifiedBy;
     }
 
-    public void setLastModifiedBy(String lastModifiedBy) {
+    public void setLastModifiedBy(Long lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 

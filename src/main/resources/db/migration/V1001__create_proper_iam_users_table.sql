@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS iam_users (
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     version BIGINT DEFAULT 0,
-    created_by VARCHAR(100),
-    last_modified_by VARCHAR(100)
+    created_by BIGINT,
+    last_modified_by BIGINT
 );
 
 -- Create user_roles junction table

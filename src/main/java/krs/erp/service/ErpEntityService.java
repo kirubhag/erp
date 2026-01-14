@@ -133,8 +133,8 @@ public class ErpEntityService {
      * Create a new ERP entity
      */
     public ErpEntity createEntity(ErpEntity entity) {
-        entity.setCreatedBy("system");
-        entity.setLastModifiedBy("system");
+        entity.setCreatedBy(null); // System created - no specific user
+        entity.setLastModifiedBy(null);
         return erpEntityRepository.save(entity);
     }
 
@@ -154,7 +154,7 @@ public class ErpEntityService {
         entity.setPresence(updatedEntity.getPresence());
         entity.setIcon(updatedEntity.getIcon());
         entity.setRoute(updatedEntity.getRoute());
-        entity.setLastModifiedBy("system");
+        entity.setLastModifiedBy(null); // System modified - no specific user
 
         return erpEntityRepository.save(entity);
     }
@@ -206,8 +206,8 @@ public class ErpEntityService {
         }
 
         ErpEntityRoleRelation relation = new ErpEntityRoleRelation(entity, role);
-        relation.setCreatedBy("system");
-        relation.setLastModifiedBy("system");
+        relation.setCreatedBy(null); // System created - no specific user
+        relation.setLastModifiedBy(null);
 
         return relationRepository.save(relation);
     }

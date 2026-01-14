@@ -4,13 +4,31 @@
         <fieldName>id</fieldName>
         <fieldLabel>ID</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <fieldCategory>System</fieldCategory>
         <displayOrder>1</displayOrder>
         <defaultWidth>80</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
+        <showType>1</showType>
         <fieldDescription>Unique identifier for the staff</fieldDescription>
+    </field>
+    <field>
+        <fieldName>autoNumber</fieldName>
+        <fieldLabel>Staff Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <uiType>120</uiType>
+        <fieldCategory>System</fieldCategory>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <maxLength>50</maxLength>
+        <fieldDescription>Auto-generated unique code for the staff</fieldDescription>
+        <fieldProperties>{"prefix":"STAFF-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
         <fieldName>firstName</fieldName>

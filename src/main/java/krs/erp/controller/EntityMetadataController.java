@@ -42,24 +42,25 @@ public class EntityMetadataController {
         try {
             // Convert entity type string to EntityType enum
             EntityType entityTypeEnum = convertToEntityType(entityType);
-            
+
             // Get fields for the entity
             List<ErpField> fields = erpFieldService.getFieldsByEntityType(entityTypeEnum);
-            
+
             // Build metadata response
             Map<String, Object> metadata = new HashMap<>();
             metadata.put("entityType", entityType);
             metadata.put("entityName", entityTypeEnum.getDisplayName());
             metadata.put("entityNamePlural", toTitleCase(entityType));
-            
+
             // Convert fields to field definitions
             List<Map<String, Object>> fieldDefinitions = fields.stream()
-                .filter(field -> field.getShowInForm() == null || field.getShowInForm()) // Only show fields marked for forms
-                .map(this::convertToFieldDefinition)
-                .collect(Collectors.toList());
-            
+                    .filter(field -> field.getShowInForm() == null || field.getShowInForm()) // Only show fields marked
+                                                                                             // for forms
+                    .map(this::convertToFieldDefinition)
+                    .collect(Collectors.toList());
+
             metadata.put("fields", fieldDefinitions);
-            
+
             return ResponseEntity.ok(metadata);
         } catch (IllegalArgumentException e) {
             Map<String, Object> errorResponse = new HashMap<>();
@@ -76,7 +77,7 @@ public class EntityMetadataController {
      * Create a new entity record
      * 
      * @param entityType The entity type
-     * @param data The entity data
+     * @param data       The entity data
      * @return Created entity response
      */
     @PostMapping("/{entityType}")
@@ -90,7 +91,7 @@ public class EntityMetadataController {
             response.put("id", System.currentTimeMillis());
             response.put("message", "Entity created successfully");
             response.put("entityType", entityType);
-            
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
@@ -105,10 +106,10 @@ public class EntityMetadataController {
      */
     private EntityType convertToEntityType(String entityType) {
         // Remove trailing 's' for plural forms
-        String singular = entityType.endsWith("s") && !entityType.equals("class") 
-            ? entityType.substring(0, entityType.length() - 1) 
-            : entityType;
-        
+        String singular = entityType.endsWith("s") && !entityType.equals("class")
+                ? entityType.substring(0, entityType.length() - 1)
+                : entityType;
+
         // Convert to uppercase for enum lookup
         try {
             return EntityType.valueOf(singular.toUpperCase());
@@ -130,38 +131,76 @@ public class EntityMetadataController {
     /**
      * Convert ERPField to field definition map for frontend
      */
+    private final com.fasterxml.jackson.databind.ObjectMapper objectMapper;
+
+    /**
+     * Convert ERPField to field definition map for frontend
+     */
     private Map<String, Object> convertToFieldDefinition(ErpField field) {
         Map<String, Object> definition = new HashMap<>();
-        
+
         definition.put("fieldName", field.getFieldName());
         definition.put("displayLabel", field.getFieldLabel());
         definition.put("uiType", field.getUiType());
         definition.put("dataType", field.getFieldType() != null ? field.getFieldType().name() : "STRING");
         definition.put("isRequired", field.getIsRequired() != null ? field.getIsRequired() : false);
-        definition.put("isReadonly", false); // Can be extended if needed
+
+        // Auto Number (120) is always read-only
+        boolean isReadonly = field.getUiType() != null && field.getUiType() == 120;
+        definition.put("isReadonly", isReadonly);
+
         definition.put("defaultValue", null); // Can be extended if needed
         definition.put("maxLength", field.getMaxLength());
-        definition.put("minValue", null); // Can be extended if needed
-        definition.put("maxValue", null); // Can be extended if needed
         definition.put("decimalPlaces", field.getDecimalPlaces());
         definition.put("displayOrder", field.getDisplayOrder() != null ? field.getDisplayOrder() : 0);
         definition.put("rowPosition", field.getRowPosition() != null ? field.getRowPosition() : 0);
         definition.put("columnPosition", field.getColumnPosition() != null ? field.getColumnPosition() : 0);
-        
+
+        // Parse field properties for advanced configuration (Slider, Auto Number)
+        if (field.getFieldProperties() != null && !field.getFieldProperties().isEmpty()) {
+            try {
+                Map<String, Object> props = objectMapper.readValue(field.getFieldProperties(), Map.class);
+
+                if (props.containsKey("minValue"))
+                    definition.put("minValue", props.get("minValue"));
+                if (props.containsKey("maxValue"))
+                    definition.put("maxValue", props.get("maxValue"));
+                if (props.containsKey("step"))
+                    definition.put("step", props.get("step"));
+                if (props.containsKey("defaultValue"))
+                    definition.put("defaultValue", props.get("defaultValue"));
+
+                // For Auto Number, maybe we want to show prefix/suffix as hint?
+                if (field.getUiType() == 120) {
+                    String prefix = (String) props.getOrDefault("prefix", "");
+                    String suffix = (String) props.getOrDefault("suffix", "");
+                    definition.put("placeholder", "Auto-generated: " + prefix + "####" + suffix);
+                }
+
+            } catch (Exception e) {
+                // Ignore JSON parsing errors, fall back to defaults
+                System.err.println(
+                        "Error parsing field properties for field " + field.getFieldName() + ": " + e.getMessage());
+            }
+        } else {
+            definition.put("minValue", null);
+            definition.put("maxValue", null);
+        }
+
         // Group fields by section (if available, otherwise use default)
-        String sectionName = field.getSection() != null && field.getSection().getSectionLabel() != null 
-            ? field.getSection().getSectionLabel() 
-            : "General Information";
+        String sectionName = field.getSection() != null && field.getSection().getSectionLabel() != null
+                ? field.getSection().getSectionLabel()
+                : "General Information";
         definition.put("section", sectionName);
-        
+
         // Convert picklist options if available
         if (field.getPicklistOptions() != null && !field.getPicklistOptions().isEmpty()) {
             definition.put("picklistValues", parsePicklistOptions(field.getPicklistOptions()));
         }
-        
+
         return definition;
     }
-    
+
     /**
      * Parse picklist options from JSON string or comma-separated values
      */
@@ -169,12 +208,12 @@ public class EntityMetadataController {
         if (picklistOptions == null || picklistOptions.isEmpty()) {
             return List.of();
         }
-        
+
         // If it's a simple comma-separated list
         if (!picklistOptions.trim().startsWith("[") && !picklistOptions.trim().startsWith("{")) {
             return List.of(picklistOptions.split(","));
         }
-        
+
         // For now, just split by comma - can be enhanced to parse JSON later
         return List.of(picklistOptions.split(","));
     }

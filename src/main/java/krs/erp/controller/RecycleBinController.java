@@ -218,7 +218,8 @@ public class RecycleBinController {
     public ResponseEntity<?> restoreEntity(@PathVariable Long id, 
                                           @RequestBody Map<String, String> requestBody) {
         try {
-            String restoredBy = requestBody.getOrDefault("restoredBy", "system");
+            String restoredByStr = requestBody.getOrDefault("restoredBy", null);
+            Long restoredBy = restoredByStr != null ? Long.parseLong(restoredByStr) : null;
             boolean restored = recycleBinService.restoreEntity(id, restoredBy);
             
             if (restored) {
@@ -255,7 +256,8 @@ public class RecycleBinController {
                         .body(Map.of("error", "Invalid entity type: " + entityType));
             }
             
-            String restoredBy = requestBody.getOrDefault("restoredBy", "system");
+            String restoredByStr = requestBody.getOrDefault("restoredBy", null);
+            Long restoredBy = restoredByStr != null ? Long.parseLong(restoredByStr) : null;
             boolean restored = recycleBinService.restoreEntityByIdAndType(entityId, type, restoredBy);
             
             if (restored) {
@@ -291,7 +293,8 @@ public class RecycleBinController {
                         .body(Map.of("error", "Invalid entity type: " + entityType));
             }
             
-            String restoredBy = requestBody.getOrDefault("restoredBy", "system");
+            String restoredByStr = requestBody.getOrDefault("restoredBy", null);
+            Long restoredBy = restoredByStr != null ? Long.parseLong(restoredByStr) : null;
             int restoredCount = recycleBinService.restoreAllEntitiesByType(type, restoredBy);
             
             return ResponseEntity.ok(Map.of("message", "Entities restored successfully", 
@@ -313,7 +316,8 @@ public class RecycleBinController {
     @PostMapping("/restore/all")
     public ResponseEntity<?> restoreAllEntities(@RequestBody Map<String, String> requestBody) {
         try {
-            String restoredBy = requestBody.getOrDefault("restoredBy", "system");
+            String restoredByStr = requestBody.getOrDefault("restoredBy", null);
+            Long restoredBy = restoredByStr != null ? Long.parseLong(restoredByStr) : null;
             int restoredCount = recycleBinService.restoreAllEntities(restoredBy);
             
             return ResponseEntity.ok(Map.of("message", "All entities restored successfully", 

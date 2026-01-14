@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="PARENT">
+    <!-- Auto Number Field -->
+    <field>
+        <fieldName>autoNumber</fieldName>
+        <fieldLabel>Parent Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <uiType>120</uiType>
+        <sectionName>personal_info</sectionName>
+        <displayOrder>0</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <maxLength>50</maxLength>
+        <fieldDescription>Auto-generated unique code for the parent</fieldDescription>
+        <fieldProperties>{"prefix":"PAR-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+    </field>
     <!-- Personal Information -->
     <field>
         <fieldName>firstName</fieldName>
