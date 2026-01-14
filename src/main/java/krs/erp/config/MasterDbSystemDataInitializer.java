@@ -180,7 +180,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 String createdTime = permElement.getAttribute("created_time");
 
                 masterJdbcTemplate.update(
-                        "INSERT INTO permissions (name, description, resource, action, system_permission, created_time, modified_time) "
+                        "INSERT INTO erp_permissions (name, description, resource, action, system_permission, created_time, modified_time) "
                                 +
                                 "VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE modified_time = ?",
                         name, description, resource_name, action, systemPermission,
@@ -238,7 +238,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 String createdTime = roleElement.getAttribute("created_time");
 
                 masterJdbcTemplate.update(
-                        "INSERT INTO roles (name, description, system_role, created_time, modified_time) "
+                        "INSERT INTO erp_roles (name, description, system_role, created_time, modified_time) "
                                 +
                                 "VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE modified_time = ?",
                         name, description, systemRole,

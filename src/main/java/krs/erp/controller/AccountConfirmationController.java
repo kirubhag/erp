@@ -59,12 +59,12 @@ public class AccountConfirmationController {
 
     private boolean verifyAndEnableInMasterDb(String token) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        String query = "SELECT COUNT(*) FROM iam_users WHERE confirmation_token = ?";
+        String query = "SELECT COUNT(*) FROM erp_iam_users WHERE confirmation_token = ?";
         Integer count = jdbcTemplate.queryForObject(query, Integer.class, token);
 
         if (count != null && count > 0) {
             // Update user to enabled = true and clear token
-            String updateSql = "UPDATE iam_users SET enabled = true, confirmation_token = NULL WHERE confirmation_token = ?";
+            String updateSql = "UPDATE erp_iam_users SET enabled = true, confirmation_token = NULL WHERE confirmation_token = ?";
             jdbcTemplate.update(updateSql, token);
             return true;
         }

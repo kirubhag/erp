@@ -227,7 +227,7 @@ public class IAMUserController {
             String invitationToken, User.UserType userType) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
 
-        String sql = "INSERT INTO iam_users (username, password_hash, email, first_name, last_name, phone, " +
+        String sql = "INSERT INTO erp_iam_users (username, password_hash, email, first_name, last_name, phone, " +
                 "user_type, enabled, tenant_id, organization_id, created_time, is_active, " +
                 "account_non_expired, credentials_non_expired, account_non_locked, confirmation_token) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1, 1, ?)";
@@ -263,7 +263,7 @@ public class IAMUserController {
      */
     private boolean usernameExistsInMasterDb(String username) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        String sql = "SELECT COUNT(*) FROM iam_users WHERE username = ?";
+        String sql = "SELECT COUNT(*) FROM erp_iam_users WHERE username = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, username);
         return count != null && count > 0;
     }
@@ -273,7 +273,7 @@ public class IAMUserController {
      */
     private boolean emailExistsInMasterDb(String email) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        String sql = "SELECT COUNT(*) FROM iam_users WHERE email = ?";
+        String sql = "SELECT COUNT(*) FROM erp_iam_users WHERE email = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
         return count != null && count > 0;
     }
@@ -299,7 +299,7 @@ public class IAMUserController {
 
         // Update token in Master DB
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        String sql = "UPDATE iam_users SET confirmation_token = ?, enabled = 0 WHERE user_id = ?";
+        String sql = "UPDATE erp_iam_users SET confirmation_token = ?, enabled = 0 WHERE user_id = ?";
         int updated = jdbcTemplate.update(sql, newToken, id);
 
         if (updated == 0) {
@@ -337,7 +337,7 @@ public class IAMUserController {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
 
         // Find user by confirmation token in Master DB
-        String findSql = "SELECT user_id, email, first_name FROM iam_users WHERE confirmation_token = ?";
+        String findSql = "SELECT user_id, email, first_name FROM erp_iam_users WHERE confirmation_token = ?";
         List<Map<String, Object>> users = jdbcTemplate.queryForList(findSql, token);
 
         if (users.isEmpty()) {
@@ -351,7 +351,7 @@ public class IAMUserController {
         String encodedPassword = passwordEncoder.encode(password);
 
         // Update Master DB - set password, enable user, clear token
-        String updateMasterSql = "UPDATE iam_users SET password_hash = ?, enabled = 1, confirmation_token = NULL WHERE user_id = ?";
+        String updateMasterSql = "UPDATE erp_iam_users SET password_hash = ?, enabled = 1, confirmation_token = NULL WHERE user_id = ?";
         jdbcTemplate.update(updateMasterSql, encodedPassword, userId);
 
         // Update Tenant DB
@@ -374,7 +374,7 @@ public class IAMUserController {
     public ResponseEntity<?> validateInvitationToken(@PathVariable String token) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
 
-        String sql = "SELECT user_id, email, first_name, last_name FROM iam_users WHERE confirmation_token = ?";
+        String sql = "SELECT user_id, email, first_name, last_name FROM erp_iam_users WHERE confirmation_token = ?";
         List<Map<String, Object>> users = jdbcTemplate.queryForList(sql, token);
 
         if (users.isEmpty()) {

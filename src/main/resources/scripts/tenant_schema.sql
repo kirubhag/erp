@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS erp_attendance (
     is_active INT DEFAULT 1,
     FOREIGN KEY (student_id) REFERENCES erp_students (student_id) ON DELETE SET NULL,
     FOREIGN KEY (staff_id) REFERENCES erp_staff (staff_id) ON DELETE SET NULL,
-    FOREIGN KEY (recorded_by) REFERENCES iam_users (user_id) ON DELETE SET NULL,
+    FOREIGN KEY (recorded_by) REFERENCES erp_iam_users (user_id) ON DELETE SET NULL,
     INDEX idx_attendance_date (attendance_date),
     INDEX idx_student_id (student_id),
     INDEX idx_staff_id (staff_id),
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS erp_courses (
 CREATE TABLE IF NOT EXISTS erp_custom_view_fields (
     custom_view_id BIGINT NOT NULL,
     field_name VARCHAR(100) NOT NULL,
-    FOREIGN KEY (custom_view_id) REFERENCES custom_views (custom_view_id) ON DELETE CASCADE,
+    FOREIGN KEY (custom_view_id) REFERENCES erp_custom_views (custom_view_id) ON DELETE CASCADE,
     INDEX idx_custom_view_id (custom_view_id)
 );
 
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS erp_email_logs (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (template_id) REFERENCES email_templates (email_template_id),
+    FOREIGN KEY (template_id) REFERENCES erp_email_templates (email_template_id),
     INDEX idx_entity (entity_type, entity_id),
     INDEX idx_recipient_email (recipient_email),
     INDEX idx_status (status),
@@ -543,7 +543,7 @@ CREATE TABLE IF NOT EXISTS erp_class (
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     FOREIGN KEY (class_teacher_id) REFERENCES erp_staff (staff_id) ON DELETE SET NULL,
-    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
+    FOREIGN KEY (organization_id) REFERENCES erp_organizations (organization_id) ON DELETE CASCADE,
     INDEX idx_class_code (class_code),
     INDEX idx_grade_level (grade_level),
     INDEX idx_academic_year (academic_year),
@@ -702,7 +702,7 @@ CREATE TABLE IF NOT EXISTS erp_entities_role_relation (
     last_modified_by BIGINT,
     UNIQUE KEY unique_entity_role (entity_id, role_id),
     FOREIGN KEY (entity_id) REFERENCES erp_entities (erp_entity_id) ON DELETE CASCADE,
-    FOREIGN KEY (role_id) REFERENCES roles (role_id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES erp_roles (role_id) ON DELETE CASCADE,
     INDEX idx_entity_id (entity_id),
     INDEX idx_role_id (role_id)
 );
@@ -1031,7 +1031,7 @@ CREATE TABLE IF NOT EXISTS erp_grade (
     FOREIGN KEY (student_id) REFERENCES erp_students (student_id) ON DELETE CASCADE,
     FOREIGN KEY (subject_id) REFERENCES erp_subjects (subject_id) ON DELETE CASCADE,
     FOREIGN KEY (teacher_id) REFERENCES erp_staff (staff_id) ON DELETE SET NULL,
-    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
+    FOREIGN KEY (organization_id) REFERENCES erp_organizations (organization_id) ON DELETE CASCADE,
     INDEX idx_student_id (student_id),
     INDEX idx_subject_id (subject_id),
     INDEX idx_teacher_id (teacher_id),
@@ -2377,7 +2377,7 @@ CREATE TABLE IF NOT EXISTS erp_health_records (
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     FOREIGN KEY (student_id) REFERENCES erp_students (student_id) ON DELETE CASCADE,
-    FOREIGN KEY (recorded_by) REFERENCES iam_users (user_id) ON DELETE SET NULL,
+    FOREIGN KEY (recorded_by) REFERENCES erp_iam_users (user_id) ON DELETE SET NULL,
     INDEX idx_student_id (student_id),
     INDEX idx_record_type (record_type),
     INDEX idx_requires_attention (requires_attention),
@@ -2627,7 +2627,7 @@ CREATE TABLE IF NOT EXISTS erp_parents (
     is_active INT DEFAULT 1,
     UNIQUE KEY unique_user_id (user_id),
     FOREIGN KEY (address_id) REFERENCES erp_addresses (address_id),
-    FOREIGN KEY (user_id) REFERENCES iam_users (user_id),
+    FOREIGN KEY (user_id) REFERENCES erp_iam_users (user_id),
     INDEX idx_email (email),
     INDEX idx_is_active (is_active)
 );
@@ -2720,8 +2720,8 @@ CREATE TABLE IF NOT EXISTS erp_role_permissions (
     role_id BIGINT NOT NULL,
     permission_id BIGINT NOT NULL,
     PRIMARY KEY (role_id, permission_id),
-    FOREIGN KEY (role_id) REFERENCES roles (role_id) ON DELETE CASCADE,
-    FOREIGN KEY (permission_id) REFERENCES permissions (permission_id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES erp_roles (role_id) ON DELETE CASCADE,
+    FOREIGN KEY (permission_id) REFERENCES erp_permissions (permission_id) ON DELETE CASCADE,
     INDEX idx_permission_id (permission_id)
 );
 
@@ -2775,7 +2775,7 @@ CREATE TABLE IF NOT EXISTS erp_staff (
     is_active INT DEFAULT 1,
     UNIQUE KEY unique_user_id (user_id),
     FOREIGN KEY (address_id) REFERENCES erp_addresses (address_id),
-    FOREIGN KEY (user_id) REFERENCES iam_users (user_id),
+    FOREIGN KEY (user_id) REFERENCES erp_iam_users (user_id),
     INDEX idx_staff_id (staff_id),
     INDEX idx_email (email),
     INDEX idx_employment_status (employment_status),
@@ -2957,7 +2957,7 @@ CREATE TABLE IF NOT EXISTS erp_students (
     is_active INT DEFAULT 1,
     UNIQUE KEY unique_user_id (user_id),
     FOREIGN KEY (address_id) REFERENCES erp_addresses (address_id),
-    FOREIGN KEY (user_id) REFERENCES iam_users (user_id),
+    FOREIGN KEY (user_id) REFERENCES erp_iam_users (user_id),
     INDEX idx_student_id (student_id),
     INDEX idx_email (email),
     INDEX idx_grade_level (grade_level),
@@ -3018,8 +3018,8 @@ CREATE TABLE IF NOT EXISTS erp_user_roles (
     user_id BIGINT NOT NULL,
     role_id BIGINT NOT NULL,
     PRIMARY KEY (user_id, role_id),
-    FOREIGN KEY (user_id) REFERENCES iam_users (user_id) ON DELETE CASCADE,
-    FOREIGN KEY (role_id) REFERENCES roles (role_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES erp_iam_users (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES erp_roles (role_id) ON DELETE CASCADE,
     INDEX idx_role_id (role_id)
 );
 
@@ -3150,7 +3150,7 @@ CREATE TABLE IF NOT EXISTS erp_subscriptions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (plan_id) REFERENCES erp_plans (id),
-    FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
+    FOREIGN KEY (organization_id) REFERENCES erp_organizations (organization_id) ON DELETE CASCADE,
     INDEX idx_erp_sub_org (organization_id),
     INDEX idx_erp_sub_status (status)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;

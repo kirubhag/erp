@@ -98,7 +98,7 @@ public class RegistrationService {
 
     private void createUserInMasterDb(RegistrationRequest request, Long tenantId, Long organizationId) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        String sql = "INSERT INTO iam_users (username, password_hash, email, first_name, last_name, phone, user_type, enabled, tenant_id, organization_id, created_time, is_active, account_non_expired, credentials_non_expired, account_non_locked, confirmation_token, is_primary_user) "
+        String sql = "INSERT INTO erp_iam_users (username, password_hash, email, first_name, last_name, phone, user_type, enabled, tenant_id, organization_id, created_time, is_active, account_non_expired, credentials_non_expired, account_non_locked, confirmation_token, is_primary_user) "
                 +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1, 1, ?, ?)";
 
@@ -196,7 +196,7 @@ public class RegistrationService {
 
     private boolean emailExistsInMasterDb(String email) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(masterDataSource);
-        String sql = "SELECT COUNT(*) FROM iam_users WHERE email = ?";
+        String sql = "SELECT COUNT(*) FROM erp_iam_users WHERE email = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
         return count != null && count > 0;
     }

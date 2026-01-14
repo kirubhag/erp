@@ -37,7 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     /**
      * Load user by username for authentication.
-     * Queries IAM_MasterDB.iam_users directly to avoid tenant routing issues during
+     * Queries IAM_MasterDB.erp_iam_users directly to avoid tenant routing issues during
      * login.
      */
     @Override
@@ -47,7 +47,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         // Query IAM_MasterDB directly for user credentials and tenant_id
         String sql = "SELECT user_id, username, password_hash, email, first_name, last_name, " +
                 "phone, user_type, enabled, tenant_id, organization_id " +
-                "FROM iam_users " +
+                "FROM erp_iam_users " +
                 "WHERE username = ? OR email = ?";
 
         List<User> users = jdbcTemplate.query(sql, new Object[] { username, username }, (rs, rowNum) -> {

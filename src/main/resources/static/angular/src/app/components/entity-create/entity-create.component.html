@@ -74,8 +74,8 @@
                   <!-- Number / Slider / Currency / Decimal -->
                   <div *ngIf="isSliderField(section.fields[i])" class="d-flex align-items-center gap-2">
                     <input type="range" class="form-range flex-grow-1" [formControlName]="section.fields[i].fieldName"
-                      [min]="section.fields[i].minValue" [max]="section.fields[i].maxValue"
-                      [step]="section.fields[i].step || 1">
+                      [min]="section.fields[i].minValue ?? 0" [max]="section.fields[i].maxValue ?? 100"
+                      [step]="section.fields[i].step ?? 1">
                     <span class="badge bg-secondary">{{ entityForm.get(section.fields[i].fieldName)?.value }}</span>
                   </div>
 

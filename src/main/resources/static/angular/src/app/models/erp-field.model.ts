@@ -33,6 +33,10 @@ export interface ErpField {
     isActive?: number;
     createdTime?: string;
     modifiedTime?: string;
+    // Number field properties
+    minValue?: number | null;
+    maxValue?: number | null;
+    step?: number | null;
 }
 
 /**

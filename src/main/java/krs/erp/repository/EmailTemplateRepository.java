@@ -36,8 +36,8 @@ public interface EmailTemplateRepository extends JpaRepository<EmailTemplate, Lo
     @Query("SELECT t FROM EmailTemplate t WHERE t.entityType = :entityType AND t.isActive = 1 ORDER BY t.templateName ASC")
     List<EmailTemplate> findActiveTemplatesByEntityType(@Param("entityType") EntityType entityType);
     
-    // Find templates by created by
-    List<EmailTemplate> findByCreatedByIgnoreCase(String createdBy);
+    // Find templates by created by (user ID)
+    List<EmailTemplate> findByCreatedBy(Long createdBy);
     
     // Search templates by name or description
     @Query("SELECT t FROM EmailTemplate t WHERE LOWER(t.templateName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(t.description) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
