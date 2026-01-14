@@ -15,7 +15,7 @@ import jakarta.validation.constraints.Pattern;
  * One-to-One relationship with Student entity.
  */
 @Entity
-@Table(name = "student_medical_info")
+@Table(name = "erp_student_medical_info")
 @AttributeOverride(name = "id", column = @Column(name = "student_medical_info_id"))
 public class StudentMedicalInfo extends BaseEntity {
 

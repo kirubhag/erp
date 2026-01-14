@@ -16,7 +16,7 @@ import jakarta.persistence.Transient;
  * Entity representing available fields for each entity type during import
  */
 @Entity
-@Table(name = "field_mapping_templates")
+@Table(name = "erp_field_mapping_templates")
 public class FieldMappingTemplate implements Serializable {
     
     @Id

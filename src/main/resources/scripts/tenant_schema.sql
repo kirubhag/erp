@@ -1,7 +1,7 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- Table from SQL file: academic_settings
-CREATE TABLE IF NOT EXISTS academic_settings (
+CREATE TABLE IF NOT EXISTS erp_academic_settings (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     organization_id BIGINT NOT NULL UNIQUE,
     enable_attendance_tracking BOOLEAN DEFAULT true,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS academic_settings (
 );
 
 -- Table from SQL file: academic_terms
-CREATE TABLE IF NOT EXISTS academic_terms (
+CREATE TABLE IF NOT EXISTS erp_academic_terms (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     start_date DATE NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS academic_terms (
 );
 
 -- Table from SQL file: academic_years
-CREATE TABLE IF NOT EXISTS academic_years (
+CREATE TABLE IF NOT EXISTS erp_academic_years (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     start_date DATE NOT NULL,
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS erp_courses (
 );
 
 -- Table from SQL file: custom_view_fields
-CREATE TABLE IF NOT EXISTS custom_view_fields (
+CREATE TABLE IF NOT EXISTS erp_custom_view_fields (
     custom_view_id BIGINT NOT NULL,
     field_name VARCHAR(100) NOT NULL,
     FOREIGN KEY (custom_view_id) REFERENCES custom_views (custom_view_id) ON DELETE CASCADE,
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS custom_view_fields (
 );
 
 -- Table from SQL file: custom_views
-CREATE TABLE IF NOT EXISTS custom_views (
+CREATE TABLE IF NOT EXISTS erp_custom_views (
     custom_view_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     view_name VARCHAR(100) NOT NULL,
     description VARCHAR(500),
@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS custom_views (
 );
 
 -- Table from SQL file: email_logs
-CREATE TABLE IF NOT EXISTS email_logs (
+CREATE TABLE IF NOT EXISTS erp_email_logs (
     email_log_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     template_id BIGINT,
     entity_type VARCHAR(100) NOT NULL,
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS email_logs (
 );
 
 -- Table from SQL file: email_templates
-CREATE TABLE IF NOT EXISTS email_templates (
+CREATE TABLE IF NOT EXISTS erp_email_templates (
     email_template_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     template_name VARCHAR(100) NOT NULL,
     subject VARCHAR(200) NOT NULL,
@@ -2258,7 +2258,7 @@ CREATE TABLE IF NOT EXISTS erp_exams (
 );
 
 -- Table from SQL file: field_mapping_templates
-CREATE TABLE IF NOT EXISTS field_mapping_templates (
+CREATE TABLE IF NOT EXISTS erp_field_mapping_templates (
     field_mapping_template_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     entity_type VARCHAR(50) NOT NULL,
     field_name VARCHAR(100) NOT NULL,
@@ -2271,7 +2271,7 @@ CREATE TABLE IF NOT EXISTS field_mapping_templates (
 );
 
 -- Table from SQL file: field_mappings
-CREATE TABLE IF NOT EXISTS field_mappings (
+CREATE TABLE IF NOT EXISTS erp_field_mappings (
     field_mapping_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     import_session_id VARCHAR(50) NOT NULL,
     source_column VARCHAR(255),
@@ -2283,7 +2283,7 @@ CREATE TABLE IF NOT EXISTS field_mappings (
 );
 
 -- Table generated from JPA: fin_scholarship_applications
-CREATE TABLE IF NOT EXISTS fin_scholarship_applications (
+CREATE TABLE IF NOT EXISTS erp_fin_scholarship_applications (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     application_date DATE,
     status VARCHAR(50),
@@ -2302,7 +2302,7 @@ CREATE TABLE IF NOT EXISTS fin_scholarship_applications (
 );
 
 -- Table generated from JPA: fin_scholarship_categories
-CREATE TABLE IF NOT EXISTS fin_scholarship_categories (
+CREATE TABLE IF NOT EXISTS erp_fin_scholarship_categories (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
@@ -2320,7 +2320,7 @@ CREATE TABLE IF NOT EXISTS fin_scholarship_categories (
 );
 
 -- Table generated from JPA: fin_scholarship_disbursements
-CREATE TABLE IF NOT EXISTS fin_scholarship_disbursements (
+CREATE TABLE IF NOT EXISTS erp_fin_scholarship_disbursements (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     disbursement_amount DECIMAL(19, 4) NOT NULL,
     disbursement_date DATE NOT NULL,
@@ -2337,7 +2337,7 @@ CREATE TABLE IF NOT EXISTS fin_scholarship_disbursements (
 );
 
 -- Table from SQL file: grading_scales
-CREATE TABLE IF NOT EXISTS grading_scales (
+CREATE TABLE IF NOT EXISTS erp_grading_scales (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     letter_grade VARCHAR(10) NOT NULL,
@@ -2385,7 +2385,7 @@ CREATE TABLE IF NOT EXISTS erp_health_records (
 );
 
 -- Table from SQL file: iam_users
-CREATE TABLE IF NOT EXISTS iam_users (
+CREATE TABLE IF NOT EXISTS erp_iam_users (
     user_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
@@ -2420,7 +2420,7 @@ CREATE TABLE IF NOT EXISTS iam_users (
 );
 
 -- Table from SQL file: import_history
-CREATE TABLE IF NOT EXISTS import_history (
+CREATE TABLE IF NOT EXISTS erp_import_history (
     import_history_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_name VARCHAR(100) NOT NULL,
     import_type VARCHAR(50) NOT NULL,
@@ -2442,7 +2442,7 @@ CREATE TABLE IF NOT EXISTS import_history (
 );
 
 -- Table from SQL file: import_results
-CREATE TABLE IF NOT EXISTS import_results (
+CREATE TABLE IF NOT EXISTS erp_import_results (
     import_result_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     import_session_id VARCHAR(50) NOT NULL,
     row_num INT,
@@ -2454,7 +2454,7 @@ CREATE TABLE IF NOT EXISTS import_results (
 );
 
 -- Table from SQL file: import_sessions
-CREATE TABLE IF NOT EXISTS import_sessions (
+CREATE TABLE IF NOT EXISTS erp_import_sessions (
     id VARCHAR(50) PRIMARY KEY,
     user_id BIGINT NOT NULL,
     organization_id BIGINT,
@@ -2480,7 +2480,7 @@ CREATE TABLE IF NOT EXISTS import_sessions (
 );
 
 -- Table from SQL file: login_history
-CREATE TABLE IF NOT EXISTS login_history (
+CREATE TABLE IF NOT EXISTS erp_login_history (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     username VARCHAR(100) NOT NULL,
@@ -2492,7 +2492,7 @@ CREATE TABLE IF NOT EXISTS login_history (
 );
 
 -- Table from SQL file: organization_settings
-CREATE TABLE IF NOT EXISTS organization_settings (
+CREATE TABLE IF NOT EXISTS erp_organization_settings (
     organization_settings_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     organization_id BIGINT NOT NULL UNIQUE,
     default_theme VARCHAR(50),
@@ -2538,7 +2538,7 @@ CREATE TABLE IF NOT EXISTS organization_settings (
 );
 
 -- Table from SQL file: organizations
-CREATE TABLE IF NOT EXISTS organizations (
+CREATE TABLE IF NOT EXISTS erp_organizations (
     organization_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     type VARCHAR(50) NOT NULL,
@@ -2575,7 +2575,7 @@ CREATE TABLE IF NOT EXISTS organizations (
 );
 
 -- Table from SQL file: parent_student_relations
-CREATE TABLE IF NOT EXISTS parent_student_relations (
+CREATE TABLE IF NOT EXISTS erp_parent_student_relations (
     parent_student_relation_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     parent_id BIGINT NOT NULL,
     student_id BIGINT NOT NULL,
@@ -2633,7 +2633,7 @@ CREATE TABLE IF NOT EXISTS erp_parents (
 );
 
 -- Table from SQL file: payment_transactions
-CREATE TABLE IF NOT EXISTS payment_transactions (
+CREATE TABLE IF NOT EXISTS erp_payment_transactions (
     payment_transaction_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     subscription_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
@@ -2659,7 +2659,7 @@ CREATE TABLE IF NOT EXISTS payment_transactions (
 );
 
 -- Table from SQL file: permissions
-CREATE TABLE IF NOT EXISTS permissions (
+CREATE TABLE IF NOT EXISTS erp_permissions (
     permission_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(255),
@@ -2678,7 +2678,7 @@ CREATE TABLE IF NOT EXISTS permissions (
 );
 
 -- Table from SQL file: pricing_plans
-CREATE TABLE IF NOT EXISTS pricing_plans (
+CREATE TABLE IF NOT EXISTS erp_pricing_plans (
     pricing_plan_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     plan_name VARCHAR(50) NOT NULL UNIQUE,
     plan_type VARCHAR(20) NOT NULL,
@@ -2700,7 +2700,7 @@ CREATE TABLE IF NOT EXISTS pricing_plans (
 );
 
 -- Table from SQL file: recycle_bin
-CREATE TABLE IF NOT EXISTS recycle_bin (
+CREATE TABLE IF NOT EXISTS erp_recycle_bin (
     recycle_bin_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_id BIGINT NOT NULL,
     entity_name VARCHAR(100) NOT NULL,
@@ -2716,7 +2716,7 @@ CREATE TABLE IF NOT EXISTS recycle_bin (
 );
 
 -- Table from SQL file: role_permissions
-CREATE TABLE IF NOT EXISTS role_permissions (
+CREATE TABLE IF NOT EXISTS erp_role_permissions (
     role_id BIGINT NOT NULL,
     permission_id BIGINT NOT NULL,
     PRIMARY KEY (role_id, permission_id),
@@ -2726,7 +2726,7 @@ CREATE TABLE IF NOT EXISTS role_permissions (
 );
 
 -- Table from SQL file: roles
-CREATE TABLE IF NOT EXISTS roles (
+CREATE TABLE IF NOT EXISTS erp_roles (
     role_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     description VARCHAR(255),
@@ -2784,7 +2784,7 @@ CREATE TABLE IF NOT EXISTS erp_staff (
 );
 
 -- Table from SQL file: student_guardian_info
-CREATE TABLE IF NOT EXISTS student_guardian_info (
+CREATE TABLE IF NOT EXISTS erp_student_guardian_info (
     student_guardian_info_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     student_id BIGINT NOT NULL UNIQUE,
 
@@ -2823,7 +2823,7 @@ created_by BIGINT,
 );
 
 -- Table from SQL file: student_medical_info
-CREATE TABLE IF NOT EXISTS student_medical_info (
+CREATE TABLE IF NOT EXISTS erp_student_medical_info (
     student_medical_info_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     student_id BIGINT NOT NULL UNIQUE,
 
@@ -2854,7 +2854,7 @@ created_by BIGINT,
 );
 
 -- Table from SQL file: student_promotion_audit_log
-CREATE TABLE IF NOT EXISTS student_promotion_audit_log (
+CREATE TABLE IF NOT EXISTS erp_student_promotion_audit_log (
     log_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     batch_id BIGINT,
     record_id BIGINT,
@@ -2875,7 +2875,7 @@ CREATE TABLE IF NOT EXISTS student_promotion_audit_log (
 );
 
 -- Table from SQL file: student_promotion_batch
-CREATE TABLE IF NOT EXISTS student_promotion_batch (
+CREATE TABLE IF NOT EXISTS erp_student_promotion_batch (
     batch_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     batch_name VARCHAR(200) NOT NULL,
     academic_year_from VARCHAR(20) NOT NULL,
@@ -2901,7 +2901,7 @@ CREATE TABLE IF NOT EXISTS student_promotion_batch (
 );
 
 -- Table from SQL file: student_promotion_record
-CREATE TABLE IF NOT EXISTS student_promotion_record (
+CREATE TABLE IF NOT EXISTS erp_student_promotion_record (
     record_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     batch_id BIGINT NOT NULL,
     student_id BIGINT NOT NULL,
@@ -2993,7 +2993,7 @@ CREATE TABLE IF NOT EXISTS erp_subjects (
 );
 
 -- Table from SQL file: subscription_history
-CREATE TABLE IF NOT EXISTS subscription_history (
+CREATE TABLE IF NOT EXISTS erp_subscription_history (
     subscription_change_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     subscription_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
@@ -3014,7 +3014,7 @@ CREATE TABLE IF NOT EXISTS subscription_history (
 );
 
 -- Table from SQL file: user_roles
-CREATE TABLE IF NOT EXISTS user_roles (
+CREATE TABLE IF NOT EXISTS erp_user_roles (
     user_id BIGINT NOT NULL,
     role_id BIGINT NOT NULL,
     PRIMARY KEY (user_id, role_id),
@@ -3024,7 +3024,7 @@ CREATE TABLE IF NOT EXISTS user_roles (
 );
 
 -- Table from SQL file: user_settings
-CREATE TABLE IF NOT EXISTS user_settings (
+CREATE TABLE IF NOT EXISTS erp_user_settings (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     organization_id BIGINT NOT NULL,
@@ -3050,7 +3050,7 @@ CREATE TABLE IF NOT EXISTS user_settings (
 );
 
 -- Table from SQL file: user_subscriptions
-CREATE TABLE IF NOT EXISTS user_subscriptions (
+CREATE TABLE IF NOT EXISTS erp_user_subscriptions (
     user_subscription_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     organization_id BIGINT NOT NULL,

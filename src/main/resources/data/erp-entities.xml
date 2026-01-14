@@ -160,7 +160,7 @@
         <presence>false</presence>
         <icon>fas fa-user</icon>
         <route>/users</route>
-        <table_name>users</table_name>
+        <table_name>erp_iam_users</table_name>
         <pkid>user_id</pkid>
         <display_column>username</display_column>
         <has_rel_table>false</has_rel_table>
@@ -194,7 +194,7 @@
         <presence>true</presence>
         <icon>fas fa-tasks</icon>
         <route>/assignments</route>
-        <table_name>assignments</table_name>
+        <table_name>erp_assignments</table_name>
         <pkid>assignment_id</pkid>
         <display_column>title</display_column>
         <has_rel_table>false</has_rel_table>

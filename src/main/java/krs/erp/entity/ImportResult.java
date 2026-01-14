@@ -24,7 +24,7 @@ import jakarta.persistence.Transient;
  * Entity representing the result of importing a single record
  */
 @Entity
-@Table(name = "import_results")
+@Table(name = "erp_import_results")
 public class ImportResult implements Serializable {
     
     @Id

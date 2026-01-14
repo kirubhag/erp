@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
  * OrganizationSettings Entity - Stores organization-wide configuration
  */
 @Entity
-@Table(name = "organization_settings")
+@Table(name = "erp_organization_settings")
 public class OrganizationSettings {
 
     @Id

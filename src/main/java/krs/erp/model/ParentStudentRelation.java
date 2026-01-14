@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "parent_student_relations")
+@Table(name = "erp_parent_student_relations")
 @AttributeOverride(name = "id", column = @Column(name = "parent_student_relation_id"))
 public class ParentStudentRelation extends BaseEntity {
     

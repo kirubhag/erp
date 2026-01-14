@@ -14,7 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "login_history")
+@Table(name = "erp_login_history")
 @Data
 @Builder
 @NoArgsConstructor

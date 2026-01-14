@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
  * AcademicYear Entity - Represents an academic/school year
  */
 @Entity
-@Table(name = "academic_years")
+@Table(name = "erp_academic_years")
 public class AcademicYear {
     
     @Id

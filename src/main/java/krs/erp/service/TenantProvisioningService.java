@@ -274,8 +274,8 @@ public class TenantProvisioningService {
             // 5. Copy Roles (Only System Roles)
             try {
                 logger.info("Copying Roles...");
-                masterJdbc.query("SELECT * FROM roles WHERE system_role = 1", rs -> {
-                    String sql = "INSERT IGNORE INTO roles (role_id, name, description, system_role, created_time, created_by) VALUES (?, ?, ?, ?, NOW(), ?)";
+                masterJdbc.query("SELECT * FROM erp_roles WHERE system_role = 1", rs -> {
+                    String sql = "INSERT IGNORE INTO erp_roles (role_id, name, description, system_role, created_time, created_by) VALUES (?, ?, ?, ?, NOW(), ?)";
                     tenantJdbc.update(sql,
                             rs.getLong("role_id"),
                             rs.getString("name"),
@@ -292,8 +292,8 @@ public class TenantProvisioningService {
             // 6. Copy Permissions (Only System Permissions)
             try {
                 logger.info("Copying Permissions...");
-                masterJdbc.query("SELECT * FROM permissions WHERE system_permission = 1", rs -> {
-                    String sql = "INSERT IGNORE INTO permissions (permission_id, name, description, resource, action, system_permission, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)";
+                masterJdbc.query("SELECT * FROM erp_permissions WHERE system_permission = 1", rs -> {
+                    String sql = "INSERT IGNORE INTO erp_permissions (permission_id, name, description, resource, action, system_permission, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)";
                     tenantJdbc.update(sql,
                             rs.getLong("permission_id"),
                             rs.getString("name"),
@@ -316,11 +316,11 @@ public class TenantProvisioningService {
             // relations directly
             try {
                 logger.info("Copying Role Permissions...");
-                masterJdbc.query("SELECT rp.* FROM role_permissions rp " +
-                        "JOIN roles r ON rp.role_id = r.role_id " +
-                        "JOIN permissions p ON rp.permission_id = p.permission_id " +
+                masterJdbc.query("SELECT rp.* FROM erp_role_permissions rp " +
+                        "JOIN erp_roles r ON rp.role_id = r.role_id " +
+                        "JOIN erp_permissions p ON rp.permission_id = p.permission_id " +
                         "WHERE r.system_role = 1 AND p.system_permission = 1", rs -> {
-                            String sql = "INSERT IGNORE INTO role_permissions (role_id, permission_id) VALUES (?, ?)";
+                            String sql = "INSERT IGNORE INTO erp_role_permissions (role_id, permission_id) VALUES (?, ?)";
                             tenantJdbc.update(sql,
                                     rs.getLong("role_id"),
                                     rs.getLong("permission_id"));
@@ -334,8 +334,8 @@ public class TenantProvisioningService {
             // 8. Copy Custom Views (System custom views - public or default views without specific owner)
             try {
                 logger.info("Copying Custom Views...");
-                masterJdbc.query("SELECT * FROM custom_views WHERE is_public = 1 OR is_default = 1 OR created_by IS NULL", rs -> {
-                    String sql = "INSERT IGNORE INTO custom_views (custom_view_id, view_name, description, entity_type, is_default, is_public, created_by, created_time, modified_time, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                masterJdbc.query("SELECT * FROM erp_custom_views WHERE is_public = 1 OR is_default = 1 OR created_by IS NULL", rs -> {
+                    String sql = "INSERT IGNORE INTO erp_custom_views (custom_view_id, view_name, description, entity_type, is_default, is_public, created_by, created_time, modified_time, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     tenantJdbc.update(sql,
                             rs.getLong("custom_view_id"),
                             rs.getString("view_name"),
@@ -357,10 +357,10 @@ public class TenantProvisioningService {
             // 9. Copy Custom View Fields
             try {
                 logger.info("Copying Custom View Fields...");
-                masterJdbc.query("SELECT cvf.* FROM custom_view_fields cvf " +
-                        "JOIN custom_views cv ON cvf.custom_view_id = cv.custom_view_id " +
+                masterJdbc.query("SELECT cvf.* FROM erp_custom_view_fields cvf " +
+                        "JOIN erp_custom_views cv ON cvf.custom_view_id = cv.custom_view_id " +
                         "WHERE cv.is_public = 1 OR cv.is_default = 1 OR cv.created_by IS NULL", rs -> {
-                            String sql = "INSERT IGNORE INTO custom_view_fields (custom_view_id, field_name) VALUES (?, ?)";
+                            String sql = "INSERT IGNORE INTO erp_custom_view_fields (custom_view_id, field_name) VALUES (?, ?)";
                             tenantJdbc.update(sql,
                                     rs.getLong("custom_view_id"),
                                     rs.getString("field_name"));

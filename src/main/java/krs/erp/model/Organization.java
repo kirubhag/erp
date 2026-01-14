@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "organizations")
+@Table(name = "erp_organizations")
 @AttributeOverride(name = "id", column = @Column(name = "organization_id"))
 public class Organization extends BaseEntity {
     

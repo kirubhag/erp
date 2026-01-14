@@ -24,7 +24,7 @@ import jakarta.persistence.Transient;
  * Tracks file upload, field mappings, import settings, and results.
  */
 @Entity
-@Table(name = "import_sessions")
+@Table(name = "erp_import_sessions")
 public class ImportSession implements Serializable {
     
     @Id

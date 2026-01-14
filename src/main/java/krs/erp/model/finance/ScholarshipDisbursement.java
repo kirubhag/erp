@@ -13,7 +13,7 @@ import java.time.LocalDate;
  */
 @Data
 @Entity
-@Table(name = "fin_scholarship_disbursements")
+@Table(name = "erp_fin_scholarship_disbursements")
 @EqualsAndHashCode(callSuper = true)
 public class ScholarshipDisbursement extends BaseEntity {
 

@@ -1,18 +1,22 @@
 package krs.erp.model.finance;
 
-import jakarta.persistence.*;
+import java.math.BigDecimal;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import krs.erp.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.math.BigDecimal;
 
 /**
  * Defines a type of scholarship or financial aid.
  */
 @Data
 @Entity
-@Table(name = "fin_scholarship_categories")
+@Table(name = "erp_fin_scholarship_categories")
 @EqualsAndHashCode(callSuper = true)
 public class ScholarshipCategory extends BaseEntity {
 

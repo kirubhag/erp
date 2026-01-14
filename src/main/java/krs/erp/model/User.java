@@ -22,7 +22,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "iam_users")
+@Table(name = "erp_iam_users")
 @AttributeOverride(name = "id", column = @Column(name = "user_id"))
 public class User extends BaseEntity {
 
@@ -100,7 +100,7 @@ public class User extends BaseEntity {
     // Relationships
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "erp_user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     @JsonIgnore

@@ -98,25 +98,25 @@ public class MigrationService {
         Map<String, String> tablePkMap = new HashMap<>();
         tablePkMap.put("erp_addresses", "address_id");
         tablePkMap.put("erp_attendance", "attendance_id");
-        tablePkMap.put("custom_views", "custom_view_id");
-        tablePkMap.put("email_logs", "email_log_id");
-        tablePkMap.put("email_templates", "email_template_id");
+        tablePkMap.put("erp_custom_views", "custom_view_id");
+        tablePkMap.put("erp_email_logs", "email_log_id");
+        tablePkMap.put("erp_email_templates", "email_template_id");
         tablePkMap.put("erp_entities", "erp_entity_id");
         tablePkMap.put("erp_entity_relation", "erp_entity_relation_id");
         tablePkMap.put("erp_fields", "erp_field_id");
         tablePkMap.put("erp_sections", "erp_section_id");
-        tablePkMap.put("grades", "grade_id");
+        tablePkMap.put("erp_grade", "grade_id");
         tablePkMap.put("erp_health_records", "health_record_id");
-        tablePkMap.put("iam_users", "user_id");
-        tablePkMap.put("organizations", "organization_id");
-        tablePkMap.put("parent_student_relations", "parent_student_relation_id");
+        tablePkMap.put("erp_iam_users", "user_id");
+        tablePkMap.put("erp_organizations", "organization_id");
+        tablePkMap.put("erp_parent_student_relations", "parent_student_relation_id");
         tablePkMap.put("erp_parents", "parent_id");
-        tablePkMap.put("permissions", "permission_id");
-        tablePkMap.put("roles", "role_id");
+        tablePkMap.put("erp_permissions", "permission_id");
+        tablePkMap.put("erp_roles", "role_id");
         tablePkMap.put("erp_staff", "staff_id");
         tablePkMap.put("erp_students", "student_id");
         tablePkMap.put("erp_subjects", "subject_id");
-        tablePkMap.put("timetables", "timetable_id");
+        tablePkMap.put("erp_timetables", "timetable_id");
 
         for (Map.Entry<String, String> entry : tablePkMap.entrySet()) {
             String tableName = entry.getKey();

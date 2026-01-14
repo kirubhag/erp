@@ -2,8 +2,8 @@ package krs.erp.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,7 +18,7 @@ import jakarta.validation.constraints.Size;
 import krs.erp.enums.EntityType;
 
 @Entity
-@Table(name = "email_logs")
+@Table(name = "erp_email_logs")
 @AttributeOverride(name = "id", column = @Column(name = "email_log_id"))
 public class EmailLog extends BaseEntity {
     

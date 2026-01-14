@@ -786,7 +786,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                 // Check if view already exists
                 Integer existingCount = masterJdbcTemplate.queryForObject(
-                        "SELECT COUNT(*) FROM custom_views WHERE view_name = ? AND entity_type = ?",
+                        "SELECT COUNT(*) FROM erp_custom_views WHERE view_name = ? AND entity_type = ?",
                         Integer.class, viewName, entityType);
 
                 Long customViewId;
@@ -794,7 +794,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 if (existingCount != null && existingCount > 0) {
                     // Update existing view
                     masterJdbcTemplate.update(
-                            "UPDATE custom_views " +
+                            "UPDATE erp_custom_views " +
                                     "SET description = ?, is_default = ?, is_public = ?, modified_time = ? " +
                                     "WHERE view_name = ? AND entity_type = ?",
                             description, isDefault, isPublic, LocalDateTime.now(),
@@ -802,17 +802,17 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                     // Get existing view ID
                     customViewId = masterJdbcTemplate.queryForObject(
-                            "SELECT custom_view_id FROM custom_views WHERE view_name = ? AND entity_type = ?",
+                            "SELECT custom_view_id FROM erp_custom_views WHERE view_name = ? AND entity_type = ?",
                             Long.class, viewName, entityType);
 
                     // Delete existing fields
                     masterJdbcTemplate.update(
-                            "DELETE FROM custom_view_fields WHERE custom_view_id = ?",
+                            "DELETE FROM erp_custom_view_fields WHERE custom_view_id = ?",
                             customViewId);
                 } else {
                     // Insert new view
                     masterJdbcTemplate.update(
-                            "INSERT INTO custom_views " +
+                            "INSERT INTO erp_custom_views " +
                                     "(view_name, description, entity_type, is_default, is_public, " +
                                     "created_by, created_time, modified_time, is_active) " +
                                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -830,7 +830,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                     String fieldName = fieldElement.getTextContent().trim();
 
                     masterJdbcTemplate.update(
-                            "INSERT INTO custom_view_fields (custom_view_id, field_name) VALUES (?, ?)",
+                            "INSERT INTO erp_custom_view_fields (custom_view_id, field_name) VALUES (?, ?)",
                             customViewId, fieldName);
                 }
 

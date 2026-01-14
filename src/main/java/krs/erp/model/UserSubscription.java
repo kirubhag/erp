@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * Entity for user subscriptions
  */
 @Entity
-@Table(name = "user_subscriptions")
+@Table(name = "erp_user_subscriptions")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

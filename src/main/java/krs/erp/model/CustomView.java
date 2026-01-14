@@ -3,8 +3,8 @@ package krs.erp.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -24,7 +24,7 @@ import krs.erp.enums.EntityType;
  * A custom view defines which fields should be displayed when viewing entities.
  */
 @Entity
-@Table(name = "custom_views")
+@Table(name = "erp_custom_views")
 @AttributeOverride(name = "id", column = @Column(name = "custom_view_id"))
 public class CustomView extends BaseEntity {
     
@@ -44,7 +44,7 @@ public class CustomView extends BaseEntity {
     @NotEmpty(message = "At least one field must be selected")
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
-        name = "custom_view_fields",
+        name = "erp_custom_view_fields",
         joinColumns = @JoinColumn(name = "custom_view_id")
     )
     @Column(name = "field_name")

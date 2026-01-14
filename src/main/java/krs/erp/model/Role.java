@@ -3,8 +3,8 @@ package krs.erp.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "erp_roles")
 @AttributeOverride(name = "id", column = @Column(name = "role_id"))
 public class Role extends BaseEntity {
     
@@ -36,7 +36,7 @@ public class Role extends BaseEntity {
     
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "role_permissions",
+        name = "erp_role_permissions",
         joinColumns = @JoinColumn(name = "role_id"),
         inverseJoinColumns = @JoinColumn(name = "permission_id")
     )

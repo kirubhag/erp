@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
  * GradingScale Entity - Defines grading scales and grade points
  */
 @Entity
-@Table(name = "grading_scales")
+@Table(name = "erp_grading_scales")
 public class GradingScale {
     
     @Id

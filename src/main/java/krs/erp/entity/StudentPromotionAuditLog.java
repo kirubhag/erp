@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "student_promotion_audit_log")
+@Table(name = "erp_student_promotion_audit_log")
 public class StudentPromotionAuditLog {
 
     @Id

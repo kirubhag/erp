@@ -17,7 +17,7 @@ import jakarta.persistence.Transient;
  * Entity representing the mapping between a CSV column and an entity field
  */
 @Entity
-@Table(name = "field_mappings")
+@Table(name = "erp_field_mappings")
 public class FieldMapping implements Serializable {
     
     @Id

@@ -2,7 +2,7 @@
 -- This creates the necessary tables for unit testing
 
 -- Base tables that other tables depend on
-CREATE TABLE IF NOT EXISTS organizations (
+CREATE TABLE IF NOT EXISTS erp_organizations (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     code VARCHAR(50) UNIQUE,
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS organizations (
     owner_id BIGINT
 );
 
-CREATE TABLE IF NOT EXISTS roles (
+CREATE TABLE IF NOT EXISTS erp_roles (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     description TEXT,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS roles (
     owner_id BIGINT
 );
 
-CREATE TABLE IF NOT EXISTS permissions (
+CREATE TABLE IF NOT EXISTS erp_permissions (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     description TEXT,
@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS users (
     created_by BIGINT,
     modified_by BIGINT,
     owner_id BIGINT,
-    FOREIGN KEY (role_id) REFERENCES roles(id),
-    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+    FOREIGN KEY (role_id) REFERENCES erp_roles(id),
+    FOREIGN KEY (organization_id) REFERENCES erp_organizations(id)
 );
 
 CREATE TABLE IF NOT EXISTS erp_staff (
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS erp_staff (
     modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+    FOREIGN KEY (organization_id) REFERENCES erp_organizations(id)
 );
 
 CREATE TABLE IF NOT EXISTS erp_students (
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS erp_students (
     modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+    FOREIGN KEY (organization_id) REFERENCES erp_organizations(id)
 );
 
 CREATE TABLE IF NOT EXISTS erp_parents (
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS erp_parents (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE IF NOT EXISTS parent_student_relations (
+CREATE TABLE IF NOT EXISTS erp_parent_student_relations (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     parent_id BIGINT NOT NULL,
     student_id BIGINT NOT NULL,
@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS erp_attendance (
     modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+    FOREIGN KEY (organization_id) REFERENCES erp_organizations(id)
 );
 
 CREATE TABLE IF NOT EXISTS erp_health_records (
@@ -178,7 +178,7 @@ CREATE TABLE IF NOT EXISTS erp_health_records (
     FOREIGN KEY (student_id) REFERENCES erp_students(id)
 );
 
-CREATE TABLE IF NOT EXISTS email_templates (
+CREATE TABLE IF NOT EXISTS erp_email_templates (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     subject VARCHAR(500),
@@ -191,10 +191,10 @@ CREATE TABLE IF NOT EXISTS email_templates (
     created_by BIGINT,
     modified_by BIGINT,
     owner_id BIGINT,
-    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+    FOREIGN KEY (organization_id) REFERENCES erp_organizations(id)
 );
 
-CREATE TABLE IF NOT EXISTS email_logs (
+CREATE TABLE IF NOT EXISTS erp_email_logs (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     recipient_email VARCHAR(255) NOT NULL,
     sender_email VARCHAR(255),
@@ -212,10 +212,10 @@ CREATE TABLE IF NOT EXISTS email_logs (
     modified_by BIGINT,
     owner_id BIGINT,
     FOREIGN KEY (template_id) REFERENCES email_templates(id),
-    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+    FOREIGN KEY (organization_id) REFERENCES erp_organizations(id)
 );
 
-CREATE TABLE IF NOT EXISTS custom_views (
+CREATE TABLE IF NOT EXISTS erp_custom_views (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     view_name VARCHAR(255) NOT NULL,
     entity_type VARCHAR(100) NOT NULL,
@@ -231,7 +231,7 @@ CREATE TABLE IF NOT EXISTS custom_views (
     created_by BIGINT,
     modified_by BIGINT,
     owner_id BIGINT,
-    FOREIGN KEY (organization_id) REFERENCES organizations(id)
+    FOREIGN KEY (organization_id) REFERENCES erp_organizations(id)
 );
 
 -- Custom field tables for each entity
@@ -311,7 +311,7 @@ CREATE TABLE IF NOT EXISTS organization_custom_fields (
     created_by BIGINT,
     modified_by BIGINT,
     owner_id BIGINT,
-    FOREIGN KEY (entity_id) REFERENCES organizations(id),
+    FOREIGN KEY (entity_id) REFERENCES erp_organizations(id),
     UNIQUE KEY unique_org_field (entity_id, field_name)
 );
 

@@ -1,20 +1,27 @@
 package krs.erp.model.finance;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import krs.erp.model.BaseEntity;
 import krs.erp.model.Student;
 import krs.erp.model.academic.AcademicYear;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDate;
-
 /**
  * Tracks a student's application for a scholarship.
  */
 @Data
 @Entity
-@Table(name = "fin_scholarship_applications")
+@Table(name = "erp_fin_scholarship_applications")
 @EqualsAndHashCode(callSuper = true)
 public class ScholarshipApplication extends BaseEntity {
 

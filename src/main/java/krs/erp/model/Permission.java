@@ -3,8 +3,8 @@ package krs.erp.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "permissions")
+@Table(name = "erp_permissions")
 @AttributeOverride(name = "id", column = @Column(name = "permission_id"))
 public class Permission extends BaseEntity {
     

@@ -19,7 +19,7 @@ import jakarta.validation.constraints.Size;
  * Used to prevent duplicate data loading and maintain audit trail of imports.
  */
 @Entity
-@Table(name = "import_history")
+@Table(name = "erp_import_history")
 public class ImportHistory {
     
     @Id

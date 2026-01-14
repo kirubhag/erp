@@ -20,20 +20,20 @@ public class StorageService {
         Map<String, Long> counts = new HashMap<>();
 
         // Core Entities
-        count(counts, "Students", "students");
-        count(counts, "Staff", "staff");
-        count(counts, "Parents", "parents");
-        count(counts, "Users", "iam_users");
-        count(counts, "Organizations", "organizations");
+        count(counts, "Students", "erp_students");
+        count(counts, "Staff", "erp_staff");
+        count(counts, "Parents", "erp_parents");
+        count(counts, "Users", "erp_iam_users");
+        count(counts, "Organizations", "erp_organizations");
 
         // Academic Entities
-        count(counts, "Subjects", "subjects");
-        count(counts, "Timetables", "timetables");
-        count(counts, "Attendance Records", "attendance");
-        count(counts, "Health Records", "health_records");
+        count(counts, "Subjects", "erp_subjects");
+        count(counts, "Timetables", "erp_timetables");
+        count(counts, "Attendance Records", "erp_attendance");
+        count(counts, "Health Records", "erp_health_records");
 
         // System Entities
-        count(counts, "Roles", "roles");
+        count(counts, "Roles", "erp_roles");
         count(counts, "Attachments", "erp_attachments");
 
         return counts;

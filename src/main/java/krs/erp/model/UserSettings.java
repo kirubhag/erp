@@ -10,11 +10,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 /**
- * UserSettings Entity - Maps to user_settings table
+ * UserSettings Entity - Maps to erp_user_settings table
  * Stores user-specific configuration preferences for theme, display, and behavior
  */
 @Entity
-@Table(name = "user_settings")
+@Table(name = "erp_user_settings")
 public class UserSettings {
     
     @Id

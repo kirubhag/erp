@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * Entity for payment transactions
  */
 @Entity
-@Table(name = "payment_transactions")
+@Table(name = "erp_payment_transactions")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

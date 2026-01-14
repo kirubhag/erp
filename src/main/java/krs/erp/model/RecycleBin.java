@@ -21,7 +21,7 @@ import krs.erp.enums.EntityType;
  * RecycleBin entity to track soft-deleted records
  */
 @Entity
-@Table(name = "recycle_bin")
+@Table(name = "erp_recycle_bin")
 public class RecycleBin {
     
     @Id

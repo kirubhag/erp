@@ -17,7 +17,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "student_promotion_record")
+@Table(name = "erp_student_promotion_record")
 public class StudentPromotionRecord {
 
     @Id

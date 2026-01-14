@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * Entity for subscription history (audit trail)
  */
 @Entity
-@Table(name = "subscription_history")
+@Table(name = "erp_subscription_history")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

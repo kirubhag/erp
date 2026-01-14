@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
  * AcademicSettings Entity - Stores academic-related settings for an organization
  */
 @Entity
-@Table(name = "academic_settings")
+@Table(name = "erp_academic_settings")
 public class AcademicSettings {
     
     @Id

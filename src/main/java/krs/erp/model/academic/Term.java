@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
  * Term Entity - Represents academic terms/semesters within an academic year
  */
 @Entity
-@Table(name = "academic_terms")
+@Table(name = "erp_academic_terms")
 public class Term {
     
     @Id

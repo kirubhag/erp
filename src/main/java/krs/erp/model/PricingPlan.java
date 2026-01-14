@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
  * Entity for pricing plans
  */
 @Entity
-@Table(name = "pricing_plans")
+@Table(name = "erp_pricing_plans")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
