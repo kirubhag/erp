@@ -24,7 +24,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "staff")
+@Table(name = "erp_staff")
 @AttributeOverride(name = "id", column = @Column(name = "staff_id"))
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Staff extends BaseEntity {

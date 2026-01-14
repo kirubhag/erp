@@ -24,7 +24,7 @@
         <presence>true</presence>
         <icon>fas fa-user-graduate</icon>
         <route>/students</route>
-        <table_name>students</table_name>
+        <table_name>erp_students</table_name>
         <pkid>student_id</pkid>
         <display_column>first_name</display_column>
         <has_rel_table>true</has_rel_table>
@@ -41,7 +41,7 @@
         <presence>true</presence>
         <icon>fas fa-chalkboard-teacher</icon>
         <route>/staff</route>
-        <table_name>staff</table_name>
+        <table_name>erp_staff</table_name>
         <pkid>staff_id</pkid>
         <display_column>first_name</display_column>
         <has_rel_table>false</has_rel_table>
@@ -58,7 +58,7 @@
         <presence>true</presence>
         <icon>fas fa-calendar-check</icon>
         <route>/attendance</route>
-        <table_name>attendance</table_name>
+        <table_name>erp_attendance</table_name>
         <pkid>attendance_id</pkid>
         <display_column>attendance_date</display_column>
         <has_rel_table>false</has_rel_table>
@@ -75,7 +75,7 @@
         <presence>true</presence>
         <icon>fas fa-users</icon>
         <route>/parents</route>
-        <table_name>parents</table_name>
+        <table_name>erp_parents</table_name>
         <pkid>parent_id</pkid>
         <display_column>first_name</display_column>
         <has_rel_table>false</has_rel_table>
@@ -92,7 +92,7 @@
         <presence>true</presence>
         <icon>fas fa-book</icon>
         <route>/subjects</route>
-        <table_name>subjects</table_name>
+        <table_name>erp_subjects</table_name>
         <pkid>subject_id</pkid>
         <display_column>subject_name</display_column>
         <has_rel_table>false</has_rel_table>
@@ -177,7 +177,7 @@
         <presence>false</presence>
         <icon>fas fa-map-marker-alt</icon>
         <route>/addresses</route>
-        <table_name>addresses</table_name>
+        <table_name>erp_addresses</table_name>
         <pkid>address_id</pkid>
         <display_column>address_line1</display_column>
         <has_rel_table>false</has_rel_table>
@@ -211,7 +211,7 @@
         <presence>true</presence>
         <icon>fas fa-file-alt</icon>
         <route>/exams</route>
-        <table_name>exams</table_name>
+        <table_name>erp_exams</table_name>
         <pkid>exam_id</pkid>
         <display_column>exam_name</display_column>
         <has_rel_table>false</has_rel_table>
@@ -228,7 +228,7 @@
         <presence>true</presence>
         <icon>fas fa-book-open</icon>
         <route>/courses</route>
-        <table_name>courses</table_name>
+        <table_name>erp_courses</table_name>
         <pkid>course_id</pkid>
         <display_column>course_name</display_column>
         <has_rel_table>false</has_rel_table>
@@ -245,7 +245,7 @@
         <presence>false</presence>
         <icon>fas fa-heartbeat</icon>
         <route>/health-records</route>
-        <table_name>health_records</table_name>
+        <table_name>erp_health_records</table_name>
         <pkid>health_record_id</pkid>
         <display_column>record_date</display_column>
         <has_rel_table>false</has_rel_table>

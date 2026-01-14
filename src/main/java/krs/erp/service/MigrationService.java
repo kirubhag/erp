@@ -96,8 +96,8 @@ public class MigrationService {
 
     private void renamePkColumns(JdbcTemplate tenantJdbc, String dbName) {
         Map<String, String> tablePkMap = new HashMap<>();
-        tablePkMap.put("addresses", "address_id");
-        tablePkMap.put("attendance", "attendance_id");
+        tablePkMap.put("erp_addresses", "address_id");
+        tablePkMap.put("erp_attendance", "attendance_id");
         tablePkMap.put("custom_views", "custom_view_id");
         tablePkMap.put("email_logs", "email_log_id");
         tablePkMap.put("email_templates", "email_template_id");
@@ -106,16 +106,16 @@ public class MigrationService {
         tablePkMap.put("erp_fields", "erp_field_id");
         tablePkMap.put("erp_sections", "erp_section_id");
         tablePkMap.put("grades", "grade_id");
-        tablePkMap.put("health_records", "health_record_id");
+        tablePkMap.put("erp_health_records", "health_record_id");
         tablePkMap.put("iam_users", "user_id");
         tablePkMap.put("organizations", "organization_id");
         tablePkMap.put("parent_student_relations", "parent_student_relation_id");
-        tablePkMap.put("parents", "parent_id");
+        tablePkMap.put("erp_parents", "parent_id");
         tablePkMap.put("permissions", "permission_id");
         tablePkMap.put("roles", "role_id");
-        tablePkMap.put("staff", "staff_id");
-        tablePkMap.put("students", "student_id");
-        tablePkMap.put("subjects", "subject_id");
+        tablePkMap.put("erp_staff", "staff_id");
+        tablePkMap.put("erp_students", "student_id");
+        tablePkMap.put("erp_subjects", "subject_id");
         tablePkMap.put("timetables", "timetable_id");
 
         for (Map.Entry<String, String> entry : tablePkMap.entrySet()) {
@@ -124,13 +124,13 @@ public class MigrationService {
 
             try {
                 // Special handling for students table collision
-                if (tableName.equals("students") && newPkName.equals("student_id")) {
-                    handleColumnCollision(tenantJdbc, dbName, "students", "student_id", "student_id_old");
+                if (tableName.equals("erp_students") && newPkName.equals("student_id")) {
+                    handleColumnCollision(tenantJdbc, dbName, "erp_students", "student_id", "student_id_old");
                 }
 
                 // Special handling for staff table collision
-                if (tableName.equals("staff") && newPkName.equals("staff_id")) {
-                    handleColumnCollision(tenantJdbc, dbName, "staff", "staff_id", "staff_id_old");
+                if (tableName.equals("erp_staff") && newPkName.equals("staff_id")) {
+                    handleColumnCollision(tenantJdbc, dbName, "erp_staff", "staff_id", "staff_id_old");
                 }
 
                 // Check if 'id' column exists

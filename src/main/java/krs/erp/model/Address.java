@@ -2,8 +2,8 @@ package krs.erp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -16,7 +16,7 @@ import jakarta.validation.constraints.Size;
  * Uses polymorphic association pattern with entity_type and entity_id
  */
 @Entity
-@Table(name = "addresses")
+@Table(name = "erp_addresses")
 @AttributeOverride(name = "id", column = @Column(name = "address_id"))
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Address extends BaseEntity {

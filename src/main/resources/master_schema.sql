@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS academic_years (
 );
 
 -- Table from SQL file: addresses
-CREATE TABLE IF NOT EXISTS addresses (
+CREATE TABLE IF NOT EXISTS erp_addresses (
     address_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     auto_number VARCHAR(255) DEFAULT NULL,
     entity_type VARCHAR(50) NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS addresses (
 );
 
 -- Table from SQL file: attendance
-CREATE TABLE IF NOT EXISTS attendance (
+CREATE TABLE IF NOT EXISTS erp_attendance (
     attendance_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     auto_number VARCHAR(255) DEFAULT NULL,
     attendance_date DATE NOT NULL,
@@ -97,8 +97,8 @@ CREATE TABLE IF NOT EXISTS attendance (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE SET NULL,
-    FOREIGN KEY (staff_id) REFERENCES staff (staff_id) ON DELETE SET NULL,
+    FOREIGN KEY (student_id) REFERENCES erp_students (student_id) ON DELETE SET NULL,
+    FOREIGN KEY (staff_id) REFERENCES erp_staff (staff_id) ON DELETE SET NULL,
     FOREIGN KEY (recorded_by) REFERENCES iam_users (user_id) ON DELETE SET NULL,
     INDEX idx_attendance_date (attendance_date),
     INDEX idx_student_id (student_id),
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS attendance (
 );
 
 -- Table from SQL file: courses
-CREATE TABLE IF NOT EXISTS courses (
+CREATE TABLE IF NOT EXISTS erp_courses (
     course_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     auto_number VARCHAR(255) DEFAULT NULL,
     course_name VARCHAR(100) NOT NULL,
@@ -542,7 +542,7 @@ CREATE TABLE IF NOT EXISTS erp_class (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (class_teacher_id) REFERENCES staff (staff_id) ON DELETE SET NULL,
+    FOREIGN KEY (class_teacher_id) REFERENCES erp_staff (staff_id) ON DELETE SET NULL,
     FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
     INDEX idx_class_code (class_code),
     INDEX idx_grade_level (grade_level),
@@ -566,7 +566,7 @@ CREATE TABLE IF NOT EXISTS erp_class_student (
     created_by BIGINT,
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (class_id) REFERENCES erp_class (class_id) ON DELETE CASCADE,
-    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES erp_students (student_id) ON DELETE CASCADE,
     UNIQUE KEY unique_class_student (class_id, student_id),
     INDEX idx_class_id (class_id),
     INDEX idx_student_id (student_id),
@@ -582,7 +582,7 @@ CREATE TABLE IF NOT EXISTS erp_class_subject (
     created_by BIGINT,
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (class_id) REFERENCES erp_class (class_id) ON DELETE CASCADE,
-    FOREIGN KEY (subject_id) REFERENCES subjects (subject_id) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES erp_subjects (subject_id) ON DELETE CASCADE,
     UNIQUE KEY unique_class_subject (class_id, subject_id),
     INDEX idx_class_id (class_id),
     INDEX idx_subject_id (subject_id)
@@ -599,8 +599,8 @@ CREATE TABLE IF NOT EXISTS erp_class_teacher (
     created_by BIGINT,
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (class_id) REFERENCES erp_class (class_id) ON DELETE CASCADE,
-    FOREIGN KEY (teacher_id) REFERENCES staff (staff_id) ON DELETE CASCADE,
-    FOREIGN KEY (subject_id) REFERENCES subjects (subject_id) ON DELETE SET NULL,
+    FOREIGN KEY (teacher_id) REFERENCES erp_staff (staff_id) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES erp_subjects (subject_id) ON DELETE SET NULL,
     UNIQUE KEY unique_class_teacher_subject (
         class_id,
         teacher_id,
@@ -1028,9 +1028,9 @@ CREATE TABLE IF NOT EXISTS erp_grade (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
-    FOREIGN KEY (subject_id) REFERENCES subjects (subject_id) ON DELETE CASCADE,
-    FOREIGN KEY (teacher_id) REFERENCES staff (staff_id) ON DELETE SET NULL,
+    FOREIGN KEY (student_id) REFERENCES erp_students (student_id) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES erp_subjects (subject_id) ON DELETE CASCADE,
+    FOREIGN KEY (teacher_id) REFERENCES erp_staff (staff_id) ON DELETE SET NULL,
     FOREIGN KEY (organization_id) REFERENCES organizations (organization_id) ON DELETE CASCADE,
     INDEX idx_student_id (student_id),
     INDEX idx_subject_id (subject_id),
@@ -2075,8 +2075,8 @@ CREATE TABLE IF NOT EXISTS erp_timetables (
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     FOREIGN KEY (class_id) REFERENCES erp_class (class_id) ON DELETE CASCADE,
-    FOREIGN KEY (teacher_id) REFERENCES staff (staff_id) ON DELETE CASCADE,
-    FOREIGN KEY (subject_id) REFERENCES subjects (subject_id) ON DELETE CASCADE,
+    FOREIGN KEY (teacher_id) REFERENCES erp_staff (staff_id) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES erp_subjects (subject_id) ON DELETE CASCADE,
     FOREIGN KEY (room_id) REFERENCES erp_rooms (room_id) ON DELETE SET NULL,
     INDEX idx_class_id (class_id),
     INDEX idx_teacher_id (teacher_id),
@@ -2231,7 +2231,7 @@ CREATE TABLE IF NOT EXISTS erp_tpd_training_events (
 );
 
 -- Table from SQL file: exams
-CREATE TABLE IF NOT EXISTS exams (
+CREATE TABLE IF NOT EXISTS erp_exams (
     exam_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     auto_number VARCHAR(255) DEFAULT NULL,
     exam_name VARCHAR(255) NOT NULL,
@@ -2350,7 +2350,7 @@ CREATE TABLE IF NOT EXISTS grading_scales (
 );
 
 -- Table from SQL file: health_records
-CREATE TABLE IF NOT EXISTS health_records (
+CREATE TABLE IF NOT EXISTS erp_health_records (
     health_record_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     auto_number VARCHAR(255) DEFAULT NULL,
     student_id BIGINT NOT NULL,
@@ -2376,7 +2376,7 @@ CREATE TABLE IF NOT EXISTS health_records (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES erp_students (student_id) ON DELETE CASCADE,
     FOREIGN KEY (recorded_by) REFERENCES iam_users (user_id) ON DELETE SET NULL,
     INDEX idx_student_id (student_id),
     INDEX idx_record_type (record_type),
@@ -2592,8 +2592,8 @@ CREATE TABLE IF NOT EXISTS parent_student_relations (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (parent_id) REFERENCES parents (parent_id) ON DELETE CASCADE,
-    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
+    FOREIGN KEY (parent_id) REFERENCES erp_parents (parent_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES erp_students (student_id) ON DELETE CASCADE,
     INDEX idx_parent_id (parent_id),
     INDEX idx_student_id (student_id),
     INDEX idx_relationship_type (relationship_type),
@@ -2601,7 +2601,7 @@ CREATE TABLE IF NOT EXISTS parent_student_relations (
 );
 
 -- Table from SQL file: parents
-CREATE TABLE IF NOT EXISTS parents (
+CREATE TABLE IF NOT EXISTS erp_parents (
     parent_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     auto_number VARCHAR(255) DEFAULT NULL,
     first_name VARCHAR(50) NOT NULL,
@@ -2626,7 +2626,7 @@ CREATE TABLE IF NOT EXISTS parents (
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     UNIQUE KEY unique_user_id (user_id),
-    FOREIGN KEY (address_id) REFERENCES addresses (address_id),
+    FOREIGN KEY (address_id) REFERENCES erp_addresses (address_id),
     FOREIGN KEY (user_id) REFERENCES iam_users (user_id),
     INDEX idx_email (email),
     INDEX idx_is_active (is_active)
@@ -2742,7 +2742,7 @@ CREATE TABLE IF NOT EXISTS roles (
 );
 
 -- Table from SQL file: staff
-CREATE TABLE IF NOT EXISTS staff (
+CREATE TABLE IF NOT EXISTS erp_staff (
     staff_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     auto_number VARCHAR(255) DEFAULT NULL,
     first_name VARCHAR(50) NOT NULL,
@@ -2774,7 +2774,7 @@ CREATE TABLE IF NOT EXISTS staff (
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     UNIQUE KEY unique_user_id (user_id),
-    FOREIGN KEY (address_id) REFERENCES addresses (address_id),
+    FOREIGN KEY (address_id) REFERENCES erp_addresses (address_id),
     FOREIGN KEY (user_id) REFERENCES iam_users (user_id),
     INDEX idx_staff_id (staff_id),
     INDEX idx_email (email),
@@ -2817,7 +2817,7 @@ created_by BIGINT,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     
-    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES erp_students (student_id) ON DELETE CASCADE,
     INDEX idx_student_id (student_id),
     INDEX idx_is_active (is_active)
 );
@@ -2848,7 +2848,7 @@ created_by BIGINT,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     
-    FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES erp_students (student_id) ON DELETE CASCADE,
     INDEX idx_student_id (student_id),
     INDEX idx_is_active (is_active)
 );
@@ -2923,7 +2923,7 @@ CREATE TABLE IF NOT EXISTS student_promotion_record (
 );
 
 -- Table from SQL file: students
-CREATE TABLE IF NOT EXISTS students (
+CREATE TABLE IF NOT EXISTS erp_students (
     student_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     auto_number VARCHAR(255) DEFAULT NULL,
     first_name VARCHAR(50) NOT NULL,
@@ -2956,7 +2956,7 @@ CREATE TABLE IF NOT EXISTS students (
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     UNIQUE KEY unique_user_id (user_id),
-    FOREIGN KEY (address_id) REFERENCES addresses (address_id),
+    FOREIGN KEY (address_id) REFERENCES erp_addresses (address_id),
     FOREIGN KEY (user_id) REFERENCES iam_users (user_id),
     INDEX idx_student_id (student_id),
     INDEX idx_email (email),
@@ -2967,7 +2967,7 @@ CREATE TABLE IF NOT EXISTS students (
 );
 
 -- Table from SQL file: subjects
-CREATE TABLE IF NOT EXISTS subjects (
+CREATE TABLE IF NOT EXISTS erp_subjects (
     subject_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     auto_number VARCHAR(255) DEFAULT NULL,
     subject_code VARCHAR(20) NOT NULL UNIQUE,

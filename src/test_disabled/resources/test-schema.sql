@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS users (
     FOREIGN KEY (organization_id) REFERENCES organizations(id)
 );
 
-CREATE TABLE IF NOT EXISTS staff (
+CREATE TABLE IF NOT EXISTS erp_staff (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     employee_id VARCHAR(50) UNIQUE,
     user_id BIGINT NOT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS staff (
     FOREIGN KEY (organization_id) REFERENCES organizations(id)
 );
 
-CREATE TABLE IF NOT EXISTS students (
+CREATE TABLE IF NOT EXISTS erp_students (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     student_id VARCHAR(50) UNIQUE,
     user_id BIGINT NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS students (
     FOREIGN KEY (organization_id) REFERENCES organizations(id)
 );
 
-CREATE TABLE IF NOT EXISTS parents (
+CREATE TABLE IF NOT EXISTS erp_parents (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     relationship_type VARCHAR(50),
@@ -132,12 +132,12 @@ CREATE TABLE IF NOT EXISTS parent_student_relations (
     created_by BIGINT,
     modified_by BIGINT,
     owner_id BIGINT,
-    FOREIGN KEY (parent_id) REFERENCES parents(id),
-    FOREIGN KEY (student_id) REFERENCES students(id),
+    FOREIGN KEY (parent_id) REFERENCES erp_parents(id),
+    FOREIGN KEY (student_id) REFERENCES erp_students(id),
     UNIQUE KEY unique_parent_student (parent_id, student_id)
 );
 
-CREATE TABLE IF NOT EXISTS attendance (
+CREATE TABLE IF NOT EXISTS erp_attendance (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     attendance_date DATE NOT NULL,
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS attendance (
     FOREIGN KEY (organization_id) REFERENCES organizations(id)
 );
 
-CREATE TABLE IF NOT EXISTS health_records (
+CREATE TABLE IF NOT EXISTS erp_health_records (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     student_id BIGINT NOT NULL,
     record_date DATE NOT NULL,
@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS health_records (
     created_by BIGINT,
     modified_by BIGINT,
     owner_id BIGINT,
-    FOREIGN KEY (student_id) REFERENCES students(id)
+    FOREIGN KEY (student_id) REFERENCES erp_students(id)
 );
 
 CREATE TABLE IF NOT EXISTS email_templates (
@@ -251,7 +251,7 @@ CREATE TABLE IF NOT EXISTS user_custom_fields (
     UNIQUE KEY unique_user_field (entity_id, field_name)
 );
 
-CREATE TABLE IF NOT EXISTS staff_custom_fields (
+CREATE TABLE IF NOT EXISTS erp_staff_custom_fields (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     entity_id BIGINT NOT NULL,
     field_name VARCHAR(255) NOT NULL,
@@ -263,7 +263,7 @@ CREATE TABLE IF NOT EXISTS staff_custom_fields (
     created_by BIGINT,
     modified_by BIGINT,
     owner_id BIGINT,
-    FOREIGN KEY (entity_id) REFERENCES staff(id),
+    FOREIGN KEY (entity_id) REFERENCES erp_staff(id),
     UNIQUE KEY unique_staff_field (entity_id, field_name)
 );
 
@@ -279,7 +279,7 @@ CREATE TABLE IF NOT EXISTS student_custom_fields (
     created_by BIGINT,
     modified_by BIGINT,
     owner_id BIGINT,
-    FOREIGN KEY (entity_id) REFERENCES students(id),
+    FOREIGN KEY (entity_id) REFERENCES erp_students(id),
     UNIQUE KEY unique_student_field (entity_id, field_name)
 );
 
@@ -295,7 +295,7 @@ CREATE TABLE IF NOT EXISTS parent_custom_fields (
     created_by BIGINT,
     modified_by BIGINT,
     owner_id BIGINT,
-    FOREIGN KEY (entity_id) REFERENCES parents(id),
+    FOREIGN KEY (entity_id) REFERENCES erp_parents(id),
     UNIQUE KEY unique_parent_field (entity_id, field_name)
 );
 
@@ -315,7 +315,7 @@ CREATE TABLE IF NOT EXISTS organization_custom_fields (
     UNIQUE KEY unique_org_field (entity_id, field_name)
 );
 
-CREATE TABLE IF NOT EXISTS attendance_custom_fields (
+CREATE TABLE IF NOT EXISTS erp_attendance_custom_fields (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     entity_id BIGINT NOT NULL,
     field_name VARCHAR(255) NOT NULL,
@@ -327,7 +327,7 @@ CREATE TABLE IF NOT EXISTS attendance_custom_fields (
     created_by BIGINT,
     modified_by BIGINT,
     owner_id BIGINT,
-    FOREIGN KEY (entity_id) REFERENCES attendance(id),
+    FOREIGN KEY (entity_id) REFERENCES erp_attendance(id),
     UNIQUE KEY unique_attendance_field (entity_id, field_name)
 );
 
@@ -343,7 +343,7 @@ CREATE TABLE IF NOT EXISTS health_record_custom_fields (
     created_by BIGINT,
     modified_by BIGINT,
     owner_id BIGINT,
-    FOREIGN KEY (entity_id) REFERENCES health_records(id),
+    FOREIGN KEY (entity_id) REFERENCES erp_health_records(id),
     UNIQUE KEY unique_health_field (entity_id, field_name)
 );
 

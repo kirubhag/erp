@@ -253,6 +253,6 @@ public class ErpEntityRelationService {
      */
     @Transactional(readOnly = true)
     public Map<String, Object> fetchStudentWithChildren(Long studentId) {
-        return fetchParentWithChildren("students", studentId);
+        return fetchParentWithChildren("erp_students", studentId);
     }
 }
