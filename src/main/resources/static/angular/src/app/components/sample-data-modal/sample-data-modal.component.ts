@@ -498,7 +498,13 @@ export class SampleDataModalComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading available entities:', error);
-        this.errorMessage = 'Could not load available entities. Please try again.';
+        if (error.status === 401 || error.status === 403) {
+          this.errorMessage = 'Authentication required. Please log in and try again.';
+        } else if (error.status === 0) {
+          this.errorMessage = 'Cannot connect to server. Please check if the backend is running.';
+        } else {
+          this.errorMessage = 'Could not load available entities. Please try again.';
+        }
         this.loading = false;
       }
     });

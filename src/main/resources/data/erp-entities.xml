@@ -493,7 +493,7 @@
         <sequence>30</sequence>
         <presence>true</presence>
         <icon>fas fa-laptop</icon>
-        <route>/assets-supplies/assets</route>
+        <route>/assets-supplies/inventory/assets</route>
         <table_name>erp_inventory_assets</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -510,7 +510,7 @@
         <sequence>31</sequence>
         <presence>true</presence>
         <icon>fas fa-box-open</icon>
-        <route>/assets-supplies/consumables</route>
+        <route>/assets-supplies/inventory/consumables</route>
         <table_name>erp_inventory_consumables</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -527,7 +527,7 @@
         <sequence>32</sequence>
         <presence>true</presence>
         <icon>fas fa-truck</icon>
-        <route>/assets-supplies/vendors</route>
+        <route>/assets-supplies/inventory/vendors</route>
         <table_name>erp_inventory_vendors</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -544,7 +544,7 @@
         <sequence>33</sequence>
         <presence>true</presence>
         <icon>fas fa-shopping-cart</icon>
-        <route>/assets-supplies/purchase-orders</route>
+        <route>/assets-supplies/inventory/purchase-orders</route>
         <table_name>erp_inventory_purchase_orders</table_name>
         <pkid>id</pkid>
         <display_column>po_number</display_column>
@@ -560,7 +560,7 @@
         <sequence>40</sequence>
         <presence>true</presence>
         <icon>fas fa-tools</icon>
-        <route>/assets-supplies/work-orders</route>
+        <route>/assets-supplies/maintenance/work-orders</route>
         <table_name>erp_maint_work_orders</table_name>
         <pkid>id</pkid>
         <display_column>title</display_column>
@@ -577,7 +577,7 @@
         <sequence>41</sequence>
         <presence>true</presence>
         <icon>fas fa-building</icon>
-        <route>/assets-supplies/facilities</route>
+        <route>/assets-supplies/maintenance/facilities</route>
         <table_name>erp_maint_facilities</table_name>
         <pkid>id</pkid>
         <display_column>name</display_column>
@@ -594,7 +594,7 @@
         <sequence>42</sequence>
         <presence>true</presence>
         <icon>fas fa-calendar-check</icon>
-        <route>/assets-supplies/bookings</route>
+        <route>/assets-supplies/maintenance/bookings</route>
         <table_name>erp_maint_facility_bookings</table_name>
         <pkid>id</pkid>
         <display_column>purpose</display_column>
@@ -643,8 +643,8 @@
         <presence>true</presence>
         <icon>fas fa-calendar-alt</icon>
         <route>/leave-management/holidays</route>
-        <table_name>erp_cal_calendar_days</table_name>
-        <pkid>id</pkid>
+        <table_name>erp_utility_calendar_days</table_name>
+        <pkid>calendar_day_id</pkid>
         <display_column>description</display_column>
         <has_rel_table>false</has_rel_table>
     </entity>

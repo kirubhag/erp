@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="LEAVE_TYPE">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Unique identifier for the leave type</fieldDescription>
     </field>
     <field>
         <fieldName>autoNumber</fieldName>
@@ -24,50 +26,86 @@
         <showType>1</showType>
         <maxLength>50</maxLength>
         <fieldDescription>Auto-generated unique code for Leave Type</fieldDescription>
-        <fieldProperties>{"prefix":"LEA-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+        <fieldProperties>{"prefix":"LVT-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>name</fieldName>
+        <fieldLabel>Name</fieldLabel>
         <fieldType>STRING</fieldType>
-        <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>3</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Name of the leave type</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>code</fieldName>
+        <fieldLabel>Code</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>4</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <maxLength>20</maxLength>
+        <fieldDescription>Short code for the leave type (e.g., CL, SL, EL)</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>daysAllowed</fieldName>
+        <fieldLabel>Days Allowed</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <uiType>102</uiType>
         <displayOrder>5</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Maximum number of days allowed per year</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isCarryForward</fieldName>
+        <fieldLabel>Carry Forward</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Whether unused leaves can be carried forward to next year</fieldDescription>
+    </field>
+    <field>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>300</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Description of the leave type</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Whether the leave type is active</fieldDescription>
     </field>
 </entityFields>

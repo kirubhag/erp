@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource_items>
+    <!-- Items for The Guide -->
+    <item>
+        <resource_title>The Guide</resource_title>
+        <accession_number>LIB-2024-0001</accession_number>
+        <barcode>9780143039648001</barcode>
+        <location>Rack A, Shelf 1</location>
+        <status>AVAILABLE</status>
+    </item>
+    <item>
+        <resource_title>The Guide</resource_title>
+        <accession_number>LIB-2024-0002</accession_number>
+        <barcode>9780143039648002</barcode>
+        <location>Rack A, Shelf 1</location>
+        <status>AVAILABLE</status>
+    </item>
+    
+    <!-- Items for The Room on the Roof -->
+    <item>
+        <resource_title>The Room on the Roof</resource_title>
+        <accession_number>LIB-2024-0003</accession_number>
+        <barcode>9780143333388001</barcode>
+        <location>Rack A, Shelf 2</location>
+        <status>AVAILABLE</status>
+    </item>
+    <item>
+        <resource_title>The Room on the Roof</resource_title>
+        <accession_number>LIB-2024-0004</accession_number>
+        <barcode>9780143333388002</barcode>
+        <location>Rack A, Shelf 2</location>
+        <status>LOANED</status>
+    </item>
+    
+    <!-- Items for A Suitable Boy -->
+    <item>
+        <resource_title>A Suitable Boy</resource_title>
+        <accession_number>LIB-2024-0005</accession_number>
+        <barcode>9780060786526001</barcode>
+        <location>Rack B, Shelf 1</location>
+        <status>AVAILABLE</status>
+    </item>
+    
+    <!-- Items for The God of Small Things -->
+    <item>
+        <resource_title>The God of Small Things</resource_title>
+        <accession_number>LIB-2024-0006</accession_number>
+        <barcode>9780812979657001</barcode>
+        <location>Rack B, Shelf 1</location>
+        <status>RESERVED</status>
+    </item>
+    <item>
+        <resource_title>The God of Small Things</resource_title>
+        <accession_number>LIB-2024-0007</accession_number>
+        <barcode>9780812979657002</barcode>
+        <location>Rack B, Shelf 1</location>
+        <status>AVAILABLE</status>
+    </item>
+    
+    <!-- Items for Wings of Fire -->
+    <item>
+        <resource_title>Wings of Fire</resource_title>
+        <accession_number>LIB-2024-0008</accession_number>
+        <barcode>9788173711466001</barcode>
+        <location>Rack C, Shelf 1</location>
+        <status>AVAILABLE</status>
+    </item>
+    <item>
+        <resource_title>Wings of Fire</resource_title>
+        <accession_number>LIB-2024-0009</accession_number>
+        <barcode>9788173711466002</barcode>
+        <location>Rack C, Shelf 1</location>
+        <status>LOANED</status>
+    </item>
+    <item>
+        <resource_title>Wings of Fire</resource_title>
+        <accession_number>LIB-2024-0010</accession_number>
+        <barcode>9788173711466003</barcode>
+        <location>Rack C, Shelf 1</location>
+        <status>AVAILABLE</status>
+    </item>
+    
+    <!-- Items for The Immortals of Meluha -->
+    <item>
+        <resource_title>The Immortals of Meluha</resource_title>
+        <accession_number>LIB-2024-0011</accession_number>
+        <barcode>9789380658742001</barcode>
+        <location>Rack B, Shelf 2</location>
+        <status>AVAILABLE</status>
+    </item>
+    <item>
+        <resource_title>The Immortals of Meluha</resource_title>
+        <accession_number>LIB-2024-0012</accession_number>
+        <barcode>9789380658742002</barcode>
+        <location>Rack B, Shelf 2</location>
+        <status>AVAILABLE</status>
+    </item>
+    
+    <!-- Items for Five Point Someone -->
+    <item>
+        <resource_title>Five Point Someone</resource_title>
+        <accession_number>LIB-2024-0013</accession_number>
+        <barcode>9788129104595001</barcode>
+        <location>Rack A, Shelf 3</location>
+        <status>LOANED</status>
+    </item>
+    <item>
+        <resource_title>Five Point Someone</resource_title>
+        <accession_number>LIB-2024-0014</accession_number>
+        <barcode>9788129104595002</barcode>
+        <location>Rack A, Shelf 3</location>
+        <status>AVAILABLE</status>
+    </item>
+    
+    <!-- Items for Gitanjali -->
+    <item>
+        <resource_title>Gitanjali</resource_title>
+        <accession_number>LIB-2024-0015</accession_number>
+        <barcode>9780143418252001</barcode>
+        <location>Rack D, Shelf 1</location>
+        <status>AVAILABLE</status>
+    </item>
+    
+    <!-- Items for NCERT Mathematics -->
+    <item>
+        <resource_title>NCERT Mathematics Class X</resource_title>
+        <accession_number>LIB-2024-0016</accession_number>
+        <barcode>9789350076026001</barcode>
+        <location>Rack E, Shelf 1</location>
+        <status>AVAILABLE</status>
+    </item>
+    <item>
+        <resource_title>NCERT Mathematics Class X</resource_title>
+        <accession_number>LIB-2024-0017</accession_number>
+        <barcode>9789350076026002</barcode>
+        <location>Rack E, Shelf 1</location>
+        <status>AVAILABLE</status>
+    </item>
+    <item>
+        <resource_title>NCERT Mathematics Class X</resource_title>
+        <accession_number>LIB-2024-0018</accession_number>
+        <barcode>9789350076026003</barcode>
+        <location>Rack E, Shelf 1</location>
+        <status>LOANED</status>
+    </item>
+    
+    <!-- Items for NCERT Science -->
+    <item>
+        <resource_title>NCERT Science Class X</resource_title>
+        <accession_number>LIB-2024-0019</accession_number>
+        <barcode>9789350076019001</barcode>
+        <location>Rack E, Shelf 2</location>
+        <status>AVAILABLE</status>
+    </item>
+    <item>
+        <resource_title>NCERT Science Class X</resource_title>
+        <accession_number>LIB-2024-0020</accession_number>
+        <barcode>9789350076019002</barcode>
+        <location>Rack E, Shelf 2</location>
+        <status>AVAILABLE</status>
+    </item>
+    
+    <!-- Items for Oxford English Dictionary -->
+    <item>
+        <resource_title>Oxford English Dictionary</resource_title>
+        <accession_number>LIB-2024-0021</accession_number>
+        <barcode>9780199571123001</barcode>
+        <location>Reference Section, Shelf 1</location>
+        <status>AVAILABLE</status>
+    </item>
+    
+    <!-- Items for Encyclopedia Britannica -->
+    <item>
+        <resource_title>Encyclopedia Britannica</resource_title>
+        <accession_number>LIB-2024-0022</accession_number>
+        <barcode>9781593392925001</barcode>
+        <location>Reference Section, Shelf 2</location>
+        <status>AVAILABLE</status>
+    </item>
+    
+    <!-- Items for Wise and Otherwise -->
+    <item>
+        <resource_title>Wise and Otherwise</resource_title>
+        <accession_number>LIB-2024-0023</accession_number>
+        <barcode>9780143062516001</barcode>
+        <location>Rack C, Shelf 2</location>
+        <status>AVAILABLE</status>
+    </item>
+    <item>
+        <resource_title>Wise and Otherwise</resource_title>
+        <accession_number>LIB-2024-0024</accession_number>
+        <barcode>9780143062516002</barcode>
+        <location>Rack C, Shelf 2</location>
+        <status>AVAILABLE</status>
+    </item>
+    
+    <!-- Items for Godan -->
+    <item>
+        <resource_title>Godan</resource_title>
+        <accession_number>LIB-2024-0025</accession_number>
+        <barcode>9780143066750001</barcode>
+        <location>Rack A, Shelf 4</location>
+        <status>AVAILABLE</status>
+    </item>
+</resource_items>

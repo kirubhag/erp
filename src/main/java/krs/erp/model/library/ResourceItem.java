@@ -1,6 +1,15 @@
 package krs.erp.model.library;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import krs.erp.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,6 +34,7 @@ public class ResourceItem extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resource_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private LibraryResource resource;
 
     @Column(name = "accession_number", unique = true, nullable = false)

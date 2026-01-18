@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="RESOURCE_ITEM">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Unique identifier for the resource item</fieldDescription>
     </field>
     <field>
         <fieldName>autoNumber</fieldName>
-        <fieldLabel>Resource Item Code</fieldLabel>
+        <fieldLabel>Item Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
         <displayOrder>2</displayOrder>
@@ -24,50 +26,104 @@
         <showType>1</showType>
         <maxLength>50</maxLength>
         <fieldDescription>Auto-generated unique code for Resource Item</fieldDescription>
-        <fieldProperties>{"prefix":"RES-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+        <fieldProperties>{"prefix":"ITM-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
-        <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>resource</fieldName>
+        <fieldLabel>Resource</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>116</uiType>
         <displayOrder>3</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Parent library resource</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>accessionNumber</fieldName>
+        <fieldLabel>Accession Number</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>4</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <maxLength>50</maxLength>
+        <isUnique>true</isUnique>
+        <fieldDescription>Unique accession number</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>barcode</fieldName>
+        <fieldLabel>Barcode</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>5</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>1</showType>
+        <maxLength>100</maxLength>
+        <isUnique>true</isUnique>
+        <fieldDescription>Barcode for scanning</fieldDescription>
+    </field>
+    <field>
+        <fieldName>location</fieldName>
+        <fieldLabel>Location</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>150</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <maxLength>100</maxLength>
+        <fieldDescription>Physical location (Rack/Shelf)</fieldDescription>
+    </field>
+    <field>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
+        <picklistOptions>AVAILABLE,LOANED,RESERVED,LOST</picklistOptions>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Current item status</fieldDescription>
+    </field>
+    <field>
+        <fieldName>auditStatus</fieldName>
+        <fieldLabel>Audit Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
+        <picklistOptions>MATCHED,MISPLACED</picklistOptions>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Audit status from last inventory check</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
+        <displayOrder>9</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Whether the item is active</fieldDescription>
     </field>
 </entityFields>

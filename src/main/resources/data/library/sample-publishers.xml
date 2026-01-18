@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<publishers>
+    <publisher>
+        <name>Penguin Random House India</name>
+        <address>7th Floor, Infinity Tower C, DLF Cyber City, Gurgaon - 122002, Haryana</address>
+        <contact_info>contact@penguinrandomhouse.in | +91-124-4785600</contact_info>
+    </publisher>
+    <publisher>
+        <name>HarperCollins Publishers India</name>
+        <address>A-75, Sector 57, Noida - 201301, Uttar Pradesh</address>
+        <contact_info>editorial@harpercollins.co.in | +91-120-4044800</contact_info>
+    </publisher>
+    <publisher>
+        <name>Rupa Publications</name>
+        <address>7/16, Ansari Road, Daryaganj, New Delhi - 110002</address>
+        <contact_info>sales@rupapublications.com | +91-11-23270215</contact_info>
+    </publisher>
+    <publisher>
+        <name>Westland Publications</name>
+        <address>61, 2nd Floor, Silverline Building, Alapakkam Main Road, Chennai - 600116</address>
+        <contact_info>info@westlandbooks.in | +91-44-40034040</contact_info>
+    </publisher>
+    <publisher>
+        <name>Oxford University Press India</name>
+        <address>YMCA Library Building, Jai Singh Road, New Delhi - 110001</address>
+        <contact_info>oxfordpublicity.in@oup.com | +91-11-43615000</contact_info>
+    </publisher>
+    <publisher>
+        <name>Scholastic India</name>
+        <address>A-27, Ground Floor, Bharti Sigma Center, Infocity-1, Sector 34, Gurgaon - 122001</address>
+        <contact_info>scholasticindia@scholastic.co.in | +91-124-4030100</contact_info>
+    </publisher>
+    <publisher>
+        <name>Pearson India Education Services</name>
+        <address>15th Floor, World Trade Tower, C-1, Sector 16, Noida - 201301</address>
+        <contact_info>companysecretary.india@pearson.com | +91-120-4306500</contact_info>
+    </publisher>
+    <publisher>
+        <name>McGraw Hill Education India</name>
+        <address>B-4, Sector 63, Noida - 201301, Uttar Pradesh</address>
+        <contact_info>customercare.india@mheducation.com | +91-120-4383400</contact_info>
+    </publisher>
+    <publisher>
+        <name>Cambridge University Press India</name>
+        <address>Plot No. 79, Splendor Forum, Jasola District Centre, New Delhi - 110025</address>
+        <contact_info>customerservice.india@cambridge.org | +91-11-43543500</contact_info>
+    </publisher>
+    <publisher>
+        <name>National Book Trust India</name>
+        <address>Nehru Bhawan, 5 Institutional Area, Phase-II, Vasant Kunj, New Delhi - 110070</address>
+        <contact_info>nbtindia@nbtindia.gov.in | +91-11-26707700</contact_info>
+    </publisher>
+</publishers>

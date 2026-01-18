@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="LIBRARY_LOAN">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Unique identifier for the loan</fieldDescription>
     </field>
     <field>
         <fieldName>autoNumber</fieldName>
-        <fieldLabel>Library Loan Code</fieldLabel>
+        <fieldLabel>Loan Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
         <displayOrder>2</displayOrder>
@@ -23,73 +25,112 @@
         <isSortable>true</isSortable>
         <showType>1</showType>
         <maxLength>50</maxLength>
-        <fieldDescription>Auto-generated unique code for Library Loan</fieldDescription>
-        <fieldProperties>{"prefix":"LIB-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+        <fieldDescription>Auto-generated unique code for Loan</fieldDescription>
+        <fieldProperties>{"prefix":"LON-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
-        <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>item</fieldName>
+        <fieldLabel>Item</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>116</uiType>
         <displayOrder>3</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Loaned resource item</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>user</fieldName>
+        <fieldLabel>User</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>116</uiType>
         <displayOrder>4</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>User who borrowed the item</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>loanDate</fieldName>
+        <fieldLabel>Loan Date</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <uiType>107</uiType>
         <displayOrder>5</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Date and time when the item was loaned</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>dueDate</fieldName>
+        <fieldLabel>Due Date</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <uiType>107</uiType>
         <displayOrder>6</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Due date for returning the item</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>returnDate</fieldName>
+        <fieldLabel>Return Date</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <uiType>107</uiType>
         <displayOrder>7</displayOrder>
+        <defaultWidth>150</defaultWidth>
         <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Actual return date</fieldDescription>
+    </field>
+    <field>
+        <fieldName>renewalCount</fieldName>
+        <fieldLabel>Renewals</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <uiType>102</uiType>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Number of times the loan was renewed</fieldDescription>
+    </field>
+    <field>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
+        <picklistOptions>ACTIVE,RETURNED,OVERDUE</picklistOptions>
+        <displayOrder>9</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Current loan status</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
+        <displayOrder>10</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Whether the loan record is active</fieldDescription>
     </field>
 </entityFields>

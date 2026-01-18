@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vendors>
+    <vendor>
+        <name>Global Systems India Pvt Ltd</name>
+        <contact_person>Rajesh Kumar</contact_person>
+        <email>rajesh@globalsystems.in</email>
+        <phone>9876543210</phone>
+        <tin_gstin>27AABCG1234A1ZD</tin_gstin>
+        <address>123 Tech Park, Whitefield, Bangalore - 560066</address>
+    </vendor>
+    <vendor>
+        <name>Elite Furniture Solutions</name>
+        <contact_person>Priya Sharma</contact_person>
+        <email>priya@elitefurniture.com</email>
+        <phone>9876543211</phone>
+        <tin_gstin>27AABCE5678B2ZE</tin_gstin>
+        <address>45 Industrial Area, Phase II, Noida - 201301</address>
+    </vendor>
+    <vendor>
+        <name>Office Pro Supplies</name>
+        <contact_person>Amit Patel</contact_person>
+        <email>amit@officepro.in</email>
+        <phone>9876543212</phone>
+        <tin_gstin>24AABCO9012C3ZF</tin_gstin>
+        <address>78 Commercial Complex, Andheri East, Mumbai - 400069</address>
+    </vendor>
+    <vendor>
+        <name>TechMart Electronics</name>
+        <contact_person>Sunita Menon</contact_person>
+        <email>sunita@techmart.co.in</email>
+        <phone>9876543213</phone>
+        <tin_gstin>33AABCT3456D4ZG</tin_gstin>
+        <address>221 Electronics City, Hosur Road, Chennai - 600119</address>
+    </vendor>
+    <vendor>
+        <name>CleanCare Products</name>
+        <contact_person>Vikram Singh</contact_person>
+        <email>vikram@cleancare.in</email>
+        <phone>9876543214</phone>
+        <tin_gstin>06AABCC7890E5ZH</tin_gstin>
+        <address>56 Industrial Estate, Gurgaon - 122001</address>
+    </vendor>
+    <vendor>
+        <name>Stationery World</name>
+        <contact_person>Kavita Reddy</contact_person>
+        <email>kavita@stationeryworld.com</email>
+        <phone>9876543215</phone>
+        <tin_gstin>36AABCS1234F6ZI</tin_gstin>
+        <address>89 Retail Hub, Banjara Hills, Hyderabad - 500034</address>
+    </vendor>
+    <vendor>
+        <name>Lab Equipment Corp</name>
+        <contact_person>Dr. Anil Verma</contact_person>
+        <email>anil@labequip.in</email>
+        <phone>9876543216</phone>
+        <tin_gstin>09AABCL5678G7ZJ</tin_gstin>
+        <address>102 Science Park, Lucknow - 226001</address>
+    </vendor>
+    <vendor>
+        <name>Sports Gear India</name>
+        <contact_person>Rahul Chauhan</contact_person>
+        <email>rahul@sportsgear.in</email>
+        <phone>9876543217</phone>
+        <tin_gstin>07AABCS9012H8ZK</tin_gstin>
+        <address>34 Sports Complex Road, Jalandhar - 144001</address>
+    </vendor>
+</vendors>

@@ -272,6 +272,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'leave-management',
+    loadChildren: () => import('./components/leave-management/leave-management.routes').then(m => m.LEAVE_MANAGEMENT_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'learning-teaching/lms',
     loadChildren: () => import('./components/lms/lms.routes').then(m => m.LMS_ROUTES),
     canActivate: [AuthGuard]

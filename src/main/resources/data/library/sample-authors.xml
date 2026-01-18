@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<authors>
+    <author>
+        <name>R.K. Narayan</name>
+        <biography>Rasipuram Krishnaswami Iyer Narayanaswami was an Indian writer known for his works set in the fictional South Indian town of Malgudi.</biography>
+        <website>https://en.wikipedia.org/wiki/R._K._Narayan</website>
+    </author>
+    <author>
+        <name>Ruskin Bond</name>
+        <biography>Ruskin Bond is an Indian author of British descent, known for his children's literature and stories set in the hills of North India.</biography>
+        <website>https://ruskinbond.com</website>
+    </author>
+    <author>
+        <name>A.P.J. Abdul Kalam</name>
+        <biography>Avul Pakir Jainulabdeen Abdul Kalam was an Indian aerospace scientist who served as the 11th President of India.</biography>
+        <website>https://www.abdulkalam.com</website>
+    </author>
+    <author>
+        <name>Rabindranath Tagore</name>
+        <biography>Rabindranath Tagore was a polymath who reshaped Bengali literature and music. He became the first non-European to win the Nobel Prize in Literature in 1913.</biography>
+        <website>https://www.nobelprize.org/prizes/literature/1913/tagore/biographical/</website>
+    </author>
+    <author>
+        <name>Premchand</name>
+        <biography>Munshi Premchand was a Hindi writer famous for his modern Hindustani literature. He is one of the most celebrated writers of the Indian subcontinent.</biography>
+        <website></website>
+    </author>
+    <author>
+        <name>Vikram Seth</name>
+        <biography>Vikram Seth is an Indian novelist and poet. He has written several novels and poetry books and received several awards including Padma Shri.</biography>
+        <website></website>
+    </author>
+    <author>
+        <name>Arundhati Roy</name>
+        <biography>Arundhati Roy is an Indian author best known for her novel The God of Small Things which won the Man Booker Prize for Fiction in 1997.</biography>
+        <website></website>
+    </author>
+    <author>
+        <name>Amish Tripathi</name>
+        <biography>Amish Tripathi is an Indian author known for his fiction novels based on Indian mythology, particularly the Shiva Trilogy.</biography>
+        <website>https://www.authoramish.com</website>
+    </author>
+    <author>
+        <name>Chetan Bhagat</name>
+        <biography>Chetan Bhagat is an Indian author, columnist, screenwriter, and motivational speaker known for his English-language novels about young urban Indians.</biography>
+        <website>https://www.chetanbhagat.com</website>
+    </author>
+    <author>
+        <name>Sudha Murty</name>
+        <biography>Sudha Murty is an Indian educator, author, and philanthropist. She is the chairperson of the Infosys Foundation and has authored numerous books.</biography>
+        <website></website>
+    </author>
+</authors>

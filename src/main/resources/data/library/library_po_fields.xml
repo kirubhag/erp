@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="LIBRARY_PO">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Unique identifier for the purchase order</fieldDescription>
     </field>
     <field>
         <fieldName>autoNumber</fieldName>
-        <fieldLabel>Library PO Code</fieldLabel>
+        <fieldLabel>PO Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
         <displayOrder>2</displayOrder>
@@ -24,39 +26,73 @@
         <showType>1</showType>
         <maxLength>50</maxLength>
         <fieldDescription>Auto-generated unique code for Library PO</fieldDescription>
-        <fieldProperties>{"prefix":"LIB-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+        <fieldProperties>{"prefix":"LPO-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
-        <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>vendor</fieldName>
+        <fieldLabel>Vendor</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>116</uiType>
         <displayOrder>3</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Vendor for the purchase order</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>orderDate</fieldName>
+        <fieldLabel>Order Date</fieldLabel>
+        <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <displayOrder>4</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Date of the purchase order</fieldDescription>
+    </field>
+    <field>
+        <fieldName>totalAmount</fieldName>
+        <fieldLabel>Total Amount</fieldLabel>
+        <fieldType>DECIMAL</fieldType>
+        <uiType>103</uiType>
+        <decimalPlaces>2</decimalPlaces>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Total amount of the purchase order</fieldDescription>
+    </field>
+    <field>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
+        <picklistOptions>DRAFT,SENT,PARTIAL,COMPLETED</picklistOptions>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Current PO status</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Whether the PO is active</fieldDescription>
     </field>
 </entityFields>

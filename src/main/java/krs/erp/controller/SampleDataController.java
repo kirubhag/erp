@@ -133,7 +133,11 @@ public class SampleDataController {
         entities.add(createEntityInfo("payroll", "Payroll Data (Generated)"));
         entities.add(createEntityInfo("leaves", "Leave Management (Types & Balances)"));
         entities.add(createEntityInfo("performance", "Performance Evaluation (Cycles & Reviews)"));
-        entities.add(createEntityInfo("inventory", "Inventory & Asset Management (Assets, Stock, Vendors)"));
+        entities.add(createEntityInfo("inventory", "Inventory & Asset Management (All - Assets, Consumables, Vendors, POs)"));
+        entities.add(createEntityInfo("assets", "Fixed Assets (Electronics, Furniture, Lab Equipment)"));
+        entities.add(createEntityInfo("consumables", "Consumable Items (Stationery, Cleaning, Chemicals, IT Supplies)"));
+        entities.add(createEntityInfo("vendors", "Vendors/Suppliers"));
+        entities.add(createEntityInfo("purchase_orders", "Purchase Orders"));
         entities.add(createEntityInfo("maintenance", "Maintenance & Facility Management"));
         entities.add(createEntityInfo("reporting", "Reporting & Analytics / MIS"));
         entities.add(createEntityInfo("documents", "Document Management"));
@@ -163,7 +167,11 @@ public class SampleDataController {
         entities.add(createEntityInfo("budgets", "Budgets (Department budgets with tracking)"));
         entities.add(createEntityInfo("bank_statements", "Bank Statements (Bank reconciliation data)"));
 
-        entities.add(createEntityInfo("library", "Library Management"));
+        entities.add(createEntityInfo("library", "Library Management (All - Authors, Publishers, Resources, Items)"));
+        entities.add(createEntityInfo("authors", "Library Authors (10 Indian authors)"));
+        entities.add(createEntityInfo("publishers", "Library Publishers (10 Indian publishers)"));
+        entities.add(createEntityInfo("library_resources", "Library Resources (20 books, journals, ebooks)"));
+        entities.add(createEntityInfo("resource_items", "Resource Items (25 physical copies for circulation)"));
         entities.add(createEntityInfo("lms", "Learning Management System (LMS)"));
         entities.add(createEntityInfo("tpd", "Staff Training & Growth (TPD)"));
         entities.add(createEntityInfo("competencies", "PD Competencies (XML)"));
@@ -298,7 +306,19 @@ public class SampleDataController {
                         dataImportService.generatePerformanceSampleData();
                         handledBySpecialMethod = true;
                     } else if (normalizedName.equalsIgnoreCase("inventory")) {
-                        dataImportService.generateInventorySampleData();
+                        dataImportService.importInventorySampleDataFromXml();
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("assets")) {
+                        dataImportService.importAssetsDataFromXml("data/inventory/sample-assets.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("consumables")) {
+                        dataImportService.importConsumablesDataFromXml("data/inventory/sample-consumables.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("vendors")) {
+                        dataImportService.importVendorsDataFromXml("data/inventory/sample-vendors.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("purchase_orders")) {
+                        dataImportService.importPurchaseOrdersDataFromXml("data/inventory/sample-purchase-orders.xml");
                         handledBySpecialMethod = true;
                     } else if (normalizedName.equalsIgnoreCase("maintenance")) {
                         dataImportService.generateMaintenanceSampleData();
@@ -328,7 +348,19 @@ public class SampleDataController {
                         dataImportService.generateAccountingSampleData();
                         handledBySpecialMethod = true;
                     } else if (normalizedName.equalsIgnoreCase("library")) {
-                        dataImportService.generateLibrarySampleData();
+                        dataImportService.importLibrarySampleDataFromXml();
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("authors")) {
+                        dataImportService.importAuthorsDataFromXml("data/library/sample-authors.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("publishers")) {
+                        dataImportService.importPublishersDataFromXml("data/library/sample-publishers.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("library_resources")) {
+                        dataImportService.importLibraryResourcesDataFromXml("data/library/sample-resources.xml");
+                        handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("resource_items")) {
+                        dataImportService.importResourceItemsDataFromXml("data/library/sample-resource-items.xml");
                         handledBySpecialMethod = true;
                     } else if (normalizedName.equalsIgnoreCase("lms")) {
                         dataImportService.generateLmsSampleData();
@@ -399,7 +431,7 @@ public class SampleDataController {
                         } else if (entityName.equalsIgnoreCase("performance")) {
                             dataImportService.generatePerformanceSampleData();
                         } else if (entityName.equalsIgnoreCase("inventory")) {
-                            dataImportService.generateInventorySampleData();
+                            dataImportService.importInventorySampleDataFromXml();
                         } else if (entityName.equalsIgnoreCase("maintenance")) {
                             dataImportService.generateMaintenanceSampleData();
                         } else if (entityName.equalsIgnoreCase("reporting")) {

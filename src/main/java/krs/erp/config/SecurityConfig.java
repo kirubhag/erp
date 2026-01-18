@@ -99,6 +99,11 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/entities/**").permitAll() // Allow entity endpoints for dev/testing
                                                 .requestMatchers("/api/fields/**").permitAll() // Allow entity fields metadata endpoints for dev/testing
                                                 .requestMatchers("/api/module/**").permitAll() // Allow module/tab groups endpoints for dev/testing
+                                                .requestMatchers("/api/library/**").permitAll() // Allow library management endpoints for dev/testing
+                                                .requestMatchers("/api/leave/**").permitAll() // Allow leave management endpoints for dev/testing
+                                                .requestMatchers("/api/hr/**").permitAll() // Allow HR management endpoints for dev/testing
+                                                .requestMatchers("/api/inventory/**").permitAll() // Allow inventory management endpoints for dev/testing
+                                                .requestMatchers("/api/finance/**").permitAll() // Allow finance management endpoints for dev/testing
                                                 .requestMatchers("/api/iam/**").permitAll() // Allow IAM user management endpoints for dev/testing
                                                 .requestMatchers("/api/v1/sample-data/**").authenticated() // Sample data requires auth to populate owner_id
                                                 .requestMatchers("/api/sample-data/**").authenticated() // Sample data requires auth to populate owner_id
@@ -118,6 +123,17 @@ public class SecurityConfig {
                                                                 "/erp-app-*.js")
                                                 .permitAll()
                                                 .anyRequest().authenticated())
+                                .exceptionHandling(exception -> exception
+                                                .authenticationEntryPoint((request, response, authException) -> {
+                                                        // For API requests, return 401 JSON instead of redirecting to login
+                                                        if (request.getRequestURI().startsWith("/api/")) {
+                                                                response.setStatus(401);
+                                                                response.setContentType("application/json");
+                                                                response.getWriter().write("{\"error\":\"Unauthorized\",\"message\":\"Authentication required\"}");
+                                                        } else {
+                                                                response.sendRedirect("/login");
+                                                        }
+                                                }))
                                 .httpBasic(basic -> basic.disable())
                                 .formLogin(form -> form
                                                 .loginPage("/login")

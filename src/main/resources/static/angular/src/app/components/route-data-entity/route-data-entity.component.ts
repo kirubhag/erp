@@ -140,7 +140,21 @@ export class RouteDataEntityComponent implements OnInit, OnDestroy {
       'BANK_STATEMENT': 'bank-statements',
       'MESSAGE': 'messages',
       'ANNOUNCEMENT': 'announcements',
-      'SUPPORT_TICKET': 'tickets'
+      'SUPPORT_TICKET': 'tickets',
+      // Library module
+      'AUTHOR': 'author',
+      'PUBLISHER': 'publisher',
+      'LIBRARY_RESOURCE': 'library-resource',
+      'RESOURCE_ITEM': 'resource-item',
+      'LIBRARY_LOAN': 'library-loan',
+      'LIBRARY_HOLD': 'library-hold',
+      'LIBRARY_POLICY': 'library-policy',
+      'LIBRARY_PURCHASE_REQUEST': 'library-purchase-request',
+      'LIBRARY_PO': 'library-po',
+      // Leave Management module
+      'LEAVE_TYPE': 'leave_type',
+      'LEAVE_REQUEST': 'leave_request',
+      'LEAVE_BALANCE': 'leave_balance'
     };
 
     return entityTypeMap[this.entityType] || this.entityType.toLowerCase().replace(/_/g, '-');
@@ -206,6 +220,7 @@ export class RouteDataEntityComponent implements OnInit, OnDestroy {
     
     // Try common patterns
     const commonEndpoints: { [key: string]: string } = {
+      // Finance module
       'FEE_TYPE': '/api/finance/fee-types',
       'FEE_STRUCTURE': '/api/finance/fee-structures',
       'FEE_DISCOUNT_RULE': '/api/finance/discounts',
@@ -225,6 +240,30 @@ export class RouteDataEntityComponent implements OnInit, OnDestroy {
       'ACCOUNTING_PERIOD': '/api/finance/accounting-periods',
       'BUDGET': '/api/finance/budgets',
       'BANK_STATEMENT': '/api/finance/bank-statements',
+      
+      // Inventory / Assets & Supplies module
+      'ASSET': '/api/inventory/assets',
+      'CONSUMABLE': '/api/inventory/consumables',
+      'VENDOR': '/api/inventory/vendors',
+      'PURCHASE_ORDER': '/api/inventory/purchase-orders',
+      
+      // Library module
+      'AUTHOR': '/api/library/authors',
+      'PUBLISHER': '/api/library/publishers',
+      'LIBRARY_RESOURCE': '/api/library/resources',
+      'RESOURCE_ITEM': '/api/library/items',
+      'LIBRARY_LOAN': '/api/library/loans',
+      'LIBRARY_HOLD': '/api/library/holds',
+      'LIBRARY_POLICY': '/api/library/policies',
+      'LIBRARY_PURCHASE_REQUEST': '/api/library/purchase-requests',
+      'LIBRARY_PO': '/api/library/pos',
+      
+      // Leave Management module
+      'LEAVE_TYPE': '/api/hr/leave-types',
+      'LEAVE_REQUEST': '/api/hr/leave-requests',
+      'LEAVE_BALANCE': '/api/hr/leave-balances',
+      
+      // Communication module
       'MESSAGE': '/api/setup/communication/messages',
       'ANNOUNCEMENT': '/api/setup/communication/announcements',
       'SUPPORT_TICKET': '/api/setup/communication/tickets'

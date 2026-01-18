@@ -182,11 +182,15 @@
         <sequence>8</sequence>
         <description>Books, resources, loans, and memberships</description>
         <entities>
-            <entity>LibraryResource</entity>
-            <entity>LibraryLoan</entity>
-            <entity>LibraryHold</entity>
-            <entity>LibraryItem</entity>
-            <entity>LibraryPolicy</entity>
+            <entity>Author</entity>
+            <entity>Publisher</entity>
+            <entity>Library Resource</entity>
+            <entity>Resource Item</entity>
+            <entity>Library Loan</entity>
+            <entity>Library Hold</entity>
+            <entity>Library Policy</entity>
+            <entity>Library Purchase Request</entity>
+            <entity>Library PO</entity>
         </entities>
     </tab_group>
 

@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="LIBRARY_PURCHASE_REQUEST">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Unique identifier for the purchase request</fieldDescription>
     </field>
     <field>
         <fieldName>autoNumber</fieldName>
-        <fieldLabel>Library Purchase Request Code</fieldLabel>
+        <fieldLabel>Request Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
         <displayOrder>2</displayOrder>
@@ -23,51 +25,88 @@
         <isSortable>true</isSortable>
         <showType>1</showType>
         <maxLength>50</maxLength>
-        <fieldDescription>Auto-generated unique code for Library Purchase Request</fieldDescription>
-        <fieldProperties>{"prefix":"LIB-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+        <fieldDescription>Auto-generated unique code for Purchase Request</fieldDescription>
+        <fieldProperties>{"prefix":"PRQ-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>title</fieldName>
+        <fieldLabel>Title</fieldLabel>
         <fieldType>STRING</fieldType>
-        <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>3</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>250</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Requested resource title</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>author</fieldName>
+        <fieldLabel>Author</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>4</displayOrder>
+        <defaultWidth>150</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Author of the requested resource</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>reason</fieldName>
+        <fieldLabel>Reason</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <displayOrder>5</displayOrder>
+        <defaultWidth>300</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Reason for the purchase request</fieldDescription>
+    </field>
+    <field>
+        <fieldName>requestedBy</fieldName>
+        <fieldLabel>Requested By</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>116</uiType>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>User who made the request</fieldDescription>
+    </field>
+    <field>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
+        <picklistOptions>PENDING,APPROVED,ORDERED,REJECTED</picklistOptions>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Current request status</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Whether the request is active</fieldDescription>
     </field>
 </entityFields>

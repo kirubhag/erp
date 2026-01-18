@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="LIBRARY_HOLD">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Unique identifier for the hold</fieldDescription>
     </field>
     <field>
         <fieldName>autoNumber</fieldName>
-        <fieldLabel>Library Hold Code</fieldLabel>
+        <fieldLabel>Hold Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
         <displayOrder>2</displayOrder>
@@ -23,40 +25,73 @@
         <isSortable>true</isSortable>
         <showType>1</showType>
         <maxLength>50</maxLength>
-        <fieldDescription>Auto-generated unique code for Library Hold</fieldDescription>
-        <fieldProperties>{"prefix":"LIB-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+        <fieldDescription>Auto-generated unique code for Hold</fieldDescription>
+        <fieldProperties>{"prefix":"HLD-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
-        <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>resource</fieldName>
+        <fieldLabel>Resource</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>116</uiType>
         <displayOrder>3</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Library resource on hold</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>user</fieldName>
+        <fieldLabel>User</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>116</uiType>
         <displayOrder>4</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>User who placed the hold</fieldDescription>
+    </field>
+    <field>
+        <fieldName>requestDate</fieldName>
+        <fieldLabel>Request Date</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <uiType>107</uiType>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Date and time when the hold was placed</fieldDescription>
+    </field>
+    <field>
+        <fieldName>status</fieldName>
+        <fieldLabel>Status</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
+        <picklistOptions>WAITING,FULFILLED,CANCELLED</picklistOptions>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Current hold status</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Whether the hold is active</fieldDescription>
     </field>
 </entityFields>

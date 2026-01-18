@@ -602,8 +602,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                                 "last_modified_date = ?, last_modified_by = ?",
                         singularName, pluralName, systemName, description, tableName, pkid, displayColumn,
                         hasRelTable, icon, route, sequence, presence, isActive, LocalDateTime.now(),
-                        LocalDateTime.now(), "SYSTEM", "SYSTEM",
-                        LocalDateTime.now(), "SYSTEM");
+                        LocalDateTime.now(), null, null,
+                        LocalDateTime.now(), null);
                 loaded++;
             }
 
@@ -817,7 +817,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                                     "created_by, created_time, modified_time, is_active) " +
                                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                             viewName, description, entityType, isDefault, isPublic,
-                            "system", LocalDateTime.now(), LocalDateTime.now(), 1);
+                            null, LocalDateTime.now(), LocalDateTime.now(), 1);
 
                     // Get generated view ID
                     customViewId = masterJdbcTemplate.queryForObject(
@@ -910,7 +910,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                                     "created_by, created_time, modified_time) " +
                                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                             name, code, icon, routePath, description, sequence, 1,
-                            "system", LocalDateTime.now(), LocalDateTime.now());
+                            null, LocalDateTime.now(), LocalDateTime.now());
 
                     // Get generated tab group ID
                     tabGroupId = masterJdbcTemplate.queryForObject(
@@ -944,7 +944,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                                         "(tab_group_id, entity_id, sequence, is_active, created_by, created_time, modified_time) "
                                         +
                                         "VALUES (?, ?, ?, ?, ?, ?, ?)",
-                                tabGroupId, entityId, j + 1, 1, "system", LocalDateTime.now(), LocalDateTime.now());
+                                tabGroupId, entityId, j + 1, 1, null, LocalDateTime.now(), LocalDateTime.now());
                     }
                 }
 

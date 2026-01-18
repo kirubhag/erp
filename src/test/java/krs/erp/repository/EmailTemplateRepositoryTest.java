@@ -130,11 +130,11 @@ class EmailTemplateRepositoryTest {
     }
     
     @Test
-    void testFindByCreatedByIgnoreCase() {
+    void testFindByCreatedBy() {
         template1.setCreatedBy(1L);
         emailTemplateRepository.save(template1);
         
-        List<EmailTemplate> templates = emailTemplateRepository.findByCreatedByIgnoreCase("admin@test.com");
+        List<EmailTemplate> templates = emailTemplateRepository.findByCreatedBy(1L);
         assertThat(templates).hasSize(1);
     }
     

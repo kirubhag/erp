@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assets>
+    <!-- Electronics - Computers -->
+    <asset>
+        <name>MacBook Air M2 13-inch</name>
+        <asset_tag>AST-LAP-001</asset_tag>
+        <serial_number>FVFXN2M1Q6LY</serial_number>
+        <type>Electronics</type>
+        <purchase_date>2024-06-15</purchase_date>
+        <status>ASSIGNED</status>
+        <location>Computer Lab 1</location>
+        <assigned_staff_id>1</assigned_staff_id>
+    </asset>
+    <asset>
+        <name>Dell Latitude 7420</name>
+        <asset_tag>AST-LAP-002</asset_tag>
+        <serial_number>5CG1234XYZ</serial_number>
+        <type>Electronics</type>
+        <purchase_date>2024-07-20</purchase_date>
+        <status>AVAILABLE</status>
+        <location>IT Storage Room</location>
+    </asset>
+    <asset>
+        <name>HP ProBook 450 G9</name>
+        <asset_tag>AST-LAP-003</asset_tag>
+        <serial_number>5CD3456ABC</serial_number>
+        <type>Electronics</type>
+        <purchase_date>2024-08-10</purchase_date>
+        <status>ASSIGNED</status>
+        <location>Admin Office</location>
+        <assigned_staff_id>2</assigned_staff_id>
+    </asset>
+    <asset>
+        <name>Lenovo ThinkCentre M70q</name>
+        <asset_tag>AST-DES-001</asset_tag>
+        <serial_number>PF2ABCD12</serial_number>
+        <type>Electronics</type>
+        <purchase_date>2024-05-01</purchase_date>
+        <status>AVAILABLE</status>
+        <location>Computer Lab 2</location>
+    </asset>
+    
+    <!-- Electronics - Projectors -->
+    <asset>
+        <name>Epson EB-X51 Projector</name>
+        <asset_tag>AST-PRJ-001</asset_tag>
+        <serial_number>XPRJ789012</serial_number>
+        <type>Electronics</type>
+        <purchase_date>2024-03-15</purchase_date>
+        <status>ASSIGNED</status>
+        <location>Conference Room A</location>
+        <assigned_staff_id>3</assigned_staff_id>
+    </asset>
+    <asset>
+        <name>BenQ MH733 Projector</name>
+        <asset_tag>AST-PRJ-002</asset_tag>
+        <serial_number>BPRJ345678</serial_number>
+        <type>Electronics</type>
+        <purchase_date>2024-04-20</purchase_date>
+        <status>UNDER_REPAIR</status>
+        <location>Service Center</location>
+    </asset>
+    
+    <!-- Electronics - Printers -->
+    <asset>
+        <name>HP LaserJet Pro M404dn</name>
+        <asset_tag>AST-PRT-001</asset_tag>
+        <serial_number>VNBCN12345</serial_number>
+        <type>Electronics</type>
+        <purchase_date>2024-02-10</purchase_date>
+        <status>AVAILABLE</status>
+        <location>Admin Block - Ground Floor</location>
+    </asset>
+    <asset>
+        <name>Canon imageCLASS MF445dw</name>
+        <asset_tag>AST-PRT-002</asset_tag>
+        <serial_number>CPRN678901</serial_number>
+        <type>Electronics</type>
+        <purchase_date>2024-01-25</purchase_date>
+        <status>ASSIGNED</status>
+        <location>Staff Room</location>
+        <assigned_staff_id>4</assigned_staff_id>
+    </asset>
+    
+    <!-- Furniture -->
+    <asset>
+        <name>Ergonomic Executive Chair</name>
+        <asset_tag>AST-FUR-001</asset_tag>
+        <serial_number>CHAIR001234</serial_number>
+        <type>Furniture</type>
+        <purchase_date>2023-11-15</purchase_date>
+        <status>ASSIGNED</status>
+        <location>Principal Office</location>
+        <assigned_staff_id>1</assigned_staff_id>
+    </asset>
+    <asset>
+        <name>Student Desk with Storage</name>
+        <asset_tag>AST-FUR-002</asset_tag>
+        <serial_number>DESK002345</serial_number>
+        <type>Furniture</type>
+        <purchase_date>2023-12-01</purchase_date>
+        <status>AVAILABLE</status>
+        <location>Classroom 5A</location>
+    </asset>
+    <asset>
+        <name>Steel Bookshelf 6-Tier</name>
+        <asset_tag>AST-FUR-003</asset_tag>
+        <serial_number>SHELF003456</serial_number>
+        <type>Furniture</type>
+        <purchase_date>2024-01-10</purchase_date>
+        <status>AVAILABLE</status>
+        <location>Library</location>
+    </asset>
+    <asset>
+        <name>Conference Table 12-Seater</name>
+        <asset_tag>AST-FUR-004</asset_tag>
+        <serial_number>TABLE004567</serial_number>
+        <type>Furniture</type>
+        <purchase_date>2023-09-20</purchase_date>
+        <status>AVAILABLE</status>
+        <location>Conference Room B</location>
+    </asset>
+    
+    <!-- Lab Equipment -->
+    <asset>
+        <name>Digital Microscope 1000x</name>
+        <asset_tag>AST-LAB-001</asset_tag>
+        <serial_number>MICRO001234</serial_number>
+        <type>Lab Equipment</type>
+        <purchase_date>2024-04-05</purchase_date>
+        <status>AVAILABLE</status>
+        <location>Biology Lab</location>
+    </asset>
+    <asset>
+        <name>Chemistry Lab Fume Hood</name>
+        <asset_tag>AST-LAB-002</asset_tag>
+        <serial_number>FUME002345</serial_number>
+        <type>Lab Equipment</type>
+        <purchase_date>2024-02-28</purchase_date>
+        <status>AVAILABLE</status>
+        <location>Chemistry Lab</location>
+    </asset>
+    <asset>
+        <name>Physics Oscilloscope</name>
+        <asset_tag>AST-LAB-003</asset_tag>
+        <serial_number>OSCIL003456</serial_number>
+        <type>Lab Equipment</type>
+        <purchase_date>2024-03-10</purchase_date>
+        <status>ASSIGNED</status>
+        <location>Physics Lab</location>
+        <assigned_staff_id>5</assigned_staff_id>
+    </asset>
+    
+    <!-- Sports Equipment -->
+    <asset>
+        <name>Indoor Basketball Hoop System</name>
+        <asset_tag>AST-SPT-001</asset_tag>
+        <serial_number>BBALL001234</serial_number>
+        <type>Sports Equipment</type>
+        <purchase_date>2024-05-15</purchase_date>
+        <status>AVAILABLE</status>
+        <location>Indoor Sports Hall</location>
+    </asset>
+    <asset>
+        <name>Table Tennis Table Competition</name>
+        <asset_tag>AST-SPT-002</asset_tag>
+        <serial_number>TTABLE002345</serial_number>
+        <type>Sports Equipment</type>
+        <purchase_date>2024-06-01</purchase_date>
+        <status>AVAILABLE</status>
+        <location>Games Room</location>
+    </asset>
+    
+    <!-- Audio/Visual -->
+    <asset>
+        <name>PA System 500W with Speakers</name>
+        <asset_tag>AST-AV-001</asset_tag>
+        <serial_number>PASYS001234</serial_number>
+        <type>Audio/Visual</type>
+        <purchase_date>2024-07-10</purchase_date>
+        <status>AVAILABLE</status>
+        <location>Auditorium</location>
+    </asset>
+    <asset>
+        <name>Interactive Smart Board 75-inch</name>
+        <asset_tag>AST-AV-002</asset_tag>
+        <serial_number>SMRT002345</serial_number>
+        <type>Audio/Visual</type>
+        <purchase_date>2024-08-01</purchase_date>
+        <status>ASSIGNED</status>
+        <location>Smart Classroom 1</location>
+        <assigned_staff_id>6</assigned_staff_id>
+    </asset>
+</assets>

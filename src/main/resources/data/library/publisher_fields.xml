@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="PUBLISHER">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Unique identifier for the publisher</fieldDescription>
     </field>
     <field>
         <fieldName>autoNumber</fieldName>
@@ -27,25 +29,58 @@
         <fieldProperties>{"prefix":"PUB-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>name</fieldName>
+        <fieldLabel>Name</fieldLabel>
         <fieldType>STRING</fieldType>
-        <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
+        <uiType>100</uiType>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Publisher's name</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>address</fieldName>
+        <fieldLabel>Address</fieldLabel>
         <fieldType>STRING</fieldType>
-        <displayOrder>3</displayOrder>
+        <uiType>100</uiType>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>250</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <maxLength>500</maxLength>
+        <fieldDescription>Publisher's address</fieldDescription>
+    </field>
+    <field>
+        <fieldName>contactInfo</fieldName>
+        <fieldLabel>Contact Info</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>1</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Publisher's contact information</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Whether the publisher is active</fieldDescription>
     </field>
 </entityFields>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<purchase_orders>
+    <purchase_order>
+        <po_number>PO-2025-001</po_number>
+        <vendor_name>Global Systems India Pvt Ltd</vendor_name>
+        <order_date>2025-01-05</order_date>
+        <total_amount>185000.00</total_amount>
+        <status>RECEIVED</status>
+    </purchase_order>
+    <purchase_order>
+        <po_number>PO-2025-002</po_number>
+        <vendor_name>Elite Furniture Solutions</vendor_name>
+        <order_date>2025-01-08</order_date>
+        <total_amount>75000.00</total_amount>
+        <status>RECEIVED</status>
+    </purchase_order>
+    <purchase_order>
+        <po_number>PO-2025-003</po_number>
+        <vendor_name>Office Pro Supplies</vendor_name>
+        <order_date>2025-01-10</order_date>
+        <total_amount>32500.00</total_amount>
+        <status>ORDERED</status>
+    </purchase_order>
+    <purchase_order>
+        <po_number>PO-2025-004</po_number>
+        <vendor_name>TechMart Electronics</vendor_name>
+        <order_date>2025-01-12</order_date>
+        <total_amount>245000.00</total_amount>
+        <status>ORDERED</status>
+    </purchase_order>
+    <purchase_order>
+        <po_number>PO-2025-005</po_number>
+        <vendor_name>CleanCare Products</vendor_name>
+        <order_date>2025-01-14</order_date>
+        <total_amount>18500.00</total_amount>
+        <status>DRAFT</status>
+    </purchase_order>
+    <purchase_order>
+        <po_number>PO-2025-006</po_number>
+        <vendor_name>Stationery World</vendor_name>
+        <order_date>2025-01-15</order_date>
+        <total_amount>28000.00</total_amount>
+        <status>DRAFT</status>
+    </purchase_order>
+    <purchase_order>
+        <po_number>PO-2025-007</po_number>
+        <vendor_name>Lab Equipment Corp</vendor_name>
+        <order_date>2024-12-20</order_date>
+        <total_amount>125000.00</total_amount>
+        <status>RECEIVED</status>
+    </purchase_order>
+    <purchase_order>
+        <po_number>PO-2025-008</po_number>
+        <vendor_name>Sports Gear India</vendor_name>
+        <order_date>2024-12-28</order_date>
+        <total_amount>65000.00</total_amount>
+        <status>RECEIVED</status>
+    </purchase_order>
+    <purchase_order>
+        <po_number>PO-2024-050</po_number>
+        <vendor_name>Global Systems India Pvt Ltd</vendor_name>
+        <order_date>2024-11-15</order_date>
+        <total_amount>320000.00</total_amount>
+        <status>RECEIVED</status>
+    </purchase_order>
+    <purchase_order>
+        <po_number>PO-2024-051</po_number>
+        <vendor_name>Elite Furniture Solutions</vendor_name>
+        <order_date>2024-11-20</order_date>
+        <total_amount>95000.00</total_amount>
+        <status>RECEIVED</status>
+    </purchase_order>
+</purchase_orders>

@@ -470,23 +470,6 @@ CREATE TABLE IF NOT EXISTS erp_budgets (
     is_active INT DEFAULT 1
 );
 
--- Table generated from JPA: erp_cal_calendar_days
-CREATE TABLE IF NOT EXISTS erp_cal_calendar_days (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    auto_number VARCHAR(255) DEFAULT NULL,
-    calendar_date DATE NOT NULL,
-    day_type VARCHAR(255),
-    description VARCHAR(255),
-    is_holiday BOOLEAN,
-    event_id BIGINT,
-    created_by BIGINT,
-    modified_by BIGINT,
-    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    owner_id BIGINT,
-    is_active INT DEFAULT 1
-);
-
 -- Table generated from JPA: erp_cal_events
 CREATE TABLE IF NOT EXISTS erp_cal_events (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -934,6 +917,7 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     show_in_form BOOLEAN DEFAULT true,
     column_width VARCHAR(50) DEFAULT 'medium',
     show_type INT DEFAULT 0,
+    field_properties TEXT,
     created_by BIGINT,
     modified_by BIGINT,
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1318,7 +1302,7 @@ CREATE TABLE IF NOT EXISTS erp_library_authors (
     auto_number VARCHAR(255) DEFAULT NULL,
     name VARCHAR(255) NOT NULL,
     biography TEXT,
-    nationality VARCHAR(100),
+    website VARCHAR(255),
     created_by BIGINT,
     modified_by BIGINT,
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1453,9 +1437,9 @@ CREATE TABLE IF NOT EXISTS erp_library_resources (
     title VARCHAR(255) NOT NULL,
     format VARCHAR(50) NOT NULL,
     isbn_issn VARCHAR(255),
-    language VARCHAR(50),
-    published_year INT,
     edition VARCHAR(100),
+    year INT,
+    category VARCHAR(255),
     digital_path VARCHAR(500),
     description TEXT,
     author_id BIGINT,
@@ -3169,4 +3153,73 @@ CREATE TABLE IF NOT EXISTS erp_payment_logs (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_erp_pay_user (user_id),
     INDEX idx_erp_pay_order (razorpay_order_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- Table: erp_cal_holidays
+-- Calendar holidays for academic scheduling
+CREATE TABLE IF NOT EXISTS erp_cal_holidays (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    holiday_date DATE NOT NULL,
+    holiday_type VARCHAR(255),
+    description VARCHAR(255),
+    applicable_to VARCHAR(255),
+    is_optional BOOLEAN DEFAULT false,
+    created_by BIGINT,
+    modified_by BIGINT,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    UNIQUE KEY uk_holiday_date (holiday_date)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- Table: erp_hr_departments
+-- HR Departments for organizational structure
+CREATE TABLE IF NOT EXISTS erp_hr_departments (
+    department_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    department_code VARCHAR(255),
+    description VARCHAR(255),
+    head_of_department_name VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    UNIQUE KEY uk_department_name (name),
+    UNIQUE KEY uk_department_code (department_code)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- Table: erp_hr_designations
+-- HR Designations/Job titles
+CREATE TABLE IF NOT EXISTS erp_hr_designations (
+    designation_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(255),
+    rank_level INT,
+    created_by BIGINT,
+    modified_by BIGINT,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    UNIQUE KEY uk_designation_title (title)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- Table: erp_utility_calendar_days
+-- Utility calendar for marking working/non-working days
+CREATE TABLE IF NOT EXISTS erp_utility_calendar_days (
+    calendar_day_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    date DATE,
+    type VARCHAR(255),
+    description VARCHAR(255),
+    is_holiday BOOLEAN NOT NULL DEFAULT false,
+    created_by BIGINT,
+    modified_by BIGINT,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;

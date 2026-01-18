@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!-- Fiction Books -->
+    <resource>
+        <title>The Guide</title>
+        <format>BOOK</format>
+        <isbn_issn>978-0143039648</isbn_issn>
+        <author_name>R.K. Narayan</author_name>
+        <publisher_name>Penguin Random House India</publisher_name>
+        <edition>Reprint Edition</edition>
+        <year>2006</year>
+        <category>Fiction</category>
+        <description>A novel set in the fictional town of Malgudi, telling the story of Raju the guide.</description>
+    </resource>
+    <resource>
+        <title>The Room on the Roof</title>
+        <format>BOOK</format>
+        <isbn_issn>978-0143333388</isbn_issn>
+        <author_name>Ruskin Bond</author_name>
+        <publisher_name>Penguin Random House India</publisher_name>
+        <edition>Anniversary Edition</edition>
+        <year>2016</year>
+        <category>Fiction</category>
+        <description>An autobiographical novel about a young Anglo-Indian boy in post-colonial India.</description>
+    </resource>
+    <resource>
+        <title>A Suitable Boy</title>
+        <format>BOOK</format>
+        <isbn_issn>978-0060786526</isbn_issn>
+        <author_name>Vikram Seth</author_name>
+        <publisher_name>HarperCollins Publishers India</publisher_name>
+        <edition>First Edition</edition>
+        <year>1993</year>
+        <category>Fiction</category>
+        <description>A sprawling novel set in post-independence India, following the story of four families.</description>
+    </resource>
+    <resource>
+        <title>The God of Small Things</title>
+        <format>BOOK</format>
+        <isbn_issn>978-0812979657</isbn_issn>
+        <author_name>Arundhati Roy</author_name>
+        <publisher_name>Penguin Random House India</publisher_name>
+        <edition>Reprint Edition</edition>
+        <year>2017</year>
+        <category>Fiction</category>
+        <description>A story of childhood in Kerala, dealing with love laws and social hierarchy.</description>
+    </resource>
+    <resource>
+        <title>The Immortals of Meluha</title>
+        <format>BOOK</format>
+        <isbn_issn>978-9380658742</isbn_issn>
+        <author_name>Amish Tripathi</author_name>
+        <publisher_name>Westland Publications</publisher_name>
+        <edition>First Edition</edition>
+        <year>2010</year>
+        <category>Mythology Fiction</category>
+        <description>First book in the Shiva Trilogy, reimagining Hindu mythology.</description>
+    </resource>
+
+    <!-- Non-Fiction Books -->
+    <resource>
+        <title>Wings of Fire</title>
+        <format>BOOK</format>
+        <isbn_issn>978-8173711466</isbn_issn>
+        <author_name>A.P.J. Abdul Kalam</author_name>
+        <publisher_name>Oxford University Press India</publisher_name>
+        <edition>First Edition</edition>
+        <year>1999</year>
+        <category>Autobiography</category>
+        <description>An autobiography of APJ Abdul Kalam covering his early life and his work in Indian space research.</description>
+    </resource>
+    <resource>
+        <title>Five Point Someone</title>
+        <format>BOOK</format>
+        <isbn_issn>978-8129104595</isbn_issn>
+        <author_name>Chetan Bhagat</author_name>
+        <publisher_name>Rupa Publications</publisher_name>
+        <edition>First Edition</edition>
+        <year>2004</year>
+        <category>Fiction</category>
+        <description>A story about three friends in IIT Delhi and their struggles with academics and life.</description>
+    </resource>
+    <resource>
+        <title>Wise and Otherwise</title>
+        <format>BOOK</format>
+        <isbn_issn>978-0143062516</isbn_issn>
+        <author_name>Sudha Murty</author_name>
+        <publisher_name>Penguin Random House India</publisher_name>
+        <edition>First Edition</edition>
+        <year>2006</year>
+        <category>Non-Fiction</category>
+        <description>A collection of 51 true life stories that will leave you wiser.</description>
+    </resource>
+    <resource>
+        <title>Gitanjali</title>
+        <format>BOOK</format>
+        <isbn_issn>978-0143418252</isbn_issn>
+        <author_name>Rabindranath Tagore</author_name>
+        <publisher_name>Penguin Random House India</publisher_name>
+        <edition>Collector's Edition</edition>
+        <year>2015</year>
+        <category>Poetry</category>
+        <description>A collection of poems that won Tagore the Nobel Prize in Literature.</description>
+    </resource>
+    <resource>
+        <title>Godan</title>
+        <format>BOOK</format>
+        <isbn_issn>978-0143066750</isbn_issn>
+        <author_name>Premchand</author_name>
+        <publisher_name>Penguin Random House India</publisher_name>
+        <edition>English Translation</edition>
+        <year>2012</year>
+        <category>Fiction</category>
+        <description>A classic Hindi novel depicting the life of Indian peasants in colonial India.</description>
+    </resource>
+
+    <!-- Academic/Reference Books -->
+    <resource>
+        <title>NCERT Mathematics Class X</title>
+        <format>BOOK</format>
+        <isbn_issn>978-9350076026</isbn_issn>
+        <author_name>NCERT</author_name>
+        <publisher_name>National Book Trust India</publisher_name>
+        <edition>2023-24 Edition</edition>
+        <year>2023</year>
+        <category>Academic - Mathematics</category>
+        <description>Official NCERT Mathematics textbook for Class 10 students.</description>
+    </resource>
+    <resource>
+        <title>NCERT Science Class X</title>
+        <format>BOOK</format>
+        <isbn_issn>978-9350076019</isbn_issn>
+        <author_name>NCERT</author_name>
+        <publisher_name>National Book Trust India</publisher_name>
+        <edition>2023-24 Edition</edition>
+        <year>2023</year>
+        <category>Academic - Science</category>
+        <description>Official NCERT Science textbook for Class 10 students.</description>
+    </resource>
+    <resource>
+        <title>Oxford English Dictionary</title>
+        <format>BOOK</format>
+        <isbn_issn>978-0199571123</isbn_issn>
+        <author_name>Oxford</author_name>
+        <publisher_name>Oxford University Press India</publisher_name>
+        <edition>12th Edition</edition>
+        <year>2011</year>
+        <category>Reference</category>
+        <description>Comprehensive English dictionary with detailed definitions and word origins.</description>
+    </resource>
+    <resource>
+        <title>Encyclopedia Britannica</title>
+        <format>BOOK</format>
+        <isbn_issn>978-1593392925</isbn_issn>
+        <author_name>Britannica</author_name>
+        <publisher_name>Scholastic India</publisher_name>
+        <edition>Student Edition</edition>
+        <year>2020</year>
+        <category>Reference</category>
+        <description>Student edition of the famous encyclopedia covering various topics.</description>
+    </resource>
+
+    <!-- E-Books and Journals -->
+    <resource>
+        <title>Indian Journal of Physics</title>
+        <format>JOURNAL</format>
+        <isbn_issn>0973-1458</isbn_issn>
+        <author_name>Indian Association for the Cultivation of Science</author_name>
+        <publisher_name>Cambridge University Press India</publisher_name>
+        <edition>Volume 97</edition>
+        <year>2023</year>
+        <category>Academic Journal</category>
+        <description>A peer-reviewed journal publishing research in all areas of physics.</description>
+    </resource>
+    <resource>
+        <title>Learn Python Programming</title>
+        <format>EBOOK</format>
+        <isbn_issn>978-1788996662</isbn_issn>
+        <author_name>Fabrizio Romano</author_name>
+        <publisher_name>Pearson India Education Services</publisher_name>
+        <edition>Second Edition</edition>
+        <year>2018</year>
+        <category>Computer Science</category>
+        <digital_path>/ebooks/learn-python-programming.pdf</digital_path>
+        <description>A comprehensive guide to Python programming for beginners and intermediate learners.</description>
+    </resource>
+    <resource>
+        <title>Data Structures and Algorithms</title>
+        <format>EBOOK</format>
+        <isbn_issn>978-0070495296</isbn_issn>
+        <author_name>Alfred V. Aho</author_name>
+        <publisher_name>McGraw Hill Education India</publisher_name>
+        <edition>First Edition</edition>
+        <year>1983</year>
+        <category>Computer Science</category>
+        <digital_path>/ebooks/data-structures-algorithms.pdf</digital_path>
+        <description>Classic textbook on data structures and algorithms.</description>
+    </resource>
+    <resource>
+        <title>Interactive Science Experiments</title>
+        <format>MULTIMEDIA</format>
+        <isbn_issn>978-8125027096</isbn_issn>
+        <author_name>Discovery Education</author_name>
+        <publisher_name>Scholastic India</publisher_name>
+        <edition>First Edition</edition>
+        <year>2019</year>
+        <category>Educational Multimedia</category>
+        <digital_path>/multimedia/science-experiments-cd</digital_path>
+        <description>Interactive CD-ROM featuring science experiments for school students.</description>
+    </resource>
+    <resource>
+        <title>The Story of India</title>
+        <format>MULTIMEDIA</format>
+        <isbn_issn>978-8176493710</isbn_issn>
+        <author_name>Michael Wood</author_name>
+        <publisher_name>National Book Trust India</publisher_name>
+        <edition>First Edition</edition>
+        <year>2007</year>
+        <category>History Documentary</category>
+        <digital_path>/multimedia/story-of-india-dvd</digital_path>
+        <description>DVD documentary series exploring the history of Indian civilization.</description>
+    </resource>
+</resources>

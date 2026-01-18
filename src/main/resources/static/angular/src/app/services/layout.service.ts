@@ -107,8 +107,20 @@ export class LayoutService {
     if (url === '/' || url === '/dashboard') return;
 
     const groups = this.groups$.value;
+    
+    // First, try to match by tab group's route path prefix (more precise)
     for (const group of groups) {
-      if (group.entities.some(e => url.includes(e.route))) {
+      if (url.startsWith(group.routePath + '/') || url === group.routePath) {
+        if (this.activeGroup.value?.id !== group.id) {
+          this.setActiveGroup(group);
+        }
+        return;
+      }
+    }
+    
+    // Fallback: check if current route belongs to any entity in groups
+    for (const group of groups) {
+      if (group.entities.some(e => url.startsWith(e.route) || url === e.route)) {
         if (this.activeGroup.value?.id !== group.id) {
           this.setActiveGroup(group);
         }

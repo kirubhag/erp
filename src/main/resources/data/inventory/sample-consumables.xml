@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<consumables>
+    <!-- Stationery Items -->
+    <consumable>
+        <name>A4 Paper (80 GSM)</name>
+        <code>CON-STA-001</code>
+        <category>Stationery</category>
+        <unit>Ream</unit>
+        <reorder_level>20</reorder_level>
+        <current_stock>150</current_stock>
+    </consumable>
+    <consumable>
+        <name>Blue Ballpoint Pen</name>
+        <code>CON-STA-002</code>
+        <category>Stationery</category>
+        <unit>Nos</unit>
+        <reorder_level>100</reorder_level>
+        <current_stock>500</current_stock>
+    </consumable>
+    <consumable>
+        <name>Black Ballpoint Pen</name>
+        <code>CON-STA-003</code>
+        <category>Stationery</category>
+        <unit>Nos</unit>
+        <reorder_level>100</reorder_level>
+        <current_stock>450</current_stock>
+    </consumable>
+    <consumable>
+        <name>Whiteboard Marker Set</name>
+        <code>CON-STA-004</code>
+        <category>Stationery</category>
+        <unit>Pack</unit>
+        <reorder_level>15</reorder_level>
+        <current_stock>60</current_stock>
+    </consumable>
+    <consumable>
+        <name>Spiral Notebook 200 Pages</name>
+        <code>CON-STA-005</code>
+        <category>Stationery</category>
+        <unit>Nos</unit>
+        <reorder_level>50</reorder_level>
+        <current_stock>200</current_stock>
+    </consumable>
+    <consumable>
+        <name>Sticky Notes 3x3 inch</name>
+        <code>CON-STA-006</code>
+        <category>Stationery</category>
+        <unit>Pack</unit>
+        <reorder_level>20</reorder_level>
+        <current_stock>80</current_stock>
+    </consumable>
+    <consumable>
+        <name>Stapler Pins No. 10</name>
+        <code>CON-STA-007</code>
+        <category>Stationery</category>
+        <unit>Box</unit>
+        <reorder_level>10</reorder_level>
+        <current_stock>45</current_stock>
+    </consumable>
+    <consumable>
+        <name>Rubber Eraser</name>
+        <code>CON-STA-008</code>
+        <category>Stationery</category>
+        <unit>Nos</unit>
+        <reorder_level>50</reorder_level>
+        <current_stock>300</current_stock>
+    </consumable>
+    <consumable>
+        <name>Highlighter Set (6 Colors)</name>
+        <code>CON-STA-009</code>
+        <category>Stationery</category>
+        <unit>Set</unit>
+        <reorder_level>15</reorder_level>
+        <current_stock>40</current_stock>
+    </consumable>
+    
+    <!-- Cleaning Supplies -->
+    <consumable>
+        <name>Hand Sanitizer 500ml</name>
+        <code>CON-CLN-001</code>
+        <category>Cleaning</category>
+        <unit>Bottle</unit>
+        <reorder_level>20</reorder_level>
+        <current_stock>100</current_stock>
+    </consumable>
+    <consumable>
+        <name>Floor Cleaner 5L</name>
+        <code>CON-CLN-002</code>
+        <category>Cleaning</category>
+        <unit>Can</unit>
+        <reorder_level>10</reorder_level>
+        <current_stock>30</current_stock>
+    </consumable>
+    <consumable>
+        <name>Glass Cleaner 500ml</name>
+        <code>CON-CLN-003</code>
+        <category>Cleaning</category>
+        <unit>Bottle</unit>
+        <reorder_level>15</reorder_level>
+        <current_stock>45</current_stock>
+    </consumable>
+    <consumable>
+        <name>Toilet Cleaner 1L</name>
+        <code>CON-CLN-004</code>
+        <category>Cleaning</category>
+        <unit>Bottle</unit>
+        <reorder_level>15</reorder_level>
+        <current_stock>50</current_stock>
+    </consumable>
+    <consumable>
+        <name>Disinfectant Spray 400ml</name>
+        <code>CON-CLN-005</code>
+        <category>Cleaning</category>
+        <unit>Can</unit>
+        <reorder_level>20</reorder_level>
+        <current_stock>75</current_stock>
+    </consumable>
+    <consumable>
+        <name>Garbage Bags (Large)</name>
+        <code>CON-CLN-006</code>
+        <category>Cleaning</category>
+        <unit>Pack</unit>
+        <reorder_level>10</reorder_level>
+        <current_stock>40</current_stock>
+    </consumable>
+    <consumable>
+        <name>Microfiber Cleaning Cloth</name>
+        <code>CON-CLN-007</code>
+        <category>Cleaning</category>
+        <unit>Nos</unit>
+        <reorder_level>20</reorder_level>
+        <current_stock>100</current_stock>
+    </consumable>
+    
+    <!-- Lab Chemicals -->
+    <consumable>
+        <name>Hydrochloric Acid 500ml</name>
+        <code>CON-CHM-001</code>
+        <category>Chemicals</category>
+        <unit>Bottle</unit>
+        <reorder_level>5</reorder_level>
+        <current_stock>20</current_stock>
+    </consumable>
+    <consumable>
+        <name>Sodium Hydroxide 500g</name>
+        <code>CON-CHM-002</code>
+        <category>Chemicals</category>
+        <unit>Bottle</unit>
+        <reorder_level>5</reorder_level>
+        <current_stock>15</current_stock>
+    </consumable>
+    <consumable>
+        <name>Ethanol 1L</name>
+        <code>CON-CHM-003</code>
+        <category>Chemicals</category>
+        <unit>Bottle</unit>
+        <reorder_level>5</reorder_level>
+        <current_stock>25</current_stock>
+    </consumable>
+    <consumable>
+        <name>Litmus Paper (Pack of 100)</name>
+        <code>CON-CHM-004</code>
+        <category>Chemicals</category>
+        <unit>Pack</unit>
+        <reorder_level>10</reorder_level>
+        <current_stock>50</current_stock>
+    </consumable>
+    
+    <!-- IT Consumables -->
+    <consumable>
+        <name>Printer Toner HP 26A</name>
+        <code>CON-IT-001</code>
+        <category>IT Supplies</category>
+        <unit>Cartridge</unit>
+        <reorder_level>3</reorder_level>
+        <current_stock>10</current_stock>
+    </consumable>
+    <consumable>
+        <name>USB Flash Drive 32GB</name>
+        <code>CON-IT-002</code>
+        <category>IT Supplies</category>
+        <unit>Nos</unit>
+        <reorder_level>10</reorder_level>
+        <current_stock>30</current_stock>
+    </consumable>
+    <consumable>
+        <name>HDMI Cable 3m</name>
+        <code>CON-IT-003</code>
+        <category>IT Supplies</category>
+        <unit>Nos</unit>
+        <reorder_level>5</reorder_level>
+        <current_stock>15</current_stock>
+    </consumable>
+    <consumable>
+        <name>Mouse Pad Standard</name>
+        <code>CON-IT-004</code>
+        <category>IT Supplies</category>
+        <unit>Nos</unit>
+        <reorder_level>10</reorder_level>
+        <current_stock>50</current_stock>
+    </consumable>
+    
+    <!-- Medical Supplies -->
+    <consumable>
+        <name>First Aid Bandage Roll</name>
+        <code>CON-MED-001</code>
+        <category>Medical</category>
+        <unit>Roll</unit>
+        <reorder_level>20</reorder_level>
+        <current_stock>100</current_stock>
+    </consumable>
+    <consumable>
+        <name>Antiseptic Solution 100ml</name>
+        <code>CON-MED-002</code>
+        <category>Medical</category>
+        <unit>Bottle</unit>
+        <reorder_level>10</reorder_level>
+        <current_stock>40</current_stock>
+    </consumable>
+    <consumable>
+        <name>Cotton Wool 100g</name>
+        <code>CON-MED-003</code>
+        <category>Medical</category>
+        <unit>Pack</unit>
+        <reorder_level>10</reorder_level>
+        <current_stock>50</current_stock>
+    </consumable>
+    <consumable>
+        <name>Disposable Gloves (Pack of 100)</name>
+        <code>CON-MED-004</code>
+        <category>Medical</category>
+        <unit>Box</unit>
+        <reorder_level>5</reorder_level>
+        <current_stock>20</current_stock>
+    </consumable>
+</consumables>

@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="LIBRARY_RESOURCE">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>id</fieldName>
+        <fieldLabel>ID</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>1</displayOrder>
+        <defaultWidth>80</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Unique identifier for the library resource</fieldDescription>
     </field>
     <field>
         <fieldName>autoNumber</fieldName>
-        <fieldLabel>Library Resource Code</fieldLabel>
+        <fieldLabel>Resource Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
         <displayOrder>2</displayOrder>
@@ -27,102 +29,152 @@
         <fieldProperties>{"prefix":"LIB-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>title</fieldName>
+        <fieldLabel>Title</fieldLabel>
         <fieldType>STRING</fieldType>
-        <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>3</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>250</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Resource title</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>format</fieldName>
+        <fieldLabel>Format</fieldLabel>
+        <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
+        <picklistOptions>BOOK,JOURNAL,EBOOK,MULTIMEDIA</picklistOptions>
         <displayOrder>4</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Resource format type</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>isbnIssn</fieldName>
+        <fieldLabel>ISBN/ISSN</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>5</displayOrder>
+        <defaultWidth>150</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <isSortable>false</isSortable>
+        <showType>1</showType>
+        <maxLength>50</maxLength>
+        <fieldDescription>ISBN or ISSN number</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>author</fieldName>
+        <fieldLabel>Author</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>116</uiType>
         <displayOrder>6</displayOrder>
+        <defaultWidth>150</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Resource author</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>publisher</fieldName>
+        <fieldLabel>Publisher</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>116</uiType>
         <displayOrder>7</displayOrder>
+        <defaultWidth>150</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Resource publisher</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>edition</fieldName>
+        <fieldLabel>Edition</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>8</displayOrder>
+        <defaultWidth>100</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <maxLength>50</maxLength>
+        <fieldDescription>Edition number or name</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>year</fieldName>
+        <fieldLabel>Year</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <uiType>102</uiType>
         <displayOrder>9</displayOrder>
+        <defaultWidth>80</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <fieldDescription>Publication year</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>category</fieldName>
+        <fieldLabel>Category</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>10</displayOrder>
+        <defaultWidth>120</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>1</showType>
+        <maxLength>100</maxLength>
+        <fieldDescription>Resource category</fieldDescription>
+    </field>
+    <field>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
+        <displayOrder>11</displayOrder>
+        <defaultWidth>300</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Resource description</fieldDescription>
+    </field>
+    <field>
+        <fieldName>digitalPath</fieldName>
+        <fieldLabel>Digital Path</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <uiType>115</uiType>
+        <displayOrder>12</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <maxLength>500</maxLength>
+        <fieldDescription>Path to digital copy</fieldDescription>
+    </field>
+    <field>
+        <fieldName>isActive</fieldName>
+        <fieldLabel>Active</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
+        <displayOrder>13</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Whether the resource is active</fieldDescription>
     </field>
 </entityFields>

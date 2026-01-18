@@ -15,11 +15,11 @@ export interface FieldDefinition {
   defaultValue?: any;
   picklistValues?: string[];
   maxLength?: number;
-  minValue?: number;
-  maxValue?: number;
+  minValue?: number | null;
+  maxValue?: number | null;
   decimalPlaces?: number;
   section?: string;
-  step?: number;
+  step?: number | null;
   placeholder?: string;
 }
 

@@ -24,6 +24,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import krs.erp.config.CustomUserDetails;
 import krs.erp.enums.AccountType;
 import krs.erp.model.Address;
 import krs.erp.model.Attendance;
@@ -52,7 +53,6 @@ import krs.erp.model.communication.Announcement;
 import krs.erp.model.communication.Message;
 import krs.erp.model.communication.SupportTicket;
 import krs.erp.model.communication.TicketComment;
-import krs.erp.config.CustomUserDetails;
 import krs.erp.model.finance.AccountingPeriod;
 import krs.erp.model.finance.BankStatement;
 import krs.erp.model.finance.BankStatementLine;
@@ -2354,6 +2354,225 @@ public class DataImportService {
         purchaseOrderRepository.save(po);
     }
 
+    // ==================== Inventory XML Import Methods ====================
+
+    @Transactional
+    public void importVendorsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting vendors import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList vendorList = document.getElementsByTagName("vendor");
+            for (int i = 0; i < vendorList.getLength(); i++) {
+                Element vendorElement = (Element) vendorList.item(i);
+
+                Vendor vendor = new Vendor();
+                vendor.setName(getElementText(vendorElement, "name"));
+                vendor.setContactPerson(getElementText(vendorElement, "contact_person"));
+                vendor.setEmail(getElementText(vendorElement, "email"));
+                vendor.setPhone(getElementText(vendorElement, "phone"));
+                vendor.setTinGstin(getElementText(vendorElement, "tin_gstin"));
+                vendor.setAddress(getElementText(vendorElement, "address"));
+
+                vendorRepository.save(vendor);
+            }
+            logger.info("Vendors import completed successfully. Imported {} vendors", vendorList.getLength());
+        } catch (Exception e) {
+            logger.error("Error importing vendors from XML", e);
+            throw new RuntimeException("Failed to import vendors", e);
+        }
+    }
+
+    @Transactional
+    public void importAssetsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting assets import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList assetList = document.getElementsByTagName("asset");
+            for (int i = 0; i < assetList.getLength(); i++) {
+                Element assetElement = (Element) assetList.item(i);
+
+                Asset asset = new Asset();
+                asset.setName(getElementText(assetElement, "name"));
+                asset.setAssetTag(getElementText(assetElement, "asset_tag"));
+                asset.setSerialNumber(getElementText(assetElement, "serial_number"));
+                asset.setType(getElementText(assetElement, "type"));
+                
+                String purchaseDateStr = getElementText(assetElement, "purchase_date");
+                if (purchaseDateStr != null && !purchaseDateStr.isEmpty()) {
+                    asset.setPurchaseDate(LocalDate.parse(purchaseDateStr));
+                }
+                
+                String statusStr = getElementText(assetElement, "status");
+                if (statusStr != null && !statusStr.isEmpty()) {
+                    asset.setStatus(Asset.AssetStatus.valueOf(statusStr));
+                }
+                
+                asset.setLocation(getElementText(assetElement, "location"));
+                
+                String assignedStaffIdStr = getElementText(assetElement, "assigned_staff_id");
+                if (assignedStaffIdStr != null && !assignedStaffIdStr.isEmpty()) {
+                    asset.setAssignedStaffId(Long.parseLong(assignedStaffIdStr));
+                }
+
+                assetRepository.save(asset);
+            }
+            logger.info("Assets import completed successfully. Imported {} assets", assetList.getLength());
+        } catch (Exception e) {
+            logger.error("Error importing assets from XML", e);
+            throw new RuntimeException("Failed to import assets", e);
+        }
+    }
+
+    @Transactional
+    public void importConsumablesDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting consumables import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList consumableList = document.getElementsByTagName("consumable");
+            for (int i = 0; i < consumableList.getLength(); i++) {
+                Element consumableElement = (Element) consumableList.item(i);
+
+                Consumable consumable = new Consumable();
+                consumable.setName(getElementText(consumableElement, "name"));
+                consumable.setCode(getElementText(consumableElement, "code"));
+                consumable.setCategory(getElementText(consumableElement, "category"));
+                consumable.setUnit(getElementText(consumableElement, "unit"));
+                
+                String reorderLevelStr = getElementText(consumableElement, "reorder_level");
+                if (reorderLevelStr != null && !reorderLevelStr.isEmpty()) {
+                    consumable.setReorderLevel(Integer.parseInt(reorderLevelStr));
+                }
+                
+                String currentStockStr = getElementText(consumableElement, "current_stock");
+                if (currentStockStr != null && !currentStockStr.isEmpty()) {
+                    consumable.setCurrentStock(Integer.parseInt(currentStockStr));
+                }
+
+                consumableRepository.save(consumable);
+            }
+            logger.info("Consumables import completed successfully. Imported {} consumables", consumableList.getLength());
+        } catch (Exception e) {
+            logger.error("Error importing consumables from XML", e);
+            throw new RuntimeException("Failed to import consumables", e);
+        }
+    }
+
+    @Transactional
+    public void importPurchaseOrdersDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting purchase orders import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList poList = document.getElementsByTagName("purchase_order");
+            for (int i = 0; i < poList.getLength(); i++) {
+                Element poElement = (Element) poList.item(i);
+
+                PurchaseOrder po = new PurchaseOrder();
+                po.setPoNumber(getElementText(poElement, "po_number"));
+                
+                // Find vendor by name
+                String vendorName = getElementText(poElement, "vendor_name");
+                if (vendorName != null && !vendorName.isEmpty()) {
+                    Vendor vendor = vendorRepository.findAll().stream()
+                            .filter(v -> v.getName().equals(vendorName))
+                            .findFirst()
+                            .orElse(null);
+                    if (vendor != null) {
+                        po.setVendorId(vendor.getId());
+                    }
+                }
+                
+                String orderDateStr = getElementText(poElement, "order_date");
+                if (orderDateStr != null && !orderDateStr.isEmpty()) {
+                    po.setOrderDate(LocalDate.parse(orderDateStr));
+                }
+                
+                String totalAmountStr = getElementText(poElement, "total_amount");
+                if (totalAmountStr != null && !totalAmountStr.isEmpty()) {
+                    po.setTotalAmount(Double.parseDouble(totalAmountStr));
+                }
+                
+                String statusStr = getElementText(poElement, "status");
+                if (statusStr != null && !statusStr.isEmpty()) {
+                    po.setStatus(PurchaseOrder.POStatus.valueOf(statusStr));
+                }
+
+                purchaseOrderRepository.save(po);
+            }
+            logger.info("Purchase orders import completed successfully. Imported {} purchase orders", poList.getLength());
+        } catch (Exception e) {
+            logger.error("Error importing purchase orders from XML", e);
+            throw new RuntimeException("Failed to import purchase orders", e);
+        }
+    }
+
+    /**
+     * Import all inventory sample data from XML files.
+     * This imports vendors first, then assets, consumables, and purchase orders.
+     */
+    @Transactional
+    public void importInventorySampleDataFromXml() {
+        try {
+            logger.info("Starting Inventory Sample Data Import from XML...");
+            
+            // 1. Import vendors first (needed for purchase orders)
+            importVendorsDataFromXml("data/inventory/sample-vendors.xml");
+            
+            // 2. Import assets
+            importAssetsDataFromXml("data/inventory/sample-assets.xml");
+            
+            // 3. Import consumables
+            importConsumablesDataFromXml("data/inventory/sample-consumables.xml");
+            
+            // 4. Import purchase orders (references vendors)
+            importPurchaseOrdersDataFromXml("data/inventory/sample-purchase-orders.xml");
+            
+            logger.info("Inventory Sample Data Import from XML Completed Successfully.");
+        } catch (Exception e) {
+            logger.error("Error importing inventory sample data from XML", e);
+            throw new RuntimeException("Failed to import inventory sample data", e);
+        }
+    }
+
     @Autowired
     private krs.erp.repository.maintenance.WorkOrderRepository workOrderRepository;
     @Autowired
@@ -3092,6 +3311,218 @@ public class DataImportService {
         } catch (Exception e) {
             logger.error("Error generating library sample data", e);
             throw new RuntimeException("Failed to generate library data", e);
+        }
+    }
+
+    // ==================== Library XML Import Methods ====================
+
+    @Transactional
+    public void importAuthorsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting authors import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList authorList = document.getElementsByTagName("author");
+            for (int i = 0; i < authorList.getLength(); i++) {
+                Element authorElement = (Element) authorList.item(i);
+
+                Author author = new Author();
+                author.setName(getElementText(authorElement, "name"));
+                author.setBiography(getElementText(authorElement, "biography"));
+                author.setWebsite(getElementText(authorElement, "website"));
+
+                authorRepository.save(author);
+            }
+            logger.info("Authors import completed successfully. Imported {} authors", authorList.getLength());
+        } catch (Exception e) {
+            logger.error("Error importing authors from XML", e);
+            throw new RuntimeException("Failed to import authors", e);
+        }
+    }
+
+    @Transactional
+    public void importPublishersDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting publishers import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList publisherList = document.getElementsByTagName("publisher");
+            for (int i = 0; i < publisherList.getLength(); i++) {
+                Element publisherElement = (Element) publisherList.item(i);
+
+                Publisher publisher = new Publisher();
+                publisher.setName(getElementText(publisherElement, "name"));
+                publisher.setAddress(getElementText(publisherElement, "address"));
+                publisher.setContactInfo(getElementText(publisherElement, "contact_info"));
+
+                publisherRepository.save(publisher);
+            }
+            logger.info("Publishers import completed successfully. Imported {} publishers", publisherList.getLength());
+        } catch (Exception e) {
+            logger.error("Error importing publishers from XML", e);
+            throw new RuntimeException("Failed to import publishers", e);
+        }
+    }
+
+    @Transactional
+    public void importLibraryResourcesDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting library resources import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList resourceList = document.getElementsByTagName("resource");
+            for (int i = 0; i < resourceList.getLength(); i++) {
+                Element resourceElement = (Element) resourceList.item(i);
+
+                LibraryResource resource = new LibraryResource();
+                resource.setTitle(getElementText(resourceElement, "title"));
+                resource.setIsbnIssn(getElementText(resourceElement, "isbn_issn"));
+                resource.setEdition(getElementText(resourceElement, "edition"));
+                resource.setCategory(getElementText(resourceElement, "category"));
+                resource.setDescription(getElementText(resourceElement, "description"));
+                
+                // Parse format enum
+                String formatStr = getElementText(resourceElement, "format");
+                if (formatStr != null && !formatStr.isEmpty()) {
+                    resource.setFormat(LibraryResource.ResourceFormat.valueOf(formatStr));
+                }
+                
+                // Parse year
+                String yearStr = getElementText(resourceElement, "year");
+                if (yearStr != null && !yearStr.isEmpty()) {
+                    resource.setYear(Integer.parseInt(yearStr));
+                }
+                
+                // Find author by name
+                String authorName = getElementText(resourceElement, "author_name");
+                if (authorName != null && !authorName.isEmpty()) {
+                    Author author = authorRepository.findAll().stream()
+                            .filter(a -> a.getName().equals(authorName))
+                            .findFirst()
+                            .orElse(null);
+                    resource.setAuthor(author);
+                }
+                
+                // Find publisher by name
+                String publisherName = getElementText(resourceElement, "publisher_name");
+                if (publisherName != null && !publisherName.isEmpty()) {
+                    Publisher publisher = publisherRepository.findAll().stream()
+                            .filter(p -> p.getName().equals(publisherName))
+                            .findFirst()
+                            .orElse(null);
+                    resource.setPublisher(publisher);
+                }
+
+                resourceRepository.save(resource);
+            }
+            logger.info("Library resources import completed successfully. Imported {} resources", resourceList.getLength());
+        } catch (Exception e) {
+            logger.error("Error importing library resources from XML", e);
+            throw new RuntimeException("Failed to import library resources", e);
+        }
+    }
+
+    @Transactional
+    public void importResourceItemsDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting resource items import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList itemList = document.getElementsByTagName("item");
+            for (int i = 0; i < itemList.getLength(); i++) {
+                Element itemElement = (Element) itemList.item(i);
+
+                ResourceItem item = new ResourceItem();
+                item.setAccessionNumber(getElementText(itemElement, "accession_number"));
+                item.setBarcode(getElementText(itemElement, "barcode"));
+                item.setLocation(getElementText(itemElement, "location"));
+                
+                // Parse status enum
+                String statusStr = getElementText(itemElement, "status");
+                if (statusStr != null && !statusStr.isEmpty()) {
+                    item.setStatus(ResourceItem.ItemStatus.valueOf(statusStr));
+                }
+                
+                // Find resource by title
+                String resourceTitle = getElementText(itemElement, "resource_title");
+                if (resourceTitle != null && !resourceTitle.isEmpty()) {
+                    LibraryResource resource = resourceRepository.findAll().stream()
+                            .filter(r -> r.getTitle().equals(resourceTitle))
+                            .findFirst()
+                            .orElse(null);
+                    item.setResource(resource);
+                }
+
+                itemRepository.save(item);
+            }
+            logger.info("Resource items import completed successfully. Imported {} items", itemList.getLength());
+        } catch (Exception e) {
+            logger.error("Error importing resource items from XML", e);
+            throw new RuntimeException("Failed to import resource items", e);
+        }
+    }
+
+    /**
+     * Import all library sample data from XML files.
+     * This imports authors and publishers first, then resources, then items.
+     */
+    @Transactional
+    public void importLibrarySampleDataFromXml() {
+        try {
+            logger.info("Starting Library Sample Data Import from XML...");
+            
+            // 1. Import authors first (needed for resources)
+            importAuthorsDataFromXml("data/library/sample-authors.xml");
+            
+            // 2. Import publishers (needed for resources)
+            importPublishersDataFromXml("data/library/sample-publishers.xml");
+            
+            // 3. Import library resources (references authors and publishers)
+            importLibraryResourcesDataFromXml("data/library/sample-resources.xml");
+            
+            // 4. Import resource items (references resources)
+            importResourceItemsDataFromXml("data/library/sample-resource-items.xml");
+            
+            logger.info("Library Sample Data Import from XML Completed Successfully.");
+        } catch (Exception e) {
+            logger.error("Error importing library sample data from XML", e);
+            throw new RuntimeException("Failed to import library sample data", e);
         }
     }
 

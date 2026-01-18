@@ -77,7 +77,17 @@ public enum EntityType {
     // Communication types
     MESSAGE("Message"),
     ANNOUNCEMENT("Announcement"),
-    SUPPORT_TICKET("SupportTicket");
+    SUPPORT_TICKET("SupportTicket"),
+    // Library types
+    AUTHOR("Author"),
+    PUBLISHER("Publisher"),
+    LIBRARY_RESOURCE("LibraryResource"),
+    RESOURCE_ITEM("ResourceItem"),
+    LIBRARY_LOAN("LibraryLoan"),
+    LIBRARY_HOLD("LibraryHold"),
+    LIBRARY_POLICY("LibraryPolicy"),
+    LIBRARY_PURCHASE_REQUEST("LibraryPurchaseRequest"),
+    LIBRARY_PO("LibraryPO");
 
     private final String displayName;
 
@@ -217,6 +227,35 @@ public enum EntityType {
         }
         if ("TICKETS".equals(upperValue) || "TICKET".equals(upperValue)) {
             return EntityType.SUPPORT_TICKET;
+        }
+        
+        // Handle Library module routes
+        if ("AUTHOR".equals(upperValue) || "AUTHORS".equals(upperValue)) {
+            return EntityType.AUTHOR;
+        }
+        if ("PUBLISHER".equals(upperValue) || "PUBLISHERS".equals(upperValue)) {
+            return EntityType.PUBLISHER;
+        }
+        if ("LIBRARY-RESOURCE".equals(upperValue) || "LIBRARY-RESOURCES".equals(upperValue) || "LIBRARY_RESOURCE".equals(upperValue)) {
+            return EntityType.LIBRARY_RESOURCE;
+        }
+        if ("RESOURCE-ITEM".equals(upperValue) || "RESOURCE-ITEMS".equals(upperValue) || "RESOURCE_ITEM".equals(upperValue)) {
+            return EntityType.RESOURCE_ITEM;
+        }
+        if ("LIBRARY-LOAN".equals(upperValue) || "LIBRARY-LOANS".equals(upperValue) || "LIBRARY_LOAN".equals(upperValue)) {
+            return EntityType.LIBRARY_LOAN;
+        }
+        if ("LIBRARY-HOLD".equals(upperValue) || "LIBRARY-HOLDS".equals(upperValue) || "LIBRARY_HOLD".equals(upperValue)) {
+            return EntityType.LIBRARY_HOLD;
+        }
+        if ("LIBRARY-POLICY".equals(upperValue) || "LIBRARY-POLICIES".equals(upperValue) || "LIBRARY_POLICY".equals(upperValue)) {
+            return EntityType.LIBRARY_POLICY;
+        }
+        if ("LIBRARY-PURCHASE-REQUEST".equals(upperValue) || "LIBRARY-PURCHASE-REQUESTS".equals(upperValue) || "LIBRARY_PURCHASE_REQUEST".equals(upperValue)) {
+            return EntityType.LIBRARY_PURCHASE_REQUEST;
+        }
+        if ("LIBRARY-PO".equals(upperValue) || "LIBRARY-POS".equals(upperValue) || "LIBRARY_PO".equals(upperValue)) {
+            return EntityType.LIBRARY_PO;
         }
 
         // Replace hyphens with underscores for standard enum matching
