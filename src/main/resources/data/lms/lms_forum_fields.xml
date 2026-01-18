@@ -1,73 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="LMS_FORUM">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
-        <displayOrder>1</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
         <fieldName>autoNumber</fieldName>
-        <fieldLabel>LMS Forum Code</fieldLabel>
+        <fieldLabel>Forum Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
-        <displayOrder>2</displayOrder>
+        <displayOrder>1</displayOrder>
         <defaultWidth>120</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showType>1</showType>
         <maxLength>50</maxLength>
-        <fieldDescription>Auto-generated unique code for LMS Forum</fieldDescription>
-        <fieldProperties>{"prefix":"LMS-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+        <fieldDescription>Auto-generated unique code for Forum</fieldDescription>
+        <fieldProperties>{"prefix":"FRM-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>title</fieldName>
+        <fieldLabel>Title</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>1</uiType>
         <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Forum title</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <uiType>21</uiType>
         <displayOrder>3</displayOrder>
+        <defaultWidth>300</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Forum description and guidelines</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>isLocked</fieldName>
+        <fieldLabel>Locked</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>301</uiType>
         <displayOrder>4</displayOrder>
+        <defaultWidth>100</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <defaultValue>false</defaultValue>
+        <fieldDescription>Whether the forum is locked from new posts</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>courseId</fieldName>
+        <fieldLabel>Course</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>10</uiType>
         <displayOrder>5</displayOrder>
+        <defaultWidth>150</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Course this forum belongs to</fieldDescription>
+        <referencedEntity>COURSE</referencedEntity>
+    </field>
+    <field>
+        <fieldName>lessonId</fieldName>
+        <fieldLabel>Lesson</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>10</uiType>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Lesson this forum is associated with</fieldDescription>
+        <referencedEntity>LESSON</referencedEntity>
     </field>
 </entityFields>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample LMS Badge Data -->
+    <lms_badge
+        name="Quick Learner"
+        description="Completed 5 lessons in one day."
+        icon_url="badges/quick-learner.png"
+        points_required="50"
+        tier="BRONZE"
+    />
+
+    <lms_badge
+        name="Quiz Master"
+        description="Scored 100% on 3 consecutive quizzes."
+        icon_url="badges/quiz-master.png"
+        points_required="100"
+        tier="SILVER"
+    />
+
+    <lms_badge
+        name="Knowledge Seeker"
+        description="Completed an entire module with all lessons."
+        icon_url="badges/knowledge-seeker.png"
+        points_required="150"
+        tier="SILVER"
+    />
+
+    <lms_badge
+        name="Top Performer"
+        description="Ranked in the top 10% of all students in a course."
+        icon_url="badges/top-performer.png"
+        points_required="300"
+        tier="GOLD"
+    />
+
+    <lms_badge
+        name="Course Champion"
+        description="Completed all modules in a subject with 80%+ average."
+        icon_url="badges/course-champion.png"
+        points_required="500"
+        tier="PLATINUM"
+    />
+
+    <lms_badge
+        name="Discussion Leader"
+        description="Posted 10 helpful forum responses."
+        icon_url="badges/discussion-leader.png"
+        points_required="75"
+        tier="BRONZE"
+    />
+
+    <lms_badge
+        name="Perfect Attendance"
+        description="Attended 100% of virtual sessions in a month."
+        icon_url="badges/perfect-attendance.png"
+        points_required="200"
+        tier="GOLD"
+    />
+</dataset>

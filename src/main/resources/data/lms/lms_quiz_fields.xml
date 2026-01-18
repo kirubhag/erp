@@ -1,84 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="LMS_QUIZ">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
-        <displayOrder>1</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
         <fieldName>autoNumber</fieldName>
-        <fieldLabel>LMS Quiz Code</fieldLabel>
+        <fieldLabel>Quiz Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
-        <displayOrder>2</displayOrder>
+        <displayOrder>1</displayOrder>
         <defaultWidth>120</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showType>1</showType>
         <maxLength>50</maxLength>
-        <fieldDescription>Auto-generated unique code for LMS Quiz</fieldDescription>
-        <fieldProperties>{"prefix":"LMS-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+        <fieldDescription>Auto-generated unique code for Quiz</fieldDescription>
+        <fieldProperties>{"prefix":"QZ-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>title</fieldName>
+        <fieldLabel>Title</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>1</uiType>
         <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Quiz title</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <uiType>21</uiType>
         <displayOrder>3</displayOrder>
+        <defaultWidth>300</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Quiz description and instructions</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>timeLimitMinutes</fieldName>
+        <fieldLabel>Time Limit (min)</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <uiType>19</uiType>
         <displayOrder>4</displayOrder>
+        <defaultWidth>120</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <defaultValue>30</defaultValue>
+        <fieldDescription>Time limit in minutes for completing the quiz</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>passingScore</fieldName>
+        <fieldLabel>Passing Score (%)</fieldLabel>
+        <fieldType>DECIMAL</fieldType>
+        <uiType>9</uiType>
         <displayOrder>5</displayOrder>
+        <defaultWidth>120</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <defaultValue>70.0</defaultValue>
+        <fieldDescription>Minimum percentage score to pass</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>published</fieldName>
+        <fieldLabel>Published</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>301</uiType>
         <displayOrder>6</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>2</showType>
+        <defaultValue>false</defaultValue>
+        <fieldDescription>Whether the quiz is published to students</fieldDescription>
+    </field>
+    <field>
+        <fieldName>lessonId</fieldName>
+        <fieldLabel>Lesson</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>10</uiType>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>150</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Lesson this quiz is associated with</fieldDescription>
+        <referencedEntity>LESSON</referencedEntity>
+    </field>
+    <field>
+        <fieldName>subjectId</fieldName>
+        <fieldLabel>Subject</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>10</uiType>
+        <displayOrder>8</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Subject this quiz belongs to</fieldDescription>
+        <referencedEntity>SUBJECT</referencedEntity>
     </field>
 </entityFields>

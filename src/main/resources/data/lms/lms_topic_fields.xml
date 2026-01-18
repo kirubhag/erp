@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityFields type="LMS_TOPIC">
+    <field>
+        <fieldName>autoNumber</fieldName>
+        <fieldLabel>Topic Code</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <uiType>120</uiType>
+        <displayOrder>1</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <maxLength>50</maxLength>
+        <fieldDescription>Auto-generated unique code for LMS Topic</fieldDescription>
+        <fieldProperties>{"prefix":"TOP-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+    </field>
+    <field>
+        <fieldName>title</fieldName>
+        <fieldLabel>Title</fieldLabel>
+        <fieldType>STRING</fieldType>
+        <uiType>1</uiType>
+        <displayOrder>2</displayOrder>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>2</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Topic title</fieldDescription>
+    </field>
+    <field>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>CLOB</fieldType>
+        <uiType>2</uiType>
+        <displayOrder>3</displayOrder>
+        <defaultWidth>300</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Detailed description of the topic</fieldDescription>
+    </field>
+    <field>
+        <fieldName>lesson_id</fieldName>
+        <fieldLabel>Lesson</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>10</uiType>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>180</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Parent lesson this topic belongs to</fieldDescription>
+        <fieldProperties>{"referenceEntity":"LESSON","referenceField":"id","displayField":"title"}</fieldProperties>
+    </field>
+    <field>
+        <fieldName>order_index</fieldName>
+        <fieldLabel>Order</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <uiType>3</uiType>
+        <displayOrder>5</displayOrder>
+        <defaultWidth>80</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Display order of the topic within the lesson</fieldDescription>
+    </field>
+    <field>
+        <fieldName>duration_minutes</fieldName>
+        <fieldLabel>Duration (min)</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <uiType>3</uiType>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Estimated time to complete topic</fieldDescription>
+    </field>
+    <field>
+        <fieldName>published</fieldName>
+        <fieldLabel>Published</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>6</uiType>
+        <displayOrder>7</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>1</showType>
+        <fieldDescription>Whether the topic is visible to students</fieldDescription>
+    </field>
+</entityFields>

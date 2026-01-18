@@ -143,14 +143,27 @@
         <sequence>6</sequence>
         <description>LMS, content, assessments, and teacher professional development</description>
         <entities>
-            <entity>LmsModule</entity>
-            <entity>LmsContent</entity>
-            <entity>LmsQuiz</entity>
-            <entity>LmsSubmission</entity>
-            <entity>VirtualClassSession</entity>
-            <entity>TrainingEvent</entity>
+            <entity>LMS Module</entity>
+            <entity>Lesson</entity>
+            <entity>LMS Topic</entity>
+            <entity>LMS Content</entity>
+            <entity>LMS Quiz</entity>
+            <entity>LMS Question Bank</entity>
+            <entity>LMS Submission</entity>
+            <entity>LMS Rubric</entity>
+            <entity>Virtual Session</entity>
+            <entity>Virtual Attendance</entity>
+            <entity>Student Progress</entity>
+            <entity>Badge</entity>
+            <entity>Point Log</entity>
+            <entity>LMS Forum</entity>
+            <entity>Forum Post</entity>
+            <entity>Peer Review</entity>
             <entity>Competency</entity>
-            <entity>ProfessionalPortfolio</entity>
+            <entity>Skill Assessment</entity>
+            <entity>Training Event</entity>
+            <entity>Credit Ledger</entity>
+            <entity>Professional Portfolio</entity>
         </entities>
     </tab_group>
 

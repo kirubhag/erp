@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample LMS Question Bank Data -->
+    <lms_question_bank
+        question_text="What is 25 + 17?"
+        type="MULTIPLE_CHOICE"
+        difficulty="EASY"
+        tags="math,addition,basic"
+        subject_id="1"
+    />
+
+    <lms_question_bank
+        question_text="Solve for x: 2x + 5 = 15"
+        type="SHORT_ANSWER"
+        difficulty="MEDIUM"
+        tags="math,algebra,equations"
+        subject_id="1"
+    />
+
+    <lms_question_bank
+        question_text="What is the area of a rectangle with length 8 and width 5?"
+        type="MULTIPLE_CHOICE"
+        difficulty="EASY"
+        tags="math,geometry,area"
+        subject_id="1"
+    />
+
+    <lms_question_bank
+        question_text="Identify the verb in the sentence: The dog runs quickly."
+        type="MULTIPLE_CHOICE"
+        difficulty="EASY"
+        tags="english,grammar,verbs"
+        subject_id="2"
+    />
+
+    <lms_question_bank
+        question_text="Write a paragraph describing your favorite book."
+        type="ESSAY"
+        difficulty="MEDIUM"
+        tags="english,writing,essay"
+        subject_id="2"
+    />
+
+    <lms_question_bank
+        question_text="What are the three states of matter?"
+        type="MULTIPLE_CHOICE"
+        difficulty="EASY"
+        tags="science,physics,matter"
+        subject_id="3"
+    />
+
+    <lms_question_bank
+        question_text="Explain the process of photosynthesis."
+        type="ESSAY"
+        difficulty="HARD"
+        tags="science,biology,plants"
+        subject_id="3"
+    />
+
+    <lms_question_bank
+        question_text="What is a variable in programming?"
+        type="SHORT_ANSWER"
+        difficulty="EASY"
+        tags="cs,programming,basics"
+        subject_id="4"
+    />
+
+    <lms_question_bank
+        question_text="Write a loop that prints numbers 1 to 10."
+        type="CODE"
+        difficulty="MEDIUM"
+        tags="cs,programming,loops"
+        subject_id="4"
+    />
+
+    <lms_question_bank
+        question_text="True or False: A while loop always executes at least once."
+        type="TRUE_FALSE"
+        difficulty="MEDIUM"
+        tags="cs,programming,loops"
+        subject_id="4"
+    />
+</dataset>

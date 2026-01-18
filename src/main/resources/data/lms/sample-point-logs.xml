@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Point Logs - Student gamification points -->
+    
+    <lms_point_log
+        student_id="1"
+        points="50"
+        action_type="LESSON_COMPLETE"
+        description="Completed Introduction to Mathematics lesson"
+        earned_at="2024-01-12 16:30:00"
+        lesson_id="1"
+    />
+    
+    <lms_point_log
+        student_id="1"
+        points="100"
+        action_type="QUIZ_PASSED"
+        description="Scored 85% on Math Quiz 1"
+        earned_at="2024-01-15 09:45:00"
+        quiz_id="1"
+    />
+    
+    <lms_point_log
+        student_id="2"
+        points="50"
+        action_type="LESSON_COMPLETE"
+        description="Completed Introduction to Mathematics lesson"
+        earned_at="2024-01-11 11:00:00"
+        lesson_id="1"
+    />
+    
+    <lms_point_log
+        student_id="2"
+        points="150"
+        action_type="QUIZ_PERFECT"
+        description="Scored 92% on Math Quiz 1"
+        earned_at="2024-01-15 10:30:00"
+        quiz_id="1"
+    />
+    
+    <lms_point_log
+        student_id="2"
+        points="25"
+        action_type="FORUM_POST"
+        description="Posted helpful answer in Science Forum"
+        earned_at="2024-01-16 11:15:00"
+        forum_id="3"
+    />
+    
+    <lms_point_log
+        student_id="3"
+        points="50"
+        action_type="LESSON_COMPLETE"
+        description="Completed Introduction to Mathematics lesson"
+        earned_at="2024-01-13 17:00:00"
+        lesson_id="1"
+    />
+    
+    <lms_point_log
+        student_id="3"
+        points="50"
+        action_type="LESSON_COMPLETE"
+        description="Completed English Basics lesson"
+        earned_at="2024-01-16 15:00:00"
+        lesson_id="2"
+    />
+    
+    <lms_point_log
+        student_id="1"
+        points="200"
+        action_type="BADGE_EARNED"
+        description="Earned Quick Learner badge"
+        earned_at="2024-01-14 10:00:00"
+        badge_id="1"
+    />
+</dataset>

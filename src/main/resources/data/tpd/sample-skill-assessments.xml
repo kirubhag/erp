@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Skill Assessment Data -->
+    <skill_assessment
+        staff_id="1"
+        competency_id="1"
+        manager_id="2"
+        self_rating="4"
+        manager_rating="4"
+        feedback="Excellent classroom management skills demonstrated throughout the year."
+        assessment_date="2025-01-15 10:00:00"
+    />
+
+    <skill_assessment
+        staff_id="1"
+        competency_id="2"
+        manager_id="2"
+        self_rating="3"
+        manager_rating="4"
+        feedback="Good curriculum planning with room for improvement in differentiation."
+        assessment_date="2025-01-15 10:30:00"
+    />
+
+    <skill_assessment
+        staff_id="3"
+        competency_id="1"
+        manager_id="2"
+        self_rating="5"
+        manager_rating="5"
+        feedback="Outstanding ability to maintain discipline while creating a positive learning environment."
+        assessment_date="2025-01-16 09:00:00"
+    />
+
+    <skill_assessment
+        staff_id="3"
+        competency_id="3"
+        manager_id="2"
+        self_rating="4"
+        manager_rating="3"
+        feedback="Good written communication, verbal communication needs improvement."
+        assessment_date="2025-01-16 09:30:00"
+    />
+</dataset>

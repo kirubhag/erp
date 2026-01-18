@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample LMS Forum Data -->
+    <lms_forum
+        title="Math Help Forum"
+        description="Ask questions and discuss mathematics topics with peers and teachers."
+        is_locked="false"
+        course_id="1"
+        lesson_id="1"
+    />
+
+    <lms_forum
+        title="English Discussion Board"
+        description="Share writing tips, grammar questions, and reading recommendations."
+        is_locked="false"
+        course_id="2"
+        lesson_id="4"
+    />
+
+    <lms_forum
+        title="Science Lab Discussions"
+        description="Discuss experiments, findings, and scientific concepts."
+        is_locked="false"
+        course_id="3"
+        lesson_id="7"
+    />
+
+    <lms_forum
+        title="Programming Q&amp;A"
+        description="Debug code together and share programming best practices."
+        is_locked="false"
+        course_id="4"
+        lesson_id="9"
+    />
+
+    <lms_forum
+        title="General Announcements"
+        description="Important updates and announcements for all students."
+        is_locked="true"
+        course_id="1"
+    />
+</dataset>

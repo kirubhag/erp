@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample LMS Submissions - Student quiz/assignment results -->
+    
+    <lms_submission
+        quiz_id="1"
+        student_id="1"
+        started_at="2024-01-15 09:00:00"
+        submitted_at="2024-01-15 09:45:00"
+        score="85"
+        status="GRADED"
+        attempt_number="1"
+        time_spent_seconds="2700"
+    />
+    
+    <lms_submission
+        quiz_id="1"
+        student_id="2"
+        started_at="2024-01-15 10:00:00"
+        submitted_at="2024-01-15 10:30:00"
+        score="92"
+        status="GRADED"
+        attempt_number="1"
+        time_spent_seconds="1800"
+    />
+    
+    <lms_submission
+        quiz_id="2"
+        student_id="1"
+        started_at="2024-01-16 14:00:00"
+        submitted_at="2024-01-16 14:55:00"
+        score="78"
+        status="GRADED"
+        attempt_number="1"
+        time_spent_seconds="3300"
+    />
+    
+    <lms_submission
+        quiz_id="2"
+        student_id="3"
+        started_at="2024-01-16 14:00:00"
+        submitted_at="2024-01-16 14:40:00"
+        score="88"
+        status="GRADED"
+        attempt_number="1"
+        time_spent_seconds="2400"
+    />
+    
+    <lms_submission
+        quiz_id="3"
+        student_id="2"
+        started_at="2024-01-17 09:30:00"
+        submitted_at=""
+        score="0"
+        status="IN_PROGRESS"
+        attempt_number="1"
+        time_spent_seconds="600"
+    />
+</dataset>

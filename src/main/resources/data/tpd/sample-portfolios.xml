@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Professional Portfolio Data -->
+    <professional_portfolio
+        staff_id="1"
+        current_role="Senior Teacher"
+        target_track="LEADERSHIP"
+        total_cpd_credits="125.0"
+        years_of_service="8"
+        promotion_ready="true"
+        professional_summary="Experienced educator with 8 years in classroom teaching. Specializes in mathematics and curriculum development. Actively mentors new teachers and leads department initiatives."
+    />
+
+    <professional_portfolio
+        staff_id="2"
+        current_role="Department Head"
+        target_track="ADMINISTRATION"
+        total_cpd_credits="180.0"
+        years_of_service="12"
+        promotion_ready="true"
+        professional_summary="Department head with over a decade of experience. Strong leadership skills and proven track record in academic planning. Pursuing administrative leadership pathway."
+    />
+
+    <professional_portfolio
+        staff_id="3"
+        current_role="Teacher"
+        target_track="SPECIALIST"
+        total_cpd_credits="45.0"
+        years_of_service="3"
+        promotion_ready="false"
+        professional_summary="Enthusiastic teacher with focus on science education. Working towards specialist certification in STEM education."
+    />
+
+    <professional_portfolio
+        staff_id="4"
+        current_role="Assistant Teacher"
+        target_track="TEACHING"
+        total_cpd_credits="20.0"
+        years_of_service="1"
+        promotion_ready="false"
+        professional_summary="New educator building foundational teaching skills. Enrolled in credential program with focus on elementary education."
+    />
+</dataset>

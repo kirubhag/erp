@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Student Progress - Lesson completion tracking -->
+    
+    <student_progress
+        student_id="1"
+        lesson_id="1"
+        started_at="2024-01-10 08:00:00"
+        completed_at="2024-01-12 16:30:00"
+        completion_percentage="100"
+        time_spent_minutes="180"
+        status="COMPLETED"
+        last_accessed_at="2024-01-12 16:30:00"
+    />
+    
+    <student_progress
+        student_id="1"
+        lesson_id="2"
+        started_at="2024-01-13 09:00:00"
+        completed_at=""
+        completion_percentage="65"
+        time_spent_minutes="95"
+        status="IN_PROGRESS"
+        last_accessed_at="2024-01-15 14:20:00"
+    />
+    
+    <student_progress
+        student_id="2"
+        lesson_id="1"
+        started_at="2024-01-10 10:00:00"
+        completed_at="2024-01-11 11:00:00"
+        completion_percentage="100"
+        time_spent_minutes="120"
+        status="COMPLETED"
+        last_accessed_at="2024-01-11 11:00:00"
+    />
+    
+    <student_progress
+        student_id="2"
+        lesson_id="3"
+        started_at="2024-01-14 13:00:00"
+        completed_at=""
+        completion_percentage="30"
+        time_spent_minutes="45"
+        status="IN_PROGRESS"
+        last_accessed_at="2024-01-14 14:15:00"
+    />
+    
+    <student_progress
+        student_id="3"
+        lesson_id="1"
+        started_at="2024-01-11 09:00:00"
+        completed_at="2024-01-13 17:00:00"
+        completion_percentage="100"
+        time_spent_minutes="200"
+        status="COMPLETED"
+        last_accessed_at="2024-01-13 17:00:00"
+    />
+    
+    <student_progress
+        student_id="3"
+        lesson_id="2"
+        started_at="2024-01-14 08:00:00"
+        completed_at="2024-01-16 15:00:00"
+        completion_percentage="100"
+        time_spent_minutes="150"
+        status="COMPLETED"
+        last_accessed_at="2024-01-16 15:00:00"
+    />
+</dataset>

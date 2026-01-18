@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample CPD Ledger Data -->
+    <cpd_ledger
+        staff_id="1"
+        academic_year="2025"
+        credits_earned="15.0"
+        credits_required="30.0"
+        notes="On track to meet annual CPD requirements. Completed teaching methodology workshop."
+    />
+
+    <cpd_ledger
+        staff_id="2"
+        academic_year="2025"
+        credits_earned="22.0"
+        credits_required="30.0"
+        notes="Excellent progress. Attended digital tools seminar and inclusive education workshop."
+    />
+
+    <cpd_ledger
+        staff_id="3"
+        academic_year="2025"
+        credits_earned="30.0"
+        credits_required="30.0"
+        notes="Completed all required CPD credits for the year."
+    />
+
+    <cpd_ledger
+        staff_id="4"
+        academic_year="2025"
+        credits_earned="8.0"
+        credits_required="30.0"
+        notes="Behind schedule. Additional training events recommended."
+    />
+
+    <cpd_ledger
+        staff_id="1"
+        academic_year="2024"
+        credits_earned="32.0"
+        credits_required="30.0"
+        notes="Exceeded CPD requirements for 2024. Carried over 2 credits."
+    />
+</dataset>

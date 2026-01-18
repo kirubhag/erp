@@ -277,13 +277,8 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'learning-teaching/lms',
-    loadChildren: () => import('./components/lms/lms.routes').then(m => m.LMS_ROUTES),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'learning-teaching/tpd',
-    loadChildren: () => import('./components/tpd/tpd.routes').then(m => m.TPD_ROUTES),
+    path: 'learning-teaching',
+    loadChildren: () => import('./components/learning-teaching/learning-teaching.routes').then(m => m.LEARNING_TEACHING_ROUTES),
     canActivate: [AuthGuard]
   },
   {

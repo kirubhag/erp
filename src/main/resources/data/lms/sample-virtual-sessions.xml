@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Virtual Sessions - Online classroom meetings -->
+    
+    <virtual_session
+        title="Math Live Review Session"
+        description="Live Q&amp;A session for algebra concepts"
+        scheduled_at="2024-01-20 10:00:00"
+        duration_minutes="60"
+        platform="ZOOM"
+        meeting_url="https://zoom.us/j/123456789"
+        meeting_id="123456789"
+        host_staff_id="1"
+        module_id="1"
+        status="SCHEDULED"
+        max_participants="50"
+        recording_enabled="true"
+    />
+    
+    <virtual_session
+        title="English Writing Workshop"
+        description="Interactive essay writing workshop"
+        scheduled_at="2024-01-21 14:00:00"
+        duration_minutes="90"
+        platform="GOOGLE_MEET"
+        meeting_url="https://meet.google.com/abc-defg-hij"
+        meeting_id="abc-defg-hij"
+        host_staff_id="2"
+        module_id="2"
+        status="SCHEDULED"
+        max_participants="40"
+        recording_enabled="true"
+    />
+    
+    <virtual_session
+        title="Science Lab Demonstration"
+        description="Virtual chemistry experiment demonstration"
+        scheduled_at="2024-01-19 11:00:00"
+        duration_minutes="45"
+        platform="TEAMS"
+        meeting_url="https://teams.microsoft.com/l/meetup-join/xyz"
+        meeting_id="xyz123"
+        host_staff_id="3"
+        module_id="3"
+        status="COMPLETED"
+        max_participants="60"
+        recording_enabled="true"
+        recording_url="https://recordings.example.com/science-lab-demo"
+    />
+    
+    <virtual_session
+        title="Programming Office Hours"
+        description="Open office hours for coding help"
+        scheduled_at="2024-01-22 16:00:00"
+        duration_minutes="120"
+        platform="ZOOM"
+        meeting_url="https://zoom.us/j/987654321"
+        meeting_id="987654321"
+        host_staff_id="4"
+        module_id="4"
+        status="SCHEDULED"
+        max_participants="30"
+        recording_enabled="false"
+    />
+</dataset>

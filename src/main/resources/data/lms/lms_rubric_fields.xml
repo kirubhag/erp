@@ -1,51 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="LMS_RUBRIC">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
-        <displayOrder>1</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
         <fieldName>autoNumber</fieldName>
-        <fieldLabel>LMS Rubric Code</fieldLabel>
+        <fieldLabel>Rubric Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
-        <displayOrder>2</displayOrder>
+        <displayOrder>1</displayOrder>
         <defaultWidth>120</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showType>1</showType>
         <maxLength>50</maxLength>
-        <fieldDescription>Auto-generated unique code for LMS Rubric</fieldDescription>
-        <fieldProperties>{"prefix":"LMS-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+        <fieldDescription>Auto-generated unique code for Rubric</fieldDescription>
+        <fieldProperties>{"prefix":"RUB-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>name</fieldName>
+        <fieldLabel>Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>1</uiType>
         <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Rubric name</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>criteria</fieldName>
+        <fieldLabel>Criteria</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <uiType>21</uiType>
         <displayOrder>3</displayOrder>
+        <defaultWidth>400</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Grading criteria and scoring breakdown</fieldDescription>
+    </field>
+    <field>
+        <fieldName>maxPoints</fieldName>
+        <fieldLabel>Max Points</fieldLabel>
+        <fieldType>DECIMAL</fieldType>
+        <uiType>9</uiType>
+        <displayOrder>4</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <defaultValue>100.0</defaultValue>
+        <fieldDescription>Maximum points possible using this rubric</fieldDescription>
     </field>
 </entityFields>

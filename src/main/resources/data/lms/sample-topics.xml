@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample LMS Topic Data - Topics within Lessons -->
+    
+    <!-- Math Lesson Topics -->
+    <lms_topic
+        title="Introduction to Numbers"
+        description="Understanding natural numbers, whole numbers, and integers."
+        lesson_id="1"
+        order_index="1"
+        duration_minutes="30"
+        published="true"
+    />
+    
+    <lms_topic
+        title="Basic Arithmetic Operations"
+        description="Addition, subtraction, multiplication, and division fundamentals."
+        lesson_id="1"
+        order_index="2"
+        duration_minutes="45"
+        published="true"
+    />
+    
+    <lms_topic
+        title="Fractions and Decimals"
+        description="Understanding fractions, converting to decimals, and basic operations."
+        lesson_id="1"
+        order_index="3"
+        duration_minutes="40"
+        published="true"
+    />
+
+    <!-- English Lesson Topics -->
+    <lms_topic
+        title="Parts of Speech"
+        description="Nouns, verbs, adjectives, adverbs, and their usage."
+        lesson_id="2"
+        order_index="1"
+        duration_minutes="35"
+        published="true"
+    />
+    
+    <lms_topic
+        title="Sentence Structure"
+        description="Subject, predicate, and forming complete sentences."
+        lesson_id="2"
+        order_index="2"
+        duration_minutes="40"
+        published="true"
+    />
+
+    <!-- Science Lesson Topics -->
+    <lms_topic
+        title="The Scientific Method"
+        description="Steps of scientific inquiry: observation, hypothesis, experiment, conclusion."
+        lesson_id="3"
+        order_index="1"
+        duration_minutes="45"
+        published="true"
+    />
+    
+    <lms_topic
+        title="Matter and Its Properties"
+        description="Understanding states of matter: solid, liquid, gas, and plasma."
+        lesson_id="3"
+        order_index="2"
+        duration_minutes="50"
+        published="true"
+    />
+
+    <!-- Programming Topics -->
+    <lms_topic
+        title="Variables and Data Types"
+        description="Understanding variables, strings, numbers, and booleans."
+        lesson_id="4"
+        order_index="1"
+        duration_minutes="40"
+        published="true"
+    />
+    
+    <lms_topic
+        title="Control Flow"
+        description="If statements, loops, and conditional logic."
+        lesson_id="4"
+        order_index="2"
+        duration_minutes="50"
+        published="true"
+    />
+    
+    <lms_topic
+        title="Functions and Methods"
+        description="Creating reusable code blocks and understanding scope."
+        lesson_id="4"
+        order_index="3"
+        duration_minutes="55"
+        published="false"
+    />
+</dataset>

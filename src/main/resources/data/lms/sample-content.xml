@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample LMS Content Data -->
+    <lms_content
+        title="Introduction Video - Numbers"
+        type="VIDEO"
+        content_url="https://videos.example.com/math/numbers-intro.mp4"
+        file_size_in_bytes="52428800"
+        lesson_id="1"
+    />
+
+    <lms_content
+        title="Numbers Worksheet PDF"
+        type="PDF"
+        content_url="https://docs.example.com/math/numbers-worksheet.pdf"
+        file_size_in_bytes="1048576"
+        lesson_id="1"
+    />
+
+    <lms_content
+        title="Algebra Tutorial"
+        type="VIDEO"
+        content_url="https://videos.example.com/math/algebra-basics.mp4"
+        file_size_in_bytes="78643200"
+        lesson_id="2"
+    />
+
+    <lms_content
+        title="Grammar Guide PDF"
+        type="PDF"
+        content_url="https://docs.example.com/english/grammar-guide.pdf"
+        file_size_in_bytes="2097152"
+        lesson_id="4"
+    />
+
+    <lms_content
+        title="Interactive Grammar Exercise"
+        type="INTERACTIVE"
+        content_url="https://interactive.example.com/grammar/exercise1"
+        file_size_in_bytes="0"
+        lesson_id="4"
+    />
+
+    <lms_content
+        title="Science Lab Simulation"
+        type="INTERACTIVE"
+        content_url="https://labs.example.com/science/matter-states"
+        file_size_in_bytes="0"
+        lesson_id="7"
+    />
+
+    <lms_content
+        title="Programming Tutorial Video"
+        type="VIDEO"
+        content_url="https://videos.example.com/cs/programming-intro.mp4"
+        file_size_in_bytes="104857600"
+        lesson_id="9"
+    />
+
+    <lms_content
+        title="Code Examples Repository"
+        type="LINK"
+        content_url="https://github.com/example/programming-basics"
+        file_size_in_bytes="0"
+        lesson_id="9"
+    />
+</dataset>

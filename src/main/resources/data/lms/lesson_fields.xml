@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="LESSON">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
-        <displayOrder>1</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
         <fieldName>autoNumber</fieldName>
         <fieldLabel>Lesson Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
-        <displayOrder>2</displayOrder>
+        <displayOrder>1</displayOrder>
         <defaultWidth>120</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -27,47 +16,72 @@
         <fieldProperties>{"prefix":"LES-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>title</fieldName>
+        <fieldLabel>Title</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>1</uiType>
         <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Lesson title</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <uiType>21</uiType>
         <displayOrder>3</displayOrder>
+        <defaultWidth>300</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Detailed description of the lesson</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>orderIndex</fieldName>
+        <fieldLabel>Order</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <uiType>19</uiType>
         <displayOrder>4</displayOrder>
+        <defaultWidth>80</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <defaultValue>0</defaultValue>
+        <fieldDescription>Display order of the lesson within the module</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>published</fieldName>
+        <fieldLabel>Published</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>301</uiType>
         <displayOrder>5</displayOrder>
+        <defaultWidth>100</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <defaultValue>false</defaultValue>
+        <fieldDescription>Whether the lesson is published to students</fieldDescription>
+    </field>
+    <field>
+        <fieldName>moduleId</fieldName>
+        <fieldLabel>Module</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>10</uiType>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Module this lesson belongs to</fieldDescription>
+        <referencedEntity>LMS_MODULE</referencedEntity>
     </field>
 </entityFields>

@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="VIRTUAL_SESSION">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
-        <displayOrder>1</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
         <fieldName>autoNumber</fieldName>
-        <fieldLabel>Virtual Session Code</fieldLabel>
+        <fieldLabel>Session Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
-        <displayOrder>2</displayOrder>
+        <displayOrder>1</displayOrder>
         <defaultWidth>120</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -24,94 +13,142 @@
         <showType>1</showType>
         <maxLength>50</maxLength>
         <fieldDescription>Auto-generated unique code for Virtual Session</fieldDescription>
-        <fieldProperties>{"prefix":"VIR-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+        <fieldProperties>{"prefix":"VS-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>title</fieldName>
+        <fieldLabel>Title</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>1</uiType>
         <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Session title</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>provider</fieldName>
+        <fieldLabel>Provider</fieldLabel>
+        <fieldType>PICKLIST</fieldType>
+        <uiType>2</uiType>
         <displayOrder>3</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <fieldDescription>Video conferencing provider</fieldDescription>
+        <picklistValues>ZOOM,GOOGLE_MEET,MS_TEAMS,WEBEX,OTHER</picklistValues>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>meetingUrl</fieldName>
+        <fieldLabel>Meeting URL</fieldLabel>
+        <fieldType>URL</fieldType>
+        <uiType>17</uiType>
         <displayOrder>4</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <defaultWidth>250</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>URL to join the virtual session</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>meetingId</fieldName>
+        <fieldLabel>Meeting ID</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>1</uiType>
         <displayOrder>5</displayOrder>
+        <defaultWidth>150</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Meeting ID from provider</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>meetingPassword</fieldName>
+        <fieldLabel>Meeting Password</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>1</uiType>
         <displayOrder>6</displayOrder>
+        <defaultWidth>120</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Password for joining the meeting</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>startTime</fieldName>
+        <fieldLabel>Start Time</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <uiType>5</uiType>
         <displayOrder>7</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <fieldDescription>Session start date and time</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>endTime</fieldName>
+        <fieldLabel>End Time</fieldLabel>
+        <fieldType>DATETIME</fieldType>
+        <uiType>5</uiType>
         <displayOrder>8</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <fieldDescription>Session end date and time</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>recordingUrl</fieldName>
+        <fieldLabel>Recording URL</fieldLabel>
+        <fieldType>URL</fieldType>
+        <uiType>17</uiType>
         <displayOrder>9</displayOrder>
+        <defaultWidth>250</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>URL to session recording</fieldDescription>
+    </field>
+    <field>
+        <fieldName>recurring</fieldName>
+        <fieldLabel>Recurring</fieldLabel>
+        <fieldType>BOOLEAN</fieldType>
+        <uiType>301</uiType>
+        <displayOrder>10</displayOrder>
+        <defaultWidth>100</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <defaultValue>false</defaultValue>
+        <fieldDescription>Whether this is a recurring session</fieldDescription>
+    </field>
+    <field>
+        <fieldName>lessonId</fieldName>
+        <fieldLabel>Lesson</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>10</uiType>
+        <displayOrder>11</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Lesson this session is associated with</fieldDescription>
+        <referencedEntity>LESSON</referencedEntity>
     </field>
 </entityFields>

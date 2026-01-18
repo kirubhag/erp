@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="LMS_BADGE">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
-        <displayOrder>1</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
         <fieldName>autoNumber</fieldName>
         <fieldLabel>Badge Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
-        <displayOrder>2</displayOrder>
+        <displayOrder>1</displayOrder>
         <defaultWidth>120</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -24,50 +13,74 @@
         <showType>1</showType>
         <maxLength>50</maxLength>
         <fieldDescription>Auto-generated unique code for Badge</fieldDescription>
-        <fieldProperties>{"prefix":"BAD-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+        <fieldProperties>{"prefix":"BDG-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>name</fieldName>
+        <fieldLabel>Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>1</uiType>
         <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Badge name</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>description</fieldName>
+        <fieldLabel>Description</fieldLabel>
+        <fieldType>TEXT</fieldType>
+        <uiType>21</uiType>
         <displayOrder>3</displayOrder>
+        <defaultWidth>300</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Badge description and criteria</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>iconUrl</fieldName>
+        <fieldLabel>Icon URL</fieldLabel>
+        <fieldType>URL</fieldType>
+        <uiType>17</uiType>
         <displayOrder>4</displayOrder>
+        <defaultWidth>200</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>URL or path to badge icon image</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>pointsRequired</fieldName>
+        <fieldLabel>Points Required</fieldLabel>
+        <fieldType>INTEGER</fieldType>
+        <uiType>19</uiType>
         <displayOrder>5</displayOrder>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>false</isRequired>
+        <isSearchable>false</isSearchable>
+        <isSortable>true</isSortable>
+        <showType>2</showType>
+        <defaultValue>0</defaultValue>
+        <fieldDescription>Points needed to earn this badge</fieldDescription>
+    </field>
+    <field>
+        <fieldName>tier</fieldName>
+        <fieldLabel>Tier</fieldLabel>
+        <fieldType>PICKLIST</fieldType>
+        <uiType>2</uiType>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>100</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <fieldDescription>Badge achievement tier</fieldDescription>
+        <picklistValues>BRONZE,SILVER,GOLD,PLATINUM</picklistValues>
     </field>
 </entityFields>

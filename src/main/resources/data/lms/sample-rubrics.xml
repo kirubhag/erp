@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample LMS Rubric Data -->
+    <lms_rubric
+        name="Essay Grading Rubric"
+        criteria="Thesis Statement: 20 points, Organization: 20 points, Evidence: 25 points, Grammar: 15 points, Conclusion: 20 points"
+        max_points="100.0"
+    />
+
+    <lms_rubric
+        name="Math Problem Solving Rubric"
+        criteria="Understanding: 25 points, Approach: 25 points, Accuracy: 30 points, Presentation: 20 points"
+        max_points="100.0"
+    />
+
+    <lms_rubric
+        name="Science Lab Report Rubric"
+        criteria="Hypothesis: 15 points, Methodology: 25 points, Data Analysis: 30 points, Conclusion: 20 points, Safety: 10 points"
+        max_points="100.0"
+    />
+
+    <lms_rubric
+        name="Coding Assignment Rubric"
+        criteria="Functionality: 40 points, Code Quality: 25 points, Documentation: 15 points, Testing: 20 points"
+        max_points="100.0"
+    />
+
+    <lms_rubric
+        name="Presentation Rubric"
+        criteria="Content: 30 points, Delivery: 25 points, Visual Aids: 20 points, Q&amp;A: 15 points, Timing: 10 points"
+        max_points="100.0"
+    />
+</dataset>

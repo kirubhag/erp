@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Virtual Attendance - Student attendance in virtual sessions -->
+    
+    <virtual_attendance
+        session_id="3"
+        student_id="1"
+        join_time="2024-01-19 11:02:00"
+        leave_time="2024-01-19 11:45:00"
+        duration_minutes="43"
+        attendance_status="PRESENT"
+        ip_address="192.168.1.100"
+        device_type="DESKTOP"
+    />
+    
+    <virtual_attendance
+        session_id="3"
+        student_id="2"
+        join_time="2024-01-19 11:00:00"
+        leave_time="2024-01-19 11:45:00"
+        duration_minutes="45"
+        attendance_status="PRESENT"
+        ip_address="192.168.1.101"
+        device_type="LAPTOP"
+    />
+    
+    <virtual_attendance
+        session_id="3"
+        student_id="3"
+        join_time="2024-01-19 11:15:00"
+        leave_time="2024-01-19 11:30:00"
+        duration_minutes="15"
+        attendance_status="PARTIAL"
+        ip_address="10.0.0.50"
+        device_type="MOBILE"
+    />
+    
+    <virtual_attendance
+        session_id="3"
+        student_id="4"
+        join_time=""
+        leave_time=""
+        duration_minutes="0"
+        attendance_status="ABSENT"
+        ip_address=""
+        device_type=""
+    />
+    
+    <virtual_attendance
+        session_id="3"
+        student_id="5"
+        join_time="2024-01-19 11:05:00"
+        leave_time="2024-01-19 11:45:00"
+        duration_minutes="40"
+        attendance_status="PRESENT"
+        ip_address="172.16.0.25"
+        device_type="TABLET"
+    />
+</dataset>

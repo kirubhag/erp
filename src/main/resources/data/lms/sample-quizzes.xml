@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample LMS Quiz Data -->
+    <lms_quiz
+        title="Math Module 1 Quiz"
+        description="Test your understanding of basic mathematical operations."
+        time_limit_minutes="30"
+        passing_score="70.0"
+        published="true"
+        lesson_id="1"
+        subject_id="1"
+    />
+
+    <lms_quiz
+        title="Algebra Assessment"
+        description="Quiz on algebraic expressions and equations."
+        time_limit_minutes="45"
+        passing_score="65.0"
+        published="true"
+        lesson_id="2"
+        subject_id="1"
+    />
+
+    <lms_quiz
+        title="Grammar Quiz"
+        description="Test your knowledge of parts of speech and grammar rules."
+        time_limit_minutes="25"
+        passing_score="75.0"
+        published="true"
+        lesson_id="4"
+        subject_id="2"
+    />
+
+    <lms_quiz
+        title="Science Fundamentals Test"
+        description="Assessment covering matter, energy, and basic science concepts."
+        time_limit_minutes="40"
+        passing_score="60.0"
+        published="true"
+        lesson_id="7"
+        subject_id="3"
+    />
+
+    <lms_quiz
+        title="Programming Basics Quiz"
+        description="Evaluate understanding of coding fundamentals and control flow."
+        time_limit_minutes="35"
+        passing_score="70.0"
+        published="true"
+        lesson_id="9"
+        subject_id="4"
+    />
+</dataset>

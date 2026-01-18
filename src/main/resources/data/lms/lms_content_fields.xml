@@ -1,73 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entityFields type="LMS_CONTENT">
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
-        <displayOrder>1</displayOrder>
-        <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
-    </field>
-    <field>
         <fieldName>autoNumber</fieldName>
-        <fieldLabel>LMS Content Code</fieldLabel>
+        <fieldLabel>Content Code</fieldLabel>
         <fieldType>STRING</fieldType>
         <uiType>120</uiType>
-        <displayOrder>2</displayOrder>
+        <displayOrder>1</displayOrder>
         <defaultWidth>120</defaultWidth>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showType>1</showType>
         <maxLength>50</maxLength>
-        <fieldDescription>Auto-generated unique code for LMS Content</fieldDescription>
-        <fieldProperties>{"prefix":"LMS-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
+        <fieldDescription>Auto-generated unique code for Content</fieldDescription>
+        <fieldProperties>{"prefix":"CON-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
+        <fieldName>title</fieldName>
+        <fieldLabel>Title</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>1</uiType>
         <displayOrder>2</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>200</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <maxLength>255</maxLength>
+        <fieldDescription>Content title</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>type</fieldName>
+        <fieldLabel>Content Type</fieldLabel>
+        <fieldType>PICKLIST</fieldType>
+        <uiType>2</uiType>
         <displayOrder>3</displayOrder>
-        <isRequired>false</isRequired>
+        <defaultWidth>120</defaultWidth>
+        <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <fieldDescription>Type of content (VIDEO, PDF, INTERACTIVE, LINK, etc.)</fieldDescription>
+        <picklistValues>VIDEO,PDF,DOCUMENT,IMAGE,INTERACTIVE,LINK,AUDIO</picklistValues>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>contentUrl</fieldName>
+        <fieldLabel>Content URL</fieldLabel>
+        <fieldType>URL</fieldType>
+        <uiType>17</uiType>
         <displayOrder>4</displayOrder>
+        <defaultWidth>250</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
-        <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <isSearchable>false</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>URL or path to the content file</fieldDescription>
     </field>
     <field>
-        <fieldName></fieldName>
-        <fieldLabel></fieldLabel>
-        <fieldType>STRING</fieldType>
+        <fieldName>fileSizeInBytes</fieldName>
+        <fieldLabel>File Size (bytes)</fieldLabel>
+        <fieldType>LONG</fieldType>
+        <uiType>19</uiType>
         <displayOrder>5</displayOrder>
+        <defaultWidth>120</defaultWidth>
         <isRequired>false</isRequired>
-        <isSearchable>true</isSearchable>
+        <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
-        <showInList>true</showInList>
-        <showInForm>true</showInForm>
+        <showType>2</showType>
+        <defaultValue>0</defaultValue>
+        <fieldDescription>Size of the content file in bytes</fieldDescription>
+    </field>
+    <field>
+        <fieldName>lessonId</fieldName>
+        <fieldLabel>Lesson</fieldLabel>
+        <fieldType>REFERENCE</fieldType>
+        <uiType>10</uiType>
+        <displayOrder>6</displayOrder>
+        <defaultWidth>150</defaultWidth>
+        <isRequired>true</isRequired>
+        <isSearchable>true</isSearchable>
+        <isSortable>false</isSortable>
+        <showType>2</showType>
+        <fieldDescription>Lesson this content belongs to</fieldDescription>
+        <referencedEntity>LESSON</referencedEntity>
     </field>
 </entityFields>

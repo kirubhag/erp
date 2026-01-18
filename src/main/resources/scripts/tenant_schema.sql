@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS erp_academic_years (
 CREATE TABLE IF NOT EXISTS erp_addresses (
     address_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     auto_number VARCHAR(255) DEFAULT NULL,
-    entity_type VARCHAR(50) NOT NULL,
+    entity_type VARCHAR(100) NOT NULL,
     entity_id BIGINT NOT NULL,
     address_line1 VARCHAR(100),
     address_line2 VARCHAR(100),
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS erp_custom_views (
     custom_view_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     view_name VARCHAR(100) NOT NULL,
     description VARCHAR(500),
-    entity_type VARCHAR(50) NOT NULL,
+    entity_type VARCHAR(100) NOT NULL,
     is_default BOOLEAN DEFAULT false,
     created_by_user VARCHAR(100),
     is_public BOOLEAN DEFAULT false,
@@ -2244,7 +2244,7 @@ CREATE TABLE IF NOT EXISTS erp_exams (
 -- Table from SQL file: field_mapping_templates
 CREATE TABLE IF NOT EXISTS erp_field_mapping_templates (
     field_mapping_template_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(50) NOT NULL,
+    entity_type VARCHAR(100) NOT NULL,
     field_name VARCHAR(100) NOT NULL,
     field_label VARCHAR(255) NOT NULL,
     is_required BOOLEAN DEFAULT false,
@@ -2442,7 +2442,7 @@ CREATE TABLE IF NOT EXISTS erp_import_sessions (
     id VARCHAR(50) PRIMARY KEY,
     user_id BIGINT NOT NULL,
     organization_id BIGINT,
-    entity_type VARCHAR(50) NOT NULL,
+    entity_type VARCHAR(100) NOT NULL,
     file_name VARCHAR(255) NOT NULL,
     file_format VARCHAR(20),
     total_records INT,

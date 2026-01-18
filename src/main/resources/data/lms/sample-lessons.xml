@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Lesson Data -->
+    <lesson
+        title="Numbers and Operations"
+        description="Understanding numbers, addition, subtraction, multiplication, and division."
+        order_index="1"
+        published="true"
+        module_id="1"
+    />
+
+    <lesson
+        title="Algebraic Expressions"
+        description="Introduction to variables, equations, and algebraic thinking."
+        order_index="2"
+        published="true"
+        module_id="1"
+    />
+
+    <lesson
+        title="Geometry Basics"
+        description="Points, lines, angles, and basic shapes."
+        order_index="3"
+        published="true"
+        module_id="1"
+    />
+
+    <lesson
+        title="Parts of Speech"
+        description="Nouns, verbs, adjectives, adverbs, and their usage."
+        order_index="1"
+        published="true"
+        module_id="2"
+    />
+
+    <lesson
+        title="Sentence Structure"
+        description="Building proper sentences, punctuation, and grammar rules."
+        order_index="2"
+        published="true"
+        module_id="2"
+    />
+
+    <lesson
+        title="Reading Comprehension"
+        description="Strategies for understanding and analyzing texts."
+        order_index="3"
+        published="true"
+        module_id="2"
+    />
+
+    <lesson
+        title="Matter and Energy"
+        description="States of matter, energy forms, and basic physics concepts."
+        order_index="1"
+        published="true"
+        module_id="3"
+    />
+
+    <lesson
+        title="Living Organisms"
+        description="Classification of life, cells, and ecosystems."
+        order_index="2"
+        published="true"
+        module_id="3"
+    />
+
+    <lesson
+        title="Programming Basics"
+        description="Introduction to coding, variables, and control flow."
+        order_index="1"
+        published="true"
+        module_id="4"
+    />
+
+    <lesson
+        title="Data Types and Structures"
+        description="Understanding arrays, lists, and fundamental data structures."
+        order_index="2"
+        published="true"
+        module_id="4"
+    />
+</dataset>

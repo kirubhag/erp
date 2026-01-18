@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Forum Posts - Discussion forum replies -->
+    
+    <lms_forum_post
+        forum_id="1"
+        student_id="1"
+        content="Can someone explain how to solve quadratic equations step by step?"
+        created_at="2024-01-14 09:30:00"
+        updated_at="2024-01-14 09:30:00"
+        parent_post_id=""
+        is_pinned="false"
+        upvotes="3"
+        is_answer="false"
+    />
+    
+    <lms_forum_post
+        forum_id="1"
+        student_id="2"
+        content="Sure! First, identify the coefficients a, b, and c. Then use the quadratic formula: x = (-b ± √(b²-4ac)) / 2a"
+        created_at="2024-01-14 10:15:00"
+        updated_at="2024-01-14 10:15:00"
+        parent_post_id="1"
+        is_pinned="false"
+        upvotes="5"
+        is_answer="true"
+    />
+    
+    <lms_forum_post
+        forum_id="2"
+        student_id="3"
+        content="What's the difference between active and passive voice?"
+        created_at="2024-01-15 11:00:00"
+        updated_at="2024-01-15 11:00:00"
+        parent_post_id=""
+        is_pinned="false"
+        upvotes="2"
+        is_answer="false"
+    />
+    
+    <lms_forum_post
+        forum_id="2"
+        staff_id="2"
+        content="In active voice, the subject performs the action (The dog bit the man). In passive voice, the subject receives the action (The man was bitten by the dog)."
+        created_at="2024-01-15 14:30:00"
+        updated_at="2024-01-15 14:30:00"
+        parent_post_id="3"
+        is_pinned="true"
+        upvotes="8"
+        is_answer="true"
+    />
+    
+    <lms_forum_post
+        forum_id="3"
+        student_id="2"
+        content="Why do we need to learn the periodic table?"
+        created_at="2024-01-16 10:00:00"
+        updated_at="2024-01-16 10:00:00"
+        parent_post_id=""
+        is_pinned="false"
+        upvotes="4"
+        is_answer="false"
+    />
+    
+    <lms_forum_post
+        forum_id="3"
+        student_id="1"
+        content="The periodic table helps us understand element properties and predict chemical reactions. It's essential for chemistry!"
+        created_at="2024-01-16 11:15:00"
+        updated_at="2024-01-16 11:15:00"
+        parent_post_id="5"
+        is_pinned="false"
+        upvotes="6"
+        is_answer="true"
+    />
+    
+    <lms_forum_post
+        forum_id="4"
+        student_id="4"
+        content="What programming language should I start with?"
+        created_at="2024-01-17 09:00:00"
+        updated_at="2024-01-17 09:00:00"
+        parent_post_id=""
+        is_pinned="true"
+        upvotes="10"
+        is_answer="false"
+    />
+    
+    <lms_forum_post
+        forum_id="4"
+        staff_id="4"
+        content="Python is great for beginners - it has simple syntax and is very versatile. You can use it for web development, data science, and more!"
+        created_at="2024-01-17 10:30:00"
+        updated_at="2024-01-17 10:30:00"
+        parent_post_id="7"
+        is_pinned="false"
+        upvotes="15"
+        is_answer="true"
+    />
+</dataset>

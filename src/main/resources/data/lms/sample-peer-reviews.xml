@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Peer Reviews - Student-to-student feedback -->
+    
+    <lms_peer_review
+        assignment_id="1"
+        reviewer_student_id="2"
+        reviewee_student_id="1"
+        score="85"
+        feedback="Well-organized essay with clear arguments. Could improve transitions between paragraphs."
+        criteria_scores='{"structure":4,"content":4,"grammar":4,"originality":3}'
+        submitted_at="2024-01-18 14:00:00"
+        status="COMPLETED"
+        is_anonymous="true"
+    />
+    
+    <lms_peer_review
+        assignment_id="1"
+        reviewer_student_id="3"
+        reviewee_student_id="1"
+        score="80"
+        feedback="Good research and examples. The conclusion could be stronger."
+        criteria_scores='{"structure":4,"content":4,"grammar":3,"originality":4}'
+        submitted_at="2024-01-18 15:30:00"
+        status="COMPLETED"
+        is_anonymous="true"
+    />
+    
+    <lms_peer_review
+        assignment_id="1"
+        reviewer_student_id="1"
+        reviewee_student_id="2"
+        score="92"
+        feedback="Excellent analysis with creative insights. Very engaging writing style."
+        criteria_scores='{"structure":5,"content":5,"grammar":4,"originality":5}'
+        submitted_at="2024-01-18 16:00:00"
+        status="COMPLETED"
+        is_anonymous="true"
+    />
+    
+    <lms_peer_review
+        assignment_id="2"
+        reviewer_student_id="4"
+        reviewee_student_id="3"
+        score="78"
+        feedback="Code works correctly but could use more comments. Consider refactoring the main function."
+        criteria_scores='{"functionality":5,"readability":3,"efficiency":4,"documentation":2}'
+        submitted_at="2024-01-19 10:00:00"
+        status="COMPLETED"
+        is_anonymous="false"
+    />
+    
+    <lms_peer_review
+        assignment_id="2"
+        reviewer_student_id="2"
+        reviewee_student_id="4"
+        score=""
+        feedback=""
+        criteria_scores='{}'
+        submitted_at=""
+        status="PENDING"
+        is_anonymous="false"
+    />
+</dataset>

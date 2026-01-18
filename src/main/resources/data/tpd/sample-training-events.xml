@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!-- Sample Training Event Data -->
+    <training_event
+        title="Effective Teaching Methodologies"
+        description="Learn modern pedagogical techniques and student engagement strategies."
+        type="WORKSHOP"
+        start_date_time="2025-02-15 09:00:00"
+        end_date_time="2025-02-15 16:00:00"
+        resource_person="Dr. Sarah Johnson"
+        cost="0.0"
+        max_participants="30"
+    />
+
+    <training_event
+        title="Digital Tools for Education"
+        description="Hands-on training with educational technology and digital classroom tools."
+        type="SEMINAR"
+        start_date_time="2025-02-20 10:00:00"
+        end_date_time="2025-02-20 14:00:00"
+        resource_person="Prof. Michael Chen"
+        cost="50.0"
+        max_participants="25"
+    />
+
+    <training_event
+        title="Inclusive Education Practices"
+        description="Strategies for supporting diverse learners in the classroom."
+        type="WORKSHOP"
+        start_date_time="2025-03-01 09:00:00"
+        end_date_time="2025-03-01 17:00:00"
+        resource_person="Ms. Emily Rodriguez"
+        cost="0.0"
+        max_participants="40"
+    />
+
+    <training_event
+        title="Assessment &amp; Feedback Techniques"
+        description="Modern approaches to formative and summative assessments."
+        type="CONFERENCE"
+        start_date_time="2025-03-10 08:30:00"
+        end_date_time="2025-03-10 16:30:00"
+        resource_person="Dr. James Wilson"
+        cost="100.0"
+        max_participants="50"
+    />
+
+    <training_event
+        title="Child Psychology Fundamentals"
+        description="Understanding student behavior and developmental stages."
+        type="COURSE"
+        start_date_time="2025-03-15 09:00:00"
+        end_date_time="2025-03-17 17:00:00"
+        resource_person="Dr. Lisa Thompson"
+        cost="150.0"
+        max_participants="20"
+    />
+</dataset>
