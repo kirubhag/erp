@@ -1487,6 +1487,54 @@
         <has_rel_table>false</has_rel_table>
     </entity>
     <entity>
+        <id>345</id>
+        <singular_name>Evidence</singular_name>
+        <plural_name>Evidence Records</plural_name>
+        <system_name>EVIDENCE</system_name>
+        <description>Portfolio evidence documents</description>
+        <is_active>true</is_active>
+        <sequence>345</sequence>
+        <presence>true</presence>
+        <icon>fas fa-file-alt</icon>
+        <route>/learning-teaching/evidence</route>
+        <table_name>erp_tpd_evidence</table_name>
+        <pkid>id</pkid>
+        <display_column>title</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>346</id>
+        <singular_name>Training Attendance</singular_name>
+        <plural_name>Training Attendance Records</plural_name>
+        <system_name>TRAINING_ATTENDANCE</system_name>
+        <description>Staff attendance for training events</description>
+        <is_active>true</is_active>
+        <sequence>346</sequence>
+        <presence>true</presence>
+        <icon>fas fa-clipboard-check</icon>
+        <route>/learning-teaching/training-attendance</route>
+        <table_name>erp_tpd_training_attendance</table_name>
+        <pkid>id</pkid>
+        <display_column>attendance_date</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>347</id>
+        <singular_name>Evaluation</singular_name>
+        <plural_name>Performance Evaluations</plural_name>
+        <system_name>EVALUATION</system_name>
+        <description>Staff performance evaluations</description>
+        <is_active>true</is_active>
+        <sequence>347</sequence>
+        <presence>true</presence>
+        <icon>fas fa-clipboard-list</icon>
+        <route>/learning-teaching/evaluations</route>
+        <table_name>erp_tpd_evaluations</table_name>
+        <pkid>id</pkid>
+        <display_column>evaluation_date</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
         <id>330</id>
         <singular_name>Student Progress</singular_name>
         <plural_name>Student Progress Logs</plural_name>

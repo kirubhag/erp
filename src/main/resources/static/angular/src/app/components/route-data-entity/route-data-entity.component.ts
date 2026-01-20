@@ -154,7 +154,33 @@ export class RouteDataEntityComponent implements OnInit, OnDestroy {
       // Leave Management module
       'LEAVE_TYPE': 'leave_type',
       'LEAVE_REQUEST': 'leave_request',
-      'LEAVE_BALANCE': 'leave_balance'
+      'LEAVE_BALANCE': 'leave_balance',
+      // Learning & Teaching - LMS entities
+      'LMS_MODULE': 'lms-module',
+      'LESSON': 'lesson',
+      'LMS_TOPIC': 'lms-topic',
+      'LMS_CONTENT': 'lms-content',
+      'LMS_QUIZ': 'lms-quiz',
+      'LMS_QUESTION_BANK': 'lms-question-bank',
+      'LMS_SUBMISSION': 'lms-submission',
+      'LMS_RUBRIC': 'lms-rubric',
+      'VIRTUAL_SESSION': 'virtual-session',
+      'VIRTUAL_ATTENDANCE': 'virtual-attendance',
+      'STUDENT_PROGRESS': 'student-progress',
+      'LMS_BADGE': 'lms-badge',
+      'LMS_POINT_LOG': 'lms-point-log',
+      'LMS_FORUM': 'lms-forum',
+      'LMS_FORUM_POST': 'lms-forum-post',
+      'LMS_PEER_REVIEW': 'lms-peer-review',
+      // Learning & Teaching - TPD entities
+      'COMPETENCY': 'competency',
+      'SKILL_ASSESSMENT': 'skill-assessment',
+      'TRAINING_EVENT': 'training-event',
+      'TRAINING_ATTENDANCE': 'training-attendance',
+      'CPD_LEDGER': 'cpd-ledger',
+      'PROFESSIONAL_PORTFOLIO': 'professional-portfolio',
+      'EVIDENCE': 'evidence',
+      'EVALUATION': 'evaluation'
     };
 
     return entityTypeMap[this.entityType] || this.entityType.toLowerCase().replace(/_/g, '-');
@@ -266,7 +292,35 @@ export class RouteDataEntityComponent implements OnInit, OnDestroy {
       // Communication module
       'MESSAGE': '/api/setup/communication/messages',
       'ANNOUNCEMENT': '/api/setup/communication/announcements',
-      'SUPPORT_TICKET': '/api/setup/communication/tickets'
+      'SUPPORT_TICKET': '/api/setup/communication/tickets',
+      
+      // Learning & Teaching - LMS entities
+      'LMS_MODULE': '/api/lms/modules',
+      'LESSON': '/api/lms/lessons',
+      'LMS_TOPIC': '/api/lms/topics',
+      'LMS_CONTENT': '/api/lms/content',
+      'LMS_QUIZ': '/api/lms/quizzes',
+      'LMS_QUESTION_BANK': '/api/lms/question-banks',
+      'LMS_SUBMISSION': '/api/lms/submissions',
+      'LMS_RUBRIC': '/api/lms/rubrics',
+      'VIRTUAL_SESSION': '/api/lms/virtual-sessions',
+      'VIRTUAL_ATTENDANCE': '/api/lms/virtual-attendance',
+      'STUDENT_PROGRESS': '/api/lms/student-progress',
+      'LMS_BADGE': '/api/lms/badges',
+      'LMS_POINT_LOG': '/api/lms/point-logs',
+      'LMS_FORUM': '/api/lms/forums',
+      'LMS_FORUM_POST': '/api/lms/forum-posts',
+      'LMS_PEER_REVIEW': '/api/lms/peer-reviews',
+      
+      // Learning & Teaching - TPD entities
+      'COMPETENCY': '/api/tpd/competencies',
+      'SKILL_ASSESSMENT': '/api/tpd/skill-assessments',
+      'TRAINING_EVENT': '/api/tpd/training-events',
+      'TRAINING_ATTENDANCE': '/api/tpd/training-attendance',
+      'CPD_LEDGER': '/api/tpd/cpd-ledger',
+      'PROFESSIONAL_PORTFOLIO': '/api/tpd/portfolios',
+      'EVIDENCE': '/api/tpd/evidence',
+      'EVALUATION': '/api/tpd/evaluations'
     };
 
     return commonEndpoints[this.entityType] || `/api/${pathSegment}`;

@@ -10,6 +10,7 @@
         <isRequired>false</isRequired>
         <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
+        <showInForm>false</showInForm>
         <fieldDescription>Unique identifier for the subject</fieldDescription>
     </field>
     <field>
@@ -23,6 +24,7 @@
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showType>1</showType>
+        <showInForm>false</showInForm>
         <maxLength>50</maxLength>
         <fieldDescription>Auto-generated unique code for Subject</fieldDescription>
         <fieldProperties>{"prefix":"SUB-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
@@ -145,6 +147,7 @@
         <isRequired>false</isRequired>
         <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
+        <showInForm>false</showInForm>
         <fieldDescription>Whether the subject is active</fieldDescription>
     </field>
     <field>
@@ -157,6 +160,7 @@
         <isRequired>false</isRequired>
         <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
+        <showInForm>false</showInForm>
         <fieldDescription>Record creation timestamp</fieldDescription>
     </field>
     <field>
@@ -169,6 +173,7 @@
         <isRequired>false</isRequired>
         <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
+        <showInForm>false</showInForm>
         <fieldDescription>Last update timestamp</fieldDescription>
     </field>
 </entityFields>

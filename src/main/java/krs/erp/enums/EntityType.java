@@ -87,7 +87,33 @@ public enum EntityType {
     LIBRARY_HOLD("LibraryHold"),
     LIBRARY_POLICY("LibraryPolicy"),
     LIBRARY_PURCHASE_REQUEST("LibraryPurchaseRequest"),
-    LIBRARY_PO("LibraryPO");
+    LIBRARY_PO("LibraryPO"),
+    // LMS (Learning Management System) types
+    LMS_MODULE("LmsModule"),
+    LESSON("Lesson"),
+    LMS_TOPIC("LmsTopic"),
+    LMS_CONTENT("LmsContent"),
+    LMS_QUIZ("LmsQuiz"),
+    LMS_QUESTION_BANK("LmsQuestionBank"),
+    LMS_SUBMISSION("LmsSubmission"),
+    LMS_RUBRIC("LmsRubric"),
+    VIRTUAL_SESSION("VirtualSession"),
+    VIRTUAL_ATTENDANCE("VirtualAttendance"),
+    STUDENT_PROGRESS("StudentProgress"),
+    LMS_BADGE("LmsBadge"),
+    LMS_POINT_LOG("LmsPointLog"),
+    LMS_FORUM("LmsForum"),
+    LMS_FORUM_POST("LmsForumPost"),
+    LMS_PEER_REVIEW("LmsPeerReview"),
+    // TPD (Teacher Professional Development) types
+    COMPETENCY("Competency"),
+    SKILL_ASSESSMENT("SkillAssessment"),
+    TRAINING_EVENT("TrainingEvent"),
+    TRAINING_ATTENDANCE("TrainingAttendance"),
+    CPD_LEDGER("CpdLedger"),
+    PROFESSIONAL_PORTFOLIO("ProfessionalPortfolio"),
+    EVIDENCE("Evidence"),
+    EVALUATION("Evaluation");
 
     private final String displayName;
 
@@ -256,6 +282,82 @@ public enum EntityType {
         }
         if ("LIBRARY-PO".equals(upperValue) || "LIBRARY-POS".equals(upperValue) || "LIBRARY_PO".equals(upperValue)) {
             return EntityType.LIBRARY_PO;
+        }
+
+        // Handle LMS (Learning Management System) routes
+        if ("LMS-MODULE".equals(upperValue) || "LMS-MODULES".equals(upperValue) || "LMS_MODULE".equals(upperValue)) {
+            return EntityType.LMS_MODULE;
+        }
+        if ("LESSON".equals(upperValue) || "LESSONS".equals(upperValue)) {
+            return EntityType.LESSON;
+        }
+        if ("LMS-TOPIC".equals(upperValue) || "LMS-TOPICS".equals(upperValue) || "LMS_TOPIC".equals(upperValue)) {
+            return EntityType.LMS_TOPIC;
+        }
+        if ("LMS-CONTENT".equals(upperValue) || "LMS-CONTENTS".equals(upperValue) || "LMS_CONTENT".equals(upperValue)) {
+            return EntityType.LMS_CONTENT;
+        }
+        if ("LMS-QUIZ".equals(upperValue) || "LMS-QUIZZES".equals(upperValue) || "LMS_QUIZ".equals(upperValue)) {
+            return EntityType.LMS_QUIZ;
+        }
+        if ("LMS-QUESTION-BANK".equals(upperValue) || "LMS-QUESTION-BANKS".equals(upperValue) || "LMS_QUESTION_BANK".equals(upperValue)) {
+            return EntityType.LMS_QUESTION_BANK;
+        }
+        if ("LMS-SUBMISSION".equals(upperValue) || "LMS-SUBMISSIONS".equals(upperValue) || "LMS_SUBMISSION".equals(upperValue)) {
+            return EntityType.LMS_SUBMISSION;
+        }
+        if ("LMS-RUBRIC".equals(upperValue) || "LMS-RUBRICS".equals(upperValue) || "LMS_RUBRIC".equals(upperValue)) {
+            return EntityType.LMS_RUBRIC;
+        }
+        if ("VIRTUAL-SESSION".equals(upperValue) || "VIRTUAL-SESSIONS".equals(upperValue) || "VIRTUAL_SESSION".equals(upperValue)) {
+            return EntityType.VIRTUAL_SESSION;
+        }
+        if ("VIRTUAL-ATTENDANCE".equals(upperValue) || "VIRTUAL_ATTENDANCE".equals(upperValue)) {
+            return EntityType.VIRTUAL_ATTENDANCE;
+        }
+        if ("STUDENT-PROGRESS".equals(upperValue) || "STUDENT_PROGRESS".equals(upperValue)) {
+            return EntityType.STUDENT_PROGRESS;
+        }
+        if ("LMS-BADGE".equals(upperValue) || "LMS-BADGES".equals(upperValue) || "LMS_BADGE".equals(upperValue)) {
+            return EntityType.LMS_BADGE;
+        }
+        if ("LMS-POINT-LOG".equals(upperValue) || "LMS-POINT-LOGS".equals(upperValue) || "LMS_POINT_LOG".equals(upperValue)) {
+            return EntityType.LMS_POINT_LOG;
+        }
+        if ("LMS-FORUM".equals(upperValue) || "LMS-FORUMS".equals(upperValue) || "LMS_FORUM".equals(upperValue)) {
+            return EntityType.LMS_FORUM;
+        }
+        if ("LMS-FORUM-POST".equals(upperValue) || "LMS-FORUM-POSTS".equals(upperValue) || "LMS_FORUM_POST".equals(upperValue)) {
+            return EntityType.LMS_FORUM_POST;
+        }
+        if ("LMS-PEER-REVIEW".equals(upperValue) || "LMS-PEER-REVIEWS".equals(upperValue) || "LMS_PEER_REVIEW".equals(upperValue)) {
+            return EntityType.LMS_PEER_REVIEW;
+        }
+        
+        // Handle TPD (Teacher Professional Development) routes
+        if ("COMPETENCY".equals(upperValue) || "COMPETENCIES".equals(upperValue)) {
+            return EntityType.COMPETENCY;
+        }
+        if ("SKILL-ASSESSMENT".equals(upperValue) || "SKILL-ASSESSMENTS".equals(upperValue) || "SKILL_ASSESSMENT".equals(upperValue)) {
+            return EntityType.SKILL_ASSESSMENT;
+        }
+        if ("TRAINING-EVENT".equals(upperValue) || "TRAINING-EVENTS".equals(upperValue) || "TRAINING_EVENT".equals(upperValue)) {
+            return EntityType.TRAINING_EVENT;
+        }
+        if ("TRAINING-ATTENDANCE".equals(upperValue) || "TRAINING_ATTENDANCE".equals(upperValue)) {
+            return EntityType.TRAINING_ATTENDANCE;
+        }
+        if ("CPD-LEDGER".equals(upperValue) || "CPD_LEDGER".equals(upperValue)) {
+            return EntityType.CPD_LEDGER;
+        }
+        if ("PROFESSIONAL-PORTFOLIO".equals(upperValue) || "PROFESSIONAL-PORTFOLIOS".equals(upperValue) || "PROFESSIONAL_PORTFOLIO".equals(upperValue)) {
+            return EntityType.PROFESSIONAL_PORTFOLIO;
+        }
+        if ("EVIDENCE".equals(upperValue)) {
+            return EntityType.EVIDENCE;
+        }
+        if ("EVALUATION".equals(upperValue) || "EVALUATIONS".equals(upperValue)) {
+            return EntityType.EVALUATION;
         }
 
         // Replace hyphens with underscores for standard enum matching

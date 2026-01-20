@@ -1943,7 +1943,7 @@ CREATE TABLE IF NOT EXISTS erp_rooms (
 -- Table from SQL file: erp_sections
 CREATE TABLE IF NOT EXISTS erp_sections (
     erp_section_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(100) NOT NULL,
+    entity_type VARCHAR(250) NOT NULL,
     section_name VARCHAR(100) NOT NULL,
     section_label VARCHAR(200) NOT NULL,
     layout_type VARCHAR(20) NOT NULL DEFAULT 'TWO_COLUMN',

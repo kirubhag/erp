@@ -162,8 +162,11 @@
             <entity>Competency</entity>
             <entity>Skill Assessment</entity>
             <entity>Training Event</entity>
+            <entity>Training Attendance</entity>
             <entity>Credit Ledger</entity>
             <entity>Professional Portfolio</entity>
+            <entity>Evidence</entity>
+            <entity>Evaluation</entity>
         </entities>
     </tab_group>
 

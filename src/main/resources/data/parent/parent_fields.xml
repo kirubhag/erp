@@ -13,6 +13,7 @@
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showType>1</showType>
+        <showInForm>false</showInForm>
         <maxLength>50</maxLength>
         <fieldDescription>Auto-generated unique code for the parent</fieldDescription>
         <fieldProperties>{"prefix":"PAR-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
@@ -162,6 +163,7 @@
         <sectionName>system_info</sectionName>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
+        <showInForm>false</showInForm>
     </field>
     <field>
         <fieldName>modifiedTime</fieldName>
@@ -170,5 +172,6 @@
         <sectionName>system_info</sectionName>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
+        <showInForm>false</showInForm>
     </field>
 </entityFields>

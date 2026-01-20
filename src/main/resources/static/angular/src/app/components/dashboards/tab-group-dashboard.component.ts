@@ -181,6 +181,20 @@ export class TabGroupDashboardComponent implements OnInit, OnDestroy {
                     { id: 'h2', type: 'list', title: 'Leave Requests', size: 'medium', data: { items: [{ label: 'John Doe', value: 'Sick Leave' }, { label: 'Jane Smith', value: 'Vacation' }] } }
                 );
                 break;
+            case 'LEARNING':
+                widgets.push(
+                    { id: 'l1', type: 'stat', title: 'Active Courses', icon: 'fas fa-book-open', data: { value: 24 }, className: 'text-primary' },
+                    { id: 'l2', type: 'stat', title: 'Total Students', icon: 'fas fa-user-graduate', data: { value: 580 }, className: 'text-success' },
+                    { id: 'l3', type: 'stat', title: 'Quizzes Created', icon: 'fas fa-question-circle', data: { value: 156 }, className: 'text-info' },
+                    { id: 'l4', type: 'stat', title: 'Avg. Completion', icon: 'fas fa-chart-line', data: { value: '78%' }, className: 'text-warning' },
+                    { id: 'l5', type: 'chart', title: 'Student Progress Overview', size: 'large', description: 'Course completion trends' },
+                    { id: 'l6', type: 'list', title: 'Recent Submissions', size: 'medium', data: { items: [{ label: 'Math Quiz - John', value: '95%' }, { label: 'Science Test - Jane', value: '88%' }, { label: 'English Essay - Mike', value: '82%' }] } },
+                    { id: 'l7', type: 'list', title: 'Upcoming Training Events', size: 'medium', data: { items: [{ label: 'Teaching Excellence Workshop', value: 'Jan 25' }, { label: 'Digital Tools Training', value: 'Feb 02' }, { label: 'Assessment Methods Seminar', value: 'Feb 10' }] } },
+                    { id: 'l8', type: 'stat', title: 'Virtual Sessions', icon: 'fas fa-video', data: { value: 12 }, className: 'text-danger' },
+                    { id: 'l9', type: 'stat', title: 'Badges Awarded', icon: 'fas fa-medal', data: { value: 245 }, className: 'text-warning' },
+                    { id: 'l10', type: 'action', title: 'Create New Module', icon: 'fas fa-plus-circle', actionText: 'Add Module', actionLink: '/learning-teaching/modules/create', description: 'Start building a new course module' }
+                );
+                break;
             // Add more specific widgets for other groups...
             default:
                 widgets.push(

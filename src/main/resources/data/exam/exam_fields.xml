@@ -10,6 +10,7 @@
         <isRequired>false</isRequired>
         <isSearchable>false</isSearchable>
         <isSortable>true</isSortable>
+        <showInForm>false</showInForm>
         <fieldDescription>Unique identifier for exam</fieldDescription>
     </field>
     <field>
@@ -23,6 +24,7 @@
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showType>1</showType>
+        <showInForm>false</showInForm>
         <maxLength>50</maxLength>
         <fieldDescription>Auto-generated unique code for Exam</fieldDescription>
         <fieldProperties>{"prefix":"EXA-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>

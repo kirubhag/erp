@@ -24,7 +24,7 @@ import krs.erp.enums.UIFieldType;
 @AttributeOverride(name = "id", column = @Column(name = "erp_field_id"))
 public class ErpField extends BaseEntity {
 
-    @Column(name = "entity_type", nullable = false, length = 50)
+    @Column(name = "entity_type", nullable = false, length = 250)
     @Enumerated(EnumType.STRING)
     private EntityType entityType;
 

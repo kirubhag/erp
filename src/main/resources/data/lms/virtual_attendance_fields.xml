@@ -22,6 +22,7 @@
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
         <showType>1</showType>
+        <showInForm>false</showInForm>
         <maxLength>50</maxLength>
         <fieldDescription>Auto-generated unique code for Virtual Attendance</fieldDescription>
         <fieldProperties>{"prefix":"VIR-","suffix":"","startNumber":1,"increment":1,"padding":4}</fieldProperties>
