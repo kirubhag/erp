@@ -40,6 +40,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   hasAvatar = false;
   avatarLoadError = false;
   isOverflowDropdownOpen = false;
+  isQuickAddDropdownOpen = false;
   isNavbarCollapsed = true; // For mobile menu toggle
 
   // Subscription data
@@ -263,6 +264,26 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     }
     this.isProfileDropdownOpen = !this.isProfileDropdownOpen;
     this.isOverflowDropdownOpen = false; // Close overflow when opening profile
+    this.isQuickAddDropdownOpen = false; // Close quick add when opening profile
+  }
+
+  /**
+   * Toggle quick add dropdown
+   */
+  toggleQuickAddDropdown(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.isQuickAddDropdownOpen = !this.isQuickAddDropdownOpen;
+    this.isProfileDropdownOpen = false; // Close profile
+    this.isOverflowDropdownOpen = false; // Close overflow
+  }
+
+  /**
+   * Close quick add dropdown when clicking outside
+   */
+  closeQuickAddDropdown(): void {
+    this.isQuickAddDropdownOpen = false;
   }
 
   /**
@@ -295,6 +316,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     }
     this.isOverflowDropdownOpen = !this.isOverflowDropdownOpen;
     this.isProfileDropdownOpen = false; // Close profile when opening overflow
+    this.isQuickAddDropdownOpen = false; // Close quick add when opening overflow
   }
 
   /**
@@ -310,6 +332,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   navigateAndClose(route: string): void {
     this.router.navigate([route]);
     this.closeProfileDropdown();
+    this.closeQuickAddDropdown();
+    this.closeOverflowDropdown();
   }
 
   /**

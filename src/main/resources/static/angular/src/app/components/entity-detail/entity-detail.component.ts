@@ -54,7 +54,8 @@ export class EntityDetailComponent implements OnInit {
   }
 
   private loadFieldConfiguration(): void {
-    this.fieldService.getFieldsByEntityType(this.entityType.toUpperCase()).subscribe({
+    // Backend's EntityType.fromValue() handles case conversion, so pass lowercase
+    this.fieldService.getFieldsByEntityType(this.entityType).subscribe({
       next: (fields) => {
         this.fields = fields.filter(f => f.showInForm);
       },
@@ -414,6 +415,10 @@ export class EntityDetailComponent implements OnInit {
       return 'Inactive';
     }
     return this.entityData.status || 'Active';
+  }
+
+  editEntity(): void {
+    this.router.navigate(['/entity-edit', this.entityType, this.entityId]);
   }
 
   toggleDetailsVisibility(event: any): void {

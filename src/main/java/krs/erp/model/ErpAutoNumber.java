@@ -1,10 +1,13 @@
 package krs.erp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
@@ -17,20 +20,24 @@ import krs.erp.enums.EntityType;
  * 
  * Uses optimistic locking (@Version) to prevent race conditions and deadlocks
  * during concurrent number generation.
+ * 
+ * Links to ErpField via FK relationship - field_name is derived from erpField.fieldName
  */
 @Entity
 @Table(name = "erp_auto_numbers", uniqueConstraints = {
-        @UniqueConstraint(columnNames = { "entity_type", "field_name" })
+        @UniqueConstraint(columnNames = { "erp_field_id" })
 })
 @AttributeOverride(name = "id", column = @Column(name = "erp_auto_number_id"))
 public class ErpAutoNumber extends BaseEntity {
 
-    @Column(name = "entity_type", nullable = false, length = 100)
-    @Enumerated(EnumType.STRING)
-    private EntityType entityType;
-
-    @Column(name = "field_name", nullable = false, length = 100)
-    private String fieldName;
+    /**
+     * Reference to the ErpField this auto-number is configured for.
+     * The entity_type and field_name can be derived from this relationship.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "erp_field_id", nullable = false)
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "section" })
+    private ErpField erpField;
 
     @Column(name = "prefix", length = 50)
     private String prefix;
@@ -59,29 +66,35 @@ public class ErpAutoNumber extends BaseEntity {
     public ErpAutoNumber() {
     }
 
-    public ErpAutoNumber(EntityType entityType, String fieldName, String prefix, String suffix, Long nextNumber) {
-        this.entityType = entityType;
-        this.fieldName = fieldName;
+    public ErpAutoNumber(ErpField erpField, String prefix, String suffix, Long nextNumber) {
+        this.erpField = erpField;
         this.prefix = prefix;
         this.suffix = suffix;
         this.nextNumber = nextNumber;
     }
 
     // Getters and Setters
+    
+    public ErpField getErpField() {
+        return erpField;
+    }
+
+    public void setErpField(ErpField erpField) {
+        this.erpField = erpField;
+    }
+
+    /**
+     * Get entity type from the linked ErpField
+     */
     public EntityType getEntityType() {
-        return entityType;
+        return erpField != null ? erpField.getEntityType() : null;
     }
 
-    public void setEntityType(EntityType entityType) {
-        this.entityType = entityType;
-    }
-
+    /**
+     * Get field name from the linked ErpField
+     */
     public String getFieldName() {
-        return fieldName;
-    }
-
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
+        return erpField != null ? erpField.getFieldName() : null;
     }
 
     public String getPrefix() {
@@ -180,8 +193,9 @@ public class ErpAutoNumber extends BaseEntity {
     @Override
     public String toString() {
         return "ErpAutoNumber{" +
-                "entityType=" + entityType +
-                ", fieldName='" + fieldName + '\'' +
+                "erpFieldId=" + (erpField != null ? erpField.getId() : null) +
+                ", entityType=" + getEntityType() +
+                ", fieldName='" + getFieldName() + '\'' +
                 ", prefix='" + prefix + '\'' +
                 ", suffix='" + suffix + '\'' +
                 ", nextNumber=" + nextNumber +

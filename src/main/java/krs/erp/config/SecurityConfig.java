@@ -54,11 +54,12 @@ public class SecurityConfig {
                                                                 "/api/sections/**", "/api/promotions/**",
                                                                 "/api/organizations/**", "/api/account/**",
                                                                 "/api/migration/**",
-                                                                "/api/v1/sample-data/**",
+                                                                "/api/v1/**",
                                                                 "/api/sample-data/**",
                                                                 "/api/user-settings/**",
                                                                 "/api/iam/**",
-                                                                "/api/entities/**",
+                                                                "/api/staff/**",
+                                                                "/api/parents/**",
                                                                 "/api/students/**",
                                                                 "/api/fields/**"))
                                 .headers(headers -> headers
@@ -99,7 +100,6 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/staff/**").permitAll() // Allow staff endpoints for dev/testing
                                                 .requestMatchers("/api/parents/**").permitAll() // Allow parent endpoints for dev/testing
                                                 .requestMatchers("/api/subjects/**").permitAll() // Allow subject endpoints for dev/testing
-                                                .requestMatchers("/api/entities/**").permitAll() // Allow entity endpoints for dev/testing
                                                 .requestMatchers("/api/fields/**").permitAll() // Allow entity fields metadata endpoints for dev/testing
                                                 .requestMatchers("/api/module/**").permitAll() // Allow module/tab groups endpoints for dev/testing
                                                 .requestMatchers("/api/library/**").permitAll() // Allow library management endpoints for dev/testing

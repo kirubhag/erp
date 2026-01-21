@@ -1,0 +1,56 @@
+<div class="modal-backdrop" (click)="close()"></div>
+
+<div class="modal-dialog" (click)="$event.stopPropagation()">
+  <div class="modal-content">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h5 class="modal-title">Select {{ fieldLabel }}</h5>
+      <button type="button" class="btn-close" (click)="close()" aria-label="Close"></button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+      <!-- Search Bar -->
+      <div class="search-container mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search..."
+          [(ngModel)]="searchTerm"
+          (input)="filterRecords()"
+          autofocus
+        />
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 text-muted">Loading records...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error && !loading" class="alert alert-danger">
+        {{ error }}
+      </div>
+
+      <!-- Records List -->
+      <div *ngIf="!loading && !error" class="records-list">
+        <div *ngIf="filteredRecords.length === 0" class="text-center py-4 text-muted">
+          <p>No records found</p>
+        </div>
+
+        <div *ngFor="let record of filteredRecords" class="record-item" (click)="selectRecord(record)">
+          <div class="record-primary">{{ record.displayName }}</div>
+          <div *ngIf="record.secondaryInfo" class="record-secondary">{{ record.secondaryInfo }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+    </div>
+  </div>
+</div>

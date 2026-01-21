@@ -6,10 +6,13 @@
     <button class="btn-icon" (click)="toggleSidebar()">
       <i class="fas fa-filter"></i>
     </button>
-    <select class="filter-select">
-      <option>All {{entityNamePlural}}</option>
-      <option>My {{entityNamePlural}}</option>
-      <option>Recently Viewed</option>
+    <select class="filter-select" [(ngModel)]="selectedView" (ngModelChange)="onViewChange($event)">
+      <option value="all">All {{entityNamePlural}}</option>
+      <option value="my">My {{entityNamePlural}}</option>
+      <option value="recent">Recently Viewed</option>
+      <option *ngFor="let view of customViews" [value]="'custom:' + view.id">{{view.viewName}}</option>
+      <option value="create" disabled>──────────────</option>
+      <option value="create">+ Create Custom View</option>
     </select>
     <button class="btn-icon" (click)="onRefresh()" title="Refresh">
       <i class="fas fa-sync-alt"></i>
@@ -115,7 +118,8 @@
                   (click)="$event.stopPropagation()">
               </td>
               <td *ngIf="showBulkActions">
-                <i class="fas fa-pencil-alt text-muted"></i>
+                <i class="fas fa-pencil-alt text-muted" style="cursor: pointer;" title="Edit"
+                  (click)="onEditItem(item); $event.stopPropagation()"></i>
               </td>
               <td *ngIf="showBulkActions">
                 <i class="fas fa-circle text-muted" style="font-size: 8px;"></i>
@@ -222,3 +226,49 @@
     </div>
   </div>
 </div>
+
+<!-- Custom View Creation Modal -->
+<div class="modal fade" [class.show]="showCustomViewModal" [style.display]="showCustomViewModal ? 'block' : 'none'" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create Custom View</h5>
+        <button type="button" class="btn-close" (click)="closeCustomViewModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="viewName" class="form-label">View Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="viewName" [(ngModel)]="newCustomView.viewName" placeholder="Enter view name" required>
+        </div>
+        <div class="mb-3">
+          <label for="viewDescription" class="form-label">Description</label>
+          <textarea class="form-control" id="viewDescription" [(ngModel)]="newCustomView.description" placeholder="Enter description (optional)" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="isPublic" [(ngModel)]="newCustomView.isPublic">
+            <label class="form-check-label" for="isPublic">Make this view public (visible to all users)</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="isDefault" [(ngModel)]="newCustomView.isDefault">
+            <label class="form-check-label" for="isDefault">Set as my default view</label>
+          </div>
+        </div>
+        <div class="alert alert-info" role="alert">
+          <i class="fas fa-info-circle me-2"></i>
+          This view will save your current column selection. Filters will be applied when you select this view.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeCustomViewModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveCustomView()" [disabled]="savingCustomView || !newCustomView.viewName.trim()">
+          <span *ngIf="savingCustomView" class="spinner-border spinner-border-sm me-1"></span>
+          {{ savingCustomView ? 'Saving...' : 'Create View' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="showCustomViewModal" *ngIf="showCustomViewModal"></div>

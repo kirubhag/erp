@@ -1,12 +1,12 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- Table for Auto Number Configuration
--- Stores auto-number sequences for different entity types and fields
+-- Stores auto-number sequences for different entity fields
 -- Uses optimistic locking (version column) to prevent deadlocks during concurrent number generation
+-- Links to erp_fields via FK relationship for field metadata
 CREATE TABLE IF NOT EXISTS erp_auto_numbers (
     erp_auto_number_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(100) NOT NULL,
-    field_name VARCHAR(100) NOT NULL,
+    erp_field_id BIGINT NOT NULL,
     prefix VARCHAR(50),
     suffix VARCHAR(50),
     next_number BIGINT NOT NULL DEFAULT 1,
@@ -19,9 +19,9 @@ CREATE TABLE IF NOT EXISTS erp_auto_numbers (
     modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    UNIQUE KEY uk_entity_field (entity_type, field_name),
-    INDEX idx_entity_type (entity_type),
-    INDEX idx_is_active (is_active)
+    UNIQUE KEY uk_erp_field (erp_field_id),
+    INDEX idx_is_active (is_active),
+    CONSTRAINT fk_auto_number_field FOREIGN KEY (erp_field_id) REFERENCES erp_fields(erp_field_id) ON DELETE CASCADE
 );
 
 -- Table from SQL file: academic_settings

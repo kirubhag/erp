@@ -19,6 +19,7 @@ import krs.erp.model.ErpAutoNumber;
 import krs.erp.model.ErpField;
 import krs.erp.service.AutoNumberService;
 import krs.erp.service.ErpFieldService;
+import krs.erp.service.GenericEntityCreationService;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -26,13 +27,13 @@ import lombok.RequiredArgsConstructor;
  * Provides field definitions and metadata for dynamic form generation
  */
 @RestController
-@RequestMapping("/api/entities")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class EntityMetadataController {
 
     private final ErpFieldService erpFieldService;
     private final AutoNumberService autoNumberService;
+    private final GenericEntityCreationService genericEntityCreationService;
 
     /**
      * Get entity metadata including field definitions for the entity create form
@@ -40,7 +41,7 @@ public class EntityMetadataController {
      * @param entityType The entity type (e.g., "students", "staff", "attendance")
      * @return Entity metadata with field definitions
      */
-    @GetMapping("/{entityType}/metadata")
+    @GetMapping("/api/{entityType}/metadata")
     public ResponseEntity<Map<String, Object>> getEntityMetadata(@PathVariable String entityType) {
         try {
             // Convert entity type string to EntityType enum
@@ -85,44 +86,6 @@ public class EntityMetadataController {
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("error", "Failed to load entity metadata: " + e.getMessage());
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
-    }
-
-    /**
-     * Create a new entity record with auto-generated numbers
-     * 
-     * @param entityType The entity type
-     * @param data       The entity data
-     * @return Created entity response including generated auto-numbers
-     */
-    @PostMapping("/{entityType}")
-    public ResponseEntity<Map<String, Object>> createEntity(
-            @PathVariable String entityType,
-            @RequestBody Map<String, Object> data) {
-        try {
-            // Convert entity type string to EntityType enum
-            EntityType entityTypeEnum = convertToEntityType(entityType);
-
-            // Generate auto-numbers for all configured fields
-            Map<String, String> generatedAutoNumbers = autoNumberService.generateAllAutoNumbersForEntity(entityTypeEnum);
-            
-            // Merge generated auto-numbers into the data
-            data.putAll(generatedAutoNumbers);
-
-            // TODO: Implement full entity creation logic based on entity type
-            // For now, return success with generated auto-numbers
-            Map<String, Object> response = new HashMap<>();
-            response.put("id", System.currentTimeMillis());
-            response.put("message", "Entity created successfully");
-            response.put("entityType", entityType);
-            response.put("generatedAutoNumbers", generatedAutoNumbers);
-            response.put("data", data);
-
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Failed to create entity: " + e.getMessage());
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }

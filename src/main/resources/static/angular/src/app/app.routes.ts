@@ -3,11 +3,12 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
+import { NoAuthGuard } from './guards/no-auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [NoAuthGuard] },
   {
     path: 'confirm-account',
     loadComponent: () => import('./components/confirm-account/confirm-account.component').then(m => m.ConfirmAccountComponent)
@@ -88,6 +89,11 @@ export const routes: Routes = [
   },
   {
     path: 'entity-create/:entityType',
+    loadComponent: () => import('./components/entity-create/entity-create.component').then(m => m.EntityCreateComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'entity-edit/:entityType/:id',
     loadComponent: () => import('./components/entity-create/entity-create.component').then(m => m.EntityCreateComponent),
     canActivate: [AuthGuard]
   },

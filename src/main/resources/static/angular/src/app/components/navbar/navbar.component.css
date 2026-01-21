@@ -110,6 +110,12 @@
   position: absolute !important;
 }
 
+.quick-add-dropdown .dropdown-menu {
+  max-height: 400px;
+  overflow-y: auto;
+  min-width: 200px;
+}
+
 /* Ensure dropdown parent has proper stacking context */
 .navbar .dropdown {
   position: relative;

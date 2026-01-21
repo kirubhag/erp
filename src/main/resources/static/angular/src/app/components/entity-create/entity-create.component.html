@@ -6,31 +6,34 @@
         <button class="btn-back" (click)="onCancel()" title="Back">
           <i class="fas fa-arrow-left"></i>
         </button>
-        <h1 class="page-title">Create {{ entityName }}</h1>
+        <h1 class="page-title">{{ isEditMode ? 'Edit' : 'Create' }} {{ entityName }}</h1>
       </div>
     </div>
   </div>
 
-  <!-- Loading State -->
-  <div *ngIf="loading" class="loading-container">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+  <!-- Alerts Container -->
+  <div class="alerts-container">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="loading-text">Loading {{ entityName }} information...</p>
     </div>
-    <p class="loading-text">Loading {{ entityName }} information...</p>
-  </div>
 
-  <!-- Error Alert -->
-  <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
-    <i class="fas fa-exclamation-circle me-2"></i>
-    {{ error }}
-    <button type="button" class="btn-close" (click)="error = null"></button>
-  </div>
+    <!-- Error Alert -->
+    <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="fas fa-exclamation-circle me-2"></i>
+      {{ error }}
+      <button type="button" class="btn-close" (click)="error = null"></button>
+    </div>
 
-  <!-- Success Alert -->
-  <div *ngIf="success" class="alert alert-success alert-dismissible fade show" role="alert">
-    <i class="fas fa-check-circle me-2"></i>
-    {{ entityName }} saved successfully!
-    <button type="button" class="btn-close" (click)="success = false"></button>
+    <!-- Success Alert -->
+    <div *ngIf="success" class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="fas fa-check-circle me-2"></i>
+      {{ entityName }} {{ isEditMode ? 'updated' : 'saved' }} successfully!
+      <button type="button" class="btn-close" (click)="success = false"></button>
+    </div>
   </div>
 
   <!-- Main Content -->
@@ -141,12 +144,19 @@
                     [class.is-invalid]="hasError(section.fields[i].fieldName)"
                     [formControlName]="section.fields[i].fieldName" />
 
-                  <!-- Lookup / User (simplified as select for now) -->
-                  <select *ngIf="isLookupField(section.fields[i])" class="form-select"
-                    [class.is-invalid]="hasError(section.fields[i].fieldName)"
-                    [formControlName]="section.fields[i].fieldName">
-                    <option value="">-None-</option>
-                  </select>
+                  <!-- Lookup Field with Icon -->
+                  <div *ngIf="isLookupField(section.fields[i])" class="lookup-field-wrapper">
+                    <input type="text" class="form-control" readonly
+                      [class.is-invalid]="hasError(section.fields[i].fieldName)"
+                      [value]="getLookupDisplayName(section.fields[i].fieldName)"
+                      [placeholder]="'Select ' + section.fields[i].displayLabel"
+                      (click)="openLookupModal(section.fields[i])">
+                    <button type="button" class="btn btn-outline-secondary lookup-icon-btn"
+                      (click)="openLookupModal(section.fields[i])"
+                      [title]="'Select ' + section.fields[i].displayLabel">
+                      <i class="bi bi-search"></i>
+                    </button>
+                  </div>
 
                   <!-- Multi-Select Picklist -->
                   <select *ngIf="isMultiSelectField(section.fields[i])" class="form-select"
@@ -231,12 +241,19 @@
                     [class.is-invalid]="hasError(section.fields[i + 1].fieldName)"
                     [formControlName]="section.fields[i + 1].fieldName" />
 
-                  <!-- Lookup / User -->
-                  <select *ngIf="isLookupField(section.fields[i + 1])" class="form-select"
-                    [class.is-invalid]="hasError(section.fields[i + 1].fieldName)"
-                    [formControlName]="section.fields[i + 1].fieldName">
-                    <option value="">-None-</option>
-                  </select>
+                  <!-- Lookup Field with Icon -->
+                  <div *ngIf="isLookupField(section.fields[i + 1])" class="lookup-field-wrapper">
+                    <input type="text" class="form-control" readonly
+                      [class.is-invalid]="hasError(section.fields[i + 1].fieldName)"
+                      [value]="getLookupDisplayName(section.fields[i + 1].fieldName)"
+                      [placeholder]="'Select ' + section.fields[i + 1].displayLabel"
+                      (click)="openLookupModal(section.fields[i + 1])">
+                    <button type="button" class="btn btn-outline-secondary lookup-icon-btn"
+                      (click)="openLookupModal(section.fields[i + 1])"
+                      [title]="'Select ' + section.fields[i + 1].displayLabel">
+                      <i class="bi bi-search"></i>
+                    </button>
+                  </div>
 
                   <!-- Multi-Select Picklist -->
                   <select *ngIf="isMultiSelectField(section.fields[i + 1])" class="form-select"
@@ -270,14 +287,48 @@
       Cancel
     </button>
     <button type="button" class="btn btn-secondary-custom" (click)="onSaveAndNew()"
-      [disabled]="loading || saving || entityForm.invalid">
+      [disabled]="loading || saving || entityForm.invalid" *ngIf="!isEditMode">
       <span *ngIf="saving" class="spinner-border spinner-border-sm me-2"></span>
       Save and New
     </button>
     <button type="button" class="btn btn-primary-custom" (click)="onSave()"
       [disabled]="loading || saving || entityForm.invalid">
       <span *ngIf="saving" class="spinner-border spinner-border-sm me-2"></span>
-      Save
+      {{ isEditMode ? 'Update' : 'Save' }}
     </button>
   </div>
 </div>
+
+<!-- Cancel Confirmation Modal -->
+<div class="modal fade" [class.show]="showCancelModal" [style.display]="showCancelModal ? 'block' : 'none'" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          Unsaved Changes
+        </h5>
+        <button type="button" class="btn-close" (click)="closeCancelModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-0">You have unsaved changes. Are you sure you want to leave this page? All changes will be lost.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeCancelModal()">
+          <i class="fas fa-edit me-1"></i> Keep Editing
+        </button>
+        <button type="button" class="btn btn-danger" (click)="confirmCancel()">
+          <i class="fas fa-times me-1"></i> Discard Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="showCancelModal" *ngIf="showCancelModal"></div>
+<!-- Lookup Modal -->
+<app-lookup-modal *ngIf="showLookupModal"
+  [fieldLabel]="lookupFieldLabel"
+  [lookupEntity]="lookupEntityType"
+  (recordSelected)="onLookupRecordSelected($event)"
+  (modalClosed)="closeLookupModal()">
+</app-lookup-modal>

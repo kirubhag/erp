@@ -1016,6 +1016,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
     /**
      * Load auto-number configurations from auto_number_data.xml
+     * Now links to erp_fields via FK relationship
      */
     private void loadAutoNumbers() {
         try {
@@ -1036,6 +1037,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
             Element root = doc.getDocumentElement();
             NodeList autoNumberNodes = root.getElementsByTagName("auto_number");
             int loaded = 0;
+            int skipped = 0;
 
             for (int i = 0; i < autoNumberNodes.getLength(); i++) {
                 try {
@@ -1049,18 +1051,36 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                     Integer paddingLength = getElementInt(autoNumberElement, "padding_length", 4);
                     String description = getElementText(autoNumberElement, "description", null);
 
+                    // Look up the erp_field_id for this entity_type and field_name
+                    Long erpFieldId = null;
+                    try {
+                        erpFieldId = masterJdbcTemplate.queryForObject(
+                                "SELECT erp_field_id FROM erp_fields WHERE entity_type = ? AND field_name = ?",
+                                Long.class, entityType, fieldName);
+                    } catch (Exception e) {
+                        logger.warn("No erp_field found for {}.{}, skipping auto-number config", entityType, fieldName);
+                        skipped++;
+                        continue;
+                    }
+
+                    if (erpFieldId == null) {
+                        logger.warn("No erp_field found for {}.{}, skipping auto-number config", entityType, fieldName);
+                        skipped++;
+                        continue;
+                    }
+
                     masterJdbcTemplate.update(
                             "INSERT INTO erp_auto_numbers " +
-                                    "(entity_type, field_name, prefix, suffix, next_number, padding_length, description, " +
+                                    "(erp_field_id, prefix, suffix, next_number, padding_length, description, " +
                                     "version, created_time, modified_time, is_active) " +
-                                    "VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?, 1) " +
+                                    "VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, 1) " +
                                     "ON DUPLICATE KEY UPDATE " +
                                     "prefix = VALUES(prefix), " +
                                     "suffix = VALUES(suffix), " +
                                     "padding_length = VALUES(padding_length), " +
                                     "description = VALUES(description), " +
                                     "modified_time = ?",
-                            entityType, fieldName, prefix, suffix, nextNumber, paddingLength, description,
+                            erpFieldId, prefix, suffix, nextNumber, paddingLength, description,
                             LocalDateTime.now(), LocalDateTime.now(),
                             LocalDateTime.now());
                     loaded++;
@@ -1069,7 +1089,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 }
             }
 
-            logger.info("✓ Loaded {} auto-number configurations into IAM_MasterDB", loaded);
+            logger.info("✓ Loaded {} auto-number configurations into IAM_MasterDB (skipped {} without matching fields)", loaded, skipped);
 
         } catch (Exception e) {
             logger.error("Error loading auto-number configurations", e);

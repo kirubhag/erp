@@ -93,6 +93,20 @@ export class EntityListComponent implements OnInit {
   private savingItemsPerPage: boolean = false;
   private savingSidebarState: boolean = false;
 
+  // Custom views
+  customViews: any[] = [];
+  selectedView: string = 'all';
+
+  // Custom view creation modal
+  showCustomViewModal: boolean = false;
+  newCustomView = {
+    viewName: '',
+    description: '',
+    isPublic: false,
+    isDefault: false
+  };
+  savingCustomView: boolean = false;
+
   // Helper methods for template
   isTableView(): boolean {
     return this.viewMode === 'table';
@@ -127,8 +141,128 @@ export class EntityListComponent implements OnInit {
   ngOnInit() {
     this.updatePagination();
     this.loadUserPreferences();
+    this.loadCustomViews();
     // Set initial sidebar visibility
     this.sidebarVisible = true;
+  }
+
+  /**
+   * Load custom views for current entity type
+   */
+  private loadCustomViews(): void {
+    if (!this.entityType) {
+      return;
+    }
+
+    const entityTypeUpper = this.entityType.toUpperCase();
+    this.http.get<any[]>(`http://localhost:8081/api/custom-views?entityType=${entityTypeUpper}`)
+      .subscribe({
+        next: (views) => {
+          this.customViews = views || [];
+          console.log('Custom views loaded:', this.customViews);
+        },
+        error: (error) => {
+          console.error('Error loading custom views:', error);
+          this.customViews = [];
+        }
+      });
+  }
+
+  /**
+   * Handle view selection change
+   */
+  onViewChange(value: string): void {
+    if (value === 'create') {
+      // Reset to 'all' and open create dialog
+      this.selectedView = 'all';
+      this.openCreateCustomViewDialog();
+    } else if (value.startsWith('custom:')) {
+      const viewId = parseInt(value.replace('custom:', ''), 10);
+      this.applyCustomView(viewId);
+    } else {
+      // Handle built-in views (all, my, recent)
+      this.actionClick.emit({ action: 'viewChange', item: { view: value } });
+    }
+  }
+
+  /**
+   * Open dialog to create a new custom view
+   */
+  private openCreateCustomViewDialog(): void {
+    // Reset form
+    this.newCustomView = {
+      viewName: '',
+      description: '',
+      isPublic: false,
+      isDefault: false
+    };
+    this.showCustomViewModal = true;
+  }
+
+  /**
+   * Close the custom view creation modal
+   */
+  closeCustomViewModal(): void {
+    this.showCustomViewModal = false;
+  }
+
+  /**
+   * Save the new custom view
+   */
+  saveCustomView(): void {
+    if (!this.newCustomView.viewName.trim()) {
+      alert('Please enter a view name');
+      return;
+    }
+
+    this.savingCustomView = true;
+
+    // Get selected fields from current visible columns
+    const selectedFields = this.columns.map(col => col.key);
+
+    const customViewData = {
+      viewName: this.newCustomView.viewName.trim(),
+      description: this.newCustomView.description.trim(),
+      entityType: this.entityType.toUpperCase(),
+      selectedFields: selectedFields,
+      isPublic: this.newCustomView.isPublic,
+      isDefault: this.newCustomView.isDefault,
+      userId: this.userId
+    };
+
+    this.http.post<any>('http://localhost:8081/api/custom-views', customViewData)
+      .subscribe({
+        next: (savedView) => {
+          console.log('Custom view saved:', savedView);
+          this.customViews.push(savedView);
+          this.showCustomViewModal = false;
+          this.savingCustomView = false;
+          // Select the newly created view
+          this.selectedView = 'custom:' + savedView.id;
+        },
+        error: (error) => {
+          console.error('Error saving custom view:', error);
+          alert('Failed to save custom view. Please try again.');
+          this.savingCustomView = false;
+        }
+      });
+  }
+
+  /**
+   * Apply a custom view's filters and column configuration
+   */
+  private applyCustomView(viewId: number): void {
+    this.http.get<any>(`http://localhost:8081/api/custom-views/${viewId}`)
+      .subscribe({
+        next: (view) => {
+          console.log('Applying custom view:', view);
+          // Emit event to parent component to apply the view settings
+          this.actionClick.emit({ action: 'applyCustomView', item: view });
+        },
+        error: (error) => {
+          console.error('Error loading custom view:', error);
+        }
+      });
   }
 
   /**
@@ -376,6 +510,13 @@ export class EntityListComponent implements OnInit {
       item,
       selectedItems: item ? undefined : Array.from(this.selectedItems)
     });
+  }
+
+  onEditItem(item: any) {
+    const itemId = item.id || item.erp_entity_id;
+    if (itemId && this.entityType) {
+      this.router.navigate(['/entity-edit', this.entityType, itemId]);
+    }
   }
 
   onBulkAction(action: string) {

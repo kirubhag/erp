@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="action-buttons">
-        <button class="btn-icon" title="Edit">
+        <button class="btn-icon" title="Edit" (click)="editEntity()">
           <i class="fas fa-pencil-alt"></i>
         </button>
         <button class="btn-icon" title="More options">
@@ -43,9 +43,9 @@
       <div class="sidebar-section">
         <div class="sidebar-title">Actions</div>
         <ul class="sidebar-menu">
-          <li>Edit</li>
-          <li>Delete</li>
-          <li>Print</li>
+          <li (click)="editEntity()" style="cursor: pointer;"><i class="fas fa-pencil-alt me-2"></i>Edit</li>
+          <li style="cursor: pointer;"><i class="fas fa-trash-alt me-2"></i>Delete</li>
+          <li style="cursor: pointer;"><i class="fas fa-print me-2"></i>Print</li>
         </ul>
       </div>
     </div>

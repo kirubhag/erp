@@ -50,7 +50,7 @@ export class JournalEntryFormComponent implements OnInit {
     }
 
     loadAccounts(): void {
-        this.http.get<any[]>('/api/entities/CHART_OF_ACCOUNT/list?pageSize=100').subscribe({
+        this.http.get<any[]>('/api/finance/accounts?pageSize=100').subscribe({
             next: (data: any) => {
                 this.accounts = data.records || data;
             }
@@ -59,7 +59,7 @@ export class JournalEntryFormComponent implements OnInit {
 
     loadEntry(id: number): void {
         this.loading = true;
-        this.http.get<any>(`/api/entities/JOURNAL_ENTRY/${id}`).subscribe({
+        this.http.get<any>(`/api/finance/journal-entries/${id}`).subscribe({
             next: (data) => {
                 this.entryForm.patchValue({
                     entryNumber: data.entryNumber,
@@ -129,8 +129,8 @@ export class JournalEntryFormComponent implements OnInit {
         };
 
         const request = this.id
-            ? this.http.put(`/api/entities/JOURNAL_ENTRY/${this.id}`, payload)
-            : this.http.post('/api/finance/journal-entry', payload);
+            ? this.http.put(`/api/finance/journal-entries/${this.id}`, payload)
+            : this.http.post('/api/finance/journal-entries', payload);
 
         request.subscribe({
             next: () => {

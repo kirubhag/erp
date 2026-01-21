@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   username = '';
   password = '';
   loading = false;
@@ -24,11 +25,49 @@ export class LoginComponent implements OnInit {
   forgotPasswordSuccess = '';
   forgotPasswordError = '';
 
-  constructor(private authService: AuthService, private router: Router) { }
+  private userSubscription: Subscription | null = null;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    // Don't auto-redirect - allow users to access login page
-    // Successful login will redirect via onLogin method
+    // Check for error messages from query params (e.g., session expired, tenant DB not found)
+    this.route.queryParams.subscribe(params => {
+      if (params['error']) {
+        this.errorMessage = params['message'] || this.getErrorMessageByCode(params['error']);
+      }
+    });
+
+    // If user is already logged in, redirect to dashboard
+    this.userSubscription = this.authService.currentUser$.subscribe(user => {
+      if (user && user.id) {
+        // User is already logged in, redirect to dashboard
+        console.log('User already logged in, redirecting to dashboard');
+        this.router.navigate(['/dashboard']);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Get user-friendly error message from error code
+   */
+  private getErrorMessageByCode(errorCode: string): string {
+    const errorMessages: { [key: string]: string } = {
+      'tenant_db_not_found': 'Your session has expired or your account is no longer active. Please login again.',
+      'session_expired': 'Your session has expired. Please login again.',
+      'unauthorized': 'You are not authorized to access this resource. Please login.',
+      'account_disabled': 'Your account has been disabled. Please contact support.'
+    };
+    return errorMessages[errorCode] || 'An error occurred. Please try again.';
   }
 
   onLogin(): void {

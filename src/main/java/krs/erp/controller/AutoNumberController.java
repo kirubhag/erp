@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import krs.erp.enums.EntityType;
 import krs.erp.model.ErpAutoNumber;
+import krs.erp.model.ErpField;
 import krs.erp.repository.ErpAutoNumberRepository;
+import krs.erp.repository.ErpFieldRepository;
 import krs.erp.service.AutoNumberService;
 
 /**
@@ -35,6 +37,9 @@ public class AutoNumberController {
 
     @Autowired
     private ErpAutoNumberRepository autoNumberRepository;
+
+    @Autowired
+    private ErpFieldRepository erpFieldRepository;
 
     /**
      * Get all auto-number configurations
@@ -225,6 +230,50 @@ public class AutoNumberController {
         }
     }
 
+    /**
+     * Create auto-number by ErpField ID
+     * POST /api/auto-numbers/by-field/{erpFieldId}
+     */
+    @PostMapping("/by-field/{erpFieldId}")
+    public ResponseEntity<?> createAutoNumberByField(
+            @PathVariable Long erpFieldId,
+            @RequestBody AutoNumberCreateByFieldRequest request) {
+        try {
+            ErpField erpField = erpFieldRepository.findById(erpFieldId)
+                    .orElse(null);
+            
+            if (erpField == null) {
+                Map<String, String> error = new HashMap<>();
+                error.put("error", "ErpField not found with ID: " + erpFieldId);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+            }
+
+            ErpAutoNumber created = autoNumberService.createAutoNumberConfig(
+                    erpField,
+                    request.getPrefix(),
+                    request.getSuffix(),
+                    request.getStartNumber(),
+                    request.getPaddingLength());
+            
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        } catch (IllegalArgumentException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    /**
+     * Get auto-number by ErpField ID
+     * GET /api/auto-numbers/by-field/{erpFieldId}
+     */
+    @GetMapping("/by-field/{erpFieldId}")
+    public ResponseEntity<?> getAutoNumberByField(@PathVariable Long erpFieldId) {
+        return autoNumberRepository.findByErpFieldId(erpFieldId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     // DTO classes for request bodies
     public static class AutoNumberCreateRequest {
         private String entityType;
@@ -238,6 +287,22 @@ public class AutoNumberController {
         public void setEntityType(String entityType) { this.entityType = entityType; }
         public String getFieldName() { return fieldName; }
         public void setFieldName(String fieldName) { this.fieldName = fieldName; }
+        public String getPrefix() { return prefix; }
+        public void setPrefix(String prefix) { this.prefix = prefix; }
+        public String getSuffix() { return suffix; }
+        public void setSuffix(String suffix) { this.suffix = suffix; }
+        public Long getStartNumber() { return startNumber; }
+        public void setStartNumber(Long startNumber) { this.startNumber = startNumber; }
+        public Integer getPaddingLength() { return paddingLength; }
+        public void setPaddingLength(Integer paddingLength) { this.paddingLength = paddingLength; }
+    }
+
+    public static class AutoNumberCreateByFieldRequest {
+        private String prefix;
+        private String suffix;
+        private Long startNumber;
+        private Integer paddingLength;
+
         public String getPrefix() { return prefix; }
         public void setPrefix(String prefix) { this.prefix = prefix; }
         public String getSuffix() { return suffix; }

@@ -18,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import krs.erp.enums.EntityType;
 import krs.erp.model.ErpAutoNumber;
+import krs.erp.model.ErpField;
 import krs.erp.repository.ErpAutoNumberRepository;
+import krs.erp.repository.ErpFieldRepository;
 
 /**
  * Service for generating unique auto-numbers for entity fields.
@@ -43,6 +45,9 @@ public class AutoNumberService {
 
     @Autowired
     private ErpAutoNumberRepository autoNumberRepository;
+
+    @Autowired
+    private ErpFieldRepository erpFieldRepository;
 
     /**
      * Application-level locks per entity-type/field combination to prevent
@@ -200,9 +205,43 @@ public class AutoNumberService {
                     "Auto-number configuration already exists for " + entityType + "." + fieldName);
         }
 
+        // Find the ErpField for this entity type and field name
+        ErpField erpField = erpFieldRepository.findByEntityTypeAndFieldName(entityType, fieldName)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "No ErpField found for " + entityType + "." + fieldName + 
+                        ". Please create the field definition first."));
+
         ErpAutoNumber autoNumber = new ErpAutoNumber();
-        autoNumber.setEntityType(entityType);
-        autoNumber.setFieldName(fieldName);
+        autoNumber.setErpField(erpField);
+        autoNumber.setPrefix(prefix);
+        autoNumber.setSuffix(suffix);
+        autoNumber.setNextNumber(startNumber != null ? startNumber : 1L);
+        autoNumber.setPaddingLength(paddingLength != null ? paddingLength : 4);
+
+        return autoNumberRepository.save(autoNumber);
+    }
+
+    /**
+     * Create a new auto-number configuration using ErpField directly.
+     * 
+     * @param erpField      The ErpField entity
+     * @param prefix        The prefix for the auto-number
+     * @param suffix        The suffix for the auto-number
+     * @param startNumber   The starting number
+     * @param paddingLength The number of digits to pad with zeros
+     * @return The created configuration
+     */
+    @Transactional
+    public ErpAutoNumber createAutoNumberConfig(ErpField erpField,
+            String prefix, String suffix, Long startNumber, Integer paddingLength) {
+        
+        if (autoNumberRepository.existsByErpField(erpField)) {
+            throw new IllegalArgumentException(
+                    "Auto-number configuration already exists for field ID: " + erpField.getId());
+        }
+
+        ErpAutoNumber autoNumber = new ErpAutoNumber();
+        autoNumber.setErpField(erpField);
         autoNumber.setPrefix(prefix);
         autoNumber.setSuffix(suffix);
         autoNumber.setNextNumber(startNumber != null ? startNumber : 1L);

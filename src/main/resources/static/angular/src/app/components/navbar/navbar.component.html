@@ -5,8 +5,8 @@
       {{organizationName}}
     </a>
 
-    <button class="navbar-toggler" type="button" (click)="toggleNavbar()" 
-            [attr.aria-expanded]="!isNavbarCollapsed" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" (click)="toggleNavbar()" [attr.aria-expanded]="!isNavbarCollapsed"
+      aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -38,6 +38,20 @@
       </ul>
 
       <ul class="navbar-nav">
+        <!-- Quick Add Dropdown -->
+        <li class="nav-item dropdown quick-add-dropdown" clickOutside (clickOutside)="closeQuickAddDropdown()">
+          <a class="nav-link dropdown-toggle" href="javascript:void(0);" role="button" title="Quick Add"
+            (click)="toggleQuickAddDropdown($event)" [attr.aria-expanded]="isQuickAddDropdownOpen">
+            <i class="fas fa-plus"></i>
+          </a>
+          <ul class="dropdown-menu" [class.show]="isQuickAddDropdownOpen">
+            <li *ngFor="let menuItem of menuItems">
+              <a class="dropdown-item" (click)="navigateAndClose('/entity-create/' + (menuItem.systemName))">
+                <i [class]="(menuItem.icon || 'fas fa-circle') + ' me-2'"></i>{{menuItem.singularName}}
+              </a>
+            </li>
+          </ul>
+        </li>
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/onboarding']" title="Get Started" routerLinkActive="active">
             <i class="fas fa-rocket"></i>

@@ -1,6 +1,7 @@
 package krs.erp.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,6 +39,13 @@ public interface ErpFieldRepository extends JpaRepository<ErpField, Long> {
      */
     @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.isSearchable = true AND ef.isActive = 1 ORDER BY ef.displayOrder ASC")
     List<ErpField> findSearchableFieldsByEntityType(@Param("entityType") EntityType entityType);
+
+    /**
+     * Find field by entity type and field name (returns Optional)
+     */
+    @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.fieldName = :fieldName AND ef.isActive = 1")
+    Optional<ErpField> findByEntityTypeAndFieldName(@Param("entityType") EntityType entityType,
+            @Param("fieldName") String fieldName);
 
     /**
      * Find sortable fields for a specific entity type

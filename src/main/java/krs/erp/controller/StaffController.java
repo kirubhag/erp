@@ -24,7 +24,7 @@ import krs.erp.repository.StaffRepository;
  * Provides endpoints for managing staff members
  */
 @RestController
-@RequestMapping("/api/v1/staff")
+@RequestMapping("/api/staff")
 public class StaffController {
     
     @Autowired
@@ -53,9 +53,21 @@ public class StaffController {
      * Create new staff member
      */
     @PostMapping
-    public ResponseEntity<Staff> createStaff(@RequestBody Staff staff) {
-        Staff savedStaff = staffRepository.save(staff);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedStaff);
+    public ResponseEntity<?> createStaff(@RequestBody Staff staff) {
+        try {
+            // Set default values for required fields if not provided
+            if (staff.getEmploymentStatus() == null) {
+                staff.setEmploymentStatus(Staff.EmploymentStatus.ACTIVE);
+            }
+            if (staff.getStaffType() == null) {
+                staff.setStaffType(Staff.StaffType.OTHER);
+            }
+            Staff savedStaff = staffRepository.save(staff);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedStaff);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error creating staff: " + e.getMessage());
+        }
     }
     
     /**

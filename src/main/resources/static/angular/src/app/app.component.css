@@ -76,8 +76,7 @@
 
 /* Add padding when navbar is present to prevent overlap */
 .content-body.with-navbar {
-  padding-top: 0;
-  /* Reset default, will be set per page */
+  padding-top: 56px; /* Account for fixed-top navbar height */
 }
 
 /* Dashboard pages handle their own padding via component styles */

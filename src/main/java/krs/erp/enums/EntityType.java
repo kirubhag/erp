@@ -113,7 +113,90 @@ public enum EntityType {
     CPD_LEDGER("CpdLedger"),
     PROFESSIONAL_PORTFOLIO("ProfessionalPortfolio"),
     EVIDENCE("Evidence"),
-    EVALUATION("Evaluation");
+    EVALUATION("Evaluation"),
+    // Alumni module types
+    ALUMNI("Alumni"),
+    ALUMNI_CONTRIBUTION("AlumniContribution"),
+    // Finance additional types
+    BANK_STATEMENT_LINE("BankStatementLine"),
+    BUDGET_LINE("BudgetLine"),
+    STAFF_SALARY("StaffSalary"),
+    // Calendar types
+    CALENDAR_DAY("CalendarDay"),
+    INSTITUTION_EVENT("InstitutionEvent"),
+    // Document types
+    ERP_DOCUMENT("ErpDocument"),
+    // LMS additional types
+    LMS_ANSWER("LmsAnswer"),
+    LMS_QUESTION("LmsQuestion"),
+    LMS_STUDENT_PROGRESS("LmsStudentProgress"),
+    // Notification types
+    NOTIFICATION_LOG("NotificationLog"),
+    NOTIFICATION_TEMPLATE("NotificationTemplate"),
+    // HR additional types
+    PERFORMANCE_REVIEW_DETAIL("PerformanceReviewDetail"),
+    // Communication additional types
+    TICKET_COMMENT("TicketComment"),
+    
+    // Academic additional types
+    ACADEMIC_SETTINGS("AcademicSettings"),
+    ACADEMIC_YEAR("AcademicYear"),
+    GRADING_SCALE("GradingScale"),
+    TERM("Term"),
+    ERP_CLASS("ErpClass"),
+    
+    // Admission additional types
+    ADMISSION_CYCLE("AdmissionCycle"),
+    ADMISSION_SEAT_ALLOCATION("AdmissionSeatAllocation"),
+    
+    // Organization types
+    ORGANIZATION_SETTINGS("OrganizationSettings"),
+    DEPARTMENT("Department"),
+    DESIGNATION("Designation"),
+    
+    // HR additional types
+    PAYSLIP("Payslip"),
+    
+    // Finance additional types  
+    JOURNAL_ITEM("JournalItem"),
+    PAYMENT_TRANSACTION("PaymentTransaction"),
+    
+    // Facility types
+    FACILITY("Facility"),
+    FACILITY_BOOKING("FacilityBooking"),
+    WORK_ORDER("WorkOrder"),
+    
+    // Calendar additional types
+    HOLIDAY("Holiday"),
+    
+    // Health types
+    HEALTH_RECORD("HealthRecord"),
+    
+    // System types
+    LOGIN_HISTORY("LoginHistory"),
+    IMPORT_HISTORY("ImportHistory"),
+    MIS_REPORT("MisReport"),
+    
+    // Subscription types
+    PRICING_PLAN("PricingPlan"),
+    USER_SUBSCRIPTION("UserSubscription"),
+    SUBSCRIPTION_HISTORY("SubscriptionHistory"),
+    BILLING_CYCLE("BillingCycle"),
+    
+    // ERP metadata types
+    ERP_ATTACHMENT("ErpAttachment"),
+    ERP_AUTO_NUMBER("ErpAutoNumber"),
+    ERP_ENTITY("ErpEntity"),
+    ERP_ENTITY_RELATION("ErpEntityRelation"),
+    ERP_SECTION("ErpSection"),
+    ERP_TAB_GROUP("ErpTabGroup"),
+    ERP_TENANT("ErpTenant"),
+    
+    // User types
+    USER_SETTINGS("UserSettings"),
+    
+    // LMS additional types
+    VIRTUAL_ATTENDANCE_RECORD("VirtualAttendanceRecord");
 
     private final String displayName;
 

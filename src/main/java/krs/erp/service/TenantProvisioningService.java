@@ -275,11 +275,10 @@ public class TenantProvisioningService {
             try {
                 logger.info("Copying Auto Numbers...");
                 masterJdbc.query("SELECT * FROM erp_auto_numbers", rs -> {
-                    String sql = "INSERT IGNORE INTO erp_auto_numbers (erp_auto_number_id, entity_type, field_name, prefix, suffix, next_number, padding_length, description, version, created_time, modified_time, created_by, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, NOW(), NOW(), ?, 1)";
+                    String sql = "INSERT IGNORE INTO erp_auto_numbers (erp_auto_number_id, erp_field_id, prefix, suffix, next_number, padding_length, description, version, created_time, modified_time, created_by, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, 0, NOW(), NOW(), ?, 1)";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_auto_number_id"),
-                            rs.getString("entity_type"),
-                            rs.getString("field_name"),
+                            rs.getLong("erp_field_id"),
                             rs.getString("prefix"),
                             rs.getString("suffix"),
                             rs.getLong("next_number"),
