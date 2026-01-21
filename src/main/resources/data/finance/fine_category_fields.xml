@@ -4,6 +4,7 @@
         <fieldName>name</fieldName>
         <fieldLabel>Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -31,6 +32,7 @@
         <fieldName>description</fieldName>
         <fieldLabel>Description</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

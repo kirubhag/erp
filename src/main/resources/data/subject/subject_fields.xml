@@ -33,6 +33,7 @@
         <fieldName>subjectCode</fieldName>
         <fieldLabel>Subject Code</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -45,6 +46,7 @@
         <fieldName>subjectName</fieldName>
         <fieldLabel>Subject Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -57,6 +59,7 @@
         <fieldName>description</fieldName>
         <fieldLabel>Description</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>250</defaultWidth>
@@ -69,6 +72,7 @@
         <fieldName>gradeLevel</fieldName>
         <fieldLabel>Grade Level</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -81,6 +85,7 @@
         <fieldName>category</fieldName>
         <fieldLabel>Category</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -93,6 +98,7 @@
         <fieldName>credits</fieldName>
         <fieldLabel>Credits</fieldLabel>
         <fieldType>INTEGER</fieldType>
+        <uiType>109</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>7</displayOrder>
         <defaultWidth>80</defaultWidth>
@@ -105,6 +111,7 @@
         <fieldName>isMandatory</fieldName>
         <fieldLabel>Mandatory</fieldLabel>
         <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>8</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -117,6 +124,7 @@
         <fieldName>prerequisites</fieldName>
         <fieldLabel>Prerequisites</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>9</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -129,6 +137,7 @@
         <fieldName>difficultyLevel</fieldName>
         <fieldLabel>Difficulty Level</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>10</displayOrder>
         <defaultWidth>120</defaultWidth>

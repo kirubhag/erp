@@ -33,6 +33,7 @@
         <fieldName>firstName</fieldName>
         <fieldLabel>First Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -45,6 +46,7 @@
         <fieldName>lastName</fieldName>
         <fieldLabel>Last Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -57,6 +59,7 @@
         <fieldName>email</fieldName>
         <fieldLabel>Email</fieldLabel>
         <fieldType>EMAIL</fieldType>
+        <uiType>102</uiType>
         <fieldCategory>Contact</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>180</defaultWidth>
@@ -69,6 +72,7 @@
         <fieldName>phone</fieldName>
         <fieldLabel>Phone</fieldLabel>
         <fieldType>PHONE</fieldType>
+        <uiType>103</uiType>
         <fieldCategory>Contact</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>130</defaultWidth>
@@ -81,6 +85,7 @@
         <fieldName>gradeInterested</fieldName>
         <fieldLabel>Grade Interested</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -93,6 +98,7 @@
         <fieldName>status</fieldName>
         <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <fieldCategory>System</fieldCategory>
         <displayOrder>7</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -105,6 +111,7 @@
         <fieldName>inquiryDate</fieldName>
         <fieldLabel>Inquiry Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <fieldCategory>System</fieldCategory>
         <displayOrder>8</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -117,6 +124,7 @@
         <fieldName>source</fieldName>
         <fieldLabel>Source</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Generic</fieldCategory>
         <displayOrder>9</displayOrder>
         <defaultWidth>120</defaultWidth>

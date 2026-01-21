@@ -45,9 +45,9 @@
     </field>
     <field>
         <fieldName>iconUrl</fieldName>
-        <fieldLabel>Icon URL</fieldLabel>
+        <fieldLabel>Badge Icon</fieldLabel>
         <fieldType>URL</fieldType>
-        <uiType>17</uiType>
+        <uiType>118</uiType>
         <displayOrder>4</displayOrder>
         <defaultWidth>200</defaultWidth>
         <isRequired>false</isRequired>

@@ -33,6 +33,7 @@
         <fieldName>applicationNumber</fieldName>
         <fieldLabel>Application Number</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>System</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -45,6 +46,7 @@
         <fieldName>firstName</fieldName>
         <fieldLabel>First Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -57,6 +59,7 @@
         <fieldName>lastName</fieldName>
         <fieldLabel>Last Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -69,6 +72,7 @@
         <fieldName>gradeApplied</fieldName>
         <fieldLabel>Grade Applied</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -81,6 +85,7 @@
         <fieldName>status</fieldName>
         <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <fieldCategory>System</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -93,6 +98,7 @@
         <fieldName>applicationDate</fieldName>
         <fieldLabel>Application Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <fieldCategory>System</fieldCategory>
         <displayOrder>7</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -105,6 +111,7 @@
         <fieldName>parentName</fieldName>
         <fieldLabel>Parent Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Parent</fieldCategory>
         <displayOrder>8</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -117,6 +124,7 @@
         <fieldName>previousSchool</fieldName>
         <fieldLabel>Previous School</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Education history</fieldCategory>
         <displayOrder>9</displayOrder>
         <defaultWidth>200</defaultWidth>

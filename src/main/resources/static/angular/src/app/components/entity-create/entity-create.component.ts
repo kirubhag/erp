@@ -12,6 +12,10 @@ export interface FieldDefinition {
   dataType: string;
   isRequired: boolean;
   isReadonly: boolean;
+  isAutoNumber?: boolean;
+  autoNumberPrefix?: string;
+  autoNumberSuffix?: string;
+  autoNumberPreview?: string;
   defaultValue?: any;
   picklistValues?: string[];
   maxLength?: number;
@@ -42,6 +46,7 @@ export class EntityCreateComponent implements OnInit {
 
   fieldDefinitions: FieldDefinition[] = [];
   sectionsWithFields: SectionFields[] = [];
+  autoNumberPreviews: { [key: string]: string } = {};
 
   entityForm: FormGroup = new FormGroup({});
   loading = false;
@@ -91,7 +96,9 @@ export class EntityCreateComponent implements OnInit {
         this.entityName = metadata.entityName || this.entityType;
         this.entityNamePlural = metadata.entityNamePlural || this.entityType + 's';
         this.fieldDefinitions = metadata.fields || [];
+        this.autoNumberPreviews = metadata.autoNumberPreviews || {};
         console.log('Field definitions:', this.fieldDefinitions);
+        console.log('Auto-number previews:', this.autoNumberPreviews);
 
         // Group fields by section
         this.groupFieldsBySection();
@@ -111,12 +118,35 @@ export class EntityCreateComponent implements OnInit {
   }
 
   /**
-   * Group fields by section
+   * Check if field is an auto-number field (uiType 120)
+   */
+  isAutoNumberField(field: FieldDefinition): boolean {
+    return field.uiType === 120 || field.isAutoNumber === true;
+  }
+
+  /**
+   * Get the auto-number preview for a field
+   */
+  getAutoNumberPreview(field: FieldDefinition): string {
+    if (field.autoNumberPreview) {
+      return field.autoNumberPreview;
+    }
+    if (this.autoNumberPreviews[field.fieldName]) {
+      return this.autoNumberPreviews[field.fieldName];
+    }
+    return 'Auto-generated';
+  }
+
+  /**
+   * Group fields by section (excluding image fields which are rendered separately)
    */
   groupFieldsBySection(): void {
     const sectionsMap = new Map<string, FieldDefinition[]>();
 
-    this.fieldDefinitions.forEach(field => {
+    // Filter out image fields - they are rendered in the image upload section at the top
+    const nonImageFields = this.fieldDefinitions.filter(f => !this.isImageField(f));
+    
+    nonImageFields.forEach(field => {
       const section = field.section || 'General Information';
       if (!sectionsMap.has(section)) {
         sectionsMap.set(section, []);
@@ -297,10 +327,24 @@ export class EntityCreateComponent implements OnInit {
   }
 
   /**
+   * Check if field should be rendered as file upload
+   */
+  isFileField(field: FieldDefinition): boolean {
+    return Number(field.uiType) === 117; // File Upload
+  }
+
+  /**
    * Check if any field in the form is an image field
    */
   hasImageField(): boolean {
     return this.fieldDefinitions.some(f => this.isImageField(f));
+  }
+
+  /**
+   * Get the image field definition
+   */
+  getImageField(): FieldDefinition | undefined {
+    return this.fieldDefinitions.find(f => this.isImageField(f));
   }
 
   /**
@@ -342,13 +386,29 @@ export class EntityCreateComponent implements OnInit {
    * Trigger image upload click
    */
   triggerImageUpload(): void {
+    const imageField = this.getImageField();
+    const fieldName = imageField?.fieldName || 'photoUrl';
+    
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
     input.onchange = (e: any) => {
-      this.onImageSelect(e, 'image');
+      this.onImageSelect(e, fieldName);
     };
     input.click();
+  }
+
+  /**
+   * Handle file selection (non-image files)
+   */
+  onFileSelect(event: any, fieldName: string): void {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Update form value with file name
+      this.entityForm.patchValue({
+        [fieldName]: file.name
+      });
+    }
   }
 
   /**

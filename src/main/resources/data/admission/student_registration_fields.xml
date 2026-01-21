@@ -4,6 +4,7 @@
         <fieldName>student</fieldName>
         <fieldLabel>Student</fieldLabel>
         <fieldType>SELECT</fieldType>
+        <uiType>100</uiType>
         <displayOrder>10</displayOrder>
         <isRequired>true</isRequired>
         <showInList>true</showInList>
@@ -29,6 +30,7 @@
         <fieldName>academicYear</fieldName>
         <fieldLabel>Academic Year</fieldLabel>
         <fieldType>SELECT</fieldType>
+        <uiType>100</uiType>
         <displayOrder>20</displayOrder>
         <isRequired>true</isRequired>
         <showInList>true</showInList>
@@ -37,6 +39,7 @@
         <fieldName>erpClass</fieldName>
         <fieldLabel>Class/Section</fieldLabel>
         <fieldType>SELECT</fieldType>
+        <uiType>100</uiType>
         <displayOrder>30</displayOrder>
         <isRequired>true</isRequired>
         <showInList>true</showInList>
@@ -45,6 +48,7 @@
         <fieldName>registrationDate</fieldName>
         <fieldLabel>Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <displayOrder>40</displayOrder>
         <isRequired>true</isRequired>
         <showInList>true</showInList>
@@ -53,6 +57,7 @@
         <fieldName>status</fieldName>
         <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>50</displayOrder>
         <isRequired>true</isRequired>
         <showInList>true</showInList>
@@ -61,6 +66,7 @@
         <fieldName>remarks</fieldName>
         <fieldLabel>Remarks</fieldLabel>
         <fieldType>TEXTAREA</fieldType>
+        <uiType>100</uiType>
         <displayOrder>60</displayOrder>
         <isRequired>false</isRequired>
         <showInList>false</showInList>

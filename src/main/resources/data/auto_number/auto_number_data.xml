@@ -1,0 +1,1013 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Auto Number Configuration Data
+    
+    This file contains the initial configuration for auto-number fields across all entities.
+    Each auto_number entry defines:
+    - entity_type: The entity this auto-number belongs to (matches EntityType enum)
+    - field_name: The field that will receive the auto-generated number
+    - prefix: Text prepended to the number (e.g., "STU-" produces "STU-0001")
+    - suffix: Text appended to the number (optional)
+    - next_number: The next number to be generated (starts at 1)
+    - padding_length: Number of digits to pad with zeros (default 4)
+    - description: Human-readable description of this auto-number sequence
+    
+    Format examples:
+    - prefix="STU-", padding=4, number=1 → "STU-0001"
+    - prefix="INV-2024-", suffix="-Q1", padding=5 → "INV-2024-00001-Q1"
+    - prefix="", padding=6, number=1 → "000001"
+-->
+<auto_numbers>
+    
+    <!-- ==================== CORE ENTITIES ==================== -->
+    
+    <!-- Student Entity -->
+    <auto_number>
+        <entity_type>STUDENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>STU-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Student Code - Auto-generated unique identifier for students</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>STUDENT</entity_type>
+        <field_name>studentId</field_name>
+        <prefix>SID-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Student ID - Official student identification number</description>
+    </auto_number>
+    
+    <!-- Staff Entity -->
+    <auto_number>
+        <entity_type>STAFF</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>STF-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Staff Code - Auto-generated unique identifier for staff members</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>STAFF</entity_type>
+        <field_name>staffId</field_name>
+        <prefix>EMP-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Staff ID - Official employee identification number</description>
+    </auto_number>
+    
+    <!-- Parent Entity -->
+    <auto_number>
+        <entity_type>PARENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>PAR-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Parent Code - Auto-generated unique identifier for parents/guardians</description>
+    </auto_number>
+    
+    <!-- User Entity -->
+    <auto_number>
+        <entity_type>USER</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>USR-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>User Code - Auto-generated unique identifier for system users</description>
+    </auto_number>
+    
+    <!-- ==================== ACADEMIC ENTITIES ==================== -->
+    
+    <!-- Course Entity -->
+    <auto_number>
+        <entity_type>COURSE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>CRS-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Course Code - Auto-generated course identifier</description>
+    </auto_number>
+    
+    <!-- Subject Entity -->
+    <auto_number>
+        <entity_type>SUBJECT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>SUB-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Subject Code - Auto-generated subject identifier</description>
+    </auto_number>
+    
+    <!-- Grade Entity -->
+    <auto_number>
+        <entity_type>GRADE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>GRD-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Grade Code - Auto-generated grade/level identifier</description>
+    </auto_number>
+    
+    <!-- Room Entity -->
+    <auto_number>
+        <entity_type>ROOM</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>RM-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Room Code - Auto-generated room identifier</description>
+    </auto_number>
+    
+    <!-- Timetable Entity -->
+    <auto_number>
+        <entity_type>TIMETABLE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>TT-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Timetable Code - Auto-generated timetable entry identifier</description>
+    </auto_number>
+    
+    <!-- Exam Entity -->
+    <auto_number>
+        <entity_type>EXAM</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>EXM-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Exam Code - Auto-generated exam identifier</description>
+    </auto_number>
+    
+    <!-- Assignment Entity -->
+    <auto_number>
+        <entity_type>ASSIGNMENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>ASN-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Assignment Code - Auto-generated assignment identifier</description>
+    </auto_number>
+    
+    <!-- ==================== ATTENDANCE ==================== -->
+    
+    <auto_number>
+        <entity_type>ATTENDANCE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>ATT-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Attendance Code - Auto-generated attendance record identifier</description>
+    </auto_number>
+    
+    <!-- ==================== ADMISSION ENTITIES ==================== -->
+    
+    <auto_number>
+        <entity_type>ADMISSION_APPLICATION</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>APP-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Application Number - Auto-generated admission application identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>ADMISSION_INQUIRY</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>INQ-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Inquiry Number - Auto-generated admission inquiry identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>STUDENT_REGISTRATION</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>REG-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Registration Number - Auto-generated student registration identifier</description>
+    </auto_number>
+    
+    <!-- ==================== FINANCE ENTITIES ==================== -->
+    
+    <auto_number>
+        <entity_type>INVOICE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>INV-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Invoice Number - Auto-generated invoice identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>FEE_PAYMENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>PAY-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Payment Receipt Number - Auto-generated payment identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>TRANSACTION</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>TXN-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Transaction Number - Auto-generated transaction identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>JOURNAL_ENTRY</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>JE-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Journal Entry Number - Auto-generated journal entry identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>BUDGET</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>BUD-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Budget Code - Auto-generated budget identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>CHART_OF_ACCOUNT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>COA-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Chart of Account Code - Auto-generated account code</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>FEE_TYPE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>FT-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Fee Type Code - Auto-generated fee type identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>FEE_STRUCTURE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>FS-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Fee Structure Code - Auto-generated fee structure identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>FINE_CATEGORY</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>FC-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Fine Category Code - Auto-generated fine category identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>FINE_LEDGER</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>FNL-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Fine Ledger Code - Auto-generated fine ledger entry identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>FINE_WAIVER_REQUEST</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>FWR-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Fine Waiver Request Code - Auto-generated waiver request identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>SCHOLARSHIP_CATEGORY</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>SC-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Scholarship Category Code - Auto-generated scholarship category identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>SCHOLARSHIP_APPLICATION</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>SA-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Scholarship Application Code - Auto-generated scholarship application identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>ACCOUNTING_PERIOD</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>AP-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Accounting Period Code - Auto-generated accounting period identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>BANK_STATEMENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>BS-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Bank Statement Code - Auto-generated bank statement identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>DISCIPLINARY_INCIDENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>DIS-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Disciplinary Incident Code - Auto-generated disciplinary record identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>FINE_CONFIGURATION</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>FCG-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Fine Configuration Code - Auto-generated fine configuration identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>FEE_DISCOUNT_RULE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>FDR-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Fee Discount Rule Code - Auto-generated discount rule identifier</description>
+    </auto_number>
+    
+    <!-- ==================== COMMUNICATION ENTITIES ==================== -->
+    
+    <auto_number>
+        <entity_type>ANNOUNCEMENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>ANN-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Announcement Code - Auto-generated announcement identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>MESSAGE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>MSG-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Message Code - Auto-generated message identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>SUPPORT_TICKET</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>TKT-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Ticket Number - Auto-generated support ticket identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>TICKET_COMMENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>TC-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Ticket Comment Code - Auto-generated ticket comment identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>NOTIFICATION_TEMPLATE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>NT-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Notification Template Code - Auto-generated template identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>NOTIFICATION_LOG</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>NL-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Notification Log Code - Auto-generated notification log identifier</description>
+    </auto_number>
+    
+    <!-- ==================== HR ENTITIES ==================== -->
+    
+    <auto_number>
+        <entity_type>LEAVE_REQUEST</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>LR-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Leave Request Code - Auto-generated leave request identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LEAVE_TYPE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>LT-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Leave Type Code - Auto-generated leave type identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LEAVE_BALANCE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>LB-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Leave Balance Code - Auto-generated leave balance identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>JOB_POSTING</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>JP-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Job Posting Code - Auto-generated job posting identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>JOB_APPLICATION</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>JA-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Job Application Code - Auto-generated job application identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>PAYROLL_RUN</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>PR-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Payroll Run Code - Auto-generated payroll run identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>STAFF_SALARY</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>SS-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Staff Salary Code - Auto-generated salary record identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>PERFORMANCE_REVIEW</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>PRV-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Performance Review Code - Auto-generated review identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>PERFORMANCE_CYCLE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>PC-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Performance Cycle Code - Auto-generated cycle identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>PERFORMANCE_CRITERIA</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>PCR-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Performance Criteria Code - Auto-generated criteria identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>PERFORMANCE_REVIEW_DETAIL</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>PRD-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Performance Review Detail Code - Auto-generated detail identifier</description>
+    </auto_number>
+    
+    <!-- ==================== INVENTORY ENTITIES ==================== -->
+    
+    <auto_number>
+        <entity_type>ASSET</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>AST-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Asset Code - Auto-generated asset identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>CONSUMABLE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>CON-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Consumable Code - Auto-generated consumable item identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>VENDOR</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>VND-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Vendor Code - Auto-generated vendor identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>PURCHASE_ORDER</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>PO-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Purchase Order Number - Auto-generated PO identifier</description>
+    </auto_number>
+    
+    <!-- ==================== MAINTENANCE ENTITIES ==================== -->
+    
+    <auto_number>
+        <entity_type>WORK_ORDER</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>WO-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Work Order Number - Auto-generated work order identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>FACILITY</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>FAC-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Facility Code - Auto-generated facility identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>FACILITY_BOOKING</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>FB-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Facility Booking Code - Auto-generated booking identifier</description>
+    </auto_number>
+    
+    <!-- ==================== LIBRARY ENTITIES ==================== -->
+    
+    <auto_number>
+        <entity_type>LIBRARY_RESOURCE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>LIB-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Library Resource Code - Auto-generated resource identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>RESOURCE_ITEM</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>RI-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Resource Item Code - Auto-generated item identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LIBRARY_LOAN</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>LL-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Library Loan Code - Auto-generated loan identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LIBRARY_HOLD</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>LH-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Library Hold Code - Auto-generated hold identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LIBRARY_PO</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>LPO-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Library Purchase Order Code - Auto-generated library PO identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LIBRARY_PURCHASE_REQUEST</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>LPR-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Library Purchase Request Code - Auto-generated request identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LIBRARY_POLICY</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>LP-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Library Policy Code - Auto-generated policy identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>AUTHOR</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>AUT-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Author Code - Auto-generated author identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>PUBLISHER</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>PUB-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Publisher Code - Auto-generated publisher identifier</description>
+    </auto_number>
+    
+    <!-- ==================== DOCUMENTS ==================== -->
+    
+    <auto_number>
+        <entity_type>ERP_DOCUMENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>DOC-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Document Code - Auto-generated document identifier</description>
+    </auto_number>
+    
+    <!-- ==================== LMS ENTITIES ==================== -->
+    
+    <auto_number>
+        <entity_type>LMS_MODULE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>MOD-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>LMS Module Code - Auto-generated module identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LMS_TOPIC</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>TOP-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>LMS Topic Code - Auto-generated topic identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LESSON</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>LSN-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Lesson Code - Auto-generated lesson identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LMS_CONTENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>CNT-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>LMS Content Code - Auto-generated content identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LMS_QUIZ</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>QZ-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>LMS Quiz Code - Auto-generated quiz identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LMS_QUESTION_BANK</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>QB-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Question Bank Code - Auto-generated question bank identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LMS_SUBMISSION</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>SUB-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>LMS Submission Code - Auto-generated submission identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LMS_RUBRIC</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>RBR-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>LMS Rubric Code - Auto-generated rubric identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LMS_BADGE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>BDG-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>LMS Badge Code - Auto-generated badge identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LMS_FORUM</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>FRM-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>LMS Forum Code - Auto-generated forum identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LMS_FORUM_POST</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>FP-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Forum Post Code - Auto-generated forum post identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LMS_PEER_REVIEW</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>PRW-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Peer Review Code - Auto-generated peer review identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>LMS_POINT_LOG</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>PL-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Point Log Code - Auto-generated point log identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>VIRTUAL_SESSION</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>VS-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Virtual Session Code - Auto-generated session identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>VIRTUAL_ATTENDANCE</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>VA-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Virtual Attendance Code - Auto-generated virtual attendance identifier</description>
+    </auto_number>
+    
+    <!-- ==================== TPD ENTITIES ==================== -->
+    
+    <auto_number>
+        <entity_type>COMPETENCY</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>CMP-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>4</padding_length>
+        <description>Competency Code - Auto-generated competency identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>TRAINING_EVENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>TE-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Training Event Code - Auto-generated training event identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>PROFESSIONAL_PORTFOLIO</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>PP-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Professional Portfolio Code - Auto-generated portfolio identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>CPD_LEDGER</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>CPD-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>CPD Ledger Code - Auto-generated CPD ledger entry identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>SKILL_ASSESSMENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>SKA-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Skill Assessment Code - Auto-generated assessment identifier</description>
+    </auto_number>
+    
+    <!-- ==================== ALUMNI ENTITIES ==================== -->
+    
+    <auto_number>
+        <entity_type>ALUMNI_CONTRIBUTION</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>AC-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Alumni Contribution Code - Auto-generated contribution identifier</description>
+    </auto_number>
+    
+    <!-- ==================== OTHER ENTITIES ==================== -->
+    
+    <auto_number>
+        <entity_type>ADDRESS</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>ADR-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>6</padding_length>
+        <description>Address Code - Auto-generated address identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>HEALTH</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>HLT-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Health Record Code - Auto-generated health record identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>INSTITUTION_EVENT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>EVT-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Institution Event Code - Auto-generated event identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>CALENDAR_DAY</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>CD-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>Calendar Day Code - Auto-generated calendar day identifier</description>
+    </auto_number>
+    
+    <auto_number>
+        <entity_type>MIS_REPORT</entity_type>
+        <field_name>autoNumber</field_name>
+        <prefix>RPT-</prefix>
+        <suffix></suffix>
+        <next_number>1</next_number>
+        <padding_length>5</padding_length>
+        <description>MIS Report Code - Auto-generated report identifier</description>
+    </auto_number>
+
+</auto_numbers>

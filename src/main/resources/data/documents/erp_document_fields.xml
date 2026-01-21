@@ -4,6 +4,7 @@
         <fieldName>title</fieldName>
         <fieldLabel>Document Title</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -31,6 +32,7 @@
         <fieldName>category</fieldName>
         <fieldLabel>Category</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +44,7 @@
         <fieldName>fileType</fieldName>
         <fieldLabel>File Type</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +56,7 @@
         <fieldName>status</fieldName>
         <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -64,6 +68,7 @@
         <fieldName>description</fieldName>
         <fieldLabel>Description</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -73,8 +78,9 @@
     </field>
     <field>
         <fieldName>fileUrl</fieldName>
-        <fieldLabel>File URL/Path</fieldLabel>
+        <fieldLabel>File</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>117</uiType>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -97,6 +103,7 @@
         <fieldName>uploadDate</fieldName>
         <fieldLabel>Upload Date</fieldLabel>
         <fieldType>DATETIME</fieldType>
+        <uiType>107</uiType>
         <displayOrder>8</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

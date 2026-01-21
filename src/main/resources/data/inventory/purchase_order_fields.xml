@@ -4,6 +4,7 @@
         <fieldName>poNumber</fieldName>
         <fieldLabel>PO Number</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -31,6 +32,7 @@
         <fieldName>vendorId</fieldName>
         <fieldLabel>Vendor</fieldLabel>
         <fieldType>ENTITY_SELECT</fieldType>
+        <uiType>100</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +44,7 @@
         <fieldName>orderDate</fieldName>
         <fieldLabel>Order Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +56,7 @@
         <fieldName>totalAmount</fieldName>
         <fieldLabel>Total Amount</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -64,6 +68,7 @@
         <fieldName>status</fieldName>
         <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

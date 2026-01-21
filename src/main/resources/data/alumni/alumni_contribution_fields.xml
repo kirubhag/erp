@@ -4,6 +4,7 @@
         <fieldName>alumniId</fieldName>
         <fieldLabel>Alumni ID</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -31,6 +32,7 @@
         <fieldName>type</fieldName>
         <fieldLabel>Contribution Type</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +44,7 @@
         <fieldName>amount</fieldName>
         <fieldLabel>Amount (if financial)</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +56,7 @@
         <fieldName>contributionDate</fieldName>
         <fieldLabel>Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -64,6 +68,7 @@
         <fieldName>description</fieldName>
         <fieldLabel>Description</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

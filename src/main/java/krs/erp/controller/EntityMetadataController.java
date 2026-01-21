@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import krs.erp.enums.EntityType;
+import krs.erp.model.ErpAutoNumber;
 import krs.erp.model.ErpField;
+import krs.erp.service.AutoNumberService;
 import krs.erp.service.ErpFieldService;
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 public class EntityMetadataController {
 
     private final ErpFieldService erpFieldService;
+    private final AutoNumberService autoNumberService;
 
     /**
      * Get entity metadata including field definitions for the entity create form
@@ -46,20 +49,33 @@ public class EntityMetadataController {
             // Get fields for the entity
             List<ErpField> fields = erpFieldService.getFieldsByEntityType(entityTypeEnum);
 
+            // Get auto-number configurations for this entity
+            List<ErpAutoNumber> autoNumbers = autoNumberService.getAutoNumbersForEntity(entityTypeEnum);
+            Map<String, ErpAutoNumber> autoNumberMap = new HashMap<>();
+            for (ErpAutoNumber an : autoNumbers) {
+                autoNumberMap.put(an.getFieldName(), an);
+            }
+
             // Build metadata response
             Map<String, Object> metadata = new HashMap<>();
             metadata.put("entityType", entityType);
             metadata.put("entityName", entityTypeEnum.getDisplayName());
             metadata.put("entityNamePlural", toTitleCase(entityType));
 
-            // Convert fields to field definitions
+            // Convert fields to field definitions, enriching auto-number fields with preview
             List<Map<String, Object>> fieldDefinitions = fields.stream()
-                    .filter(field -> field.getShowInForm() == null || field.getShowInForm()) // Only show fields marked
-                                                                                             // for forms
-                    .map(this::convertToFieldDefinition)
+                    .filter(field -> field.getShowInForm() == null || field.getShowInForm()) // Only show fields marked for forms
+                    .map(field -> convertToFieldDefinition(field, autoNumberMap))
                     .collect(Collectors.toList());
 
             metadata.put("fields", fieldDefinitions);
+
+            // Include auto-number previews for the form
+            Map<String, String> autoNumberPreviews = new HashMap<>();
+            for (ErpAutoNumber an : autoNumbers) {
+                autoNumberPreviews.put(an.getFieldName(), an.previewNextNumber());
+            }
+            metadata.put("autoNumberPreviews", autoNumberPreviews);
 
             return ResponseEntity.ok(metadata);
         } catch (IllegalArgumentException e) {
@@ -74,23 +90,34 @@ public class EntityMetadataController {
     }
 
     /**
-     * Create a new entity record
+     * Create a new entity record with auto-generated numbers
      * 
      * @param entityType The entity type
      * @param data       The entity data
-     * @return Created entity response
+     * @return Created entity response including generated auto-numbers
      */
     @PostMapping("/{entityType}")
     public ResponseEntity<Map<String, Object>> createEntity(
             @PathVariable String entityType,
             @RequestBody Map<String, Object> data) {
         try {
-            // TODO: Implement entity creation logic based on entity type
-            // This is a placeholder that returns success with a mock ID
+            // Convert entity type string to EntityType enum
+            EntityType entityTypeEnum = convertToEntityType(entityType);
+
+            // Generate auto-numbers for all configured fields
+            Map<String, String> generatedAutoNumbers = autoNumberService.generateAllAutoNumbersForEntity(entityTypeEnum);
+            
+            // Merge generated auto-numbers into the data
+            data.putAll(generatedAutoNumbers);
+
+            // TODO: Implement full entity creation logic based on entity type
+            // For now, return success with generated auto-numbers
             Map<String, Object> response = new HashMap<>();
             response.put("id", System.currentTimeMillis());
             response.put("message", "Entity created successfully");
             response.put("entityType", entityType);
+            response.put("generatedAutoNumbers", generatedAutoNumbers);
+            response.put("data", data);
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -134,9 +161,9 @@ public class EntityMetadataController {
     private final com.fasterxml.jackson.databind.ObjectMapper objectMapper;
 
     /**
-     * Convert ERPField to field definition map for frontend
+     * Convert ERPField to field definition map for frontend (with auto-number info)
      */
-    private Map<String, Object> convertToFieldDefinition(ErpField field) {
+    private Map<String, Object> convertToFieldDefinition(ErpField field, Map<String, ErpAutoNumber> autoNumberMap) {
         Map<String, Object> definition = new HashMap<>();
 
         definition.put("fieldName", field.getFieldName());
@@ -145,9 +172,20 @@ public class EntityMetadataController {
         definition.put("dataType", field.getFieldType() != null ? field.getFieldType().name() : "STRING");
         definition.put("isRequired", field.getIsRequired() != null ? field.getIsRequired() : false);
 
-        // Auto Number (120) is always read-only
-        boolean isReadonly = field.getUiType() != null && field.getUiType() == 120;
+        // Auto Number (120) is always read-only and should not appear in forms
+        boolean isAutoNumber = field.getUiType() != null && field.getUiType() == 120;
+        boolean isReadonly = isAutoNumber;
         definition.put("isReadonly", isReadonly);
+        definition.put("isAutoNumber", isAutoNumber);
+
+        // If this is an auto-number field, get the configuration
+        if (isAutoNumber && autoNumberMap.containsKey(field.getFieldName())) {
+            ErpAutoNumber autoNumber = autoNumberMap.get(field.getFieldName());
+            definition.put("autoNumberPrefix", autoNumber.getPrefix());
+            definition.put("autoNumberSuffix", autoNumber.getSuffix());
+            definition.put("autoNumberPreview", autoNumber.previewNextNumber());
+            definition.put("placeholder", "Will be: " + autoNumber.previewNextNumber());
+        }
 
         definition.put("defaultValue", null); // Can be extended if needed
         definition.put("maxLength", field.getMaxLength());
@@ -169,13 +207,6 @@ public class EntityMetadataController {
                     definition.put("step", props.get("step"));
                 if (props.containsKey("defaultValue"))
                     definition.put("defaultValue", props.get("defaultValue"));
-
-                // For Auto Number, maybe we want to show prefix/suffix as hint?
-                if (field.getUiType() == 120) {
-                    String prefix = (String) props.getOrDefault("prefix", "");
-                    String suffix = (String) props.getOrDefault("suffix", "");
-                    definition.put("placeholder", "Auto-generated: " + prefix + "####" + suffix);
-                }
 
             } catch (Exception e) {
                 // Ignore JSON parsing errors, fall back to defaults

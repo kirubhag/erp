@@ -4,6 +4,7 @@
         <fieldName>application</fieldName>
         <fieldLabel>Application</fieldLabel>
         <fieldType>REFERENCE</fieldType>
+        <uiType>114</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -15,6 +16,7 @@
         <fieldName>invoice</fieldName>
         <fieldLabel>Invoice</fieldLabel>
         <fieldType>REFERENCE</fieldType>
+        <uiType>114</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -26,6 +28,7 @@
         <fieldName>disbursementAmount</fieldName>
         <fieldLabel>Disbursed Amount</fieldLabel>
         <fieldType>DECIMAL</fieldType>
+        <uiType>110</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -37,6 +40,7 @@
         <fieldName>disbursementDate</fieldName>
         <fieldLabel>Disbursement Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -48,6 +52,7 @@
         <fieldName>status</fieldName>
         <fieldLabel>Status</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

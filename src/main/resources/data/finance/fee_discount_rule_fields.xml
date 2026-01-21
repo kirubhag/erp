@@ -4,6 +4,7 @@
         <fieldName>name</fieldName>
         <fieldLabel>Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -31,6 +32,7 @@
         <fieldName>type</fieldName>
         <fieldLabel>Discount Type</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +44,7 @@
         <fieldName>value</fieldName>
         <fieldLabel>Discount Value</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +56,7 @@
         <fieldName>conditionType</fieldName>
         <fieldLabel>Condition Type</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

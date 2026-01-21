@@ -34,6 +34,7 @@
         <fieldName>roomName</fieldName>
         <fieldLabel>Room Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <sectionName>basic_info</sectionName>
         <displayOrder>2</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -50,6 +51,7 @@
         <fieldName>capacity</fieldName>
         <fieldLabel>Capacity</fieldLabel>
         <fieldType>INTEGER</fieldType>
+        <uiType>109</uiType>
         <sectionName>basic_info</sectionName>
         <displayOrder>3</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -65,6 +67,7 @@
         <fieldName>roomType</fieldName>
         <fieldLabel>Room Type</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <sectionName>basic_info</sectionName>
         <displayOrder>4</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -80,6 +83,7 @@
         <fieldName>building</fieldName>
         <fieldLabel>Building</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <sectionName>location_info</sectionName>
         <displayOrder>5</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -96,6 +100,7 @@
         <fieldName>description</fieldName>
         <fieldLabel>Description</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <sectionName>additional_info</sectionName>
         <displayOrder>6</displayOrder>
         <defaultWidth>200</defaultWidth>

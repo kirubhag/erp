@@ -31,6 +31,7 @@
         <fieldName>code</fieldName>
         <fieldLabel>Account Code</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +43,7 @@
         <fieldName>name</fieldName>
         <fieldLabel>Account Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +55,7 @@
         <fieldName>parentAccount</fieldName>
         <fieldLabel>Parent Account</fieldLabel>
         <fieldType>REFERENCE</fieldType>
+        <uiType>114</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>false</isSearchable>

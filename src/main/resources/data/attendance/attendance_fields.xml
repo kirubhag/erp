@@ -33,6 +33,7 @@
         <fieldName>studentId</fieldName>
         <fieldLabel>Student ID</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -45,6 +46,7 @@
         <fieldName>date</fieldName>
         <fieldLabel>Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -57,6 +59,7 @@
         <fieldName>status</fieldName>
         <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -69,6 +72,7 @@
         <fieldName>timeIn</fieldName>
         <fieldLabel>Time In</fieldLabel>
         <fieldType>TIME</fieldType>
+        <uiType>108</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -81,6 +85,7 @@
         <fieldName>timeOut</fieldName>
         <fieldLabel>Time Out</fieldLabel>
         <fieldType>TIME</fieldType>
+        <uiType>108</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -93,6 +98,7 @@
         <fieldName>remarks</fieldName>
         <fieldLabel>Remarks</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>7</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -105,6 +111,7 @@
         <fieldName>recordedBy</fieldName>
         <fieldLabel>Recorded By</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>System</fieldCategory>
         <displayOrder>8</displayOrder>
         <defaultWidth>150</defaultWidth>

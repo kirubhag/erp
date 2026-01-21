@@ -4,6 +4,7 @@
         <fieldName>fullName</fieldName>
         <fieldLabel>Full Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -15,6 +16,7 @@
         <fieldName>graduationYear</fieldName>
         <fieldLabel>Graduation Year</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -26,6 +28,7 @@
         <fieldName>degree</fieldName>
         <fieldLabel>Degree/Course</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -37,6 +40,7 @@
         <fieldName>email</fieldName>
         <fieldLabel>Email</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -48,6 +52,7 @@
         <fieldName>phoneNumber</fieldName>
         <fieldLabel>Phone Number</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -59,6 +64,7 @@
         <fieldName>occupation</fieldName>
         <fieldLabel>Occupation</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -70,6 +76,7 @@
         <fieldName>company</fieldName>
         <fieldLabel>Company/Institution</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>7</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -81,6 +88,7 @@
         <fieldName>linkedinProfile</fieldName>
         <fieldLabel>LinkedIn Profile</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>8</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -92,6 +100,7 @@
         <fieldName>status</fieldName>
         <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>9</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

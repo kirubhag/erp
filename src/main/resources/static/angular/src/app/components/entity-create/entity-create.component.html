@@ -56,15 +56,37 @@
         <!-- Fields in rows of 2 -->
         <div class="fields-container">
           <ng-container *ngFor="let field of section.fields; let i = index">
-            <div class="field-row" *ngIf="i % 2 === 0">
+            <div class="field-row" *ngIf="i % 2 === 0 && !isImageField(section.fields[i])">
               <!-- Left Field -->
-              <div class="field-group">
+              <div class="field-group" *ngIf="!isImageField(section.fields[i])">
                 <label class="field-label" [class.required]="section.fields[i].isRequired">
                   {{ section.fields[i].displayLabel }}
                 </label>
                 <div class="field-input">
-                  <!-- Single Line, Email, Phone, URL, Auto Number -->
-                  <input *ngIf="isInputField(section.fields[i]) && !isSliderField(section.fields[i])"
+                  <!-- Auto Number Field (Read-only with preview) -->
+                  <div *ngIf="isAutoNumberField(section.fields[i])" class="auto-number-display">
+                    <div class="input-group">
+                      <input type="text" class="form-control bg-light" 
+                        [value]="getAutoNumberPreview(section.fields[i])"
+                        readonly disabled
+                        [placeholder]="section.fields[i].displayLabel" />
+                      <span class="input-group-text bg-info text-white">
+                        <i class="bi bi-hash"></i> Auto
+                      </span>
+                    </div>
+                    <small class="text-muted fst-italic">Auto-generated on save</small>
+                  </div>
+
+                  <!-- File Upload -->
+                  <div *ngIf="isFileField(section.fields[i])" class="file-upload-wrapper">
+                    <input type="file" class="form-control"
+                      [id]="section.fields[i].fieldName"
+                      (change)="onFileSelect($event, section.fields[i].fieldName)" />
+                    <small class="text-muted">{{ entityForm.get(section.fields[i].fieldName)?.value || 'No file selected' }}</small>
+                  </div>
+
+                  <!-- Single Line, Email, Phone, URL -->
+                  <input *ngIf="isInputField(section.fields[i]) && !isSliderField(section.fields[i]) && !isFileField(section.fields[i]) && !isAutoNumberField(section.fields[i])"
                     [type]="getInputType(section.fields[i])" class="form-control"
                     [class.is-invalid]="hasError(section.fields[i].fieldName)"
                     [formControlName]="section.fields[i].fieldName"
@@ -142,14 +164,36 @@
                 </div>
               </div>
 
-              <!-- Right Field (if exists) -->
-              <div class="field-group" *ngIf="i + 1 < section.fields.length">
+              <!-- Right Field (if exists and not image field) -->
+              <div class="field-group" *ngIf="i + 1 < section.fields.length && !isImageField(section.fields[i + 1])">
                 <label class="field-label" [class.required]="section.fields[i + 1].isRequired">
                   {{ section.fields[i + 1].displayLabel }}
                 </label>
                 <div class="field-input">
+                  <!-- Auto Number Field (Read-only with preview) -->
+                  <div *ngIf="isAutoNumberField(section.fields[i + 1])" class="auto-number-display">
+                    <div class="input-group">
+                      <input type="text" class="form-control bg-light" 
+                        [value]="getAutoNumberPreview(section.fields[i + 1])"
+                        readonly disabled
+                        [placeholder]="section.fields[i + 1].displayLabel" />
+                      <span class="input-group-text bg-info text-white">
+                        <i class="bi bi-hash"></i> Auto
+                      </span>
+                    </div>
+                    <small class="text-muted fst-italic">Auto-generated on save</small>
+                  </div>
+
+                  <!-- File Upload -->
+                  <div *ngIf="isFileField(section.fields[i + 1])" class="file-upload-wrapper">
+                    <input type="file" class="form-control"
+                      [id]="section.fields[i + 1].fieldName"
+                      (change)="onFileSelect($event, section.fields[i + 1].fieldName)" />
+                    <small class="text-muted">{{ entityForm.get(section.fields[i + 1].fieldName)?.value || 'No file selected' }}</small>
+                  </div>
+
                   <!-- Single Line, Email, Phone, URL, Currency, Decimal, Number, Percent -->
-                  <input *ngIf="isInputField(section.fields[i + 1])" [type]="getInputType(section.fields[i + 1])"
+                  <input *ngIf="isInputField(section.fields[i + 1]) && !isFileField(section.fields[i + 1]) && !isAutoNumberField(section.fields[i + 1])" [type]="getInputType(section.fields[i + 1])"
                     class="form-control" [class.is-invalid]="hasError(section.fields[i + 1].fieldName)"
                     [formControlName]="section.fields[i + 1].fieldName"
                     [placeholder]="section.fields[i + 1].displayLabel" />

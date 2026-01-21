@@ -33,6 +33,7 @@
         <fieldName>username</fieldName>
         <fieldLabel>Username</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Authentication</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -45,6 +46,7 @@
         <fieldName>email</fieldName>
         <fieldLabel>Email</fieldLabel>
         <fieldType>EMAIL</fieldType>
+        <uiType>102</uiType>
         <fieldCategory>Contact</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>180</defaultWidth>
@@ -57,6 +59,7 @@
         <fieldName>firstName</fieldName>
         <fieldLabel>First Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -69,6 +72,7 @@
         <fieldName>lastName</fieldName>
         <fieldLabel>Last Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -81,6 +85,7 @@
         <fieldName>role</fieldName>
         <fieldLabel>Role</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <fieldCategory>Authorization</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -106,6 +111,7 @@
         <fieldName>lastLogin</fieldName>
         <fieldLabel>Last Login</fieldLabel>
         <fieldType>DATETIME</fieldType>
+        <uiType>107</uiType>
         <fieldCategory>Authentication</fieldCategory>
         <displayOrder>8</displayOrder>
         <defaultWidth>160</defaultWidth>

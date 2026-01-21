@@ -80,6 +80,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
         loadCustomViews();
         loadErpTabGroups();
         loadErpPlans();
+        loadAutoNumbers();
 
         logger.info("=== IAM_MasterDB System Data Initialization Completed ===");
     }
@@ -1010,6 +1011,83 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
         } catch (Exception e) {
             logger.error("Error loading ERP plans", e);
+        }
+    }
+
+    /**
+     * Load auto-number configurations from auto_number_data.xml
+     */
+    private void loadAutoNumbers() {
+        try {
+            logger.info("Loading auto-number configurations into IAM_MasterDB...");
+
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            Resource resource = resolver.getResource("classpath:data/auto_number/auto_number_data.xml");
+
+            if (!resource.exists()) {
+                logger.warn("auto_number_data.xml not found");
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(resource.getInputStream());
+
+            Element root = doc.getDocumentElement();
+            NodeList autoNumberNodes = root.getElementsByTagName("auto_number");
+            int loaded = 0;
+
+            for (int i = 0; i < autoNumberNodes.getLength(); i++) {
+                try {
+                    Element autoNumberElement = (Element) autoNumberNodes.item(i);
+
+                    String entityType = getElementText(autoNumberElement, "entity_type");
+                    String fieldName = getElementText(autoNumberElement, "field_name");
+                    String prefix = getElementText(autoNumberElement, "prefix", "");
+                    String suffix = getElementText(autoNumberElement, "suffix", "");
+                    Long nextNumber = getElementLong(autoNumberElement, "next_number", 1L);
+                    Integer paddingLength = getElementInt(autoNumberElement, "padding_length", 4);
+                    String description = getElementText(autoNumberElement, "description", null);
+
+                    masterJdbcTemplate.update(
+                            "INSERT INTO erp_auto_numbers " +
+                                    "(entity_type, field_name, prefix, suffix, next_number, padding_length, description, " +
+                                    "version, created_time, modified_time, is_active) " +
+                                    "VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?, 1) " +
+                                    "ON DUPLICATE KEY UPDATE " +
+                                    "prefix = VALUES(prefix), " +
+                                    "suffix = VALUES(suffix), " +
+                                    "padding_length = VALUES(padding_length), " +
+                                    "description = VALUES(description), " +
+                                    "modified_time = ?",
+                            entityType, fieldName, prefix, suffix, nextNumber, paddingLength, description,
+                            LocalDateTime.now(), LocalDateTime.now(),
+                            LocalDateTime.now());
+                    loaded++;
+                } catch (Exception e) {
+                    logger.warn("Error loading auto-number config: {}", e.getMessage());
+                }
+            }
+
+            logger.info("✓ Loaded {} auto-number configurations into IAM_MasterDB", loaded);
+
+        } catch (Exception e) {
+            logger.error("Error loading auto-number configurations", e);
+        }
+    }
+
+    /**
+     * Helper method to get Long value from XML element
+     */
+    private Long getElementLong(Element parent, String tagName, Long defaultValue) {
+        String value = getElementText(parent, tagName, null);
+        if (value == null || value.isEmpty()) {
+            return defaultValue;
+        }
+        try {
+            return Long.parseLong(value.trim());
+        } catch (NumberFormatException e) {
+            return defaultValue;
         }
     }
 }

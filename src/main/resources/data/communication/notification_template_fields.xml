@@ -4,6 +4,7 @@
         <fieldName>name</fieldName>
         <fieldLabel>Template Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -31,6 +32,7 @@
         <fieldName>channel</fieldName>
         <fieldLabel>Channel</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +44,7 @@
         <fieldName>subject</fieldName>
         <fieldLabel>Subject</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +56,7 @@
         <fieldName>content</fieldName>
         <fieldLabel>Content</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -64,6 +68,7 @@
         <fieldName>placeholders</fieldName>
         <fieldLabel>Placeholders</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

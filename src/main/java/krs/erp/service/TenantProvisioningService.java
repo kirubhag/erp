@@ -271,6 +271,28 @@ public class TenantProvisioningService {
                 throw e;
             }
 
+            // 4b. Copy Auto Numbers
+            try {
+                logger.info("Copying Auto Numbers...");
+                masterJdbc.query("SELECT * FROM erp_auto_numbers", rs -> {
+                    String sql = "INSERT IGNORE INTO erp_auto_numbers (erp_auto_number_id, entity_type, field_name, prefix, suffix, next_number, padding_length, description, version, created_time, modified_time, created_by, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, NOW(), NOW(), ?, 1)";
+                    tenantJdbc.update(sql,
+                            rs.getLong("erp_auto_number_id"),
+                            rs.getString("entity_type"),
+                            rs.getString("field_name"),
+                            rs.getString("prefix"),
+                            rs.getString("suffix"),
+                            rs.getLong("next_number"),
+                            rs.getInt("padding_length"),
+                            rs.getString("description"),
+                            creatorId);
+                });
+                logger.info("Auto Numbers copied.");
+            } catch (Exception e) {
+                logger.error("Failed to copy Auto Numbers: {}", e.getMessage(), e);
+                throw e;
+            }
+
             // 5. Copy Roles (Only System Roles)
             try {
                 logger.info("Copying Roles...");

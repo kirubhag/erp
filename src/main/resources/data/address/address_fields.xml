@@ -33,6 +33,7 @@
         <fieldName>entityType</fieldName>
         <fieldLabel>Entity Type</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <fieldCategory>System</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -45,6 +46,7 @@
         <fieldName>entityId</fieldName>
         <fieldLabel>Entity ID</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <fieldCategory>System</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -57,6 +59,7 @@
         <fieldName>addressLine1</fieldName>
         <fieldLabel>Address Line 1</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Address</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -69,6 +72,7 @@
         <fieldName>addressLine2</fieldName>
         <fieldLabel>Address Line 2</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Address</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -81,6 +85,7 @@
         <fieldName>city</fieldName>
         <fieldLabel>City</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Address</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -93,6 +98,7 @@
         <fieldName>state</fieldName>
         <fieldLabel>State</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Address</fieldCategory>
         <displayOrder>7</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -105,6 +111,7 @@
         <fieldName>postalCode</fieldName>
         <fieldLabel>Postal Code</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Address</fieldCategory>
         <displayOrder>8</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -117,6 +124,7 @@
         <fieldName>country</fieldName>
         <fieldLabel>Country</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Address</fieldCategory>
         <displayOrder>9</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -129,6 +137,7 @@
         <fieldName>isPrimary</fieldName>
         <fieldLabel>Primary Address</fieldLabel>
         <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
         <fieldCategory>Address</fieldCategory>
         <displayOrder>10</displayOrder>
         <defaultWidth>130</defaultWidth>
@@ -141,6 +150,7 @@
         <fieldName>addressType</fieldName>
         <fieldLabel>Address Type</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <fieldCategory>Address</fieldCategory>
         <displayOrder>11</displayOrder>
         <defaultWidth>120</defaultWidth>

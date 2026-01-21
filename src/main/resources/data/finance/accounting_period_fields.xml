@@ -31,6 +31,7 @@
         <fieldName>name</fieldName>
         <fieldLabel>Period Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +43,7 @@
         <fieldName>startDate</fieldName>
         <fieldLabel>Start Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>false</isSearchable>
@@ -53,6 +55,7 @@
         <fieldName>endDate</fieldName>
         <fieldLabel>End Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>false</isSearchable>
@@ -64,6 +67,7 @@
         <fieldName>isClosed</fieldName>
         <fieldLabel>Is Closed</fieldLabel>
         <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>false</isSearchable>

@@ -4,6 +4,7 @@
         <fieldName>bankName</fieldName>
         <fieldLabel>Bank Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -31,6 +32,7 @@
         <fieldName>accountNumber</fieldName>
         <fieldLabel>Account Number</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +44,7 @@
         <fieldName>statementDate</fieldName>
         <fieldLabel>Statement Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +56,7 @@
         <fieldName>openingBalance</fieldName>
         <fieldLabel>Opening Balance</fieldLabel>
         <fieldType>DECIMAL</fieldType>
+        <uiType>110</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -64,6 +68,7 @@
         <fieldName>closingBalance</fieldName>
         <fieldLabel>Closing Balance</fieldLabel>
         <fieldType>DECIMAL</fieldType>
+        <uiType>110</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>

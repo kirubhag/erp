@@ -4,6 +4,7 @@
         <fieldName>fineLedgerId</fieldName>
         <fieldLabel>Fine Ledger</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -31,6 +32,7 @@
         <fieldName>reason</fieldName>
         <fieldLabel>Reason</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +44,7 @@
         <fieldName>adjustmentAmount</fieldName>
         <fieldLabel>Adjustment Amount</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +56,7 @@
         <fieldName>status</fieldName>
         <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -64,6 +68,7 @@
         <fieldName>requestedById</fieldName>
         <fieldLabel>Requested By</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -75,6 +80,7 @@
         <fieldName>approvedById</fieldName>
         <fieldLabel>Approved By</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

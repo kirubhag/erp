@@ -4,6 +4,7 @@
         <fieldName>date</fieldName>
         <fieldLabel>Transaction Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -15,6 +16,7 @@
         <fieldName>description</fieldName>
         <fieldLabel>Description</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -26,6 +28,7 @@
         <fieldName>amount</fieldName>
         <fieldLabel>Amount</fieldLabel>
         <fieldType>DECIMAL</fieldType>
+        <uiType>110</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -37,6 +40,7 @@
         <fieldName>reconciled</fieldName>
         <fieldLabel>Is Reconciled</fieldLabel>
         <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -48,6 +52,7 @@
         <fieldName>reference</fieldName>
         <fieldLabel>Reference</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

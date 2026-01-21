@@ -33,6 +33,7 @@
         <fieldName>studentId</fieldName>
         <fieldLabel>Student ID</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -45,6 +46,7 @@
         <fieldName>studentCode</fieldName>
         <fieldLabel>Student Code</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -57,6 +59,7 @@
         <fieldName>studentName</fieldName>
         <fieldLabel>Student Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -69,6 +72,7 @@
         <fieldName>gradeLevel</fieldName>
         <fieldLabel>Grade Level</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -81,6 +85,7 @@
         <fieldName>courseCode</fieldName>
         <fieldLabel>Course Code</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -93,6 +98,7 @@
         <fieldName>courseName</fieldName>
         <fieldLabel>Course Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -105,6 +111,7 @@
         <fieldName>examType</fieldName>
         <fieldLabel>Exam Type</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>7</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -117,6 +124,7 @@
         <fieldName>marksObtained</fieldName>
         <fieldLabel>Marks Obtained</fieldLabel>
         <fieldType>DECIMAL</fieldType>
+        <uiType>110</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>8</displayOrder>
         <defaultWidth>130</defaultWidth>
@@ -129,6 +137,7 @@
         <fieldName>totalMarks</fieldName>
         <fieldLabel>Total Marks</fieldLabel>
         <fieldType>DECIMAL</fieldType>
+        <uiType>110</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>9</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -141,6 +150,7 @@
         <fieldName>percentage</fieldName>
         <fieldLabel>Percentage</fieldLabel>
         <fieldType>DECIMAL</fieldType>
+        <uiType>110</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>10</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -153,6 +163,7 @@
         <fieldName>gradePoint</fieldName>
         <fieldLabel>Grade Point</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>11</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -165,6 +176,7 @@
         <fieldName>semester</fieldName>
         <fieldLabel>Semester</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>12</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -177,6 +189,7 @@
         <fieldName>academicYear</fieldName>
         <fieldLabel>Academic Year</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>13</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -189,6 +202,7 @@
         <fieldName>examDate</fieldName>
         <fieldLabel>Exam Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>14</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -201,6 +215,7 @@
         <fieldName>remarks</fieldName>
         <fieldLabel>Remarks</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>15</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -213,6 +228,7 @@
         <fieldName>teacherId</fieldName>
         <fieldLabel>Teacher ID</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>16</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -225,6 +241,7 @@
         <fieldName>teacherName</fieldName>
         <fieldLabel>Teacher Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>17</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -237,6 +254,7 @@
         <fieldName>organizationId</fieldName>
         <fieldLabel>Organization ID</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <fieldCategory>System</fieldCategory>
         <displayOrder>25</displayOrder>
         <defaultWidth>120</defaultWidth>

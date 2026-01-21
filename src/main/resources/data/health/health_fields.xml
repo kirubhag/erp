@@ -33,6 +33,7 @@
         <fieldName>studentId</fieldName>
         <fieldLabel>Student ID</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -45,6 +46,7 @@
         <fieldName>recordDate</fieldName>
         <fieldLabel>Record Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -57,6 +59,7 @@
         <fieldName>height</fieldName>
         <fieldLabel>Height (cm)</fieldLabel>
         <fieldType>DECIMAL</fieldType>
+        <uiType>110</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -69,6 +72,7 @@
         <fieldName>weight</fieldName>
         <fieldLabel>Weight (kg)</fieldLabel>
         <fieldType>DECIMAL</fieldType>
+        <uiType>110</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -81,6 +85,7 @@
         <fieldName>bloodGroup</fieldName>
         <fieldLabel>Blood Group</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -93,6 +98,7 @@
         <fieldName>allergies</fieldName>
         <fieldLabel>Allergies</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>7</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -105,6 +111,7 @@
         <fieldName>medicalConditions</fieldName>
         <fieldLabel>Medical Conditions</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>8</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -117,6 +124,7 @@
         <fieldName>medications</fieldName>
         <fieldLabel>Medications</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>9</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -129,6 +137,7 @@
         <fieldName>emergencyContact</fieldName>
         <fieldLabel>Emergency Contact</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>10</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -141,6 +150,7 @@
         <fieldName>emergencyPhone</fieldName>
         <fieldLabel>Emergency Phone</fieldLabel>
         <fieldType>PHONE</fieldType>
+        <uiType>103</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>11</displayOrder>
         <defaultWidth>130</defaultWidth>

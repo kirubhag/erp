@@ -4,6 +4,7 @@
         <fieldName>name</fieldName>
         <fieldLabel>Category Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -31,6 +32,7 @@
         <fieldName>description</fieldName>
         <fieldLabel>Description</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +44,7 @@
         <fieldName>type</fieldName>
         <fieldLabel>Aid Type</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +56,7 @@
         <fieldName>amount</fieldName>
         <fieldLabel>Fixed Amount</fieldLabel>
         <fieldType>DECIMAL</fieldType>
+        <uiType>110</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -64,6 +68,7 @@
         <fieldName>percentage</fieldName>
         <fieldLabel>Percentage (%)</fieldLabel>
         <fieldType>DECIMAL</fieldType>
+        <uiType>110</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -75,6 +80,7 @@
         <fieldName>isNeedBased</fieldName>
         <fieldLabel>Need Based?</fieldLabel>
         <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -86,6 +92,7 @@
         <fieldName>isMeritBased</fieldName>
         <fieldLabel>Merit Based?</fieldLabel>
         <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
         <displayOrder>7</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

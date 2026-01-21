@@ -5,6 +5,7 @@
         <fieldName>allergies</fieldName>
         <fieldLabel>Allergies</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>1</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -18,6 +19,7 @@
         <fieldName>medicalConditions</fieldName>
         <fieldLabel>Medical Conditions</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -31,6 +33,7 @@
         <fieldName>medications</fieldName>
         <fieldLabel>Current Medications</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -46,6 +49,7 @@
         <fieldName>doctorName</fieldName>
         <fieldLabel>Doctor Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -58,6 +62,7 @@
         <fieldName>doctorPhone</fieldName>
         <fieldLabel>Doctor Phone</fieldLabel>
         <fieldType>PHONE</fieldType>
+        <uiType>103</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>130</defaultWidth>
@@ -70,6 +75,7 @@
         <fieldName>hospitalPreference</fieldName>
         <fieldLabel>Preferred Hospital</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>180</defaultWidth>
@@ -84,6 +90,7 @@
         <fieldName>insuranceProvider</fieldName>
         <fieldLabel>Insurance Provider</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>7</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -96,6 +103,7 @@
         <fieldName>insurancePolicyNumber</fieldName>
         <fieldLabel>Insurance Policy Number</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Medical</fieldCategory>
         <displayOrder>8</displayOrder>
         <defaultWidth>160</defaultWidth>

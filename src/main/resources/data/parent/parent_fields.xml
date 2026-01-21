@@ -23,6 +23,7 @@
         <fieldName>firstName</fieldName>
         <fieldLabel>First Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <sectionName>personal_info</sectionName>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
@@ -34,6 +35,7 @@
         <fieldName>lastName</fieldName>
         <fieldLabel>Last Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <sectionName>personal_info</sectionName>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>
@@ -45,6 +47,7 @@
         <fieldName>middleName</fieldName>
         <fieldLabel>Middle Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <sectionName>personal_info</sectionName>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
@@ -54,6 +57,7 @@
         <fieldName>gender</fieldName>
         <fieldLabel>Gender</fieldLabel>
         <fieldType>PICKLIST</fieldType>
+        <uiType>104</uiType>
         <sectionName>personal_info</sectionName>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
@@ -63,6 +67,7 @@
         <fieldName>email</fieldName>
         <fieldLabel>Email</fieldLabel>
         <fieldType>EMAIL</fieldType>
+        <uiType>102</uiType>
         <sectionName>personal_info</sectionName>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
@@ -73,6 +78,7 @@
         <fieldName>phone</fieldName>
         <fieldLabel>Phone</fieldLabel>
         <fieldType>PHONE</fieldType>
+        <uiType>103</uiType>
         <sectionName>personal_info</sectionName>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>
@@ -83,6 +89,7 @@
         <fieldName>alternatePhone</fieldName>
         <fieldLabel>Alternate Phone</fieldLabel>
         <fieldType>PHONE</fieldType>
+        <uiType>103</uiType>
         <sectionName>personal_info</sectionName>
         <displayOrder>7</displayOrder>
         <isRequired>false</isRequired>
@@ -94,6 +101,7 @@
         <fieldName>occupation</fieldName>
         <fieldLabel>Occupation</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <sectionName>work_info</sectionName>
         <displayOrder>1</displayOrder>
         <isRequired>false</isRequired>
@@ -103,6 +111,7 @@
         <fieldName>workplace</fieldName>
         <fieldLabel>Workplace</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <sectionName>work_info</sectionName>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
@@ -112,6 +121,7 @@
         <fieldName>workPhone</fieldName>
         <fieldLabel>Work Phone</fieldLabel>
         <fieldType>PHONE</fieldType>
+        <uiType>103</uiType>
         <sectionName>work_info</sectionName>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
@@ -123,6 +133,7 @@
         <fieldName>emergencyContact</fieldName>
         <fieldLabel>Is Emergency Contact?</fieldLabel>
         <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
         <sectionName>settings</sectionName>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
@@ -132,6 +143,7 @@
         <fieldName>authorizedPickup</fieldName>
         <fieldLabel>Authorized for Pickup?</fieldLabel>
         <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
         <sectionName>settings</sectionName>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>
@@ -141,6 +153,7 @@
         <fieldName>receiveNotifications</fieldName>
         <fieldLabel>Receive Notifications?</fieldLabel>
         <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
         <sectionName>settings</sectionName>
         <displayOrder>3</displayOrder>
         <isRequired>true</isRequired>

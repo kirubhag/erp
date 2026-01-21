@@ -5,6 +5,7 @@
         <fieldName>fatherName</fieldName>
         <fieldLabel>Father's Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>1</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -17,6 +18,7 @@
         <fieldName>fatherOccupation</fieldName>
         <fieldLabel>Father's Occupation</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -29,6 +31,7 @@
         <fieldName>fatherPhone</fieldName>
         <fieldLabel>Father's Phone</fieldLabel>
         <fieldType>PHONE</fieldType>
+        <uiType>103</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>130</defaultWidth>
@@ -41,6 +44,7 @@
         <fieldName>fatherEmail</fieldName>
         <fieldLabel>Father's Email</fieldLabel>
         <fieldType>EMAIL</fieldType>
+        <uiType>102</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>180</defaultWidth>
@@ -55,6 +59,7 @@
         <fieldName>motherName</fieldName>
         <fieldLabel>Mother's Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -67,6 +72,7 @@
         <fieldName>motherOccupation</fieldName>
         <fieldLabel>Mother's Occupation</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -79,6 +85,7 @@
         <fieldName>motherPhone</fieldName>
         <fieldLabel>Mother's Phone</fieldLabel>
         <fieldType>PHONE</fieldType>
+        <uiType>103</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>7</displayOrder>
         <defaultWidth>130</defaultWidth>
@@ -91,6 +98,7 @@
         <fieldName>motherEmail</fieldName>
         <fieldLabel>Mother's Email</fieldLabel>
         <fieldType>EMAIL</fieldType>
+        <uiType>102</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>8</displayOrder>
         <defaultWidth>180</defaultWidth>
@@ -105,6 +113,7 @@
         <fieldName>guardianName</fieldName>
         <fieldLabel>Guardian's Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>9</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -117,6 +126,7 @@
         <fieldName>guardianRelation</fieldName>
         <fieldLabel>Guardian Relation</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>10</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -129,6 +139,7 @@
         <fieldName>guardianPhone</fieldName>
         <fieldLabel>Guardian's Phone</fieldLabel>
         <fieldType>PHONE</fieldType>
+        <uiType>103</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>11</displayOrder>
         <defaultWidth>130</defaultWidth>
@@ -141,6 +152,7 @@
         <fieldName>guardianEmail</fieldName>
         <fieldLabel>Guardian's Email</fieldLabel>
         <fieldType>EMAIL</fieldType>
+        <uiType>102</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>12</displayOrder>
         <defaultWidth>180</defaultWidth>
@@ -153,6 +165,7 @@
         <fieldName>guardianAddress</fieldName>
         <fieldLabel>Guardian Address</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Guardian</fieldCategory>
         <displayOrder>13</displayOrder>
         <defaultWidth>200</defaultWidth>

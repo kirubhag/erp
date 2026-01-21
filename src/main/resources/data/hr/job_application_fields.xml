@@ -31,6 +31,7 @@
         <fieldName>jobPostingId</fieldName>
         <fieldLabel>Job Posting ID</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +43,7 @@
         <fieldName>candidateName</fieldName>
         <fieldLabel>Candidate Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +55,7 @@
         <fieldName>candidateEmail</fieldName>
         <fieldLabel>Email</fieldLabel>
         <fieldType>EMAIL</fieldType>
+        <uiType>102</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -64,6 +67,7 @@
         <fieldName>candidatePhone</fieldName>
         <fieldLabel>Phone</fieldLabel>
         <fieldType>PHONE</fieldType>
+        <uiType>103</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -75,6 +79,7 @@
         <fieldName>appliedDate</fieldName>
         <fieldLabel>Applied Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <displayOrder>6</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>false</isSearchable>
@@ -86,6 +91,7 @@
         <fieldName>status</fieldName>
         <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>7</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>

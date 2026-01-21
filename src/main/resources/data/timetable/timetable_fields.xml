@@ -33,6 +33,7 @@
         <fieldName>timetableCode</fieldName>
         <fieldLabel>Timetable Code</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Schedule</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>130</defaultWidth>
@@ -45,6 +46,7 @@
         <fieldName>className</fieldName>
         <fieldLabel>Class Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Schedule</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>130</defaultWidth>
@@ -57,6 +59,7 @@
         <fieldName>gradeLevel</fieldName>
         <fieldLabel>Grade Level</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Schedule</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -69,6 +72,7 @@
         <fieldName>academicYear</fieldName>
         <fieldLabel>Academic Year</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Schedule</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -81,6 +85,7 @@
         <fieldName>semester</fieldName>
         <fieldLabel>Semester</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Schedule</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -93,6 +98,7 @@
         <fieldName>dayOfWeek</fieldName>
         <fieldLabel>Day of Week</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <fieldCategory>Schedule</fieldCategory>
         <displayOrder>7</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -105,6 +111,7 @@
         <fieldName>startTime</fieldName>
         <fieldLabel>Start Time</fieldLabel>
         <fieldType>TIME</fieldType>
+        <uiType>108</uiType>
         <fieldCategory>Schedule</fieldCategory>
         <displayOrder>8</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -117,6 +124,7 @@
         <fieldName>endTime</fieldName>
         <fieldLabel>End Time</fieldLabel>
         <fieldType>TIME</fieldType>
+        <uiType>108</uiType>
         <fieldCategory>Schedule</fieldCategory>
         <displayOrder>9</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -129,6 +137,7 @@
         <fieldName>subjectName</fieldName>
         <fieldLabel>Subject Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>10</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -141,6 +150,7 @@
         <fieldName>subjectCode</fieldName>
         <fieldLabel>Subject Code</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>11</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -153,6 +163,7 @@
         <fieldName>teacherName</fieldName>
         <fieldLabel>Teacher Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>12</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -165,6 +176,7 @@
         <fieldName>teacherId</fieldName>
         <fieldLabel>Teacher ID</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>13</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -177,6 +189,7 @@
         <fieldName>roomNumber</fieldName>
         <fieldLabel>Room Number</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Location</fieldCategory>
         <displayOrder>14</displayOrder>
         <defaultWidth>110</defaultWidth>
@@ -189,6 +202,7 @@
         <fieldName>building</fieldName>
         <fieldLabel>Building</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Location</fieldCategory>
         <displayOrder>15</displayOrder>
         <defaultWidth>130</defaultWidth>
@@ -201,6 +215,7 @@
         <fieldName>periodNumber</fieldName>
         <fieldLabel>Period Number</fieldLabel>
         <fieldType>INTEGER</fieldType>
+        <uiType>109</uiType>
         <fieldCategory>Schedule</fieldCategory>
         <displayOrder>16</displayOrder>
         <defaultWidth>110</defaultWidth>
@@ -213,6 +228,7 @@
         <fieldName>isLabSession</fieldName>
         <fieldLabel>Lab Session</fieldLabel>
         <fieldType>BOOLEAN</fieldType>
+        <uiType>105</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>17</displayOrder>
         <defaultWidth>110</defaultWidth>
@@ -225,6 +241,7 @@
         <fieldName>notes</fieldName>
         <fieldLabel>Notes</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Additional</fieldCategory>
         <displayOrder>18</displayOrder>
         <defaultWidth>250</defaultWidth>

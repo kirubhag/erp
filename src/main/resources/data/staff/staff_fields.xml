@@ -36,6 +36,7 @@
         <fieldName>firstName</fieldName>
         <fieldLabel>First Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -48,6 +49,7 @@
         <fieldName>lastName</fieldName>
         <fieldLabel>Last Name</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Personal</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -60,18 +62,22 @@
         <fieldName>staffId</fieldName>
         <fieldLabel>Staff ID</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>120</uiType>
         <fieldCategory>Employment</fieldCategory>
         <displayOrder>10</displayOrder>
         <defaultWidth>120</defaultWidth>
-        <isRequired>true</isRequired>
+        <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
         <isSortable>true</isSortable>
-        <fieldDescription>Unique staff identifier</fieldDescription>
+        <showType>1</showType>
+        <showInForm>false</showInForm>
+        <fieldDescription>Unique staff identifier (auto-generated)</fieldDescription>
     </field>
     <field>
         <fieldName>email</fieldName>
         <fieldLabel>Email</fieldLabel>
         <fieldType>EMAIL</fieldType>
+        <uiType>102</uiType>
         <fieldCategory>Contact</fieldCategory>
         <displayOrder>11</displayOrder>
         <defaultWidth>180</defaultWidth>
@@ -84,6 +90,7 @@
         <fieldName>phone</fieldName>
         <fieldLabel>Phone</fieldLabel>
         <fieldType>PHONE</fieldType>
+        <uiType>103</uiType>
         <fieldCategory>Contact</fieldCategory>
         <displayOrder>12</displayOrder>
         <defaultWidth>130</defaultWidth>
@@ -96,6 +103,7 @@
         <fieldName>department</fieldName>
         <fieldLabel>Department</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Employment</fieldCategory>
         <displayOrder>20</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -108,6 +116,7 @@
         <fieldName>position</fieldName>
         <fieldLabel>Position</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Employment</fieldCategory>
         <displayOrder>21</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -120,6 +129,7 @@
         <fieldName>qualification</fieldName>
         <fieldLabel>Qualification</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Employment</fieldCategory>
         <displayOrder>22</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -132,6 +142,7 @@
         <fieldName>hireDate</fieldName>
         <fieldLabel>Hire Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <fieldCategory>Employment</fieldCategory>
         <displayOrder>23</displayOrder>
         <defaultWidth>140</defaultWidth>

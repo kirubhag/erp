@@ -4,6 +4,7 @@
         <fieldName>studentId</fieldName>
         <fieldLabel>Student</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -31,6 +32,7 @@
         <fieldName>feeStructureId</fieldName>
         <fieldLabel>Fee Structure</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +44,7 @@
         <fieldName>baseAmount</fieldName>
         <fieldLabel>Base Amount</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +56,7 @@
         <fieldName>discountAmount</fieldName>
         <fieldLabel>Discount Amount</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -64,6 +68,7 @@
         <fieldName>fineAmount</fieldName>
         <fieldLabel>Fine Amount</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -75,6 +80,7 @@
         <fieldName>netAmount</fieldName>
         <fieldLabel>Net Amount</fieldLabel>
         <fieldType>LONG</fieldType>
+        <uiType>113</uiType>
         <displayOrder>6</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -86,6 +92,7 @@
         <fieldName>paymentMode</fieldName>
         <fieldLabel>Payment Mode</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>7</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -97,6 +104,7 @@
         <fieldName>receiptNumber</fieldName>
         <fieldLabel>Receipt Number</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>8</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -108,6 +116,7 @@
         <fieldName>paymentDate</fieldName>
         <fieldLabel>Payment Date</fieldLabel>
         <fieldType>DATETIME</fieldType>
+        <uiType>107</uiType>
         <displayOrder>9</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

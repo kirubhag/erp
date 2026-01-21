@@ -57,7 +57,10 @@ public class SecurityConfig {
                                                                 "/api/v1/sample-data/**",
                                                                 "/api/sample-data/**",
                                                                 "/api/user-settings/**",
-                                                                "/api/iam/**"))
+                                                                "/api/iam/**",
+                                                                "/api/entities/**",
+                                                                "/api/students/**",
+                                                                "/api/fields/**"))
                                 .headers(headers -> headers
                                                 .contentSecurityPolicy(csp -> csp
                                                                 .policyDirectives(

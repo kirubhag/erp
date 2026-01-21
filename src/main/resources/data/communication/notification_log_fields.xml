@@ -4,6 +4,7 @@
         <fieldName>recipient</fieldName>
         <fieldLabel>Recipient</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -31,6 +32,7 @@
         <fieldName>recipientType</fieldName>
         <fieldLabel>Recipient Type</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +44,7 @@
         <fieldName>channel</fieldName>
         <fieldLabel>Channel</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +56,7 @@
         <fieldName>subject</fieldName>
         <fieldLabel>Subject</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -64,6 +68,7 @@
         <fieldName>content</fieldName>
         <fieldLabel>Content</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -75,6 +80,7 @@
         <fieldName>status</fieldName>
         <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
@@ -86,6 +92,7 @@
         <fieldName>sentAt</fieldName>
         <fieldLabel>Sent At</fieldLabel>
         <fieldType>DATETIME</fieldType>
+        <uiType>107</uiType>
         <displayOrder>7</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>

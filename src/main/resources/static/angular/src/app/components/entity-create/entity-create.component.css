@@ -143,6 +143,21 @@
   margin: 0;
 }
 
+/* File Upload */
+.file-upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.file-upload-wrapper input[type="file"] {
+  padding: 6px;
+}
+
+.file-upload-wrapper .text-muted {
+  font-size: 12px;
+}
+
 /* Fields Container */
 .fields-container {
   display: flex;
@@ -385,4 +400,34 @@ select.form-select[multiple] {
   .btn-secondary-custom:first-child {
     flex-basis: 100%;
   }
+}
+
+/* Auto Number Field Display */
+.auto-number-display {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.auto-number-display .input-group {
+  border-radius: 4px;
+}
+
+.auto-number-display .form-control {
+  border-color: #91d5ff;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: #096dd9;
+}
+
+.auto-number-display .input-group-text {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 0.375rem 0.5rem;
+}
+
+.auto-number-display .text-muted {
+  font-size: 11px;
+  margin-left: 2px;
 }

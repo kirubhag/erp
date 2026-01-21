@@ -33,6 +33,7 @@
         <fieldName>title</fieldName>
         <fieldLabel>Title</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>2</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -45,6 +46,7 @@
         <fieldName>description</fieldName>
         <fieldLabel>Description</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>3</displayOrder>
         <defaultWidth>250</defaultWidth>
@@ -57,6 +59,7 @@
         <fieldName>courseCode</fieldName>
         <fieldLabel>Course Code</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>4</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -69,6 +72,7 @@
         <fieldName>assignedDate</fieldName>
         <fieldLabel>Assigned Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>5</displayOrder>
         <defaultWidth>140</defaultWidth>
@@ -81,6 +85,7 @@
         <fieldName>dueDate</fieldName>
         <fieldLabel>Due Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>6</displayOrder>
         <defaultWidth>140</defaultWidth>
@@ -93,6 +98,7 @@
         <fieldName>maxMarks</fieldName>
         <fieldLabel>Max Marks</fieldLabel>
         <fieldType>DECIMAL</fieldType>
+        <uiType>110</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>7</displayOrder>
         <defaultWidth>100</defaultWidth>
@@ -105,6 +111,7 @@
         <fieldName>type</fieldName>
         <fieldLabel>Type</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>8</displayOrder>
         <defaultWidth>120</defaultWidth>
@@ -117,6 +124,7 @@
         <fieldName>instructions</fieldName>
         <fieldLabel>Instructions</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <fieldCategory>Academic</fieldCategory>
         <displayOrder>9</displayOrder>
         <defaultWidth>250</defaultWidth>

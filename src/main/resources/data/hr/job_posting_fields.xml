@@ -31,6 +31,7 @@
         <fieldName>title</fieldName>
         <fieldLabel>Title</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -42,6 +43,7 @@
         <fieldName>department</fieldName>
         <fieldLabel>Department</fieldLabel>
         <fieldType>STRING</fieldType>
+        <uiType>100</uiType>
         <displayOrder>3</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -53,6 +55,7 @@
         <fieldName>employmentType</fieldName>
         <fieldLabel>Employment Type</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -64,6 +67,7 @@
         <fieldName>postedDate</fieldName>
         <fieldLabel>Posted Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <displayOrder>5</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>false</isSearchable>
@@ -75,6 +79,7 @@
         <fieldName>closingDate</fieldName>
         <fieldLabel>Closing Date</fieldLabel>
         <fieldType>DATE</fieldType>
+        <uiType>106</uiType>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>false</isSearchable>
@@ -86,6 +91,7 @@
         <fieldName>status</fieldName>
         <fieldLabel>Status</fieldLabel>
         <fieldType>ENUM</fieldType>
+        <uiType>104</uiType>
         <displayOrder>7</displayOrder>
         <isRequired>true</isRequired>
         <isSearchable>true</isSearchable>
@@ -97,6 +103,7 @@
         <fieldName>description</fieldName>
         <fieldLabel>Description</fieldLabel>
         <fieldType>TEXT</fieldType>
+        <uiType>101</uiType>
         <displayOrder>8</displayOrder>
         <isRequired>false</isRequired>
         <isSearchable>true</isSearchable>
