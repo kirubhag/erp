@@ -57,19 +57,13 @@ public class ErpSectionController {
     }
 
     /**
-     * Get sections for a specific entity type and organization
+     * Get sections for a specific erp_entity_id
      */
-    @GetMapping("/{entityType}/organization/{organizationId}")
-    public ResponseEntity<List<ErpSection>> getSectionsByOrganization(
-            @PathVariable String entityType,
-            @PathVariable Long organizationId) {
+    @GetMapping("/entity/{erpEntityId}")
+    public ResponseEntity<List<ErpSection>> getSectionsByErpEntity(
+            @PathVariable Long erpEntityId) {
         try {
-            EntityType type = EntityType.fromValue(entityType);
-            if (type == null) {
-                return ResponseEntity.badRequest().build();
-            }
-
-            List<ErpSection> sections = sectionService.getSectionsByEntityTypeAndOrganization(type, organizationId);
+            List<ErpSection> sections = sectionService.getSectionsByErpEntityId(erpEntityId);
             return ResponseEntity.ok(sections);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -217,15 +211,14 @@ public class ErpSectionController {
     @GetMapping("/{entityType}/exists")
     public ResponseEntity<Map<String, Boolean>> checkSectionExists(
             @PathVariable String entityType,
-            @RequestParam String sectionName,
-            @RequestParam Long organizationId) {
+            @RequestParam String sectionName) {
         try {
             EntityType type = EntityType.fromValue(entityType);
             if (type == null) {
                 return ResponseEntity.badRequest().build();
             }
 
-            boolean exists = sectionService.sectionExists(type, sectionName, organizationId);
+            boolean exists = sectionService.sectionExists(type, sectionName);
             Map<String, Boolean> response = new HashMap<>();
             response.put("exists", exists);
             return ResponseEntity.ok(response);

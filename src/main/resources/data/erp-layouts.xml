@@ -1,0 +1,1043 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    ERP Layouts Configuration
+    
+    This file defines the default "System" layout for each entity type.
+    Each entity must have at least one default layout.
+    
+    Layout Types:
+    - FORM: Standard form layout for create/edit views
+    - LIST: List/table layout for entity list views
+    - DETAIL: Detail view layout
+-->
+<layouts>
+    <!-- Dashboard -->
+    <layout>
+        <entityType>Dashboard</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Dashboard</description>
+    </layout>
+    
+    <!-- Student -->
+    <layout>
+        <entityType>Student</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Student forms</description>
+    </layout>
+    
+    <!-- Staff -->
+    <layout>
+        <entityType>Staff</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Staff forms</description>
+    </layout>
+    
+    <!-- Attendance -->
+    <layout>
+        <entityType>Attendance</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Attendance forms</description>
+    </layout>
+    
+    <!-- Parent -->
+    <layout>
+        <entityType>Parent</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Parent forms</description>
+    </layout>
+    
+    <!-- Subject -->
+    <layout>
+        <entityType>Subject</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Subject forms</description>
+    </layout>
+    
+    <!-- Grade -->
+    <layout>
+        <entityType>Grade</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Grade forms</description>
+    </layout>
+    
+    <!-- Timetable -->
+    <layout>
+        <entityType>Timetable</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Timetable forms</description>
+    </layout>
+    
+    <!-- Room -->
+    <layout>
+        <entityType>Room</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Room forms</description>
+    </layout>
+    
+    <!-- User -->
+    <layout>
+        <entityType>User</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for User forms</description>
+    </layout>
+    
+    <!-- Address -->
+    <layout>
+        <entityType>Address</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Address forms</description>
+    </layout>
+    
+    <!-- Assignment -->
+    <layout>
+        <entityType>Assignment</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Assignment forms</description>
+    </layout>
+    
+    <!-- Exam -->
+    <layout>
+        <entityType>Exam</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Exam forms</description>
+    </layout>
+    
+    <!-- Course -->
+    <layout>
+        <entityType>Course</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Course forms</description>
+    </layout>
+    
+    <!-- Health Record -->
+    <layout>
+        <entityType>Health Record</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Health Record forms</description>
+    </layout>
+    
+    <!-- Admission Inquiry -->
+    <layout>
+        <entityType>Admission Inquiry</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Admission Inquiry forms</description>
+    </layout>
+    
+    <!-- Admission Application -->
+    <layout>
+        <entityType>Admission Application</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Admission Application forms</description>
+    </layout>
+    
+    <!-- Job Posting -->
+    <layout>
+        <entityType>Job Posting</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Job Posting forms</description>
+    </layout>
+    
+    <!-- Job Application -->
+    <layout>
+        <entityType>Job Application</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Job Application forms</description>
+    </layout>
+    
+    <!-- Staff Salary -->
+    <layout>
+        <entityType>Staff Salary</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Staff Salary forms</description>
+    </layout>
+    
+    <!-- Payroll Run -->
+    <layout>
+        <entityType>Payroll Run</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Payroll Run forms</description>
+    </layout>
+    
+    <!-- Payslip -->
+    <layout>
+        <entityType>Payslip</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Payslip forms</description>
+    </layout>
+    
+    <!-- Leave Type -->
+    <layout>
+        <entityType>Leave Type</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Leave Type forms</description>
+    </layout>
+    
+    <!-- Leave Request -->
+    <layout>
+        <entityType>Leave Request</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Leave Request forms</description>
+    </layout>
+    
+    <!-- Leave Balance -->
+    <layout>
+        <entityType>Leave Balance</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Leave Balance forms</description>
+    </layout>
+    
+    <!-- Performance Cycle -->
+    <layout>
+        <entityType>Performance Cycle</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Performance Cycle forms</description>
+    </layout>
+    
+    <!-- Performance Criteria -->
+    <layout>
+        <entityType>Performance Criteria</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Performance Criteria forms</description>
+    </layout>
+    
+    <!-- Performance Review -->
+    <layout>
+        <entityType>Performance Review</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Performance Review forms</description>
+    </layout>
+    
+    <!-- Performance Review Detail -->
+    <layout>
+        <entityType>Performance Review Detail</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Performance Review Detail forms</description>
+    </layout>
+    
+    <!-- Asset -->
+    <layout>
+        <entityType>Asset</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Asset forms</description>
+    </layout>
+    
+    <!-- Consumable -->
+    <layout>
+        <entityType>Consumable</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Consumable forms</description>
+    </layout>
+    
+    <!-- Vendor -->
+    <layout>
+        <entityType>Vendor</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Vendor forms</description>
+    </layout>
+    
+    <!-- Purchase Order -->
+    <layout>
+        <entityType>Purchase Order</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Purchase Order forms</description>
+    </layout>
+    
+    <!-- Work Order -->
+    <layout>
+        <entityType>Work Order</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Work Order forms</description>
+    </layout>
+    
+    <!-- Facility -->
+    <layout>
+        <entityType>Facility</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Facility forms</description>
+    </layout>
+    
+    <!-- Facility Booking -->
+    <layout>
+        <entityType>Facility Booking</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Facility Booking forms</description>
+    </layout>
+    
+    <!-- MIS Report -->
+    <layout>
+        <entityType>MIS Report</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for MIS Report forms</description>
+    </layout>
+    
+    <!-- Document -->
+    <layout>
+        <entityType>Document</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Document forms</description>
+    </layout>
+    
+    <!-- Holiday -->
+    <layout>
+        <entityType>Holiday</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Holiday forms</description>
+    </layout>
+    
+    <!-- Institution Event -->
+    <layout>
+        <entityType>Institution Event</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Institution Event forms</description>
+    </layout>
+    
+    <!-- Notification Log -->
+    <layout>
+        <entityType>Notification Log</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Notification Log forms</description>
+    </layout>
+    
+    <!-- Notification Template -->
+    <layout>
+        <entityType>Notification Template</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Notification Template forms</description>
+    </layout>
+    
+    <!-- Alumni Profile -->
+    <layout>
+        <entityType>Alumni Profile</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Alumni Profile forms</description>
+    </layout>
+    
+    <!-- Alumni Contribution -->
+    <layout>
+        <entityType>Alumni Contribution</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Alumni Contribution forms</description>
+    </layout>
+    
+    <!-- Fee Type -->
+    <layout>
+        <entityType>Fee Type</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Fee Type forms</description>
+    </layout>
+    
+    <!-- Fee Structure -->
+    <layout>
+        <entityType>Fee Structure</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Fee Structure forms</description>
+    </layout>
+    
+    <!-- Fee Discount Rule -->
+    <layout>
+        <entityType>Fee Discount Rule</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Fee Discount Rule forms</description>
+    </layout>
+    
+    <!-- Fine Category -->
+    <layout>
+        <entityType>Fine Category</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Fine Category forms</description>
+    </layout>
+    
+    <!-- Fine Configuration -->
+    <layout>
+        <entityType>Fine Configuration</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Fine Configuration forms</description>
+    </layout>
+    
+    <!-- Fee Payment -->
+    <layout>
+        <entityType>Fee Payment</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Fee Payment forms</description>
+    </layout>
+    
+    <!-- Fine Ledger -->
+    <layout>
+        <entityType>Fine Ledger</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Fine Ledger forms</description>
+    </layout>
+    
+    <!-- Disciplinary Incident -->
+    <layout>
+        <entityType>Disciplinary Incident</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Disciplinary Incident forms</description>
+    </layout>
+    
+    <!-- Fine Waiver Request -->
+    <layout>
+        <entityType>Fine Waiver Request</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Fine Waiver Request forms</description>
+    </layout>
+    
+    <!-- Invoice -->
+    <layout>
+        <entityType>Invoice</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Invoice forms</description>
+    </layout>
+    
+    <!-- Transaction -->
+    <layout>
+        <entityType>Transaction</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Transaction forms</description>
+    </layout>
+    
+    <!-- Invoice Item -->
+    <layout>
+        <entityType>Invoice Item</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Invoice Item forms</description>
+    </layout>
+    
+    <!-- Scholarship Category -->
+    <layout>
+        <entityType>Scholarship Category</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Scholarship Category forms</description>
+    </layout>
+    
+    <!-- Scholarship Application -->
+    <layout>
+        <entityType>Scholarship Application</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Scholarship Application forms</description>
+    </layout>
+    
+    <!-- Chart of Account -->
+    <layout>
+        <entityType>Chart of Account</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Chart of Account forms</description>
+    </layout>
+    
+    <!-- Journal Entry -->
+    <layout>
+        <entityType>Journal Entry</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Journal Entry forms</description>
+    </layout>
+    
+    <!-- Accounting Period -->
+    <layout>
+        <entityType>Accounting Period</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Accounting Period forms</description>
+    </layout>
+    
+    <!-- Budget -->
+    <layout>
+        <entityType>Budget</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Budget forms</description>
+    </layout>
+    
+    <!-- Bank Statement -->
+    <layout>
+        <entityType>Bank Statement</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Bank Statement forms</description>
+    </layout>
+    
+    <!-- Message -->
+    <layout>
+        <entityType>Message</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Message forms</description>
+    </layout>
+    
+    <!-- Announcement -->
+    <layout>
+        <entityType>Announcement</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Announcement forms</description>
+    </layout>
+    
+    <!-- Support Ticket -->
+    <layout>
+        <entityType>Support Ticket</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Support Ticket forms</description>
+    </layout>
+    
+    <!-- Ticket Comment -->
+    <layout>
+        <entityType>Ticket Comment</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Ticket Comment forms</description>
+    </layout>
+    
+    <!-- Author -->
+    <layout>
+        <entityType>Author</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Author forms</description>
+    </layout>
+    
+    <!-- Publisher -->
+    <layout>
+        <entityType>Publisher</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Publisher forms</description>
+    </layout>
+    
+    <!-- Library Resource -->
+    <layout>
+        <entityType>Library Resource</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Library Resource forms</description>
+    </layout>
+    
+    <!-- Resource Item -->
+    <layout>
+        <entityType>Resource Item</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Resource Item forms</description>
+    </layout>
+    
+    <!-- Library Loan -->
+    <layout>
+        <entityType>Library Loan</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Library Loan forms</description>
+    </layout>
+    
+    <!-- Library Hold -->
+    <layout>
+        <entityType>Library Hold</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Library Hold forms</description>
+    </layout>
+    
+    <!-- Library Policy -->
+    <layout>
+        <entityType>Library Policy</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Library Policy forms</description>
+    </layout>
+    
+    <!-- Library Purchase Request -->
+    <layout>
+        <entityType>Library Purchase Request</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Library Purchase Request forms</description>
+    </layout>
+    
+    <!-- Library PO -->
+    <layout>
+        <entityType>Library PO</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Library PO forms</description>
+    </layout>
+    
+    <!-- LMS Module -->
+    <layout>
+        <entityType>LMS Module</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for LMS Module forms</description>
+    </layout>
+    
+    <!-- Lesson -->
+    <layout>
+        <entityType>Lesson</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Lesson forms</description>
+    </layout>
+    
+    <!-- LMS Topic -->
+    <layout>
+        <entityType>LMS Topic</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for LMS Topic forms</description>
+    </layout>
+    
+    <!-- LMS Content -->
+    <layout>
+        <entityType>LMS Content</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for LMS Content forms</description>
+    </layout>
+    
+    <!-- LMS Quiz -->
+    <layout>
+        <entityType>LMS Quiz</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for LMS Quiz forms</description>
+    </layout>
+    
+    <!-- LMS Question Bank -->
+    <layout>
+        <entityType>LMS Question Bank</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for LMS Question Bank forms</description>
+    </layout>
+    
+    <!-- LMS Submission -->
+    <layout>
+        <entityType>LMS Submission</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for LMS Submission forms</description>
+    </layout>
+    
+    <!-- LMS Rubric -->
+    <layout>
+        <entityType>LMS Rubric</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for LMS Rubric forms</description>
+    </layout>
+    
+    <!-- Virtual Session -->
+    <layout>
+        <entityType>Virtual Session</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Virtual Session forms</description>
+    </layout>
+    
+    <!-- Virtual Attendance -->
+    <layout>
+        <entityType>Virtual Attendance</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Virtual Attendance forms</description>
+    </layout>
+    
+    <!-- Competency -->
+    <layout>
+        <entityType>Competency</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Competency forms</description>
+    </layout>
+    
+    <!-- Skill Assessment -->
+    <layout>
+        <entityType>Skill Assessment</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Skill Assessment forms</description>
+    </layout>
+    
+    <!-- Training Event -->
+    <layout>
+        <entityType>Training Event</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Training Event forms</description>
+    </layout>
+    
+    <!-- Credit Ledger -->
+    <layout>
+        <entityType>Credit Ledger</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Credit Ledger forms</description>
+    </layout>
+    
+    <!-- Professional Portfolio -->
+    <layout>
+        <entityType>Professional Portfolio</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Professional Portfolio forms</description>
+    </layout>
+    
+    <!-- Evidence -->
+    <layout>
+        <entityType>Evidence</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Evidence forms</description>
+    </layout>
+    
+    <!-- Training Attendance -->
+    <layout>
+        <entityType>Training Attendance</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Training Attendance forms</description>
+    </layout>
+    
+    <!-- Evaluation -->
+    <layout>
+        <entityType>Evaluation</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Evaluation forms</description>
+    </layout>
+    
+    <!-- Student Progress -->
+    <layout>
+        <entityType>Student Progress</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Student Progress forms</description>
+    </layout>
+    
+    <!-- Badge -->
+    <layout>
+        <entityType>Badge</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Badge forms</description>
+    </layout>
+    
+    <!-- Point Log -->
+    <layout>
+        <entityType>Point Log</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Point Log forms</description>
+    </layout>
+    
+    <!-- LMS Forum -->
+    <layout>
+        <entityType>LMS Forum</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for LMS Forum forms</description>
+    </layout>
+    
+    <!-- Forum Post -->
+    <layout>
+        <entityType>Forum Post</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Forum Post forms</description>
+    </layout>
+    
+    <!-- Peer Review -->
+    <layout>
+        <entityType>Peer Review</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Peer Review forms</description>
+    </layout>
+    
+    <!-- Student Registration -->
+    <layout>
+        <entityType>Student Registration</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Student Registration forms</description>
+    </layout>
+    
+    <!-- Department -->
+    <layout>
+        <entityType>Department</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Department forms</description>
+    </layout>
+    
+    <!-- Designation -->
+    <layout>
+        <entityType>Designation</entityType>
+        <layoutName>System</layoutName>
+        <layoutType>FORM</layoutType>
+        <layoutColumns>2</layoutColumns>
+        <isDefault>true</isDefault>
+        <description>Default system layout for Designation forms</description>
+    </layout>
+</layouts>

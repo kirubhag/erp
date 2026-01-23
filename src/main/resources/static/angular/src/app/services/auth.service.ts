@@ -12,6 +12,7 @@ export interface UserDetails {
   email?: string;
   phone?: string;
   organizationId?: number;
+  tenantId?: number;
   userType?: string;
   enabled?: boolean;
   accountNonExpired?: boolean;

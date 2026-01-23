@@ -173,6 +173,14 @@ public class RegistrationService {
 
         System.out.println("Admin user saved with ID: " + admin.getId());
 
+        // Update created_by to admin's own ID (self-referencing creator)
+        admin.setCreatedBy(admin.getId());
+        userRepository.save(admin);
+
+        // Update organization created_by to admin's ID
+        org.setCreatedBy(admin.getId());
+        organizationRepository.save(org);
+
         // Now copy system metadata from master DB to tenant DB with the admin user as creator
         try {
             tenantProvisioningService.copySystemDataWithUserId(dbName, admin.getId());

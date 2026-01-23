@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,12 +40,13 @@ public class ErpFieldService {
 
     /**
      * Get fields grouped by category for a specific entity type
+     * Note: Returns all fields under "General" since section info is now in erp_sections_field_rel table
      */
     public Map<String, List<ErpField>> getFieldsGroupedByCategory(EntityType entityType) {
         List<ErpField> fields = erpFieldRepository.findByEntityTypeAndIsActiveTrue(entityType);
-        return fields.stream()
-                .collect(Collectors.groupingBy(
-                        field -> field.getSection() != null ? field.getSection().getSectionLabel() : "General"));
+        Map<String, List<ErpField>> result = new HashMap<>();
+        result.put("General", fields);
+        return result;
     }
 
     /**

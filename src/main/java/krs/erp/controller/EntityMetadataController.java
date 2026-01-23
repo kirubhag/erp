@@ -9,9 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import krs.erp.enums.EntityType;
@@ -19,7 +16,6 @@ import krs.erp.model.ErpAutoNumber;
 import krs.erp.model.ErpField;
 import krs.erp.service.AutoNumberService;
 import krs.erp.service.ErpFieldService;
-import krs.erp.service.GenericEntityCreationService;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -33,7 +29,6 @@ public class EntityMetadataController {
 
     private final ErpFieldService erpFieldService;
     private final AutoNumberService autoNumberService;
-    private final GenericEntityCreationService genericEntityCreationService;
 
     /**
      * Get entity metadata including field definitions for the entity create form
@@ -181,11 +176,8 @@ public class EntityMetadataController {
             definition.put("maxValue", null);
         }
 
-        // Group fields by section (if available, otherwise use default)
-        String sectionName = field.getSection() != null && field.getSection().getSectionLabel() != null
-                ? field.getSection().getSectionLabel()
-                : "General Information";
-        definition.put("section", sectionName);
+        // Section name will be set from the relationship data, default to "General Information"
+        definition.put("section", "General Information");
 
         // Convert picklist options if available
         if (field.getPicklistOptions() != null && !field.getPicklistOptions().isEmpty()) {

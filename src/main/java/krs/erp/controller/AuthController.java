@@ -156,6 +156,7 @@ public class AuthController {
             userData.put("userType", user.getUserType());
             userData.put("enabled", user.getEnabled());
             userData.put("organizationId", user.getOrganizationId());
+            userData.put("tenantId", user.getTenantId());
 
             response.put("user", userData);
 
@@ -193,6 +194,7 @@ public class AuthController {
                 userData.put("userType", user.getUserType());
                 userData.put("enabled", user.getEnabled());
                 userData.put("organizationId", user.getOrganizationId());
+                userData.put("tenantId", user.getTenantId());
                 userData.put("avatarUrl", user.getAvatarUrl());
                 userData.put("staffId", user.getStaff() != null ? user.getStaff().getId() : null);
 

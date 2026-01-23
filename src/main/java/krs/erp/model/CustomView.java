@@ -3,6 +3,8 @@ package krs.erp.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -12,6 +14,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -40,6 +43,11 @@ public class CustomView extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "entity_type", nullable = false, length = 50)
     private EntityType entityType; // e.g., STUDENT, PARENT, ATTENDANCE, HEALTH, etc.
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "erp_entity_id")
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    private ErpEntity erpEntity;
     
     @NotEmpty(message = "At least one field must be selected")
     @ElementCollection(fetch = FetchType.EAGER)
@@ -92,6 +100,14 @@ public class CustomView extends BaseEntity {
     
     public void setEntityType(EntityType entityType) {
         this.entityType = entityType;
+    }
+
+    public ErpEntity getErpEntity() {
+        return erpEntity;
+    }
+
+    public void setErpEntity(ErpEntity erpEntity) {
+        this.erpEntity = erpEntity;
     }
     
     public List<String> getSelectedFields() {

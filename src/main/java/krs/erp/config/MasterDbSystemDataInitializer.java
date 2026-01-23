@@ -36,6 +36,10 @@ import com.zaxxer.hikari.HikariDataSource;
  * - ERP Entity Relations
  * - System Roles
  * - System Permissions
+ * - System Custom Views
+ * - ERP Tab Groups
+ * - ERP Plans
+ * - Auto Number configurations
  * 
  * These configurations are loaded from XML files and stored in IAM_MasterDB,
  * not in tenant databases.
@@ -65,9 +69,6 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
         // Ensure IAM_MasterDB exists
         ensureMasterDatabaseExists();
 
-        // Fix schema issues before loading data
-        fixSchemaIssues();
-
         // Load system data in order
         loadSystemPermissions();
         loadSystemRoles();
@@ -77,28 +78,14 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
         loadErpEntities();
         loadErpEntityRelations();
         loadCustomViews();
-        loadCustomViews();
         loadErpTabGroups();
         loadErpPlans();
         loadAutoNumbers();
+        loadErpLayouts();
+        loadErpLayoutSectionRelations();
+        loadErpSectionFieldRelations();
 
         logger.info("=== IAM_MasterDB System Data Initialization Completed ===");
-    }
-
-    /**
-     * Fix known schema issues that might cause data loading failures
-     */
-    private void fixSchemaIssues() {
-        try {
-            logger.info("Checking and fixing schema issues...");
-
-            // Fix erp_sections.entity_type length (was 50, needs 100 for some enum values)
-            masterJdbcTemplate.execute("ALTER TABLE erp_sections MODIFY COLUMN entity_type VARCHAR(100)");
-            logger.info("✓ Fixed erp_sections.entity_type column length");
-
-        } catch (Exception e) {
-            logger.warn("Schema fix warning (might already be fixed): {}", e.getMessage());
-        }
     }
 
     /**
@@ -181,8 +168,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 String createdTime = permElement.getAttribute("created_time");
 
                 masterJdbcTemplate.update(
-                        "INSERT INTO erp_permissions (name, description, resource, action, system_permission, created_time, modified_time) "
-                                +
+                        "INSERT INTO erp_permissions (name, description, resource, action, system_permission, created_time, modified_time) " +
                                 "VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE modified_time = ?",
                         name, description, resource_name, action, systemPermission,
                         LocalDateTime.parse(createdTime, DATE_FORMATTER),
@@ -239,8 +225,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 String createdTime = roleElement.getAttribute("created_time");
 
                 masterJdbcTemplate.update(
-                        "INSERT INTO erp_roles (name, description, system_role, created_time, modified_time) "
-                                +
+                        "INSERT INTO erp_roles (name, description, system_role, created_time, modified_time) " +
                                 "VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE modified_time = ?",
                         name, description, systemRole,
                         LocalDateTime.parse(createdTime, DATE_FORMATTER),
@@ -345,6 +330,16 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 Element root = doc.getDocumentElement();
                 String entityType = root.getAttribute("type");
 
+                // Get erp_entity_id from entity_type (singular_name)
+                Long erpEntityId = null;
+                try {
+                    erpEntityId = masterJdbcTemplate.queryForObject(
+                            "SELECT erp_entity_id FROM erp_entities WHERE singular_name = ?",
+                            Long.class, entityType);
+                } catch (Exception e) {
+                    logger.warn("Entity not found for type: {}. Sections will have null erp_entity_id.", entityType);
+                }
+
                 NodeList sectionNodes = root.getElementsByTagName("section");
 
                 for (int i = 0; i < sectionNodes.getLength(); i++) {
@@ -363,24 +358,12 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                     masterJdbcTemplate.update(
                             "INSERT INTO erp_sections " +
-                                    "(entity_type, section_name, section_label, layout_type, display_order, " +
-                                    "is_collapsible, is_collapsed_by_default, show_in_create, show_in_edit, show_in_detail, "
-                                    +
+                                    "(entity_type, erp_entity_id, section_name, section_label, layout_type, display_order, " +
+                                    "is_collapsible, is_collapsed_by_default, show_in_create, show_in_edit, show_in_detail, " +
                                     "description, created_time, modified_time, is_active) " +
-                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
-                                    "ON DUPLICATE KEY UPDATE " +
-                                    "section_label = VALUES(section_label), " +
-                                    "layout_type = VALUES(layout_type), " +
-                                    "display_order = VALUES(display_order), " +
-                                    "is_collapsible = VALUES(is_collapsible), " +
-                                    "is_collapsed_by_default = VALUES(is_collapsed_by_default), " +
-                                    "show_in_create = VALUES(show_in_create), " +
-                                    "show_in_edit = VALUES(show_in_edit), " +
-                                    "show_in_detail = VALUES(show_in_detail), " +
-                                    "description = VALUES(description), " +
-                                    "is_active = VALUES(is_active), " +
-                                    "modified_time = ?",
-                            entityType, sectionName, sectionLabel, layoutType, displayOrder,
+                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                                    "ON DUPLICATE KEY UPDATE modified_time = ?",
+                            entityType, erpEntityId, sectionName, sectionLabel, layoutType, displayOrder,
                             isCollapsible, isCollapsedByDefault, showInCreate, showInEdit, showInDetail,
                             description, LocalDateTime.now(), LocalDateTime.now(), 1,
                             LocalDateTime.now());
@@ -436,6 +419,16 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                 logger.debug("Processing fields for entity type: {}", entityType);
 
+                // Get erp_entity_id from entity_type (singular_name)
+                Long erpEntityId = null;
+                try {
+                    erpEntityId = masterJdbcTemplate.queryForObject(
+                            "SELECT erp_entity_id FROM erp_entities WHERE singular_name = ?",
+                            Long.class, entityType);
+                } catch (Exception e) {
+                    logger.warn("Entity not found for type: {}. Fields will have null erp_entity_id.", entityType);
+                }
+
                 NodeList fieldNodes = root.getElementsByTagName("field");
 
                 for (int i = 0; i < fieldNodes.getLength(); i++) {
@@ -461,54 +454,43 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         String picklistOptions = getElementText(fieldElement, "picklistOptions", null);
                         String fieldProperties = getElementText(fieldElement, "fieldProperties", null);
 
-                        // Get section_id from section_name
-                        Long sectionId = null;
-                        if (sectionName != null && !sectionName.isEmpty()) {
-                            try {
-                                sectionId = masterJdbcTemplate.queryForObject(
-                                        "SELECT erp_section_id FROM erp_sections WHERE entity_type = ? AND section_name = ?",
-                                        Long.class, entityType, sectionName);
-                            } catch (Exception e) {
-                                logger.warn(
-                                        "Section not found: {} for entity: {}. Field: {} will be linked to null section.",
-                                        sectionName, entityType, fieldName);
-                            }
-                        }
-
+                        // Insert or update the field
                         masterJdbcTemplate.update(
                                 "INSERT INTO erp_fields " +
-                                        "(entity_type, field_name, field_label, field_type, ui_type, section_id, display_order, "
-                                        +
+                                        "(entity_type, erp_entity_id, field_name, field_label, field_type, ui_type, display_order, " +
                                         "is_required, is_searchable, is_sortable, show_in_list, show_in_form, " +
-                                        "field_description, max_length, decimal_places, show_type, validation_pattern, picklist_options, field_properties, created_time, modified_time, is_active) "
-                                        +
+                                        "field_description, max_length, decimal_places, show_type, validation_pattern, picklist_options, field_properties, created_time, modified_time, is_active) " +
                                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
-                                        "ON DUPLICATE KEY UPDATE " +
-                                        "field_label = VALUES(field_label), " +
-                                        "field_type = VALUES(field_type), " +
-                                        "ui_type = VALUES(ui_type), " +
-                                        "section_id = VALUES(section_id), " +
-                                        "display_order = VALUES(display_order), " +
-                                        "is_required = VALUES(is_required), " +
-                                        "is_searchable = VALUES(is_searchable), " +
-                                        "is_sortable = VALUES(is_sortable), " +
-                                        "show_in_list = VALUES(show_in_list), " +
-                                        "show_in_form = VALUES(show_in_form), " +
-                                        "field_description = VALUES(field_description), " +
-                                        "max_length = VALUES(max_length), " +
-                                        "decimal_places = VALUES(decimal_places), " +
-                                        "show_type = VALUES(show_type), " +
-                                        "validation_pattern = VALUES(validation_pattern), " +
-                                        "picklist_options = VALUES(picklist_options), " +
-                                        "field_properties = VALUES(field_properties), " +
-                                        "is_active = VALUES(is_active), " +
-                                        "modified_time = ?",
-                                entityType, fieldName, fieldLabel, fieldType, uiType, sectionId, displayOrder,
+                                        "ON DUPLICATE KEY UPDATE modified_time = ?",
+                                entityType, erpEntityId, fieldName, fieldLabel, fieldType, uiType, displayOrder,
                                 isRequired, isSearchable, isSortable, showInList, showInForm,
                                 description, maxLength, decimalPlaces, showType, validationPattern, picklistOptions,
                                 fieldProperties,
                                 LocalDateTime.now(), LocalDateTime.now(), 1,
                                 LocalDateTime.now());
+
+                        // Create section-field relationship if sectionName is specified
+                        if (sectionName != null && !sectionName.isEmpty()) {
+                            try {
+                                Long sectionId = masterJdbcTemplate.queryForObject(
+                                        "SELECT erp_section_id FROM erp_sections WHERE entity_type = ? AND section_name = ?",
+                                        Long.class, entityType, sectionName);
+                                Long fieldId = masterJdbcTemplate.queryForObject(
+                                        "SELECT erp_field_id FROM erp_fields WHERE entity_type = ? AND field_name = ?",
+                                        Long.class, entityType, fieldName);
+
+                                masterJdbcTemplate.update(
+                                        "INSERT IGNORE INTO erp_sections_field_rel " +
+                                                "(erp_section_id, erp_field_id, field_order, created_time, modified_time) " +
+                                                "VALUES (?, ?, ?, ?, ?)",
+                                        sectionId, fieldId, displayOrder, LocalDateTime.now(), LocalDateTime.now());
+                            } catch (Exception e) {
+                                logger.warn(
+                                        "Could not create section-field relationship for section: {} and field: {}. Error: {}",
+                                        sectionName, fieldName, e.getMessage());
+                            }
+                        }
+
                         totalLoaded++;
                     } catch (Exception e) {
                         String fieldName = "unknown";
@@ -582,29 +564,14 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                 masterJdbcTemplate.update(
                         "INSERT INTO erp_entities " +
-                                "(singular_name, plural_name, system_name, description, table_name, pkid, display_column, "
-                                +
-                                "has_rel_table, icon, route, sequence, presence, is_active, created_date, last_modified_date, created_by, last_modified_by) "
-                                +
+                                "(singular_name, plural_name, system_name, description, table_name, pkid, display_column, " +
+                                "has_rel_table, icon, route, sequence, presence, is_active, created_date, last_modified_date, created_by, last_modified_by) " +
                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
-                                "ON DUPLICATE KEY UPDATE " +
-                                "singular_name = VALUES(singular_name), " +
-                                "plural_name = VALUES(plural_name), " +
-                                "description = VALUES(description), " +
-                                "table_name = VALUES(table_name), " +
-                                "pkid = VALUES(pkid), " +
-                                "display_column = VALUES(display_column), " +
-                                "has_rel_table = VALUES(has_rel_table), " +
-                                "icon = VALUES(icon), " +
-                                "route = VALUES(route), " +
-                                "sequence = VALUES(sequence), " +
-                                "presence = VALUES(presence), " +
-                                "is_active = VALUES(is_active), " +
-                                "last_modified_date = ?, last_modified_by = ?",
+                                "ON DUPLICATE KEY UPDATE last_modified_date = ?",
                         singularName, pluralName, systemName, description, tableName, pkid, displayColumn,
                         hasRelTable, icon, route, sequence, presence, isActive, LocalDateTime.now(),
                         LocalDateTime.now(), null, null,
-                        LocalDateTime.now(), null);
+                        LocalDateTime.now());
                 loaded++;
             }
 
@@ -686,10 +653,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                 masterJdbcTemplate.update(
                         "INSERT INTO erp_entity_relations " +
-                                "(parent_entity_id, child_entity_id, relation_type, relation_name, foreign_key_column, "
-                                +
-                                "is_mandatory, cascade_delete, display_order, is_active, created_time, modified_time) "
-                                +
+                                "(parent_entity_id, child_entity_id, relation_type, relation_name, foreign_key_column, " +
+                                "is_mandatory, cascade_delete, display_order, is_active, created_time, modified_time) " +
                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                                 "ON DUPLICATE KEY UPDATE modified_time = ?",
                         parentEntityId, childEntityId, "ONE_TO_MANY", description, foreignKeyColumn,
@@ -785,53 +750,29 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 Element selectedFieldsElement = (Element) selectedFieldsNodes.item(0);
                 NodeList fieldNodes = selectedFieldsElement.getElementsByTagName("field");
 
-                // Check if view already exists
-                Integer existingCount = masterJdbcTemplate.queryForObject(
-                        "SELECT COUNT(*) FROM erp_custom_views WHERE view_name = ? AND entity_type = ?",
-                        Integer.class, viewName, entityType);
+                // Insert or update custom view (immutable - only modified_time updated)
+                masterJdbcTemplate.update(
+                        "INSERT INTO erp_custom_views " +
+                                "(view_name, description, entity_type, is_default, is_public, " +
+                                "created_by, created_time, modified_time, is_active) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                                "ON DUPLICATE KEY UPDATE modified_time = ?",
+                        viewName, description, entityType, isDefault, isPublic,
+                        null, LocalDateTime.now(), LocalDateTime.now(), 1,
+                        LocalDateTime.now());
 
-                Long customViewId;
+                // Get the view ID (works for both insert and update)
+                Long customViewId = masterJdbcTemplate.queryForObject(
+                        "SELECT custom_view_id FROM erp_custom_views WHERE view_name = ? AND entity_type = ?",
+                        Long.class, viewName, entityType);
 
-                if (existingCount != null && existingCount > 0) {
-                    // Update existing view
-                    masterJdbcTemplate.update(
-                            "UPDATE erp_custom_views " +
-                                    "SET description = ?, is_default = ?, is_public = ?, modified_time = ? " +
-                                    "WHERE view_name = ? AND entity_type = ?",
-                            description, isDefault, isPublic, LocalDateTime.now(),
-                            viewName, entityType);
-
-                    // Get existing view ID
-                    customViewId = masterJdbcTemplate.queryForObject(
-                            "SELECT custom_view_id FROM erp_custom_views WHERE view_name = ? AND entity_type = ?",
-                            Long.class, viewName, entityType);
-
-                    // Delete existing fields
-                    masterJdbcTemplate.update(
-                            "DELETE FROM erp_custom_view_fields WHERE custom_view_id = ?",
-                            customViewId);
-                } else {
-                    // Insert new view
-                    masterJdbcTemplate.update(
-                            "INSERT INTO erp_custom_views " +
-                                    "(view_name, description, entity_type, is_default, is_public, " +
-                                    "created_by, created_time, modified_time, is_active) " +
-                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                            viewName, description, entityType, isDefault, isPublic,
-                            null, LocalDateTime.now(), LocalDateTime.now(), 1);
-
-                    // Get generated view ID
-                    customViewId = masterJdbcTemplate.queryForObject(
-                            "SELECT LAST_INSERT_ID()", Long.class);
-                }
-
-                // Insert selected fields
+                // Insert selected fields (immutable - skip if exists)
                 for (int j = 0; j < fieldNodes.getLength(); j++) {
                     Element fieldElement = (Element) fieldNodes.item(j);
                     String fieldName = fieldElement.getTextContent().trim();
 
                     masterJdbcTemplate.update(
-                            "INSERT INTO erp_custom_view_fields (custom_view_id, field_name) VALUES (?, ?)",
+                            "INSERT IGNORE INTO erp_custom_view_fields (custom_view_id, field_name) VALUES (?, ?)",
                             customViewId, fieldName);
                 }
 
@@ -878,45 +819,21 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 String description = getElementText(groupElement, "description");
                 Integer sequence = Integer.parseInt(getElementText(groupElement, "sequence"));
 
-                // Check if tab group already exists
-                Integer existingCount = masterJdbcTemplate.queryForObject(
-                        "SELECT COUNT(*) FROM erp_tab_groups WHERE code = ?",
-                        Integer.class, code);
+                // Insert or update tab group (immutable - only modified_time updated)
+                masterJdbcTemplate.update(
+                        "INSERT INTO erp_tab_groups " +
+                                "(name, code, icon, route_path, description, sequence, is_active, " +
+                                "created_by, created_time, modified_time) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                                "ON DUPLICATE KEY UPDATE modified_time = ?",
+                        name, code, icon, routePath, description, sequence, 1,
+                        null, LocalDateTime.now(), LocalDateTime.now(),
+                        LocalDateTime.now());
 
-                Long tabGroupId;
-
-                if (existingCount != null && existingCount > 0) {
-                    // Update existing tab group
-                    masterJdbcTemplate.update(
-                            "UPDATE erp_tab_groups " +
-                                    "SET name = ?, icon = ?, route_path = ?, description = ?, sequence = ?, modified_time = ? "
-                                    +
-                                    "WHERE code = ?",
-                            name, icon, routePath, description, sequence, LocalDateTime.now(), code);
-
-                    // Get existing tab group ID
-                    tabGroupId = masterJdbcTemplate.queryForObject(
-                            "SELECT erp_tab_group_id FROM erp_tab_groups WHERE code = ?",
-                            Long.class, code);
-
-                    // Delete existing entity mappings
-                    masterJdbcTemplate.update(
-                            "DELETE FROM erp_tab_group_entity_rel WHERE tab_group_id = ?",
-                            tabGroupId);
-                } else {
-                    // Insert new tab group
-                    masterJdbcTemplate.update(
-                            "INSERT INTO erp_tab_groups " +
-                                    "(name, code, icon, route_path, description, sequence, is_active, " +
-                                    "created_by, created_time, modified_time) " +
-                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                            name, code, icon, routePath, description, sequence, 1,
-                            null, LocalDateTime.now(), LocalDateTime.now());
-
-                    // Get generated tab group ID
-                    tabGroupId = masterJdbcTemplate.queryForObject(
-                            "SELECT LAST_INSERT_ID()", Long.class);
-                }
+                // Get the tab group ID (works for both insert and update)
+                Long tabGroupId = masterJdbcTemplate.queryForObject(
+                        "SELECT erp_tab_group_id FROM erp_tab_groups WHERE code = ?",
+                        Long.class, code);
 
                 // Process entity mappings
                 NodeList entitiesNode = groupElement.getElementsByTagName("entities");
@@ -939,11 +856,10 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                             continue;
                         }
 
-                        // Insert entity mapping
+                        // Insert entity mapping (immutable - skip if exists)
                         masterJdbcTemplate.update(
-                                "INSERT INTO erp_tab_group_entity_rel " +
-                                        "(tab_group_id, entity_id, sequence, is_active, created_by, created_time, modified_time) "
-                                        +
+                                "INSERT IGNORE INTO erp_tab_group_entity_rel " +
+                                        "(tab_group_id, entity_id, sequence, is_active, created_by, created_time, modified_time) " +
                                         "VALUES (?, ?, ?, ?, ?, ?, ?)",
                                 tabGroupId, entityId, j + 1, 1, null, LocalDateTime.now(), LocalDateTime.now());
                     }
@@ -1074,12 +990,7 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                                     "(erp_field_id, prefix, suffix, next_number, padding_length, description, " +
                                     "version, created_time, modified_time, is_active) " +
                                     "VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, 1) " +
-                                    "ON DUPLICATE KEY UPDATE " +
-                                    "prefix = VALUES(prefix), " +
-                                    "suffix = VALUES(suffix), " +
-                                    "padding_length = VALUES(padding_length), " +
-                                    "description = VALUES(description), " +
-                                    "modified_time = ?",
+                                    "ON DUPLICATE KEY UPDATE modified_time = ?",
                             erpFieldId, prefix, suffix, nextNumber, paddingLength, description,
                             LocalDateTime.now(), LocalDateTime.now(),
                             LocalDateTime.now());
@@ -1108,6 +1019,223 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
             return Long.parseLong(value.trim());
         } catch (NumberFormatException e) {
             return defaultValue;
+        }
+    }
+
+    /**
+     * Load ERP layouts from erp-layouts.xml
+     */
+    private void loadErpLayouts() {
+        try {
+            logger.info("Loading ERP layouts into IAM_MasterDB...");
+
+            // Load from XML
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            Resource resource = resolver.getResource("classpath:data/erp-layouts.xml");
+
+            if (!resource.exists()) {
+                logger.warn("erp-layouts.xml not found - generating default layouts for all entities");
+                generateDefaultLayoutsForAllEntities();
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(resource.getInputStream());
+
+            NodeList layoutNodes = doc.getElementsByTagName("layout");
+            int loaded = 0;
+
+            for (int i = 0; i < layoutNodes.getLength(); i++) {
+                Element layoutElement = (Element) layoutNodes.item(i);
+
+                String entityType = getElementText(layoutElement, "entityType");
+                String layoutName = getElementText(layoutElement, "layoutName");
+                String layoutType = getElementText(layoutElement, "layoutType", "FORM");
+                Integer layoutColumns = getElementInt(layoutElement, "layoutColumns", 2);
+                Boolean isDefault = getElementBoolean(layoutElement, "isDefault", false);
+                String description = getElementText(layoutElement, "description", null);
+
+                // Get erp_entity_id from entity_type (singular_name)
+                Long erpEntityId = null;
+                try {
+                    erpEntityId = masterJdbcTemplate.queryForObject(
+                            "SELECT erp_entity_id FROM erp_entities WHERE singular_name = ?",
+                            Long.class, entityType);
+                } catch (Exception e) {
+                    logger.warn("Entity not found for type: {}. Layout will have null erp_entity_id.", entityType);
+                }
+
+                masterJdbcTemplate.update(
+                        "INSERT INTO erp_layout " +
+                                "(erp_entity_id, layout_name, layout_type, layout_columns, is_default, " +
+                                "description, created_time, modified_time, is_active) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                                "ON DUPLICATE KEY UPDATE modified_time = ?",
+                        erpEntityId, layoutName, layoutType, layoutColumns, isDefault,
+                        description, LocalDateTime.now(), LocalDateTime.now(), 1,
+                        LocalDateTime.now());
+                loaded++;
+            }
+
+            // Ensure all entities have a default System layout
+            generateDefaultLayoutsForAllEntities();
+
+            logger.info("✓ Loaded {} ERP layouts into IAM_MasterDB", loaded);
+
+        } catch (Exception e) {
+            logger.error("Error loading ERP layouts", e);
+        }
+    }
+
+    /**
+     * Generate default "System" layouts for all entities that don't have one
+     */
+    private void generateDefaultLayoutsForAllEntities() {
+        try {
+            // Get all entities that don't have a default layout
+            String insertSql = 
+                "INSERT INTO erp_layout (erp_entity_id, layout_name, layout_type, layout_columns, is_default, " +
+                "description, created_time, modified_time, is_active) " +
+                "SELECT e.erp_entity_id, 'System', 'FORM', 2, true, " +
+                "CONCAT('Default system layout for ', e.singular_name), NOW(), NOW(), 1 " +
+                "FROM erp_entities e " +
+                "WHERE e.is_active = 1 " +
+                "AND NOT EXISTS (SELECT 1 FROM erp_layout l WHERE l.erp_entity_id = e.erp_entity_id AND l.layout_name = 'System')";
+            
+            int created = masterJdbcTemplate.update(insertSql);
+            if (created > 0) {
+                logger.info("✓ Generated {} default System layouts for entities", created);
+            }
+        } catch (Exception e) {
+            logger.error("Error generating default layouts", e);
+        }
+    }
+
+    /**
+     * Load ERP layout-section relationships from erp-layout-section-relations.xml
+     */
+    private void loadErpLayoutSectionRelations() {
+        try {
+            logger.info("Loading ERP layout-section relations into IAM_MasterDB...");
+
+            // Load from XML
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            Resource resource = resolver.getResource("classpath:data/erp-layout-section-relations.xml");
+
+            int loaded = 0;
+
+            if (resource.exists()) {
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document doc = builder.parse(resource.getInputStream());
+
+                NodeList relationNodes = doc.getElementsByTagName("relation");
+
+                for (int i = 0; i < relationNodes.getLength(); i++) {
+                    Element relationElement = (Element) relationNodes.item(i);
+
+                    String entityType = getElementText(relationElement, "entityType");
+                    String layoutName = getElementText(relationElement, "layoutName");
+                    String sectionName = getElementText(relationElement, "sectionName");
+                    Integer sectionOrder = getElementInt(relationElement, "sectionOrder", i + 1);
+
+                    try {
+                        // Get layout_id
+                        Long layoutId = masterJdbcTemplate.queryForObject(
+                                "SELECT l.erp_layout_id FROM erp_layout l " +
+                                "JOIN erp_entities e ON l.erp_entity_id = e.erp_entity_id " +
+                                "WHERE e.singular_name = ? AND l.layout_name = ?",
+                                Long.class, entityType, layoutName);
+
+                        // Get section_id
+                        Long sectionId = masterJdbcTemplate.queryForObject(
+                                "SELECT erp_section_id FROM erp_sections WHERE entity_type = ? AND section_name = ?",
+                                Long.class, entityType, sectionName);
+
+                        if (layoutId != null && sectionId != null) {
+                            masterJdbcTemplate.update(
+                                    "INSERT INTO erp_layout_section_rel " +
+                                            "(erp_layout_id, erp_section_id, section_order, created_time, modified_time) " +
+                                            "VALUES (?, ?, ?, ?, ?) " +
+                                            "ON DUPLICATE KEY UPDATE section_order = ?, modified_time = ?",
+                                    layoutId, sectionId, sectionOrder, LocalDateTime.now(), LocalDateTime.now(),
+                                    sectionOrder, LocalDateTime.now());
+                            loaded++;
+                        }
+                    } catch (Exception e) {
+                        // Silently skip - section or layout may not exist
+                    }
+                }
+            }
+
+            logger.info("✓ Loaded {} ERP layout-section relations into IAM_MasterDB", loaded);
+
+        } catch (Exception e) {
+            logger.error("Error loading ERP layout-section relations", e);
+        }
+    }
+
+    /**
+     * Load ERP section-field relationships from erp-section-field-relations.xml
+     * All section-field relations are defined statically in the XML file
+     */
+    private void loadErpSectionFieldRelations() {
+        try {
+            logger.info("Loading ERP section-field relations into IAM_MasterDB...");
+
+            // Load from XML
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            Resource resource = resolver.getResource("classpath:data/erp-section-field-relations.xml");
+
+            int loaded = 0;
+
+            if (resource.exists()) {
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document doc = builder.parse(resource.getInputStream());
+
+                NodeList relationNodes = doc.getElementsByTagName("relation");
+
+                for (int i = 0; i < relationNodes.getLength(); i++) {
+                    Element relationElement = (Element) relationNodes.item(i);
+
+                    String entityType = getElementText(relationElement, "entityType");
+                    String sectionName = getElementText(relationElement, "sectionName");
+                    String fieldName = getElementText(relationElement, "fieldName");
+                    Integer fieldOrder = getElementInt(relationElement, "fieldOrder", i + 1);
+
+                    try {
+                        // Get section_id
+                        Long sectionId = masterJdbcTemplate.queryForObject(
+                                "SELECT erp_section_id FROM erp_sections WHERE entity_type = ? AND section_name = ?",
+                                Long.class, entityType, sectionName);
+
+                        // Get field_id
+                        Long fieldId = masterJdbcTemplate.queryForObject(
+                                "SELECT erp_field_id FROM erp_fields WHERE entity_type = ? AND field_name = ?",
+                                Long.class, entityType, fieldName);
+
+                        if (sectionId != null && fieldId != null) {
+                            masterJdbcTemplate.update(
+                                    "INSERT INTO erp_sections_field_rel " +
+                                            "(erp_section_id, erp_field_id, field_order, created_time, modified_time) " +
+                                            "VALUES (?, ?, ?, ?, ?) " +
+                                            "ON DUPLICATE KEY UPDATE field_order = ?, modified_time = ?",
+                                    sectionId, fieldId, fieldOrder, LocalDateTime.now(), LocalDateTime.now(),
+                                    fieldOrder, LocalDateTime.now());
+                            loaded++;
+                        }
+                    } catch (Exception e) {
+                        // Silently skip - field or section may not exist
+                    }
+                }
+            }
+
+            logger.info("✓ Loaded {} ERP section-field relations into IAM_MasterDB", loaded);
+
+        } catch (Exception e) {
+            logger.error("Error loading ERP section-field relations", e);
         }
     }
 }

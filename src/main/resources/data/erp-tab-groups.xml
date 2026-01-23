@@ -38,6 +38,14 @@
         <sequence>2</sequence>
         <description>Manage academic years, terms, and grading policies</description>
         <entities>
+            <entity>Student</entity>
+            <entity>Parent</entity>
+            <entity>Subject</entity>
+            <entity>Room</entity>
+            <entity>Attendance</entity>
+            <entity>Timetable</entity>
+            <entity>ErpClass</entity>
+            <entity>Address</entity>
             <entity>AcademicSettings</entity>
             <entity>AcademicYear</entity>
             <entity>GradingScale</entity>

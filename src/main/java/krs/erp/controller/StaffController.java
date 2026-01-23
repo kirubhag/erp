@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import krs.erp.enums.EntityType;
 import krs.erp.model.Staff;
 import krs.erp.repository.StaffRepository;
+import krs.erp.service.AutoNumberService;
 
 /**
  * REST Controller for Staff CRUD operations
@@ -29,6 +31,9 @@ public class StaffController {
     
     @Autowired
     private StaffRepository staffRepository;
+    
+    @Autowired
+    private AutoNumberService autoNumberService;
     
     /**
      * Get all staff members with pagination
@@ -55,12 +60,32 @@ public class StaffController {
     @PostMapping
     public ResponseEntity<?> createStaff(@RequestBody Staff staff) {
         try {
+            // Auto-generate staffId if not provided
+            if (staff.getStaffId() == null || staff.getStaffId().isEmpty()) {
+                try {
+                    String generatedId = autoNumberService.generateNextNumber(EntityType.STAFF, "staffId");
+                    if (generatedId != null && !generatedId.isEmpty()) {
+                        staff.setStaffId(generatedId);
+                    } else {
+                        // Fallback to timestamp-based ID
+                        staff.setStaffId("STF-" + System.currentTimeMillis());
+                    }
+                } catch (Exception e) {
+                    // Fallback to timestamp-based ID
+                    staff.setStaffId("STF-" + System.currentTimeMillis());
+                }
+            }
+            
             // Set default values for required fields if not provided
             if (staff.getEmploymentStatus() == null) {
                 staff.setEmploymentStatus(Staff.EmploymentStatus.ACTIVE);
             }
             if (staff.getStaffType() == null) {
                 staff.setStaffType(Staff.StaffType.OTHER);
+            }
+            // Set default hire date if not provided
+            if (staff.getHireDate() == null) {
+                staff.setHireDate(java.time.LocalDate.now());
             }
             Staff savedStaff = staffRepository.save(staff);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedStaff);

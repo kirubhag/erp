@@ -153,8 +153,11 @@ CREATE TABLE IF NOT EXISTS erp_courses (
 CREATE TABLE IF NOT EXISTS erp_custom_view_fields (
     custom_view_id BIGINT NOT NULL,
     field_name VARCHAR(100) NOT NULL,
+    erp_field_id BIGINT,
     FOREIGN KEY (custom_view_id) REFERENCES erp_custom_views (custom_view_id) ON DELETE CASCADE,
-    INDEX idx_custom_view_id (custom_view_id)
+    FOREIGN KEY (erp_field_id) REFERENCES erp_fields (erp_field_id) ON DELETE SET NULL,
+    INDEX idx_custom_view_id (custom_view_id),
+    INDEX idx_erp_field_id (erp_field_id)
 );
 
 -- Table from SQL file: custom_views
@@ -163,6 +166,7 @@ CREATE TABLE IF NOT EXISTS erp_custom_views (
     view_name VARCHAR(100) NOT NULL,
     description VARCHAR(500),
     entity_type VARCHAR(100) NOT NULL,
+    erp_entity_id BIGINT,
     is_default BOOLEAN DEFAULT false,
     created_by_user VARCHAR(100),
     is_public BOOLEAN DEFAULT false,
@@ -172,8 +176,10 @@ CREATE TABLE IF NOT EXISTS erp_custom_views (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
+    FOREIGN KEY (erp_entity_id) REFERENCES erp_entities (erp_entity_id) ON DELETE SET NULL,
     INDEX idx_view_name (view_name),
     INDEX idx_entity_type (entity_type),
+    INDEX idx_erp_entity_id (erp_entity_id),
     INDEX idx_is_default (is_default),
     INDEX idx_is_active (is_active)
 );
@@ -919,11 +925,11 @@ CREATE TABLE IF NOT EXISTS erp_fee_types (
 CREATE TABLE IF NOT EXISTS erp_fields (
     erp_field_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_type VARCHAR(250) NOT NULL,
+    erp_entity_id BIGINT,
     field_name VARCHAR(100) NOT NULL,
     field_label VARCHAR(200) NOT NULL,
     field_type VARCHAR(50) NOT NULL,
     ui_type INT,
-    section_id BIGINT,
     row_position INT DEFAULT 0,
     column_position INT DEFAULT 0,
     is_required BOOLEAN DEFAULT false,
@@ -948,10 +954,10 @@ CREATE TABLE IF NOT EXISTS erp_fields (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
-    FOREIGN KEY (section_id) REFERENCES erp_sections (erp_section_id) ON DELETE SET NULL,
+    FOREIGN KEY (erp_entity_id) REFERENCES erp_entities (erp_entity_id) ON DELETE SET NULL,
     INDEX idx_entity_type (entity_type),
+    INDEX idx_erp_entity_id (erp_entity_id),
     INDEX idx_field_name (field_name),
-    INDEX idx_section_id (section_id),
     INDEX idx_show_type (show_type),
     INDEX idx_is_active (is_active)
 );
@@ -1968,6 +1974,7 @@ CREATE TABLE IF NOT EXISTS erp_rooms (
 CREATE TABLE IF NOT EXISTS erp_sections (
     erp_section_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_type VARCHAR(250) NOT NULL,
+    erp_entity_id BIGINT,
     section_name VARCHAR(100) NOT NULL,
     section_label VARCHAR(200) NOT NULL,
     layout_type VARCHAR(20) NOT NULL DEFAULT 'TWO_COLUMN',
@@ -1982,18 +1989,73 @@ CREATE TABLE IF NOT EXISTS erp_sections (
     css_class VARCHAR(100),
     description TEXT,
     help_text TEXT,
-    organization_id BIGINT,
     created_by BIGINT,
     modified_by BIGINT,
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1,
+    FOREIGN KEY (erp_entity_id) REFERENCES erp_entities (erp_entity_id) ON DELETE SET NULL,
     INDEX idx_entity_type (entity_type),
+    INDEX idx_erp_entity_id (erp_entity_id),
     INDEX idx_section_name (section_name),
     INDEX idx_display_order (display_order),
     INDEX idx_is_active (is_active),
     UNIQUE KEY unique_entity_section (entity_type, section_name)
+);
+
+-- Table from SQL file: erp_sections_field_rel (section-field relationship)
+CREATE TABLE IF NOT EXISTS erp_sections_field_rel (
+    erp_section_id BIGINT NOT NULL,
+    erp_field_id BIGINT NOT NULL,
+    field_order INT DEFAULT 0,
+    created_by BIGINT,
+    modified_by BIGINT,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    PRIMARY KEY (erp_section_id, erp_field_id),
+    FOREIGN KEY (erp_section_id) REFERENCES erp_sections (erp_section_id) ON DELETE CASCADE,
+    FOREIGN KEY (erp_field_id) REFERENCES erp_fields (erp_field_id) ON DELETE CASCADE,
+    INDEX idx_erp_section_id (erp_section_id),
+    INDEX idx_erp_field_id (erp_field_id)
+);
+
+-- Table from SQL file: erp_layout (form layouts)
+CREATE TABLE IF NOT EXISTS erp_layout (
+    erp_layout_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    erp_entity_id BIGINT NOT NULL,
+    layout_name VARCHAR(200) NOT NULL,
+    layout_type VARCHAR(250) NOT NULL DEFAULT 'FORM',
+    layout_columns INT DEFAULT 2,
+    is_default BOOLEAN DEFAULT false,
+    created_by BIGINT,
+    modified_by BIGINT,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    FOREIGN KEY (erp_entity_id) REFERENCES erp_entities (erp_entity_id) ON DELETE CASCADE,
+    INDEX idx_erp_entity_id (erp_entity_id),
+    INDEX idx_layout_type (layout_type),
+    INDEX idx_is_default (is_default),
+    INDEX idx_is_active (is_active),
+    UNIQUE KEY unique_entity_layout (erp_entity_id, layout_name)
+);
+
+-- Table from SQL file: erp_layout_section_rel (layout-section relationship)
+CREATE TABLE IF NOT EXISTS erp_layout_section_rel (
+    erp_layout_id BIGINT NOT NULL,
+    erp_section_id BIGINT NOT NULL,
+    section_order INT DEFAULT 0,
+    created_by BIGINT,
+    modified_by BIGINT,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME,
+    PRIMARY KEY (erp_layout_id, erp_section_id),
+    FOREIGN KEY (erp_layout_id) REFERENCES erp_layout (erp_layout_id) ON DELETE CASCADE,
+    FOREIGN KEY (erp_section_id) REFERENCES erp_sections (erp_section_id) ON DELETE CASCADE,
+    INDEX idx_erp_layout_id (erp_layout_id),
+    INDEX idx_erp_section_id (erp_section_id)
 );
 
 -- Table generated from JPA: erp_student_registrations
@@ -2756,12 +2818,12 @@ CREATE TABLE IF NOT EXISTS erp_staff (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     middle_name VARCHAR(50),
-    staff_identifier VARCHAR(20) NOT NULL UNIQUE,
+    staff_identifier VARCHAR(20) UNIQUE,
     email VARCHAR(100) UNIQUE,
     phone VARCHAR(20),
-    date_of_birth DATE NOT NULL,
+    date_of_birth DATE,
     gender VARCHAR(20),
-    hire_date DATE NOT NULL,
+    hire_date DATE,
     termination_date DATE,
     employment_status VARCHAR(50) NOT NULL DEFAULT 'ACTIVE',
     staff_type VARCHAR(100) NOT NULL,
@@ -2937,12 +2999,12 @@ CREATE TABLE IF NOT EXISTS erp_students (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     middle_name VARCHAR(50),
-    student_identifier VARCHAR(20) NOT NULL UNIQUE,
+    student_identifier VARCHAR(20) UNIQUE,
     email VARCHAR(100) UNIQUE,
     phone VARCHAR(20),
-    date_of_birth DATE NOT NULL,
+    date_of_birth DATE,
     gender VARCHAR(20),
-    enrollment_date DATE NOT NULL,
+    enrollment_date DATE,
     grade_level VARCHAR(50) NOT NULL,
     enrollment_status VARCHAR(50) NOT NULL DEFAULT 'ACTIVE',
     address_id BIGINT,

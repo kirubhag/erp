@@ -14,7 +14,9 @@ import krs.erp.dto.LayoutSaveDTO;
 import krs.erp.enums.EntityType;
 import krs.erp.model.ErpField;
 import krs.erp.model.ErpSection;
+import krs.erp.model.ErpSectionFieldRel;
 import krs.erp.repository.ErpFieldRepository;
+import krs.erp.repository.ErpSectionFieldRelRepository;
 import krs.erp.repository.ErpSectionRepository;
 
 @Service
@@ -24,6 +26,9 @@ public class ErpSectionService {
     @Autowired
     private ErpSectionRepository sectionRepository;
 
+    @Autowired
+    private ErpSectionFieldRelRepository sectionFieldRelRepository;
+
     /**
      * Get all active sections for an entity type
      */
@@ -32,10 +37,10 @@ public class ErpSectionService {
     }
 
     /**
-     * Get all active sections for an entity type and organization
+     * Get all active sections for an erp_entity_id
      */
-    public List<ErpSection> getSectionsByEntityTypeAndOrganization(EntityType entityType, Long organizationId) {
-        return sectionRepository.findByEntityTypeAndOrganizationIdAndIsActiveTrue(entityType, organizationId);
+    public List<ErpSection> getSectionsByErpEntityId(Long erpEntityId) {
+        return sectionRepository.findByErpEntityIdAndIsActiveTrue(erpEntityId);
     }
 
     /**
@@ -172,9 +177,9 @@ public class ErpSectionService {
     /**
      * Check if section name exists
      */
-    public boolean sectionExists(EntityType entityType, String sectionName, Long organizationId) {
-        return sectionRepository.existsByEntityTypeAndSectionNameAndOrganizationId(
-                entityType, sectionName, organizationId);
+    public boolean sectionExists(EntityType entityType, String sectionName) {
+        return sectionRepository.existsByEntityTypeAndSectionNameAndIsActiveTrue(
+                entityType, sectionName);
     }
 
     /**
@@ -220,13 +225,28 @@ public class ErpSectionService {
                         sectionsUpdated++;
                     }
 
-                    // Update field positions
+                    // Update field positions using the relationship table
+                    int fieldOrderCounter = 0;
                     for (LayoutSaveDTO.FieldPositionDTO fieldPos : sectionData.getFields()) {
                         ErpField field = fieldRepository.findByEntityTypeAndFieldNameAndIsActiveTrue(
                                 entityType, fieldPos.getFieldName());
 
                         if (field != null) {
-                            field.setSection(section);
+                            // Create or update section-field relationship
+                            ErpSectionFieldRel.ErpSectionFieldRelId relId = 
+                                new ErpSectionFieldRel.ErpSectionFieldRelId(section.getId(), field.getId());
+                            Optional<ErpSectionFieldRel> existingRel = sectionFieldRelRepository.findById(relId);
+                            
+                            ErpSectionFieldRel rel;
+                            if (existingRel.isPresent()) {
+                                rel = existingRel.get();
+                                rel.setFieldOrder(fieldOrderCounter++);
+                            } else {
+                                rel = new ErpSectionFieldRel(section, field, fieldOrderCounter++);
+                            }
+                            sectionFieldRelRepository.save(rel);
+
+                            // Update field row/column positions
                             field.setRowPosition(fieldPos.getRowPosition());
                             field.setColumnPosition(fieldPos.getColumnPosition());
 

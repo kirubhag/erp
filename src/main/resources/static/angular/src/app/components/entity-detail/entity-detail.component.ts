@@ -95,7 +95,7 @@ export class EntityDetailComponent implements OnInit {
     const endpoints: { [key: string]: string } = {
       // Original entity types (lowercase)
       students: `/api/students/${this.entityId}`,
-      staff: `/api/v1/staff/${this.entityId}`,
+      staff: `/api/staff/${this.entityId}`,
       attendance: `/api/attendance/${this.entityId}`,
       parents: `/api/parents/${this.entityId}`,
       subjects: `/api/subjects/${this.entityId}`,

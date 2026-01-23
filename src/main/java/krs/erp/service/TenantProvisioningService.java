@@ -207,10 +207,11 @@ public class TenantProvisioningService {
             try {
                 logger.info("Copying ERP Sections...");
                 masterJdbc.query("SELECT * FROM erp_sections", rs -> {
-                    String sql = "INSERT IGNORE INTO erp_sections (erp_section_id, entity_type, section_name, section_label, layout_type, display_order, is_collapsible, is_collapsed_by_default, show_in_create, show_in_edit, show_in_detail, section_icon, section_color, css_class, description, help_text, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
+                    String sql = "INSERT IGNORE INTO erp_sections (erp_section_id, entity_type, erp_entity_id, section_name, section_label, layout_type, display_order, is_collapsible, is_collapsed_by_default, show_in_create, show_in_edit, show_in_detail, section_icon, section_color, css_class, description, help_text, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_section_id"),
                             rs.getString("entity_type"),
+                            rs.getObject("erp_entity_id"),
                             rs.getString("section_name"),
                             rs.getString("section_label"),
                             rs.getString("layout_type"),
@@ -237,15 +238,15 @@ public class TenantProvisioningService {
             try {
                 logger.info("Copying ERP Fields...");
                 masterJdbc.query("SELECT * FROM erp_fields", rs -> {
-                    String sql = "INSERT IGNORE INTO erp_fields (erp_field_id, entity_type, field_name, field_label, field_type, ui_type, section_id, row_position, column_position, is_required, is_searchable, is_sortable, display_order, field_description, default_width, max_length, validation_pattern, picklist_options, decimal_places, is_unique, show_in_list, show_in_form, column_width, show_type, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
+                    String sql = "INSERT IGNORE INTO erp_fields (erp_field_id, entity_type, erp_entity_id, field_name, field_label, field_type, ui_type, row_position, column_position, is_required, is_searchable, is_sortable, display_order, field_description, default_width, max_length, validation_pattern, picklist_options, decimal_places, is_unique, show_in_list, show_in_form, column_width, show_type, created_time, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
                     tenantJdbc.update(sql,
                             rs.getLong("erp_field_id"),
                             rs.getString("entity_type"),
+                            rs.getObject("erp_entity_id"),
                             rs.getString("field_name"),
                             rs.getString("field_label"),
                             rs.getString("field_type"),
                             rs.getObject("ui_type"),
-                            rs.getObject("section_id"),
                             rs.getInt("row_position"),
                             rs.getInt("column_position"),
                             rs.getBoolean("is_required"),
@@ -271,7 +272,60 @@ public class TenantProvisioningService {
                 throw e;
             }
 
-            // 4b. Copy Auto Numbers
+            // 4b. Copy Section-Field Relationships
+            try {
+                logger.info("Copying Section-Field Relationships...");
+                masterJdbc.query("SELECT * FROM erp_sections_field_rel", rs -> {
+                    String sql = "INSERT IGNORE INTO erp_sections_field_rel (erp_section_id, erp_field_id, field_order, created_time, created_by) VALUES (?, ?, ?, NOW(), ?)";
+                    tenantJdbc.update(sql,
+                            rs.getLong("erp_section_id"),
+                            rs.getLong("erp_field_id"),
+                            rs.getInt("field_order"),
+                            creatorId);
+                });
+                logger.info("Section-Field Relationships copied.");
+            } catch (Exception e) {
+                logger.warn("Failed to copy Section-Field Relationships (may not exist): {}", e.getMessage());
+                // Don't throw - this table may not have data yet
+            }
+
+            // 4c. Copy ERP Layouts
+            try {
+                logger.info("Copying ERP Layouts...");
+                masterJdbc.query("SELECT * FROM erp_layout", rs -> {
+                    String sql = "INSERT IGNORE INTO erp_layout (erp_layout_id, erp_entity_id, layout_name, layout_type, layout_columns, is_default, description, created_time, modified_time, is_active, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), ?, ?)";
+                    tenantJdbc.update(sql,
+                            rs.getLong("erp_layout_id"),
+                            rs.getLong("erp_entity_id"),
+                            rs.getString("layout_name"),
+                            rs.getString("layout_type"),
+                            rs.getInt("layout_columns"),
+                            rs.getBoolean("is_default"),
+                            rs.getString("description"),
+                            rs.getBoolean("is_active"),
+                            creatorId);
+                });
+                logger.info("ERP Layouts copied.");
+            } catch (Exception e) {
+                logger.warn("Failed to copy ERP Layouts (may not exist): {}", e.getMessage());
+            }
+
+            // 4d. Copy Layout-Section Relationships
+            try {
+                logger.info("Copying Layout-Section Relationships...");
+                masterJdbc.query("SELECT * FROM erp_layout_section_rel", rs -> {
+                    String sql = "INSERT IGNORE INTO erp_layout_section_rel (erp_layout_id, erp_section_id, section_order, created_time, modified_time) VALUES (?, ?, ?, NOW(), NOW())";
+                    tenantJdbc.update(sql,
+                            rs.getLong("erp_layout_id"),
+                            rs.getLong("erp_section_id"),
+                            rs.getInt("section_order"));
+                });
+                logger.info("Layout-Section Relationships copied.");
+            } catch (Exception e) {
+                logger.warn("Failed to copy Layout-Section Relationships (may not exist): {}", e.getMessage());
+            }
+
+            // 4e. Copy Auto Numbers
             try {
                 logger.info("Copying Auto Numbers...");
                 masterJdbc.query("SELECT * FROM erp_auto_numbers", rs -> {

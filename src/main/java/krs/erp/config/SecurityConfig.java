@@ -57,6 +57,7 @@ public class SecurityConfig {
                                                                 "/api/v1/**",
                                                                 "/api/sample-data/**",
                                                                 "/api/user-settings/**",
+                                                                "/api/custom-views/**",
                                                                 "/api/iam/**",
                                                                 "/api/staff/**",
                                                                 "/api/parents/**",
@@ -110,6 +111,8 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/iam/**").permitAll() // Allow IAM user management endpoints for dev/testing
                                                 .requestMatchers("/api/lms/**").permitAll() // Allow LMS (Learning Management System) endpoints for dev/testing
                                                 .requestMatchers("/api/tpd/**").permitAll() // Allow TPD (Training & Professional Development) endpoints for dev/testing
+                                                .requestMatchers("/api/custom-views/**").permitAll() // Allow custom views endpoints for dev/testing
+                                                .requestMatchers("/api/user-settings/**").permitAll() // Allow user settings endpoints for dev/testing
                                                 .requestMatchers("/api/v1/sample-data/**").authenticated() // Sample data requires auth to populate owner_id
                                                 .requestMatchers("/api/sample-data/**").authenticated() // Sample data requires auth to populate owner_id
                                                 .requestMatchers("/api/v1/**").permitAll() // Allow other v1 API endpoints

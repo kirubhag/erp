@@ -5,7 +5,9 @@ import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FieldService } from '../../services/field.service';
 import { SectionService } from '../../services/section.service';
+import { ErpLayoutService } from '../../services/erp-layout.service';
 import { ErpField, FieldsGroupedBySection } from '../../models/erp-field.model';
+import { ErpLayout, ErpLayoutSection, ErpLayoutField } from '../../models/erp-layout.model';
 
 export interface LayoutField {
   id: string;
@@ -102,11 +104,15 @@ export class ModuleBuilderComponent implements OnInit {
 
   sections: LayoutSection[] = [];
 
+  // Layout data from backend
+  currentLayout: ErpLayout | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private fieldService: FieldService,
-    private sectionService: SectionService
+    private sectionService: SectionService,
+    private layoutService: ErpLayoutService
   ) { }
 
   ngOnInit() {
@@ -194,6 +200,75 @@ export class ModuleBuilderComponent implements OnInit {
       label: field.fieldLabel,
       type: this.getDisplayFieldType(field.fieldType),
       required: field.isRequired
+    };
+  }
+
+  /**
+   * Load layout using the new hierarchical layout service
+   * This uses the layout -> sections -> fields structure
+   */
+  loadLayoutForModule(entityType: string) {
+    this.isLoadingFields = true;
+    this.fieldsError = '';
+
+    this.layoutService.getCompleteLayout(entityType).subscribe({
+      next: (layout: ErpLayout | null) => {
+        if (layout) {
+          this.currentLayout = layout;
+          this.sections = this.transformLayoutToSections(layout);
+        } else {
+          this.sections = [];
+        }
+        this.isLoadingFields = false;
+      },
+      error: (error) => {
+        console.error('Error loading layout:', error);
+        this.fieldsError = 'Failed to load layout. Falling back to field service.';
+        // Fallback to the old field service method
+        this.loadFieldsForModule(entityType);
+      }
+    });
+  }
+
+  /**
+   * Transform ErpLayout to LayoutSection format for the UI
+   */
+  transformLayoutToSections(layout: ErpLayout): LayoutSection[] {
+    if (!layout || !layout.sections) {
+      return [];
+    }
+
+    return layout.sections.map(section => {
+      // Group fields into rows (2 fields per row based on layout columns)
+      const fields = section.fields || [];
+      const columnsPerRow = layout.layoutColumns || 2;
+      const rows: LayoutField[][] = [];
+
+      for (let i = 0; i < fields.length; i += columnsPerRow) {
+        const row: LayoutField[] = [];
+        for (let j = 0; j < columnsPerRow && (i + j) < fields.length; j++) {
+          row.push(this.convertLayoutFieldToUIField(fields[i + j]));
+        }
+        rows.push(row);
+      }
+
+      return {
+        id: section.sectionName?.toLowerCase().replace(/\s+/g, '_') || `section_${section.id}`,
+        name: section.sectionLabel || section.sectionName || 'Section',
+        rows: rows
+      };
+    });
+  }
+
+  /**
+   * Convert ErpLayoutField to LayoutField format for the UI
+   */
+  convertLayoutFieldToUIField(field: ErpLayoutField): LayoutField {
+    return {
+      id: field.fieldName,
+      label: field.fieldLabel,
+      type: this.getDisplayFieldType(field.fieldType || 'TEXT'),
+      required: field.isRequired || false
     };
   }
 

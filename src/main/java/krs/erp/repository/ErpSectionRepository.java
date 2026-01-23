@@ -21,21 +21,18 @@ public interface ErpSectionRepository extends JpaRepository<ErpSection, Long> {
     List<ErpSection> findByEntityTypeAndIsActiveTrue(@Param("entityType") EntityType entityType);
 
     /**
-     * Find all active sections for a specific entity type and organization
+     * Find all active sections for a specific erp_entity_id
      */
-    @Query("SELECT es FROM ErpSection es WHERE es.entityType = :entityType AND es.organizationId = :organizationId AND es.isActive = 1 ORDER BY es.displayOrder ASC")
-    List<ErpSection> findByEntityTypeAndOrganizationIdAndIsActiveTrue(
-            @Param("entityType") EntityType entityType,
-            @Param("organizationId") Long organizationId);
+    @Query("SELECT es FROM ErpSection es WHERE es.erpEntity.id = :erpEntityId AND es.isActive = 1 ORDER BY es.displayOrder ASC")
+    List<ErpSection> findByErpEntityIdAndIsActiveTrue(@Param("erpEntityId") Long erpEntityId);
 
     /**
-     * Find section by entity type, section name, and organization
+     * Find section by entity type and section name
      */
-    @Query("SELECT es FROM ErpSection es WHERE es.entityType = :entityType AND es.sectionName = :sectionName AND es.organizationId = :organizationId AND es.isActive = 1")
-    Optional<ErpSection> findByEntityTypeAndSectionNameAndOrganizationId(
+    @Query("SELECT es FROM ErpSection es WHERE es.entityType = :entityType AND es.sectionName = :sectionName AND es.isActive = 1")
+    Optional<ErpSection> findByEntityTypeAndSectionName(
             @Param("entityType") EntityType entityType,
-            @Param("sectionName") String sectionName,
-            @Param("organizationId") Long organizationId);
+            @Param("sectionName") String sectionName);
 
     /**
      * Count active sections for an entity type
@@ -44,13 +41,12 @@ public interface ErpSectionRepository extends JpaRepository<ErpSection, Long> {
     Long countByEntityTypeAndIsActiveTrue(@Param("entityType") EntityType entityType);
 
     /**
-     * Check if a section name exists for an entity type and organization
+     * Check if a section name exists for an entity type
      */
-    @Query("SELECT CASE WHEN COUNT(es) > 0 THEN true ELSE false END FROM ErpSection es WHERE es.entityType = :entityType AND es.sectionName = :sectionName AND es.organizationId = :organizationId AND es.isActive = 1")
-    boolean existsByEntityTypeAndSectionNameAndOrganizationId(
+    @Query("SELECT CASE WHEN COUNT(es) > 0 THEN true ELSE false END FROM ErpSection es WHERE es.entityType = :entityType AND es.sectionName = :sectionName AND es.isActive = 1")
+    boolean existsByEntityTypeAndSectionNameAndIsActiveTrue(
             @Param("entityType") EntityType entityType,
-            @Param("sectionName") String sectionName,
-            @Param("organizationId") Long organizationId);
+            @Param("sectionName") String sectionName);
 
     /**
      * Find sections visible in create view
@@ -69,12 +65,4 @@ public interface ErpSectionRepository extends JpaRepository<ErpSection, Long> {
      */
     @Query("SELECT es FROM ErpSection es WHERE es.entityType = :entityType AND es.showInDetail = true AND es.isActive = 1 ORDER BY es.displayOrder ASC")
     List<ErpSection> findVisibleInDetail(@Param("entityType") EntityType entityType);
-
-    /**
-     * Check if a section exists by entity type and section name (for XML loading)
-     */
-    @Query("SELECT CASE WHEN COUNT(es) > 0 THEN true ELSE false END FROM ErpSection es WHERE es.entityType = :entityType AND es.sectionName = :sectionName AND es.isActive = 1")
-    boolean existsByEntityTypeAndSectionNameAndIsActiveTrue(
-            @Param("entityType") EntityType entityType,
-            @Param("sectionName") String sectionName);
 }

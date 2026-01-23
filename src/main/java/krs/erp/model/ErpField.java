@@ -28,6 +28,11 @@ public class ErpField extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private EntityType entityType;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "erp_entity_id")
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    private ErpEntity erpEntity;
+
     @Column(name = "field_name", nullable = false, length = 100)
     private String fieldName;
 
@@ -85,12 +90,6 @@ public class ErpField extends BaseEntity {
 
     @Column(name = "show_type")
     private Integer showType = 0; // 0=show everywhere, 1=view only, 2=hidden
-
-    // Section relationship and positioning
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "section_id")
-    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    private ErpSection section;
 
     @Column(name = "row_position")
     private Integer rowPosition = 0;
@@ -293,12 +292,12 @@ public class ErpField extends BaseEntity {
         return this;
     }
 
-    public ErpSection getSection() {
-        return section;
+    public ErpEntity getErpEntity() {
+        return erpEntity;
     }
 
-    public ErpField setSection(ErpSection section) {
-        this.section = section;
+    public ErpField setErpEntity(ErpEntity erpEntity) {
+        this.erpEntity = erpEntity;
         return this;
     }
 

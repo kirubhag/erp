@@ -1,10 +1,15 @@
 package krs.erp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import krs.erp.enums.EntityType;
 import krs.erp.enums.SectionLayoutType;
@@ -21,6 +26,11 @@ public class ErpSection extends BaseEntity {
     @Column(name = "entity_type", nullable = false, length = 250)
     @Enumerated(EnumType.STRING)
     private EntityType entityType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "erp_entity_id")
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    private ErpEntity erpEntity;
 
     @Column(name = "section_name", nullable = false, length = 100)
     private String sectionName;
@@ -64,9 +74,6 @@ public class ErpSection extends BaseEntity {
 
     @Column(name = "help_text", columnDefinition = "TEXT")
     private String helpText;
-
-    @Column(name = "organization_id")
-    private Long organizationId;
 
     // Constructors
     public ErpSection() {
@@ -200,12 +207,12 @@ public class ErpSection extends BaseEntity {
         this.helpText = helpText;
     }
 
-    public Long getOrganizationId() {
-        return organizationId;
+    public ErpEntity getErpEntity() {
+        return erpEntity;
     }
 
-    public void setOrganizationId(Long organizationId) {
-        this.organizationId = organizationId;
+    public void setErpEntity(ErpEntity erpEntity) {
+        this.erpEntity = erpEntity;
     }
 
     @Override

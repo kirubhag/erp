@@ -1,0 +1,1361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ERP Layout-Section Relations
+  Maps sections to their layouts (System layout by default)
+  Auto-generated from *_sections.xml files
+-->
+<layoutSectionRelations>
+    <!-- ACCOUNTING_PERIOD -->
+    <relation>
+        <entityType>ACCOUNTING_PERIOD</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>period_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- ADDRESS -->
+    <relation>
+        <entityType>ADDRESS</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ADDRESS</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>address_details</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ADDRESS</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>additional_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- ADMISSION_APPLICATION -->
+    <relation>
+        <entityType>ADMISSION_APPLICATION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>application_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ADMISSION_APPLICATION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>personal_information</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ADMISSION_APPLICATION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>parent_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ADMISSION_APPLICATION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>education_info</sectionName>
+        <sectionOrder>4</sectionOrder>
+    </relation>
+
+    <!-- ADMISSION_INQUIRY -->
+    <relation>
+        <entityType>ADMISSION_INQUIRY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>personal_information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ADMISSION_INQUIRY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>contact_details</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ADMISSION_INQUIRY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>inquiry_details</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- ALUMNI -->
+    <relation>
+        <entityType>ALUMNI</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>personal_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ALUMNI</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>academic_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ALUMNI</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>professional_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- ALUMNI_CONTRIBUTION -->
+    <relation>
+        <entityType>ALUMNI_CONTRIBUTION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ALUMNI_CONTRIBUTION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>content_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- ANNOUNCEMENT -->
+    <relation>
+        <entityType>ANNOUNCEMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>general_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- ASSET -->
+    <relation>
+        <entityType>ASSET</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ASSET</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>status_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- ASSIGNMENT -->
+    <relation>
+        <entityType>ASSIGNMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ASSIGNMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>assignment_details</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ASSIGNMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>description_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- ATTENDANCE -->
+    <relation>
+        <entityType>ATTENDANCE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>system_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ATTENDANCE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>academic_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- AUTHOR -->
+    <relation>
+        <entityType>AUTHOR</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- BANK_STATEMENT -->
+    <relation>
+        <entityType>BANK_STATEMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>General Information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>BANK_STATEMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Financial Summary</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>BANK_STATEMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Statement Lines</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- BANK_STATEMENT_LINE -->
+    <relation>
+        <entityType>BANK_STATEMENT_LINE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>General Information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- BUDGET -->
+    <relation>
+        <entityType>BUDGET</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>General Information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>BUDGET</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Financial Details</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>BUDGET</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Budget Lines</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- BUDGET_LINE -->
+    <relation>
+        <entityType>BUDGET_LINE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>General Information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- CALENDAR_DAY -->
+    <relation>
+        <entityType>CALENDAR_DAY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- CHART_OF_ACCOUNT -->
+    <relation>
+        <entityType>CHART_OF_ACCOUNT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- COMPETENCY -->
+    <relation>
+        <entityType>COMPETENCY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>competency_framework</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- CONSUMABLE -->
+    <relation>
+        <entityType>CONSUMABLE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>CONSUMABLE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>stock_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- COURSE -->
+    <relation>
+        <entityType>COURSE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>COURSE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>course_details</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>COURSE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>additional_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- CPD_LEDGER -->
+    <relation>
+        <entityType>CPD_LEDGER</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>credit_passport</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- DISCIPLINARY_INCIDENT -->
+    <relation>
+        <entityType>DISCIPLINARY_INCIDENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>incident_information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>DISCIPLINARY_INCIDENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>fine_and_approval</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- ERP_DOCUMENT -->
+    <relation>
+        <entityType>ERP_DOCUMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ERP_DOCUMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>storage_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- EVIDENCE -->
+    <relation>
+        <entityType>EVIDENCE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>external_credit_approval</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- EXAM -->
+    <relation>
+        <entityType>EXAM</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>EXAM</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>exam_details</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>EXAM</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>marks_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- FACILITY -->
+    <relation>
+        <entityType>FACILITY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- FACILITY_BOOKING -->
+    <relation>
+        <entityType>FACILITY_BOOKING</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>booking_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- FEE_DISCOUNT_RULE -->
+    <relation>
+        <entityType>FEE_DISCOUNT_RULE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>rule_definition</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>FEE_DISCOUNT_RULE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>discount_logic</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- FEE_PAYMENT -->
+    <relation>
+        <entityType>FEE_PAYMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>student_fee_context</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>FEE_PAYMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>net_calculation</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>FEE_PAYMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>payment_details</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- FEE_STRUCTURE -->
+    <relation>
+        <entityType>FEE_STRUCTURE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>mapping</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>FEE_STRUCTURE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>financials</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- FEE_TYPE -->
+    <relation>
+        <entityType>FEE_TYPE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>FEE_TYPE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>details</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- FINE_CATEGORY -->
+    <relation>
+        <entityType>FINE_CATEGORY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>category_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- FINE_CONFIGURATION -->
+    <relation>
+        <entityType>FINE_CONFIGURATION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>fine_logic</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>FINE_CONFIGURATION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>automation_rules</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- FINE_LEDGER -->
+    <relation>
+        <entityType>FINE_LEDGER</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>tracking</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>FINE_LEDGER</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>balance</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- FINE_WAIVER_REQUEST -->
+    <relation>
+        <entityType>FINE_WAIVER_REQUEST</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>request_context</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>FINE_WAIVER_REQUEST</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>justification</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>FINE_WAIVER_REQUEST</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>decision</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- GRADE -->
+    <relation>
+        <entityType>GRADE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>GRADE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>exam_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>GRADE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>marks_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>GRADE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>additional_info</sectionName>
+        <sectionOrder>4</sectionOrder>
+    </relation>
+
+    <!-- HEALTH -->
+    <relation>
+        <entityType>HEALTH</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>HEALTH</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>physical_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>HEALTH</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>medical_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>HEALTH</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>additional_info</sectionName>
+        <sectionOrder>4</sectionOrder>
+    </relation>
+
+    <!-- INSTITUTION_EVENT -->
+    <relation>
+        <entityType>INSTITUTION_EVENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>INSTITUTION_EVENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>timing_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- INVOICE -->
+    <relation>
+        <entityType>INVOICE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>invoice_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>INVOICE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>dates</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>INVOICE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>financial_summary</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- JOB_APPLICATION -->
+    <relation>
+        <entityType>JOB_APPLICATION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Candidate Information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>JOB_APPLICATION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Application Details</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>JOB_APPLICATION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Documents</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- JOB_POSTING -->
+    <relation>
+        <entityType>JOB_POSTING</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Basic Information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>JOB_POSTING</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Dates</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>JOB_POSTING</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Job Details</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- JOURNAL_ENTRY -->
+    <relation>
+        <entityType>JOURNAL_ENTRY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>header_information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>JOURNAL_ENTRY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>description</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- LEAVE_BALANCE -->
+    <relation>
+        <entityType>LEAVE_BALANCE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>balance_information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>LEAVE_BALANCE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>quota_tracking</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- LEAVE_REQUEST -->
+    <relation>
+        <entityType>LEAVE_REQUEST</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>request_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>LEAVE_REQUEST</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>status_approval</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- LEAVE_TYPE -->
+    <relation>
+        <entityType>LEAVE_TYPE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>LEAVE_TYPE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>policy_configuration</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- LESSON -->
+    <relation>
+        <entityType>LESSON</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>lesson_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LIBRARY_HOLD -->
+    <relation>
+        <entityType>LIBRARY_HOLD</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>hold_information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LIBRARY_LOAN -->
+    <relation>
+        <entityType>LIBRARY_LOAN</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>loan_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>LIBRARY_LOAN</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>return_renewals</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- LIBRARY_PO -->
+    <relation>
+        <entityType>LIBRARY_PO</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>purchase_order_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LIBRARY_POLICY -->
+    <relation>
+        <entityType>LIBRARY_POLICY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>policy_constraints</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LIBRARY_PURCHASE_REQUEST -->
+    <relation>
+        <entityType>LIBRARY_PURCHASE_REQUEST</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>request_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LIBRARY_RESOURCE -->
+    <relation>
+        <entityType>LIBRARY_RESOURCE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>general_information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>LIBRARY_RESOURCE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>cataloging_details</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>LIBRARY_RESOURCE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>resources_description</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- LMS_ANSWER -->
+    <relation>
+        <entityType>LMS_ANSWER</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>answer_option</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_BADGE -->
+    <relation>
+        <entityType>LMS_BADGE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>badge_configuration</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_CONTENT -->
+    <relation>
+        <entityType>LMS_CONTENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>content_resource</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_FORUM -->
+    <relation>
+        <entityType>LMS_FORUM</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>discussion_board_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_FORUM_POST -->
+    <relation>
+        <entityType>LMS_FORUM_POST</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>post_content</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_MODULE -->
+    <relation>
+        <entityType>LMS_MODULE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>module_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_PEER_REVIEW -->
+    <relation>
+        <entityType>LMS_PEER_REVIEW</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>peer_feedback</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_POINT_LOG -->
+    <relation>
+        <entityType>LMS_POINT_LOG</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>achievement_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_QUESTION -->
+    <relation>
+        <entityType>LMS_QUESTION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>question_content</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_QUESTION_BANK -->
+    <relation>
+        <entityType>LMS_QUESTION_BANK</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>question_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_QUIZ -->
+    <relation>
+        <entityType>LMS_QUIZ</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>quiz_configuration</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_RUBRIC -->
+    <relation>
+        <entityType>LMS_RUBRIC</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>rubric_config</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_STUDENT_PROGRESS -->
+    <relation>
+        <entityType>LMS_STUDENT_PROGRESS</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>student_learning_track</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_SUBMISSION -->
+    <relation>
+        <entityType>LMS_SUBMISSION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>submission_results</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- LMS_TOPIC -->
+    <relation>
+        <entityType>LMS_TOPIC</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Basic Information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>LMS_TOPIC</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Settings</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- MESSAGE -->
+    <relation>
+        <entityType>MESSAGE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>General Information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- MIS_REPORT -->
+    <relation>
+        <entityType>MIS_REPORT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- NOTIFICATION_LOG -->
+    <relation>
+        <entityType>NOTIFICATION_LOG</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>NOTIFICATION_LOG</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>content_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- NOTIFICATION_TEMPLATE -->
+    <relation>
+        <entityType>NOTIFICATION_TEMPLATE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>NOTIFICATION_TEMPLATE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>content_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- PARENT -->
+    <relation>
+        <entityType>PARENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>system_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>PARENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>personal_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>PARENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>personal_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>PARENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>work_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>PARENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>contact_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>PARENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>settings</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>PARENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>relationship_info</sectionName>
+        <sectionOrder>4</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>PARENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>system_info</sectionName>
+        <sectionOrder>10</sectionOrder>
+    </relation>
+
+    <!-- PAYROLL_RUN -->
+    <relation>
+        <entityType>PAYROLL_RUN</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Run Information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>PAYROLL_RUN</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Summary</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- PERFORMANCE_CRITERIA -->
+    <relation>
+        <entityType>PERFORMANCE_CRITERIA</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- PERFORMANCE_CYCLE -->
+    <relation>
+        <entityType>PERFORMANCE_CYCLE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- PERFORMANCE_REVIEW -->
+    <relation>
+        <entityType>PERFORMANCE_REVIEW</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>review_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- PERFORMANCE_REVIEW_DETAIL -->
+    <relation>
+        <entityType>PERFORMANCE_REVIEW_DETAIL</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>detail_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- PROFESSIONAL_PORTFOLIO -->
+    <relation>
+        <entityType>PROFESSIONAL_PORTFOLIO</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>growth_career_roadmap</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- PUBLISHER -->
+    <relation>
+        <entityType>PUBLISHER</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- PURCHASE_ORDER -->
+    <relation>
+        <entityType>PURCHASE_ORDER</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>po_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- RESOURCE_ITEM -->
+    <relation>
+        <entityType>RESOURCE_ITEM</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>item_information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- ROOM -->
+    <relation>
+        <entityType>ROOM</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ROOM</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>location_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>ROOM</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>additional_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- SCHOLARSHIP_APPLICATION -->
+    <relation>
+        <entityType>SCHOLARSHIP_APPLICATION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>application_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>SCHOLARSHIP_APPLICATION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>review_status</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- SCHOLARSHIP_CATEGORY -->
+    <relation>
+        <entityType>SCHOLARSHIP_CATEGORY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>general_information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>SCHOLARSHIP_CATEGORY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>aid_configuration</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>SCHOLARSHIP_CATEGORY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>eligibility_rules</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- SCHOLARSHIP_DISBURSEMENT -->
+    <relation>
+        <entityType>SCHOLARSHIP_DISBURSEMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>disbursement_details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- SKILL_ASSESSMENT -->
+    <relation>
+        <entityType>SKILL_ASSESSMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>skill_gap_analysis</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- STAFF -->
+    <relation>
+        <entityType>STAFF</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>system_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>STAFF</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>personal_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>STAFF</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>employment_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>STAFF</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>contact_info</sectionName>
+        <sectionOrder>4</sectionOrder>
+    </relation>
+
+    <!-- STAFF_SALARY -->
+    <relation>
+        <entityType>STAFF_SALARY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Basic Information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>STAFF_SALARY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Earnings</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>STAFF_SALARY</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Deductions</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- STUDENT -->
+    <relation>
+        <entityType>STUDENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>system_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>STUDENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>personal_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>STUDENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>contact_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>STUDENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>academic_info</sectionName>
+        <sectionOrder>4</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>STUDENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>status_info</sectionName>
+        <sectionOrder>5</sectionOrder>
+    </relation>
+
+    <!-- STUDENT_REGISTRATION -->
+    <relation>
+        <entityType>STUDENT_REGISTRATION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>RegistrationDetails</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- SUBJECT -->
+    <relation>
+        <entityType>SUBJECT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>system_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>SUBJECT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>academic_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>SUBJECT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>configuration</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- SUPPORT_TICKET -->
+    <relation>
+        <entityType>SUPPORT_TICKET</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Ticket Details</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>SUPPORT_TICKET</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Assignment & Status</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>SUPPORT_TICKET</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>Comments</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- TICKET_COMMENT -->
+    <relation>
+        <entityType>TICKET_COMMENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>General Information</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- TIMETABLE -->
+    <relation>
+        <entityType>TIMETABLE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>TIMETABLE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>period_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>TIMETABLE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>class_details</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>TIMETABLE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>additional_info</sectionName>
+        <sectionOrder>4</sectionOrder>
+    </relation>
+
+    <!-- TRAINING_EVENT -->
+    <relation>
+        <entityType>TRAINING_EVENT</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>training_logistics</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- TRANSACTION -->
+    <relation>
+        <entityType>TRANSACTION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>transaction_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>TRANSACTION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>payment_details</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- USER -->
+    <relation>
+        <entityType>USER</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>USER</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>role_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>USER</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>status_info</sectionName>
+        <sectionOrder>3</sectionOrder>
+    </relation>
+
+    <!-- VENDOR -->
+    <relation>
+        <entityType>VENDOR</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>VENDOR</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>contact_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+
+    <!-- VIRTUAL_ATTENDANCE -->
+    <relation>
+        <entityType>VIRTUAL_ATTENDANCE</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>attendance_log</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- VIRTUAL_SESSION -->
+    <relation>
+        <entityType>VIRTUAL_SESSION</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>session_configuration</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+
+    <!-- WORK_ORDER -->
+    <relation>
+        <entityType>WORK_ORDER</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>basic_info</sectionName>
+        <sectionOrder>1</sectionOrder>
+    </relation>
+    <relation>
+        <entityType>WORK_ORDER</entityType>
+        <layoutName>System</layoutName>
+        <sectionName>assignment_info</sectionName>
+        <sectionOrder>2</sectionOrder>
+    </relation>
+</layoutSectionRelations>

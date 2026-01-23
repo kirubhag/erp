@@ -25,6 +25,7 @@ import jakarta.validation.Valid;
 import krs.erp.enums.EntityType;
 import krs.erp.model.Student;
 import krs.erp.repository.StudentRepository;
+import krs.erp.service.AutoNumberService;
 import krs.erp.service.RecycleBinService;
 
 @RestController
@@ -36,6 +37,9 @@ public class StudentController {
     
     @Autowired
     private RecycleBinService recycleBinService;
+    
+    @Autowired
+    private AutoNumberService autoNumberService;
     
     // Get all students with pagination
     @GetMapping
@@ -76,12 +80,44 @@ public class StudentController {
     
     // Create new student
     @PostMapping
-    public ResponseEntity<Student> createStudent(@Valid @RequestBody Student student) {
+    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         try {
+            // Auto-generate studentId if not provided
+            if (student.getStudentId() == null || student.getStudentId().isEmpty()) {
+                try {
+                    String generatedId = autoNumberService.generateNextNumber(EntityType.STUDENT, "studentId");
+                    if (generatedId != null && !generatedId.isEmpty()) {
+                        student.setStudentId(generatedId);
+                    } else {
+                        // Fallback to timestamp-based ID
+                        student.setStudentId("STU-" + System.currentTimeMillis());
+                    }
+                } catch (Exception e) {
+                    // Fallback to timestamp-based ID
+                    student.setStudentId("STU-" + System.currentTimeMillis());
+                }
+            }
+            
+            // Set default enrollment status if not provided
+            if (student.getEnrollmentStatus() == null) {
+                student.setEnrollmentStatus(Student.EnrollmentStatus.ACTIVE);
+            }
+            
+            // Set default enrollment date if not provided
+            if (student.getEnrollmentDate() == null) {
+                student.setEnrollmentDate(LocalDate.now());
+            }
+            
+            // Set default grade level if not provided
+            if (student.getGradeLevel() == null) {
+                student.setGradeLevel(Student.GradeLevel.KINDERGARTEN);
+            }
+            
             Student savedStudent = studentRepository.save(student);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedStudent);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(null);
         }
     }
     
