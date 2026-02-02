@@ -75,7 +75,7 @@
         <fieldName>requestedBy</fieldName>
         <fieldLabel>Requested By</fieldLabel>
         <fieldType>LONG</fieldType>
-        <uiType>116</uiType>
+        <uiType>115</uiType>
         <displayOrder>6</displayOrder>
         <defaultWidth>150</defaultWidth>
         <isRequired>true</isRequired>

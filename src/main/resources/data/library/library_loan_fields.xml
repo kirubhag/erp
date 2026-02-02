@@ -34,7 +34,7 @@
         <fieldName>item</fieldName>
         <fieldLabel>Item</fieldLabel>
         <fieldType>LONG</fieldType>
-        <uiType>116</uiType>
+        <uiType>115</uiType>
         <displayOrder>3</displayOrder>
         <defaultWidth>200</defaultWidth>
         <isRequired>true</isRequired>
@@ -47,7 +47,7 @@
         <fieldName>user</fieldName>
         <fieldLabel>User</fieldLabel>
         <fieldType>LONG</fieldType>
-        <uiType>116</uiType>
+        <uiType>115</uiType>
         <displayOrder>4</displayOrder>
         <defaultWidth>150</defaultWidth>
         <isRequired>true</isRequired>

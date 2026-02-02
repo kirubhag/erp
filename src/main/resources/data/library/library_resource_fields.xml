@@ -76,7 +76,7 @@
         <fieldName>author</fieldName>
         <fieldLabel>Author</fieldLabel>
         <fieldType>LONG</fieldType>
-        <uiType>116</uiType>
+        <uiType>115</uiType>
         <displayOrder>6</displayOrder>
         <defaultWidth>150</defaultWidth>
         <isRequired>false</isRequired>
@@ -89,7 +89,7 @@
         <fieldName>publisher</fieldName>
         <fieldLabel>Publisher</fieldLabel>
         <fieldType>LONG</fieldType>
-        <uiType>116</uiType>
+        <uiType>115</uiType>
         <displayOrder>7</displayOrder>
         <defaultWidth>150</defaultWidth>
         <isRequired>false</isRequired>

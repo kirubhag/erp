@@ -34,7 +34,7 @@
         <fieldName>role</fieldName>
         <fieldLabel>Role</fieldLabel>
         <fieldType>LONG</fieldType>
-        <uiType>116</uiType>
+        <uiType>115</uiType>
         <displayOrder>3</displayOrder>
         <defaultWidth>150</defaultWidth>
         <isRequired>true</isRequired>

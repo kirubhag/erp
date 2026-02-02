@@ -42,30 +42,33 @@ public class LibraryController {
 
     @Autowired
     private AuthorRepository authorRepository;
-    
+
     @Autowired
     private PublisherRepository publisherRepository;
-    
+
     @Autowired
     private LibraryResourceRepository libraryResourceRepository;
-    
+
     @Autowired
     private ResourceItemRepository resourceItemRepository;
-    
+
     @Autowired
     private LibraryLoanRepository libraryLoanRepository;
-    
+
     @Autowired
     private LibraryHoldRepository libraryHoldRepository;
-    
+
     @Autowired
     private LibraryPolicyRepository libraryPolicyRepository;
-    
+
     @Autowired
     private LibraryPurchaseRequestRepository libraryPurchaseRequestRepository;
-    
+
     @Autowired
     private LibraryPORepository libraryPORepository;
+
+    @Autowired
+    private krs.erp.service.library.LibraryService libraryService;
 
     // === Authors CRUD ===
     @GetMapping("/authors")
@@ -75,19 +78,19 @@ public class LibraryController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(authorRepository.findAll(pageable));
     }
-    
+
     @GetMapping("/authors/{id}")
     public ResponseEntity<Author> getAuthor(@PathVariable Long id) {
         return authorRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    
+
     @PostMapping("/authors")
     public ResponseEntity<Author> createAuthor(@RequestBody Author author) {
         return ResponseEntity.ok(authorRepository.save(author));
     }
-    
+
     @PutMapping("/authors/{id}")
     public ResponseEntity<Author> updateAuthor(@PathVariable Long id, @RequestBody Author author) {
         if (!authorRepository.existsById(id)) {
@@ -96,7 +99,7 @@ public class LibraryController {
         author.setId(id);
         return ResponseEntity.ok(authorRepository.save(author));
     }
-    
+
     @DeleteMapping("/authors/{id}")
     public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
         if (!authorRepository.existsById(id)) {
@@ -114,19 +117,19 @@ public class LibraryController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(publisherRepository.findAll(pageable));
     }
-    
+
     @GetMapping("/publishers/{id}")
     public ResponseEntity<Publisher> getPublisher(@PathVariable Long id) {
         return publisherRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    
+
     @PostMapping("/publishers")
     public ResponseEntity<Publisher> createPublisher(@RequestBody Publisher publisher) {
         return ResponseEntity.ok(publisherRepository.save(publisher));
     }
-    
+
     @PutMapping("/publishers/{id}")
     public ResponseEntity<Publisher> updatePublisher(@PathVariable Long id, @RequestBody Publisher publisher) {
         if (!publisherRepository.existsById(id)) {
@@ -135,7 +138,7 @@ public class LibraryController {
         publisher.setId(id);
         return ResponseEntity.ok(publisherRepository.save(publisher));
     }
-    
+
     @DeleteMapping("/publishers/{id}")
     public ResponseEntity<Void> deletePublisher(@PathVariable Long id) {
         if (!publisherRepository.existsById(id)) {
@@ -153,28 +156,29 @@ public class LibraryController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(libraryResourceRepository.findAll(pageable));
     }
-    
+
     @GetMapping("/resources/{id}")
     public ResponseEntity<LibraryResource> getResource(@PathVariable Long id) {
         return libraryResourceRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    
+
     @PostMapping("/resources")
     public ResponseEntity<LibraryResource> createResource(@RequestBody LibraryResource resource) {
         return ResponseEntity.ok(libraryResourceRepository.save(resource));
     }
-    
+
     @PutMapping("/resources/{id}")
-    public ResponseEntity<LibraryResource> updateResource(@PathVariable Long id, @RequestBody LibraryResource resource) {
+    public ResponseEntity<LibraryResource> updateResource(@PathVariable Long id,
+            @RequestBody LibraryResource resource) {
         if (!libraryResourceRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
         resource.setId(id);
         return ResponseEntity.ok(libraryResourceRepository.save(resource));
     }
-    
+
     @DeleteMapping("/resources/{id}")
     public ResponseEntity<Void> deleteResource(@PathVariable Long id) {
         if (!libraryResourceRepository.existsById(id)) {
@@ -192,19 +196,19 @@ public class LibraryController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(resourceItemRepository.findAll(pageable));
     }
-    
+
     @GetMapping("/items/{id}")
     public ResponseEntity<ResourceItem> getItem(@PathVariable Long id) {
         return resourceItemRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    
+
     @PostMapping("/items")
     public ResponseEntity<ResourceItem> createItem(@RequestBody ResourceItem item) {
         return ResponseEntity.ok(resourceItemRepository.save(item));
     }
-    
+
     @PutMapping("/items/{id}")
     public ResponseEntity<ResourceItem> updateItem(@PathVariable Long id, @RequestBody ResourceItem item) {
         if (!resourceItemRepository.existsById(id)) {
@@ -213,7 +217,7 @@ public class LibraryController {
         item.setId(id);
         return ResponseEntity.ok(resourceItemRepository.save(item));
     }
-    
+
     @DeleteMapping("/items/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
         if (!resourceItemRepository.existsById(id)) {
@@ -231,19 +235,19 @@ public class LibraryController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(libraryLoanRepository.findAll(pageable));
     }
-    
+
     @GetMapping("/loans/{id}")
     public ResponseEntity<LibraryLoan> getLoan(@PathVariable Long id) {
         return libraryLoanRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    
+
     @PostMapping("/loans")
     public ResponseEntity<LibraryLoan> createLoan(@RequestBody LibraryLoan loan) {
         return ResponseEntity.ok(libraryLoanRepository.save(loan));
     }
-    
+
     @PutMapping("/loans/{id}")
     public ResponseEntity<LibraryLoan> updateLoan(@PathVariable Long id, @RequestBody LibraryLoan loan) {
         if (!libraryLoanRepository.existsById(id)) {
@@ -252,7 +256,7 @@ public class LibraryController {
         loan.setId(id);
         return ResponseEntity.ok(libraryLoanRepository.save(loan));
     }
-    
+
     @DeleteMapping("/loans/{id}")
     public ResponseEntity<Void> deleteLoan(@PathVariable Long id) {
         if (!libraryLoanRepository.existsById(id)) {
@@ -270,19 +274,19 @@ public class LibraryController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(libraryHoldRepository.findAll(pageable));
     }
-    
+
     @GetMapping("/holds/{id}")
     public ResponseEntity<LibraryHold> getHold(@PathVariable Long id) {
         return libraryHoldRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    
+
     @PostMapping("/holds")
     public ResponseEntity<LibraryHold> createHold(@RequestBody LibraryHold hold) {
         return ResponseEntity.ok(libraryHoldRepository.save(hold));
     }
-    
+
     @PutMapping("/holds/{id}")
     public ResponseEntity<LibraryHold> updateHold(@PathVariable Long id, @RequestBody LibraryHold hold) {
         if (!libraryHoldRepository.existsById(id)) {
@@ -291,7 +295,7 @@ public class LibraryController {
         hold.setId(id);
         return ResponseEntity.ok(libraryHoldRepository.save(hold));
     }
-    
+
     @DeleteMapping("/holds/{id}")
     public ResponseEntity<Void> deleteHold(@PathVariable Long id) {
         if (!libraryHoldRepository.existsById(id)) {
@@ -309,19 +313,19 @@ public class LibraryController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(libraryPolicyRepository.findAll(pageable));
     }
-    
+
     @GetMapping("/policies/{id}")
     public ResponseEntity<LibraryPolicy> getPolicy(@PathVariable Long id) {
         return libraryPolicyRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    
+
     @PostMapping("/policies")
     public ResponseEntity<LibraryPolicy> createPolicy(@RequestBody LibraryPolicy policy) {
         return ResponseEntity.ok(libraryPolicyRepository.save(policy));
     }
-    
+
     @PutMapping("/policies/{id}")
     public ResponseEntity<LibraryPolicy> updatePolicy(@PathVariable Long id, @RequestBody LibraryPolicy policy) {
         if (!libraryPolicyRepository.existsById(id)) {
@@ -330,7 +334,7 @@ public class LibraryController {
         policy.setId(id);
         return ResponseEntity.ok(libraryPolicyRepository.save(policy));
     }
-    
+
     @DeleteMapping("/policies/{id}")
     public ResponseEntity<Void> deletePolicy(@PathVariable Long id) {
         if (!libraryPolicyRepository.existsById(id)) {
@@ -348,28 +352,29 @@ public class LibraryController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(libraryPurchaseRequestRepository.findAll(pageable));
     }
-    
+
     @GetMapping("/purchase-requests/{id}")
     public ResponseEntity<LibraryPurchaseRequest> getPurchaseRequest(@PathVariable Long id) {
         return libraryPurchaseRequestRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    
+
     @PostMapping("/purchase-requests")
     public ResponseEntity<LibraryPurchaseRequest> createPurchaseRequest(@RequestBody LibraryPurchaseRequest request) {
         return ResponseEntity.ok(libraryPurchaseRequestRepository.save(request));
     }
-    
+
     @PutMapping("/purchase-requests/{id}")
-    public ResponseEntity<LibraryPurchaseRequest> updatePurchaseRequest(@PathVariable Long id, @RequestBody LibraryPurchaseRequest request) {
+    public ResponseEntity<LibraryPurchaseRequest> updatePurchaseRequest(@PathVariable Long id,
+            @RequestBody LibraryPurchaseRequest request) {
         if (!libraryPurchaseRequestRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
         request.setId(id);
         return ResponseEntity.ok(libraryPurchaseRequestRepository.save(request));
     }
-    
+
     @DeleteMapping("/purchase-requests/{id}")
     public ResponseEntity<Void> deletePurchaseRequest(@PathVariable Long id) {
         if (!libraryPurchaseRequestRepository.existsById(id)) {
@@ -387,19 +392,19 @@ public class LibraryController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(libraryPORepository.findAll(pageable));
     }
-    
+
     @GetMapping("/pos/{id}")
     public ResponseEntity<LibraryPO> getPO(@PathVariable Long id) {
         return libraryPORepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    
+
     @PostMapping("/pos")
     public ResponseEntity<LibraryPO> createPO(@RequestBody LibraryPO po) {
         return ResponseEntity.ok(libraryPORepository.save(po));
     }
-    
+
     @PutMapping("/pos/{id}")
     public ResponseEntity<LibraryPO> updatePO(@PathVariable Long id, @RequestBody LibraryPO po) {
         if (!libraryPORepository.existsById(id)) {
@@ -408,7 +413,7 @@ public class LibraryController {
         po.setId(id);
         return ResponseEntity.ok(libraryPORepository.save(po));
     }
-    
+
     @DeleteMapping("/pos/{id}")
     public ResponseEntity<Void> deletePO(@PathVariable Long id) {
         if (!libraryPORepository.existsById(id)) {
@@ -416,5 +421,32 @@ public class LibraryController {
         }
         libraryPORepository.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    // === Advanced Features (Dashboard, Kiosk, Search) ===
+
+    @GetMapping("/stats")
+    public ResponseEntity<krs.erp.dto.library.LibraryDashboardDTO> getDashboardStats() {
+        return ResponseEntity.ok(libraryService.getDashboardStats());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<java.util.List<LibraryResource>> searchBooks(@RequestParam String query) {
+        return ResponseEntity.ok(libraryService.searchBooks(query));
+    }
+
+    @GetMapping("/metadata")
+    public ResponseEntity<java.util.Map<String, Object>> getBookMetadata(@RequestParam String isbn) {
+        return ResponseEntity.ok(libraryService.fetchMetadataByISBN(isbn));
+    }
+
+    @PostMapping("/kiosk/issue")
+    public ResponseEntity<LibraryLoan> issueBook(@RequestParam Long itemId, @RequestParam Long userId) {
+        return ResponseEntity.ok(libraryService.checkOut(itemId, userId));
+    }
+
+    @PostMapping("/kiosk/return")
+    public ResponseEntity<LibraryLoan> returnBook(@RequestParam Long itemId) {
+        return ResponseEntity.ok(libraryService.checkIn(itemId));
     }
 }

@@ -45,6 +45,12 @@ public class LibraryService {
     @Autowired
     private StudentFineLedgerRepository fineLedgerRepository;
 
+    @Autowired
+    private LibraryFineRuleRepository fineRuleRepository;
+
+    @Autowired
+    private GoogleBooksService googleBooksService;
+
     @Transactional
     public LibraryLoan checkOut(Long itemId, Long userId) {
         if (itemId == null || userId == null) {
@@ -139,26 +145,131 @@ public class LibraryService {
         return loanRepository.save(loan);
     }
 
+    public Map<String, Object> fetchMetadataByISBN(String isbn) {
+        return googleBooksService.getBookDetailsByIsbn(isbn)
+                .map(details -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("title", details.getTitle());
+                    map.put("author",
+                            details.getAuthors() != null && !details.getAuthors().isEmpty()
+                                    ? String.join(", ", details.getAuthors())
+                                    : "Unknown");
+                    map.put("publisher", details.getPublisher());
+                    map.put("year", details.getPublishedDate());
+                    map.put("description", details.getDescription());
+                    map.put("thumbnail", details.getThumbnailUrl());
+                    return map;
+                })
+                .orElseGet(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("isbn", isbn);
+                    map.put("error", "Book not found");
+                    return map;
+                });
+    }
+
+    public krs.erp.dto.library.LibraryDashboardDTO getDashboardStats() {
+        krs.erp.dto.library.LibraryDashboardDTO stats = new krs.erp.dto.library.LibraryDashboardDTO();
+
+        long totalItems = itemRepository.count();
+        long itemsOnLoan = loanRepository.countByStatus(LibraryLoan.LoanStatus.ACTIVE);
+        long itemsOverdue = loanRepository.countByStatus(LibraryLoan.LoanStatus.OVERDUE); // Make sure OVERDUE status is
+                                                                                          // managed or calculated via
+                                                                                          // query
+
+        stats.setTotalInventory(totalItems);
+        stats.setTotalBooksOut(itemsOnLoan);
+        stats.setTotalBooksIn(totalItems - itemsOnLoan);
+        stats.setOverdueCount(itemsOverdue);
+
+        if (totalItems > 0) {
+            stats.setCirculationRate((double) itemsOnLoan / totalItems * 100);
+        }
+
+        // Trending Books - Top borrowed books
+        List<Object[]> topBorrowedResults = loanRepository.findTopBorrowedBooks();
+        List<krs.erp.dto.library.LibraryDashboardDTO.TopBorrowedBook> trendingBooks = new java.util.ArrayList<>();
+        int maxTrending = Math.min(5, topBorrowedResults.size());
+        for (int i = 0; i < maxTrending; i++) {
+            Object[] row = topBorrowedResults.get(i);
+            krs.erp.dto.library.LibraryDashboardDTO.TopBorrowedBook book = new krs.erp.dto.library.LibraryDashboardDTO.TopBorrowedBook();
+            book.setTitle((String) row[1]);
+            book.setBorrowCount(((Number) row[2]).intValue());
+            trendingBooks.add(book);
+        }
+        stats.setTrendingBooks(trendingBooks);
+
+        // Overdue Leaders - Users with most overdue items
+        List<Object[]> overdueLeaderResults = loanRepository.findOverdueLeaders();
+        List<krs.erp.dto.library.LibraryDashboardDTO.OverdueUser> overdueLeaders = new java.util.ArrayList<>();
+        int maxOverdue = Math.min(5, overdueLeaderResults.size());
+        for (int i = 0; i < maxOverdue; i++) {
+            Object[] row = overdueLeaderResults.get(i);
+            krs.erp.dto.library.LibraryDashboardDTO.OverdueUser user = new krs.erp.dto.library.LibraryDashboardDTO.OverdueUser();
+            user.setUserId((Long) row[0]);
+            String firstName = (String) row[1];
+            String lastName = (String) row[2];
+            user.setName((firstName != null ? firstName : "") + " " + (lastName != null ? lastName : ""));
+            user.setOverdueItemsCount(((Number) row[3]).intValue());
+            overdueLeaders.add(user);
+        }
+        stats.setOverdueLeaders(overdueLeaders);
+
+        stats.setTodayTraffic(0);
+
+        return stats;
+    }
+
+    public List<LibraryResource> searchBooks(String query) {
+        // Implementation for elastic/fuzzy search would go here.
+        // For now, simple title contains search
+        return resourceRepository.findByTitleContainingIgnoreCase(query);
+    }
+
+    // Overriding the previous calculateAndPostFine to use LibraryFineRule if
+    // available
     private void calculateAndPostFine(LibraryLoan loan) {
         User user = loan.getUser();
-        krs.erp.model.Role userRole = user.getRoles().isEmpty() ? null : user.getRoles().iterator().next();
-        if (userRole == null)
-            return;
+        // Determine member type (simplified logic, adjust based on Role names)
+        String memberType = "STUDENT"; // Default
+        if (user.getRoles().stream().anyMatch(r -> r.getName().contains("STAFF") || r.getName().contains("TEACHER"))) {
+            memberType = "STAFF";
+        }
 
-        LibraryPolicy policy = policyRepository.findByRoleAndGradeLevel(userRole, null)
-                .orElseGet(() -> policyRepository.findByRole(userRole).orElse(null));
+        LibraryFineRule fineRule = fineRuleRepository.findByMemberType(memberType).orElse(null);
+        BigDecimal finePerDay = BigDecimal.ZERO;
 
-        if (policy == null || policy.getFinePerDay().compareTo(BigDecimal.ZERO) <= 0) {
+        if (fineRule != null) {
+            finePerDay = fineRule.getDailyFineAmount();
+        } else {
+            // Fallback to old policy logic
+            krs.erp.model.Role userRole = user.getRoles().isEmpty() ? null : user.getRoles().iterator().next();
+            if (userRole != null) {
+                LibraryPolicy policy = policyRepository.findByRoleAndGradeLevel(userRole, null)
+                        .orElseGet(() -> policyRepository.findByRole(userRole).orElse(null));
+                if (policy != null) {
+                    finePerDay = policy.getFinePerDay();
+                }
+            }
+        }
+
+        if (finePerDay.compareTo(BigDecimal.ZERO) <= 0) {
             return;
         }
 
         long daysOverdue = Duration.between(loan.getDueDate(), LocalDateTime.now()).toDays();
         if (daysOverdue > 0) {
-            BigDecimal fineAmount = policy.getFinePerDay().multiply(BigDecimal.valueOf(daysOverdue));
+            BigDecimal fineAmount = finePerDay.multiply(BigDecimal.valueOf(daysOverdue));
+
+            // Cap fine if max amount is set
+            if (fineRule != null && fineRule.getMaxFineAmount() != null
+                    && fineAmount.compareTo(fineRule.getMaxFineAmount()) > 0) {
+                fineAmount = fineRule.getMaxFineAmount();
+            }
 
             StudentFineLedger fine = new StudentFineLedger();
             fine.setStudentId(user.getId());
-            fine.setFineConfigId(0L); // System/Library default
+            fine.setFineConfigId(0L);
             fine.setBaseAmount(fineAmount.doubleValue());
             fine.setAccruedAmount(fineAmount.doubleValue());
             fine.setStatus(StudentFineLedger.FineStatus.PENDING);
@@ -168,36 +279,5 @@ public class LibraryService {
             logger.info("Posted library fine of {} for user {} (Loan ID: {})", fineAmount, user.getUsername(),
                     loan.getId());
         }
-    }
-
-    @Transactional
-    public ResourceItem stockAudit(String barcode, String shelfLocation) {
-        ResourceItem item = itemRepository.findByBarcode(barcode)
-                .orElseThrow(() -> new RuntimeException("Item not found with barcode: " + barcode));
-
-        if (item.getLocation().equalsIgnoreCase(shelfLocation)) {
-            item.setAuditStatus(ResourceItem.AuditStatus.MATCHED);
-        } else {
-            item.setAuditStatus(ResourceItem.AuditStatus.MISPLACED);
-            logger.warn("Item {} misplaced. Expected: {}, Found at: {}", item.getAccessionNumber(), item.getLocation(),
-                    shelfLocation);
-        }
-
-        return itemRepository.save(item);
-    }
-
-    public Map<String, String> fetchMetadataByISBN(String isbn) {
-        // Mocking an external API call like Open Library
-        Map<String, String> metadata = new HashMap<>();
-        if ("9780132350884".equals(isbn)) {
-            metadata.put("title", "Clean Code");
-            metadata.put("author", "Robert C. Martin");
-            metadata.put("publisher", "Prentice Hall");
-            metadata.put("year", "2008");
-        } else {
-            metadata.put("title", "Unknown Book");
-            metadata.put("isbn", isbn);
-        }
-        return metadata;
     }
 }

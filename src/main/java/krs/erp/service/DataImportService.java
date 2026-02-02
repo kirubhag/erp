@@ -80,6 +80,7 @@ import krs.erp.model.inventory.Consumable;
 import krs.erp.model.inventory.PurchaseOrder;
 import krs.erp.model.inventory.Vendor;
 import krs.erp.model.library.Author;
+import krs.erp.model.library.LibraryLoan;
 import krs.erp.model.library.LibraryPolicy;
 import krs.erp.model.library.LibraryPurchaseRequest;
 import krs.erp.model.library.LibraryResource;
@@ -3499,6 +3500,105 @@ public class DataImportService {
     }
 
     /**
+     * Import library loans (including overdue and returned) from XML for dashboard data.
+     * This creates sample loan records for trending books and overdue leaders.
+     * Uses the currently authenticated user for all loans.
+     */
+    @Transactional
+    public void importLibraryLoansDataFromXml(String xmlFilePath) {
+        try {
+            logger.info("Starting library loans import from XML: {}", xmlFilePath);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFilePath);
+            if (inputStream == null) {
+                logger.error("XML file not found: {}", xmlFilePath);
+                return;
+            }
+
+            // Get the currently authenticated user
+            User currentUser = null;
+            org.springframework.security.core.Authentication auth = 
+                org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null && auth.getPrincipal() instanceof krs.erp.config.CustomUserDetails) {
+                krs.erp.config.CustomUserDetails userDetails = (krs.erp.config.CustomUserDetails) auth.getPrincipal();
+                Long userId = userDetails.getUserId();
+                currentUser = userRepository.findById(userId).orElse(null);
+                if (currentUser != null) {
+                    logger.info("Using current authenticated user for loans: {}", currentUser.getUsername());
+                }
+            }
+            
+            if (currentUser == null) {
+                logger.error("No authenticated user found - cannot import loans");
+                return;
+            }
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            document.getDocumentElement().normalize();
+
+            NodeList loanList = document.getElementsByTagName("loan");
+            int importedCount = 0;
+            
+            for (int i = 0; i < loanList.getLength(); i++) {
+                Element loanElement = (Element) loanList.item(i);
+
+                LibraryLoan loan = new LibraryLoan();
+                
+                // Get item by accession number
+                String accessionNumber = getElementText(loanElement, "accessionNumber");
+                if (accessionNumber != null && !accessionNumber.isEmpty()) {
+                    itemRepository.findByAccessionNumber(accessionNumber).ifPresent(loan::setItem);
+                }
+                
+                // Use current authenticated user instead of looking up from XML
+                loan.setUser(currentUser);
+                
+                // Skip if item not found
+                if (loan.getItem() == null) {
+                    logger.warn("Skipping loan - item not found for accessionNumber: {}", accessionNumber);
+                    continue;
+                }
+                
+                // Parse dates
+                String loanDateStr = getElementText(loanElement, "loanDate");
+                if (loanDateStr != null && !loanDateStr.isEmpty()) {
+                    loan.setLoanDate(java.time.LocalDateTime.parse(loanDateStr));
+                }
+                
+                String dueDateStr = getElementText(loanElement, "dueDate");
+                if (dueDateStr != null && !dueDateStr.isEmpty()) {
+                    loan.setDueDate(java.time.LocalDateTime.parse(dueDateStr));
+                }
+                
+                String returnDateStr = getElementText(loanElement, "returnDate");
+                if (returnDateStr != null && !returnDateStr.isEmpty()) {
+                    loan.setReturnDate(java.time.LocalDateTime.parse(returnDateStr));
+                }
+                
+                // Parse status
+                String statusStr = getElementText(loanElement, "status");
+                if (statusStr != null && !statusStr.isEmpty()) {
+                    loan.setStatus(LibraryLoan.LoanStatus.valueOf(statusStr));
+                }
+                
+                // Parse renewal count
+                String renewalCountStr = getElementText(loanElement, "renewalCount");
+                if (renewalCountStr != null && !renewalCountStr.isEmpty()) {
+                    loan.setRenewalCount(Integer.parseInt(renewalCountStr));
+                }
+
+                loanRepository.save(loan);
+                importedCount++;
+            }
+            logger.info("Library loans import completed successfully. Imported {} loans", importedCount);
+        } catch (Exception e) {
+            logger.error("Error importing library loans from XML", e);
+            throw new RuntimeException("Failed to import library loans", e);
+        }
+    }
+
+    /**
      * Import all library sample data from XML files.
      * This imports authors and publishers first, then resources, then items.
      */
@@ -3518,6 +3618,9 @@ public class DataImportService {
             
             // 4. Import resource items (references resources)
             importResourceItemsDataFromXml("data/library/sample-resource-items.xml");
+            
+            // 5. Import library loans (for dashboard data - trending books, overdue leaders)
+            importLibraryLoansDataFromXml("data/library/sample-loans.xml");
             
             logger.info("Library Sample Data Import from XML Completed Successfully.");
         } catch (Exception e) {

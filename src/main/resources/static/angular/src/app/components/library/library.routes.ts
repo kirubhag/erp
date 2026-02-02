@@ -37,5 +37,24 @@ export const LIBRARY_ROUTES: Routes = [
 
     // Library Purchase Orders
     { path: 'pos', component: RouteDataEntityComponent, data: { entityType: 'LIBRARY_PO' } },
-    { path: 'pos/:id', component: EntityDetailComponent, data: { entityType: 'LIBRARY_PO' } }
+    { path: 'pos/:id', component: EntityDetailComponent, data: { entityType: 'LIBRARY_PO' } },
+
+    // Advanced Features
+    {
+        path: 'dashboard',
+        loadComponent: () => import('./dashboard/library-dashboard.component').then(m => m.LibraryDashboardComponent)
+    },
+    {
+        path: 'kiosk',
+        loadComponent: () => import('./kiosk/library-kiosk.component').then(m => m.LibraryKioskComponent)
+    },
+    {
+        path: 'search',
+        loadComponent: () => import('./search/library-search.component').then(m => m.LibrarySearchComponent)
+    },
+    {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+    }
 ];

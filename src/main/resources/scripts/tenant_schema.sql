@@ -3310,4 +3310,21 @@ CREATE TABLE IF NOT EXISTS erp_utility_calendar_days (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;-- Table: erp_library_param_fine_rules
+-- Rules for calculating overdue fines
+CREATE TABLE IF NOT EXISTS erp_library_param_fine_rules (
+    fine_rule_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    auto_number VARCHAR(255) DEFAULT NULL,
+    member_type VARCHAR(50) NOT NULL, -- STUDENT, STAFF
+    daily_fine_amount DECIMAL(10, 2) NOT NULL DEFAULT 0.0,
+    max_fine_amount DECIMAL(10, 2),
+    grace_period_days INT DEFAULT 0,
+    description VARCHAR(255),
+    created_by BIGINT,
+    modified_by BIGINT,
+    created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    owner_id BIGINT,
+    is_active INT DEFAULT 1,
+    UNIQUE KEY uk_member_type (member_type)
+);

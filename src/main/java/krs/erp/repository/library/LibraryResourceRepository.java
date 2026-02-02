@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface LibraryResourceRepository extends JpaRepository<LibraryResource, Long> {
     Optional<LibraryResource> findByIsbnIssn(String isbnIssn);
+
+    java.util.List<LibraryResource> findByTitleContainingIgnoreCase(String title);
 }

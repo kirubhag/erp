@@ -560,7 +560,16 @@ export class EntityListComponent implements OnInit {
   }
 
   getCellValue(item: any, column: EntityColumn): any {
-    return item[column.key];
+    const value = item[column.key];
+    
+    // Handle FK object values - extract display property
+    if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
+      // Try common display properties in order of preference
+      return value.name || value.title || value.displayName || value.label || 
+             value.firstName || value.accessionNumber || value.id || '';
+    }
+    
+    return value;
   }
 
   getAvatarText(text: string): string {

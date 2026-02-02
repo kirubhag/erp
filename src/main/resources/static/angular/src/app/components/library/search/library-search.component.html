@@ -1,0 +1,51 @@
+<div class="p-6 bg-gray-50 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Library Catalog</h1>
+
+        <div class="relative mb-8">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+            </div>
+            <input type="text" [(ngModel)]="searchQuery" (ngModelChange)="onSearch($event)"
+                class="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-lg outline-none transition-all"
+                placeholder="Search by title, author, or ISBN...">
+            <div *ngIf="loading" class="absolute inset-y-0 right-0 pr-4 flex items-center">
+                <i class="fas fa-circle-notch fa-spin text-indigo-500"></i>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <div *ngFor="let book of results"
+                class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex gap-6 hover:shadow-md transition-shadow">
+                <div
+                    class="w-24 h-32 bg-gray-200 rounded-lg flex-shrink-0 flex items-center justify-center text-gray-400">
+                    <img *ngIf="book.thumbnail" [src]="book.thumbnail" class="w-full h-full object-cover rounded-lg"
+                        alt="Cover">
+                    <i *ngIf="!book.thumbnail" class="fas fa-book text-3xl"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-xl font-bold text-gray-900">{{ book.title }}</h3>
+                        <span
+                            class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold uppercase">Available</span>
+                    </div>
+                    <p class="text-gray-600 mb-2">{{ book.author?.name || 'Unknown Author' }}</p>
+                    <p class="text-sm text-gray-500 mb-4 line-clamp-2">{{ book.description }}</p>
+
+                    <div class="flex gap-4 text-sm text-gray-500">
+                        <span *ngIf="book.isbnIssn"><i class="fas fa-barcode mr-2"></i> {{ book.isbnIssn }}</span>
+                        <span><i class="fas fa-calendar mr-2"></i> {{ book.year }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="results.length === 0 && searchQuery.length > 2 && !loading"
+                class="text-center py-12 text-gray-500">
+                No books found matching "{{ searchQuery }}"
+            </div>
+            <div *ngIf="searchQuery.length <= 2" class="text-center py-12 text-gray-400">
+                Type at least 3 characters to search...
+            </div>
+        </div>
+    </div>
+</div>

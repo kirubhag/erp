@@ -362,6 +362,9 @@ public class SampleDataController {
                     } else if (normalizedName.equalsIgnoreCase("resource_items")) {
                         dataImportService.importResourceItemsDataFromXml("data/library/sample-resource-items.xml");
                         handledBySpecialMethod = true;
+                    } else if (normalizedName.equalsIgnoreCase("library_loans")) {
+                        dataImportService.importLibraryLoansDataFromXml("data/library/sample-loans.xml");
+                        handledBySpecialMethod = true;
                     } else if (normalizedName.equalsIgnoreCase("lms")) {
                         dataImportService.generateLmsSampleData();
                         handledBySpecialMethod = true;

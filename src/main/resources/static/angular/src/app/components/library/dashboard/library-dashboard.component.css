@@ -1,0 +1,84 @@
+/* Modern Bootstrap Enhancements */
+
+.rounded-4 {
+    border-radius: 1rem !important;
+}
+
+.icon-shape {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-primary-subtle {
+    background-color: rgba(13, 110, 253, 0.1) !important;
+    color: #0d6efd !important;
+}
+
+.bg-success-subtle {
+    background-color: rgba(25, 135, 84, 0.1) !important;
+    color: #198754 !important;
+}
+
+.bg-danger-subtle {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+    color: #dc3545 !important;
+    border: none;
+}
+
+.bg-info-subtle {
+    background-color: rgba(13, 202, 240, 0.1) !important;
+    color: #0dcaf0 !important;
+}
+
+.bg-secondary-subtle {
+    background-color: #e9ecef !important;
+}
+
+/* Custom button style for 'Remind' */
+.btn-danger-subtle {
+    background-color: rgba(220, 53, 69, 0.1);
+    border: none;
+}
+
+.btn-danger-subtle:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
+
+.ring-red {
+    box-shadow: 0 0 0 1px rgba(220, 53, 69, 0.2), 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+}
+
+.hover-bg-light:hover {
+    background-color: #f8f9fa !important;
+    cursor: pointer;
+}
+
+.transition-base {
+    transition: all 0.2s ease;
+}
+
+@keyframes pulse-soft {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse-animation {
+    animation: pulse-soft 2s infinite;
+}
+
+.table> :not(caption)>*>* {
+    padding: 1rem 0.5rem;
+}

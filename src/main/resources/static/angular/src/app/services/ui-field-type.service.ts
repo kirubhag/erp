@@ -161,6 +161,11 @@ export class UIFieldTypeService {
         }
 
         if (!uiType) {
+            // Handle object values (FK relations) - extract display property
+            if (typeof value === 'object' && !Array.isArray(value)) {
+                return value.name || value.title || value.displayName || value.label ||
+                       value.firstName || value.accessionNumber || String(value.id) || '—';
+            }
             return String(value);
         }
 
@@ -189,7 +194,20 @@ export class UIFieldTypeService {
             case UIFieldTypeId.MULTI_SELECT:
                 return Array.isArray(value) ? value.join(', ') : value;
 
+            case UIFieldTypeId.LOOKUP:
+                // Handle FK lookup values - extract display property from object
+                if (typeof value === 'object' && value !== null) {
+                    return value.name || value.title || value.displayName || value.label ||
+                           value.firstName || value.accessionNumber || String(value.id) || '—';
+                }
+                return String(value);
+
             default:
+                // Handle object values in default case as well
+                if (typeof value === 'object' && !Array.isArray(value)) {
+                    return value.name || value.title || value.displayName || value.label ||
+                           value.firstName || value.accessionNumber || String(value.id) || '—';
+                }
                 return String(value);
         }
     }
