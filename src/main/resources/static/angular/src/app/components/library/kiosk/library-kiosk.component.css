@@ -1,3 +1,118 @@
-input:focus::placeholder {
-    color: transparent;
+/* Modern Bootstrap Enhancements for Kiosk */
+
+/* Mode Selection Gradients */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #4f46e5 0%, #312e81 100%) !important;
+}
+
+.bg-gradient-teal {
+    background: linear-gradient(135deg, #0d9488 0%, #115e59 100%) !important;
+}
+
+.bg-indigo-subtle {
+    background-color: #e0e7ff !important;
+}
+
+.text-indigo {
+    color: #4f46e5 !important;
+}
+
+.bg-indigo-200 {
+    background-color: #c7d2fe !important;
+}
+
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: translateY(-5px) scale(1.02);
+}
+
+.transition-base {
+    transition: all 0.3s ease;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.rounded-4 {
+    border-radius: 1.5rem !important;
+}
+
+.avatar-lg {
+    width: 64px;
+    height: 64px;
+}
+
+/* Pulse Animation Ring */
+.pulse-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    border-radius: 50%;
+    animation: pulse-ring 2s infinite;
+    filter: blur(10px);
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.2;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.5;
+    }
+}
+
+.border-primary-subtle {
+    border-color: #e0e7ff !important;
+}
+
+.focus-ring:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 4px #c7d2fe !important;
+    outline: none;
+}
+
+/* Success Icon */
+.success-icon-bg {
+    width: 100px;
+    height: 100px;
+}
+
+.animate-bounce {
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(-5%);
+    }
+
+    50% {
+        transform: translateY(0);
+    }
+}
+
+.hover-lift:hover {
+    transform: translateY(-2px);
+}
+
+/* Remove default focus ring on buttons */
+button:focus {
+    outline: none;
 }
