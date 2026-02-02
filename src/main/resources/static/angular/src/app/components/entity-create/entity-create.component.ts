@@ -111,7 +111,7 @@ export class EntityCreateComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.http.get<any>(`/api/${this.entityType}/metadata`).subscribe({
+    this.http.get<any>(`/api/module/${this.entityType}/metadata`).subscribe({
       next: (metadata) => {
         console.log('Received metadata:', metadata);
         this.entityName = metadata.entityName || this.entityType;

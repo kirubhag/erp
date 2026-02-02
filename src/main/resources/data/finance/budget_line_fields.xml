@@ -3,7 +3,7 @@
     <field>
         <fieldName>account</fieldName>
         <fieldLabel>Account</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>114</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>

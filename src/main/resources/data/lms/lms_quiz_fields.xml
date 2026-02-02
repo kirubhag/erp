@@ -88,7 +88,7 @@
     <field>
         <fieldName>lessonId</fieldName>
         <fieldLabel>Lesson</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>10</uiType>
         <displayOrder>7</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -102,7 +102,7 @@
     <field>
         <fieldName>subjectId</fieldName>
         <fieldLabel>Subject</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>10</uiType>
         <displayOrder>8</displayOrder>
         <defaultWidth>150</defaultWidth>

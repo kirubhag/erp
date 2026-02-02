@@ -168,7 +168,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 String createdTime = permElement.getAttribute("created_time");
 
                 masterJdbcTemplate.update(
-                        "INSERT INTO erp_permissions (name, description, resource, action, system_permission, created_time, modified_time) " +
+                        "INSERT INTO erp_permissions (name, description, resource, action, system_permission, created_time, modified_time) "
+                                +
                                 "VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE modified_time = ?",
                         name, description, resource_name, action, systemPermission,
                         LocalDateTime.parse(createdTime, DATE_FORMATTER),
@@ -334,8 +335,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 Long erpEntityId = null;
                 try {
                     erpEntityId = masterJdbcTemplate.queryForObject(
-                            "SELECT erp_entity_id FROM erp_entities WHERE singular_name = ?",
-                            Long.class, entityType);
+                            "SELECT erp_entity_id FROM erp_entities WHERE singular_name = ? OR system_name = ?",
+                            Long.class, entityType, entityType);
                 } catch (Exception e) {
                     logger.warn("Entity not found for type: {}. Sections will have null erp_entity_id.", entityType);
                 }
@@ -358,8 +359,10 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                     masterJdbcTemplate.update(
                             "INSERT INTO erp_sections " +
-                                    "(entity_type, erp_entity_id, section_name, section_label, layout_type, display_order, " +
-                                    "is_collapsible, is_collapsed_by_default, show_in_create, show_in_edit, show_in_detail, " +
+                                    "(entity_type, erp_entity_id, section_name, section_label, layout_type, display_order, "
+                                    +
+                                    "is_collapsible, is_collapsed_by_default, show_in_create, show_in_edit, show_in_detail, "
+                                    +
                                     "description, created_time, modified_time, is_active) " +
                                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                                     "ON DUPLICATE KEY UPDATE modified_time = ?",
@@ -423,8 +426,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 Long erpEntityId = null;
                 try {
                     erpEntityId = masterJdbcTemplate.queryForObject(
-                            "SELECT erp_entity_id FROM erp_entities WHERE singular_name = ?",
-                            Long.class, entityType);
+                            "SELECT erp_entity_id FROM erp_entities WHERE singular_name = ? OR system_name = ?",
+                            Long.class, entityType, entityType);
                 } catch (Exception e) {
                     logger.warn("Entity not found for type: {}. Fields will have null erp_entity_id.", entityType);
                 }
@@ -457,9 +460,11 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         // Insert or update the field
                         masterJdbcTemplate.update(
                                 "INSERT INTO erp_fields " +
-                                        "(entity_type, erp_entity_id, field_name, field_label, field_type, ui_type, display_order, " +
+                                        "(entity_type, erp_entity_id, field_name, field_label, field_type, ui_type, display_order, "
+                                        +
                                         "is_required, is_searchable, is_sortable, show_in_list, show_in_form, " +
-                                        "field_description, max_length, decimal_places, show_type, validation_pattern, picklist_options, field_properties, created_time, modified_time, is_active) " +
+                                        "field_description, max_length, decimal_places, show_type, validation_pattern, picklist_options, field_properties, created_time, modified_time, is_active) "
+                                        +
                                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                                         "ON DUPLICATE KEY UPDATE modified_time = ?",
                                 entityType, erpEntityId, fieldName, fieldLabel, fieldType, uiType, displayOrder,
@@ -473,15 +478,16 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         if (sectionName != null && !sectionName.isEmpty()) {
                             try {
                                 Long sectionId = masterJdbcTemplate.queryForObject(
-                                        "SELECT erp_section_id FROM erp_sections WHERE entity_type = ? AND section_name = ?",
+                                        "SELECT erp_section_id FROM erp_sections WHERE entity_type = ? AND section_name = ? LIMIT 1",
                                         Long.class, entityType, sectionName);
                                 Long fieldId = masterJdbcTemplate.queryForObject(
-                                        "SELECT erp_field_id FROM erp_fields WHERE entity_type = ? AND field_name = ?",
+                                        "SELECT erp_field_id FROM erp_fields WHERE entity_type = ? AND field_name = ? LIMIT 1",
                                         Long.class, entityType, fieldName);
 
                                 masterJdbcTemplate.update(
                                         "INSERT IGNORE INTO erp_sections_field_rel " +
-                                                "(erp_section_id, erp_field_id, field_order, created_time, modified_time) " +
+                                                "(erp_section_id, erp_field_id, field_order, created_time, modified_time) "
+                                                +
                                                 "VALUES (?, ?, ?, ?, ?)",
                                         sectionId, fieldId, displayOrder, LocalDateTime.now(), LocalDateTime.now());
                             } catch (Exception e) {
@@ -564,8 +570,10 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                 masterJdbcTemplate.update(
                         "INSERT INTO erp_entities " +
-                                "(singular_name, plural_name, system_name, description, table_name, pkid, display_column, " +
-                                "has_rel_table, icon, route, sequence, presence, is_active, created_date, last_modified_date, created_by, last_modified_by) " +
+                                "(singular_name, plural_name, system_name, description, table_name, pkid, display_column, "
+                                +
+                                "has_rel_table, icon, route, sequence, presence, is_active, created_date, last_modified_date, created_by, last_modified_by) "
+                                +
                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                                 "ON DUPLICATE KEY UPDATE last_modified_date = ?",
                         singularName, pluralName, systemName, description, tableName, pkid, displayColumn,
@@ -653,8 +661,10 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
 
                 masterJdbcTemplate.update(
                         "INSERT INTO erp_entity_relations " +
-                                "(parent_entity_id, child_entity_id, relation_type, relation_name, foreign_key_column, " +
-                                "is_mandatory, cascade_delete, display_order, is_active, created_time, modified_time) " +
+                                "(parent_entity_id, child_entity_id, relation_type, relation_name, foreign_key_column, "
+                                +
+                                "is_mandatory, cascade_delete, display_order, is_active, created_time, modified_time) "
+                                +
                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                                 "ON DUPLICATE KEY UPDATE modified_time = ?",
                         parentEntityId, childEntityId, "ONE_TO_MANY", description, foreignKeyColumn,
@@ -859,7 +869,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         // Insert entity mapping (immutable - skip if exists)
                         masterJdbcTemplate.update(
                                 "INSERT IGNORE INTO erp_tab_group_entity_rel " +
-                                        "(tab_group_id, entity_id, sequence, is_active, created_by, created_time, modified_time) " +
+                                        "(tab_group_id, entity_id, sequence, is_active, created_by, created_time, modified_time) "
+                                        +
                                         "VALUES (?, ?, ?, ?, ?, ?, ?)",
                                 tabGroupId, entityId, j + 1, 1, null, LocalDateTime.now(), LocalDateTime.now());
                     }
@@ -1000,7 +1011,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 }
             }
 
-            logger.info("✓ Loaded {} auto-number configurations into IAM_MasterDB (skipped {} without matching fields)", loaded, skipped);
+            logger.info("✓ Loaded {} auto-number configurations into IAM_MasterDB (skipped {} without matching fields)",
+                    loaded, skipped);
 
         } catch (Exception e) {
             logger.error("Error loading auto-number configurations", e);
@@ -1060,8 +1072,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 Long erpEntityId = null;
                 try {
                     erpEntityId = masterJdbcTemplate.queryForObject(
-                            "SELECT erp_entity_id FROM erp_entities WHERE singular_name = ?",
-                            Long.class, entityType);
+                            "SELECT erp_entity_id FROM erp_entities WHERE singular_name = ? OR system_name = ?",
+                            Long.class, entityType, entityType);
                 } catch (Exception e) {
                     logger.warn("Entity not found for type: {}. Layout will have null erp_entity_id.", entityType);
                 }
@@ -1094,15 +1106,15 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
     private void generateDefaultLayoutsForAllEntities() {
         try {
             // Get all entities that don't have a default layout
-            String insertSql = 
-                "INSERT INTO erp_layout (erp_entity_id, layout_name, layout_type, layout_columns, is_default, " +
-                "description, created_time, modified_time, is_active) " +
-                "SELECT e.erp_entity_id, 'System', 'FORM', 2, true, " +
-                "CONCAT('Default system layout for ', e.singular_name), NOW(), NOW(), 1 " +
-                "FROM erp_entities e " +
-                "WHERE e.is_active = 1 " +
-                "AND NOT EXISTS (SELECT 1 FROM erp_layout l WHERE l.erp_entity_id = e.erp_entity_id AND l.layout_name = 'System')";
-            
+            String insertSql = "INSERT INTO erp_layout (erp_entity_id, layout_name, layout_type, layout_columns, is_default, "
+                    +
+                    "description, created_time, modified_time, is_active) " +
+                    "SELECT e.erp_entity_id, 'System', 'FORM', 2, true, " +
+                    "CONCAT('Default system layout for ', e.singular_name), NOW(), NOW(), 1 " +
+                    "FROM erp_entities e " +
+                    "WHERE e.is_active = 1 " +
+                    "AND NOT EXISTS (SELECT 1 FROM erp_layout l WHERE l.erp_entity_id = e.erp_entity_id AND l.layout_name = 'System')";
+
             int created = masterJdbcTemplate.update(insertSql);
             if (created > 0) {
                 logger.info("✓ Generated {} default System layouts for entities", created);
@@ -1144,8 +1156,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         // Get layout_id
                         Long layoutId = masterJdbcTemplate.queryForObject(
                                 "SELECT l.erp_layout_id FROM erp_layout l " +
-                                "JOIN erp_entities e ON l.erp_entity_id = e.erp_entity_id " +
-                                "WHERE e.singular_name = ? AND l.layout_name = ?",
+                                        "JOIN erp_entities e ON l.erp_entity_id = e.erp_entity_id " +
+                                        "WHERE e.singular_name = ? AND l.layout_name = ?",
                                 Long.class, entityType, layoutName);
 
                         // Get section_id
@@ -1156,7 +1168,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         if (layoutId != null && sectionId != null) {
                             masterJdbcTemplate.update(
                                     "INSERT INTO erp_layout_section_rel " +
-                                            "(erp_layout_id, erp_section_id, section_order, created_time, modified_time) " +
+                                            "(erp_layout_id, erp_section_id, section_order, created_time, modified_time) "
+                                            +
                                             "VALUES (?, ?, ?, ?, ?) " +
                                             "ON DUPLICATE KEY UPDATE section_order = ?, modified_time = ?",
                                     layoutId, sectionId, sectionOrder, LocalDateTime.now(), LocalDateTime.now(),
@@ -1219,7 +1232,8 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         if (sectionId != null && fieldId != null) {
                             masterJdbcTemplate.update(
                                     "INSERT INTO erp_sections_field_rel " +
-                                            "(erp_section_id, erp_field_id, field_order, created_time, modified_time) " +
+                                            "(erp_section_id, erp_field_id, field_order, created_time, modified_time) "
+                                            +
                                             "VALUES (?, ?, ?, ?, ?) " +
                                             "ON DUPLICATE KEY UPDATE field_order = ?, modified_time = ?",
                                     sectionId, fieldId, fieldOrder, LocalDateTime.now(), LocalDateTime.now(),

@@ -29,9 +29,12 @@ public interface ErpFieldRepository extends JpaRepository<ErpField, Long> {
     Page<ErpField> findByEntityTypeAndIsActiveTrue(@Param("entityType") EntityType entityType, Pageable pageable);
 
     /**
-     * Find fields by section
+     * Find fields by section using the section-field relation table
      */
-    @Query("SELECT ef FROM ErpField ef WHERE ef.section.id = :sectionId AND ef.isActive = 1 ORDER BY ef.rowPosition, ef.columnPosition")
+    @Query("SELECT ef FROM ErpField ef " +
+           "JOIN ErpSectionFieldRel rel ON rel.erpField.id = ef.id " +
+           "WHERE rel.erpSection.id = :sectionId AND ef.isActive = 1 " +
+           "ORDER BY rel.fieldOrder, ef.rowPosition, ef.columnPosition")
     List<ErpField> findBySectionIdAndIsActiveTrue(@Param("sectionId") Long sectionId);
 
     /**

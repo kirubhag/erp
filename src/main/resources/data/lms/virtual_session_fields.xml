@@ -141,7 +141,7 @@
     <field>
         <fieldName>lessonId</fieldName>
         <fieldLabel>Lesson</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>10</uiType>
         <displayOrder>11</displayOrder>
         <defaultWidth>150</defaultWidth>

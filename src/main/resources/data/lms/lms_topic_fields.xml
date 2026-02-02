@@ -33,7 +33,7 @@
     <field>
         <fieldName>description</fieldName>
         <fieldLabel>Description</fieldLabel>
-        <fieldType>CLOB</fieldType>
+        <fieldType>TEXTAREA</fieldType>
         <uiType>2</uiType>
         <displayOrder>3</displayOrder>
         <defaultWidth>300</defaultWidth>
@@ -46,7 +46,7 @@
     <field>
         <fieldName>lesson_id</fieldName>
         <fieldLabel>Lesson</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>10</uiType>
         <displayOrder>4</displayOrder>
         <defaultWidth>180</defaultWidth>

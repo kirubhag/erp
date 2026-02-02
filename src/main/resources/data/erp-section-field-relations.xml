@@ -3542,7 +3542,7 @@
     <!-- SUPPORT_TICKET -->
     <relation>
         <entityType>SUPPORT_TICKET</entityType>
-        <sectionName>Assignment & Status</sectionName>
+        <sectionName>Assignment &amp; Status</sectionName>
         <fieldName>autoNumber</fieldName>
         <fieldOrder>2</fieldOrder>
     </relation>

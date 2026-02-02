@@ -1,23 +1,25 @@
 package krs.erp.service;
 
-import com.razorpay.Plan;
-import com.razorpay.RazorpayClient;
-import com.razorpay.RazorpayException;
-import com.razorpay.Subscription;
-import com.razorpay.Utils;
-import krs.erp.entity.ErpPlan;
-import krs.erp.entity.ErpSubscription;
-import krs.erp.repository.ErpPlanRepository;
-import krs.erp.repository.ErpSubscriptionRepository;
-import jakarta.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
+import com.razorpay.Plan;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
+import com.razorpay.Subscription;
+import com.razorpay.Utils;
+
+import jakarta.annotation.PostConstruct;
+import krs.erp.entity.ErpPlan;
+import krs.erp.entity.ErpSubscription;
+import krs.erp.repository.ErpPlanRepository;
+import krs.erp.repository.ErpSubscriptionRepository;
 
 @Service
 public class RazorpayService {
@@ -49,6 +51,10 @@ public class RazorpayService {
         // Check if plans exist with Razorpay ID, if not create them
         List<ErpPlan> plans = planRepository.findAll();
         for (ErpPlan plan : plans) {
+            // Skip free plans - Razorpay requires minimum ₹1 for subscription plans
+            if (plan.getAmount() == null || plan.getAmount().compareTo(BigDecimal.ONE) < 0) {
+                continue;
+            }
             if (plan.getRazorpayPlanId() == null || plan.getRazorpayPlanId().isEmpty()) {
                 try {
                     String rzpPlanId = createRazorpayPlan(plan);

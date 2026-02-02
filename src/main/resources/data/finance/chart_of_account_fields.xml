@@ -54,7 +54,7 @@
     <field>
         <fieldName>parentAccount</fieldName>
         <fieldLabel>Parent Account</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>114</uiType>
         <displayOrder>4</displayOrder>
         <isRequired>false</isRequired>

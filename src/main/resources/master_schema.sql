@@ -177,6 +177,7 @@ CREATE TABLE IF NOT EXISTS erp_custom_views (
     owner_id BIGINT,
     is_active INT DEFAULT 1,
     FOREIGN KEY (erp_entity_id) REFERENCES erp_entities (erp_entity_id) ON DELETE SET NULL,
+    UNIQUE INDEX idx_view_name_entity_type (view_name, entity_type),
     INDEX idx_view_name (view_name),
     INDEX idx_entity_type (entity_type),
     INDEX idx_erp_entity_id (erp_entity_id),
@@ -2028,6 +2029,7 @@ CREATE TABLE IF NOT EXISTS erp_layout (
     layout_type VARCHAR(250) NOT NULL DEFAULT 'FORM',
     layout_columns INT DEFAULT 2,
     is_default BOOLEAN DEFAULT false,
+    description VARCHAR(500),
     created_by BIGINT,
     modified_by BIGINT,
     created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -2989,7 +2991,7 @@ CREATE TABLE IF NOT EXISTS erp_student_promotion_record (
     INDEX idx_batch_id (batch_id),
     INDEX idx_student_id (student_id),
     INDEX idx_promotion_status (promotion_status),
-    FOREIGN KEY (batch_id) REFERENCES student_promotion_batch (batch_id) ON DELETE CASCADE
+    CONSTRAINT erp_student_promotion_record_ibfk_1 FOREIGN KEY (batch_id) REFERENCES erp_student_promotion_batch (batch_id) ON DELETE CASCADE
 );
 
 -- Table from SQL file: students

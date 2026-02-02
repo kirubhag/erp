@@ -33,7 +33,7 @@
     <field>
         <fieldName>resource</fieldName>
         <fieldLabel>Resource</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>116</uiType>
         <displayOrder>3</displayOrder>
         <defaultWidth>200</defaultWidth>
@@ -46,7 +46,7 @@
     <field>
         <fieldName>user</fieldName>
         <fieldLabel>User</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>116</uiType>
         <displayOrder>4</displayOrder>
         <defaultWidth>150</defaultWidth>

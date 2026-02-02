@@ -1229,7 +1229,7 @@
     <relation>
         <entityType>SUPPORT_TICKET</entityType>
         <layoutName>System</layoutName>
-        <sectionName>Assignment & Status</sectionName>
+        <sectionName>Assignment &amp; Status</sectionName>
         <sectionOrder>2</sectionOrder>
     </relation>
     <relation>

@@ -33,7 +33,7 @@
     <field>
         <fieldName>role</fieldName>
         <fieldLabel>Role</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>116</uiType>
         <displayOrder>3</displayOrder>
         <defaultWidth>150</defaultWidth>

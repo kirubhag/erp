@@ -31,7 +31,7 @@
     <field>
         <fieldName>accountingPeriod</fieldName>
         <fieldLabel>Accounting Period</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>114</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>

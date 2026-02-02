@@ -3,7 +3,7 @@
     <field>
         <fieldName>facilityId</fieldName>
         <fieldLabel>Facility</fieldLabel>
-        <fieldType>ENTITY_SELECT</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>100</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
@@ -31,7 +31,7 @@
     <field>
         <fieldName>bookedById</fieldName>
         <fieldLabel>Booked By</fieldLabel>
-        <fieldType>ENTITY_SELECT</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>100</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>true</isRequired>

@@ -17,13 +17,13 @@ public interface ErpLayoutSectionRelRepository extends JpaRepository<ErpLayoutSe
     /**
      * Find all section relationships for a layout, ordered by section order
      */
-    @Query("SELECT r FROM ErpLayoutSectionRel r WHERE r.id.layoutId = :layoutId ORDER BY r.sectionOrder ASC")
+    @Query("SELECT r FROM ErpLayoutSectionRel r WHERE r.id.erpLayoutId = :layoutId ORDER BY r.sectionOrder ASC")
     List<ErpLayoutSectionRel> findByLayoutId(@Param("layoutId") Long layoutId);
 
     /**
      * Find all layout relationships for a section
      */
-    @Query("SELECT r FROM ErpLayoutSectionRel r WHERE r.id.sectionId = :sectionId")
+    @Query("SELECT r FROM ErpLayoutSectionRel r WHERE r.id.erpSectionId = :sectionId")
     List<ErpLayoutSectionRel> findBySectionId(@Param("sectionId") Long sectionId);
 
     /**
@@ -31,7 +31,7 @@ public interface ErpLayoutSectionRelRepository extends JpaRepository<ErpLayoutSe
      */
     @Modifying
     @Transactional
-    @Query("DELETE FROM ErpLayoutSectionRel r WHERE r.id.layoutId = :layoutId")
+    @Query("DELETE FROM ErpLayoutSectionRel r WHERE r.id.erpLayoutId = :layoutId")
     void deleteByLayoutId(@Param("layoutId") Long layoutId);
 
     /**
@@ -39,13 +39,13 @@ public interface ErpLayoutSectionRelRepository extends JpaRepository<ErpLayoutSe
      */
     @Modifying
     @Transactional
-    @Query("DELETE FROM ErpLayoutSectionRel r WHERE r.id.sectionId = :sectionId")
+    @Query("DELETE FROM ErpLayoutSectionRel r WHERE r.id.erpSectionId = :sectionId")
     void deleteBySectionId(@Param("sectionId") Long sectionId);
 
     /**
      * Check if a relationship exists
      */
-    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM ErpLayoutSectionRel r WHERE r.id.layoutId = :layoutId AND r.id.sectionId = :sectionId")
+    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM ErpLayoutSectionRel r WHERE r.id.erpLayoutId = :layoutId AND r.id.erpSectionId = :sectionId")
     boolean existsByLayoutIdAndSectionId(
             @Param("layoutId") Long layoutId,
             @Param("sectionId") Long sectionId);

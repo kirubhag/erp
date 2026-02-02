@@ -33,7 +33,7 @@
     <field>
         <fieldName>vendor</fieldName>
         <fieldLabel>Vendor</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>116</uiType>
         <displayOrder>3</displayOrder>
         <defaultWidth>200</defaultWidth>

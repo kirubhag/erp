@@ -79,7 +79,7 @@
     <field>
         <fieldName>assignedTechnicianId</fieldName>
         <fieldLabel>Technician</fieldLabel>
-        <fieldType>ENTITY_SELECT</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>100</uiType>
         <displayOrder>6</displayOrder>
         <isRequired>false</isRequired>
@@ -91,7 +91,7 @@
     <field>
         <fieldName>assetId</fieldName>
         <fieldLabel>Asset</fieldLabel>
-        <fieldType>ENTITY_SELECT</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>100</uiType>
         <displayOrder>7</displayOrder>
         <isRequired>false</isRequired>

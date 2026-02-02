@@ -36,7 +36,7 @@ public class EntityMetadataController {
      * @param entityType The entity type (e.g., "students", "staff", "attendance")
      * @return Entity metadata with field definitions
      */
-    @GetMapping("/api/{entityType}/metadata")
+    @GetMapping("/api/module/{entityType}/metadata")
     public ResponseEntity<Map<String, Object>> getEntityMetadata(@PathVariable String entityType) {
         try {
             // Convert entity type string to EntityType enum

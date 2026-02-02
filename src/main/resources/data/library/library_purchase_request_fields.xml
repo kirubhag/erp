@@ -74,7 +74,7 @@
     <field>
         <fieldName>requestedBy</fieldName>
         <fieldLabel>Requested By</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>116</uiType>
         <displayOrder>6</displayOrder>
         <defaultWidth>150</defaultWidth>

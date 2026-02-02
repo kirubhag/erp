@@ -1678,4 +1678,150 @@
         <display_column>title</display_column>
         <has_rel_table>false</has_rel_table>
     </entity>
+    
+    <!-- Missing entities for sections/fields mapping -->
+    <entity>
+        <id>500</id>
+        <singular_name>Alumni</singular_name>
+        <plural_name>Alumni</plural_name>
+        <system_name>ALUMNI</system_name>
+        <description>Former students records</description>
+        <is_active>true</is_active>
+        <sequence>500</sequence>
+        <presence>true</presence>
+        <icon>fas fa-user-graduate</icon>
+        <route>/student-lifecycle/alumni</route>
+        <table_name>erp_alumni</table_name>
+        <pkid>id</pkid>
+        <display_column>full_name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>501</id>
+        <singular_name>Bank Statement Line</singular_name>
+        <plural_name>Bank Statement Lines</plural_name>
+        <system_name>BANK_STATEMENT_LINE</system_name>
+        <description>Individual transaction lines in bank statements</description>
+        <is_active>true</is_active>
+        <sequence>501</sequence>
+        <presence>false</presence>
+        <icon>fas fa-receipt</icon>
+        <route>/finance/bank-statement-lines</route>
+        <table_name>erp_bank_statement_lines</table_name>
+        <pkid>id</pkid>
+        <display_column>description</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>502</id>
+        <singular_name>Budget Line</singular_name>
+        <plural_name>Budget Lines</plural_name>
+        <system_name>BUDGET_LINE</system_name>
+        <description>Individual line items in budgets</description>
+        <is_active>true</is_active>
+        <sequence>502</sequence>
+        <presence>false</presence>
+        <icon>fas fa-list</icon>
+        <route>/finance/budget-lines</route>
+        <table_name>erp_budget_lines</table_name>
+        <pkid>id</pkid>
+        <display_column>description</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>503</id>
+        <singular_name>LMS Answer</singular_name>
+        <plural_name>LMS Answers</plural_name>
+        <system_name>LMS_ANSWER</system_name>
+        <description>Quiz question answers</description>
+        <is_active>true</is_active>
+        <sequence>503</sequence>
+        <presence>false</presence>
+        <icon>fas fa-check-circle</icon>
+        <route>/learning-teaching/answers</route>
+        <table_name>erp_lms_answers</table_name>
+        <pkid>id</pkid>
+        <display_column>answer_text</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>504</id>
+        <singular_name>LMS Question</singular_name>
+        <plural_name>LMS Questions</plural_name>
+        <system_name>LMS_QUESTION</system_name>
+        <description>Quiz and assessment questions</description>
+        <is_active>true</is_active>
+        <sequence>504</sequence>
+        <presence>true</presence>
+        <icon>fas fa-question</icon>
+        <route>/learning-teaching/questions</route>
+        <table_name>erp_lms_questions</table_name>
+        <pkid>id</pkid>
+        <display_column>question_text</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>505</id>
+        <singular_name>LMS Student Progress</singular_name>
+        <plural_name>LMS Student Progress</plural_name>
+        <system_name>LMS_STUDENT_PROGRESS</system_name>
+        <description>Student learning progress tracking</description>
+        <is_active>true</is_active>
+        <sequence>505</sequence>
+        <presence>true</presence>
+        <icon>fas fa-chart-line</icon>
+        <route>/learning-teaching/student-progress</route>
+        <table_name>erp_lms_student_progress</table_name>
+        <pkid>id</pkid>
+        <display_column>student_id</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>506</id>
+        <singular_name>Scholarship Disbursement</singular_name>
+        <plural_name>Scholarship Disbursements</plural_name>
+        <system_name>SCHOLARSHIP_DISBURSEMENT</system_name>
+        <description>Scholarship payment disbursements</description>
+        <is_active>true</is_active>
+        <sequence>506</sequence>
+        <presence>true</presence>
+        <icon>fas fa-money-check-alt</icon>
+        <route>/finance/scholarship-disbursements</route>
+        <table_name>erp_scholarship_disbursements</table_name>
+        <pkid>id</pkid>
+        <display_column>reference_number</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>507</id>
+        <singular_name>Student Guardian</singular_name>
+        <plural_name>Student Guardians</plural_name>
+        <system_name>STUDENT_GUARDIAN</system_name>
+        <description>Guardian/parent information for students</description>
+        <is_active>true</is_active>
+        <sequence>507</sequence>
+        <presence>false</presence>
+        <icon>fas fa-user-friends</icon>
+        <route>/students/guardians</route>
+        <table_name>erp_student_guardians</table_name>
+        <pkid>id</pkid>
+        <display_column>guardian_name</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
+    <entity>
+        <id>508</id>
+        <singular_name>Student Medical</singular_name>
+        <plural_name>Student Medical Records</plural_name>
+        <system_name>STUDENT_MEDICAL</system_name>
+        <description>Student medical information and health records</description>
+        <is_active>true</is_active>
+        <sequence>508</sequence>
+        <presence>false</presence>
+        <icon>fas fa-medkit</icon>
+        <route>/students/medical</route>
+        <table_name>erp_student_medical</table_name>
+        <pkid>id</pkid>
+        <display_column>student_id</display_column>
+        <has_rel_table>false</has_rel_table>
+    </entity>
 </entities>

@@ -75,7 +75,7 @@
     <field>
         <fieldName>author</fieldName>
         <fieldLabel>Author</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>116</uiType>
         <displayOrder>6</displayOrder>
         <defaultWidth>150</defaultWidth>
@@ -88,7 +88,7 @@
     <field>
         <fieldName>publisher</fieldName>
         <fieldLabel>Publisher</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>116</uiType>
         <displayOrder>7</displayOrder>
         <defaultWidth>150</defaultWidth>

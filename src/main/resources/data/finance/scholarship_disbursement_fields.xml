@@ -3,7 +3,7 @@
     <field>
         <fieldName>application</fieldName>
         <fieldLabel>Application</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>114</uiType>
         <displayOrder>1</displayOrder>
         <isRequired>true</isRequired>
@@ -15,7 +15,7 @@
     <field>
         <fieldName>invoice</fieldName>
         <fieldLabel>Invoice</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>114</uiType>
         <displayOrder>2</displayOrder>
         <isRequired>false</isRequired>

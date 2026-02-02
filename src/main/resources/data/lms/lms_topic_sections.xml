@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entitySections type="LMS_TOPIC">
     <section>
-        <sectionName>Basic Information</sectionName>
-        <sectionSequence>1</sectionSequence>
+        <sectionName>basic_info</sectionName>
+        <sectionLabel>Basic Information</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>1</displayOrder>
         <isCollapsible>false</isCollapsible>
-        <isDefaultExpanded>true</isDefaultExpanded>
-        <sectionDescription>Core topic details</sectionDescription>
-        <fields>
-            <field>autoNumber</field>
-            <field>title</field>
-            <field>description</field>
-            <field>lesson_id</field>
-        </fields>
+        <isCollapsedByDefault>false</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Core topic details</description>
     </section>
     <section>
-        <sectionName>Settings</sectionName>
-        <sectionSequence>2</sectionSequence>
+        <sectionName>settings</sectionName>
+        <sectionLabel>Settings</sectionLabel>
+        <layoutType>TWO_COLUMN</layoutType>
+        <displayOrder>2</displayOrder>
         <isCollapsible>true</isCollapsible>
-        <isDefaultExpanded>true</isDefaultExpanded>
-        <sectionDescription>Topic configuration</sectionDescription>
-        <fields>
-            <field>order_index</field>
-            <field>duration_minutes</field>
-            <field>published</field>
-        </fields>
+        <isCollapsedByDefault>true</isCollapsedByDefault>
+        <showInCreate>true</showInCreate>
+        <showInEdit>true</showInEdit>
+        <showInDetail>true</showInDetail>
+        <description>Topic configuration</description>
     </section>
 </entitySections>

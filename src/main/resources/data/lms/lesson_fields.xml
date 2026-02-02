@@ -74,7 +74,7 @@
     <field>
         <fieldName>moduleId</fieldName>
         <fieldLabel>Module</fieldLabel>
-        <fieldType>REFERENCE</fieldType>
+        <fieldType>LONG</fieldType>
         <uiType>10</uiType>
         <displayOrder>6</displayOrder>
         <defaultWidth>150</defaultWidth>
