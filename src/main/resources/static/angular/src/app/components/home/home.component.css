@@ -22,7 +22,7 @@
 
 /* Navbar */
 .navbar-top {
-  background-color: #2196F3;
+  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   padding: 1rem 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -117,7 +117,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   border-radius: 12px;
   min-height: 400px;
 }
@@ -173,7 +173,7 @@
 
 .feature-icon {
   font-size: 3rem;
-  color: #2196F3;
+  color: #4e54c8;
   margin-bottom: 1rem;
 }
 
@@ -219,9 +219,9 @@
 }
 
 .pricing-card.featured {
-  border-color: #2196F3;
+  border-color: #4e54c8;
   transform: scale(1.05);
-  box-shadow: 0 8px 24px rgba(33, 150, 243, 0.15);
+  box-shadow: 0 8px 24px rgba(78, 84, 200, 0.15);
 }
 
 .featured-badge {
@@ -229,7 +229,7 @@
   top: -12px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #2196F3;
+  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -263,7 +263,7 @@
 .amount {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2196F3;
+  color: #4e54c8;
 }
 
 .period {
@@ -297,7 +297,7 @@
 
 /* CTA Section */
 .cta-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   padding: 4rem 2rem;
   text-align: center;
   color: white;
@@ -321,44 +321,52 @@
 
 /* Buttons */
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   padding: 0.75rem 2rem;
-  border-radius: 4px;
+  border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s;
-  border: 2px solid transparent;
+  border: none;
   cursor: pointer;
   text-align: center;
 }
 
 .btn-primary {
-  background-color: #2196F3;
+  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   color: white;
+  box-shadow: 0 2px 8px rgba(78, 84, 200, 0.3);
 }
 
 .btn-primary:hover {
-  background-color: #1976D2;
+  background: linear-gradient(135deg, #3f45a8 0%, #7a7fd9 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(78, 84, 200, 0.4);
 }
 
 .btn-secondary {
-  background-color: transparent;
-  color: #2196F3;
-  border-color: #2196F3;
+  background-color: white;
+  color: #4e54c8;
+  border: 2px solid #4e54c8;
 }
 
 .btn-secondary:hover {
-  background-color: #f0f7ff;
+  background-color: #f0f4ff;
+  transform: translateY(-2px);
 }
 
 .btn-outline {
   background-color: transparent;
-  color: #2196F3;
-  border: 2px solid #2196F3;
+  color: white;
+  border: 2px solid white;
 }
 
 .btn-outline:hover {
-  background-color: #f0f7ff;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
 .btn-lg {

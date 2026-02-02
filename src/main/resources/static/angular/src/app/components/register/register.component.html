@@ -1,316 +1,332 @@
-<div class="register-wrapper">
-  <div class="register-container">
-    <div class="register-card">
-      <!-- Registration Complete Message -->
-      <div *ngIf="registrationComplete" class="registration-success">
-        <div class="success-icon">
-          <i class="fas fa-envelope-open-text"></i>
-        </div>
-        <h2>Check Your Email</h2>
-        <p class="success-message">
-          A confirmation email has been sent to:<br>
-          <strong>{{ registeredEmail }}</strong>
-        </p>
-        <p class="instruction-text">
-          Please click the link in the email to activate your account.
-          Once confirmed, you can log in to access your dashboard.
-        </p>
-        <div class="action-buttons">
-          <a routerLink="/login" class="btn btn-primary">
-            <i class="fas fa-sign-in-alt"></i> Go to Login
-          </a>
-        </div>
-        <p class="help-text">
-          <small>Didn't receive the email? Check your spam folder or contact support.</small>
-        </p>
-      </div>
+<div class="register-wrapper d-flex align-items-center">
+  <div class="container my-3">
+    <div class="row justify-content-center">
+      <div class="col-xl-10">
+        <div class="card auth-card overflow-hidden">
+          <div class="row g-0">
 
-      <!-- Registration Form -->
-      <div *ngIf="!registrationComplete">
-        <div class="register-header">
-          <div class="register-logo">
-            <i class="fas fa-graduation-cap"></i>
-          </div>
-          <h1>Create Account</h1>
-          <p>Join Edu ERP Today</p>
-        </div>
-
-        <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onRegister()">
-          <div class="form-group">
-            <label for="organizationName">
-              Organization Name <span class="required">*</span>
-              <div class="privacy-tooltip-container">
-                <span class="tooltip-trigger" tabindex="0" aria-label="Privacy Information"
-                  aria-describedby="org-privacy-info">
-                  <i class="fas fa-question-circle"></i>
-                </span>
-                <div class="privacy-tooltip-content" id="org-privacy-info" role="tooltip">
-                  <div class="tooltip-header">Your Workspace Identity</div>
-                  <div class="tooltip-body">Used to set up your dedicated ERP instance and branding. This name will
-                    appear on your internal documents, invoices, and the login portal header.</div>
+            <!-- Side Panel -->
+            <div class="col-lg-5 side-panel d-none d-lg-flex">
+              <div class="text-center">
+                <i class="fas fa-graduation-cap display-2 mb-4"></i>
+                <h2 class="fw-bold">Edu ERP</h2>
+                <p class="opacity-75">Streamline your institution's management with our secure, privacy-first platform.</p>
+                <div class="mt-5 text-start border-top pt-4 border-white-50">
+                  <small class="d-block mb-2"><i class="fas fa-shield-alt me-2"></i> ISO 27001 Certified</small>
+                  <small class="d-block"><i class="fas fa-lock me-2"></i> GDPR &amp; Privacy Compliant</small>
                 </div>
               </div>
-            </label>
-            <div class="input-wrapper">
-              <input type="text" id="organizationName" class="form-control"
-                [ngClass]="{'is-invalid': isFieldInvalid('organizationName'), 'is-valid': registerForm.get('organizationName')?.valid && registerForm.get('organizationName')?.touched}"
-                placeholder="Your School or Institution" formControlName="organizationName"
-                (blur)="markFieldTouched('organizationName')">
-              <i class="input-icon fas fa-building"></i>
-              <i class="validation-icon fas fa-check-circle"
-                *ngIf="registerForm.get('organizationName')?.valid && registerForm.get('organizationName')?.touched"></i>
             </div>
-            <div class="error-message" *ngIf="isFieldInvalid('organizationName')">
-              <i class="fas fa-exclamation-circle"></i>
-              {{ getFieldError('organizationName') }}
-            </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="firstName">
-                First Name <span class="required">*</span>
-                <div class="privacy-tooltip-container">
-                  <span class="tooltip-trigger" tabindex="0" aria-label="Privacy Information"
-                    aria-describedby="firstname-privacy-info">
-                    <i class="fas fa-question-circle"></i>
-                  </span>
-                  <div class="privacy-tooltip-content" id="firstname-privacy-info" role="tooltip">
-                    <div class="tooltip-header">How we use your name</div>
-                    <div class="tooltip-body">This will be used to personalize your dashboard and email communications.
-                      It is not shared publicly unless you choose to post in the community forums.</div>
+            <!-- Form Panel -->
+            <div class="col-lg-7 p-3 p-sm-4">
+
+              <!-- Registration Complete Message -->
+              <div *ngIf="registrationComplete" class="registration-success">
+                <div class="success-icon">
+                  <i class="fas fa-envelope-open-text"></i>
+                </div>
+                <h2>Check Your Email</h2>
+                <p class="success-message">
+                  A confirmation email has been sent to:<br>
+                  <strong>{{ registeredEmail }}</strong>
+                </p>
+                <p class="instruction-text">
+                  Please click the link in the email to activate your account.
+                  Once confirmed, you can log in to access your dashboard.
+                </p>
+                <div class="action-buttons">
+                  <a routerLink="/login" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Go to Login
+                  </a>
+                </div>
+                <p class="help-text">
+                  <small>Didn't receive the email? Check your spam folder or contact support.</small>
+                </p>
+              </div>
+
+              <!-- Registration Form -->
+              <div *ngIf="!registrationComplete">
+                <div class="mb-3">
+                  <h3 class="fw-bold h5">Create Account</h3>
+                  <p class="text-muted small mb-0">Enter your details to begin your 14-day free trial.</p>
+                </div>
+
+                <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="needs-validation" novalidate>
+
+                  <!-- Organization Name -->
+                  <div class="mb-3">
+                    <label class="form-label fw-medium">
+                      Organization Name <span class="required">*</span>
+                      <span class="privacy-tooltip-container">
+                        <span class="tooltip-trigger" tabindex="0" aria-label="Privacy Information"
+                          aria-describedby="org-privacy-info">
+                          <i class="fas fa-question-circle privacy-icon"></i>
+                        </span>
+                        <span class="privacy-tooltip-content" id="org-privacy-info" role="tooltip">
+                          <span class="tooltip-header">Your Workspace Identity</span>
+                          <span class="tooltip-body">Used to set up your dedicated ERP instance and branding. This name will appear on your internal documents, invoices, and the login portal header.</span>
+                        </span>
+                      </span>
+                    </label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-building"></i></span>
+                      <input type="text" class="form-control"
+                        [ngClass]="{'is-invalid': isFieldInvalid('organizationName'), 'is-valid': registerForm.get('organizationName')?.valid && registerForm.get('organizationName')?.touched}"
+                        placeholder="e.g., St. Mary's School" formControlName="organizationName"
+                        (blur)="markFieldTouched('organizationName')">
+                    </div>
+                    <div class="error-message" *ngIf="isFieldInvalid('organizationName')">
+                      <i class="fas fa-exclamation-circle"></i>
+                      {{ getFieldError('organizationName') }}
+                    </div>
                   </div>
-                </div>
-              </label>
-              <div class="input-wrapper">
-                <input type="text" id="firstName" class="form-control"
-                  [ngClass]="{'is-invalid': isFieldInvalid('firstName'), 'is-valid': registerForm.get('firstName')?.valid && registerForm.get('firstName')?.touched}"
-                  placeholder="John" formControlName="firstName" (blur)="markFieldTouched('firstName')">
-                <i class="input-icon fas fa-user"></i>
-                <i class="validation-icon fas fa-check-circle"
-                  *ngIf="registerForm.get('firstName')?.valid && registerForm.get('firstName')?.touched"></i>
-              </div>
-              <div class="error-message" *ngIf="isFieldInvalid('firstName')">
-                <i class="fas fa-exclamation-circle"></i>
-                {{ getFieldError('firstName') }}
-              </div>
-            </div>
 
-            <div class="form-group">
-              <label for="lastName">
-                Last Name <span class="required">*</span>
-                <div class="privacy-tooltip-container">
-                  <span class="tooltip-trigger" tabindex="0" aria-label="Privacy Information"
-                    aria-describedby="lastname-privacy-info">
-                    <i class="fas fa-question-circle"></i>
-                  </span>
-                  <div class="privacy-tooltip-content" id="lastname-privacy-info" role="tooltip">
-                    <div class="tooltip-header">How we use your name</div>
-                    <div class="tooltip-body">This will be used to personalize your dashboard and email communications.
-                      It is not shared publicly unless you choose to post in the community forums.</div>
+                  <!-- First Name & Last Name -->
+                  <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                      <label class="form-label fw-medium">
+                        First Name <span class="required">*</span>
+                        <span class="privacy-tooltip-container">
+                          <span class="tooltip-trigger" tabindex="0" aria-label="Privacy Information"
+                            aria-describedby="firstname-privacy-info">
+                            <i class="fas fa-question-circle privacy-icon"></i>
+                          </span>
+                          <span class="privacy-tooltip-content" id="firstname-privacy-info" role="tooltip">
+                            <span class="tooltip-header">How we use your name</span>
+                            <span class="tooltip-body">This will be used to personalize your dashboard and email communications. It is not shared publicly unless you choose to post in the community forums.</span>
+                          </span>
+                        </span>
+                      </label>
+                      <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control"
+                          [ngClass]="{'is-invalid': isFieldInvalid('firstName'), 'is-valid': registerForm.get('firstName')?.valid && registerForm.get('firstName')?.touched}"
+                          placeholder="John" formControlName="firstName" (blur)="markFieldTouched('firstName')">
+                      </div>
+                      <div class="error-message" *ngIf="isFieldInvalid('firstName')">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ getFieldError('firstName') }}
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-medium">
+                        Last Name <span class="required">*</span>
+                        <span class="privacy-tooltip-container">
+                          <span class="tooltip-trigger" tabindex="0" aria-label="Privacy Information"
+                            aria-describedby="lastname-privacy-info">
+                            <i class="fas fa-question-circle privacy-icon"></i>
+                          </span>
+                          <span class="privacy-tooltip-content" id="lastname-privacy-info" role="tooltip">
+                            <span class="tooltip-header">How we use your name</span>
+                            <span class="tooltip-body">This will be used to personalize your dashboard and email communications. It is not shared publicly unless you choose to post in the community forums.</span>
+                          </span>
+                        </span>
+                      </label>
+                      <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control"
+                          [ngClass]="{'is-invalid': isFieldInvalid('lastName'), 'is-valid': registerForm.get('lastName')?.valid && registerForm.get('lastName')?.touched}"
+                          placeholder="Doe" formControlName="lastName" (blur)="markFieldTouched('lastName')">
+                      </div>
+                      <div class="error-message" *ngIf="isFieldInvalid('lastName')">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ getFieldError('lastName') }}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </label>
-              <div class="input-wrapper">
-                <input type="text" id="lastName" class="form-control"
-                  [ngClass]="{'is-invalid': isFieldInvalid('lastName'), 'is-valid': registerForm.get('lastName')?.valid && registerForm.get('lastName')?.touched}"
-                  placeholder="Doe" formControlName="lastName" (blur)="markFieldTouched('lastName')">
-                <i class="input-icon fas fa-user"></i>
-                <i class="validation-icon fas fa-check-circle"
-                  *ngIf="registerForm.get('lastName')?.valid && registerForm.get('lastName')?.touched"></i>
+
+                  <!-- Email & Phone -->
+                  <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                      <label class="form-label fw-medium">
+                        Email Address <span class="required">*</span>
+                        <span class="privacy-tooltip-container">
+                          <span class="tooltip-trigger" tabindex="0" aria-label="Privacy Information"
+                            aria-describedby="email-privacy-info">
+                            <i class="fas fa-question-circle privacy-icon"></i>
+                          </span>
+                          <span class="privacy-tooltip-content" id="email-privacy-info" role="tooltip">
+                            <span class="tooltip-header">Why we need your email</span>
+                            <span class="tooltip-body">Used exclusively for secure login, domain verification, and critical account alerts. We operate a zero-spam policy and will never share your address with third parties.</span>
+                          </span>
+                        </span>
+                      </label>
+                      <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control"
+                          [ngClass]="{'is-invalid': isFieldInvalid('email'), 'is-valid': registerForm.get('email')?.valid && registerForm.get('email')?.touched}"
+                          placeholder="name@school.edu" formControlName="email" (blur)="markFieldTouched('email')"
+                          autocomplete="email">
+                      </div>
+                      <div class="error-message" *ngIf="isFieldInvalid('email')">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ getFieldError('email') }}
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-medium">
+                        Phone Number <span class="required">*</span>
+                        <span class="privacy-tooltip-container">
+                          <span class="tooltip-trigger" tabindex="0" aria-label="Privacy Information"
+                            aria-describedby="phone-privacy-info">
+                            <i class="fas fa-question-circle privacy-icon"></i>
+                          </span>
+                          <span class="privacy-tooltip-content" id="phone-privacy-info" role="tooltip">
+                            <span class="tooltip-header">How we use your number</span>
+                            <span class="tooltip-body">Collected for Two-Factor Authentication (MFA) and urgent security notifications. We do not use this for marketing calls or share it with external databases.</span>
+                          </span>
+                        </span>
+                      </label>
+                      <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        <input type="tel" class="form-control"
+                          [ngClass]="{'is-invalid': isFieldInvalid('phone'), 'is-valid': registerForm.get('phone')?.valid && registerForm.get('phone')?.touched}"
+                          placeholder="+1..." formControlName="phone" (blur)="markFieldTouched('phone')">
+                      </div>
+                      <div class="error-message" *ngIf="isFieldInvalid('phone')">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ getFieldError('phone') }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Password -->
+                  <div class="mb-3">
+                    <label class="form-label fw-medium"><i class="fas fa-lock me-1 text-muted"></i> Password <span class="required">*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-key"></i></span>
+                      <input [type]="showPassword ? 'text' : 'password'" class="form-control"
+                        [ngClass]="{'is-invalid': isFieldInvalid('password'), 'is-valid': registerForm.get('password')?.valid && registerForm.get('password')?.touched}"
+                        placeholder="Minimum 8 characters" formControlName="password"
+                        (blur)="markFieldTouched('password')" autocomplete="new-password">
+                      <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility('password')">
+                        <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                      </button>
+                    </div>
+
+                    <!-- Password Strength Meter -->
+                    <div class="password-strength mt-2" *ngIf="registerForm.get('password')?.value">
+                      <div class="strength-meter">
+                        <div class="strength-meter-fill" [ngClass]="{
+                          'strength-weak': passwordStrength < 40,
+                          'strength-medium': passwordStrength >= 40 && passwordStrength < 70,
+                          'strength-strong': passwordStrength >= 70
+                        }" [style.width.%]="passwordStrength"></div>
+                      </div>
+                      <span class="strength-label" [ngClass]="{
+                        'text-danger': passwordStrength < 40,
+                        'text-warning': passwordStrength >= 40 && passwordStrength < 70,
+                        'text-success': passwordStrength >= 70
+                      }">
+                        {{ passwordStrengthLabel }}
+                      </span>
+                    </div>
+
+                    <!-- Password Requirements Accordion -->
+                    <div class="password-requirements-accordion mt-2">
+                      <div class="accordion-header" (click)="passwordRequirementsOpen = !passwordRequirementsOpen">
+                        <span class="accordion-title">
+                          <i class="fas fa-shield-alt me-2"></i>Password Requirements
+                          <span class="badge ms-2" [ngClass]="{
+                            'bg-danger': passwordStrength < 40,
+                            'bg-warning': passwordStrength >= 40 && passwordStrength < 70,
+                            'bg-success': passwordStrength >= 70
+                          }">
+                            {{ (hasMinLength() ? 1 : 0) + (hasUpperCase() ? 1 : 0) + (hasLowerCase() ? 1 : 0) + (hasNumber() ? 1 : 0) + (hasSpecialChar() ? 1 : 0) }}/5
+                          </span>
+                        </span>
+                        <i class="fas" [ngClass]="passwordRequirementsOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                      </div>
+                      <div class="accordion-content" [class.open]="passwordRequirementsOpen">
+                        <ul class="requirements-list">
+                          <li [class.met]="hasMinLength()">
+                            <i [class]="hasMinLength() ? 'fas fa-check-circle text-success' : 'fas fa-times-circle text-muted'"></i>
+                            At least 8 characters
+                          </li>
+                          <li [class.met]="hasUpperCase()">
+                            <i [class]="hasUpperCase() ? 'fas fa-check-circle text-success' : 'fas fa-times-circle text-muted'"></i>
+                            One uppercase letter
+                          </li>
+                          <li [class.met]="hasLowerCase()">
+                            <i [class]="hasLowerCase() ? 'fas fa-check-circle text-success' : 'fas fa-times-circle text-muted'"></i>
+                            One lowercase letter
+                          </li>
+                          <li [class.met]="hasNumber()">
+                            <i [class]="hasNumber() ? 'fas fa-check-circle text-success' : 'fas fa-times-circle text-muted'"></i>
+                            One number
+                          </li>
+                          <li [class.met]="hasSpecialChar()">
+                            <i [class]="hasSpecialChar() ? 'fas fa-check-circle text-success' : 'fas fa-times-circle text-muted'"></i>
+                            One special character
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="error-message" *ngIf="isFieldInvalid('password')">
+                      <i class="fas fa-exclamation-circle"></i>
+                      {{ getFieldError('password') }}
+                    </div>
+                  </div>
+
+                  <!-- Confirm Password -->
+                  <div class="mb-3">
+                    <label class="form-label fw-medium"><i class="fas fa-lock me-1 text-muted"></i> Confirm Password <span class="required">*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-key"></i></span>
+                      <input [type]="showConfirmPassword ? 'text' : 'password'" class="form-control"
+                        [ngClass]="{
+                          'is-invalid': (isFieldInvalid('confirmPassword') || getPasswordMismatchError()) && fieldTouched.confirmPassword,
+                          'is-valid': registerForm.get('confirmPassword')?.valid && !registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched
+                        }"
+                        placeholder="Re-enter your password" formControlName="confirmPassword"
+                        (blur)="markFieldTouched('confirmPassword')" autocomplete="new-password">
+                      <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility('confirmPassword')">
+                        <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                      </button>
+                    </div>
+                    <div class="error-message" *ngIf="isFieldInvalid('confirmPassword')">
+                      <i class="fas fa-exclamation-circle"></i>
+                      {{ getFieldError('confirmPassword') }}
+                    </div>
+                    <div class="error-message" *ngIf="getPasswordMismatchError() && fieldTouched.confirmPassword">
+                      <i class="fas fa-exclamation-circle"></i>
+                      {{ getPasswordMismatchError() }}
+                    </div>
+                  </div>
+
+                  <!-- Alert Messages -->
+                  <div *ngIf="errorMessage" class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i> {{ errorMessage }}
+                  </div>
+
+                  <div *ngIf="successMessage" class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> {{ successMessage }}
+                  </div>
+
+                  <!-- Submit Button -->
+                  <button type="submit" class="btn btn-primary w-100 py-2 fw-bold mb-3 shadow-sm"
+                    [disabled]="loading || registerForm.invalid">
+                    <i class="fas fa-spinner fa-spin me-2" *ngIf="loading"></i>
+                    <i class="fas fa-rocket me-2" *ngIf="!loading"></i>
+                    {{ loading ? 'Creating Account...' : 'Get Started Now' }}
+                  </button>
+
+                  <!-- Footer Links -->
+                  <div class="text-center small">
+                    <span class="text-muted">Already have an account?</span>
+                    <a routerLink="/login" class="text-primary fw-bold text-decoration-none ms-1">Sign In</a>
+                    <p class="mt-2 mb-0 text-muted" style="font-size: 0.7rem;">
+                      By signing up, you agree to our <a href="#" class="terms-link">Terms</a> and <a href="#" class="terms-link">Privacy Policy</a>.
+                    </p>
+                  </div>
+                </form>
               </div>
-              <div class="error-message" *ngIf="isFieldInvalid('lastName')">
-                <i class="fas fa-exclamation-circle"></i>
-                {{ getFieldError('lastName') }}
-              </div>
             </div>
+
           </div>
-
-          <div class="form-group">
-            <label for="email">
-              Email Address <span class="required">*</span>
-              <div class="privacy-tooltip-container">
-                <span class="tooltip-trigger" tabindex="0" aria-label="Privacy Information"
-                  aria-describedby="email-privacy-info">
-                  <i class="fas fa-question-circle"></i>
-                </span>
-                <div class="privacy-tooltip-content" id="email-privacy-info" role="tooltip">
-                  <div class="tooltip-header">Why we need your email</div>
-                  <div class="tooltip-body">Used exclusively for secure login, domain verification, and critical account
-                    alerts. We operate a zero-spam policy and will never share your address with third parties.</div>
-                </div>
-              </div>
-            </label>
-            <div class="input-wrapper">
-              <input type="email" id="email" class="form-control"
-                [ngClass]="{'is-invalid': isFieldInvalid('email'), 'is-valid': registerForm.get('email')?.valid && registerForm.get('email')?.touched}"
-                placeholder="john.doe@example.com" formControlName="email" (blur)="markFieldTouched('email')"
-                autocomplete="email">
-              <i class="input-icon fas fa-envelope"></i>
-              <i class="validation-icon fas fa-check-circle"
-                *ngIf="registerForm.get('email')?.valid && registerForm.get('email')?.touched"></i>
-            </div>
-            <div class="error-message" *ngIf="isFieldInvalid('email')">
-              <i class="fas fa-exclamation-circle"></i>
-              {{ getFieldError('email') }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="phone">
-              Phone Number <span class="required">*</span>
-              <div class="privacy-tooltip-container">
-                <span class="tooltip-trigger" tabindex="0" aria-label="Privacy Information"
-                  aria-describedby="phone-privacy-info">
-                  <i class="fas fa-question-circle"></i>
-                </span>
-                <div class="privacy-tooltip-content" id="phone-privacy-info" role="tooltip">
-                  <div class="tooltip-header">How we use your number</div>
-                  <div class="tooltip-body">Collected for Two-Factor Authentication (MFA) and urgent security
-                    notifications. We do not use this for marketing calls or share it with external databases.</div>
-                </div>
-              </div>
-            </label>
-            <div class="input-wrapper">
-              <input type="tel" id="phone" class="form-control"
-                [ngClass]="{'is-invalid': isFieldInvalid('phone'), 'is-valid': registerForm.get('phone')?.valid && registerForm.get('phone')?.touched}"
-                placeholder="1234567890" formControlName="phone" (blur)="markFieldTouched('phone')">
-              <i class="input-icon fas fa-phone"></i>
-              <i class="validation-icon fas fa-check-circle"
-                *ngIf="registerForm.get('phone')?.valid && registerForm.get('phone')?.touched"></i>
-            </div>
-            <div class="error-message" *ngIf="isFieldInvalid('phone')">
-              <i class="fas fa-exclamation-circle"></i>
-              {{ getFieldError('phone') }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="password">
-              Password <span class="required">*</span>
-            </label>
-            <div class="input-wrapper">
-              <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control"
-                [ngClass]="{'is-invalid': isFieldInvalid('password'), 'is-valid': registerForm.get('password')?.valid && registerForm.get('password')?.touched}"
-                placeholder="Enter a strong password" formControlName="password" (blur)="markFieldTouched('password')"
-                autocomplete="new-password">
-              <i class="input-icon fas fa-lock"></i>
-              <button type="button" class="password-toggle" (click)="togglePasswordVisibility('password')"
-                tabindex="-1">
-                <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-              </button>
-            </div>
-
-            <!-- Password Strength Meter -->
-            <div class="password-strength" *ngIf="registerForm.get('password')?.value">
-              <div class="strength-meter">
-                <div class="strength-meter-fill" [ngClass]="{
-                  'strength-weak': passwordStrength < 40,
-                  'strength-medium': passwordStrength >= 40 && passwordStrength < 70,
-                  'strength-strong': passwordStrength >= 70
-                }" [style.width.%]="passwordStrength"></div>
-              </div>
-              <span class="strength-label" [ngClass]="{
-              'text-danger': passwordStrength < 40,
-              'text-warning': passwordStrength >= 40 && passwordStrength < 70,
-              'text-success': passwordStrength >= 70
-            }">
-                {{ passwordStrengthLabel }}
-              </span>
-            </div>
-
-            <div class="password-requirements">
-              <p class="requirements-title">Password must contain:</p>
-              <ul>
-                <li [class.met]="hasMinLength()">
-                  <i [class]="hasMinLength() ? 'fas fa-check-circle' : 'fas fa-circle'"></i>
-                  At least 8 characters
-                </li>
-                <li [class.met]="hasUpperCase()">
-                  <i [class]="hasUpperCase() ? 'fas fa-check-circle' : 'fas fa-circle'"></i>
-                  One uppercase letter
-                </li>
-                <li [class.met]="hasLowerCase()">
-                  <i [class]="hasLowerCase() ? 'fas fa-check-circle' : 'fas fa-circle'"></i>
-                  One lowercase letter
-                </li>
-                <li [class.met]="hasNumber()">
-                  <i [class]="hasNumber() ? 'fas fa-check-circle' : 'fas fa-circle'"></i>
-                  One number
-                </li>
-                <li [class.met]="hasSpecialChar()">
-                  <i [class]="hasSpecialChar() ? 'fas fa-check-circle' : 'fas fa-circle'"></i>
-                  One special character
-                </li>
-              </ul>
-            </div>
-
-            <div class="error-message" *ngIf="isFieldInvalid('password')">
-              <i class="fas fa-exclamation-circle"></i>
-              {{ getFieldError('password') }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="confirmPassword">
-              Confirm Password <span class="required">*</span>
-            </label>
-            <div class="input-wrapper">
-              <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" class="form-control"
-                [ngClass]="{
-                'is-invalid': (isFieldInvalid('confirmPassword') || getPasswordMismatchError()) && fieldTouched.confirmPassword,
-                'is-valid': registerForm.get('confirmPassword')?.valid && !registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched
-              }" placeholder="Re-enter your password" formControlName="confirmPassword"
-                (blur)="markFieldTouched('confirmPassword')" autocomplete="new-password">
-              <i class="input-icon fas fa-lock"></i>
-              <button type="button" class="password-toggle" (click)="togglePasswordVisibility('confirmPassword')"
-                tabindex="-1">
-                <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-              </button>
-              <i class="validation-icon fas fa-check-circle"
-                *ngIf="registerForm.get('confirmPassword')?.valid && !registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched"></i>
-            </div>
-            <div class="error-message" *ngIf="isFieldInvalid('confirmPassword')">
-              <i class="fas fa-exclamation-circle"></i>
-              {{ getFieldError('confirmPassword') }}
-            </div>
-            <div class="error-message" *ngIf="getPasswordMismatchError() && fieldTouched.confirmPassword">
-              <i class="fas fa-exclamation-circle"></i>
-              {{ getPasswordMismatchError() }}
-            </div>
-          </div>
-
-          <div *ngIf="errorMessage" class="alert alert-danger">
-            <i class="fas fa-exclamation-triangle"></i> {{ errorMessage }}
-          </div>
-
-          <div *ngIf="successMessage" class="alert alert-success">
-            <i class="fas fa-check-circle"></i> {{ successMessage }}
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || registerForm.invalid">
-            <i class="fas fa-spinner fa-spin" *ngIf="loading"></i>
-            <i class="fas fa-user-plus" *ngIf="!loading"></i>
-            {{ loading ? 'Creating Account...' : 'Create Account' }}
-          </button>
-        </form>
-
-        <div class="register-footer">
-          <p>Already have an account? <a routerLink="/login" class="login-link">Sign in here</a></p>
         </div>
-
-        <div class="terms">
-          <p>By signing up, you agree to our <a href="#" class="terms-link">Terms of Service</a> and <a href="#"
-              class="terms-link">Privacy Policy</a></p>
-        </div>
-      </div> <!-- End of !registrationComplete -->
-    </div>
-
-    <div class="register-image">
-      <div class="image-content">
-        <i class="fas fa-rocket fa-5x"></i>
-        <h2>Get Started</h2>
-        <p>Start your free trial today. No credit card required.</p>
       </div>
     </div>
   </div>

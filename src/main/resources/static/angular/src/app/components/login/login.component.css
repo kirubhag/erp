@@ -1,11 +1,11 @@
 /* Login Wrapper */
 .login-wrapper {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f4f7f6;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 /* Login Container */
@@ -23,7 +23,7 @@
 
 /* Login Card */
 .login-card {
-  padding: 3rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,24 +32,24 @@
 /* Login Header */
 .login-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .login-logo {
-  font-size: 3rem;
-  color: #2196F3;
-  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  color: #4e54c8;
+  margin-bottom: 0.75rem;
 }
 
 .login-header h1 {
-  font-size: 2rem;
+  font-size: 1.75rem;
   color: #333;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .login-header p {
   color: #666;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 /* Form */
@@ -80,8 +80,8 @@
 
 .form-control:focus {
   outline: none;
-  border-color: #2196F3;
-  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+  border-color: #4e54c8;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.1);
 }
 
 .form-control::placeholder {
@@ -127,14 +127,14 @@
 }
 
 .btn-primary {
-  background-color: #2196F3;
+  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #1976D2;
+  background: linear-gradient(135deg, #3d43a8 0%, #7a80e8 100%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+  box-shadow: 0 4px 12px rgba(78, 84, 200, 0.3);
 }
 
 .btn-primary:disabled {
@@ -161,21 +161,21 @@
 }
 
 .login-footer a {
-  color: #2196F3;
+  color: #4e54c8;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s;
 }
 
 .login-footer a:hover {
-  color: #1976D2;
+  color: #3d43a8;
   text-decoration: underline;
 }
 
 /* Demo Credentials */
 .demo-credentials {
-  background-color: #f0f7ff;
-  border-left: 4px solid #2196F3;
+  background-color: #f0f4ff;
+  border-left: 4px solid #4e54c8;
   padding: 1rem;
   margin-top: 1.5rem;
   border-radius: 4px;
@@ -190,12 +190,12 @@
 .demo-credentials strong {
   display: block;
   margin-bottom: 0.5rem;
-  color: #2196F3;
+  color: #4e54c8;
 }
 
 /* Login Image */
 .login-image {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   display: flex;
   align-items: center;
   justify-content: center;

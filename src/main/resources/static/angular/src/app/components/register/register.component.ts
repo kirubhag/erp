@@ -22,6 +22,7 @@ export class RegisterComponent implements OnInit {
   passwordStrengthLabel = '';
   registrationComplete = false;
   registeredEmail = '';
+  passwordRequirementsOpen = false;
 
   // Field touched states for better UX
   fieldTouched = {
