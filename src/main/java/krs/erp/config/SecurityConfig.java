@@ -49,7 +49,8 @@ public class SecurityConfig {
                                 .csrf(csrf -> csrf
                                                 .ignoringRequestMatchers("/api/auth/**",
                                                                 "/webjars/**", "/actuator/**",
-                                                                "/api/import/**", "/api/export/**", "/api/attachments/**",
+                                                                "/api/import/**", "/api/export/**",
+                                                                "/api/attachments/**",
                                                                 "/api/subscriptions/**",
                                                                 "/api/sections/**", "/api/promotions/**",
                                                                 "/api/organizations/**", "/api/account/**",
@@ -62,7 +63,8 @@ public class SecurityConfig {
                                                                 "/api/staff/**",
                                                                 "/api/parents/**",
                                                                 "/api/students/**",
-                                                                "/api/fields/**"))
+                                                                "/api/fields/**",
+                                                                "/api/activity-logs/**"))
                                 .headers(headers -> headers
                                                 .contentSecurityPolicy(csp -> csp
                                                                 .policyDirectives(
@@ -98,28 +100,72 @@ public class SecurityConfig {
                                                                                                 // debugging
                                                 .requestMatchers("/api/migration/**").permitAll() // Allow migration
                                                                                                   // endpoint
-                                                .requestMatchers("/api/students/**").permitAll() // Allow students endpoints for dev/testing
-                                                .requestMatchers("/api/staff/**").permitAll() // Allow staff endpoints for dev/testing
-                                                .requestMatchers("/api/parents/**").permitAll() // Allow parent endpoints for dev/testing
-                                                .requestMatchers("/api/subjects/**").permitAll() // Allow subject endpoints for dev/testing
-                                                .requestMatchers("/api/fields/**").permitAll() // Allow entity fields metadata endpoints for dev/testing
-                                                .requestMatchers("/api/module/**").permitAll() // Allow module/tab groups endpoints for dev/testing
-                                                .requestMatchers("/api/library/**").permitAll() // Allow library management endpoints for dev/testing
-                                                .requestMatchers("/api/leave/**").permitAll() // Allow leave management endpoints for dev/testing
-                                                .requestMatchers("/api/hr/**").permitAll() // Allow HR management endpoints for dev/testing
-                                                .requestMatchers("/api/inventory/**").permitAll() // Allow inventory management endpoints for dev/testing
-                                                .requestMatchers("/api/finance/**").permitAll() // Allow finance management endpoints for dev/testing
-                                                .requestMatchers("/api/iam/**").permitAll() // Allow IAM user management endpoints for dev/testing
-                                                .requestMatchers("/api/lms/**").permitAll() // Allow LMS (Learning Management System) endpoints for dev/testing
-                                                .requestMatchers("/api/tpd/**").permitAll() // Allow TPD (Training & Professional Development) endpoints for dev/testing
-                                                .requestMatchers("/api/custom-views/**").permitAll() // Allow custom views endpoints for dev/testing
-                                                .requestMatchers("/api/user-settings/**").permitAll() // Allow user settings endpoints for dev/testing
-                                                .requestMatchers("/api/v1/sample-data/**").authenticated() // Sample data requires auth to populate owner_id
-                                                .requestMatchers("/api/sample-data/**").authenticated() // Sample data requires auth to populate owner_id
-                                                .requestMatchers("/api/v1/**").permitAll() // Allow other v1 API endpoints
-                                                .requestMatchers("/api/organizations/**").authenticated() // Organizations
-                                                                                                          // require
-                                                                                                          // authentication
+                                                .requestMatchers("/api/students/**").permitAll() // Allow students
+                                                                                                 // endpoints for
+                                                                                                 // dev/testing
+                                                .requestMatchers("/api/staff/**").permitAll() // Allow staff endpoints
+                                                                                              // for dev/testing
+                                                .requestMatchers("/api/parents/**").permitAll() // Allow parent
+                                                                                                // endpoints for
+                                                                                                // dev/testing
+                                                .requestMatchers("/api/subjects/**").permitAll() // Allow subject
+                                                                                                 // endpoints for
+                                                                                                 // dev/testing
+                                                .requestMatchers("/api/fields/**").permitAll() // Allow entity fields
+                                                                                               // metadata endpoints for
+                                                                                               // dev/testing
+                                                .requestMatchers("/api/module/**").permitAll() // Allow module/tab
+                                                                                               // groups endpoints for
+                                                                                               // dev/testing
+                                                .requestMatchers("/api/library/**").permitAll() // Allow library
+                                                                                                // management endpoints
+                                                                                                // for dev/testing
+                                                .requestMatchers("/api/leave/**").permitAll() // Allow leave management
+                                                                                              // endpoints for
+                                                                                              // dev/testing
+                                                .requestMatchers("/api/hr/**").permitAll() // Allow HR management
+                                                                                           // endpoints for dev/testing
+                                                .requestMatchers("/api/inventory/**").permitAll() // Allow inventory
+                                                                                                  // management
+                                                                                                  // endpoints for
+                                                                                                  // dev/testing
+                                                .requestMatchers("/api/finance/**").permitAll() // Allow finance
+                                                                                                // management endpoints
+                                                                                                // for dev/testing
+                                                .requestMatchers("/api/iam/**").permitAll() // Allow IAM user management
+                                                                                            // endpoints for dev/testing
+                                                .requestMatchers("/api/lms/**").permitAll() // Allow LMS (Learning
+                                                                                            // Management System)
+                                                                                            // endpoints for dev/testing
+                                                .requestMatchers("/api/tpd/**").permitAll() // Allow TPD (Training &
+                                                                                            // Professional Development)
+                                                                                            // endpoints for dev/testing
+                                                .requestMatchers("/api/custom-views/**").permitAll() // Allow custom
+                                                                                                     // views endpoints
+                                                                                                     // for dev/testing
+                                                .requestMatchers("/api/user-settings/**").permitAll() // Allow user
+                                                                                                      // settings
+                                                                                                      // endpoints for
+                                                                                                      // dev/testing
+                                                .requestMatchers("/api/activity-logs/**").permitAll() // Allow activity
+                                                                                                      // logs endpoints
+                                                                                                      // for dev/testing
+                                                .requestMatchers("/api/organizations/**").permitAll() // Allow
+                                                                                                      // organizations
+                                                                                                      // endpoints for
+                                                                                                      // dev/testing
+                                                .requestMatchers("/api/v1/sample-data/**").authenticated() // Sample
+                                                                                                           // data
+                                                                                                           // requires
+                                                                                                           // auth to
+                                                                                                           // populate
+                                                                                                           // owner_id
+                                                .requestMatchers("/api/sample-data/**").authenticated() // Sample data
+                                                                                                        // requires auth
+                                                                                                        // to populate
+                                                                                                        // owner_id
+                                                .requestMatchers("/api/v1/**").permitAll() // Allow other v1 API
+                                                                                           // endpoints
                                                 .requestMatchers("/api/**").authenticated() // Other API endpoints
                                                                                             // require authentication
                                                 .requestMatchers("/actuator/health", "/__healthcheck").permitAll()
@@ -134,11 +180,13 @@ public class SecurityConfig {
                                                 .anyRequest().authenticated())
                                 .exceptionHandling(exception -> exception
                                                 .authenticationEntryPoint((request, response, authException) -> {
-                                                        // For API requests, return 401 JSON instead of redirecting to login
+                                                        // For API requests, return 401 JSON instead of redirecting to
+                                                        // login
                                                         if (request.getRequestURI().startsWith("/api/")) {
                                                                 response.setStatus(401);
                                                                 response.setContentType("application/json");
-                                                                response.getWriter().write("{\"error\":\"Unauthorized\",\"message\":\"Authentication required\"}");
+                                                                response.getWriter().write(
+                                                                                "{\"error\":\"Unauthorized\",\"message\":\"Authentication required\"}");
                                                         } else {
                                                                 response.sendRedirect("/login");
                                                         }
