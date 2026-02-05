@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS erp_auto_numbers (
     is_active INT DEFAULT 1,
     UNIQUE KEY uk_erp_field (erp_field_id),
     INDEX idx_is_active (is_active),
-    CONSTRAINT fk_auto_number_field FOREIGN KEY (erp_field_id) REFERENCES erp_fields(erp_field_id) ON DELETE CASCADE
+    CONSTRAINT fk_auto_number_field FOREIGN KEY (erp_field_id) REFERENCES erp_fields (erp_field_id) ON DELETE CASCADE
 );
 
 -- Table from SQL file: academic_settings
@@ -396,6 +396,45 @@ CREATE TABLE IF NOT EXISTS erp_announcements (
     owner_id BIGINT,
     is_active INT DEFAULT 1
 );
+
+-- Table for Activity Logs (Immutable Audit Trail)
+-- Captures all entity CRUD operations, system configurations, and sensitive data exports
+-- Uses JSON columns for flexible delta tracking and metadata storage
+-- Immutable: No update or delete operations allowed
+CREATE TABLE IF NOT EXISTS erp_activity_logs (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+-- Actor Information
+user_id BIGINT,
+username VARCHAR(255),
+ip_address VARCHAR(45),
+user_agent TEXT,
+
+-- Action Details
+action_type VARCHAR(50) NOT NULL, severity VARCHAR(20) NOT NULL,
+
+-- Target Information
+entity_type VARCHAR(100),
+entity_id BIGINT,
+module_name VARCHAR(100),
+
+-- Change Details (JSON)
+old_value JSON, new_value JSON, delta_summary TEXT,
+
+-- Additional Context
+description TEXT, metadata JSON,
+
+-- Timestamp
+timestamp TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+
+-- Indexes for performance
+INDEX idx_user_id (user_id),
+    INDEX idx_timestamp (timestamp),
+    INDEX idx_action_type (action_type),
+    INDEX idx_entity_type (entity_type),
+    INDEX idx_severity (severity),
+    INDEX idx_composite (user_id, timestamp, action_type)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Table from SQL file: erp_attachments
 CREATE TABLE IF NOT EXISTS erp_attachments (
@@ -3310,7 +3349,8 @@ CREATE TABLE IF NOT EXISTS erp_utility_calendar_days (
     modified_time DATETIME,
     owner_id BIGINT,
     is_active INT DEFAULT 1
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;-- Table: erp_library_param_fine_rules
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+-- Table: erp_library_param_fine_rules
 -- Rules for calculating overdue fines
 CREATE TABLE IF NOT EXISTS erp_library_param_fine_rules (
     fine_rule_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,

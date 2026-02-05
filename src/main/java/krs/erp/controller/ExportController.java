@@ -25,6 +25,9 @@ public class ExportController {
     @Autowired
     private ErpEntityRepository erpEntityRepository;
 
+    @Autowired
+    private krs.erp.service.ActivityLogService activityLogService;
+
     @PostMapping
     public ResponseEntity<ByteArrayResource> exportData(@RequestBody ExportRequest request) {
         try {
@@ -32,7 +35,7 @@ public class ExportController {
             ByteArrayResource resource = new ByteArrayResource(data);
 
             String format = request.getFormat() != null ? request.getFormat().toLowerCase() : "csv";
-            
+
             // Get entity name for filename
             String entityName = "export";
             if (request.getEntityId() != null) {
@@ -42,7 +45,11 @@ public class ExportController {
                 }
             }
             String filename = entityName + "_data." + format;
-            
+
+            // Log the export operation
+            int recordCount = request.getFieldIds() != null ? request.getFieldIds().size() : 0;
+            activityLogService.logExport(entityName, new java.util.HashMap<>(), recordCount);
+
             String contentType = "text/csv";
             if ("xlsx".equals(format)) {
                 contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";

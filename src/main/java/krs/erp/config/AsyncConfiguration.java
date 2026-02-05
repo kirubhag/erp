@@ -33,4 +33,23 @@ public class AsyncConfiguration {
         executor.initialize();
         return executor;
     }
+
+    /**
+     * Thread pool executor for activity logging
+     * Configured to handle audit trail logging without impacting user operations
+     * 
+     * @return Executor for async activity logging
+     */
+    @Bean(name = "activityLogTaskExecutor")
+    public Executor activityLogTaskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(5);
+        executor.setMaxPoolSize(10);
+        executor.setQueueCapacity(100);
+        executor.setThreadNamePrefix("activity-log-");
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+        executor.setAwaitTerminationSeconds(60);
+        executor.initialize();
+        return executor;
+    }
 }

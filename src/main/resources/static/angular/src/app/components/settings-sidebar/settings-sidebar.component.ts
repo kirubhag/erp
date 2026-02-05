@@ -138,6 +138,7 @@ export class SettingsSidebarComponent implements OnInit {
         items: [
           { label: 'Import', icon: 'fas fa-file-import', route: '/setup/import-history', active: false },
           { label: 'Export', icon: 'fas fa-file-export', route: '/setup/export', active: false },
+          { label: 'Activity Log', icon: 'fas fa-clipboard-list', route: '/activity-log', active: false },
           { label: 'Data Backup', icon: 'fas fa-database', route: '/setup/data-backup', active: false },
           { label: 'Storage', icon: 'fas fa-hdd', route: '/setup/storage', active: false },
           { label: 'Recycle Bin', icon: 'fas fa-trash-restore', route: '/setup/recycle-bin', active: false },

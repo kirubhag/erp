@@ -223,6 +223,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'activity-log',
+    loadComponent: () => import('./components/activity-log/activity-log.component').then(m => m.ActivityLogComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'setup/record-storage',
     loadComponent: () => import('./components/record-storage/record-storage.component').then(m => m.RecordStorageComponent),
     canActivate: [AuthGuard]
