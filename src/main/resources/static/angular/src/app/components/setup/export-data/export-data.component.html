@@ -1,0 +1,145 @@
+<div class="setup-layout">
+    <!-- Sidebar Navigation -->
+    <app-settings-sidebar></app-settings-sidebar>
+
+    <!-- Main Content -->
+    <div class="settings-content-container">
+        <!-- Header -->
+        <div class="content-header">
+            <div class="header-section">
+                <button class="back-btn" routerLink="/setup">←</button>
+                <h2>Export Data</h2>
+                <a href="#" class="help-link">
+                    <i class="bi bi-book"></i> Help
+                </a>
+            </div>
+        </div>
+
+        <!-- Content Body -->
+        <div class="content-body">
+            <p class="info-text">You can export a max of 200,000 records.</p>
+
+            <!-- Error Message -->
+            <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-circle me-2"></i>{{ errorMessage }}
+                <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
+            </div>
+
+            <div class="form-section">
+                <!-- Module Selection -->
+                <div class="form-row">
+                    <label>Module</label>
+                    <select class="form-select" [(ngModel)]="selectedModule" (change)="onModuleChange()">
+                        <option [ngValue]="null">Select Module</option>
+                        <option *ngFor="let module of modules" [ngValue]="module">
+                            {{ module.pluralName }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Fields Selection -->
+                <div class="form-row" *ngIf="selectedModule">
+                    <label>Fields</label>
+                    <select class="form-select" [(ngModel)]="fieldSelectionMode" (change)="onFieldSelectionModeChange()">
+                        <option value="all">All Fields</option>
+                        <option value="selected">Selected Fields</option>
+                    </select>
+                </div>
+
+                <!-- Selected Fields Section (only when 'selected' mode) -->
+                <div class="form-row" *ngIf="selectedModule && fieldSelectionMode === 'selected'">
+                    <label>Select Fields</label>
+                    <div class="field-tags">
+                        <span class="field-tag" *ngFor="let field of selectedFields">
+                            {{ field.fieldLabel }}
+                            <button type="button" class="btn-close btn-close-sm ms-2" (click)="removeField(field)"
+                                aria-label="Remove"></button>
+                        </span>
+                        <div style="width: 100%; margin-top: 0.5rem;">
+                            <input type="text" class="search-input" placeholder="Search fields to add"
+                                [(ngModel)]="searchTerm">
+                        </div>
+                        <!-- Field Selection Dropdown -->
+                        <div class="field-dropdown" *ngIf="filteredFields.length > 0">
+                            <div *ngFor="let field of filteredFields" class="field-option"
+                                [class.selected]="isFieldSelected(field)" (click)="toggleFieldSelection(field)">
+                                <input type="checkbox" [checked]="isFieldSelected(field)">
+                                {{ field.fieldLabel }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exclude Fields Checkbox -->
+                <div class="exclude-checkbox" *ngIf="selectedModule">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="excludeFields" [(ngModel)]="excludeFields" (change)="onExcludeFieldsChange()">
+                        <label class="form-check-label" for="excludeFields">
+                            Exclude Fields <i class="bi bi-info-circle"></i>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Exclude Fields Selection (when exclude is checked) -->
+                <div class="form-row" *ngIf="selectedModule && excludeFields && excludeFieldsSource.length > 0">
+                    <label>Exclude Fields</label>
+                    <div class="exclude-field-container">
+                        <!-- Excluded Fields Tags -->
+                        <div class="excluded-tags" *ngIf="excludedFields.length > 0">
+                            <span class="field-tag excluded" *ngFor="let field of excludedFields">
+                                {{ field.fieldLabel }}
+                                <button type="button" class="btn-close btn-close-sm ms-2" (click)="removeExcludedField(field)"
+                                    aria-label="Remove"></button>
+                            </span>
+                        </div>
+                        <!-- Multiselect Dropdown with Search -->
+                        <div class="multiselect-dropdown">
+                            <input type="text" class="search-input" placeholder="Search fields to exclude"
+                                [(ngModel)]="excludeSearchTerm" (focus)="showExcludeDropdown = true">
+                            <div class="field-dropdown exclude-dropdown" *ngIf="showExcludeDropdown && filteredExcludeFields.length > 0">
+                                <div *ngFor="let field of filteredExcludeFields" class="field-option"
+                                    [class.selected]="isFieldExcluded(field)" (click)="toggleExcludedField(field)">
+                                    <input type="checkbox" [checked]="isFieldExcluded(field)" (click)="$event.stopPropagation()">
+                                    {{ field.fieldLabel }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Type Selection -->
+                <div class="form-row">
+                    <label>Choose File Type</label>
+                    <div class="file-type-toggle">
+                        <button type="button" class="file-type-btn" [class.active]="fileFormat === 'csv'" (click)="fileFormat = 'csv'">
+                            <i class="bi bi-filetype-csv"></i> CSV
+                        </button>
+                        <button type="button" class="file-type-btn" [class.active]="fileFormat === 'xlsx'" (click)="fileFormat = 'xlsx'">
+                            <i class="bi bi-file-earmark-excel"></i> XLSX
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Charset Selection -->
+                <div class="form-row">
+                    <label>Charset</label>
+                    <select class="form-select" [(ngModel)]="charset">
+                        <option value="UTF-8">UTF-8 (Unicode)</option>
+                        <option value="ISO-8859-1">ISO-8859-1</option>
+                        <option value="Windows-1252">Windows-1252</option>
+                    </select>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn btn-export" (click)="exportData()" [disabled]="loading || !selectedModule">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"
+                            aria-hidden="true"></span>
+                        {{ loading ? 'Exporting...' : 'Export' }}
+                    </button>
+                    <button class="btn btn-cancel" (click)="cancel()" [disabled]="loading">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

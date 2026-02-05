@@ -118,6 +118,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'setup/export',
+    loadComponent: () => import('./components/setup/export-data/export-data.component').then(m => m.ExportDataComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'setup/login-history',
     redirectTo: 'setup/users',
     pathMatch: 'full'

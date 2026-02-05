@@ -49,7 +49,7 @@ public class SecurityConfig {
                                 .csrf(csrf -> csrf
                                                 .ignoringRequestMatchers("/api/auth/**",
                                                                 "/webjars/**", "/actuator/**",
-                                                                "/api/import/**", "/api/attachments/**",
+                                                                "/api/import/**", "/api/export/**", "/api/attachments/**",
                                                                 "/api/subscriptions/**",
                                                                 "/api/sections/**", "/api/promotions/**",
                                                                 "/api/organizations/**", "/api/account/**",
@@ -73,6 +73,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/auth/**").permitAll()
                                                 .requestMatchers("/api/import/**").permitAll() // Allow import endpoints
                                                                                                // for testing
+                                                .requestMatchers("/api/export/**").permitAll() // Allow export endpoints
                                                 .requestMatchers("/api/attachments/**").permitAll() // Allow attachment
                                                                                                     // endpoints (avatar
                                                                                                     // upload)

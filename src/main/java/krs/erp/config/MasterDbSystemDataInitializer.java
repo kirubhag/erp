@@ -73,9 +73,10 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
         loadSystemPermissions();
         loadSystemRoles();
         loadRolePermissions();
+        // Load entities FIRST - sections, fields, layouts, tab groups depend on erp_entity_id
+        loadErpEntities();
         loadErpSections();
         loadErpFields();
-        loadErpEntities();
         loadErpEntityRelations();
         loadCustomViews();
         loadErpTabGroups();
@@ -374,6 +375,18 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                 }
             }
 
+            // Fix existing records with null erp_entity_id
+            logger.info("Updating erp_sections records with missing erp_entity_id...");
+            int updated = masterJdbcTemplate.update(
+                    "UPDATE erp_sections s " +
+                            "JOIN erp_entities e ON (s.entity_type = e.singular_name OR s.entity_type = e.system_name) " +
+                            "SET s.erp_entity_id = e.erp_entity_id " +
+                            "WHERE s.erp_entity_id IS NULL"
+            );
+            if (updated > 0) {
+                logger.info("✓ Updated {} erp_sections records with erp_entity_id", updated);
+            }
+
             logger.info("✓ Loaded {} ERP sections into IAM_MasterDB", totalLoaded);
 
         } catch (Exception e) {
@@ -509,6 +522,18 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                                 fieldName, entityType, resource.getFilename(), e.getMessage());
                     }
                 }
+            }
+
+            // Fix existing records with null erp_entity_id
+            logger.info("Updating erp_fields records with missing erp_entity_id...");
+            int updated = masterJdbcTemplate.update(
+                    "UPDATE erp_fields f " +
+                            "JOIN erp_entities e ON (f.entity_type = e.singular_name OR f.entity_type = e.system_name) " +
+                            "SET f.erp_entity_id = e.erp_entity_id " +
+                            "WHERE f.erp_entity_id IS NULL"
+            );
+            if (updated > 0) {
+                logger.info("✓ Updated {} erp_fields records with erp_entity_id", updated);
             }
 
             logger.info("✓ Loaded {} ERP fields into IAM_MasterDB", totalLoaded);
@@ -1089,6 +1114,9 @@ public class MasterDbSystemDataInitializer implements CommandLineRunner {
                         LocalDateTime.now());
                 loaded++;
             }
+
+            // Fix existing records with null erp_entity_id (if any)
+            // Note: erp_layout doesn't have entity_type, so we skip this step for layouts
 
             // Ensure all entities have a default System layout
             generateDefaultLayoutsForAllEntities();

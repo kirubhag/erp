@@ -16,70 +16,80 @@ import krs.erp.model.ErpField;
 @Repository
 public interface ErpFieldRepository extends JpaRepository<ErpField, Long> {
 
-    /**
-     * Find all active fields for a specific entity type
-     */
-    @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.isActive = 1 ORDER BY ef.displayOrder ASC, ef.fieldLabel ASC")
-    List<ErpField> findByEntityTypeAndIsActiveTrue(@Param("entityType") EntityType entityType);
+        /**
+         * Find all active fields for a specific entity type
+         */
+        @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.isActive = 1 ORDER BY ef.displayOrder ASC, ef.fieldLabel ASC")
+        List<ErpField> findByEntityTypeAndIsActiveTrue(@Param("entityType") EntityType entityType);
 
-    /**
-     * Find all active fields for a specific entity type with pagination
-     */
-    @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.isActive = 1 ORDER BY ef.displayOrder ASC, ef.fieldLabel ASC")
-    Page<ErpField> findByEntityTypeAndIsActiveTrue(@Param("entityType") EntityType entityType, Pageable pageable);
+        /**
+         * Find all active fields for a specific entity type with pagination
+         */
+        @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.isActive = 1 ORDER BY ef.displayOrder ASC, ef.fieldLabel ASC")
+        Page<ErpField> findByEntityTypeAndIsActiveTrue(@Param("entityType") EntityType entityType, Pageable pageable);
 
-    /**
-     * Find fields by section using the section-field relation table
-     */
-    @Query("SELECT ef FROM ErpField ef " +
-           "JOIN ErpSectionFieldRel rel ON rel.erpField.id = ef.id " +
-           "WHERE rel.erpSection.id = :sectionId AND ef.isActive = 1 " +
-           "ORDER BY rel.fieldOrder, ef.rowPosition, ef.columnPosition")
-    List<ErpField> findBySectionIdAndIsActiveTrue(@Param("sectionId") Long sectionId);
+        /**
+         * Find fields by section using the section-field relation table
+         */
+        @Query("SELECT ef FROM ErpField ef " +
+                        "JOIN ErpSectionFieldRel rel ON rel.erpField.id = ef.id " +
+                        "WHERE rel.erpSection.id = :sectionId AND ef.isActive = 1 " +
+                        "ORDER BY rel.fieldOrder, ef.rowPosition, ef.columnPosition")
+        List<ErpField> findBySectionIdAndIsActiveTrue(@Param("sectionId") Long sectionId);
 
-    /**
-     * Find searchable fields for a specific entity type
-     */
-    @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.isSearchable = true AND ef.isActive = 1 ORDER BY ef.displayOrder ASC")
-    List<ErpField> findSearchableFieldsByEntityType(@Param("entityType") EntityType entityType);
+        /**
+         * Find searchable fields for a specific entity type
+         */
+        @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.isSearchable = true AND ef.isActive = 1 ORDER BY ef.displayOrder ASC")
+        List<ErpField> findSearchableFieldsByEntityType(@Param("entityType") EntityType entityType);
 
-    /**
-     * Find field by entity type and field name (returns Optional)
-     */
-    @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.fieldName = :fieldName AND ef.isActive = 1")
-    Optional<ErpField> findByEntityTypeAndFieldName(@Param("entityType") EntityType entityType,
-            @Param("fieldName") String fieldName);
+        /**
+         * Find field by entity type and field name (returns Optional)
+         */
+        @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.fieldName = :fieldName AND ef.isActive = 1")
+        Optional<ErpField> findByEntityTypeAndFieldName(@Param("entityType") EntityType entityType,
+                        @Param("fieldName") String fieldName);
 
-    /**
-     * Find sortable fields for a specific entity type
-     */
-    @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.isSortable = true AND ef.isActive = 1 ORDER BY ef.displayOrder ASC")
-    List<ErpField> findSortableFieldsByEntityType(@Param("entityType") EntityType entityType);
+        /**
+         * Find sortable fields for a specific entity type
+         */
+        @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.isSortable = true AND ef.isActive = 1 ORDER BY ef.displayOrder ASC")
+        List<ErpField> findSortableFieldsByEntityType(@Param("entityType") EntityType entityType);
 
-    /**
-     * Find field by entity type and field name
-     */
-    @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.fieldName = :fieldName AND ef.isActive = 1")
-    ErpField findByEntityTypeAndFieldNameAndIsActiveTrue(@Param("entityType") EntityType entityType,
-            @Param("fieldName") String fieldName);
+        /**
+         * Find field by entity type and field name
+         */
+        @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.fieldName = :fieldName AND ef.isActive = 1")
+        ErpField findByEntityTypeAndFieldNameAndIsActiveTrue(@Param("entityType") EntityType entityType,
+                        @Param("fieldName") String fieldName);
 
-    /**
-     * Check if a field exists for an entity
-     */
-    @Query("SELECT CASE WHEN COUNT(ef) > 0 THEN true ELSE false END FROM ErpField ef WHERE ef.entityType = :entityType AND ef.fieldName = :fieldName AND ef.isActive = 1")
-    boolean existsByEntityTypeAndFieldNameAndIsActiveTrue(@Param("entityType") EntityType entityType,
-            @Param("fieldName") String fieldName);
+        /**
+         * Check if a field exists for an entity
+         */
+        @Query("SELECT CASE WHEN COUNT(ef) > 0 THEN true ELSE false END FROM ErpField ef WHERE ef.entityType = :entityType AND ef.fieldName = :fieldName AND ef.isActive = 1")
+        boolean existsByEntityTypeAndFieldNameAndIsActiveTrue(@Param("entityType") EntityType entityType,
+                        @Param("fieldName") String fieldName);
 
-    /**
-     * Count active fields for an entity type
-     */
-    @Query("SELECT COUNT(ef) FROM ErpField ef WHERE ef.entityType = :entityType AND ef.isActive = 1")
-    Long countByEntityTypeAndIsActiveTrue(@Param("entityType") EntityType entityType);
+        /**
+         * Count active fields for an entity type
+         */
+        @Query("SELECT COUNT(ef) FROM ErpField ef WHERE ef.entityType = :entityType AND ef.isActive = 1")
+        Long countByEntityTypeAndIsActiveTrue(@Param("entityType") EntityType entityType);
 
-    /**
-     * Find fields by entity type and UI type
-     */
-    @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.uiType = :uiType AND ef.isActive = 1 ORDER BY ef.displayOrder ASC")
-    List<ErpField> findByEntityTypeAndUiTypeAndIsActiveTrue(@Param("entityType") EntityType entityType,
-            @Param("uiType") int uiType);
+        @Query("SELECT f FROM ErpField f WHERE f.erpEntity.id = :entityId AND f.isActive = 1 ORDER BY f.displayOrder")
+        List<ErpField> findByErpEntityId(@Param("entityId") Long entityId);
+
+        /**
+         * Find all fields by entity type and active status
+         */
+        @Query("SELECT f FROM ErpField f WHERE f.entityType = :entityType AND f.isActive = :isActive ORDER BY f.displayOrder")
+        List<ErpField> findByEntityTypeAndIsActive(@Param("entityType") EntityType entityType,
+                        @Param("isActive") Integer isActive);
+
+        /**
+         * Find fields by entity type and UI type
+         */
+        @Query("SELECT ef FROM ErpField ef WHERE ef.entityType = :entityType AND ef.uiType = :uiType AND ef.isActive = 1 ORDER BY ef.displayOrder ASC")
+        List<ErpField> findByEntityTypeAndUiTypeAndIsActiveTrue(@Param("entityType") EntityType entityType,
+                        @Param("uiType") int uiType);
 }
