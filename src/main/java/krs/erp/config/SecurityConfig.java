@@ -143,6 +143,21 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/custom-views/**").permitAll() // Allow custom
                                                                                                      // views endpoints
                                                                                                      // for dev/testing
+                                                .requestMatchers("/api/departments/**").permitAll() // Allow departments
+                                                .requestMatchers("/api/academic/**").permitAll() // Allow academic
+                                                .requestMatchers("/api/communication/**").permitAll() // Allow communication
+                                                .requestMatchers("/api/documents/**").permitAll() // Allow documents
+                                                .requestMatchers("/api/maintenance/**").permitAll() // Allow maintenance
+                                                .requestMatchers("/api/settings/**").permitAll() // Allow settings
+                                                .requestMatchers("/api/alumni/**").permitAll() // Allow alumni
+                                                .requestMatchers("/api/email-templates/**").permitAll() // Allow email templates
+                                                .requestMatchers("/api/entity-relations/**").permitAll() // Allow entity relations
+                                                .requestMatchers("/api/layouts/**").permitAll() // Allow layouts
+                                                .requestMatchers("/api/sections/**").permitAll() // Allow sections
+                                                .requestMatchers("/api/grades/**").permitAll() // Allow grades
+                                                .requestMatchers("/api/auto-numbers/**").permitAll() // Allow auto numbers
+                                                .requestMatchers("/api/default-views/**").permitAll() // Allow default views
+                                                .requestMatchers("/api/erp-entities/**").permitAll() // Allow ERP entities
                                                 .requestMatchers("/api/user-settings/**").permitAll() // Allow user
                                                                                                       // settings
                                                                                                       // endpoints for

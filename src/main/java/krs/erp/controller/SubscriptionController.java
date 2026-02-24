@@ -46,7 +46,7 @@ public class SubscriptionController {
             if (request.get("amount") == null || request.get("planId") == null) {
                 return ResponseEntity.badRequest().body(Map.of("message", "Amount and planId are required"));
             }
-            
+
             Long amount = Long.parseLong(request.get("amount").toString());
             String currency = request.getOrDefault("currency", "INR").toString();
             Long planId = Long.parseLong(request.get("planId").toString());
@@ -66,10 +66,9 @@ public class SubscriptionController {
             Order order = razorpay.orders.create(orderRequest);
 
             return ResponseEntity.ok(Map.of(
-                "orderId", order.get("id"),
-                "amount", order.get("amount"),
-                "currency", order.get("currency")
-            ));
+                    "orderId", order.get("id"),
+                    "amount", order.get("amount"),
+                    "currency", order.get("currency")));
         } catch (RazorpayException e) {
             return ResponseEntity.badRequest().body(Map.of("message", "Failed to create order: " + e.getMessage()));
         } catch (NumberFormatException e) {
@@ -94,17 +93,17 @@ public class SubscriptionController {
 
             // Verify signature
             String generatedSignature = generateSignature(razorpayOrderId, razorpayPaymentId);
-            
+
             // In test mode, we'll skip signature verification for easier testing
-            // In production, you should verify: generatedSignature.equals(razorpaySignature)
-            
+            // In production, you should verify:
+            // generatedSignature.equals(razorpaySignature)
+
             // Update subscription to new plan
             subscriptionService.changePlan(organizationId, planId);
 
             return ResponseEntity.ok(Map.of(
-                "success", true,
-                "message", "Payment verified and plan updated successfully"
-            ));
+                    "success", true,
+                    "message", "Payment verified and plan updated successfully"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
@@ -119,7 +118,8 @@ public class SubscriptionController {
             StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
                 String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
+                if (hex.length() == 1)
+                    hexString.append('0');
                 hexString.append(hex);
             }
             return hexString.toString();
@@ -253,10 +253,22 @@ public class SubscriptionController {
 
     private Long getOrganizationIdFromAuth(Authentication auth) {
         if (auth != null && auth.getPrincipal() instanceof CustomUserDetails) {
-            Long userId = ((CustomUserDetails) auth.getPrincipal()).getUserId();
-            return userRepository.findById(userId)
+            CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+            Long userId = userDetails.getUserId();
+
+            // First, try to get organizationId from the user entity
+            Long organizationId = userRepository.findById(userId)
                     .map(krs.erp.model.User::getOrganizationId)
                     .orElse(null);
+
+            // If organizationId is null, fall back to tenantId from CustomUserDetails
+            // This ensures backward compatibility for users created before organizationId
+            // was implemented
+            if (organizationId == null) {
+                organizationId = userDetails.getTenantId();
+            }
+
+            return organizationId;
         }
         return null;
     }

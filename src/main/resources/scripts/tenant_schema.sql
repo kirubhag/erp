@@ -2587,7 +2587,8 @@ CREATE TABLE IF NOT EXISTS erp_import_sessions (
     updated_records INT DEFAULT 0,
     skipped_records INT DEFAULT 0,
     failed_records INT DEFAULT 0,
-    success_rate DOUBLE DEFAULT 0.0
+    success_rate DOUBLE DEFAULT 0.0,
+    file_path VARCHAR(500)
 );
 
 -- Table from SQL file: login_history

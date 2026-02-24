@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 
 interface ActivityLog {
     id: number;
@@ -33,7 +34,7 @@ interface PageResponse {
 @Component({
     selector: 'app-activity-log',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, SettingsSidebarComponent],
     templateUrl: './activity-log.component.html',
     styleUrls: ['./activity-log.component.css']
 })

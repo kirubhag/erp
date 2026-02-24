@@ -76,6 +76,22 @@ import { ImportSession } from '../../../models/import.model';
         </button>
       </div>
 
+      <!-- Cancel Confirmation Alert -->
+      <div class="alert-overlay" *ngIf="showCancelConfirm" (click)="dismissCancel()">
+        <div class="alert-modal" (click)="$event.stopPropagation()">
+          <div class="alert-header">
+            <h5><i class="fas fa-exclamation-triangle me-2"></i>Confirm Cancellation</h5>
+          </div>
+          <div class="alert-body">
+            <p>Are you sure you want to cancel the import? All progress will be lost.</p>
+          </div>
+          <div class="alert-footer">
+            <button class="btn btn-secondary" (click)="dismissCancel()">No, Continue</button>
+            <button class="btn btn-danger" (click)="confirmCancel()">Yes, Cancel Import</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Error Banner -->
       <div class="error-banner" *ngIf="errorMessage">
         <i class="fas fa-exclamation-circle me-2"></i>
@@ -185,10 +201,23 @@ import { ImportSession } from '../../../models/import.model';
       background-color: white;
       position: fixed;
       bottom: 0;
-      left: 0;
+      left: 250px;
       right: 0;
       z-index: 1000;
       box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+      transition: left 0.3s ease;
+    }
+
+    /* Adjust for collapsed sidebar */
+    :host-context(.sidebar-collapsed) .footer-controls {
+      left: 60px;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .footer-controls {
+        left: 0;
+      }
     }
 
     .error-banner {
@@ -210,6 +239,69 @@ import { ImportSession } from '../../../models/import.model';
       cursor: pointer;
       font-size: 1.25rem;
     }
+
+    /* Alert Overlay */
+    .alert-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .alert-modal {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 90%;
+      animation: slideIn 0.2s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .alert-header {
+      padding: 1.25rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .alert-header h5 {
+      margin: 0;
+      color: #dc3545;
+      font-size: 1.1rem;
+    }
+
+    .alert-body {
+      padding: 1.25rem;
+    }
+
+    .alert-body p {
+      margin: 0;
+      color: #495057;
+      line-height: 1.6;
+    }
+
+    .alert-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid #dee2e6;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
   `]
 })
 export class ImportStep3Component implements OnInit {
@@ -222,7 +314,7 @@ export class ImportStep3Component implements OnInit {
   errorMessage = '';
   entityName = 'Student';
 
-  constructor(private importService: ImportService) {}
+  constructor(private importService: ImportService) { }
 
   ngOnInit() {
     if (this.session) {
@@ -287,12 +379,21 @@ export class ImportStep3Component implements OnInit {
     });
   }
 
+  showCancelConfirm = false;
+
   onCancel() {
-    if (confirm('Are you sure you want to cancel the import? All progress will be lost.')) {
-      this.importService.cancelSession(this.session?.id || '').subscribe({
-        next: () => window.history.back(),
-        error: () => window.history.back()
-      });
-    }
+    this.showCancelConfirm = true;
+  }
+
+  confirmCancel() {
+    this.showCancelConfirm = false;
+    this.importService.cancelSession(this.session?.id || '').subscribe({
+      next: () => window.history.back(),
+      error: () => window.history.back()
+    });
+  }
+
+  dismissCancel() {
+    this.showCancelConfirm = false;
   }
 }

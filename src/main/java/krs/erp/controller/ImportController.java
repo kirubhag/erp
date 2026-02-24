@@ -1,6 +1,10 @@
 package krs.erp.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 
@@ -94,14 +98,20 @@ public class ImportController {
                 // TODO: Parse JSON settings
             }
             
+            // Save uploaded file to disk
+            String uploadDir = System.getProperty("java.io.tmpdir") + "/erp-imports";
+            Path uploadPath = Paths.get(uploadDir);
+            Files.createDirectories(uploadPath);
+            String filePath = uploadDir + "/" + sessionId + ".csv";
+            Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+            log.info("Saved import file to: {}", filePath);
+            
             // Parse CSV to get header row and count
             String[] headerRow = new String[0];
             int totalRecords = 0;
             
-            try {
-                java.io.BufferedReader reader = new java.io.BufferedReader(
-                    new java.io.InputStreamReader(file.getInputStream())
-                );
+            try (java.io.BufferedReader reader = new java.io.BufferedReader(
+                    new java.io.InputStreamReader(Files.newInputStream(Paths.get(filePath))))) {
                 String headerLine = reader.readLine();
                 if (headerLine != null) {
                     headerRow = headerLine.split(",");
@@ -109,7 +119,6 @@ public class ImportController {
                 while (reader.readLine() != null) {
                     totalRecords++;
                 }
-                reader.close();
             } catch (IOException e) {
                 // Ignore, use defaults
             }
@@ -127,7 +136,8 @@ public class ImportController {
                     duplicateAction,
                     findDuplicatesBy,
                     enableManualApproval,
-                    skipEmptyFields
+                    skipEmptyFields,
+                    filePath
             );
             
             return ResponseEntity.status(HttpStatus.CREATED).body(session);

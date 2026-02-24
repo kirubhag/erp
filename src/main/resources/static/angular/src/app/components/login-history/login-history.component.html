@@ -1,0 +1,184 @@
+<div class="setup-layout">
+    <!-- Sidebar Navigation -->
+    <app-settings-sidebar></app-settings-sidebar>
+
+    <!-- Main Content -->
+    <div class="settings-content-container">
+        <!-- Header -->
+        <div class="content-header">
+            <div>
+                <h1 class="content-title">
+                    <i class="fas fa-history me-2"></i>
+                    Login History
+                </h1>
+                <p class="content-description">Monitor and track all user login activities across your organization</p>
+            </div>
+        </div>
+
+        <!-- Content Body -->
+        <div class="content-body">
+            <!-- Stats Row -->
+            <div class="stats-row mb-4">
+                <div class="stat-card">
+                    <div class="stat-icon primary">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <div class="stat-value">{{ totalElements }}</div>
+                    <div class="stat-label">Total Logins</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-value">{{ successCount }}</div>
+                    <div class="stat-label">Successful Logins</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon danger">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-value">{{ failedCount }}</div>
+                    <div class="stat-label">Failed Attempts</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon warning">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value">{{ uniqueUsers }}</div>
+                    <div class="stat-label">Unique Users</div>
+                </div>
+            </div>
+
+            <!-- Content Card -->
+            <div class="content-card">
+                <div class="card-header-custom">
+                    <div class="filters">
+                        <div class="search-input">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="filter-input" [(ngModel)]="searchTerm" (input)="onSearch()"
+                                placeholder="Search by user, IP, or browser..." />
+                        </div>
+                        <select class="filter-input" [(ngModel)]="statusFilter" (change)="onStatusFilterChange()">
+                            <option value="ALL">All Status</option>
+                            <option value="SUCCESS">Success</option>
+                            <option value="FAILURE">Failed</option>
+                        </select>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn-custom btn-secondary-custom">
+                            <i class="fas fa-filter me-1"></i> Filter
+                        </button>
+                        <button class="btn-custom btn-primary-custom">
+                            <i class="fas fa-download me-1"></i> Export
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div *ngIf="loading" class="loading-container">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3 text-muted">Loading login history...</p>
+                </div>
+
+                <!-- Table Container -->
+                <div *ngIf="!loading" class="table-container">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th (click)="onSort('username')" class="sortable">
+                                    User
+                                    <i [class]="getSortIcon('username')"></i>
+                                </th>
+                                <th (click)="onSort('status')" class="sortable">
+                                    Status
+                                    <i [class]="getSortIcon('status')"></i>
+                                </th>
+                                <th>Device</th>
+                                <th>IP Address</th>
+                                <th (click)="onSort('loginTime')" class="sortable">
+                                    Date & Time
+                                    <i [class]="getSortIcon('loginTime')"></i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of filteredHistory">
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">{{ getUserInitials(item.username) }}</div>
+                                        <div class="user-details">
+                                            <span class="user-name">{{ item.username }}</span>
+                                            <span class="user-email">{{ item.userId }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="status-badge" [class.success]="item.status === 'SUCCESS'"
+                                        [class.failed]="item.status === 'FAILURE'">
+                                        <span class="status-dot"></span>
+                                        {{ item.status === 'SUCCESS' ? 'Success' : 'Failed' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="device-info">
+                                        <div class="device-icon">
+                                            <i [class]="getDeviceIcon(item.browser)"></i>
+                                        </div>
+                                        <div>
+                                            <div>{{ item.browser || 'Unknown' }}</div>
+                                            <div class="device-type">{{ getDeviceType(item.browser) }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ip-address">{{ item.ipAddress || 'N/A' }}</div>
+                                </td>
+                                <td>
+                                    <div class="date-time">
+                                        <div>{{ formatDate(item.loginTime) }}</div>
+                                        <div class="time-detail">{{ formatTime(item.loginTime) }}</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Empty State -->
+                    <div *ngIf="filteredHistory.length === 0" class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h3>No login history found</h3>
+                        <p>There are no login records matching your criteria.</p>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div *ngIf="!loading && totalPages > 1" class="pagination-custom">
+                    <div class="pagination-info">
+                        Showing {{ (currentPage * pageSize) + 1 }} to {{ Math.min((currentPage + 1) * pageSize,
+                        totalElements) }} of {{ totalElements }} entries
+                    </div>
+                    <div class="pagination-buttons">
+                        <button class="page-btn" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 0">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+
+                        <button *ngFor="let page of pageNumbers" class="page-btn" [class.active]="page === currentPage"
+                            (click)="onPageChange(page)">
+                            {{ page + 1 }}
+                        </button>
+
+                        <button class="page-btn" (click)="onPageChange(currentPage + 1)"
+                            [disabled]="currentPage >= totalPages - 1">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -416,9 +416,13 @@ export class ImportStep4Component implements OnInit, OnDestroy {
             this.importedCount = this.importedResults.length;
           }
 
-          if (updatedSession.status === 'completed') {
+          // Check status case-insensitively - backend returns uppercase
+          const status = updatedSession.status?.toUpperCase();
+          if (status === 'COMPLETED' || status === 'FAILED' || status === 'CANCELLED') {
             this.isLoading = false;
             this.session = updatedSession;
+            // Stop polling by completing the destroy$ subject for this poll
+            this.destroy$.next();
           }
         },
         error: (error) => {

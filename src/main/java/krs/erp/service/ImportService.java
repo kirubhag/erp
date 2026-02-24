@@ -3,12 +3,20 @@ package krs.erp.service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,9 +36,11 @@ import krs.erp.entity.ImportResult;
 import krs.erp.entity.ImportSession;
 import krs.erp.entity.ImportStatus;
 import krs.erp.entity.ImportType;
+import krs.erp.model.Student;
 import krs.erp.repository.FieldMappingRepository;
 import krs.erp.repository.FieldMappingTemplateRepository;
 import krs.erp.repository.ImportSessionRepository;
+import krs.erp.repository.StudentRepository;
 
 /**
  * Service for handling import operations
@@ -39,19 +49,24 @@ import krs.erp.repository.ImportSessionRepository;
 @Transactional
 public class ImportService {
     
+    private static final Logger logger = LoggerFactory.getLogger(ImportService.class);
+    
     private final ImportSessionRepository importSessionRepository;
     private final FieldMappingRepository fieldMappingRepository;
     private final FieldMappingTemplateRepository fieldMappingTemplateRepository;
+    private final StudentRepository studentRepository;
     
     private static final long MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
     private static final String[] SUPPORTED_FORMATS = {"csv", "xlsx", "xls", "vcf"};
     
     public ImportService(ImportSessionRepository importSessionRepository,
                         FieldMappingRepository fieldMappingRepository,
-                        FieldMappingTemplateRepository fieldMappingTemplateRepository) {
+                        FieldMappingTemplateRepository fieldMappingTemplateRepository,
+                        StudentRepository studentRepository) {
         this.importSessionRepository = importSessionRepository;
         this.fieldMappingRepository = fieldMappingRepository;
         this.fieldMappingTemplateRepository = fieldMappingTemplateRepository;
+        this.studentRepository = studentRepository;
     }
     
     /**
@@ -77,7 +92,8 @@ public class ImportService {
     public ImportSessionDTO createSession(String sessionId, Long userId, Long organizationId, String entityType,
                                          String fileName, String fileFormat, Integer totalRecords, 
                                          String[] headerRow, ImportType importType, DuplicateAction duplicateAction,
-                                         String findDuplicatesBy, Boolean enableManualApproval, Boolean skipEmptyFields) {
+                                         String findDuplicatesBy, Boolean enableManualApproval, Boolean skipEmptyFields,
+                                         String filePath) {
         
         ImportSession session = new ImportSession();
         session.setId(sessionId);
@@ -93,6 +109,7 @@ public class ImportService {
         session.setFindDuplicatesBy(findDuplicatesBy);
         session.setEnableManualApproval(enableManualApproval);
         session.setSkipEmptyFields(skipEmptyFields);
+        session.setFilePath(filePath);
         session.setStatus(ImportStatus.PENDING);
         session.setUploadedAt(LocalDateTime.now());
         
@@ -153,11 +170,10 @@ public class ImportService {
         ImportSession session = importSessionRepository.findById(sessionId)
                 .orElseThrow(() -> new RuntimeException("Session not found: " + sessionId));
         
-        // Clear existing mappings
-        fieldMappingRepository.deleteByImportSessionId(sessionId);
+        // Clear existing mappings from the managed collection (don't replace the list with orphanRemoval=true)
+        session.getFieldMappings().clear();
         
-        // Save new mappings (only save mapped fields)
-        List<FieldMapping> fieldMappings = new ArrayList<>();
+        // Add new mappings (only save mapped fields)
         for (FieldMappingDTO mappingDTO : mappings) {
             // Only save mappings that have a source column selected
             if (mappingDTO.getSourceColumn() != null && !mappingDTO.getSourceColumn().isEmpty()) {
@@ -169,11 +185,10 @@ public class ImportService {
                 mapping.setIsRequired(mappingDTO.getIsRequired() != null ? mappingDTO.getIsRequired() : false);
                 mapping.setDataType(mappingDTO.getDataType());
                 mapping.setImportSession(session);
-                fieldMappings.add(mapping);
+                session.getFieldMappings().add(mapping);
             }
         }
         
-        session.setFieldMappings(fieldMappings);
         session.setUnmappedColumns(session.getUnmappedColumnsList().toArray(new String[0]));
         ImportSession saved = importSessionRepository.save(session);
         
@@ -210,6 +225,7 @@ public class ImportService {
     
     /**
      * Auto-detect field mappings
+     * Returns a list of entity field templates with matched CSV columns
      */
     public List<FieldMappingDTO> autoDetectMappings(String sessionId) {
         ImportSession session = importSessionRepository.findById(sessionId)
@@ -218,47 +234,76 @@ public class ImportService {
         List<FieldMappingTemplate> templates = 
             fieldMappingTemplateRepository.findByEntityTypeOrderByDisplayOrder(session.getEntityType());
         
+        // Build a list of available CSV columns from session
+        List<String> csvColumns = new ArrayList<>();
+        if (session.getFieldMappings() != null) {
+            for (FieldMapping fm : session.getFieldMappings()) {
+                if (fm.getSourceColumn() != null) {
+                    csvColumns.add(fm.getSourceColumn());
+                }
+            }
+        }
+        
         List<FieldMappingDTO> detectedMappings = new ArrayList<>();
         
-        // For each source column (CSV header), try to find matching target field
-        if (session.getFieldMappings() != null) {
-            for (FieldMapping sourceMapping : session.getFieldMappings()) {
-                String sourceColumn = sourceMapping.getSourceColumn().toLowerCase().trim();
-                FieldMappingDTO detected = new FieldMappingDTO();
-                detected.setSourceColumn(sourceMapping.getSourceColumn());
-                detected.setSourceIndex(sourceMapping.getSourceIndex());
+        // For each entity field template, try to find a matching CSV column
+        for (FieldMappingTemplate template : templates) {
+            FieldMappingDTO detected = new FieldMappingDTO();
+            detected.setTargetField(template.getFieldName());
+            detected.setTargetFieldLabel(template.getFieldLabel());
+            detected.setIsRequired(template.getIsRequired());
+            detected.setDataType(template.getDataType());
+            
+            String fieldName = template.getFieldName().toLowerCase();
+            String fieldLabel = template.getFieldLabel().toLowerCase();
+            
+            // Try to match CSV column to this entity field
+            String matchedColumn = null;
+            int matchedIndex = -1;
+            
+            for (int i = 0; i < csvColumns.size(); i++) {
+                String csvCol = csvColumns.get(i);
+                String csvColLower = csvCol.toLowerCase().trim();
                 
-                // Try exact match first
-                for (FieldMappingTemplate template : templates) {
-                    String fieldName = template.getFieldName().toLowerCase();
-                    if (fieldName.equals(sourceColumn) || fieldName.replace("_", "").equals(sourceColumn.replace("_", ""))) {
-                        detected.setTargetField(template.getFieldName());
-                        detected.setTargetFieldLabel(template.getFieldLabel());
-                        detected.setIsRequired(template.getIsRequired());
-                        detected.setDataType(template.getDataType());
-                        break;
-                    }
+                // Try exact match on field name
+                if (fieldName.equals(csvColLower) || 
+                    fieldName.replace("_", "").equals(csvColLower.replace("_", "").replace(" ", ""))) {
+                    matchedColumn = csvCol;
+                    matchedIndex = i;
+                    break;
                 }
                 
-                // Try fuzzy match on suggestions if no exact match
-                if (detected.getTargetField() == null) {
-                    for (FieldMappingTemplate template : templates) {
-                        List<String> suggestions = template.getSuggestionsList();
-                        for (String suggestion : suggestions) {
-                            if (suggestion.toLowerCase().equals(sourceColumn)) {
-                                detected.setTargetField(template.getFieldName());
-                                detected.setTargetFieldLabel(template.getFieldLabel());
-                                detected.setIsRequired(template.getIsRequired());
-                                detected.setDataType(template.getDataType());
-                                break;
-                            }
-                        }
-                        if (detected.getTargetField() != null) break;
-                    }
+                // Try match on field label
+                if (fieldLabel.equals(csvColLower) ||
+                    fieldLabel.replace(" ", "").equals(csvColLower.replace(" ", ""))) {
+                    matchedColumn = csvCol;
+                    matchedIndex = i;
+                    break;
                 }
-                
-                detectedMappings.add(detected);
             }
+            
+            // Try fuzzy match on suggestions if no exact match
+            if (matchedColumn == null) {
+                List<String> suggestions = template.getSuggestionsList();
+                for (int i = 0; i < csvColumns.size(); i++) {
+                    String csvCol = csvColumns.get(i);
+                    String csvColLower = csvCol.toLowerCase().trim();
+                    
+                    for (String suggestion : suggestions) {
+                        if (suggestion.toLowerCase().equals(csvColLower)) {
+                            matchedColumn = csvCol;
+                            matchedIndex = i;
+                            break;
+                        }
+                    }
+                    if (matchedColumn != null) break;
+                }
+            }
+            
+            detected.setSourceColumn(matchedColumn);
+            detected.setSourceIndex(matchedIndex >= 0 ? matchedIndex : null);
+            
+            detectedMappings.add(detected);
         }
         
         return detectedMappings;
@@ -275,8 +320,315 @@ public class ImportService {
         session.setImportedAt(LocalDateTime.now());
         importSessionRepository.save(session);
         
-        // TODO: Start async import processing
-        // This would typically be done in a separate thread/task
+        // Process import synchronously for now
+        // TODO: Move to async processing for large files
+        processImport(session);
+    }
+    
+    /**
+     * Process the actual import
+     */
+    private void processImport(ImportSession session) {
+        try {
+            String entityType = session.getEntityType();
+            
+            if ("students".equalsIgnoreCase(entityType)) {
+                processStudentImport(session);
+            } else {
+                // Unsupported entity type - skip all
+                int totalRecords = session.getTotalRecords() != null ? session.getTotalRecords() : 0;
+                session.setSkippedRecords(totalRecords);
+                session.setAddedRecords(0);
+                session.setUpdatedRecords(0);
+                session.setFailedRecords(0);
+                session.setSuccessRate(0.0);
+                session.setStatus(ImportStatus.COMPLETED);
+                session.setUpdatedAt(LocalDateTime.now());
+                importSessionRepository.save(session);
+            }
+            
+        } catch (Exception e) {
+            logger.error("Import failed for session {}: {}", session.getId(), e.getMessage(), e);
+            session.setStatus(ImportStatus.FAILED);
+            session.setUpdatedAt(LocalDateTime.now());
+            importSessionRepository.save(session);
+        }
+    }
+    
+    /**
+     * Process student import from CSV file
+     */
+    private void processStudentImport(ImportSession session) {
+        String filePath = session.getFilePath();
+        if (filePath == null || filePath.isEmpty()) {
+            logger.error("No file path set for session {}", session.getId());
+            session.setStatus(ImportStatus.FAILED);
+            session.setUpdatedAt(LocalDateTime.now());
+            importSessionRepository.save(session);
+            return;
+        }
+        
+        // Build field mapping: targetField -> sourceIndex
+        Map<String, Integer> fieldMappingMap = new HashMap<>();
+        for (FieldMapping mapping : session.getFieldMappings()) {
+            if (mapping.getTargetField() != null && !mapping.getTargetField().isEmpty()) {
+                fieldMappingMap.put(mapping.getTargetField(), mapping.getSourceIndex());
+            }
+        }
+        
+        logger.info("Processing student import with mappings: {}", fieldMappingMap);
+        
+        int addedCount = 0;
+        int skippedCount = 0;
+        int failedCount = 0;
+        int updatedCount = 0;
+        int rowNumber = 0;
+        
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(Files.newInputStream(Paths.get(filePath))))) {
+            
+            // Skip header row
+            String headerLine = reader.readLine();
+            if (headerLine == null) {
+                logger.warn("Empty file for session {}", session.getId());
+                session.setStatus(ImportStatus.COMPLETED);
+                session.setAddedRecords(0);
+                session.setUpdatedAt(LocalDateTime.now());
+                importSessionRepository.save(session);
+                return;
+            }
+            
+            String line;
+            while ((line = reader.readLine()) != null) {
+                rowNumber++;
+                try {
+                    String[] values = parseCSVLine(line);
+                    Student student = createStudentFromRow(values, fieldMappingMap);
+                    
+                    if (student.getFirstName() == null || student.getFirstName().isEmpty() ||
+                        student.getLastName() == null || student.getLastName().isEmpty()) {
+                        logger.warn("Skipping row {}: missing required fields (firstName or lastName)", rowNumber);
+                        skippedCount++;
+                        continue;
+                    }
+                    
+                    // Check for duplicate by email if email is present
+                    boolean isDuplicate = false;
+                    if (student.getEmail() != null && !student.getEmail().isEmpty()) {
+                        isDuplicate = studentRepository.findByEmail(student.getEmail()).isPresent();
+                    }
+                    
+                    // Check for duplicate by admission number if present
+                    if (!isDuplicate && student.getAdmissionNumber() != null && !student.getAdmissionNumber().isEmpty()) {
+                        isDuplicate = studentRepository.findByAdmissionNumber(student.getAdmissionNumber()).isPresent();
+                    }
+                    
+                    if (isDuplicate) {
+                        DuplicateAction action = session.getDuplicateAction();
+                        if (action == DuplicateAction.SKIP) {
+                            logger.debug("Skipping duplicate row {}", rowNumber);
+                            skippedCount++;
+                            continue;
+                        } else if (action == DuplicateAction.OVERWRITE) {
+                            // TODO: Implement update logic
+                            updatedCount++;
+                            continue;
+                        }
+                        // For CLONE, continue to add
+                    }
+                    
+                    studentRepository.save(student);
+                    addedCount++;
+                    
+                    if (addedCount % 100 == 0) {
+                        logger.info("Processed {} records so far...", addedCount);
+                    }
+                    
+                } catch (Exception e) {
+                    logger.error("Failed to import row {}: {}", rowNumber, e.getMessage());
+                    failedCount++;
+                }
+            }
+            
+        } catch (IOException e) {
+            logger.error("Failed to read import file: {}", e.getMessage(), e);
+            session.setStatus(ImportStatus.FAILED);
+            session.setUpdatedAt(LocalDateTime.now());
+            importSessionRepository.save(session);
+            return;
+        }
+        
+        // Update session with results
+        int totalProcessed = addedCount + updatedCount + skippedCount + failedCount;
+        double successRate = totalProcessed > 0 ? 
+            ((double)(addedCount + updatedCount) / totalProcessed) * 100 : 0.0;
+        
+        session.setAddedRecords(addedCount);
+        session.setUpdatedRecords(updatedCount);
+        session.setSkippedRecords(skippedCount);
+        session.setFailedRecords(failedCount);
+        session.setSuccessRate(successRate);
+        session.setStatus(ImportStatus.COMPLETED);
+        session.setUpdatedAt(LocalDateTime.now());
+        
+        importSessionRepository.save(session);
+        
+        logger.info("Student import completed: added={}, updated={}, skipped={}, failed={}", 
+            addedCount, updatedCount, skippedCount, failedCount);
+    }
+    
+    /**
+     * Parse a CSV line, handling quoted values
+     */
+    private String[] parseCSVLine(String line) {
+        List<String> values = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+        boolean inQuotes = false;
+        
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+            
+            if (c == '"') {
+                inQuotes = !inQuotes;
+            } else if (c == ',' && !inQuotes) {
+                values.add(current.toString().trim());
+                current = new StringBuilder();
+            } else {
+                current.append(c);
+            }
+        }
+        values.add(current.toString().trim());
+        
+        return values.toArray(new String[0]);
+    }
+    
+    /**
+     * Create a Student entity from CSV row values using field mappings
+     */
+    private Student createStudentFromRow(String[] values, Map<String, Integer> mappings) {
+        Student student = new Student();
+        
+        // Set default gradeLevel since it's required
+        student.setGradeLevel(Student.GradeLevel.GRADE_1);
+        
+        for (Map.Entry<String, Integer> entry : mappings.entrySet()) {
+            String field = entry.getKey();
+            int index = entry.getValue();
+            
+            if (index < 0 || index >= values.length) {
+                continue;
+            }
+            
+            String value = values[index];
+            if (value == null || value.isEmpty()) {
+                continue;
+            }
+            
+            try {
+                switch (field) {
+                    case "firstName":
+                        student.setFirstName(value);
+                        break;
+                    case "lastName":
+                        student.setLastName(value);
+                        break;
+                    case "middleName":
+                        student.setMiddleName(value);
+                        break;
+                    case "email":
+                        student.setEmail(value);
+                        break;
+                    case "phone":
+                        student.setPhone(value);
+                        break;
+                    case "dateOfBirth":
+                        student.setDateOfBirth(parseDate(value));
+                        break;
+                    case "gender":
+                        student.setGender(parseGender(value));
+                        break;
+                    case "gradeLevel":
+                        student.setGradeLevel(Student.GradeLevel.fromValue(value));
+                        break;
+                    case "nationality":
+                        student.setNationality(value);
+                        break;
+                    case "bloodGroup":
+                        student.setBloodGroup(value);
+                        break;
+                    case "admissionNumber":
+                        student.setAdmissionNumber(value);
+                        break;
+                    case "section":
+                        student.setSection(value);
+                        break;
+                    case "emergencyContactName":
+                        student.setEmergencyContactName(value);
+                        break;
+                    case "emergencyContactPhone":
+                        student.setEmergencyContactPhone(value);
+                        break;
+                    case "emergencyContactRelation":
+                        student.setEmergencyContactRelation(value);
+                        break;
+                    default:
+                        logger.debug("Unknown field mapping: {}", field);
+                }
+            } catch (Exception e) {
+                logger.warn("Failed to set field {} with value '{}': {}", field, value, e.getMessage());
+            }
+        }
+        
+        return student;
+    }
+    
+    /**
+     * Parse date from various formats
+     */
+    private LocalDate parseDate(String value) {
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+        
+        // Try common date formats
+        String[] formats = {
+            "yyyy-MM-dd",
+            "MM/dd/yyyy",
+            "dd/MM/yyyy",
+            "MM-dd-yyyy",
+            "dd-MM-yyyy",
+            "yyyy/MM/dd"
+        };
+        
+        for (String format : formats) {
+            try {
+                return LocalDate.parse(value, DateTimeFormatter.ofPattern(format));
+            } catch (Exception ignored) {
+            }
+        }
+        
+        logger.warn("Could not parse date: {}", value);
+        return null;
+    }
+    
+    /**
+     * Parse gender from string
+     */
+    private Student.Gender parseGender(String value) {
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+        
+        String upper = value.toUpperCase().trim();
+        if (upper.startsWith("M")) {
+            return Student.Gender.MALE;
+        } else if (upper.startsWith("F")) {
+            return Student.Gender.FEMALE;
+        } else if (upper.contains("OTHER")) {
+            return Student.Gender.OTHER;
+        } else {
+            return Student.Gender.PREFER_NOT_TO_SAY;
+        }
     }
     
     /**

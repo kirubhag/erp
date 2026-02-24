@@ -87,7 +87,6 @@ import { ImportStep4Component } from './import-step-4/import-step-4.component';
   styles: [`
     .import-wizard-container {
       width: 100%;
-      margin: 60px 0 0 0;
       padding: 2rem;
       background: white;
       min-height: calc(100vh - 60px);
@@ -171,7 +170,7 @@ export class ImportWizardComponent implements OnInit, OnDestroy {
     private importService: ImportService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Get entity type from query parameters

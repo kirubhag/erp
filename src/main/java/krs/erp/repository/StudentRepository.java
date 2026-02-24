@@ -20,6 +20,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     
     Optional<Student> findByEmail(String email);
     
+    Optional<Student> findByAdmissionNumber(String admissionNumber);
+    
     List<Student> findByEnrollmentStatus(Student.EnrollmentStatus enrollmentStatus);
     
     List<Student> findByGradeLevel(Student.GradeLevel gradeLevel);

@@ -508,6 +508,27 @@ public class TenantProvisioningService {
                 // Don't throw - plans might not exist yet
             }
 
+            // 13. Copy Field Mapping Templates (for import functionality)
+            try {
+                logger.info("Copying Field Mapping Templates...");
+                masterJdbc.query("SELECT * FROM erp_field_mapping_templates", rs -> {
+                    String sql = "INSERT IGNORE INTO erp_field_mapping_templates (entity_type, field_name, field_label, is_required, data_type, section, display_order, suggestions) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    tenantJdbc.update(sql,
+                            rs.getString("entity_type"),
+                            rs.getString("field_name"),
+                            rs.getString("field_label"),
+                            rs.getBoolean("is_required"),
+                            rs.getString("data_type"),
+                            rs.getString("section"),
+                            rs.getInt("display_order"),
+                            rs.getString("suggestions"));
+                });
+                logger.info("Field Mapping Templates copied.");
+            } catch (Exception e) {
+                logger.warn("Failed to copy Field Mapping Templates: {}", e.getMessage());
+                // Don't throw - templates can be seeded by initializer if missing
+            }
+
             logger.info("System data copied successfully to tenant DB: {}", dbName);
 
         } catch (Exception e) {

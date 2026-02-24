@@ -52,6 +52,9 @@ public class ImportSession implements Serializable {
     @Column(name = "file_size")
     private Long fileSize; // in bytes
     
+    @Column(name = "file_path", length = 500)
+    private String filePath; // Path to uploaded file on disk
+    
     @Column(name = "import_type", length = 20)
     @Enumerated(EnumType.STRING)
     private ImportType importType; // PERSONAL, ORGANIZATION
@@ -196,6 +199,14 @@ public class ImportSession implements Serializable {
     
     public Long getFileSize() {
         return fileSize;
+    }
+    
+    public String getFilePath() {
+        return filePath;
+    }
+    
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
     
     public void setFileSize(Long fileSize) {
